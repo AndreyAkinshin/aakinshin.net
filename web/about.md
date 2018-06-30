@@ -67,7 +67,7 @@ Previously, he worked
 
 <hr />
 <section>
-  <h3 id="talks">Public talks (In Russian)</h3>
+  <h3 id="talks">Public talks</h3>
 
   @Raw(Model.GeneratedFile("talks.html"))
 </section>

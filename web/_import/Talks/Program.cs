@@ -39,6 +39,7 @@ namespace MyTalks
         public string EventHint { get; set; }
         public string Title { get; set; }
         public string Location { get; set; }
+        public string Lang { get; set; }
         public int Year { get; set; }
         public List<Link> Links { get; set; }
         public Link GetLink(string key) => Links.FirstOrDefault(l => l.Key == key);
@@ -96,6 +97,7 @@ namespace MyTalks
             EventHint = GetStr(yaml, "event-hint"),
             Title = GetStr(yaml, "title"),
             Location = GetStr(yaml, "location"),
+            Lang = GetStr(yaml, "lang"),
             Year = GetDate(yaml, "date")?.Year ?? GetInt(yaml, "year"),
             Links = GetLinks(yaml, "links")
         };
@@ -148,6 +150,8 @@ namespace MyTalks
             {
                 builder.Append("  ");
                 builder.AppendLine(QuoteWithLink(talk, talk.Title, "talk"));
+                if (talk.Lang != "")
+                    builder.AppendLine("    (" + talk.Lang.ToUpperInvariant() + ")");
                 foreach (var link in talk.Links)
                 {
                     if (link.Key != "event" && link.Key != "talk")
@@ -185,9 +189,9 @@ namespace MyTalks
             int counter = talks.Count;
             foreach (var year in years)
             {
-                builder.AppendLine($"<h4>{year}</h4>");
-                builder.AppendLine("<ol>");
                 var yearTalks = talks.Where(t => t.Year == year).OrderByDescending(t => t.Date).ToList();
+                builder.AppendLine($"<h4>{year} ({yearTalks.Count} in Total)</h4>");
+                builder.AppendLine("<ol>");
                 foreach (var talk in yearTalks)
                     builder.AppendLine(ToHtml(talk, counter--));
                 builder.AppendLine("</ol>");

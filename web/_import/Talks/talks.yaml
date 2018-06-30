@@ -2,6 +2,39 @@ talks:
   ######################################################################################################################
   # 2018
   ######################################################################################################################
+  - date: 2018-11-05
+    event: Dotnetos
+    event-type: conference
+    title: Powerful benchmarking in .NET
+    location_en: Warsaw, Poland
+    location_ru: Польша, Варшава
+    abstract: "Performance is a feature. But it's hard to measure it right, especially when it comes to micro-benchmarking. BenchmarkDotNet has become the most popular .NET benchmarking library. But how does it actually work? What problems does it solve? Why do the most respected .NET performance experts trust it? Join the authors to learn about all the features, advantages and limitations."
+    lang: en
+    links:
+      - key: event
+        url: https://dotnetos.org/
+  - date: 2018-06-26
+    event: Israeli Unity Developers June 2018 Meetup
+    event-type: meetup
+    title: Rider superpowers for Unity developers
+    location_en: Microsoft StartHub, Tel-Aviv, Israel
+    location_ru: Израиль, г. Тель-Авив, Microsoft StartHub
+    lang: en
+    links:
+      - key: event
+        url: https://www.meetup.com/Israeli-Unity3d-developers/events/250027966/
+      - key: org
+        url: https://www.facebook.com/groups/Unity3dIsrael/about/
+  - date: 2018-06-25
+    event: ILDevCon 2018
+    event-type: conference
+    title: Using ASP.NET Core in Rider
+    location_en: Hilton Tel-Aviv, 205 HaYarkon st., Tel-Aviv, Israel
+    location_ru: Израиль, г. Тель-Авив
+    lang: en
+    links:
+      - key: event
+        url: https://www.ildevcon.com/
   - date: 2018-04-19
     event: Open Day JetBrains Moscow 2018
     event-type: conference
@@ -9,6 +42,7 @@ talks:
     title_en: How we improve performance in Rider
     location_en: Moscow, Russia
     location_ru: г. Москва
+    lang: ru
     links:
       - key: event
         url: https://jetbrainsuniverse.timepad.ru/event/682524/
@@ -20,6 +54,7 @@ talks:
     title: Future of Performance Testing
     location_en: St. Petersburg, Russia
     location_ru: г. Санкт-Петербург
+    lang: ru
   - date: 2018-03-30
     event_en: CSC Nsk 2018 Open Days
     event_ru: День открытых дверей CSC Nsk 2018
@@ -28,6 +63,7 @@ talks:
     title_ru: Поговорим про память
     location_en: Novosibirsk State University, Novosibirsk, Russia
     location_ru: г. Новосибирск, Новосибирский государственный университет
+    lang: ru
     links:
       - key: event
         url: https://www.nsu.ru/n/media/events/sobytiya-obrazovaniya/den-otkrytykh-dverey-cs-tsentra-v-ngu/
@@ -41,6 +77,7 @@ talks:
     title_ru: Сложности микробенчмаркинга
     location_en: Novosibirsk State University, Novosibirsk, Russia
     location_ru: г. Новосибирск, Новосибирский государственный университет
+    lang: ru
     links:
       - key: org
         url: https://compscicenter.ru/
@@ -57,6 +94,7 @@ talks:
     title_ru: Поговорим про performance-тестирование
     location_en: Moscow, Russia
     location_ru: г. Москва
+    lang: ru
     abstract_en: "If you care about the performance of your application, sooner or later you will start thinking about performance tests. Unfortunately, it's hard to introduce such tests in the development process. We are going to talk about typical problems of performance tests and possible solutions."
     abstract_ru: "Если вас волнует производительность вашего приложения, то рано или поздно у вас могут появиться мысли о том, чтобы написать тесты на эту самую производительность. К сожалению, внедрить такие тесты в процесс разработки намного сложнее, чем может показаться на первый взгляд. В этом докладе мы будем разговаривать про типичные проблемы тестирования производительности и возможные подходы к их решению."
     links:
@@ -87,6 +125,7 @@ talks:
     title: Panel Discussion - Profiling and optimization
     location_en: Moscow, Russia
     location_ru: г. Москва
+    lang: ru
     abstract: "In this open panel, ask .NET performance experts anything you’d like about profiling, optimization, and the state of high-performance .NET applications today. Bringing together experts on microbenchmarking, distributed system architecture, GC optimization, and low-level CPU tricks, the discussion is guaranteed to be interesting. Among other things, we’ll talk about how to avoid performance regressions, how to choose which part of the system warrants investments in profiling and optimization, and how to build a system that consists of multiple disparate microservices while maintaining low latency and scalability."
     links:
       - key: event_en
@@ -117,6 +156,7 @@ talks:
     title_ru: Сложности performance-тестирования
     location_en: Skolkovo, Moscow, Russia
     location_ru: г. Москва, Сколково
+    lang: ru
     links:
       - key: event
         url: http://www.highload.ru/
@@ -132,6 +172,7 @@ talks:
     title_ru: Сложности микробенчмаркинга
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: ru
     links:
       - key: event_en
         url: https://gdg-siberia.com/
@@ -151,6 +192,7 @@ talks:
     title_ru: Теория и практика .NET-бенчмаркинга
     location_en: St. Petersburg, Russia
     location_ru: г. Санкт-Петербург
+    lang: ru
     links:
       - key: talk
         url: https://compscicenter.ru/courses/dotnet/2017-autumn/classes/3275/
@@ -168,6 +210,7 @@ talks:
     title_ru: Поговорим про память
     location_en: St. Petersburg, Russia
     location_ru: г. Санкт-Петербург
+    lang: ru
     abstract_en: "The bottleneck of many modern applications is the main memory. In this case, it's very hard to measure the performance and write correct benchmarks: there are too many things which affect the execution time. In this session, we will talk about how it happens. We will discuss low-level hardware stuff (CPU cache and its associativity, alignment, store forwarding, 4K aliasing, prefetching, cache/page splits, cache bank conflicts, and so on) and .NET specific problems (pinned objects, the large object heap, how does the heap works in the full .NET Framework and Mono)."
     abstract_ru: "Во многих современных приложениях производительность упирается в память. Измерять скорость работы и писать корректные бенчмарки в таком случае не так-то просто: слишком много факторов влияют на итоговое время работы. В этом докладе мы поговорим о том, из чего складывается производительность работы с памятью. Обсудим как низкоуровневые хардварные штуки (CPU cache и его ассоциативность, выравнивание, store forwarding, 4K aliasing, prefetching, cache/page splits, cache bank conflicts и т.п.), так и более .NET-специфичные проблемы (pinned objects, large object heap, особенности работы кучи в полном .NET Framework и Mono)."
     links:
@@ -196,6 +239,7 @@ talks:
     title_ru: Кроссплатформенный .NET и как там дела с Mono и CoreCLR
     location_en: Yekaterinburg, Russia
     location_ru: г. Екатеринбург
+    lang: ru
     links:
       - key: event
         url: http://dump-conf.ru/
@@ -212,6 +256,7 @@ talks:
     title_ru: Теория и практика .NET-бенчмаркинга
     location_en: Moscow, Russia
     location_ru: г. Москва
+    lang: ru
     links:
       - key: event
         url: https://mskdotnet.timepad.ru/event/430756/
@@ -232,6 +277,7 @@ talks:
     title_ru: Продолжаем говорить про арифметику
     location_en: Moscow, Russia
     location_ru: г. Москва
+    lang: ru
     links:
       - key: event_en
         url: http://2016.dotnext-moscow.ru/en/
@@ -259,6 +305,7 @@ talks:
     title: Let's talk about microbenchmarking
     location_en: Helsinki, Finland
     location_ru: Финляндия, г. Хельсинки
+    lang: en
     links:
       - key: event
         url: https://dotnext-helsinki.com/
@@ -275,6 +322,7 @@ talks:
     title_ru: "Rider: разговоры про внутренности и кроссплатформенность"
     location_en: St. Petersburg, Russia
     location_ru: г. Санкт-Петербург
+    lang: ru
     links:
       - key: youtube
         url: https://www.youtube.com/watch?v=Eb4ZgRQAaqI
@@ -288,6 +336,7 @@ talks:
     title_ru: Теория и практика .NET-бенчмаркинга
     location_en: Yekaterinburg, Russia
     location_ru: г. Екатеринбург
+    lang: ru
     links:
       - key: org
         url: https://vk.com/dotnetekb
@@ -303,6 +352,7 @@ talks:
     title_ru: Продолжаем говорить про арифметику
     location_en: Enterra office, Barnaul, Russia
     location_ru: г. Барнаул, офис компании «Энтерра Софт»
+    lang: ru
   - date: 2016-06-03
     event: DotNext 2016 Piter
     event-type: conference
@@ -312,6 +362,7 @@ talks:
     title_ru: Поговорим про арифметику
     location_en: St. Petersburg, Russia
     location_ru: г. Санкт-Петербург
+    lang: ru
     links:
       - key: event_ru
         url: http://2016.dotnext-piter.ru/
@@ -334,6 +385,7 @@ talks:
     title_ru: Оптимизации уровня CPU
     location_en: Skolkovo, Moscow, Russia
     location_ru: г. Москва, Сколково
+    lang: ru
     links:
       - key: event
         url: http://backendconf.ru/2016
@@ -349,6 +401,7 @@ talks:
     title_ru: Бенчмарки с открытым исходным кодом
     location_en: Klyazma, Russia
     location_ru: Клязьма
+    lang: ru
     links:
       - key: event
         url: http://www.msdevcon.ru/2016/
@@ -362,6 +415,7 @@ talks:
     title_ru: Сложности тестирования производительности .NET приложений
     location_en: Barnaul, Russia
     location_ru: г. Барнаул
+    lang: ru
     links:
       - key: event
         url: https://dotnetbarnaul.timepad.ru/event/329573/
@@ -377,6 +431,7 @@ talks:
     title_ru: Железные таймеры
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: ru
     links:
       - key: event
         url: http://clrium.ru/
@@ -390,6 +445,7 @@ talks:
     title_ru: Железные таймеры
     location_en: Moscow, Russia
     location_ru: г. Москва
+    lang: ru
     links:
       - key: event
         url: http://clrium.ru/
@@ -405,6 +461,7 @@ talks:
     title_ru: Железные таймеры
     location_en: St. Petersburg, Russia
     location_ru: г. Санкт-Петербург
+    lang: ru
     links:
       - key: event
         url: http://clrium.ru/
@@ -425,6 +482,7 @@ talks:
         url: http://www.slideshare.net/AndreyAkinshin/clr-jvm-project-rider
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: ru
   - date: 2016-03-16 
     date2: 2016-03-17
     event: CEE Community Open Days 2016
@@ -432,6 +490,7 @@ talks:
     title: Project Rider 
     location_en: Prague, Czech Republic
     location_ru: Чехия, г. Прага
+    lang: en
     links:
       - key: event
         url: http://www.mvpopendays.ru/2016/index.html
@@ -446,6 +505,7 @@ talks:
     title_ru: ".NET 2015: Будущее рядом"
     location_en: Enterra office, Barnaul, Russia
     location_ru: г. Барнаул, офис компании «Энтерра Софт»
+    lang: ru
   - date: 2015-12-15
     event_en: Barnaul .NET user group meetup
     event_ru: Встреча барнаульского сообщества .NET разработчиков
@@ -454,13 +514,15 @@ talks:
     title_ru: Продолжаем говорить о микрооптимизациях .NET-приложений
     location_en: Enterra office, Barnaul, Russia
     location_ru: г. Барнаул, офис компании «Энтерра Софт»
+    lang: ru
   - date: 2015-12-12
     event: Community Dev Camp
     event-type: conference
-    talk_en: "Forthcoming C#7"
-    talk_ru: "Что нам готовит грядущий C#7?"
+    title_en: "Forthcoming C#7"
+    title_ru: "Что нам готовит грядущий C#7?"
     location_en: Moscow, Russia
     location_ru: г. Москва
+    lang: ru
     links:
       - key: event
         url: https://events.techdays.ru/Dev-Camp/2015-12/
@@ -475,6 +537,7 @@ talks:
     title_ru: Продолжаем говорить о микрооптимизациях .NET-приложений
     location_en: Moscow, Russia
     location_ru: г. Москва
+    lang: ru
     links:
       - key: event_en
         url: http://2015.dotnext-moscow.ru/
@@ -497,6 +560,7 @@ talks:
     title_ru: ".NET 2015: Будущее рядом"
     location_en: Moscow, Russia
     location_ru: г. Москва
+    lang: ru
     links:
       - key: event_en
         url: http://2015.dotnext-moscow.ru/
@@ -517,6 +581,7 @@ talks:
     title_ru: Распространённые ошибки оценки производительности .NET-приложений
     location_en: St. Petersburg, Russia
     location_ru: г. Санкт-Петербург
+    lang: ru
     links:
       - key: slideshare
         url: http://www.slideshare.net/AndreyAkinshin/net-55728672
@@ -529,6 +594,7 @@ talks:
     title_ru: .NET 2015 и производительность
     location_en: St. Petersburg, Russia
     location_ru: г. Санкт-Петербург
+    lang: ru
     links:
       - key: event
         url: https://2015.it-nonstop.net/city/saint-petersburg
@@ -537,8 +603,9 @@ talks:
   - date: 2015-10-17
     event: Dev labs 2015 .NET
     event-type: online
-    talk_en: How to measure time right way
-    talk_ru: Учимся замерять время правильно
+    title_en: How to measure time right way
+    title_ru: Учимся замерять время правильно
+    lang: ru
     links:
       - key: event
         url: http://www.soft-labs.net/ru/archive/dev-labs-net-2015.php
@@ -553,6 +620,7 @@ talks:
     event-hint_en: 7th International Young Scientists School
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: ru
     links:
       - key: event
         url: http://conf.nsc.ru/SBB2015/
@@ -564,6 +632,7 @@ talks:
     title_ru: Поговорим о микрооптимизациях .NET-приложений
     location_en: Enterra office, Barnaul, Russia
     location_ru: г. Барнаул, офис компании «Энтерра Софт»
+    lang: ru
   - date: 2015-06-06
     event: "SPb .NET Community Meetup #1"
     event-type: meetup
@@ -571,6 +640,7 @@ talks:
     title_ru: Будущее .NET-разработки
     location_en: St. Petersburg, Russia
     location_ru: г. Санкт-Петербург
+    lang: ru
     links:
       - key: org
         url: http://spbdotnet.org
@@ -587,6 +657,7 @@ talks:
     title_ru: Поговорим о микрооптимизациях .NET-приложений
     location_en: St. Petersburg, Russia
     location_ru: г. Санкт-Петербург
+    lang: ru
     links:
       - key: event
         url: http://2015.dotnext-piter.ru/
@@ -607,6 +678,7 @@ talks:
     title_ru: Круглый стол .NET performance
     location_en: St. Petersburg, Russia
     location_ru: г. Санкт-Петербург
+    lang: ru
     links:
       - key: event
         url: http://2015.dotnext-piter.ru/
@@ -623,6 +695,7 @@ talks:
     title_ru: Круглый стол .NET cross-platform development
     location_en: St. Petersburg, Russia
     location_ru: г. Санкт-Петербург
+    lang: ru
     links:
       - key: event
         url: http://2015.dotnext-piter.ru/
@@ -640,14 +713,10 @@ talks:
     title: CoreCLR, RyuJIT, DNX
     location_en: St. Petersburg, Russia
     location_ru: г. Санкт-Петербург
+    lang: ru
     links:
       - key: event
         url: http://clrium.ru/
-  - date: 2015-05-22
-    event: Microsoft Build Tour 2015
-    event-type: conference
-    location_en: Berlin, Germany
-    location_ru: Германия, г. ;Берлин
   - date: 2015-04-19
     event: .dotnetconf 10
     event-type: conference
@@ -655,6 +724,7 @@ talks:
     title_ru: Практические приёмы оптимизации .NET-приложений
     location_en: Chelyabinsk, Russia
     location_ru: г. Челябинск
+    lang: ru
     links:
       - key: event
         url: http://dotnetconf.ru/
@@ -665,13 +735,14 @@ talks:
   - date: 2015-04-03
     date2: 2015-04-04
     event_en: "CLRium #2 (Moscow)"
-    event_ru: "CLRium #2 (Москва)"    
+    event_ru: "CLRium #2 (Москва)"
     event-type: conference
     event-hint_en: Seminar about CLR and .NET Framework anatomy
     event-hint_ru: Семинар по анатомии CLR и .NET Framework
     title: CoreCLR, RyuJIT, DNX
     location_en: Moscow, Russia
     location_ru: г. Москва
+    lang: ru
     links:
       - key: event
         url: http://clrium.ru/
@@ -684,6 +755,7 @@ talks:
     title: Grapholite Diagrams and Flow Chart
     location_en: Brussels, Belgium
     location_ru: Бельгия, г. Брюссель
+    lang: en
     links:
       - key: event
         url: http://appcup.eu/editions/
@@ -698,6 +770,7 @@ talks:
     title_ru: Поговорим о различных версиях .NET
     location_en: Enterra office, Barnaul, Russia
     location_ru: г. Барнаул, офис компании «Энтерра Софт»        
+    lang: ru
   - date: 2014-12-08
     event: DotNext 2014 Moscow
     event-type: conference
@@ -707,6 +780,7 @@ talks:
     title_ru: Поговорим о различных версиях .NET
     location_en: Moscow, Russia
     location_ru: г. Москва
+    lang: ru
     links:
       - key: event
         url: http://2014.dotnext-moscow.ru/
@@ -723,6 +797,7 @@ talks:
     event-type: conference
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: ru
     links:
       - key: event
         url: http://math.nsc.ru/conference/geomtop/2014/list.html
@@ -734,6 +809,7 @@ talks:
     title_ru: Низкоуровневые оптимизации .NET-приложений
     location_en: Enterra office, Barnaul, Russia
     location_ru: г. Барнаул, офис компании «Энтерра Софт»
+    lang: ru
     links:
       - key: slideshare
         url: http://www.slideshare.net/AndreyAkinshin/optimizations-38705466
@@ -745,6 +821,7 @@ talks:
     title_ru: Современные тенденции проведения численных экспериментов
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск, Институт Математики СО РАН
+    lang: ru
     links:
       - key: event
         url: http://math.nsc.ru/seminar/all.html
@@ -757,6 +834,7 @@ talks:
     title_ru: Цветочки и ягодки ведения ИТ-проектов
     location_en: Belokurikha, Russia
     location_ru: г. Белокуриха
+    lang: ru
     links:
       - key: event
         url: http://www.atrsib.ru/
@@ -766,6 +844,7 @@ talks:
     event-type: conference
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: ru
     links:
       - key: event_en
         url: http://conf.nsc.ru/mmhpc2014/en
@@ -777,6 +856,7 @@ talks:
     event-type: conference
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: ru
     links:
       - key: event
         url: http://conf.nsc.ru/bgrssb2014
@@ -788,6 +868,7 @@ talks:
     title_ru: Особенности LINQ
     location_en: Enterra office, Barnaul, Russia
     location_ru: г. Барнаул, офис компании «Энтерра Софт»
+    lang: ru
   - date: 2014-05-12
     date2: 2014-05-13
     event: The Bioinformatics Research and Education Workshop (BREW 2014)
@@ -795,6 +876,7 @@ talks:
     title: Symmetry in gene network models
     location_en: Bielefeld, Germany
     location_ru: Германия, г. Билефельд
+    lang: en
     links:
       - key: event
         url: http://wiki.techfak.uni-bielefeld.de/didy/brew
@@ -809,6 +891,7 @@ talks:
     title_ru: Математическое и численное моделирование молекулярного авторепрессилятора
     location_en: Pushchino, Russia
     location_ru: г. Пущино
+    lang: ru
     links:
       - key: event
         url: http://www.bioforum21.ru/en/enterprises/18_shkola_konferentsiya_biologiya_21_.html
@@ -820,6 +903,7 @@ talks:
     title_ru: Будущее платформы .NET
     location_en: Enterra office, Barnaul, Russia
     location_ru: г. Барнаул, офис компании «Энтерра Софт»
+    lang: ru
   - date: 2014-03-26
     event_en: Barnaul .NET user group meetup
     event_ru: Встреча барнаульского сообщества .NET разработчиков
@@ -828,6 +912,7 @@ talks:
     title_ru: Основы работы с Git
     location_en: Enterra office, Barnaul, Russia
     location_ru: г. Барнаул, офис компании «Энтерра Софт»
+    lang: ru
     links:
       - key: slideshare
         url: http://www.slideshare.net/AndreyAkinshin/git-32843404
@@ -839,6 +924,7 @@ talks:
     title_ru: Сборка мусора в .NET
     location_en: Enterra office, Barnaul, Russia
     location_ru: г. Барнаул, офис компании «Энтерра Софт»
+    lang: ru
     links:
       - key: slideshare
         url: http://www.slideshare.net/AndreyAkinshin/net-32344686
@@ -850,6 +936,7 @@ talks:
     title_ru: Об особенностях использования значимых типов в .NET
     location_en: Enterra office, Barnaul, Russia
     location_ru: г. Барнаул, офис компании «Энтерра Софт»
+    lang: ru
     links:
       - key: slideshare
         url: http://www.slideshare.net/AndreyAkinshin/dotnet-structs
@@ -864,6 +951,7 @@ talks:
     event-hint_ru: Международная школа-семинар
     location_en: Barnaul, Russia
     location_ru: г. Барнаул
+    lang: ru
     links:
       - key: event_en
         url: https://sites.google.com/site/lomchten/english
@@ -877,6 +965,7 @@ talks:
     event-hint_ru: Международная молодёжная школа-конференция
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: en
     links:
       - key: event_en
         url: http://conf.nsc.ru/tcmiip2013/en/general_info
@@ -890,6 +979,7 @@ talks:
     event-hint_ru: Всероссийская молодёжная школа-семинар
     location_en: Barnaul, Russia
     location_ru: г. Барнаул
+    lang: ru
     links:
       - key: event
         url: https://sites.google.com/site/geometryaltai/sostoavsiesa-konferencii/arhiv-agt 
@@ -901,6 +991,7 @@ talks:
     title: Oscillating trajectories in some nonlinear dynamical systems
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: ru
     links:
       - key: event
         url: http://math.nsc.ru/conference/sobolev/105/
@@ -912,6 +1003,7 @@ talks:
     event-hint_ru: Международная школа молодых учёных
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: en
     links:
       - key: event
         url: http://conf.nsc.ru/SBB2013/
@@ -921,6 +1013,7 @@ talks:
     title: Numerical analysis of gene networks models
     location_en: St. Petersburg, Russia
     location_ru: г. Санкт-Петербург
+    lang: en
     links:
       - key: event
         url: http://www.febs-2013.org/eng/default.aspx
@@ -931,6 +1024,7 @@ talks:
     title: Mathematical and computational models of gene networks functioning
     location_en: Computational Molecular Biology Department, Max Planck Institute for Molecular Genetics and IMPRS-CBSC, Berlin, Germany
     location_ru: Германия, г. Берлин, Computational Molecular Biology Department, Max Planck Institute for Molecular Genetics and IMPRS-CBSC
+    lang: en
     links:
       - key: event
         url: http://cmb.molgen.mpg.de/brew2013
@@ -940,6 +1034,7 @@ talks:
     event-type: workshop
     location_en: Universität Bielefeld, Bielefeld, Germany
     location_ru: Германия, г.Билефельд, Университет Билефельда
+    lang: en
     links:
       - key: event
         url: http://www.techfak.uni-bielefeld.de/ags/bi/staff/headofdepartment/index.shtml
@@ -950,6 +1045,7 @@ talks:
     event-hint_ru: Всероссийская научно-техническая конференция студентов, аспирантов и молодых учёных
     location_en: Barnaul, Russia
     location_ru: г. Барнаул
+    lang: ru
   - date: 2013-04-08
     date2: 2013-04-13
     event_en: Lomonosov
@@ -959,6 +1055,7 @@ talks:
     event-hint_ru: Международная научная конференция студентов, аспирантов и молодых учёных
     location_en: Moscow, Russia
     location_ru: г. Москва
+    lang: ru
     links:
       - key: event_en
         url: http://lomonosov-msu.ru/eng/lomonosov.html
@@ -971,6 +1068,7 @@ talks:
     event-type: conference
     location_en: Pushchino, Russia
     location_ru: г. Пущино
+    lang: ru
     links:
       - key: event_en
         url: http://www.mce.su/eng/MCE-2013/
@@ -985,6 +1083,7 @@ talks:
     event-hint_ru: Международная школа-конференция
     location_en: Pushchino, Russia
     location_ru: г. Пущино
+    lang: ru
     links:
       - key: event
         url: http://www.mce.su/biophys/
@@ -994,12 +1093,14 @@ talks:
     event-type: workshop
     location_en: Peter the Great St.Petersburg Polytechnic University, St. Petersburg, Russia
     location_ru: г. Санкт-Петербург, Санкт-Петербургский государственный политехнический университет
+    lang: ru
   - year: 2013
     event_en: Workshop in Institute of Computational Mathematics and Mathematical Geophysics SB RAS
     event_ru: Объединённый семинар ИВМиМГ и кафедры вычислительной математики НГУ
     event-type: workshop
     location_en: Institute of Computational Mathematics and Mathematical Geophysics SB RAS, Novosibirsk, Russia
     location_ru: г. Новосибирск, Институт вычислительной математики и математической геофизики СО РАН
+    lang: ru
   - year: 2013
     event_en: Selected questions of mathematical analysis
     event_ru: Избранные вопросы математического анализа
@@ -1007,6 +1108,7 @@ talks:
     event-hint_ru: Семинар
     location_en: Sobolev Institute of Mathematics SB RAS, Novosibirsk, Russia
     location_ru: г. Новосибирск, Институт математики СО РАН
+    lang: ru
     links:
       - key: event
         url: http://math.nsc.ru/seminar/matan/2013.html
@@ -1017,6 +1119,7 @@ talks:
     event-hint_ru: Семинар
     location_en: The Institute of Computational Technologies of SB RAS
     location_ru: г. Новосибирск, Институт вычислительных технологий СО РАН
+    lang: ru
     links:
       - key: event
         url: https://sites.google.com/site/zakonysohraneniaiinvarianty/
@@ -1027,6 +1130,7 @@ talks:
     event-hint_ru: Семинар
     location_en: Sobolev Institute of Mathematics SB RAS, Novosibirsk, Russia
     location_ru: г. Новосибирск, Институт математики СО РАН
+    lang: ru
     links:
       - key: event
         url: http://math.nsc.ru/seminar/all.html
@@ -1037,6 +1141,7 @@ talks:
     event-hint_ru: Семинар
     location_en: Altai State University, Barnaul, Russia
     location_ru: г. Барнаул, Алтайский Государственный Университет 
+    lang: ru
     links:
       - key: event
         url: http://www.uni-altai.ru/ifmo/kgmme/geom_seminar/
@@ -1047,6 +1152,7 @@ talks:
     event-hint_ru: Семинар
     location_en: Polzunov Altai State Technical University, Barnaul, Russia
     location_ru: г. Барнаул, Алтайский Государственный Технический Университет им. И.И. Ползунова
+    lang: ru
     links:
       - key: event
         url: http://www.altstu.ru/structure/chair/pm/
@@ -1061,6 +1167,7 @@ talks:
     event-hint_ru: Международная школа-семинар
     location_en: Barnaul, Russia
     location_ru: г. Барнаул
+    lang: ru
     links:
       - key: event_en
         url: https://sites.google.com/site/lomchten/english
@@ -1074,6 +1181,7 @@ talks:
     event-hint_ru: Всероссийская молодёжная школа-конференция
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: ru
     links:
       - key: event
         url: http://nirs.nsu.ru/mainsite/Mobility2012
@@ -1083,6 +1191,7 @@ talks:
     event-type: conference
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: ru
     links:
       - key: event
         url: http://conf.nsc.ru/BGRSSB2012
@@ -1091,6 +1200,7 @@ talks:
     event: Systems Biology and Bioinformatics (SBB-2012)
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: ru
     links:
       - key: event_en
         url: http://conf.nsc.ru/BGRSSB2012/en/bgrssb2012_young_scientist_school
@@ -1102,6 +1212,7 @@ talks:
     event-type: conference
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: ru
     links:
       - key: event
         url: http://conf.nsc.ru/sct2012/en
@@ -1111,6 +1222,7 @@ talks:
     event-hint_ru: Всероссийская научно-техническая конференция студентов, аспирантов и молодых учёных
     location_en: Barnaul, Russia
     location_ru: г. Барнаул
+    lang: ru
   - date: 2012-04-13
     date2: 2012-04-19
     event_en: Student + scientific and technical progress
@@ -1119,6 +1231,7 @@ talks:
     event-hint_ru: Международная научная студенческая конференция
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: ru
     links:
       - key: event
         url: http://issc.nsu.ru/
@@ -1130,6 +1243,7 @@ talks:
     event-hint_ru: Международная научно-практическая конференция студентов и молодых учёных
     location_en: Tomsk, Russia
     location_ru: г. Томск
+    lang: ru
     links:
       - key: event
         url: http://portal.tpu.ru/science/konf/ctt
@@ -1142,6 +1256,7 @@ talks:
     event_ru: Дни геометрии в Новосибирске
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: ru
     links:
       - key: event
         url: http://math.nsc.ru/conference/geomtop2011/
@@ -1152,6 +1267,7 @@ talks:
     event-hint_ru: Международная научно-практическая конференция студентов и молодых учёных
     location_en: Tomsk, Russia
     location_ru: г. Томск
+    lang: ru
     links:
       - key: event
         url: http://portal.tpu.ru/science/konf/ctt
@@ -1162,6 +1278,7 @@ talks:
     event-hint_ru: Международная научная студенческая конференция
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
+    lang: ru
     links:
       - key: event
         url: http://issc.nsu.ru/
@@ -1171,3 +1288,4 @@ talks:
     event-hint_ru: Всероссийская научно-техническая конференция студентов, аспирантов и молодых учёных
     location_en: Barnaul, Russia
     location_ru: г. Барнаул
+    lang: ru
