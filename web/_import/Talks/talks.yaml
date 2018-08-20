@@ -162,6 +162,8 @@ talks:
         url: http://www.highload.ru/
       - key: talk
         url: http://www.highload.ru/2017/abstracts/3009.html
+      - key: youtube
+        url: https://www.youtube.com/watch?v=am94iI2assY
       - key: slideshare
         url: https://www.slideshare.net/AndreyAkinshin/performance-83380688
   - date: 2017-09-23
