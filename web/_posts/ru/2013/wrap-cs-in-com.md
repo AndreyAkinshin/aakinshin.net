@@ -3,12 +3,14 @@ layout: ru-post
 title: "Заворачиваем C#-класс в COM"
 date: "2013-06-03"
 lang: ru
+type: post
 tags:
 - ".NET"
 - C#
 - COM
 redirect_from:
 - /ru/blog/dotnet/wrap-cs-in-com/
+- /ru/blog/post/wrap-cs-in-com/
 ---
 
 

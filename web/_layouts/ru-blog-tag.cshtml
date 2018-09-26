@@ -20,7 +20,7 @@ layout : ru-default
           <b>Tags:</b>
             @foreach(var tag in post.Tags)
             {
-                <a href="/ru/blog/tag//@Pretzel.Logic.Extra.UrlAliasFilter.UrlAlias(tag)"><span class="badge badge-pill badge-info">@tag</span></a>
+                <a href="/ru/tags/@Pretzel.Logic.Extra.UrlAliasFilter.UrlAlias(tag)"><span class="badge badge-pill badge-info">@tag</span></a>
             }
         </span><br /><br />
         @Raw(excerpt)

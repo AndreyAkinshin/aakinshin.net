@@ -3,12 +3,14 @@ layout: ru-post
 title: "Раскрашиваем R в терминале: пакет colorout"
 date: "2014-07-11"
 lang: ru
+type: post
 tags:
 - R
 - R-packages
 - Terminal
 redirect_from:
 - /ru/blog/r/colorout/
+- /ru/blog/post/r-colorout/
 ---
 
 

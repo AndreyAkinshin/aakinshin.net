@@ -3,6 +3,7 @@ layout: ru-post
 title: "Сравнение производительности массивов в .NET"
 date: "2013-08-31"
 lang: ru
+type: post
 tags:
 - ".NET"
 - C#
@@ -12,6 +13,7 @@ tags:
 - Arrays
 redirect_from:
 - /ru/blog/dotnet/arrays-access-performance/
+- /ru/blog/post/arrays-access-performance/
 ---
 
 ## Часть 1

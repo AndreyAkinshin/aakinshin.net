@@ -3,12 +3,14 @@ layout: ru-post
 title: "Занимательное о шрифтах в .NET"
 date: "2013-06-03"
 lang: ru
+type: post
 tags:
 - fonts
 - ".NET"
 - C#
 redirect_from:
 - /ru/blog/dotnet/fonts/
+- /ru/blog/post/dotnet-fonts/
 ---
 
 

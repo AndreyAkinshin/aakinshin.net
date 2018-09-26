@@ -3,6 +3,7 @@ layout: post
 title: "Happy Monday!"
 date: "2014-08-11"
 lang: en
+type: post
 tags:
 - Bugs
 - ".NET"
@@ -10,6 +11,7 @@ tags:
 - PostSharp
 redirect_from:
 - /en/blog/dotnet/happy-monday/
+- /blog/post/happy-monday/
 ---
 
 Today I tell you a story about one tricky bug. The bug is a tricky one because it doesn't allow me to debug my application on Mondays. I'm serious right now: the debug mode doesn't work every Monday. Furthermore, the bug literally tell me: "Happy Monday!". 

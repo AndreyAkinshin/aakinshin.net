@@ -3,6 +3,7 @@ layout: ru-post
 title: "Об экранировании URI в .NET"
 date: "2014-11-13"
 lang: ru
+type: post
 tags:
 - ".NET"
 - C#
@@ -11,6 +12,7 @@ tags:
 - Escaping
 redirect_from:
 - /ru/blog/dotnet/uri-escaping/
+- /ru/blog/post/uri-escaping/
 ---
 
 ## Часть 1

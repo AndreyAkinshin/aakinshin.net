@@ -3,6 +3,7 @@ layout: post-toc
 title: Stopwatch under the hood
 date: "2016-09-09"
 lang: en
+type: post
 tags:
 - .NET
 - Hardware
@@ -10,6 +11,7 @@ tags:
 - Internals
 redirect_from:
 - /en/blog/dotnet/stopwatch/
+- /blog/post/stopwatch/
 ---
 
 In [the previous post](/en/blog/dotnet/datetime/), we discussed `DateTime`.

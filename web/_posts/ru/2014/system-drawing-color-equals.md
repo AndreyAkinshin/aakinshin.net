@@ -3,6 +3,7 @@ layout: ru-post
 title: "Про System.Drawing.Color и оператор =="
 date: "2014-02-21"
 lang: ru
+type: post
 tags:
 - ".NET"
 - Colors
@@ -10,6 +11,7 @@ tags:
 - Equals
 redirect_from:
 - /ru/blog/dotnet/system-drawing-color-equals/
+- /ru/blog/post/system-drawing-color-equals/
 ---
 
 Для многих стандартных структур в .NET-е переопределён оператор `==`, который позволяет легко сравнивать ваши объекты. К сожалению, далеко не все задумываются о том, что на самом деле сравнивается при работе с этим замечательным оператором. В этой короткой заметке мы посмотрим логику сравнения объектов на примере `System.Drawing.Color`. Как вы думаете, что выведет следующий код:

@@ -3,12 +3,14 @@ layout: ru-post
 title: "Множественное присваивание в R"
 date: "2013-06-03"
 lang: ru
+type: post
 tags:
 - R
 - R-assignments
 - R-operators
 redirect_from:
 - /ru/blog/r/multiple-assignment/
+- /ru/blog/post/r-multiple-assignment/
 ---
 
 R — мощный и лаконичный язык. С помощью коротких инструкций можно сделать очень многое. Но давайте сделаем R ещё лаконичнее.

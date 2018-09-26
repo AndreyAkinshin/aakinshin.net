@@ -3,12 +3,14 @@ layout: ru-post
 title: "Операторы +=, -= в R"
 date: "2013-06-03"
 lang: ru
+type: post
 tags:
 - R
 - R-assignments
 - R-operators
 redirect_from:
 - /ru/blog/r/compound-assignment/
+- /ru/blog/post/r-compound-assignment/
 ---
 
 Продолжаем писать полезные операторы для языка R. В большинстве современных языков есть операторы +=, -= и т.п., они делают синтаксис более лаконичным. А давайте и в R определим подобные операторы, чтобы вместо

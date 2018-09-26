@@ -3,6 +3,7 @@ layout: post
 title: "Unobviousness in use of C# closures"
 date: "2013-08-07"
 lang: en
+type: post
 tags:
 - Lambda
 - Closures
@@ -10,6 +11,7 @@ tags:
 - ".NET"
 redirect_from:
 - /en/blog/dotnet/closures/
+- /blog/post/closures/
 ---
 
 C# gives us an ability to use closures. This is a powerful tool that allows anonymous methods and lambda-functions to capture unbound variables in their lexical scope. And many programmers in .NET world like using closures very much, but only few of them understand how they really work. Let’s start with a simple sample:

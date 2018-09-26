@@ -3,12 +3,14 @@ layout: post
 title: "Wrapping C# class for use in COM"
 date: "2013-06-03"
 lang: en
+type: post
 tags:
 - ".NET"
 - C#
 - COM
 redirect_from:
 - /en/blog/dotnet/wrap-cs-in-com/
+- /blog/post/wrap-cs-in-com/
 ---
 
 Let us have a C# class that makes something useful, for example:

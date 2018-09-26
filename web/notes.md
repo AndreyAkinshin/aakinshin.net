@@ -1,12 +1,11 @@
 ---
 layout : default
 title : Andrey Akinshin's blog
-permalink: /blog/
+permalink: /notes/
 paginate: 10
 paginate_lang: en
-paginate_link: "/blog/page/:page/"
-redirect_from:
-- /en/blog/
+paginate_type: note
+paginate_link: "/notes/page/:page/"
 ---
 @model Pretzel.Logic.Templating.Context.PageContext
 
@@ -14,6 +13,7 @@ redirect_from:
 @foreach (var post in Model.Paginator.Posts)
 {
     var excerpt = (string)post.Bag["excerpt"];
+    var commentsLink = @post.Url.Replace("index.html", "") + "#disqus_thread";
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='@post.Url.Replace("index.html", "")'>@post.Title</a></h2>
         <span class="blog-post-meta">
@@ -21,11 +21,11 @@ redirect_from:
           <b>Tags:</b>
             @foreach(var tag in post.Tags)
             {
-                <a href="/blog/tag/@Pretzel.Logic.Extra.UrlAliasFilter.UrlAlias(tag)"><span class="badge badge-pill badge-info">@tag</span></a>
+                <a href="/tags/@Pretzel.Logic.Extra.UrlAliasFilter.UrlAlias(tag)"><span class="badge badge-pill badge-info">@tag</span></a>
             }
         </span><br /><br />
         @Raw(excerpt)
-        <a href='@post.Url.Replace("index.html", "")'>Read more</a><br /><br />
+        <a href='@post.Url.Replace("index.html", "")'>Read more</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="@commentsLink">Comments</a><br /><br />
         <hr />
     </div>
 }
@@ -53,7 +53,7 @@ redirect_from:
     }
     @for (int i = 1; i <= Model.Paginator.TotalPages; i++)
     {
-      var link = i == 1 ? "/blog/" : "/blog/page/" + i.ToString() + "/";
+      var link = i == 1 ? "/posts/" : "/posts/page/" + i.ToString() + "/";
       if (Model.Paginator.Page == i)
       {
         <li class="page-item active">
@@ -87,5 +87,4 @@ redirect_from:
 </nav>
 
 <hr />
-<p style="font-size:150%"><a href="/ru/blog/">More posts in Russian</a></p>
 <p>Subscribe: <a href="/rss.xml">RSS</a> <a href="/atom.xml">Atom</a></p>

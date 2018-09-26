@@ -3,10 +3,12 @@ layout: ru-post
 title: "Комментировать или не комментировать?"
 date: "2013-08-28"
 lang: ru
+type: post
 tags:
 - PerfectCode
 redirect_from:
 - /ru/blog/dev/comments/
+- /ru/blog/post/comments/
 ---
 
 *По-настоящему хороший комментарий — тот, без которого вам удалось обойтись. &copy; Дядюшка Боб*

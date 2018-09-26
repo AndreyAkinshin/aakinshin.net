@@ -3,12 +3,14 @@ layout: post
 title: "JIT version determining in runtime"
 date: "2015-02-28"
 lang: en
+type: post
 tags:
 - ".NET"
 - C#
 - JIT
 redirect_from:
 - /en/blog/dotnet/jit-version-determining-in-runtime/
+- /blog/post/jit-version-determining-in-runtime/
 ---
 
 Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the version in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:

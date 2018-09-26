@@ -3,11 +3,13 @@ layout: ru-post
 title: "Вызов R-скрипта с аргументами из консоли"
 date: "2013-06-03"
 lang: ru
+type: post
 tags:
 - R
 - Terminal
 redirect_from:
 - /ru/blog/r/terminal-arguments/
+- /ru/blog/post/r-terminal-arguments/
 ---
 
 Для выполнения R-скрипта из консоли нам понадобится помощь утилит `Rscript.exe` и `Rterm.exe`. Разница между ними состоит в том, что `Rscript.exe`

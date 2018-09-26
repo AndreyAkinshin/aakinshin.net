@@ -3,11 +3,13 @@ layout: ru-post
 title: "Материалы по Git"
 date: "2013-06-19"
 lang: ru
+type: post
 tags:
 - git
 - VCS
 redirect_from:
 - /ru/blog/git/links/
+- /ru/blog/post/git-links/
 ---
 
 <p class="center">

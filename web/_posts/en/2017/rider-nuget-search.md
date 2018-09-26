@@ -3,12 +3,14 @@ layout: post
 title: "Why is NuGet search in Rider so fast?"
 date: "2017-02-08"
 lang: en
+type: post
 tags:
 - .NET
 - Rider
 - NuGet
 redirect_from:
 - /en/blog/dotnet/rider-nuget-search/
+- /blog/post/rider-nuget-search/
 ---
 
 I'm the guy who develops the NuGet manager in [Rider](https://www.jetbrains.com/rider/).

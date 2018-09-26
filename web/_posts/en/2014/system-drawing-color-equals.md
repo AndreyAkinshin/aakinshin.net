@@ -3,6 +3,7 @@ layout: post
 title: "About System.Drawing.Color and operator =="
 date: "2014-02-21"
 lang: en
+type: post
 tags:
 - ".NET"
 - Colors
@@ -10,6 +11,7 @@ tags:
 - Equals
 redirect_from:
 - /en/blog/dotnet/system-drawing-color-equals/
+- /blog/post/system-drawing-color-equals/
 ---
 
 Operator `==` that allows easy comparison of your objects is overridden for many standard structures in .NET. Unfortunately, not every developer really knows what is actually compared when working with this wonderful operator. This brief blog post will show the comparison logic based on a sample of `System.Drawing.Color`. What do you think the following code will get:

@@ -3,6 +3,7 @@ layout: post
 title: "RyuJIT CTP5 and loop unrolling"
 date: "2015-03-01"
 lang: en
+type: post
 tags:
 - ".NET"
 - C#
@@ -11,6 +12,7 @@ tags:
 - LoopUnrolling
 redirect_from:
 - /en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/
+- /blog/post/ryujit-ctp5-and-loop-unrolling/
 ---
 
 RyuJIT will be available soon. It is a next generation JIT-compiler for .NET-applications. Microsoft likes to tell us about the benefits of SIMD using and JIT-compilation time reducing. But what about basic code optimization which is usually applying by a compiler? Today we talk about the loop unrolling (unwinding) optimization. In general, in this type of code optimization, the code

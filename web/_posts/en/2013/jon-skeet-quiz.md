@@ -3,11 +3,13 @@ layout: post
 title: Jon Skeet's Quiz
 date: "2013-11-03"
 lang: en
+type: post
 tags:
 - ".NET"
 - C#
 redirect_from:
 - /en/blog/dotnet/jon-skeet-quiz/
+- /blog/post/jon-skeet-quiz/
 ---
 
 Jon Skeet was once asked to give three questions to check how well you know C#. He asked the [following questions](http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx):

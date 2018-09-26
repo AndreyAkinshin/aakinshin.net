@@ -3,6 +3,7 @@ layout: ru-post
 title: "Странное поведение FindElementsInHostCoordinates в WinRT"
 date: "2014-04-29"
 lang: ru
+type: post
 tags:
 - ".NET"
 - C#
@@ -10,6 +11,7 @@ tags:
 - WinRT
 redirect_from:
 - /ru/blog/dotnet/findelementsinhostcoordinates/
+- /ru/blog/post/findelementsinhostcoordinates/
 ---
 
 Есть в Silverlight отличный метод: [VisualTreeHelper.FindElementsInHostCoordinates](http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx) — позволяет выполнять `HitTest`, т.е. для некоторой точки или прямоугольника искать все объекты визуального поддерева, которые с этими точкой или прямоугольником пересекаются. Внешне точно такой же метод [VisualTreeHelper.FindElementsInHostCoordinates](http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx) можно встретить в WinRT. И вроде выглядит-то он точно также, но есть нюанс: работает этот чудо-метод в разных версиях платформы по-разному. Давайте разберёмся.<!--more-->

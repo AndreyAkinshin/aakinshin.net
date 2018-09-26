@@ -3,6 +3,7 @@ layout: ru-post
 title: List.ForEach в .NET 4.5
 date: "2014-11-24"
 lang: ru
+type: post
 tags:
 - ".NET"
 - ".NET-4.5"
@@ -10,6 +11,7 @@ tags:
 - List
 redirect_from:
 - /ru/blog/dotnet/listforeach-net-45/
+- /ru/blog/post/listforeach-net-45/
 ---
 
 Продолжим обсуждать [тему](http://aakinshin.blogspot.ru/2014/11/dotnet-list-version-side-effect.html) изменения коллекции внутри цикла `foreach`. Следующий код

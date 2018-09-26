@@ -3,6 +3,7 @@ layout: ru-post
 title: "Об итерировании статичных массивов в .NET"
 date: "2013-08-29"
 lang: ru
+type: post
 tags:
 - ".NET"
 - C#
@@ -12,6 +13,7 @@ tags:
 - Arrays
 redirect_from:
 - /ru/blog/dotnet/static-array-iteration/
+- /ru/blog/post/static-array-iteration/
 ---
 
 ## Часть 1

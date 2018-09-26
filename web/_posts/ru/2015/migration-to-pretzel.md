@@ -3,10 +3,12 @@ layout: ru-post
 title: "Как я блог на кренделёк переводил"
 date: "2015-02-26"
 lang: ru
+type: post
 tags:
 - Pretzel
 redirect_from:
 - /ru/blog/notes/migration-to-pretzel/
+- /ru/blog/post/migration-to-pretzel/
 ---
 
 Наконец-то у меня дошли руки, и я сделал себе статический блог. Раньше я писал посты в [aakinshin.blogspot.ru](http://aakinshin.blogspot.ru/) на Google Blogger aka blogspot, но много чего мне в нём не нравилось, отбивалось всё желание писать. Теперь всё работает через GitHub, писать посты можно в MarkDown, шаблоны делать через Razor, кастомизировать всё по своему вкусу. И мультиленг нормальный =). Под катом можно найти техническую информацию.

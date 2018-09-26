@@ -3,6 +3,7 @@ layout: post
 title: "LegacyJIT-x86 and first method call"
 date: "2016-04-04"
 lang: en
+type: post
 tags:
 - ".NET"
 - C#
@@ -10,6 +11,7 @@ tags:
 - Benchmarks
 redirect_from:
 - /en/blog/dotnet/legacyjitx86-and-first-method-call/
+- /blog/post/legacyjitx86-and-first-method-call/
 ---
 
 Today I tell you about one of my favorite benchmarks (this method doesn't return a useful value, we need it only as an example):

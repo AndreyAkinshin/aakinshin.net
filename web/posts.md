@@ -1,15 +1,17 @@
 ---
-layout : ru-default
-title : Блог Андрея Акиньшина
-permalink: /ru/blog/
+layout : default
+title : Andrey Akinshin's blog
+permalink: /posts/
 paginate: 10
-paginate_lang: ru
-paginate_link: "/ru/blog/page/:page/"
+paginate_lang: en
+paginate_type: post
+paginate_link: "/posts/page/:page/"
+redirect_from:
+- /en/blog/
+- /blog/
 ---
 @model Pretzel.Logic.Templating.Context.PageContext
 
-<p style="font-size:150%"><a href="/blog/">Последние посты доступны только в английской версии блога</a></p>
-<hr />
 <div class="blog-main">
 @foreach (var post in Model.Paginator.Posts)
 {
@@ -17,15 +19,15 @@ paginate_link: "/ru/blog/page/:page/"
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='@post.Url.Replace("index.html", "")'>@post.Title</a></h2>
         <span class="blog-post-meta">
-          <b>Дата:</b> @post.Date.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("ru-RU")).
-          <b>Теги:</b>
+          <b>Date:</b> @post.Date.ToString("MMMM dd, yyyy", new System.Globalization.CultureInfo("en-US")).
+          <b>Tags:</b>
             @foreach(var tag in post.Tags)
             {
-                <a href="/ru/blog/tag/@Pretzel.Logic.Extra.UrlAliasFilter.UrlAlias(tag)"><span class="badge badge-pill badge-info">@tag</span></a>
+                <a href="/tags/@Pretzel.Logic.Extra.UrlAliasFilter.UrlAlias(tag)"><span class="badge badge-pill badge-info">@tag</span></a>
             }
         </span><br /><br />
         @Raw(excerpt)
-        <a href='@post.Url.Replace("index.html", "")'>Читать дальше</a><br /><br />
+        <a href='@post.Url.Replace("index.html", "")'>Read more</a><br /><br />
         <hr />
     </div>
 }
@@ -36,24 +38,24 @@ paginate_link: "/ru/blog/page/:page/"
     @if (Model.Paginator.PreviousPageUrl != null)
     {
       <li class="page-item">
-        <a class="page-link" href='@Model.Paginator.PreviousPageUrl.Replace("index.html", "")' aria-label="Назад">
+        <a class="page-link" href='@Model.Paginator.PreviousPageUrl.Replace("index.html", "")' aria-label="Previous">
           <span aria-hidden="true">&laquo;</span>
-          <span class="sr-only">Назад</span>
+          <span class="sr-only">Previous</span>
         </a>
       </li>
     }
     @if (Model.Paginator.PreviousPageUrl == null)
     {
       <li class="page-item disabled">
-        <a class="page-link" href="#" aria-label="Назад">
+        <a class="page-link" href="#" aria-label="Previous">
           <span aria-hidden="true">&laquo;</span>
-          <span class="sr-only">Назад</span>
+          <span class="sr-only">Previous</span>
         </a>
       </li>
     }
     @for (int i = 1; i <= Model.Paginator.TotalPages; i++)
     {
-      var link = i == 1 ? "/ru/blog/" : "/ru/blog/page/" + i.ToString() + "/";
+      var link = i == 1 ? "/posts/" : "/posts/page/" + i.ToString() + "/";
       if (Model.Paginator.Page == i)
       {
         <li class="page-item active">
@@ -68,18 +70,18 @@ paginate_link: "/ru/blog/page/:page/"
     @if (Model.Paginator.NextPageUrl != null)
     {
       <li class="page-item">
-        <a class="page-link" href='@Model.Paginator.NextPageUrl.Replace("index.html", "")' aria-label="Вперёд">
+        <a class="page-link" href='@Model.Paginator.NextPageUrl.Replace("index.html", "")' aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
-          <span class="sr-only">Вперёд</span>
+          <span class="sr-only">Next</span>
         </a>
       </li>
     }
     @if (Model.Paginator.NextPageUrl == null)
     {
       <li class="page-item disabled">
-        <a class="page-link" href="#" aria-label="Вперёд">
+        <a class="page-link" href="#" aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
-          <span class="sr-only">Вперёд</span>
+          <span class="sr-only">Next</span>
         </a>
       </li>
     }
@@ -87,4 +89,5 @@ paginate_link: "/ru/blog/page/:page/"
 </nav>
 
 <hr />
-<p>Подписаться: <a href="/ru/rss.xml">RSS</a> <a href="/ru/atom.xml">Atom</a></p>
+<p style="font-size:150%"><a href="/ru/blog/">More posts in Russian</a></p>
+<p>Subscribe: <a href="/rss.xml">RSS</a> <a href="/atom.xml">Atom</a></p>

@@ -3,10 +3,12 @@ layout: post
 title: "Perfect code and real projects"
 date: "2013-08-28"
 lang: en
+type: post
 tags:
 - PerfectCode
 redirect_from:
 - /en/blog/dev/perfect-code-and-real-projects/
+- /blog/post/perfect-code-and-real-projects/
 ---
 
 I’ve got a problem. I am a perfectionist. I like perfect code. This is not only the correct way to develop applications but also the real proficiency. I enjoy reading a good listing not less than reading a good book. Developing architecture of a big project is no simpler than designing architecture of a big building. In case the work is good the result is no less beautiful. I am sometimes fascinated by how elegantly the patterns are entwined in the perfect software system. I am delighted by the attention to details when every method is so simple and understandable that can be a classic sample of the perfect code.

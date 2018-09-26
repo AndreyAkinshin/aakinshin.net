@@ -3,6 +3,7 @@ layout: post
 title: "A bug story about JIT-x64"
 date: "2015-02-27"
 lang: en
+type: post
 tags:
 - ".NET"
 - C#
@@ -10,6 +11,7 @@ tags:
 - Bugs
 redirect_from:
 - /en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/
+- /blog/post/subexpression-elimination-bug-in-jit-x64/
 ---
 
 Can you say, what will the following code display for `step=1`?

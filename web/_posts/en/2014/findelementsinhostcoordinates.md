@@ -3,6 +3,7 @@ layout: post
 title: "Strange behavior of FindElementsInHostCoordinates in WinRT"
 date: "2014-04-29"
 lang: en
+type: post
 tags:
 - ".NET"
 - C#
@@ -10,6 +11,7 @@ tags:
 - WinRT
 redirect_from:
 - /en/blog/dotnet/findelementsinhostcoordinates/
+- /blog/post/findelementsinhostcoordinates/
 ---
 
 Silverlight features a splendid method: [VisualTreeHelper.FindElementsInHostCoordinates](http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx). It allows the `HitTest`, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method [VisualTreeHelper.FindElementsInHostCoordinates](http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx) is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.<!--more-->

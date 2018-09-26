@@ -3,6 +3,7 @@ layout: post
 title: "Analyzing distribution of Mono GC collections"
 date: "2018-02-20"
 lang: en
+type: post
 tags:
 - .NET
 - C#
@@ -10,6 +11,8 @@ tags:
 - Rider
 - Mono
 - GC
+redirect_from:
+- /blog/post/mono-gc-collects
 ---
 
 Sometimes I want to understand the GC performance impact on an application quickly.

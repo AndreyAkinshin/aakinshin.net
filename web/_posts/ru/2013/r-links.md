@@ -3,11 +3,13 @@ layout: ru-post
 title: R-ссылки
 date: "2013-06-03"
 lang: ru
+type: post
 tags:
 - R
 - Links
 redirect_from:
 - /ru/blog/r/links/
+- /ru/blog/post/r-links/
 ---
 
 ### Английские полезные R-ресурсы

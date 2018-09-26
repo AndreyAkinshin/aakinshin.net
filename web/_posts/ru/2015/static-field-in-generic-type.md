@@ -3,6 +3,7 @@ layout: ru-post
 title: "Статические поля в generic-классах"
 date: "2015-01-21"
 lang: ru
+type: post
 tags:
 - ".NET"
 - C#
@@ -10,6 +11,7 @@ tags:
 - Static
 redirect_from:
 - /ru/blog/dotnet/static-field-in-generic-type/
+- /ru/blog/post/static-field-in-generic-type/
 ---
 
 Сегодня мы кратко поговорим о статических полях в generic-классах. Тема простая, но у некоторых разработчиков она вызывает трудности. Итак, задачка: что выведет следующий код?

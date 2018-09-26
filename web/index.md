@@ -6,5 +6,5 @@ redirect_from:
 ---
 
 <script type="text/javascript">
-window.location.replace("/blog/");
+window.location.replace("/posts/");
 </script>

@@ -3,11 +3,13 @@ layout: ru-post
 title: "Blittable-типы"
 date: "2015-11-26"
 lang: ru
+type: post
 tags:
 - ".NET"
 - C#
 redirect_from:
 - ru/blog/dotnet/blittable/
+- ru/blog/post/blittable/
 ---
 
 Вопрос дня: что выведет нижеприведённый код?

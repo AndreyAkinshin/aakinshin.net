@@ -3,6 +3,7 @@ layout: ru-post
 title: "LegacyJIT-x86 и первый вызов метода"
 date: "2016-04-04"
 lang: ru
+type: post
 tags:
 - ".NET"
 - C#
@@ -10,6 +11,7 @@ tags:
 - Benchmarks
 redirect_from:
 - /ru/blog/dotnet/legacyjitx86-and-first-method-call/
+- /ru/blog/post/legacyjitx86-and-first-method-call/
 ---
 
 Сегодня я расскажу вам об одном из моих любимых бенчмарков (данный метод не возвращает ничего полезного, он нам нужен только в качестве примера):

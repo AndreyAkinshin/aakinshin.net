@@ -3,12 +3,14 @@ layout: post
 title: DateTime under the hood
 date: "2016-08-19"
 lang: en
+type: post
 tags:
 - .NET
 - Timers
 - Internals
 redirect_from:
 - /en/blog/dotnet/datetime/
+- /blog/post/datetime/
 ---
 
 [DateTime](https://msdn.microsoft.com/library/system.datetime.aspx) is a widely used .NET type. A lot of developers use it all the time, but not all of them really know how it works. In this post, I discuss [DateTime.UtcNow](https://msdn.microsoft.com/library/system.datetime.utcnow.aspx): how it's implemented, what the latency and the resolution of `DateTime` on Windows and Linux, how the resolution can be changed, and how it can affect your application. This post is an overview, so you probably will not see super detailed explanations of some topics, but you will find a lot of useful links for further reading.

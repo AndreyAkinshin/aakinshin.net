@@ -1,9 +1,10 @@
 ---
 layout : default
 title : Andrey Akinshin's blog / Content
-permalink: /blog/content/
+permalink: /content/
 redirect_from:
 - /en/blog/content/
+- /blog/content/
 ---
 @model Pretzel.Logic.Templating.Context.PageContext
 

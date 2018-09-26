@@ -3,6 +3,7 @@ layout: ru-post
 title: Nullable-арифметика
 date: "2014-11-11"
 lang: ru
+type: post
 tags:
 - ".NET"
 - Nullable
@@ -10,6 +11,7 @@ tags:
 - CheatSheet
 redirect_from:
 - /ru/blog/dotnet/cheatsheet-nullable/
+- /ru/blog/post/cheatsheet-nullable/
 ---
 
 Что будет, если `null` поделить на ноль? А сколько будет `null | true`? А `null & true`? А `((string)null + null)`?

@@ -1,13 +1,15 @@
 ---
 layout : ru-default
 title : Блог Андрея Акиньшина / Содержание
-permalink: /ru/blog/content/index.html
+permalink: /ru/content/
+redirect_from:
+- /ru/blog/content/
 ---
 @model Pretzel.Logic.Templating.Context.PageContext
 
 <h2>Содержание</h2>
 <div>
-<p><a href="/blog/content/">Последние посты доступны только в английской версии блога</a></p>
+<p><a href="/content/">Последние посты доступны только в английской версии блога</a></p>
 @foreach(var year in Model.Site.RuPosts.Select(p => p.Date.Year).Distinct().OrderByDescending(y => y))
 {
     var posts = Model.Site.RuPosts.Where(p => p.Date.Year == year).OrderByDescending(p => p.Date).ToList();

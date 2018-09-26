@@ -3,11 +3,15 @@ layout: post
 title: "65535 interfaces ought to be enough for anybody"
 date: "2017-02-14"
 lang: en
+type: post
 tags:
 - .NET
 - Rider
 - Bugs
 - Mono
+redirect_from:
+- /en/blog/dotnet/mono-and-65535interfaces/
+- /blog/post/mono-and-65535interfaces/
 ---
 
 It was a bright, sunny morning.

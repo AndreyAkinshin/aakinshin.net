@@ -3,12 +3,15 @@ layout: post
 title: "Cross-runtime .NET disassembly with BenchmarkDotNet"
 date: "2018-04-10"
 lang: en
+type: post
 tags:
 - .NET
 - C#
 - BenchmarkDotNet
 - benchmarking
 - disassembly
+redirect_from:
+- /blog/post/dotnet-crossruntime-disasm
 ---
 
 [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet) is a cool tool for benchmarking.

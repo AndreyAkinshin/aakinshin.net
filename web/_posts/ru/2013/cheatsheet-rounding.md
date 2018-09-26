@@ -3,6 +3,7 @@ layout: ru-post
 title: "Учимся округлять в C#"
 date: "2013-09-18"
 lang: ru
+type: post
 tags:
 - ".NET"
 - C#
@@ -10,6 +11,7 @@ tags:
 - CheatSheet
 redirect_from:
 - /ru/blog/dotnet/cheatsheet-rounding/
+- /ru/blog/post/cheatsheet-rounding/
 ---
 
 А знаете ли вы, что `Math.Round(1.5) == Math.Round(2.5) == 2`? Можете ли сходу сказать, сколько будет `-7%3` и `7%-3`? Помните ли, чем отличаются

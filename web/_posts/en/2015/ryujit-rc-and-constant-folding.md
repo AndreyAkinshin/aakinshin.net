@@ -3,6 +3,7 @@ layout: post
 title: "RyuJIT RC and constant folding"
 date: "2015-05-12"
 lang: en
+type: post
 tags:
 - ".NET"
 - C#
@@ -11,9 +12,10 @@ tags:
 - ConstantFolding
 redirect_from:
 - /en/blog/dotnet/ryujit-rc-and-constant-folding/
+- /blog/post/ryujit-rc-and-constant-folding/
 ---
 
-**Update:** The below results are valid for the release version of RyuJIT.
+**Update:** The below results are valid for the release version of RyuJIT in .NET Framework 4.6 without updates.
 
 The challenge of the day: which method is faster?
 

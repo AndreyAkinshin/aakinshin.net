@@ -3,12 +3,14 @@ layout: ru-post
 title: "Конкатенация строк в R"
 date: "2013-06-03"
 lang: ru
+type: post
 tags:
 - R
 - R-strings
 - R-operators
 redirect_from:
 - /ru/blog/r/string-concatenation/
+- /ru/blog/post/r-string-concatenation/
 ---
 
 Давайте поговорим о конкатенации строк. Новички в R пытаются пробовать стандартную конструкцию

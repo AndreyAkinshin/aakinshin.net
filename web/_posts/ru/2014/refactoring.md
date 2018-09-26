@@ -3,11 +3,13 @@ layout: ru-post
 title: "Рефакторить или не рефакторить?"
 date: "2014-07-19"
 lang: ru
+type: post
 tags:
 - PerfectCode
 - Refactoring
 redirect_from:
 - /ru/blog/dev/refactoring/
+- /ru/blog/post/refactoring/
 ---
 
 Мне нравится рефакторинг. Нет, не так. Я люблю рефакторинг. Не, даже не так. Я *чертовски* люблю рефакторинг.

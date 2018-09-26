@@ -3,12 +3,14 @@ layout: ru-post
 title: "История про инлайнинг под JIT-x86 и starg"
 date: "2015-02-26"
 lang: ru
+type: post
 tags:
 - ".NET"
 - C#
 - Inlining
 redirect_from:
 - /ru/blog/dotnet/inlining-and-starg/
+- /ru/blog/post/inlining-and-starg/
 ---
 
 Порой можно узнать много интересного во время чтения исходников .NET. Взглянем на конструктор типа `Decimal` из .NET Reference Source ([mscorlib/system/decimal.cs,158](http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158)):

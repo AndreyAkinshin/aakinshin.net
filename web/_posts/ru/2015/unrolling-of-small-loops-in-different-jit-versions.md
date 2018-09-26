@@ -3,6 +3,7 @@ layout: ru-post
 title: "Размотка маленьких циклов в разных версиях JIT"
 date: "2015-03-02"
 lang: ru
+type: post
 tags:
 - ".NET"
 - C#
@@ -11,6 +12,7 @@ tags:
 - LoopUnrolling
 redirect_from:
 - /ru/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/
+- /ru/blog/post/unrolling-of-small-loops-in-different-jit-versions/
 ---
 
 Вопрос дня: что выведет нижеприведённый код?

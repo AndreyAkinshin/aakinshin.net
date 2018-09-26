@@ -3,11 +3,14 @@ layout: post
 title: "Reflecting on performance testing"
 date: "2017-08-01"
 lang: en
+type: post
 tags:
 - Performance
 - PerformanceTesting
 - Rider
 - BenchmarkDotNet
+redirect_from:
+- /blog/post/reflecting-on-performance-testing/
 ---
 
 Performance is an important feature for many projects.

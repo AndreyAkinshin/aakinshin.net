@@ -3,6 +3,7 @@ layout: post
 title: "A bug story about named mutex on Mono"
 date: "2017-02-13"
 lang: en
+type: post
 tags:
 - .NET
 - Rider
@@ -12,6 +13,7 @@ tags:
 - CoreCLR
 redirect_from:
 - /en/blog/dotnet/namedmutex-on-mono/
+- /blog/post/namedmutex-on-mono/
 ---
 
 When you write some multithreading magic on .NET,

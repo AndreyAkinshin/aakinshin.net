@@ -3,6 +3,7 @@ layout: post
 title: "Unrolling of small loops in different JIT versions"
 date: "2015-03-02"
 lang: en
+type: post
 tags:
 - ".NET"
 - C#
@@ -11,6 +12,7 @@ tags:
 - LoopUnrolling
 redirect_from:
 - /en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/
+- /blog/post/unrolling-of-small-loops-in-different-jit-versions/
 ---
 
 Challenge of the day: what will the following code display?

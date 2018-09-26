@@ -3,12 +3,14 @@ layout: post
 title: "Unexpected area to collect garbage in .NET"
 date: "2013-08-08"
 lang: en
+type: post
 tags:
 - ".NET"
 - GC
 - OpenCV
 redirect_from:
 - /en/blog/dotnet/gc-native/
+- /blog/post/gc-native/
 ---
 
 The .NET framework provides an intelligent garbage collector that saves us a trouble of manual memory management. And in 95% of cases you can forget about memory and related issues. But the remaining 5% have some specific aspects connected to unmanaged resources, too big objects, etc. And it’s better to know how the garbage is collected. Otherwise, you can get surprises.

@@ -3,6 +3,7 @@ layout: ru-post
 title: "Рисуем комиксы в стиле xkcd"
 date: "2013-06-03"
 lang: ru
+type: post
 tags:
 - R
 - R-plots
@@ -11,6 +12,7 @@ tags:
 - xkcd
 redirect_from:
 - /ru/blog/r/xkcd/
+- /ru/blog/post/r-xkcd/
 ---
 
 Многие слышали о таком замечательном комиксе, как [xkcd](http://www.xkcd.com/r-xkcd.md). Это веб-комикс от [Рэндела Манро](http://ru.wikipedia.org/wiki/%D0%9C%D0%B0%D0%BD%D1%80%D0%BE,_%D0%A0%D1%8D%D0%BD%D0%B4%D0%B5%D0%BB) о романтике, сарказме, математике и языке. Для некоторых комиксов есть

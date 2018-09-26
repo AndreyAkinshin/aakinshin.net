@@ -3,6 +3,7 @@ layout: ru-post
 title: FastColoredTextBox — божественный RichTextBox для .NET
 date: "2013-07-17"
 lang: ru
+type: post
 tags:
 - WPF
 - ".NET"
@@ -11,6 +12,7 @@ tags:
 - Controls
 redirect_from:
 - /ru/blog/dotnet/fastcoloredtextbox/
+- /ru/blog/post/fastcoloredtextbox/
 ---
 
 Появилась у меня недавно задачка сделать в WPF-приложении красивый редактор форматированного текста с определённой логикой обработки. И решил я использовать для этой задачи стандартный [RichTextBox](http://msdn.microsoft.com/ru-ru/library/system.windows.controls.richtextbox.aspx). Увы, практика показала, что этот контрол [ужасно медленный](https://www.google.ru/search?q=wpf+richtextbox+performance). Можно было, конечно, написать свою реализацию, но это занятие долгое, а функционал нужно было прикрутить побыстрее. Первая мысль была [захостить](http://msdn.microsoft.com/en-us/library/ms751761.aspx) стандартный [RichTextBox](http://msdn.microsoft.com/ru-ru/library/system.windows.forms.richtextbox.aspx) из WinForms. Он работает достаточно быстро, но его функционала мне не хватило. И тогда я пустился в поиск сторонних контролов. Каким же счастливым я стал, когда наткнулся на FastColoredTextBox! Изучение контрола лучше всего начать со [статьи](http://www.codeproject.com/Articles/161871/Fast-Colored-TextBox-for-syntax-highlighting) на CodeProject. Увы, NuGet-пакет автор [по каким-то причинам](https://github.com/PavelTorgashov/FastColoredTextBox/issues/10) делать не хочет, но зато есть [исходники](https://github.com/PavelTorgashov/FastColoredTextBox) на GitHub. Итак, небольшой обзор.

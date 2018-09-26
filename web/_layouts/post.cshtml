@@ -12,7 +12,7 @@ layout: default
   <b>Tags:</b>
     @foreach(var tag in Model.Page.Tags)
     {
-        <a href="/blog/tag/@Pretzel.Logic.Extra.UrlAliasFilter.UrlAlias(tag)"><span class="badge badge-pill badge-info">@tag</span></a>
+        <a href="/tags/@Pretzel.Logic.Extra.UrlAliasFilter.UrlAlias(tag)"><span class="badge badge-pill badge-info">@tag</span></a>
     }
 </span><br /><br />
 

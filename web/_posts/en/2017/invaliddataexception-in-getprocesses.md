@@ -3,6 +3,7 @@ layout: post
 title: "InvalidDataException in Process.GetProcesses"
 date: "2017-02-10"
 lang: en
+type: post
 tags:
 - .NET
 - Rider
@@ -11,6 +12,7 @@ tags:
 - CoreCLR
 redirect_from:
 - /en/blog/dotnet/invaliddataexception-in-getprocesses/
+- /blog/post/invaliddataexception-in-getprocesses/
 ---
 
 Consider the following program:

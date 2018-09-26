@@ -1,7 +1,7 @@
 pretzel: 
     engine: razor
 
-permalink: :lang/blog/post/:title/
+permalink: :lang/:types/:title/
 excerpt_separator: <!--more-->
 
 title : Andrey Akinshin

@@ -3,12 +3,14 @@ layout: post
 title: "Blittable types"
 date: "2015-11-26"
 lang: en
+type: post
 tags:
 - ".NET"
 - C#
 - Internals
 redirect_from:
 - /en/blog/dotnet/blittable/
+- /blog/post/blittable/
 ---
 
 Challenge of the day: what will the following code display?

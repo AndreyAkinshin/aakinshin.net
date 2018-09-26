@@ -3,10 +3,12 @@ layout: post
 title: "To Add Comments or Not to Add?"
 date: "2013-08-28"
 lang: en
+type: post
 tags:
 - PerfectCode
 redirect_from:
 - /en/blog/dev/comments/
+- /blog/post/comments
 ---
 
 *A really good comment is the one you managed to avoid. (c) Uncle Bob*

@@ -3,11 +3,13 @@ layout: post
 title: "To Refactor Or Not To Refactor?"
 date: "2014-07-19"
 lang: en
+type: post
 tags:
 - PerfectCode
 - Refactoring
 redirect_from:
 - /en/blog/dev/refactoring/
+- /blog/post/refactoring/
 ---
 
 I like refactoring. No, I love refactoring. No, not even like this. I awfully love refactoring.

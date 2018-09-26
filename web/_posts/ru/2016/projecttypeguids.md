@@ -3,6 +3,7 @@ layout: ru-post
 title: "Visual Studio и ProjectTypeGuids.cs"
 date: "2016-02-27"
 lang: ru
+type: post
 tags:
 - ".NET"
 - C#
@@ -10,6 +11,7 @@ tags:
 - Hate
 redirect_from:
 - /ru/blog/dotnet/projecttypeguids/
+- /ru/blog/post/projecttypeguids/
 ---
 
 Это история о том, как я несколько часов пытался открыть проект в Visual Studio. Как-то раз я решил немножко поработать: стянул себе последние коммиты из репозитория, открыл Visual Studio и собрался программировать. Увы, один из моих проектов не открылся, а в окошке Output я увидел странное сообщение:

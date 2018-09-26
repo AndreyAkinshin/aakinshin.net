@@ -3,12 +3,15 @@ layout: post-toc
 title: "Measuring Performance Improvements in .NET Core with BenchmarkDotNet (Part 1)"
 date: "2017-06-09"
 lang: en
+type: post
 tags:
 - .NET
 - C#
 - BenchmarkDotNet
 - benchmarks
 - CoreCLR
+redirect_from:
+- /blog/post/stephen-toub-benchmarks-part1/
 ---
 
 A few days ago [Stephen Toub](https://github.com/stephentoub) published a great post

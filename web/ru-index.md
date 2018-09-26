@@ -4,5 +4,5 @@ permalink: /ru/
 ---
 
 <script type="text/javascript">
-window.location.replace("/ru/blog/");
+window.location.replace("/ru/posts/");
 </script>

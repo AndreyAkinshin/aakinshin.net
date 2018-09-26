@@ -3,6 +3,7 @@ layout: ru-post
 title: "Использование изменяемых структур в свойствах классов"
 date: "2013-06-06"
 lang: ru
+type: post
 tags:
 - ".NET"
 - Properties
@@ -10,6 +11,7 @@ tags:
 - Structures
 redirect_from:
 - /ru/blog/dotnet/mutable-structures-as-property/
+- /ru/blog/post/mutable-structures-as-property/
 ---
 
 <div style="text-align: right;"><i>Названия всех классов вымышленные,<br />все совпадения абсолютно случайны.</i></div>

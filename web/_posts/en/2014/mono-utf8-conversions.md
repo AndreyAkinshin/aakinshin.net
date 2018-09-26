@@ -3,12 +3,14 @@ layout: post
 title: About UTF-8 conversions in Mono
 date: "2014-11-10"
 lang: en
+type: post
 tags:
 - Encodings
 - ".NET"
 - Mono
 redirect_from:
 - /en/blog/dotnet/mono-utf8-conversions/
+- /blog/post/mono-utf8-conversions/
 ---
 
 This post is a logical continuation of the Jon Skeet's blog post [“When is a string not a string?”](http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string). Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.

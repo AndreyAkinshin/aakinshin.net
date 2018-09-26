@@ -3,6 +3,7 @@ layout: post
 title: "Performance exercise: Minimum"
 date: "2016-12-20"
 lang: en
+type: post
 tags:
 - .NET
 - PerformanceExercise
@@ -10,6 +11,7 @@ tags:
 - Math
 redirect_from:
 - /en/blog/dotnet/perfex-min/
+- /blog/post/perfex-min/
 ---
 
 Performance is tricky. Especially, if you are working with very fast operations. In today benchmarking exercise, we will try to measure performance of two simple methods which calculate minimum of two numbers. Sounds easy? Ok, let's do it, here are our guinea pigs for today:

@@ -3,6 +3,7 @@ layout: ru-post
 title: "RyuJIT RC и свёртка констант"
 date: "2015-05-12"
 lang: ru
+type: post
 tags:
 - ".NET"
 - C#
@@ -11,6 +12,7 @@ tags:
 - ConstantFolding
 redirect_from:
 - /ru/blog/dotnet/ryujit-rc-and-constant-folding/
+- /ru/blog/post/ryujit-rc-and-constant-folding/
 ---
 
 **Update:** Нижеприведённый материал справедлив для релизной версии RyuJIT (часть .NET Framework 4.6).

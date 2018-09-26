@@ -3,11 +3,13 @@ layout: ru-post
 title: Rprofile — кастомизируем рабочее окружение
 date: "2013-06-03"
 lang: ru
+type: post
 tags:
 - R
 - R-settings
 redirect_from:
 - /ru/blog/r/rprofile/
+- /ru/blog/post/r-rprofile/
 ---
 
 Давайте поговорим о задании окружения в R. Для этой цели имеется два волшебных файла:

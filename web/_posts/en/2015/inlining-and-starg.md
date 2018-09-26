@@ -3,12 +3,14 @@ layout: post
 title: "A story about JIT-x86 inlining and starg"
 date: "2015-02-26"
 lang: en
+type: post
 tags:
 - ".NET"
 - C#
 - Inlining
 redirect_from:
 - /en/blog/dotnet/inlining-and-starg/
+- /blog/post/inlining-and-starg/
 ---
 
 Sometimes you can learn a lot during reading source .NET. Let's open the source code of a `Decimal` constructor from .NET Reference Source ([mscorlib/system/decimal.cs,158](http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158)):

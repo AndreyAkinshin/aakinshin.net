@@ -3,6 +3,7 @@ layout: post
 title: "Performance exercise: Division"
 date: "2016-12-26"
 lang: en
+type: post
 tags:
 - .NET
 - PerformanceExercise
@@ -10,6 +11,7 @@ tags:
 - Math
 redirect_from:
 - /en/blog/dotnet/perfex-div/
+- /blog/post/perfex-div/
 ---
 
 In the previous post, we [discussed](/en/blog/dotnet/perfex-min/) the performance space of the minimum function

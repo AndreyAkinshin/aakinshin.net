@@ -3,6 +3,7 @@ layout: post
 title: "NuGet2 and a DirectorySeparatorChar bug"
 date: "2017-02-06"
 lang: en
+type: post
 tags:
 - .NET
 - Rider
@@ -11,6 +12,7 @@ tags:
 - NuGet
 redirect_from:
 - /en/blog/dotnet/nuget2-and-directoryseparatorchar/
+- /blog/post/nuget2-and-directoryseparatorchar/
 ---
 
 In [Rider](https://www.jetbrains.com/rider/), we care a lot about performance.

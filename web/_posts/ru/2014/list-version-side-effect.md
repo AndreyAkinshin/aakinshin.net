@@ -3,6 +3,7 @@ layout: ru-post
 title: "Сайд-эффект внутренней реализации List"
 date: "2014-11-19"
 lang: ru
+type: post
 tags:
 - ".NET"
 - C#
@@ -10,6 +11,7 @@ tags:
 - Bugs
 redirect_from:
 - /ru/blog/dotnet/list-version-side-effect/
+- /ru/blog/post/list-version-side-effect/
 ---
 
 Если вы делаете `foreach` по некоторому [List](http://msdn.microsoft.com/library/6sh2ey19.aspx)-у, то менять итерируемый лист внутри цикла крайне не рекомендуется, ведь это верный способ получить [InvalidOperationException](http://msdn.microsoft.com/library/system.invalidoperationexception.aspx). А теперь загадка: как думаете, что случится со следующим кодом:

@@ -3,6 +3,7 @@ layout: ru-post
 title: "История про баг в JIT-x64"
 date: "2015-02-27"
 lang: ru
+type: post
 tags:
 - ".NET"
 - C#
@@ -10,6 +11,7 @@ tags:
 - Bugs
 redirect_from:
 - /ru/blog/dotnet/subexpression-elimination-bug-in-jit-x64/
+- /ru/blog/post/subexpression-elimination-bug-in-jit-x64/
 ---
 
 Можете ли вы сказать, что выведет следующий код для `step=1`?

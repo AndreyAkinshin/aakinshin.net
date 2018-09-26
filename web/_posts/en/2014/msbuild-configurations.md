@@ -3,12 +3,14 @@ layout: post
 title: "Setting up build configuration in .NET"
 date: "2014-02-08"
 lang: en
+type: post
 tags:
 - ".NET"
 - MSBuild
 - Configurations
 redirect_from:
 - /en/blog/dotnet/msbuild-configurations/
+- /blog/post/msbuild-configurations/
 ---
 
 You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But there can appear a necessity to extend it with the additional configurations. It’s ok if you need to add just a couple of new settings, but what if there are tens of such settings? And what if your solution contains 20 projects that need setting up of these configurations? In this case it becomes quite difficult to manage and modify build parameters.

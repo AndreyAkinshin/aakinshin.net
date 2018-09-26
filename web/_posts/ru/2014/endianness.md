@@ -3,6 +3,7 @@ layout: ru-post
 title: Endianness в .NET
 date: "2014-10-29"
 lang: ru
+type: post
 tags:
 - ".NET"
 - Endianness
@@ -11,6 +12,7 @@ tags:
 - C#
 redirect_from:
 - /ru/blog/dotnet/endianness/
+- /ru/blog/post/endianness/
 ---
 
 <table class="table-ok">

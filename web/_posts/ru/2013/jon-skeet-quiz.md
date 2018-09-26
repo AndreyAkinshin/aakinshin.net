@@ -3,11 +3,13 @@ layout: ru-post
 title: Jon Skeet's Quiz
 date: "2013-11-03"
 lang: ru
+type: post
 tags:
 - ".NET"
 - C#
 redirect_from:
 - /ru/blog/dotnet/jon-skeet-quiz/
+- /ru/blog/post/jon-skeet-quiz/
 ---
 
 Однажды Джона Скита попросили сформулировать три интересных вопроса на знание C#. Он спросил следующее ([оригинал вопросника](http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx),	[перевод статьи](http://timyrguev.blogspot.ru/2013/10/blog-post.html)):

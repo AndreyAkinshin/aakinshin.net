@@ -3,11 +3,13 @@ layout: ru-post
 title: "Переписываем список коммитеров в Git"
 date: "2013-11-10"
 lang: ru
+type: post
 tags:
 - git
 - git-history
 redirect_from:
 - /ru/blog/git/rewrite-commiter-list/
+- /ru/blog/post/git-rewrite-commiter-list/
 ---
 
 
