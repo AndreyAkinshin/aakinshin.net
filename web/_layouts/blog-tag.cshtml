@@ -9,7 +9,7 @@ layout : default
     var targetTagUrl = (string)Model.Bag["target-tag-url"];
     var posts = Model.Site.Tags.Single(t => t.Name == targetTag).EnPosts.ToList();
 }
-<h1 id="@targetTagUrl">Posts and notes about @targetTag</h1>
+<h1 id="@targetTagUrl">Posts about @targetTag</h1>
 @foreach (var post in posts)
 {
     var excerpt = (string)post.Bag["excerpt"];
