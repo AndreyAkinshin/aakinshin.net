@@ -188,7 +188,7 @@ Previously, he worked
   * *01/2012–12/2014:* The grant [RFBR 12-01-00074](http://www.rfbr.ru/rffi/portal/project_search/o_387745) “Direct and inverse problems of gene networks mathematical modeling”<br />
   * *07/2012–07/2014:* The scholarships [SP-561.2012.5](https://grants.extech.ru/grants/res/winners.php?OZ=5&TZ=U&year=2012) of the President of Russian Federation, direction: “Strategic information technology, including the creation of supercomputers and software development” (“Numerical methods for modeling and analyzing of gene networks”)<br />
   * *01/2015–12/2017:* The grant [RFBR 15-01-00745 A](http://www.rfbr.ru/rffi/portal/project_search/o_1999519) “Dynamic characteristics of gene networks models”
-  * *01/2018-12/2020:* The grant **RFBR 18-01-00057 A** “Ring structures in gene network models”
+  * *01/2018-12/2020:* The grant [RFBR 18-01-00057 A](http://www.rfbr.ru/rffi/portal/project_search/o_2070395) “Ring structures in gene network models”
   <br /><br />
 
   ![](/img/icons/weizmann.png)
