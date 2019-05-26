@@ -28,7 +28,8 @@ permalink: /ru/about/
   (кроссплатформенная .NET IDE, основанная на платформе [IntelliJ](https://www.jetbrains.com/idea/) и [ReSharper](https://www.jetbrains.com/resharper/)).
 Его любимые темы — производительность и микрооптимизации,
   он также мейнтейнер проекта [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)
-  (библиотека для написания .NET-бенчмарков, поддержанная [.NET Foundation](https://dotnetfoundation.org/)).
+  (библиотека для написания .NET-бенчмарков, поддержанная [.NET Foundation](https://dotnetfoundation.org/))
+  и автор [Pro .NET Benchmarking](https://www.amazon.com/dp/1484249402/).
 Андрей — частый [спикер](#talks) на различных мероприятиях для разработчиков и
   председатель программного комитета конференции [DotNext](https://dotnext.ru/).
 Он также 

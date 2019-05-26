@@ -29,8 +29,9 @@ Andrey Akinshin is a senior developer at [JetBrains](https://www.jetbrains.com/)
   where he works on [Rider](https://www.jetbrains.com/rider/)
   (a cross-platform .NET IDE based on the [IntelliJ](https://www.jetbrains.com/idea/) platform and [ReSharper](https://www.jetbrains.com/resharper/)).
 His favorite topics are performance and micro-optimizations,
-  and he is the maintainer of [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)
-  (a powerful .NET library for benchmarking supported by the [.NET Foundation](https://dotnetfoundation.org/)).
+  he is the maintainer of [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)
+  (a powerful .NET library for benchmarking supported by the [.NET Foundation](https://dotnetfoundation.org/)),
+  and author of [Pro .NET Benchmarking](https://www.amazon.com/dp/1484249402/).
 Andrey is a frequent [speaker](#talks) at various events for developers, and
   he is the program director of the [DotNext](https://dotnext.ru/en/) conference.
 Andrey is also
