@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/ru/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Sat, 26 Jan 2019 10:46:31 GMT</pubDate>
-    <lastBuildDate>Sat, 26 Jan 2019 10:46:31 GMT</lastBuildDate>
+    <pubDate>Sun, 26 May 2019 08:05:19 GMT</pubDate>
+    <lastBuildDate>Sun, 26 May 2019 08:05:19 GMT</lastBuildDate>
 
         <item>
             <title>A story about slow NuGet package browsing</title>
