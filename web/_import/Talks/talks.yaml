@@ -19,6 +19,9 @@ talks:
     location_en: Tel Aviv, Israel
     location_ru: Израиль, г. Тель-Авив
     lang: en
+    links:
+      - key: photos
+        url: https://photos.app.goo.gl/TMqw37ibjg1ZZRst6
   - date: 2019-05-19
     event: JetBrains Event Haifa
     event-type: meetup
