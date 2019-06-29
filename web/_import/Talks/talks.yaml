@@ -2,6 +2,17 @@ talks:
   ######################################################################################################################
   # 2019
   ######################################################################################################################
+  - date: 2019-06-28
+    event: JetBrains Open Day 2019
+    event-type: conference
+    title_ru: Как мы в Rider производительность тестируем 
+    title_en: Performance testing in Rider
+    location_en: St. Petersburg, Russia
+    location_ru: г. Санкт-Петербург
+    lang: ru
+    links:
+      - key: event
+        url: https://habr.com/en/company/jetbrains/blog/457986/
   - date: 2019-05-21
     event: Kotlin meetup at Tel Aviv
     event-type: meetup
