@@ -29,7 +29,7 @@ permalink: /ru/about/
 Его любимые темы — производительность и микрооптимизации,
   он также мейнтейнер проекта [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)
   (библиотека для написания .NET-бенчмарков, поддержанная [.NET Foundation](https://dotnetfoundation.org/))
-  и автор [Pro .NET Benchmarking](https://www.amazon.com/dp/1484249402/).
+  и автор [Pro .NET Benchmarking](/prodotnetbenchmarking/).
 Андрей — частый [спикер](#talks) на различных мероприятиях для разработчиков и
   председатель программного комитета конференции [DotNext](https://dotnext.ru/).
 Он также 

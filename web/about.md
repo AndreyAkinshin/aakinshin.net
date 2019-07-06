@@ -31,7 +31,7 @@ Andrey Akinshin is a senior developer at [JetBrains](https://www.jetbrains.com/)
 His favorite topics are performance and micro-optimizations,
   he is the maintainer of [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)
   (a powerful .NET library for benchmarking supported by the [.NET Foundation](https://dotnetfoundation.org/)),
-  and author of [Pro .NET Benchmarking](https://www.amazon.com/dp/1484249402/).
+  and author of [Pro .NET Benchmarking](/prodotnetbenchmarking/).
 Andrey is a frequent [speaker](#talks) at various events for developers, and
   he is the program director of the [DotNext](https://dotnext.ru/en/) conference.
 Andrey is also
