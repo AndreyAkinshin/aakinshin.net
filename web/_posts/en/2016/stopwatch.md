@@ -14,6 +14,9 @@ redirect_from:
 - /blog/post/stopwatch/
 ---
 
+**Update:**
+You can find an updated and significantly improved version of this post in my book ["Pro .NET Benchmarking"](https://www.apress.com/us/book/9781484249406).
+
 In [the previous post](/en/blog/dotnet/datetime/), we discussed `DateTime`.
 This structure can be used in situations when you don't need a good level of precision.
 If you want to do high-precision time measurements, you need a better tool because `DateTime` has a small resolution and a big latency.
