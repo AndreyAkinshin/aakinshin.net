@@ -54,6 +54,7 @@ Previously, he worked
   [Public talks (@Raw(Model.GeneratedFile("talks-count.txt")))](#talks) **|**
   [Publications (@Raw(Model.GeneratedFile("publications-count.txt")))](#publications) **|**
   [Posts (@Model.Site.RuPosts.Count())](#posts) **|**
+  [Media (@Raw(Model.GeneratedFile("media-count.txt")))](#media)  **|**
   [Open source](#open-source) <br />
   Experience:
   [Enterprise programming](#enterprise) **|**
@@ -99,6 +100,13 @@ Previously, he worked
     }
   <br />
   <p style="font-size:150%"><a href="/ru/blog/content/">More posts in Russian</a></p>
+</section>
+
+<hr />
+<section>
+  <h3 id="media">Media</h3>
+
+  @Raw(Model.GeneratedFile("media.html"))
 </section>
 
 <hr />

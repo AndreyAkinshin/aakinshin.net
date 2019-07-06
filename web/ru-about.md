@@ -52,6 +52,7 @@ permalink: /ru/about/
   [Публичные выступления (@Raw(Model.GeneratedFile("talks-ru-count.txt")))](#talks) **|**
   [Публикации (@Raw(Model.GeneratedFile("publications-ru-count.txt")))](#publications) **|**
   [Посты (@Model.Site.EnPosts.Count())](#posts) **|**
+  [Медиа (@Raw(Model.GeneratedFile("media-ru-count.txt")))](#media) **|**
   [Open source](#open-source) <br />
   Опыт:
   [Программирование](#enterprise) **|**
@@ -96,6 +97,13 @@ permalink: /ru/about/
           </ul>
       }
   }
+</section>
+
+<hr />
+<section>
+  <h3 id="media">Медиа</h3>
+
+  @Raw(Model.GeneratedFile("media-ru.html"))
 </section>
 
 <hr />

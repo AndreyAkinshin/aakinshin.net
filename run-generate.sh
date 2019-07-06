@@ -8,4 +8,7 @@ cp -a _generated ../../
 cd ../OpenSource
 dotnet run
 cp -a _generated ../../
+cd ../Media
+dotnet run
+cp -a _generated ../../
 cd ../../../

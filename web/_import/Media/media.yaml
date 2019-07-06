@@ -1,0 +1,79 @@
+media:
+  - date: 2019-05-13
+    type: podcast
+    host: RadioDotNet
+    title: "RadioDotNet-000: DotNext 2019 Piter"
+    lang: ru
+    url: https://soundcloud.com/radiodotnet/e000
+  - date: 2017-12-05
+    type: podcast
+    host_ru: Разбор Полётов
+    host_en: Razbor Poletov
+    title_ru: "Episode 146 — Сложности Performance-тестирования в потустороннем мире"
+    title_en: "Episode 146 — The challenges of performance testing in the afterlife"
+    lang: ru
+    url: https://razborpoletov.com/2017/12/episode-146.html
+  - date: 2017-03-30
+    type: interview
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "Оптимизация по памяти: сложно, но порой необходимо"
+    title_en: "Memory optimization: difficult, but sometimes necessary"
+    lang: ru
+    url: https://habr.com/en/company/jugru/blog/325178/
+  - date: 2017-03-20
+    type: interview
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "Как перестать ходить на конференции участником и начать выступать? Советы от Андрея Акиньшина"
+    title_en: "How to stop attending a conference as a participant and start speaking? Tips from Andrey Akinshin"
+    lang: ru
+    url: https://habr.com/en/company/it_people/blog/324352/
+  - date: 2017-02-02
+    type: review
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "Разбор доклада Андрея Акиньшина про арифметику"
+    title_en: "Review on Andrey Akinshin's talk about arithmetic"
+    lang: ru
+    url: https://habr.com/en/company/jugru/blog/320648/
+  - date: 2016-12-07
+    type: interview
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "«Хаос в .NET-мире — разумная цена за скорость развития платформы»: интервью с Андреем Акиньшиным (JetBrains)"
+    title_en: "“Chaos in the .NET-world is a reasonable price for the speed of platform development”: an interview with Andrey Akinshin (JetBrains)"
+    lang: ru
+    url: https://habr.com/en/company/jugru/blog/316436/
+  - date: 2016-11-30
+    type: podcast
+    host_ru: Разбор Полётов
+    host_en: Razbor Poletov
+    title_ru: "Episode 121 — JVM vs CLR: Чужой не против Хищника!"
+    title_en: "Episode 121 — JVM vs CLR: Alien is not against Predator!"
+    lang: ru
+    url: https://razborpoletov.com/2016/11/episode-121.html
+  - date: 2016-05-26
+    type: interview
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "«Мы стараемся, чтобы User Experience не отличался в разных операционках» — Интервью с разработчиками Rider из JetBrains"
+    title_en: "“We are trying to ensure that the User Experience does not differ in different operating systems” - Interview with the Rider developers from JetBrains"
+    lang: ru
+    url: https://habr.com/en/company/jugru/blog/301754/
+  - date: 2016-05-13
+    type: interview
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: ".NET-разработка: девять вопросов взрослым"
+    title_en: ".NET development: nine questions for adults"
+    lang: ru
+    url: https://habr.com/en/company/jugru/blog/283516/
+  - date: 2015-01-13
+    type: interview
+    host_ru: Национальный банковский журнал
+    host_en: National bank journal
+    title_ru: "Паспорт, мы тебя знаем!"
+    title_en: "Passport, we know you!"
+    lang: ru
+    url: http://nbj.ru/publs/upgrade-modernizatsija-i-razvitie/2015/01/13/pasport-my-tebja-znaem/index.html
