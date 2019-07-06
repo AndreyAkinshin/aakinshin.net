@@ -383,7 +383,9 @@ int MinBitHacks(int x, int y) =&gt; x &amp; ((x - y) &gt;&gt; 31) | y &amp; (~(x
                 <a href="/tags/timers"><span class="badge badge-pill badge-info">Timers</span></a>
                 <a href="/tags/internals"><span class="badge badge-pill badge-info">Internals</span></a>
         </span><br /><br />
-        <p>In <a href="/en/blog/dotnet/datetime/">the previous post</a>, we discussed <code>DateTime</code>.
+        <p><strong>Update:</strong>
+You can find an updated and significantly improved version of this post in my book <a href="https://www.apress.com/us/book/9781484249406">&quot;Pro .NET Benchmarking&quot;</a>.</p>
+<p>In <a href="/en/blog/dotnet/datetime/">the previous post</a>, we discussed <code>DateTime</code>.
 This structure can be used in situations when you don't need a good level of precision.
 If you want to do high-precision time measurements, you need a better tool because <code>DateTime</code> has a small resolution and a big latency.
 Also, time is tricky, you can create wonderful bugs if you don't understand how it works (see <a href="http://infiniteundo.com/post/25326999628/falsehoods-programmers-believe-about-time">Falsehoods programmers believe about time</a> and <a href="http://infiniteundo.com/post/25509354022/more-falsehoods-programmers-believe-about-time">More falsehoods programmers believe about time</a>).</p>
@@ -409,7 +411,9 @@ As usual, you can also find useful links for further reading.</p>
                 <a href="/tags/timers"><span class="badge badge-pill badge-info">Timers</span></a>
                 <a href="/tags/internals"><span class="badge badge-pill badge-info">Internals</span></a>
         </span><br /><br />
-        <p><a href="https://msdn.microsoft.com/library/system.datetime.aspx">DateTime</a> is a widely used .NET type. A lot of developers use it all the time, but not all of them really know how it works. In this post, I discuss <a href="https://msdn.microsoft.com/library/system.datetime.utcnow.aspx">DateTime.UtcNow</a>: how it's implemented, what the latency and the resolution of <code>DateTime</code> on Windows and Linux, how the resolution can be changed, and how it can affect your application. This post is an overview, so you probably will not see super detailed explanations of some topics, but you will find a lot of useful links for further reading.</p>
+        <p><strong>Update:</strong>
+You can find an updated and significantly improved version of this post in my book <a href="https://www.apress.com/us/book/9781484249406">&quot;Pro .NET Benchmarking&quot;</a>.</p>
+<p><a href="https://msdn.microsoft.com/library/system.datetime.aspx">DateTime</a> is a widely used .NET type. A lot of developers use it all the time, but not all of them really know how it works. In this post, I discuss <a href="https://msdn.microsoft.com/library/system.datetime.utcnow.aspx">DateTime.UtcNow</a>: how it's implemented, what the latency and the resolution of <code>DateTime</code> on Windows and Linux, how the resolution can be changed, and how it can affect your application. This post is an overview, so you probably will not see super detailed explanations of some topics, but you will find a lot of useful links for further reading.</p>
 </p>
         <a href='/posts/datetime/'>Read more</a><br /><br />
         <hr />

@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/ru/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Sat, 06 Jul 2019 11:06:34 GMT</pubDate>
-    <lastBuildDate>Sat, 06 Jul 2019 11:06:34 GMT</lastBuildDate>
+    <pubDate>Sat, 06 Jul 2019 11:09:08 GMT</pubDate>
+    <lastBuildDate>Sat, 06 Jul 2019 11:09:08 GMT</lastBuildDate>
 
         <item>
             <title>A story about slow NuGet package browsing</title>
@@ -4629,7 +4629,9 @@ retq
             <pubDate>Fri, 09 Sep 2016 00:00:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/posts/stopwatch/</guid>
-            <description>&lt;p&gt;In &lt;a href=&quot;/en/blog/dotnet/datetime/&quot;&gt;the previous post&lt;/a&gt;, we discussed &lt;code&gt;DateTime&lt;/code&gt;.
+            <description>&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt;
+You can find an updated and significantly improved version of this post in my book &lt;a href=&quot;https://www.apress.com/us/book/9781484249406&quot;&gt;&amp;quot;Pro .NET Benchmarking&amp;quot;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In &lt;a href=&quot;/en/blog/dotnet/datetime/&quot;&gt;the previous post&lt;/a&gt;, we discussed &lt;code&gt;DateTime&lt;/code&gt;.
 This structure can be used in situations when you don&#39;t need a good level of precision.
 If you want to do high-precision time measurements, you need a better tool because &lt;code&gt;DateTime&lt;/code&gt; has a small resolution and a big latency.
 Also, time is tricky, you can create wonderful bugs if you don&#39;t understand how it works (see &lt;a href=&quot;http://infiniteundo.com/post/25326999628/falsehoods-programmers-believe-about-time&quot;&gt;Falsehoods programmers believe about time&lt;/a&gt; and &lt;a href=&quot;http://infiniteundo.com/post/25509354022/more-falsehoods-programmers-believe-about-time&quot;&gt;More falsehoods programmers believe about time&lt;/a&gt;).&lt;/p&gt;
@@ -6061,7 +6063,9 @@ If I missed something important or wrote something wrong, feel free to leave any
             <pubDate>Fri, 19 Aug 2016 00:00:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/posts/datetime/</guid>
-            <description>&lt;p&gt;&lt;a href=&quot;https://msdn.microsoft.com/library/system.datetime.aspx&quot;&gt;DateTime&lt;/a&gt; is a widely used .NET type. A lot of developers use it all the time, but not all of them really know how it works. In this post, I discuss &lt;a href=&quot;https://msdn.microsoft.com/library/system.datetime.utcnow.aspx&quot;&gt;DateTime.UtcNow&lt;/a&gt;: how it&#39;s implemented, what the latency and the resolution of &lt;code&gt;DateTime&lt;/code&gt; on Windows and Linux, how the resolution can be changed, and how it can affect your application. This post is an overview, so you probably will not see super detailed explanations of some topics, but you will find a lot of useful links for further reading.&lt;/p&gt;
+            <description>&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt;
+You can find an updated and significantly improved version of this post in my book &lt;a href=&quot;https://www.apress.com/us/book/9781484249406&quot;&gt;&amp;quot;Pro .NET Benchmarking&amp;quot;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://msdn.microsoft.com/library/system.datetime.aspx&quot;&gt;DateTime&lt;/a&gt; is a widely used .NET type. A lot of developers use it all the time, but not all of them really know how it works. In this post, I discuss &lt;a href=&quot;https://msdn.microsoft.com/library/system.datetime.utcnow.aspx&quot;&gt;DateTime.UtcNow&lt;/a&gt;: how it&#39;s implemented, what the latency and the resolution of &lt;code&gt;DateTime&lt;/code&gt; on Windows and Linux, how the resolution can be changed, and how it can affect your application. This post is an overview, so you probably will not see super detailed explanations of some topics, but you will find a lot of useful links for further reading.&lt;/p&gt;
 &lt;!--more--&gt;
 &lt;hr /&gt;
 &lt;h3 id=&quot;source&quot;&gt;Source&lt;/h3&gt;
