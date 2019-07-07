@@ -34,7 +34,7 @@ permalink: /ru/about/
   председатель программного комитета конференции [DotNext](https://dotnext.ru/).
 Он также 
   к.ф.-м.н.,
-  Microsoft .NET MVP,
+  бывший Microsoft .NET MVP,
   серебрянный медалист [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest).
 В свободное время любит заниматься наукой,
   основные научные интересы — математическая биология и теория бифуркаций.
@@ -122,7 +122,7 @@ permalink: /ru/about/
 <section>
   <h3 id="enterprise">Программирование</h3>
 
-  *Software Developer в JetBrains, Microsoft .NET MVP (2015–2019)*<br />
+  *Software Developer в JetBrains, former Microsoft .NET MVP (2015–2019)*<br />
   **Основные навыки:** .NET/C\#, R, Kotlin, Производительность, Бенчмаркинг, Алгоритмы, Математика
   <br /><br />
 
