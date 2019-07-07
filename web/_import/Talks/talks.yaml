@@ -2,6 +2,17 @@ talks:
   ######################################################################################################################
   # 2019
   ######################################################################################################################
+  - date: 2019-10-11
+    event: Dotnetos
+    event-type: conference
+    title: Performance Testing
+    location_en: Warsaw, Poland
+    location_ru: Польша, Варшава
+    abstract: "Performance testing allows you to control the performance of your applications automatically. Unfortunately, there is no reliable, well-known approach to do it. In this talk, we will talk about different techniques which can help to transform your benchmarks to performance tests, set up performance monitoring of your test suite, prepare performance agents, and resolve the most critical problems that will stand in your way."
+    lang: en
+    links:
+      - key: event
+        url: https://dotnetos.org/
   - date: 2019-06-28
     event: JetBrains Open Day 2019
     event-type: conference
