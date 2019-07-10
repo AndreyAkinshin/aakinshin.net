@@ -28,6 +28,14 @@ function refreshTheme() {
         theme = "lumen";
     if (themeHighlight == "")
         themeHighlight = "github";
+    var isLight = (theme == "lumen");
+    if (isLight) {
+        document.getElementById('theme-switcher-to-dark').style.display = 'block';
+        document.getElementById('theme-switcher-to-light').style.display = 'none';
+    } else {
+        document.getElementById('theme-switcher-to-dark').style.display = 'none';
+        document.getElementById('theme-switcher-to-light').style.display = 'block';
+    }
 
     var styleSheets = document.getElementsByTagName("link");
     for (var i = 0; i < styleSheets.length; i++) {

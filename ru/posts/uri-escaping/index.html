@@ -14,16 +14,10 @@
 
     <!-- Bootstrap CSS -->
     <link href="/css/lumen-bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/minty-bootstrap.min.css" rel="stylesheet" type="text/css" media="all" disabled>
-    <link href="/css/sketchy-bootstrap.min.css" rel="stylesheet" type="text/css" media="all" disabled>
     <link href="/css/slate-bootstrap.min.css" rel="stylesheet" type="text/css" media="all" disabled>
-    <link href="/css/solar-bootstrap.min.css" rel="stylesheet" type="text/css" media="all" disabled>
-    <link href="/css/superhero-bootstrap.min.css" rel="stylesheet" type="text/css" media="all" disabled>
 
     <!-- Highlight.js -->
     <link href="/css/github-highlight.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/hopscotch-highlight.css" rel="stylesheet" type="text/css" media="all" disabled>
-    <link href="/css/solarized-highlight.css" rel="stylesheet" type="text/css" media="all" disabled>
     <link href="/css/darcula-highlight.css" rel="stylesheet" type="text/css" media="all" disabled>
 
     <!-- FontAwesome -->
@@ -107,20 +101,10 @@
                   <a class="dropdown-item" href='/posts/uri-escaping/'>En</a>
               </div>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Тема</a>
-              <div class="dropdown-menu">
-                  <h6 class="dropdown-header" style="text-align: center">Светлая</h6>
-                  <a class="dropdown-item" href="#" onclick="setTheme('lumen', 'github');">lumen</a>
-                  <a class="dropdown-item" href="#" onclick="setTheme('sketchy', 'github');">sketchy</a>
-                  <a class="dropdown-item" href="#" onclick="setTheme('minty', 'github');">minty</a>
-                  <div class="dropdown-divider"></div>
-                  <h6 class="dropdown-header" style="text-align: center">Тёмная</h6>
-                  <a class="dropdown-item" href="#" onclick="setTheme('solar', 'solarized');">solar</a>
-                  <a class="dropdown-item" href="#" onclick="setTheme('slate', 'darcula');">slate</a>
-                  <a class="dropdown-item" href="#" onclick="setTheme('superhero', 'hopscotch');">superhero</a>
-              </div>
-            </li>
+            <li class="nav-item" id="theme-switcher-to-dark"><a class="nav-link" href="#" onclick="setTheme('slate', 'darcula');"><i class="fas fa-moon" title="Переключиться на тёмную тему" style="color:white"></i></a></li>
+            <li class="nav-item" id="theme-switcher-to-light"><a class="nav-link" href="#" onclick="setTheme('lumen', 'github');"><i class="far fa-moon" title="Переключиться на светлую тему" style="color:white"></i></a></li>
+          </ul>
+          <ul class="navbar-nav ml-auto">
             <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
             <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
             <li class="nav-item"><a class="nav-link" href="/ru/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
@@ -341,7 +325,7 @@ ToString: http://localhost/a?b=c%3Fd%3De
 </div>
     </div>
 
-    <footer class="blog-footer bg-light">
+    <footer class="blog-footer">
       <div class="container">
         <p>&copy; 2013–2019 Андрей Акиньшин</p>
       </div>
