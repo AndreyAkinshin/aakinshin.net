@@ -44,9 +44,33 @@ permalink: /prodotnetbenchmarking/
 </div>
 <p></p>
 
+## Content
+
+The book contains nine chapters:
+
+* **Chapter 1 “Introducing Benchmarking”**  
+  This chapter contains some basic information about benchmarking and other performance investigations, including benchmarking goals and requirements. We will also discuss performance spaces and why it’s so important to analyze benchmark results.
+* **Chapter 2 “Common Benchmarking Pitfalls”**  
+  This chapter contains 15 examples of common mistakes that developers usually make during benchmarking. Each example is pretty small (so, you can easily understand what’s going on), but all of them demonstrate important problems and explain how to resolve them.
+* **Chapter 3 “How Environment Affects Performance”**  
+  This chapter explains why the environment is so important and introduces a lot of terms that will be used in subsequent chapters. You will find 12 case studies that demonstrate how minor changes in the environment may significantly affect application performance.
+* **Chapter 4 “Statistics for Performance Engineers”**  
+  This chapter contains the essential knowledge about statistics that you need during performance analysis. For each term,
+  you will find practical recommendations that will help you use statistical metrics during your performance investigations. It also contains some statistical approaches that are really useful for benchmarking. At the end of this chapter, you will find different ways to lie with benchmarking: this knowledge will protect you from incorrect result interpretation.
+* **Chapter 5 “Performance Analysis and Performance Testing”**  
+  This chapter covers topics that you need to know if you want to control the performance level in a large product automatically. You will learn different kinds of performance tests, performance anomalies that you can observe, and how to protect yourself from these anomalies. At the end of this chapter, you will find a description of performance-driven development (an approach for writing performance tests) and a general discussion about performance culture.
+* **Chapter 6 “Diagnostic Tools”**  
+  This chapter contains a brief overview of different tools that can be useful during performance investigations.
+* **Chapter 7 “CPU-Bound Benchmarks”**  
+  This chapter contains 24 case studies that show different pitfalls in CPU-bound benchmarks. We will discuss some runtime- specific features like register allocation, inlining, and intrinsics; and hardware-specific features like instruction-level parallelism, branch prediction, and arithmetics (including IEEE 754).
+* **Chapter 8 “Memory-Bound Benchmarks”**  
+  This chapter contains 12 case studies that show different pitfalls in memory-bound benchmarks. We will discuss some runtime- specific features about garbage collection and its settings; and hardware-specific features like CPU cache and physical memory layout.
+* **Chapter 9 “Hardware and Software Timers”**  
+  This chapter contains all you need to know about timers. We will discuss basic terminology, different kinds of hardware timers, corresponding timestamping APIs on different operating systems, and the most common pitfalls of using these APIs. This chapter also contains a lot of “extra” content that you don’t actually need for benchmarking, but it may be interesting for people who want to learn more about timers.
+
 ## Table of content
 
-* **Chapter 1: Introducing Benchmarking**
+* **Chapter 1 “Introducing Benchmarking”**
   * Planning a Performance Investigation
     * Define Problems and Goals
     * Pick Metrics
@@ -77,7 +101,7 @@ permalink: /prodotnetbenchmarking/
     * Find Your Bottleneck
     * Statistics
   * Summary
-* **Chapter 2: Common Benchmarking Pitfalls**
+* **Chapter 2 “Common Benchmarking Pitfalls”**
   * General Pitfalls
     * Inaccurate Timestamping
     * Executing a Benchmark in the Wrong Way
@@ -96,7 +120,7 @@ permalink: /prodotnetbenchmarking/
     * Conditional Jitting
     * Interface Method Dispatching
   * Summary
-* **Chapter 3: How Environment Affects Performance**
+* **Chapter 3 “How Environment Affects Performance”**
   * Runtime
     * .NET Framework
     * .NET Core
@@ -125,8 +149,7 @@ permalink: /prodotnetbenchmarking/
     * Case Study 4: Pause Latency and Intel Skylake
     * Summing Up
   * Summary
-
-* **Chapter 4: Statistics for Performance Engineers**
+* **Chapter 4 “Statistics for Performance Engineers”**
   * Descriptive Statistics
     * Basic Sample Plots
     * Sample Size
@@ -159,7 +182,7 @@ permalink: /prodotnetbenchmarking/
     * Lie with Data Dredging
     * Summing Up
   * Summary
-* **Chapter 5: Performance Analysis and Performance Testing**
+* **Chapter 5 “Performance Analysis and Performance Testing”**
   * Performance Testing Goals
     * Goal 1: Prevent Performance Degradations
     * Goal 2: Detect Not-Prevented Degradations
@@ -226,7 +249,7 @@ permalink: /prodotnetbenchmarking/
     * Personal Responsibility
     * Summing Up
   * Summary
-* **Chapter 6: Diagnostic Tools**
+* **Chapter 6 “Diagnostic Tools”**
   * BenchmarkDotNet
   * Visual Studio Tools
     * Embedded Profilers
@@ -253,7 +276,7 @@ permalink: /prodotnetbenchmarking/
     * Process Hacker
     * Intel VTune Amplifier
   * Summary
-* **Chapter 7: CPU-Bound Benchmarks**
+* **Chapter 7 “CPU-Bound Benchmarks”**
   * Registers and Stack
     * Case Study 1: Struct Promotion
     * Case Study 2: Local Variables
@@ -291,7 +314,7 @@ permalink: /prodotnetbenchmarking/
     * Case Study 4: System.Runtime.Intrinsics
     * Summing Up
   * Summary
-* **Chapter 8: Memory-Bound Benchmarks**
+* **Chapter 8 “Memory-Bound Benchmarks”**
   * CPU Cache
     * Case Study 1: Memory Access Patterns
     * Case Study 2: Cache Levels
@@ -311,7 +334,7 @@ permalink: /prodotnetbenchmarking/
     * Case Study 4: Finalization
     * Summing Up
   * Summary
-* **Chapter 9: Hardware and Software Timers**
+* **Chapter 9 “Hardware and Software Timers”**
   * Terminology
     * Time Units
     * Frequency Units
