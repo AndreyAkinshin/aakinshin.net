@@ -36,7 +36,7 @@ Andrey is a frequent [speaker](#talks) at various events for developers, and
   he is the program director of the [DotNext](https://dotnext.ru/en/) conference.
 Andrey is also
   a PhD in computer science,
-  a former Microsoft .NET MVP,
+  a [former Microsoft .NET MVP](https://mvp.microsoft.com/en-us/PublicProfile/5001348),
   a silver medalist of [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest).
 In his free time, he likes to study science
   (his primary research interests are mathematical biology and bifurcation theory).
@@ -125,7 +125,7 @@ Previously, he worked
 <section>
   <h3 id="enterprise">Enterprise programming</h3>
 
-  **Current:** *Software Developer at JetBrains, former Microsoft .NET MVP (2015–2019)*<br />
+  **Current:** *Software Developer at JetBrains, [former Microsoft .NET MVP (2015–2019)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)*<br />
   **Main skills:** .NET/C\#, R, Kotlin, Performance, Benchmarking, Algorithms, Mathematics
   <br /><br />
 
