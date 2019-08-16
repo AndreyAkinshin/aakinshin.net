@@ -374,7 +374,7 @@ The book contains nine chapters:
 * **Publisher:**: Apress
 * **Edition:** 1
 * **Date:** June, 2019
-* **Number of Pages:** XXV, 662
+* **Number of Pages:** 690
 * **Number of Illustrations:** 65
 * **Language:** English
 * **Softcover ISBN-10:** 1484249402
@@ -396,7 +396,7 @@ Apress, 2019.
   publisher = {Apress},
   year      = {2019},
   edition   = {1},
-  pages     = {662},
+  pages     = {690},
   isbn      = {978-1-4842-4940-6},
   doi       = {10.1007/978-1-4842-4941-3}
 }
