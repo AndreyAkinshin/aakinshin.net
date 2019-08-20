@@ -16,20 +16,24 @@ talks:
   - date: 2019-06-28
     event: JetBrains Open Day 2019
     event-type: conference
-    title_ru: Как мы в Rider производительность тестируем 
+    title_ru: Как мы в Rider производительность тестируем
     title_en: Performance testing in Rider
     location_en: St. Petersburg, Russia
     location_ru: г. Санкт-Петербург
+    abstract: "Performance — одна из главных фичей нашей кросс-платформенной .NET IDE. К сожалению, держать метрики производительности на достойном уровне не так-то просто. В этом докладе мы поговорим о разных интересных технических задачах, которые нам приходится для этого решать. Вы узнаете о том, как у нас построены процессы контроля производительности, как мы реализуем performance-мониторинг, какие у нас есть виды performance-тестов и почему нам иногда приходится засовывать ноутбуки в морозилку во время бенчмаркинга."
     lang: ru
     links:
       - key: event
         url: https://habr.com/en/company/jetbrains/blog/457986/
+      - key: youtube
+        url: https://www.youtube.com/watch?v=RLBO5-HZqig
   - date: 2019-05-21
     event: Kotlin meetup at Tel Aviv
     event-type: meetup
     title: Idiomatic Kotlin
     location_en: Tel Aviv, Israel
     location_ru: Израиль, г. Тель-Авив
+    abstract: "Kotlin has many useful features that can help you to express your ideas in a short and well-understandable form. In this talk, we are going to discuss some of the Kotlin best practices, how to use IntelliJ IDEA features to simplify your code, and how to write own Kotlin-based domain-specific languages."
     lang: en
     links:
       - key: event
@@ -40,6 +44,7 @@ talks:
     title: Cross-Platform .NET Development in Rider
     location_en: Tel Aviv, Israel
     location_ru: Израиль, г. Тель-Авив
+    abstract: "Rider is a full-featured .NET IDE which can be used on Windows, Linux, and macOS. Rider supports .NET Framework, the new cross-platform .NET Core, and Mono based projects. This lets you develop a wide range of applications including .NET desktop applications, services and libraries, Unity games, Xamarin apps, ASP.NET, and ASP.NET Core web applications. In this talk, we will look at some Rider features which simplify .NET development on any OS."
     lang: en
     links:
       - key: photos
@@ -50,6 +55,7 @@ talks:
     title: Idiomatic Kotlin
     location_en: Haifa, Israel
     location_ru: Израиль, г. Хайфа
+    abstract: "Kotlin has many useful features that can help you to express your ideas in a short and well-understandable form. In this talk, we are going to discuss some of the Kotlin best practices, how to use IntelliJ IDEA features to simplify your code, and how to write own Kotlin-based domain-specific languages."
     lang: en
     links:
       - key: event
@@ -68,12 +74,15 @@ talks:
     links:
       - key: event
         url: https://dotnetos.org/
+      - key: pdf
+        url: https://adamsitnik.com/files/PowerfullBenchmarking_Dotnetos.pdf
   - date: 2018-06-26
     event: Israeli Unity Developers June 2018 Meetup
     event-type: meetup
     title: Rider superpowers for Unity developers
     location_en: Microsoft StartHub, Tel-Aviv, Israel
     location_ru: Израиль, г. Тель-Авив, Microsoft StartHub
+    abstract: "Rider is a fast and powerful C# IDE for Unity that runs on Windows, Mac, and Linux. With the unbeatable 2500+ smart code inspections and refactorings, Rider enhances your C# experience, letting you write error-proof code much faster. In the talk, you will learn the most useful Rider features which help you to become a productive Unity developer."
     lang: en
     links:
       - key: event
@@ -93,7 +102,7 @@ talks:
   - date: 2018-04-19
     event: Open Day JetBrains Moscow 2018
     event-type: conference
-    title_ru:  Как мы в Rider производительность улучшаем
+    title_ru: Как мы в Rider производительность улучшаем
     title_en: How we improve performance in Rider
     location_en: Moscow, Russia
     location_ru: г. Москва
@@ -257,6 +266,8 @@ talks:
         url: https://www.youtube.com/watch?v=p-vSd_r33ac
       - key: org
         url: https://compscicenter.ru/
+      - key: pdf
+        url: https://compscicenter.ru/media/courses/2017-autumn/spb-dotnet/slides/dotnet_lecture_140917.pdf
   - date: 2017-05-19
     date2: 2017-05-20
     event: DotNext 2017 Piter
