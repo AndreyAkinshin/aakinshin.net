@@ -15,7 +15,7 @@ redirect_from:
 ---
 
 **Update:**
-You can find an updated and significantly improved version of this post in my book ["Pro .NET Benchmarking"](https://www.apress.com/us/book/9781484249406).
+You can find an updated and significantly improved version of this post in my book ["Pro .NET Benchmarking"](/prodotnetbenchmarking/).
 
 In [the previous post](/en/blog/dotnet/datetime/), we discussed `DateTime`.
 This structure can be used in situations when you don't need a good level of precision.
