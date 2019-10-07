@@ -29,3 +29,6 @@ gh-pages-git/
 # IDEA
 .idea/workspace.xml
 .idea.Generator
+
+# R
+.Rhistory
