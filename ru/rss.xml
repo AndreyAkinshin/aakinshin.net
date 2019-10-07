@@ -6,11 +6,11 @@
     <atom:link href="http://aakinshin.net/ru/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Mon, 07 Oct 2019 13:22:39 GMT</pubDate>
-    <lastBuildDate>Mon, 07 Oct 2019 13:22:39 GMT</lastBuildDate>
+    <pubDate>Mon, 07 Oct 2019 17:43:51 GMT</pubDate>
+    <lastBuildDate>Mon, 07 Oct 2019 17:43:51 GMT</lastBuildDate>
 
         <item>
-            <title>An implementation of ED-PELT algorithm for efficient changepoint detection</title>
+            <title>Efficient algorithm for changepoint detection: ED-PELT</title>
             <link>http://aakinshin.net/posts/edpelt/</link> 
             <pubDate>Mon, 07 Oct 2019 00:00:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
