@@ -113,6 +113,32 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/legacyjitx86-and-first-method-call/'>LegacyJIT-x86 and first method call</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> April 04, 2016.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/tags/jit"><span class="badge badge-pill badge-info">JIT</span></a>
+                <a href="/tags/benchmarks"><span class="badge badge-pill badge-info">Benchmarks</span></a>
+        </span><br /><br />
+        <p>Today I tell you about one of my favorite benchmarks (this method doesn't return a useful value, we need it only as an example):</p>
+<pre><code class="language-cs">[Benchmark]
+public string Sum()
+{
+    double a = 1, b = 1;
+    var sw = new Stopwatch();
+    for (int i = 0; i &lt; 10001; i++)
+        a = a + b;
+    return string.Format(&quot;{0}{1}&quot;, a, sw.ElapsedMilliseconds);
+}
+</code></pre>
+<p>An interesting fact: if you call <code>Stopwatch.GetTimestamp()</code> before the first call of the <code>Sum</code> method, you improve <code>Sum</code> performance several times (works only with LegacyJIT-x86).</p>
+</p>
+        <a href='/posts/legacyjitx86-and-first-method-call/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/projecttypeguids/'>Visual Studio and ProjectTypeGuids.cs</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> February 27, 2016.
@@ -404,24 +430,6 @@ class Test
         <a href='/posts/mono-utf8-conversions/'>Read more</a><br /><br />
         <hr />
     </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/happy-monday/'>Happy Monday!</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> August 11, 2014.
-          <b>Tags:</b>
-                <a href="/tags/bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/hate"><span class="badge badge-pill badge-info">Hate</span></a>
-                <a href="/tags/postsharp"><span class="badge badge-pill badge-info">PostSharp</span></a>
-        </span><br /><br />
-        <p>Today I tell you a story about one tricky bug. The bug is a tricky one because it doesn't allow me to debug my application on Mondays. I'm serious right now: the debug mode doesn't work every Monday. Furthermore, the bug literally tell me: &quot;Happy Monday!&quot;.</p>
-<p>So, the story. It was a wonderful Sunday evening, no signs of trouble. We planned to release a new version of our software (a minor one, but it includes some useful features). Midnight on the clock. Suddenly, I came up with the idea that we have a minor bug that should be fixed. It requires a few lines of code and 10 minutes to do it. And I decided to write needed logic before I go to sleep. I open VisualStudio, lunch build, and wait. But something goes wrong, because I get the following error:</p>
-<pre><code>Error connecting to the pipe server.
-</code></pre>
-<p>Hmm. It is a strange error. </p>
-        <a href='/posts/happy-monday/'>Read more</a><br /><br />
-        <hr />
-    </div>
 </div>
 <nav>
   <ul class="pagination">
@@ -437,6 +445,7 @@ class Test
           <a class="page-link" href="/posts/page/3/">3 <span class="sr-only">(current)</span></a>
         </li>
         <li class="page-item"><a class="page-link" href="/posts/page/4/">4</a></li>
+        <li class="page-item"><a class="page-link" href="/posts/page/5/">5</a></li>
           <li class="page-item">
         <a class="page-link" href='/posts/page/4/' aria-label="Next">
           <span aria-hidden="true">&raquo;</span>

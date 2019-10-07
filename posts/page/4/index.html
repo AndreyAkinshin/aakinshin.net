@@ -113,6 +113,24 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/happy-monday/'>Happy Monday!</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> August 11, 2014.
+          <b>Tags:</b>
+                <a href="/tags/bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/hate"><span class="badge badge-pill badge-info">Hate</span></a>
+                <a href="/tags/postsharp"><span class="badge badge-pill badge-info">PostSharp</span></a>
+        </span><br /><br />
+        <p>Today I tell you a story about one tricky bug. The bug is a tricky one because it doesn't allow me to debug my application on Mondays. I'm serious right now: the debug mode doesn't work every Monday. Furthermore, the bug literally tell me: &quot;Happy Monday!&quot;.</p>
+<p>So, the story. It was a wonderful Sunday evening, no signs of trouble. We planned to release a new version of our software (a minor one, but it includes some useful features). Midnight on the clock. Suddenly, I came up with the idea that we have a minor bug that should be fixed. It requires a few lines of code and 10 minutes to do it. And I decided to write needed logic before I go to sleep. I open VisualStudio, lunch build, and wait. But something goes wrong, because I get the following error:</p>
+<pre><code>Error connecting to the pipe server.
+</code></pre>
+<p>Hmm. It is a strange error. </p>
+        <a href='/posts/happy-monday/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/refactoring/'>To Refactor Or Not To Refactor?</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> July 19, 2014.
@@ -290,28 +308,6 @@ private sealed class DisplayClass
         <a href='/posts/closures/'>Read more</a><br /><br />
         <hr />
     </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/wrap-cs-in-com/'>Wrapping C# class for use in COM</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> June 03, 2013.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/com"><span class="badge badge-pill badge-info">COM</span></a>
-        </span><br /><br />
-        <p>Let us have a C# class that makes something useful, for example:</p>
-<pre><code class="language-cs">public class Calculator
-{
-    public int Sum(int a, int b)
-    {
-        return a + b;
-    }
-}
-</code></pre>
-<p>Let’s create a <a href="http://ru.wikipedia.org/wiki/Component_Object_Model">COM</a> interface for this class to make it possible to use its functionality in other areas. At the end we will see how this class is used in Delphi environment.</p>
-        <a href='/posts/wrap-cs-in-com/'>Read more</a><br /><br />
-        <hr />
-    </div>
 </div>
 <nav>
   <ul class="pagination">
@@ -327,13 +323,14 @@ private sealed class DisplayClass
         <li class="page-item active">
           <a class="page-link" href="/posts/page/4/">4 <span class="sr-only">(current)</span></a>
         </li>
-              <li class="page-item disabled">
-        <a class="page-link" href="#" aria-label="Next">
+        <li class="page-item"><a class="page-link" href="/posts/page/5/">5</a></li>
+          <li class="page-item">
+        <a class="page-link" href='/posts/page/5/' aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
           <span class="sr-only">Next</span>
         </a>
       </li>
-  </ul>
+      </ul>
 </nav>
 <hr />
 <p style="font-size:150%"><a href="/ru/blog/">More posts in Russian</a></p>

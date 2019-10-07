@@ -113,6 +113,29 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/bdn-v0_10_7/'>BenchmarkDotNet v0.10.7</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> June 05, 2017.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/tags/benchmarkdotnet"><span class="badge badge-pill badge-info">BenchmarkDotNet</span></a>
+                <a href="/tags/benchmarking"><span class="badge badge-pill badge-info">benchmarking</span></a>
+        </span><br /><br />
+        <p>BenchmarkDotNet v0.10.7 has been released.
+In this post, I will briefly cover the following features:</p>
+<ul>
+<li>LINQPad support</li>
+<li>Filters and categories</li>
+<li>Updated Setup/Cleanup attributes</li>
+<li>Better Value Types support</li>
+<li>Building Sources on Linux</li>
+</ul>
+</p>
+        <a href='/posts/bdn-v0_10_7/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/mono-and-65535interfaces/'>65535 interfaces ought to be enough for anybody</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> February 14, 2017.
@@ -399,32 +422,6 @@ You can find an updated and significantly improved version of this post in my bo
         <a href='/posts/datetime/'>Read more</a><br /><br />
         <hr />
     </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/legacyjitx86-and-first-method-call/'>LegacyJIT-x86 and first method call</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> April 04, 2016.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/jit"><span class="badge badge-pill badge-info">JIT</span></a>
-                <a href="/tags/benchmarks"><span class="badge badge-pill badge-info">Benchmarks</span></a>
-        </span><br /><br />
-        <p>Today I tell you about one of my favorite benchmarks (this method doesn't return a useful value, we need it only as an example):</p>
-<pre><code class="language-cs">[Benchmark]
-public string Sum()
-{
-    double a = 1, b = 1;
-    var sw = new Stopwatch();
-    for (int i = 0; i &lt; 10001; i++)
-        a = a + b;
-    return string.Format(&quot;{0}{1}&quot;, a, sw.ElapsedMilliseconds);
-}
-</code></pre>
-<p>An interesting fact: if you call <code>Stopwatch.GetTimestamp()</code> before the first call of the <code>Sum</code> method, you improve <code>Sum</code> performance several times (works only with LegacyJIT-x86).</p>
-</p>
-        <a href='/posts/legacyjitx86-and-first-method-call/'>Read more</a><br /><br />
-        <hr />
-    </div>
 </div>
 <nav>
   <ul class="pagination">
@@ -440,6 +437,7 @@ public string Sum()
         </li>
         <li class="page-item"><a class="page-link" href="/posts/page/3/">3</a></li>
         <li class="page-item"><a class="page-link" href="/posts/page/4/">4</a></li>
+        <li class="page-item"><a class="page-link" href="/posts/page/5/">5</a></li>
           <li class="page-item">
         <a class="page-link" href='/posts/page/3/' aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
