@@ -113,6 +113,22 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/datetime/'>DateTime under the hood</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> August 19, 2016.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/timers"><span class="badge badge-pill badge-info">Timers</span></a>
+                <a href="/tags/internals"><span class="badge badge-pill badge-info">Internals</span></a>
+        </span><br /><br />
+        <p><strong>Update:</strong>
+You can find an updated and significantly improved version of this post in my book <a href="/prodotnetbenchmarking/">&quot;Pro .NET Benchmarking&quot;</a>.</p>
+<p><a href="https://msdn.microsoft.com/library/system.datetime.aspx">DateTime</a> is a widely used .NET type. A lot of developers use it all the time, but not all of them really know how it works. In this post, I discuss <a href="https://msdn.microsoft.com/library/system.datetime.utcnow.aspx">DateTime.UtcNow</a>: how it's implemented, what the latency and the resolution of <code>DateTime</code> on Windows and Linux, how the resolution can be changed, and how it can affect your application. This post is an overview, so you probably will not see super detailed explanations of some topics, but you will find a lot of useful links for further reading.</p>
+</p>
+        <a href='/posts/datetime/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/legacyjitx86-and-first-method-call/'>LegacyJIT-x86 and first method call</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> April 04, 2016.
@@ -384,50 +400,6 @@ public Decimal(int value) {
 </code></pre>
 <p>The comment states that JIT-x86 can't apply the inlining optimization for a method that contains the <a href="https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx">starg</a> IL-opcode. Curious, is not it? </p>
         <a href='/posts/inlining-and-starg/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/mono-utf8-conversions/'>About UTF-8 conversions in Mono</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> November 10, 2014.
-          <b>Tags:</b>
-                <a href="/tags/encodings"><span class="badge badge-pill badge-info">Encodings</span></a>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/mono"><span class="badge badge-pill badge-info">Mono</span></a>
-        </span><br /><br />
-        <p>This post is a logical continuation of the Jon Skeet's blog post <a href="http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string">“When is a string not a string?”</a>. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.</p>
-<h3 id="experiment-1-compilation">Experiment 1: Compilation</h3>
-<p>Let's take the Jon's code with a small modification. We will just add <code>text</code> null check in <code>DumpString</code>:</p>
-<pre><code class="language-cs">using System;
-using System.ComponentModel;
-using System.Text;
-using System.Linq;
-[Description(Value)]
-class Test
-{
-    const string Value = &quot;X\ud800Y&quot;;
-    static void Main()
-    {
-        var description = (DescriptionAttribute)typeof(Test).
-            GetCustomAttributes(typeof(DescriptionAttribute), true)[0];
-        DumpString(&quot;Attribute&quot;, description.Description);
-        DumpString(&quot;Constant&quot;, Value);
-    }
-    static void DumpString(string name, string text)
-    {
-        Console.Write(&quot;{0}: &quot;, name);
-        if (text != null)
-        {
-            var utf16 = text.Select(c =&gt; ((uint) c).ToString(&quot;x4&quot;));
-            Console.WriteLine(string.Join(&quot; &quot;, utf16));
-        }
-        else
-            Console.WriteLine(&quot;null&quot;);
-    }
-}
-</code></pre>
-</p>
-        <a href='/posts/mono-utf8-conversions/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>

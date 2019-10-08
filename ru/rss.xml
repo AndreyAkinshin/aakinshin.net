@@ -6,9 +6,188 @@
     <atom:link href="http://aakinshin.net/ru/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Tue, 08 Oct 2019 11:29:58 GMT</pubDate>
-    <lastBuildDate>Tue, 08 Oct 2019 11:29:58 GMT</lastBuildDate>
+    <pubDate>Tue, 08 Oct 2019 23:30:15 GMT</pubDate>
+    <lastBuildDate>Tue, 08 Oct 2019 23:30:15 GMT</lastBuildDate>
 
+        <item>
+            <title>Normality is a myth</title>
+            <link>http://aakinshin.net/posts/normality/</link> 
+            <pubDate>Wed, 09 Oct 2019 00:00:00 GMT</pubDate>
+            <author>Андрей Акиньшин</author>
+            <guid>http://aakinshin.net/posts/normality/</guid>
+            <description>&lt;p&gt;In many statistical papers, you can find the following phrase: &amp;quot;assuming that we have a normal distribution.&amp;quot;
+Probably, you saw plots of the normal distribution density function in some statistics textbooks,
+it looks like this:&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+&lt;a href=&quot;/img/posts/normality/normal-light.png&quot; target=&quot;_blank&quot;&gt;
+&lt;picture&gt;
+&lt;source srcset=&quot;/img/posts/normality/normal-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/normality/normal-light.png&quot;&gt;
+&lt;/picture&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;The normal distribution is a pretty user-friendly mental model when we are trying to interpret the statistical metrics
+like mean and standard deviation.
+However, it may also be an insidious and misleading model when your distribution is not normal.
+There is a great sentence in the &lt;a href=&quot;https://doi.org/10.1093/biomet/34.3-4.209&quot;&gt;&amp;quot;Testing for normality&amp;quot;&lt;/a&gt; paper by R.C. Geary, 1947 (the quote was found &lt;a href=&quot;https://garstats.wordpress.com/2019/06/17/myth/&quot;&gt;here&lt;/a&gt;):&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Normality is a myth; there never was, and never will be, a normal distribution.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;I 100% agree with this statement.
+At least, if you are working with performance distributions
+(that are based on the multiple iterations of your benchmarks that measure the performance metrics of your applications),
+you should forget about normality.
+That&#39;s how a typical performance distribution looks like
+(I built the below picture based on a real benchmark that measures the load time of assemblies
+when we open the &lt;a href=&quot;https://github.com/OrchardCMS/Orchard&quot;&gt;Orchard&lt;/a&gt; solution in &lt;a href=&quot;https://www.jetbrains.com/rider/&quot;&gt;Rider&lt;/a&gt; on Linux):&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+&lt;a href=&quot;/img/posts/normality/performance-light.png&quot; target=&quot;_blank&quot;&gt;
+&lt;picture&gt;
+&lt;source srcset=&quot;/img/posts/normality/performance-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/normality/performance-light.png&quot;&gt;
+&lt;/picture&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Of course, &lt;em&gt;some&lt;/em&gt; of the performance distributions look similar to the normal distribution.
+And you can apply statistical approaches that assume normality to such distributions.
+And these approaches may provide correct results in many cases.
+If you are working with a single benchmark and manually check the results,
+you will be probably lucky enough and get correct results which will strengthen your faith to the fact
+that it&#39;s OK to use such approaches all the time.
+However, if you are working with thousands of performance tests and you are trying to use such approaches automatically,
+you will probably get wrong results for some of these tests &lt;em&gt;all the time&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;The worst thing about the real performance distributions (that are often right-skewed and multimodal) is that
+it makes all of the statistical metrics (like the mean) misleading.
+Let&#39;s look at an example of &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt; summary table:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-md&quot;&gt;| Method |     Mean |    Error |   StdDev |   Median |
+|------- |---------:|---------:|---------:|---------:|
+|      A | 136.2 ms | 19.30 ms | 56.92 ms | 107.0 ms |
+|      B | 133.7 ms |  4.14 ms | 12.20 ms | 130.2 ms |
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;From my observations, when the Mean value is presented,
+people &lt;em&gt;usually&lt;/em&gt; read only the Mean column and ignore other columns.
+After that, they make conclusions only based on the Mean values and the normal distribution mental model.
+Thus, they may think that &lt;code&gt;B&lt;/code&gt; always works a little bit faster than &lt;code&gt;A&lt;/code&gt; in the above table.
+Now let&#39;s look at the &amp;quot;Expectation vs. Reality&amp;quot; picture for the &lt;code&gt;A&lt;/code&gt; and &lt;code&gt;B&lt;/code&gt; density plots:&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+&lt;a href=&quot;/img/posts/normality/misleading-light.png&quot; target=&quot;_blank&quot;&gt;
+&lt;picture&gt;
+&lt;source srcset=&quot;/img/posts/normality/misleading-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/normality/misleading-light.png&quot;&gt;
+&lt;/picture&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;As you can see, both distributions are heavy-tailed right-skewed distributions.
+&lt;code&gt;A&lt;/code&gt; has very huge outliers (that spoiled the mean value),
+but most of the &lt;code&gt;B&lt;/code&gt; quantiles are larger than the corresponding &lt;code&gt;A&lt;/code&gt; quantiles.
+BenchmarkDotNet automatically added the &lt;code&gt;Median&lt;/code&gt; column to highlight this fact
+(the median value for &lt;code&gt;B&lt;/code&gt; is much larger than the median value for &lt;code&gt;A&lt;/code&gt;).
+Unfortunately, most of the people ignore such kind of additional information and
+continue to imagine a normal distribution based on the mean value.&lt;/p&gt;
+&lt;p&gt;There is one more thing in perception of statistics.
+When I tell people about complex multimodal heavy-tailed right-skewed distributions,
+they usually reply that we have the
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Central_limit_theorem&quot;&gt;Central Limit Theorem&lt;/a&gt;.
+For some reason, people think that it will magically stabilize the mean value and
+rescue us from multimodal distributions if we collect &amp;quot;enough&amp;quot; measurements.
+Here is the definition of this theorem from &lt;a href=&quot;https://www.dummies.com/education/math/statistics/how-the-central-limit-theorem-is-used-in-statistics/&quot;&gt;Statistics For Dummies&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The Central Limit Theorem (CLT for short) basically says that for non-normal data, the distribution of the sample means has an approximate normal distribution, no matter what the distribution of the original data looks like, as long as the sample size is large enough (usually at least 30) and all samples have the same size.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;So, if we take many samples (sets of measurements), calculate the mean value for each sample,
+and build a distribution from these mean values, it should be normal.
+If you are not sure that you understand the Central Limit Theorem, I you can watch this video
+that explains it with Bunnies &amp;amp; Dragons (the original was found &lt;a href=&quot;https://blog.minitab.com/blog/michelle-paret/explaining-the-central-limit-theorem-with-bunnies-and-dragons-v2&quot;&gt;here&lt;/a&gt;):&lt;/p&gt;
+&lt;div class=&quot;text-center&quot;&gt;
+&lt;iframe width=&quot;800&quot; height=&quot;450&quot; src=&quot;https://www.youtube.com/embed/jvoxEYmQHNM&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+&lt;p&gt;Let&#39;s check how it works in practice.
+I wrote a simple R script that emulates taking measurements from a &amp;quot;strange&amp;quot; distribution with high outliers:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-r&quot;&gt;library(ggplot2)
+
+n &amp;lt;- 30 # Number of values in each sample
+m &amp;lt;- 30 # Number of samples
+k &amp;lt;- 16 # Number of CLT distributions
+
+set.seed(159)
+# Generate a single random value from a &amp;quot;strange&amp;quot; distribution
+gen.value &amp;lt;- function()
+  sample(1:10, 1) +                               # Offset
+  rbeta(1, 1, 10) * sample(1:10, 1) +             # Right-skewed distribution
+  sample(c(rep(0, 50), 1:10)) * rnorm(1, 200, 10) # Outliers
+# Generate a sample mean
+gen.mean &amp;lt;- function() mean(sapply(1:n, function(x) gen.value()))
+
+df &amp;lt;- data.frame()
+for (i in 1:k) {
+  df &amp;lt;- rbind(df, data.frame(
+    Experiment = rep(i, m),
+    Time = sapply(1:m, function(j) gen.mean()))
+  )
+}
+p &amp;lt;- ggplot(df, aes(x = Time, group = Experiment)) +
+  geom_density(fill = &amp;quot;red&amp;quot;, alpha = 0.4, bw = &amp;quot;SJ&amp;quot;) +
+  facet_wrap(~Experiment) +
+  ylab(&amp;quot;Density&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In this script,
+&lt;code&gt;gen.value&lt;/code&gt; returns a random value from our &amp;quot;strange&amp;quot; distribution,
+&lt;code&gt;gen.mean&lt;/code&gt; generates a sample with 30 measurements (because &lt;a href=&quot;https://stats.stackexchange.com/q/2541/261747&quot;&gt;30 is a magic number&lt;/a&gt;)
+and returns the mean value of this sample.
+Next, we perform 16 experiments.
+In each experiment, we draw a distribution density function based on 30 mean values that we generated.
+Here is the result:&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+&lt;a href=&quot;/img/posts/normality/clt-light.png&quot; target=&quot;_blank&quot;&gt;
+&lt;picture&gt;
+&lt;source srcset=&quot;/img/posts/normality/clt-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/normality/clt-light.png&quot;&gt;
+&lt;/picture&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;As you can see, many of the generated distribution are not looking as normal.
+What&#39;s wrong?
+Maybe the Central Limit Theorem doesn&#39;t work?
+Don&#39;t worry, there are no problems with the theorem.
+We just didn&#39;t take enough measurements.
+If we increase the sample sizes (&lt;code&gt;n&lt;/code&gt; and &lt;code&gt;m&lt;/code&gt; parameters in the above R script), the plots will be &amp;quot;fixed&amp;quot;:
+the observed density plots will become &amp;quot;more normal.&amp;quot;&lt;/p&gt;
+&lt;p&gt;Now let&#39;s think about the sample sizes.
+In each experiment, we draw a density function based on 900 measurements
+(we have 30 mean values; each value was calculated based on a sample with 30 measurements).
+The script works pretty fast because it generates &amp;quot;fake&amp;quot; data.
+In real life, we typically spend at least 1 second per measurement.
+If we want to build such a plot based on the real data,
+we will spend 900 seconds (or 15 minutes) per an experiment.
+Some of the real benchmarks may take more than 1 minute per measurement which means that
+we should spend &lt;em&gt;15 hours&lt;/em&gt; for the whole experiment.
+In theory, if we spend a lot of hours on the measurements,
+we will most likely get a plot which will be similar to the normal distribution.
+In practice, we will not spend so much time per each benchmark
+(especially, if we have hundreds or thousands of them).&lt;/p&gt;
+&lt;p&gt;At the conclusion, I want to highlight some important facts about the Central Limit Theorem
+that people usually don&#39;t understand
+(based on the &amp;quot;The Central Limit Theorem&amp;quot; section from &lt;a href=&quot;/prodotnetbenchmarking/&quot;&gt;my book&lt;/a&gt;):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If we do many iterations, the original distribution will not become normal,
+and we can&#39;t interpret the mean, the variance, the skewness, and the kurtosis as in the case of normal distribution.&lt;/li&gt;
+&lt;li&gt;The range of the mean values across all samples is not always narrow,
+we still can have a huge difference between the mean values in different samples.
+The normal distribution based on the mean values has its own standard deviation
+which depends on the sample size and can be expressed via the standard error.&lt;/li&gt;
+&lt;li&gt;The central limit theorem doesn&#39;t work correctly when the sample sizes are small.
+For example, if you make a single measurement in each sample,
+the distribution based on the mean values will have the same shape as the original distribution.&lt;/li&gt;
+&lt;li&gt;If we take a small number of samples (&lt;span class=&quot;math&quot;&gt;n &amp;lt; 100&lt;/span&gt;),
+we will probably not see a normal distribution on the density plot for mean values.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If we are speaking about the original performance distributions,
+we can forget about normality at all.
+The assumption of normality can work fine in some special cases,
+but it will let you down in the long run.
+Remember the R.C. Geary&#39;s words: &lt;em&gt;&amp;quot;Normality is a myth; there never was, and never will be, a normal distribution.&amp;quot;&lt;/em&gt;&lt;/p&gt;</description>
+        </item>
         <item>
             <title>Implementation of efficient algorithm for changepoint detection: ED-PELT</title>
             <link>http://aakinshin.net/posts/edpelt/</link> 

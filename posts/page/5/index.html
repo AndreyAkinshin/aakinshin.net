@@ -113,6 +113,43 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/closures/'>Unobviousness in use of C# closures</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> August 07, 2013.
+          <b>Tags:</b>
+                <a href="/tags/lambda"><span class="badge badge-pill badge-info">Lambda</span></a>
+                <a href="/tags/closures"><span class="badge badge-pill badge-info">Closures</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+        </span><br /><br />
+        <p>C# gives us an ability to use closures. This is a powerful tool that allows anonymous methods and lambda-functions to capture unbound variables in their lexical scope. And many programmers in .NET world like using closures very much, but only few of them understand how they really work. Let’s start with a simple sample:</p>
+<pre><code class="language-cs">public void Run()
+{
+  int e = 1;
+  Foo(x =&gt; x + e);
+}
+</code></pre>
+<p>Nothing complicated happens here: we just captured a local variable <code>e</code> in its lambda that is passed to some <code>Foo</code> method. Let’s see how the compiler will expand such construction.*</p>
+<pre><code class="language-cs">public void Run()
+{
+  DisplayClass c = new DisplayClass();
+  c.e = 1;  
+  Foo(c.Action);
+}
+private sealed class DisplayClass
+{
+  public int e;
+  public int Action(int x)
+  {
+    return x + e;
+  }
+}
+</code></pre>
+</p>
+        <a href='/posts/closures/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/wrap-cs-in-com/'>Wrapping C# class for use in COM</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> June 03, 2013.

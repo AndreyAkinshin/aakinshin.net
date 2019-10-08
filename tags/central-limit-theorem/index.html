@@ -97,7 +97,7 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
               <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/tags/statistics/'>Ru</a>
+                  <a class="dropdown-item" href='/ru/tags/central-limit-theorem/'>Ru</a>
               </div>
             </li>
           </ul>
@@ -113,7 +113,7 @@
     <div class="container">
       <div class="blog-main">
 
-<h1 id="statistics">Posts about Statistics</h1>
+<h1 id="central-limit-theorem">Posts about Central Limit Theorem</h1>
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/normality/'>Normality is a myth</a></h2>
         <span class="blog-post-meta">
@@ -160,39 +160,6 @@ when we open the <a href="https://github.com/OrchardCMS/Orchard">Orchard</a> sol
 </div>
 </p>
         <a href='/posts/normality/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/edpelt/'>Implementation of efficient algorithm for changepoint detection: ED-PELT</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> October 07, 2019.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/ed-pelt"><span class="badge badge-pill badge-info">ED-PELT</span></a>
-                <a href="/tags/statistics"><span class="badge badge-pill badge-info">Statistics</span></a>
-                <a href="/tags/changepoints"><span class="badge badge-pill badge-info">ChangePoints</span></a>
-        </span><br /><br />
-        <p><a href="https://en.wikipedia.org/wiki/Change_detection">Changepoint detection</a> is an important task that has a lot of applications.
-For example, I use it to detect changes in the <a href="https://www.jetbrains.com/rider/">Rider</a> performance test suite.
-It's very important to detect not only performance degradations, but any kinds of performance changes
-(e.g., the variance may increase, or a unimodal distribution may be split to several modes).
-You can see examples of such changes on the following picture (we change the color when a changepoint is detected):</p>
-<div class="mx-auto">
-<a href="/img/posts/edpelt/edpelt-light.png" target="_blank">
-<picture>
-<source srcset="/img/posts/edpelt/edpelt-dark.png" media="(prefers-color-scheme: dark)">
-<img class="mx-auto d-block" width="600" src="/img/posts/edpelt/edpelt-light.png">
-</picture>
-</a>
-</div>
-<p>Unfortunately, it's pretty hard to write a reliable and fast algorithm for changepoint detection.
-Recently, I found a cool paper (<a href="https://link.springer.com/article/10.1007/s11222-016-9687-5">Haynes, K., Fearnhead, P. &amp; Eckley, I.A. &quot;A computationally efficient nonparametric approach for changepoint detection,&quot; Stat Comput (2017) 27: 1293</a>) that describes the ED-PELT algorithm.
-It has <code>O(N*log(N))</code> complexity and pretty good detection accuracy.
-The reference implementation can be used via the <a href="https://cran.r-project.org/web/packages/changepoint.np/index.html">changepoint.np</a> R package.
-However, I can't use <a href="https://www.r-project.org/">R</a> on our build server, so I decided to write my own C# implementation.</p>
-</p>
-        <a href='/posts/edpelt/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>

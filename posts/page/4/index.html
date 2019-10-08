@@ -113,6 +113,50 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/mono-utf8-conversions/'>About UTF-8 conversions in Mono</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> November 10, 2014.
+          <b>Tags:</b>
+                <a href="/tags/encodings"><span class="badge badge-pill badge-info">Encodings</span></a>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/mono"><span class="badge badge-pill badge-info">Mono</span></a>
+        </span><br /><br />
+        <p>This post is a logical continuation of the Jon Skeet's blog post <a href="http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string">“When is a string not a string?”</a>. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.</p>
+<h3 id="experiment-1-compilation">Experiment 1: Compilation</h3>
+<p>Let's take the Jon's code with a small modification. We will just add <code>text</code> null check in <code>DumpString</code>:</p>
+<pre><code class="language-cs">using System;
+using System.ComponentModel;
+using System.Text;
+using System.Linq;
+[Description(Value)]
+class Test
+{
+    const string Value = &quot;X\ud800Y&quot;;
+    static void Main()
+    {
+        var description = (DescriptionAttribute)typeof(Test).
+            GetCustomAttributes(typeof(DescriptionAttribute), true)[0];
+        DumpString(&quot;Attribute&quot;, description.Description);
+        DumpString(&quot;Constant&quot;, Value);
+    }
+    static void DumpString(string name, string text)
+    {
+        Console.Write(&quot;{0}: &quot;, name);
+        if (text != null)
+        {
+            var utf16 = text.Select(c =&gt; ((uint) c).ToString(&quot;x4&quot;));
+            Console.WriteLine(string.Join(&quot; &quot;, utf16));
+        }
+        else
+            Console.WriteLine(&quot;null&quot;);
+    }
+}
+</code></pre>
+</p>
+        <a href='/posts/mono-utf8-conversions/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/happy-monday/'>Happy Monday!</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> August 11, 2014.
@@ -269,43 +313,6 @@ Type type = x.GetType(); // Bang!
         <p>The .NET framework provides an intelligent garbage collector that saves us a trouble of manual memory management. And in 95% of cases you can forget about memory and related issues. But the remaining 5% have some specific aspects connected to unmanaged resources, too big objects, etc. And it’s better to know how the garbage is collected. Otherwise, you can get surprises.</p>
 <p>Do you think GC is able to collect an object till its last method is complete? It appears it is. But it is necessary to run an application in release mode without debugging. In this case JIT compiler will perform optimizations that will make this situation possible. Of course, JIT compiler does it when the remaining method body doesn’t contain references to the object or its fields. It should seem a very harmless optimization. But it can lead to the problems if you work with the unmanaged resources: object compilation can be executed before the operation over the unmanaged resource is finished. And most likely it will result in the application crash. </p>
         <a href='/posts/gc-native/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/closures/'>Unobviousness in use of C# closures</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> August 07, 2013.
-          <b>Tags:</b>
-                <a href="/tags/lambda"><span class="badge badge-pill badge-info">Lambda</span></a>
-                <a href="/tags/closures"><span class="badge badge-pill badge-info">Closures</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        </span><br /><br />
-        <p>C# gives us an ability to use closures. This is a powerful tool that allows anonymous methods and lambda-functions to capture unbound variables in their lexical scope. And many programmers in .NET world like using closures very much, but only few of them understand how they really work. Let’s start with a simple sample:</p>
-<pre><code class="language-cs">public void Run()
-{
-  int e = 1;
-  Foo(x =&gt; x + e);
-}
-</code></pre>
-<p>Nothing complicated happens here: we just captured a local variable <code>e</code> in its lambda that is passed to some <code>Foo</code> method. Let’s see how the compiler will expand such construction.*</p>
-<pre><code class="language-cs">public void Run()
-{
-  DisplayClass c = new DisplayClass();
-  c.e = 1;  
-  Foo(c.Action);
-}
-private sealed class DisplayClass
-{
-  public int e;
-  public int Action(int x)
-  {
-    return x + e;
-  }
-}
-</code></pre>
-</p>
-        <a href='/posts/closures/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>

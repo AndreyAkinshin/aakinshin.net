@@ -113,6 +113,48 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/stephen-toub-benchmarks-part1/'>Measuring Performance Improvements in .NET Core with BenchmarkDotNet (Part 1)</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> June 09, 2017.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/tags/benchmarkdotnet"><span class="badge badge-pill badge-info">BenchmarkDotNet</span></a>
+                <a href="/tags/benchmarks"><span class="badge badge-pill badge-info">benchmarks</span></a>
+                <a href="/tags/coreclr"><span class="badge badge-pill badge-info">CoreCLR</span></a>
+        </span><br /><br />
+        <p>A few days ago <a href="https://github.com/stephentoub">Stephen Toub</a> published a great post
+at the <a href="https://blogs.msdn.microsoft.com/dotnet/">Microsoft .NET Blog</a>:
+<a href="https://blogs.msdn.microsoft.com/dotnet/2017/06/07/performance-improvements-in-net-core/">Performance Improvements in .NET Core</a>.
+He showed some significant performance changes in .NET Core 2.0 Preview 1 (compared with .NET Framework 4.7).
+The .NET Core uses RyuJIT for generating assembly code.
+When I first tried RyuJIT (e.g.,
+<a href="https://blogs.msdn.microsoft.com/dotnet/2014/02/27/ryujit-ctp2-getting-ready-for-prime-time/">CTP2</a>,
+<a href="https://blogs.msdn.microsoft.com/clrcodegeneration/2014/10/30/ryujit-ctp5-getting-closer-to-shipping-and-with-better-simd-support/">CTP5</a>, 2014),
+I wasn't excited about this: the preview versions had some bugs, and it worked slowly on my applications.
+However, the idea of a rethought and open-source JIT-compiler was a huge step forward and investment in the future.
+RyuJIT had been developed very actively in recent years: not only by Microsoft but with the help of the community.
+I'm still not happy about the generated assembly code in some methods, but I have to admit that the RyuJIT (as a part of .NET Core) works pretty well today:
+it shows a good performance level not only on artificial benchmarks but also on real user code.
+Also, there are a lot of changes
+not only in <a href="https://github.com/dotnet/coreclr">dotnet/coreclr</a> (the .NET Core runtime),
+but also in <a href="https://github.com/dotnet/corefx">dotnet/corefx</a> (the .NET Core foundational libraries).
+It's very nice to watch how the community helps to optimize well-used classes which have not changed for years.</p>
+<p>Now let's talk about benchmarks.
+For the demonstration, Stephen wrote a set of handwritten benchmarks.
+A few people (in
+<a href="https://blogs.msdn.microsoft.com/dotnet/2017/06/07/performance-improvements-in-net-core/#comments">comments</a> and on <a href="https://news.ycombinator.com/item?id=14507936">HackerNews</a>)
+asked about <a href="https://github.com/dotnet/BenchmarkDotNet">BenchmarkDotNet</a> regarding these samples (as a better tool for performance measurements).
+So, I decided to try all these benchmarks on BenchmarkDotNet.</p>
+<p>In this post, we will discuss
+how can BenchmarkDotNet help in such performance investigations,
+which benchmarking approaches (and when) are better to use,
+and how can we improve these measurements.</p>
+</p>
+        <a href='/posts/stephen-toub-benchmarks-part1/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/bdn-v0_10_7/'>BenchmarkDotNet v0.10.7</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> June 05, 2017.
@@ -404,22 +446,6 @@ Also, time is tricky, you can create wonderful bugs if you don't understand how 
 As usual, you can also find useful links for further reading.</p>
 </p>
         <a href='/posts/stopwatch/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/datetime/'>DateTime under the hood</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> August 19, 2016.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/timers"><span class="badge badge-pill badge-info">Timers</span></a>
-                <a href="/tags/internals"><span class="badge badge-pill badge-info">Internals</span></a>
-        </span><br /><br />
-        <p><strong>Update:</strong>
-You can find an updated and significantly improved version of this post in my book <a href="/prodotnetbenchmarking/">&quot;Pro .NET Benchmarking&quot;</a>.</p>
-<p><a href="https://msdn.microsoft.com/library/system.datetime.aspx">DateTime</a> is a widely used .NET type. A lot of developers use it all the time, but not all of them really know how it works. In this post, I discuss <a href="https://msdn.microsoft.com/library/system.datetime.utcnow.aspx">DateTime.UtcNow</a>: how it's implemented, what the latency and the resolution of <code>DateTime</code> on Windows and Linux, how the resolution can be changed, and how it can affect your application. This post is an overview, so you probably will not see super detailed explanations of some topics, but you will find a lot of useful links for further reading.</p>
-</p>
-        <a href='/posts/datetime/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>
