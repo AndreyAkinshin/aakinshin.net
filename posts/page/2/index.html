@@ -113,6 +113,41 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/reflecting-on-performance-testing/'>Reflecting on performance testing</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> August 01, 2017.
+          <b>Tags:</b>
+                <a href="/tags/performance"><span class="badge badge-pill badge-info">Performance</span></a>
+                <a href="/tags/performancetesting"><span class="badge badge-pill badge-info">PerformanceTesting</span></a>
+                <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
+                <a href="/tags/benchmarkdotnet"><span class="badge badge-pill badge-info">BenchmarkDotNet</span></a>
+        </span><br /><br />
+        <p>Performance is an important feature for many projects.
+Unfortunately, it's an all too common situation when a developer accidentally spoils the performance adding some new code.
+After a series of such incidents, people often start to think about performance regression testing.</p>
+<p>As developers, we write unit tests all the time.
+These tests check that our business logic work as designed and that new features don't break existing code.
+It looks like a good idea to write some perf tests as well, which will verify that we don't have any performance regressions.</p>
+<p>Turns out this is harder than it sounds.
+A lot of developers don't write perf tests at all.
+Some teams write perf tests, but almost all of them use their own infrastructure for analysis
+(which is not a bad thing in general because it's usually designed for specific projects and requirements).
+There are a lot of books about test-driven development (TDD),
+but there are no books about performance-driven development (PDD).
+There are well-known libraries for unit-testing (like xUnit/NUnit/MSTest for .NET),
+but there are almost no libraries for performance regression testing.
+Yeah, of course, there are <em>some</em> libraries which you can use.
+But there are troubles with <em>well-known all recognized</em> libraries, approaches, and tools.
+Ask your colleagues about it: some of them will give you different answers, the rest of them will start Googling it.</p>
+<p>There is no common understanding of what performance testing should look like.
+This situation exists because it's really hard to develop a solution which solves <em>all problems</em> for <em>all kind of projects</em>.
+However, it doesn't mean that we shouldn't try.
+And we should try, we should share our experience and discuss best practices.</p>
+</p>
+        <a href='/posts/reflecting-on-performance-testing/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/stephen-toub-benchmarks-part1/'>Measuring Performance Improvements in .NET Core with BenchmarkDotNet (Part 1)</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> June 09, 2017.
@@ -417,35 +452,6 @@ int MinBitHacks(int x, int y) =&gt; x &amp; ((x - y) &gt;&gt; 31) | y &amp; (~(x
 <p>What's going on here? Let's discuss it in detail.</p>
 </p>
         <a href='/posts/perfex-min/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/stopwatch/'>Stopwatch under the hood</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> September 09, 2016.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/hardware"><span class="badge badge-pill badge-info">Hardware</span></a>
-                <a href="/tags/timers"><span class="badge badge-pill badge-info">Timers</span></a>
-                <a href="/tags/internals"><span class="badge badge-pill badge-info">Internals</span></a>
-        </span><br /><br />
-        <p><strong>Update:</strong>
-You can find an updated and significantly improved version of this post in my book <a href="/prodotnetbenchmarking/">&quot;Pro .NET Benchmarking&quot;</a>.</p>
-<p>In <a href="/en/blog/dotnet/datetime/">the previous post</a>, we discussed <code>DateTime</code>.
-This structure can be used in situations when you don't need a good level of precision.
-If you want to do high-precision time measurements, you need a better tool because <code>DateTime</code> has a small resolution and a big latency.
-Also, time is tricky, you can create wonderful bugs if you don't understand how it works (see <a href="http://infiniteundo.com/post/25326999628/falsehoods-programmers-believe-about-time">Falsehoods programmers believe about time</a> and <a href="http://infiniteundo.com/post/25509354022/more-falsehoods-programmers-believe-about-time">More falsehoods programmers believe about time</a>).</p>
-<p>In this post, we will briefly talk about the <a href="https://msdn.microsoft.com/library/system.diagnostics.stopwatch.aspx">Stopwatch</a> class:</p>
-<ul>
-<li>Which kind of hardware timers could be a base for <code>Stopwatch</code></li>
-<li>High precision timestamp API on Windows and Linux</li>
-<li>Latency and Resolution of <code>Stopwatch</code> in different environments</li>
-<li>Common pitfalls: which kind of problems could we get trying to measure small time intervals</li>
-</ul>
-<p>If you are not a .NET developer, you can also find a lot of useful information in this post: mainly we will discuss low-level details of high-resolution timestamping (probably your favorite language also uses the same API).
-As usual, you can also find useful links for further reading.</p>
-</p>
-        <a href='/posts/stopwatch/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>

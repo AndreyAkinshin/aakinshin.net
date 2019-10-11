@@ -115,6 +115,59 @@
 
 <h1 id="statistics">Posts about Statistics</h1>
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/shift-and-ratio-functions/'>Distribution comparison via the shift and ratio functions</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> October 11, 2019.
+          <b>Tags:</b>
+                <a href="/tags/statistics"><span class="badge badge-pill badge-info">Statistics</span></a>
+        </span><br /><br />
+        <p>When we compare two distributions, it's not always enough to detect a statistically significant difference between them.
+In many cases, we also want to evaluate the magnitude of this difference.
+Let's look at the following image:</p>
+<div class="mx-auto">
+<a href="/img/posts/shift-and-ratio-functions/compare1-light.png" target="_blank">
+<picture>
+<source srcset="/img/posts/shift-and-ratio-functions/compare1-dark.png" media="(prefers-color-scheme: dark)">
+<img class="mx-auto d-block" width="800" src="/img/posts/shift-and-ratio-functions/compare1-light.png">
+</picture>
+</a>
+</div>
+<p>On the left side, we can see a timeline plot with 2000 points
+(at the middle of this plot, the distribution was significantly changed).
+On the right side, you can see density plots for the left and the right side of
+the timeline plot (before and after the change).
+It's a pretty simple case, the difference between distributions be expressed via the
+difference between mean values.</p>
+<p>Now let's look at a more tricky case:</p>
+<div class="mx-auto">
+<a href="/img/posts/shift-and-ratio-functions/compare2-light.png" target="_blank">
+<picture>
+<source srcset="/img/posts/shift-and-ratio-functions/compare2-dark.png" media="(prefers-color-scheme: dark)">
+<img class="mx-auto d-block" width="800" src="/img/posts/shift-and-ratio-functions/compare2-light.png">
+</picture>
+</a>
+</div>
+<p>Here we have a bimodal distribution; after the change, the left mode &quot;moved right.&quot;
+Now it's much harder to evaluate the difference between distributions
+because the mean and the median values almost not changed:
+the right mode has the biggest impact on these metrics than the left more.</p>
+<p>And here is a much more tricky case:</p>
+<div class="mx-auto">
+<a href="/img/posts/shift-and-ratio-functions/compare3-light.png" target="_blank">
+<picture>
+<source srcset="/img/posts/shift-and-ratio-functions/compare3-dark.png" media="(prefers-color-scheme: dark)">
+<img class="mx-auto d-block" width="800" src="/img/posts/shift-and-ratio-functions/compare3-light.png">
+</picture>
+</a>
+</div>
+<p>Here we also have a bimodal distribution; after the change, both modes moved:
+the left mode &quot;moved right&quot; and the right mode &quot;moved left.&quot;
+How should we describe the difference between these distributions now?</p>
+</p>
+        <a href='/posts/shift-and-ratio-functions/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/normality/'>Normality is a myth</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> October 09, 2019.

@@ -6,9 +6,165 @@
     <atom:link href="http://aakinshin.net/en/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Tue, 08 Oct 2019 23:30:15 GMT</pubDate>
-    <lastBuildDate>Tue, 08 Oct 2019 23:30:15 GMT</lastBuildDate>
+    <pubDate>Fri, 11 Oct 2019 05:58:51 GMT</pubDate>
+    <lastBuildDate>Fri, 11 Oct 2019 05:58:51 GMT</lastBuildDate>
 
+        <item>
+            <title>Distribution comparison via the shift and ratio functions</title>
+            <link>http://aakinshin.net/posts/shift-and-ratio-functions/</link> 
+            <pubDate>Fri, 11 Oct 2019 00:00:00 GMT</pubDate>
+            <author>Andrey Akinshin</author>
+            <guid>http://aakinshin.net/posts/shift-and-ratio-functions/</guid>
+            <description>&lt;p&gt;When we compare two distributions, it&#39;s not always enough to detect a statistically significant difference between them.
+In many cases, we also want to evaluate the magnitude of this difference.
+Let&#39;s look at the following image:&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+&lt;a href=&quot;/img/posts/shift-and-ratio-functions/compare1-light.png&quot; target=&quot;_blank&quot;&gt;
+&lt;picture&gt;
+&lt;source srcset=&quot;/img/posts/shift-and-ratio-functions/compare1-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare1-light.png&quot;&gt;
+&lt;/picture&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;On the left side, we can see a timeline plot with 2000 points
+(at the middle of this plot, the distribution was significantly changed).
+On the right side, you can see density plots for the left and the right side of
+the timeline plot (before and after the change).
+It&#39;s a pretty simple case, the difference between distributions be expressed via the
+difference between mean values.&lt;/p&gt;
+&lt;p&gt;Now let&#39;s look at a more tricky case:&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+&lt;a href=&quot;/img/posts/shift-and-ratio-functions/compare2-light.png&quot; target=&quot;_blank&quot;&gt;
+&lt;picture&gt;
+&lt;source srcset=&quot;/img/posts/shift-and-ratio-functions/compare2-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare2-light.png&quot;&gt;
+&lt;/picture&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;Here we have a bimodal distribution; after the change, the left mode &amp;quot;moved right.&amp;quot;
+Now it&#39;s much harder to evaluate the difference between distributions
+because the mean and the median values almost not changed:
+the right mode has the biggest impact on these metrics than the left more.&lt;/p&gt;
+&lt;p&gt;And here is a much more tricky case:&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+&lt;a href=&quot;/img/posts/shift-and-ratio-functions/compare3-light.png&quot; target=&quot;_blank&quot;&gt;
+&lt;picture&gt;
+&lt;source srcset=&quot;/img/posts/shift-and-ratio-functions/compare3-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare3-light.png&quot;&gt;
+&lt;/picture&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;Here we also have a bimodal distribution; after the change, both modes moved:
+the left mode &amp;quot;moved right&amp;quot; and the right mode &amp;quot;moved left.&amp;quot;
+How should we describe the difference between these distributions now?&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h3 id=&quot;shift-function&quot;&gt;Shift function&lt;/h3&gt;
+&lt;p&gt;One of my favorite ways to do it is the
+&lt;a href=&quot;https://garstats.wordpress.com/2016/07/12/shift-function/&quot;&gt;shift function&lt;/a&gt;
+that was introduced by Kjell Doksum in 1974 (check out these two papers:
+&lt;a href=&quot;https://doi.org/10.1214/aos/1176342662&quot;&gt;&amp;quot;Empirical Probability Plots and Statistical Inference for Nonlinear Models in the Two-Sample Case&amp;quot;&lt;/a&gt; and
+&lt;a href=&quot;https://doi.org/10.2307/2335720&quot;&gt;&amp;quot;Plotting with Confidence: Graphical Comparisons of Two Populations&amp;quot;&lt;/a&gt;).
+The idea is pretty simple: for each &lt;a href=&quot;https://en.wikipedia.org/wiki/Quantile&quot;&gt;quantile&lt;/a&gt;,
+we should calculate the corresponding value for both distributions and find the difference between them.
+For the above three cases, the shift function plots will look like this:&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+&lt;a href=&quot;/img/posts/shift-and-ratio-functions/shift-light.png&quot; target=&quot;_blank&quot;&gt;
+&lt;picture&gt;
+&lt;source srcset=&quot;/img/posts/shift-and-ratio-functions/shift-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/shift-light.png&quot;&gt;
+&lt;/picture&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;Based on these pictures, we can quickly come up with the following conclusions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Case 1. All of the quantiles were increased by ≈30.&lt;/li&gt;
+&lt;li&gt;Case 2. Some small quantiles were increased by ≈20;
+other quantiles remained in place.&lt;/li&gt;
+&lt;li&gt;Case 3. Some small quantiles were increased by ≈20;
+other quantiles decreased by ≈40.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As you can see, the shift function helps us to understand the changes for all of the individual quantiles.&lt;/p&gt;
+&lt;h3 id=&quot;ratio-function&quot;&gt;Ratio function&lt;/h3&gt;
+&lt;p&gt;By analog, we can evaluate the ratio function:
+instead of the difference, we should divide the value on each quantile for one distribution
+on the value of the same quantile for another distribution (check out this paper:
+&lt;a href=&quot;https://arxiv.org/abs/1308.2845&quot;&gt;&amp;quot;Quantile and quantile-function estimations under density ratio model&amp;quot;&lt;/a&gt;).
+It will look like this:&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+&lt;a href=&quot;/img/posts/shift-and-ratio-functions/ratio-light.png&quot; target=&quot;_blank&quot;&gt;
+&lt;picture&gt;
+&lt;source srcset=&quot;/img/posts/shift-and-ratio-functions/ratio-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/ratio-light.png&quot;&gt;
+&lt;/picture&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;These pictures also allow us making conclusions about the presented distributions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Case 1. All of the quantiles were increased by ≈20-30%.&lt;/li&gt;
+&lt;li&gt;Case 2. Some small quantiles were increased by ≈60-80%;
+other quantiles remained in place.&lt;/li&gt;
+&lt;li&gt;Case 3. Some small quantiles were increased by ≈60-80%;
+other quantiles decreased by ≈15%.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;more-complicated-cases&quot;&gt;More complicated cases&lt;/h3&gt;
+&lt;p&gt;Let&#39;s look at a few more complicated cases.&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+&lt;a href=&quot;/img/posts/shift-and-ratio-functions/compare4-light.png&quot; target=&quot;_blank&quot;&gt;
+&lt;picture&gt;
+&lt;source srcset=&quot;/img/posts/shift-and-ratio-functions/compare4-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare4-light.png&quot;&gt;
+&lt;/picture&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+&lt;br /&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+&lt;a href=&quot;/img/posts/shift-and-ratio-functions/compare5-light.png&quot; target=&quot;_blank&quot;&gt;
+&lt;picture&gt;
+&lt;source srcset=&quot;/img/posts/shift-and-ratio-functions/compare5-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare5-light.png&quot;&gt;
+&lt;/picture&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+&lt;br /&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+&lt;a href=&quot;/img/posts/shift-and-ratio-functions/compare6-light.png&quot; target=&quot;_blank&quot;&gt;
+&lt;picture&gt;
+&lt;source srcset=&quot;/img/posts/shift-and-ratio-functions/compare6-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare6-light.png&quot;&gt;
+&lt;/picture&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;The last two cases are especially complicated because it&#39;s not easy to say what&#39;s going on there
+even if look at the density functions.
+Fortunately, the shift functions helps us to get more useful information from the data.&lt;/p&gt;
+&lt;h3 id=&quot;implementation-notes&quot;&gt;Implementation notes&lt;/h3&gt;
+&lt;p&gt;I would like to highlight some important facts that can be useful if you decided to adopt the shift and ratio functions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The value of shift and ratio functions for extreme quantiles (≤0.1 or ≥0.9) may be very unstable
+(the situation can be improved using the percentile bootstrap approach).
+If you don&#39;t care about extreme quantiles and want to describe the difference for the &amp;quot;main&amp;quot; part of your distributions, I recommend using the &lt;code&gt;[0.1, 0.9]&lt;/code&gt; quantile interval.&lt;/li&gt;
+&lt;li&gt;There are several ways to visualize shift functions.
+You can find an example of an alternative visualization &lt;a href=&quot;https://garstats.wordpress.com/2016/07/12/shift-function/&quot;&gt;here&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;There are several ways to calculate the quantile values for a sample.
+For example, in this blog post, I used the Harrell-Davis quantile estimator (see
+Harrell, F.E. &amp;amp; Davis, C.E. (1982) &lt;a href=&quot;https://academic.oup.com/biomet/article-abstract/69/3/635/221346/&quot;&gt;A new distribution-free quantile estimator&lt;/a&gt;. Biometrika, 69, 635-640;
+&lt;a href=&quot;https://garstats.wordpress.com/2016/06/09/the-harrell-davis-quantile-estimator/&quot;&gt;The Harrell-Davis quantile estimator&lt;/a&gt; by Guillaume Rousselet).
+Also, you can use &lt;a href=&quot;https://garstats.wordpress.com/2016/05/27/the-percentile-bootstrap/&quot;&gt;the percentile bootstrap&lt;/a&gt; (see
+Wilcox, R.R. (2012) &lt;a href=&quot;https://doi.org/10.1016/C2010-0-67044-1&quot;&gt;Introduction to robust estimation and hypothesis testing&lt;/a&gt;. Academic Press, Amsterdam; Boston;
+Wilcox, R.R. &amp;amp; Erceg-Hurn, D.M. (2012) &lt;a href=&quot;https://doi.org/10.1080/02664763.2012.724665&quot;&gt;Comparing two dependent groups via quantiles&lt;/a&gt;. J Appl Stat, 39, 2655-2664;
+&lt;a href=&quot;https://garstats.wordpress.com/2016/07/12/shift-function/&quot;&gt;the shift function: a powerful tool to compare two entire distributions&lt;/a&gt; by Guillaume Rousselet).&lt;/li&gt;
+&lt;li&gt;Harrell-Davis quantile estimator provides not only approximated quantile values, but also confidence intervals.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;The shift and ratio functions provide an easy way to describe the difference between two distributions.
+The shift function shows the absolute difference for each quantile;
+the ratio function shows the relative difference.
+The best thing about them is that they work pretty good even with multimodal distributions
+(it&#39;s very important because &lt;a href=&quot;/posts/normality/&quot;&gt;normality is a myth&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;You may need some time to get used to these charts and learn how to extract information from them quickly.
+But as soon as you learn, this visualization approach will become your faithful assistant
+which will allow you to compare distributions fast and easy way.&lt;/p&gt;</description>
+        </item>
         <item>
             <title>Normality is a myth</title>
             <link>http://aakinshin.net/posts/normality/</link> 

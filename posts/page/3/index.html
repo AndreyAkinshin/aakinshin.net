@@ -113,6 +113,35 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/stopwatch/'>Stopwatch under the hood</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> September 09, 2016.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/hardware"><span class="badge badge-pill badge-info">Hardware</span></a>
+                <a href="/tags/timers"><span class="badge badge-pill badge-info">Timers</span></a>
+                <a href="/tags/internals"><span class="badge badge-pill badge-info">Internals</span></a>
+        </span><br /><br />
+        <p><strong>Update:</strong>
+You can find an updated and significantly improved version of this post in my book <a href="/prodotnetbenchmarking/">&quot;Pro .NET Benchmarking&quot;</a>.</p>
+<p>In <a href="/en/blog/dotnet/datetime/">the previous post</a>, we discussed <code>DateTime</code>.
+This structure can be used in situations when you don't need a good level of precision.
+If you want to do high-precision time measurements, you need a better tool because <code>DateTime</code> has a small resolution and a big latency.
+Also, time is tricky, you can create wonderful bugs if you don't understand how it works (see <a href="http://infiniteundo.com/post/25326999628/falsehoods-programmers-believe-about-time">Falsehoods programmers believe about time</a> and <a href="http://infiniteundo.com/post/25509354022/more-falsehoods-programmers-believe-about-time">More falsehoods programmers believe about time</a>).</p>
+<p>In this post, we will briefly talk about the <a href="https://msdn.microsoft.com/library/system.diagnostics.stopwatch.aspx">Stopwatch</a> class:</p>
+<ul>
+<li>Which kind of hardware timers could be a base for <code>Stopwatch</code></li>
+<li>High precision timestamp API on Windows and Linux</li>
+<li>Latency and Resolution of <code>Stopwatch</code> in different environments</li>
+<li>Common pitfalls: which kind of problems could we get trying to measure small time intervals</li>
+</ul>
+<p>If you are not a .NET developer, you can also find a lot of useful information in this post: mainly we will discuss low-level details of high-resolution timestamping (probably your favorite language also uses the same API).
+As usual, you can also find useful links for further reading.</p>
+</p>
+        <a href='/posts/stopwatch/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/datetime/'>DateTime under the hood</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> August 19, 2016.
@@ -368,38 +397,6 @@ static void Main()
 </code></pre>
 <p>If you think about specific numbers, you are wrong. The right answer: it depends. The post title suggests to us, the program can has a strange behavior for x64.</p>
         <a href='/posts/subexpression-elimination-bug-in-jit-x64/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/inlining-and-starg/'>A story about JIT-x86 inlining and starg</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> February 26, 2015.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/inlining"><span class="badge badge-pill badge-info">Inlining</span></a>
-        </span><br /><br />
-        <p>Sometimes you can learn a lot during reading source .NET. Let's open the source code of a <code>Decimal</code> constructor from .NET Reference Source (<a href="http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158">mscorlib/system/decimal.cs,158</a>):</p>
-<pre><code class="language-cs">// Constructs a Decimal from an integer value.
-//
-public Decimal(int value) {
-    //  JIT today can't inline methods that contains &quot;starg&quot; opcode.
-    //  For more details, see DevDiv Bugs 81184: x86 JIT CQ: Removing the inline striction of &quot;starg&quot;.
-    int value_copy = value;
-    if (value_copy &gt;= 0) {
-        flags = 0;
-    }
-    else {
-        flags = SignMask;
-        value_copy = -value_copy;
-    }
-    lo = value_copy;
-    mid = 0;
-    hi = 0;
-}
-</code></pre>
-<p>The comment states that JIT-x86 can't apply the inlining optimization for a method that contains the <a href="https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx">starg</a> IL-opcode. Curious, is not it? </p>
-        <a href='/posts/inlining-and-starg/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>
