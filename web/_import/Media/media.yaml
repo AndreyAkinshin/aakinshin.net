@@ -1,10 +1,16 @@
 media:
+  - date: 2019-10-12
+    type: podcast
+    host: RadioDotNet
+    title: "RadioDotNet-003: DotNext 2019 Moscow"
+    lang: ru
+    url: https://anchor.fm/radiodotnet/episodes/RadioDotNet-003-e79m6t
   - date: 2019-05-13
     type: podcast
     host: RadioDotNet
     title: "RadioDotNet-000: DotNext 2019 Piter"
     lang: ru
-    url: https://soundcloud.com/radiodotnet/e000
+    url: https://anchor.fm/radiodotnet/episodes/RadioDotNet-000-e6a860
   - date: 2017-12-05
     type: podcast
     host_ru: Разбор Полётов
