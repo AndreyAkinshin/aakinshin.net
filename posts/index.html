@@ -130,7 +130,7 @@ Let's look at the following image:</p>
 <picture>
 <source theme='dark' srcset="/img/posts/shift-and-ratio-functions/compare1-dark.png" media="(prefers-color-scheme: dark)">
 <source theme='light' srcset="/img/posts/shift-and-ratio-functions/compare1-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-<img class="mx-auto d-block" width="800" src="/img/posts/shift-and-ratio-functions/compare1-light.png">
+<img class="mx-auto d-block img-fluid" width="800" src="/img/posts/shift-and-ratio-functions/compare1-light.png">
 </picture>
 </a>
 </div>
@@ -146,7 +146,7 @@ difference between mean values.</p>
 <picture>
 <source theme='dark' srcset="/img/posts/shift-and-ratio-functions/compare2-dark.png" media="(prefers-color-scheme: dark)">
 <source theme='light' srcset="/img/posts/shift-and-ratio-functions/compare2-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-<img class="mx-auto d-block" width="800" src="/img/posts/shift-and-ratio-functions/compare2-light.png">
+<img class="mx-auto d-block img-fluid" width="800" src="/img/posts/shift-and-ratio-functions/compare2-light.png">
 </picture>
 </a>
 </div>
@@ -160,7 +160,7 @@ the right mode has the biggest impact on these metrics than the left more.</p>
 <picture>
 <source theme='dark' srcset="/img/posts/shift-and-ratio-functions/compare3-dark.png" media="(prefers-color-scheme: dark)">
 <source theme='light' srcset="/img/posts/shift-and-ratio-functions/compare3-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-<img class="mx-auto d-block" width="800" src="/img/posts/shift-and-ratio-functions/compare3-light.png">
+<img class="mx-auto d-block img-fluid" width="800" src="/img/posts/shift-and-ratio-functions/compare3-light.png">
 </picture>
 </a>
 </div>
@@ -190,7 +190,7 @@ it looks like this:</p>
 <picture>
 <source theme='dark' srcset="/img/posts/normality/normal-dark.png" media="(prefers-color-scheme: dark)">
 <source theme='light' srcset="/img/posts/normality/normal-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-<img class="mx-auto d-block" width="800" src="/img/posts/normality/normal-light.png">
+<img class="mx-auto d-block img-fluid" width="800" src="/img/posts/normality/normal-light.png">
 </picture>
 </a>
 </div>
@@ -213,7 +213,7 @@ when we open the <a href="https://github.com/OrchardCMS/Orchard">Orchard</a> sol
 <picture>
 <source theme='dark' srcset="/img/posts/normality/performance-dark.png" media="(prefers-color-scheme: dark)">
 <source theme='light' srcset="/img/posts/normality/performance-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-<img class="mx-auto d-block" width="800" src="/img/posts/normality/performance-light.png">
+<img class="mx-auto d-block img-fluid" width="800" src="/img/posts/normality/performance-light.png">
 </picture>
 </a>
 </div>
@@ -242,7 +242,7 @@ You can see examples of such changes on the following picture (we change the col
 <picture>
 <source theme='dark' srcset="/img/posts/edpelt/edpelt-dark.png" media="(prefers-color-scheme: dark)">
 <source theme='light' srcset="/img/posts/edpelt/edpelt-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-<img class="mx-auto d-block" width="600" src="/img/posts/edpelt/edpelt-light.png">
+<img class="mx-auto d-block img-fluid" width="600" src="/img/posts/edpelt/edpelt-light.png">
 </picture>
 </a>
 </div>
@@ -268,7 +268,7 @@ Also, we have an internal service which monitors the performance of these tests.
 Two days ago, I noticed that some of these tests sometimes are running for too long.
 For example, <code>nuget_NuGetTest_shouldUpgradeVersionForDotNetCore</code> usually takes around <code>10 sec</code>.
 However, in some cases, it takes around <code>110 sec</code>, <code>210 sec</code>, or <code>310 sec</code>:</p>
-<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/perf-chart.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/nuget-package-browsing/perf-chart.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/perf-chart.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/nuget-package-browsing/perf-chart.png" /></a></div>
 <p>It looks very suspicious and increases the whole test suite duration.
 Also, our dashboard with performance degradations contains only such tests
 and some real degradations (which are introduced by the changes in our codebase) can go unnoticed.
@@ -394,7 +394,7 @@ to get an overview of the current situation
 (if everything is terrible, I always can switch to an advanced approach).
 Today I want to share with you my favorite way to quickly get statistics
 of GC pauses in Mono and generate nice plots like this:</p>
-<div class="mx-auto"><a href="/img/posts/mono-gc-collects/plot-64.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/mono-gc-collects/plot-64.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/mono-gc-collects/plot-64.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/mono-gc-collects/plot-64.png" /></a></div>
 </p>
         <a href='/posts/mono-gc-collects/'>Read more</a><br /><br />
         <hr />

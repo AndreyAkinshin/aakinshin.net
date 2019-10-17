@@ -137,7 +137,7 @@ to get an overview of the current situation
 (if everything is terrible, I always can switch to an advanced approach).
 Today I want to share with you my favorite way to quickly get statistics
 of GC pauses in Mono and generate nice plots like this:</p>
-<div class="mx-auto"><a href="/img/posts/mono-gc-collects/plot-64.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/mono-gc-collects/plot-64.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/mono-gc-collects/plot-64.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/mono-gc-collects/plot-64.png" /></a></div>
 <!--more-->
 <h3 id="getting-raw-data">Getting raw data</h3>
 <p>Mono has internal tools for getting brief data about GC events.
@@ -176,7 +176,7 @@ Let's parse it and aggregate the most important data about GC pauses.</p>
 (you can find an online version
 <a href="https://regex101.com/r/wovoAs/1">here</a> and
 <a href="https://regexper.com/#%5EMono%3A%20GC_(.%7B5%7D).*time%20(%5B0-9%5C%5C.%5D*)ms">here</a>).</p>
-<div class="mx-auto"><a href="/img/posts/mono-gc-collects/regex.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/mono-gc-collects/regex.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/mono-gc-collects/regex.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/mono-gc-collects/regex.png" /></a></div>
 <p>Usually, I use R for simple statistics/plotting tasks.
 Here is my script for processing such logs (assuming that we have the full log in <code>output.txt</code>):</p>
 <pre><code class="language-r">library(ggplot2);library(dplyr);library(stringr)
@@ -200,7 +200,7 @@ summary(df %&gt;% filter(type == &quot;MAJOR&quot;))
 The default value is <code>4 MB</code>, but it's not the optimal value for Rider.
 Let's open a simple solution in Rider and look at the statistics.</p>
 <h4 id="nursery-size4m">nursery-size=4m</h4>
-<div class="mx-auto"><a href="/img/posts/mono-gc-collects/plot-4.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/mono-gc-collects/plot-4.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/mono-gc-collects/plot-4.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/mono-gc-collects/plot-4.png" /></a></div>
 <pre><code class="language-bash">&gt; summary(df %&gt;% filter(type == &quot;MINOR&quot;))
     type           time       
  MAJOR:   0   Min.   : 0.320  
@@ -220,7 +220,7 @@ Let's open a simple solution in Rider and look at the statistics.</p>
             Max.   :1068.22 
 </code></pre>
 <h4 id="nursery-size64m">nursery-size=64m</h4>
-<div class="mx-auto"><a href="/img/posts/mono-gc-collects/plot-64.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/mono-gc-collects/plot-64.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/mono-gc-collects/plot-64.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/mono-gc-collects/plot-64.png" /></a></div>
 <pre><code class="language-bash">&gt; summary(df %&gt;% filter(type == &quot;MINOR&quot;))
     type          time       
  MAJOR:  0   Min.   :  3.42  

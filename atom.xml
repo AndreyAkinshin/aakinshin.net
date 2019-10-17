@@ -3,7 +3,7 @@
     <title>Andrey Akinshin's blog</title>
     <link href="http://aakinshin.net"/>
     <link type="application/atom+xml" rel="self" href="http://aakinshin.net/en/atom.xml"/>
-    <updated>2019-10-17T15:32:33.1504791Z</updated>
+    <updated>2019-10-17T15:45:44.5351389Z</updated>
     <id>http://aakinshin.net/</id>
     <author>
         <name>Andrey Akinshin</name>
@@ -27,7 +27,7 @@ Let&#39;s look at the following image:&lt;/p&gt;
 &lt;picture&gt;
 &lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare1-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
 &lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare1-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
-&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare1-light.png&quot;&gt;
+&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare1-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
 &lt;/div&gt;
@@ -43,7 +43,7 @@ difference between mean values.&lt;/p&gt;
 &lt;picture&gt;
 &lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare2-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
 &lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare2-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
-&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare2-light.png&quot;&gt;
+&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare2-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
 &lt;/div&gt;
@@ -57,7 +57,7 @@ the right mode has the biggest impact on these metrics than the left more.&lt;/p
 &lt;picture&gt;
 &lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare3-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
 &lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare3-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
-&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare3-light.png&quot;&gt;
+&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare3-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
 &lt;/div&gt;
@@ -79,7 +79,7 @@ For the above three cases, the shift function plots will look like this:&lt;/p&g
 &lt;picture&gt;
 &lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/shift-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
 &lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/shift-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
-&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/shift-light.png&quot;&gt;
+&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/shift-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
 &lt;/div&gt;
@@ -103,7 +103,7 @@ It will look like this:&lt;/p&gt;
 &lt;picture&gt;
 &lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/ratio-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
 &lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/ratio-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
-&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/ratio-light.png&quot;&gt;
+&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/ratio-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
 &lt;/div&gt;
@@ -122,7 +122,7 @@ other quantiles decreased by ≈15%.&lt;/li&gt;
 &lt;picture&gt;
 &lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare4-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
 &lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare4-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
-&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare4-light.png&quot;&gt;
+&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare4-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
 &lt;/div&gt;
@@ -132,7 +132,7 @@ other quantiles decreased by ≈15%.&lt;/li&gt;
 &lt;picture&gt;
 &lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare5-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
 &lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare5-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
-&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare5-light.png&quot;&gt;
+&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare5-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
 &lt;/div&gt;
@@ -142,7 +142,7 @@ other quantiles decreased by ≈15%.&lt;/li&gt;
 &lt;picture&gt;
 &lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare6-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
 &lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare6-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
-&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare6-light.png&quot;&gt;
+&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare6-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
 &lt;/div&gt;
@@ -194,7 +194,7 @@ it looks like this:&lt;/p&gt;
 &lt;picture&gt;
 &lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/normality/normal-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
 &lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/normality/normal-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
-&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/normality/normal-light.png&quot;&gt;
+&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;800&quot; src=&quot;/img/posts/normality/normal-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
 &lt;/div&gt;
@@ -217,7 +217,7 @@ when we open the &lt;a href=&quot;https://github.com/OrchardCMS/Orchard&quot;&gt
 &lt;picture&gt;
 &lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/normality/performance-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
 &lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/normality/performance-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
-&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/normality/performance-light.png&quot;&gt;
+&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;800&quot; src=&quot;/img/posts/normality/performance-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
 &lt;/div&gt;
@@ -248,7 +248,7 @@ Now let&#39;s look at the &amp;quot;Expectation vs. Reality&amp;quot; picture fo
 &lt;picture&gt;
 &lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/normality/misleading-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
 &lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/normality/misleading-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
-&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/normality/misleading-light.png&quot;&gt;
+&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;800&quot; src=&quot;/img/posts/normality/misleading-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
 &lt;/div&gt;
@@ -317,7 +317,7 @@ Here is the result:&lt;/p&gt;
 &lt;picture&gt;
 &lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/normality/clt-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
 &lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/normality/clt-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
-&lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/normality/clt-light.png&quot;&gt;
+&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;800&quot; src=&quot;/img/posts/normality/clt-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
 &lt;/div&gt;
@@ -382,7 +382,7 @@ You can see examples of such changes on the following picture (we change the col
 &lt;picture&gt;
 &lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/edpelt/edpelt-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
 &lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/edpelt/edpelt-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
-&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/edpelt/edpelt-light.png&quot;&gt;
+&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/edpelt/edpelt-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
 &lt;/div&gt;
@@ -663,7 +663,7 @@ Also, we have an internal service which monitors the performance of these tests.
 Two days ago, I noticed that some of these tests sometimes are running for too long.
 For example, &lt;code&gt;nuget_NuGetTest_shouldUpgradeVersionForDotNetCore&lt;/code&gt; usually takes around &lt;code&gt;10 sec&lt;/code&gt;.
 However, in some cases, it takes around &lt;code&gt;110 sec&lt;/code&gt;, &lt;code&gt;210 sec&lt;/code&gt;, or &lt;code&gt;310 sec&lt;/code&gt;:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/nuget-package-browsing/perf-chart.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/nuget-package-browsing/perf-chart.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/nuget-package-browsing/perf-chart.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/nuget-package-browsing/perf-chart.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;It looks very suspicious and increases the whole test suite duration.
 Also, our dashboard with performance degradations contains only such tests
 and some real degradations (which are introduced by the changes in our codebase) can go unnoticed.
@@ -710,7 +710,7 @@ and &lt;a href=&quot;https://github.com/NuGet/NuGet.Client/blob/release-4.5.0-rt
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Surprisingly, with &lt;code&gt;Timeout = TimeSpan.FromSeconds(10000)&lt;/code&gt; almost all of the request are successful.
 On Windows, it produces the following distribution:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/nuget-package-browsing/stat.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/nuget-package-browsing/stat.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/nuget-package-browsing/stat.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/nuget-package-browsing/stat.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;It&#39;s very important to create a new instance of &lt;code&gt;HttpClient&lt;/code&gt; for the each iteration: otherwise, the connection will be reused, and we will not get such a picture.&lt;/p&gt;
 &lt;p&gt;In the picture, we have a multimodal distribution with following levels:&lt;/p&gt;
 &lt;ul&gt;
@@ -753,16 +753,16 @@ On Windows, it produces the following distribution:&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;A remark: on my machine, the first attempt uses &lt;code&gt;TLSv1.2&lt;/code&gt;, the second attempt uses &lt;code&gt;TLSv1.1&lt;/code&gt;, the third attempt uses &lt;code&gt;TLSv1&lt;/code&gt;.
 A screenshot from &lt;a href=&quot;https://www.wireshark.org/&quot;&gt;Wireshark&lt;/a&gt; for the &lt;code&gt;~250sec&lt;/code&gt; case:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/nuget-package-browsing/wireshark.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/nuget-package-browsing/wireshark.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/nuget-package-browsing/wireshark.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/nuget-package-browsing/wireshark.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;We tried it on our local machines and double checked it on an Azure VM:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/nuget-package-browsing/azure.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/nuget-package-browsing/azure.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/nuget-package-browsing/azure.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/nuget-package-browsing/azure.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;This problem affects (sometimes) different IDEs with NuGet Package Manager: it may take up to several minutes before it displays the search results.
 That&#39;s how it looks in Visual Studio:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/nuget-package-browsing/vs.gif&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/nuget-package-browsing/vs.gif&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/nuget-package-browsing/vs.gif&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/nuget-package-browsing/vs.gif&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;That&#39;s how it looks in Visual Studio for Mac:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/nuget-package-browsing/vs-for-mac.gif&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/nuget-package-browsing/vs-for-mac.gif&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/nuget-package-browsing/vs-for-mac.gif&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/nuget-package-browsing/vs-for-mac.gif&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;It&#39;s hard to reproduce this issue in &lt;a href=&quot;https://www.jetbrains.com/rider/&quot;&gt;Rider&lt;/a&gt; because we are &lt;a href=&quot;https://aakinshin.net/blog/post/rider-nuget-search/&quot;&gt;using a persistent local cache of search results&lt;/a&gt;:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/nuget-package-browsing/rider.gif&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/nuget-package-browsing/rider.gif&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/nuget-package-browsing/rider.gif&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/nuget-package-browsing/rider.gif&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;Currently, the problem is reproduced on &lt;code&gt;api-v2v3search-0.nuget.org&lt;/code&gt; (&lt;code&gt;52.162.253.198&lt;/code&gt;) and &lt;code&gt;api-v2v3search-1.nuget.org&lt;/code&gt; (&lt;code&gt;13.84.46.37&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;Since it&#39;s a server-side problem and we can&#39;t fix it locally, we created an issue on GitHub: &lt;a href=&quot;https://github.com/NuGet/Home/issues/6921&quot;&gt;NuGet/Home#6921&lt;/a&gt; (moved to &lt;a href=&quot;https://github.com/NuGet/NuGetGallery/issues/5899&quot;&gt;NuGet/NuGetGallery#5899&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Update.&lt;/strong&gt;
@@ -829,7 +829,7 @@ dotnet run -f netcoreapp2.0 -c Release
 start BenchmarkDotNet.Artifacts\results\IntroDisasm-disassembly-report.html
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As a result, you will see an html page which contains disassembly listings for all runtimes:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/dotnet-crossruntime-disasm/disasm.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/dotnet-crossruntime-disasm/disasm.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/dotnet-crossruntime-disasm/disasm.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/dotnet-crossruntime-disasm/disasm.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;The raw code:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-x86asm&quot;&gt;; .NET Framework 4.7 (CLR 4.0.30319.42000), 32bit LegacyJIT-v4.7.2633.0
 
@@ -1161,7 +1161,7 @@ to get an overview of the current situation
 (if everything is terrible, I always can switch to an advanced approach).
 Today I want to share with you my favorite way to quickly get statistics
 of GC pauses in Mono and generate nice plots like this:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/mono-gc-collects/plot-64.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/mono-gc-collects/plot-64.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/mono-gc-collects/plot-64.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/mono-gc-collects/plot-64.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;!--more--&gt;
 &lt;h3 id=&quot;getting-raw-data&quot;&gt;Getting raw data&lt;/h3&gt;
 &lt;p&gt;Mono has internal tools for getting brief data about GC events.
@@ -1200,7 +1200,7 @@ Let&#39;s parse it and aggregate the most important data about GC pauses.&lt;/p&
 (you can find an online version
 &lt;a href=&quot;https://regex101.com/r/wovoAs/1&quot;&gt;here&lt;/a&gt; and
 &lt;a href=&quot;https://regexper.com/#%5EMono%3A%20GC_(.%7B5%7D).*time%20(%5B0-9%5C%5C.%5D*)ms&quot;&gt;here&lt;/a&gt;).&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/mono-gc-collects/regex.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/mono-gc-collects/regex.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/mono-gc-collects/regex.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/mono-gc-collects/regex.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;Usually, I use R for simple statistics/plotting tasks.
 Here is my script for processing such logs (assuming that we have the full log in &lt;code&gt;output.txt&lt;/code&gt;):&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-r&quot;&gt;library(ggplot2);library(dplyr);library(stringr)
@@ -1224,7 +1224,7 @@ summary(df %&amp;gt;% filter(type == &amp;quot;MAJOR&amp;quot;))
 The default value is &lt;code&gt;4 MB&lt;/code&gt;, but it&#39;s not the optimal value for Rider.
 Let&#39;s open a simple solution in Rider and look at the statistics.&lt;/p&gt;
 &lt;h4 id=&quot;nursery-size4m&quot;&gt;nursery-size=4m&lt;/h4&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/mono-gc-collects/plot-4.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/mono-gc-collects/plot-4.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/mono-gc-collects/plot-4.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/mono-gc-collects/plot-4.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&amp;gt; summary(df %&amp;gt;% filter(type == &amp;quot;MINOR&amp;quot;))
     type           time       
  MAJOR:   0   Min.   : 0.320  
@@ -1244,7 +1244,7 @@ Let&#39;s open a simple solution in Rider and look at the statistics.&lt;/p&gt;
             Max.   :1068.22 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h4 id=&quot;nursery-size64m&quot;&gt;nursery-size=64m&lt;/h4&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/mono-gc-collects/plot-64.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/mono-gc-collects/plot-64.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/mono-gc-collects/plot-64.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/mono-gc-collects/plot-64.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;&amp;gt; summary(df %&amp;gt;% filter(type == &amp;quot;MINOR&amp;quot;))
     type          time       
  MAJOR:  0   Min.   :  3.42  
@@ -1394,7 +1394,7 @@ advanced support of labels for jump targets.&lt;/p&gt;
 &lt;li&gt;When user presses F3, we jump to next usage of given label&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Demo:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/bdn-v0_10_12/disasm.gif&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/bdn-v0_10_12/disasm.gif&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/bdn-v0_10_12/disasm.gif&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/bdn-v0_10_12/disasm.gif&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;h4 id=&quot;improved-memorydiagnoser&quot;&gt;Improved MemoryDiagnoser&lt;/h4&gt;
 &lt;p&gt;&lt;code&gt;MemoryDiagnoser&lt;/code&gt; show the memory traffic for each benchmark and the GC collection count for each generation.
 In this release, we &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/606&quot;&gt;improved&lt;/a&gt; accuracy and
@@ -1674,13 +1674,13 @@ In this post, I&#39;m going to tell you about the most useful features.&lt;/p&gt
 &lt;p&gt;This feature by &lt;a href=&quot;https://github.com/adamsitnik&quot;&gt;@adamsitnik&lt;/a&gt; allows looking at the assembly code of your methods.
 It really helps when you investigate some CPU-bound benchmarks.
 BenchmarkDotNet not only shows naive disasm, but it also prettify the listing can work with hardware counters:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/bdn-v0_10_10/branchpredictor.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/bdn-v0_10_10/branchpredictor.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/bdn-v0_10_10/branchpredictor.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/bdn-v0_10_10/branchpredictor.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;You can find the full info in the &lt;a href=&quot;http://adamsitnik.com/Disassembly-Diagnoser/&quot;&gt;Disassembling .NET Code with BenchmarkDotNet&lt;/a&gt; blog post by Adam Sitnik.&lt;/p&gt;
 &lt;p&gt;It turned out that this feature is useful for comparing assembly for different versions of .NET JIT-compilers.
 Check out a recent post from Microsoft .NET Blog by Joseph Tremoulet:
 &lt;a href=&quot;https://blogs.msdn.microsoft.com/dotnet/2017/10/16/ryujit-just-in-time-compiler-optimization-enhancements/&quot;&gt;RyuJIT Just-in-Time Compiler Optimization Enhancements&lt;/a&gt;.
 In this post, Joseph compares RyuJIT assembly code for .NET Core 2.0 RTM and .NET Core 2.1.0-preview1-25719-04.&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/bdn-v0_10_10/ryujit.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/bdn-v0_10_10/ryujit.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/bdn-v0_10_10/ryujit.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/bdn-v0_10_10/ryujit.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;It&#39;s really great to see that BenchmarkDotNet helps to develop such products like .NET Core.
 By the way, the development process is also useful for BenchmarkDotNet.
 Here are some great bug reports by Joseph which were fixed by Adam:
@@ -1985,7 +1985,7 @@ Here are typical problems which you can get:&lt;/p&gt;
 and you can&#39;t control which mode will be &amp;quot;activated&amp;quot; in each measurement&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Here is some historical data about duration of a single test from Rider:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/reflecting-on-performance-testing/plot1.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/reflecting-on-performance-testing/plot1.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/reflecting-on-performance-testing/plot1.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/reflecting-on-performance-testing/plot1.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;The blue points denote Windows, the purple denote Linux, the yellow denote MacOS.
 On the Y axis, you can see the amount of milliseconds.
 Yes, two sequential measurements can be 100 seconds and 900 seconds.
@@ -2001,7 +2001,7 @@ No one will notice it (on this test at least).&lt;/p&gt;
 &lt;p&gt;As you probably noticed on the previous image, the performance on different operating systems is different.
 The easiest thing to say here is something like &amp;quot;Well, nothing special in this picture, .NET works well only on Windows&amp;quot;.
 Here is another image for you:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/reflecting-on-performance-testing/plot2.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/reflecting-on-performance-testing/plot2.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/reflecting-on-performance-testing/plot2.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/reflecting-on-performance-testing/plot2.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;In this test, Linux takes around 100ms all the time, MacOS takes 100—200ms, Windows takes 1000-1200ms.
 Why? That&#39;s also a topic for another post (a hint: this test is socket-related).
 The point here is we have different performance configurations on different tests.
@@ -2432,7 +2432,7 @@ public class QueueBenchmark1
 &lt;/table&gt;
 &lt;p&gt;Usually, it&#39;s also a good idea to look at the distribution.
 BenchmarkDotNet provides plots like this:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/QueueBenchmark1-Run-density.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/QueueBenchmark1-Run-density.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/QueueBenchmark1-Run-density.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/QueueBenchmark1-Run-density.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;Now everything is fine, but don&#39;t forget to check out the distribution
 when you are investigation a new performance space.&lt;/p&gt;
 &lt;p&gt;The original results:&lt;/p&gt;
@@ -2571,7 +2571,7 @@ public class QueueBenchmark2
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;Let&#39;s look at the bar chart for this benchmark:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/QueueBenchmark2-barplot.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/QueueBenchmark2-barplot.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/QueueBenchmark2-barplot.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/QueueBenchmark2-barplot.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;With &lt;code&gt;N=10_000&lt;/code&gt;, we have &lt;code&gt;~2.95x&lt;/code&gt; speedup which is pretty great.
 You should understand that it&#39;s still is not a perfect benchmark for &lt;code&gt;Queue&lt;/code&gt;.
 If we want to have a complete performance investigation,
@@ -2846,7 +2846,7 @@ Here we have a difference for Mono:&lt;/p&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;Let&#39;s look at the timeline plot for mono:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/ListBenchmark1-Run-Mono5.0.1-x64-timelineSmooth.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/ListBenchmark1-Run-Mono5.0.1-x64-timelineSmooth.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/ListBenchmark1-Run-Mono5.0.1-x64-timelineSmooth.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/ListBenchmark1-Run-Mono5.0.1-x64-timelineSmooth.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;The usual amount of iterations for a benchmark is 15.
 In most cases, it allows getting &lt;em&gt;acceptable&lt;/em&gt; results.
 I tried to increase it before, but people don&#39;t want to wait too long for results;
@@ -2856,7 +2856,7 @@ So, the default value is 15 (at least), but BenchmarkDotNet can increase it if s
 On Mono, we can see that the amount of iterations is around 40. (Hooray, it works!)
 Also, we can observe two modes: around &lt;code&gt;~7.6ns&lt;/code&gt; and &lt;code&gt;~8.2ns&lt;/code&gt;.
 So, let&#39;s check the distribution!&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/ListBenchmark1-Run-Mono5.0.1-x64-density.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/ListBenchmark1-Run-Mono5.0.1-x64-density.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/ListBenchmark1-Run-Mono5.0.1-x64-density.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/ListBenchmark1-Run-Mono5.0.1-x64-density.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;Yep, it&#39;s a bimodal distribution.
 If BenchmarkDotNet is so smart, why it didn&#39;t warn us about such distribution?
 Well, it&#39;s an open issue: &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/429&quot;&gt;BenchmarkDotNet#429: Detect multimodal distributions&lt;/a&gt;.
@@ -2984,7 +2984,7 @@ public class ListBenchmark2
 &lt;p&gt;For &lt;code&gt;N=1000&lt;/code&gt;, we have &lt;code&gt;~1.55x&lt;/code&gt; speedup.
 And we still have a bimodal distribution for mono.
 Here is the timeline plot for &lt;code&gt;N=100&lt;/code&gt;:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/ListBenchmark2-Run-Mono5.0.1-x64 N=100-timelineSmooth.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/ListBenchmark2-Run-Mono5.0.1-x64 N=100-timelineSmooth.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/ListBenchmark2-Run-Mono5.0.1-x64 N=100-timelineSmooth.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/ListBenchmark2-Run-Mono5.0.1-x64 N=100-timelineSmooth.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;h4 id=&quot;concurrentqueue&quot;&gt;ConcurrentQueue&lt;/h4&gt;
 &lt;p&gt;Now let&#39;s play with &lt;code&gt;ConcurrentQueue&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;The original code:&lt;/p&gt;
@@ -3183,7 +3183,7 @@ public class ConcurrentQueueBenchmark2
 &lt;/table&gt;
 &lt;p&gt;Thus, speedup for &lt;code&gt;N=1_000_000&lt;/code&gt; is &lt;code&gt;~1.26x&lt;/code&gt;.
 Let&#39;s look at the timelines:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark2-Run-facetTimeline.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark2-Run-facetTimeline.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark2-Run-facetTimeline.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark2-Run-facetTimeline.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;Plots are cool: we immediately see a suspicious place: &lt;code&gt;.NET Framework 4.7&lt;/code&gt; + &lt;code&gt;N=1_000_000&lt;/code&gt;.
 Looks like another bimodal distribution: a good candidate for detailed research, if we continue this investigation.&lt;/p&gt;
 &lt;p&gt;Now let&#39;s look at a more interesting example with multithreading.
@@ -3309,10 +3309,10 @@ Let&#39;s look again at a few of the original results for &lt;code&gt;.NET Frame
 &lt;p&gt;There is a huge difference between measurements.
 It&#39;s not enough to do only five iterations in such case!
 Here is the box plot:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark3-boxplot.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark3-boxplot.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark3-boxplot.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark3-boxplot.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;Probably another case of a bimodal distribution?
 Let&#39;s look at the density plot:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark3-Run-density.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark3-Run-density.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark3-Run-density.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark3-Run-density.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;It&#39;s not a bimodal distribution; it&#39;s just a distribution of strange form with huge &lt;code&gt;StdDev&lt;/code&gt;.&lt;/p&gt;
 &lt;h4 id=&quot;concurrentbag&quot;&gt;ConcurrentBag&lt;/h4&gt;
 &lt;p&gt;The original benchmark:&lt;/p&gt;
@@ -3405,7 +3405,7 @@ public class ConcurrentBag
 &lt;p&gt;The original speedup is &lt;code&gt;~1.5x&lt;/code&gt;, the new speedup is &lt;code&gt;~1.37x&lt;/code&gt; (almost the same).&lt;/p&gt;
 &lt;p&gt;By the way, Mono works slowly again: about two times slower than the full framework.
 On &lt;code&gt;.NET Core 2.0 Preview 1&lt;/code&gt;, we got another bimodal distributions, here is a timeline plot:&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentBag-Run-Core2.0-x64-timelineSmooth.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentBag-Run-Core2.0-x64-timelineSmooth.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentBag-Run-Core2.0-x64-timelineSmooth.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentBag-Run-Core2.0-x64-timelineSmooth.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
 &lt;p&gt;Could we say that .NET Core is always the fastest runtime?
 No.
@@ -3468,7 +3468,7 @@ In this post, I will briefly cover the following features:&lt;/p&gt;
 It turned out that there was a conflict between the Roslyn assemblies in LINQPad and those referenced by BenchmarkDotNet.
 With the help of &lt;a href=&quot;https://github.com/albahari&quot;&gt;@albahari&lt;/a&gt; (the author of LinqPad), the issue &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/445#issuecomment-300683997&quot;&gt;was fixed&lt;/a&gt;.
 The fix was on the LINQPad side, so you need LINQPad 5.22.05+ to get it worked (currently it&#39;s a beta version, it can be downloaded from &lt;a href=&quot;https://www.linqpad.net/Download.aspx&quot;&gt;the official site&lt;/a&gt;).&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/bdn-v0_10_7/linqpad.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/bdn-v0_10_7/linqpad.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/bdn-v0_10_7/linqpad.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/bdn-v0_10_7/linqpad.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;See also:
 &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/66&quot;&gt;BenchmarkDotNet#66&lt;/a&gt;,
 &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/445&quot;&gt;BenchmarkDotNet#445&lt;/a&gt;.&lt;/p&gt;
@@ -3683,7 +3683,7 @@ Probably, it&#39;s not the last such problem, so we are going to continue to imp
 We develop BenchmarkDotNet on Windows, but it&#39;s already possible to develop it on Linux and MacOS (with some limitations).
 If you have latest &lt;a href=&quot;https://www.microsoft.com/net/download/core&quot;&gt;.NET Core SDK&lt;/a&gt; and &lt;a href=&quot;mon&quot;&gt;http://www.mono-project.com/download/&lt;/a&gt;,
 you should be able to build the solution (with unloaded F#/VB projects), run samples (for both &lt;code&gt;net46&lt;/code&gt;/&lt;code&gt;netcoreapp1.1&lt;/code&gt;), run unit tests (for &lt;code&gt;netcoreapp1.1&lt;/code&gt; only).&lt;/p&gt;
-&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/bdn-v0_10_7/linux-xunit.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/bdn-v0_10_7/linux-xunit.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/bdn-v0_10_7/linux-xunit.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;600&quot; src=&quot;/img/posts/bdn-v0_10_7/linux-xunit.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
 &lt;p&gt;Unfortunately, I don&#39;t know how to run unit tests on &lt;code&gt;net46&lt;/code&gt; and how to pack NuGet packages on Linux:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;akinshin@xu:~/RiderProjects/BenchmarkDotNet/tests$ dotnet test BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj --configuration Release --framework net46
 Build started, please wait...

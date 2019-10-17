@@ -443,7 +443,7 @@ public class QueueBenchmark1
 </table>
 <p>Usually, it's also a good idea to look at the distribution.
 BenchmarkDotNet provides plots like this:</p>
-<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/QueueBenchmark1-Run-density.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/stephen-toub-benchmarks-part1/QueueBenchmark1-Run-density.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/QueueBenchmark1-Run-density.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/stephen-toub-benchmarks-part1/QueueBenchmark1-Run-density.png" /></a></div>
 <p>Now everything is fine, but don't forget to check out the distribution
 when you are investigation a new performance space.</p>
 <p>The original results:</p>
@@ -582,7 +582,7 @@ public class QueueBenchmark2
 </tbody>
 </table>
 <p>Let's look at the bar chart for this benchmark:</p>
-<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/QueueBenchmark2-barplot.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/stephen-toub-benchmarks-part1/QueueBenchmark2-barplot.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/QueueBenchmark2-barplot.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/stephen-toub-benchmarks-part1/QueueBenchmark2-barplot.png" /></a></div>
 <p>With <code>N=10_000</code>, we have <code>~2.95x</code> speedup which is pretty great.
 You should understand that it's still is not a perfect benchmark for <code>Queue</code>.
 If we want to have a complete performance investigation,
@@ -857,7 +857,7 @@ Here we have a difference for Mono:</p>
 </tbody>
 </table>
 <p>Let's look at the timeline plot for mono:</p>
-<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/ListBenchmark1-Run-Mono5.0.1-x64-timelineSmooth.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/stephen-toub-benchmarks-part1/ListBenchmark1-Run-Mono5.0.1-x64-timelineSmooth.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/ListBenchmark1-Run-Mono5.0.1-x64-timelineSmooth.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/stephen-toub-benchmarks-part1/ListBenchmark1-Run-Mono5.0.1-x64-timelineSmooth.png" /></a></div>
 <p>The usual amount of iterations for a benchmark is 15.
 In most cases, it allows getting <em>acceptable</em> results.
 I tried to increase it before, but people don't want to wait too long for results;
@@ -867,7 +867,7 @@ So, the default value is 15 (at least), but BenchmarkDotNet can increase it if s
 On Mono, we can see that the amount of iterations is around 40. (Hooray, it works!)
 Also, we can observe two modes: around <code>~7.6ns</code> and <code>~8.2ns</code>.
 So, let's check the distribution!</p>
-<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/ListBenchmark1-Run-Mono5.0.1-x64-density.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/stephen-toub-benchmarks-part1/ListBenchmark1-Run-Mono5.0.1-x64-density.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/ListBenchmark1-Run-Mono5.0.1-x64-density.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/stephen-toub-benchmarks-part1/ListBenchmark1-Run-Mono5.0.1-x64-density.png" /></a></div>
 <p>Yep, it's a bimodal distribution.
 If BenchmarkDotNet is so smart, why it didn't warn us about such distribution?
 Well, it's an open issue: <a href="https://github.com/dotnet/BenchmarkDotNet/issues/429">BenchmarkDotNet#429: Detect multimodal distributions</a>.
@@ -995,7 +995,7 @@ public class ListBenchmark2
 <p>For <code>N=1000</code>, we have <code>~1.55x</code> speedup.
 And we still have a bimodal distribution for mono.
 Here is the timeline plot for <code>N=100</code>:</p>
-<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/ListBenchmark2-Run-Mono5.0.1-x64 N=100-timelineSmooth.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/stephen-toub-benchmarks-part1/ListBenchmark2-Run-Mono5.0.1-x64 N=100-timelineSmooth.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/ListBenchmark2-Run-Mono5.0.1-x64 N=100-timelineSmooth.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/stephen-toub-benchmarks-part1/ListBenchmark2-Run-Mono5.0.1-x64 N=100-timelineSmooth.png" /></a></div>
 <h4 id="concurrentqueue">ConcurrentQueue</h4>
 <p>Now let's play with <code>ConcurrentQueue</code>.</p>
 <p>The original code:</p>
@@ -1194,7 +1194,7 @@ public class ConcurrentQueueBenchmark2
 </table>
 <p>Thus, speedup for <code>N=1_000_000</code> is <code>~1.26x</code>.
 Let's look at the timelines:</p>
-<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark2-Run-facetTimeline.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark2-Run-facetTimeline.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark2-Run-facetTimeline.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark2-Run-facetTimeline.png" /></a></div>
 <p>Plots are cool: we immediately see a suspicious place: <code>.NET Framework 4.7</code> + <code>N=1_000_000</code>.
 Looks like another bimodal distribution: a good candidate for detailed research, if we continue this investigation.</p>
 <p>Now let's look at a more interesting example with multithreading.
@@ -1320,10 +1320,10 @@ Let's look again at a few of the original results for <code>.NET Framework 4.7</
 <p>There is a huge difference between measurements.
 It's not enough to do only five iterations in such case!
 Here is the box plot:</p>
-<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark3-boxplot.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark3-boxplot.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark3-boxplot.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark3-boxplot.png" /></a></div>
 <p>Probably another case of a bimodal distribution?
 Let's look at the density plot:</p>
-<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark3-Run-density.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark3-Run-density.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark3-Run-density.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/stephen-toub-benchmarks-part1/ConcurrentQueueBenchmark3-Run-density.png" /></a></div>
 <p>It's not a bimodal distribution; it's just a distribution of strange form with huge <code>StdDev</code>.</p>
 <h4 id="concurrentbag">ConcurrentBag</h4>
 <p>The original benchmark:</p>
@@ -1416,7 +1416,7 @@ public class ConcurrentBag
 <p>The original speedup is <code>~1.5x</code>, the new speedup is <code>~1.37x</code> (almost the same).</p>
 <p>By the way, Mono works slowly again: about two times slower than the full framework.
 On <code>.NET Core 2.0 Preview 1</code>, we got another bimodal distributions, here is a timeline plot:</p>
-<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/ConcurrentBag-Run-Core2.0-x64-timelineSmooth.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/stephen-toub-benchmarks-part1/ConcurrentBag-Run-Core2.0-x64-timelineSmooth.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/stephen-toub-benchmarks-part1/ConcurrentBag-Run-Core2.0-x64-timelineSmooth.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/stephen-toub-benchmarks-part1/ConcurrentBag-Run-Core2.0-x64-timelineSmooth.png" /></a></div>
 <h3 id="conclusion">Conclusion</h3>
 <p>Could we say that .NET Core is always the fastest runtime?
 No.

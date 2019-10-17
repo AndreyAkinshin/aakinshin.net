@@ -130,7 +130,7 @@ Also, we have an internal service which monitors the performance of these tests.
 Two days ago, I noticed that some of these tests sometimes are running for too long.
 For example, <code>nuget_NuGetTest_shouldUpgradeVersionForDotNetCore</code> usually takes around <code>10 sec</code>.
 However, in some cases, it takes around <code>110 sec</code>, <code>210 sec</code>, or <code>310 sec</code>:</p>
-<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/perf-chart.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/nuget-package-browsing/perf-chart.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/perf-chart.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/nuget-package-browsing/perf-chart.png" /></a></div>
 <p>It looks very suspicious and increases the whole test suite duration.
 Also, our dashboard with performance degradations contains only such tests
 and some real degradations (which are introduced by the changes in our codebase) can go unnoticed.
@@ -159,7 +159,7 @@ to get an overview of the current situation
 (if everything is terrible, I always can switch to an advanced approach).
 Today I want to share with you my favorite way to quickly get statistics
 of GC pauses in Mono and generate nice plots like this:</p>
-<div class="mx-auto"><a href="/img/posts/mono-gc-collects/plot-64.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/mono-gc-collects/plot-64.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/mono-gc-collects/plot-64.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/mono-gc-collects/plot-64.png" /></a></div>
 </p>
         <a href='/posts/mono-gc-collects/'>Read more</a><br /><br />
         <hr />

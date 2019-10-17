@@ -130,7 +130,7 @@ Also, we have an internal service which monitors the performance of these tests.
 Two days ago, I noticed that some of these tests sometimes are running for too long.
 For example, <code>nuget_NuGetTest_shouldUpgradeVersionForDotNetCore</code> usually takes around <code>10 sec</code>.
 However, in some cases, it takes around <code>110 sec</code>, <code>210 sec</code>, or <code>310 sec</code>:</p>
-<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/perf-chart.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/nuget-package-browsing/perf-chart.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/perf-chart.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/nuget-package-browsing/perf-chart.png" /></a></div>
 <p>It looks very suspicious and increases the whole test suite duration.
 Also, our dashboard with performance degradations contains only such tests
 and some real degradations (which are introduced by the changes in our codebase) can go unnoticed.
@@ -177,7 +177,7 @@ and <a href="https://github.com/NuGet/NuGet.Client/blob/release-4.5.0-rtm/src/Nu
 </code></pre>
 <p>Surprisingly, with <code>Timeout = TimeSpan.FromSeconds(10000)</code> almost all of the request are successful.
 On Windows, it produces the following distribution:</p>
-<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/stat.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/nuget-package-browsing/stat.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/stat.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/nuget-package-browsing/stat.png" /></a></div>
 <p>It's very important to create a new instance of <code>HttpClient</code> for the each iteration: otherwise, the connection will be reused, and we will not get such a picture.</p>
 <p>In the picture, we have a multimodal distribution with following levels:</p>
 <ul>
@@ -220,16 +220,16 @@ On Windows, it produces the following distribution:</p>
 </ul>
 <p>A remark: on my machine, the first attempt uses <code>TLSv1.2</code>, the second attempt uses <code>TLSv1.1</code>, the third attempt uses <code>TLSv1</code>.
 A screenshot from <a href="https://www.wireshark.org/">Wireshark</a> for the <code>~250sec</code> case:</p>
-<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/wireshark.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/nuget-package-browsing/wireshark.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/wireshark.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/nuget-package-browsing/wireshark.png" /></a></div>
 <p>We tried it on our local machines and double checked it on an Azure VM:</p>
-<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/azure.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/nuget-package-browsing/azure.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/azure.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/nuget-package-browsing/azure.png" /></a></div>
 <p>This problem affects (sometimes) different IDEs with NuGet Package Manager: it may take up to several minutes before it displays the search results.
 That's how it looks in Visual Studio:</p>
-<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/vs.gif" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/nuget-package-browsing/vs.gif" /></a></div>
+<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/vs.gif" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/nuget-package-browsing/vs.gif" /></a></div>
 <p>That's how it looks in Visual Studio for Mac:</p>
-<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/vs-for-mac.gif" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/nuget-package-browsing/vs-for-mac.gif" /></a></div>
+<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/vs-for-mac.gif" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/nuget-package-browsing/vs-for-mac.gif" /></a></div>
 <p>It's hard to reproduce this issue in <a href="https://www.jetbrains.com/rider/">Rider</a> because we are <a href="https://aakinshin.net/blog/post/rider-nuget-search/">using a persistent local cache of search results</a>:</p>
-<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/rider.gif" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/nuget-package-browsing/rider.gif" /></a></div>
+<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/rider.gif" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/nuget-package-browsing/rider.gif" /></a></div>
 <p>Currently, the problem is reproduced on <code>api-v2v3search-0.nuget.org</code> (<code>52.162.253.198</code>) and <code>api-v2v3search-1.nuget.org</code> (<code>13.84.46.37</code>).</p>
 <p>Since it's a server-side problem and we can't fix it locally, we created an issue on GitHub: <a href="https://github.com/NuGet/Home/issues/6921">NuGet/Home#6921</a> (moved to <a href="https://github.com/NuGet/NuGetGallery/issues/5899">NuGet/NuGetGallery#5899</a>).</p>
 <p><strong>Update.</strong>

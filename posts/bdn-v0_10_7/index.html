@@ -143,7 +143,7 @@ In this post, I will briefly cover the following features:</p>
 It turned out that there was a conflict between the Roslyn assemblies in LINQPad and those referenced by BenchmarkDotNet.
 With the help of <a href="https://github.com/albahari">@albahari</a> (the author of LinqPad), the issue <a href="https://github.com/dotnet/BenchmarkDotNet/issues/445#issuecomment-300683997">was fixed</a>.
 The fix was on the LINQPad side, so you need LINQPad 5.22.05+ to get it worked (currently it's a beta version, it can be downloaded from <a href="https://www.linqpad.net/Download.aspx">the official site</a>).</p>
-<div class="mx-auto"><a href="/img/posts/bdn-v0_10_7/linqpad.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/bdn-v0_10_7/linqpad.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/bdn-v0_10_7/linqpad.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/bdn-v0_10_7/linqpad.png" /></a></div>
 <p>See also:
 <a href="https://github.com/dotnet/BenchmarkDotNet/issues/66">BenchmarkDotNet#66</a>,
 <a href="https://github.com/dotnet/BenchmarkDotNet/issues/445">BenchmarkDotNet#445</a>.</p>
@@ -358,7 +358,7 @@ Probably, it's not the last such problem, so we are going to continue to improve
 We develop BenchmarkDotNet on Windows, but it's already possible to develop it on Linux and MacOS (with some limitations).
 If you have latest <a href="https://www.microsoft.com/net/download/core">.NET Core SDK</a> and <a href="mon">http://www.mono-project.com/download/</a>,
 you should be able to build the solution (with unloaded F#/VB projects), run samples (for both <code>net46</code>/<code>netcoreapp1.1</code>), run unit tests (for <code>netcoreapp1.1</code> only).</p>
-<div class="mx-auto"><a href="/img/posts/bdn-v0_10_7/linux-xunit.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/bdn-v0_10_7/linux-xunit.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/bdn-v0_10_7/linux-xunit.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/bdn-v0_10_7/linux-xunit.png" /></a></div>
 <p>Unfortunately, I don't know how to run unit tests on <code>net46</code> and how to pack NuGet packages on Linux:</p>
 <pre><code>akinshin@xu:~/RiderProjects/BenchmarkDotNet/tests$ dotnet test BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj --configuration Release --framework net46
 Build started, please wait...

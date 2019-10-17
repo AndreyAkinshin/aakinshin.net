@@ -137,13 +137,13 @@ In this post, I'm going to tell you about the most useful features.</p>
 <p>This feature by <a href="https://github.com/adamsitnik">@adamsitnik</a> allows looking at the assembly code of your methods.
 It really helps when you investigate some CPU-bound benchmarks.
 BenchmarkDotNet not only shows naive disasm, but it also prettify the listing can work with hardware counters:</p>
-<div class="mx-auto"><a href="/img/posts/bdn-v0_10_10/branchpredictor.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/bdn-v0_10_10/branchpredictor.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/bdn-v0_10_10/branchpredictor.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/bdn-v0_10_10/branchpredictor.png" /></a></div>
 <p>You can find the full info in the <a href="http://adamsitnik.com/Disassembly-Diagnoser/">Disassembling .NET Code with BenchmarkDotNet</a> blog post by Adam Sitnik.</p>
 <p>It turned out that this feature is useful for comparing assembly for different versions of .NET JIT-compilers.
 Check out a recent post from Microsoft .NET Blog by Joseph Tremoulet:
 <a href="https://blogs.msdn.microsoft.com/dotnet/2017/10/16/ryujit-just-in-time-compiler-optimization-enhancements/">RyuJIT Just-in-Time Compiler Optimization Enhancements</a>.
 In this post, Joseph compares RyuJIT assembly code for .NET Core 2.0 RTM and .NET Core 2.1.0-preview1-25719-04.</p>
-<div class="mx-auto"><a href="/img/posts/bdn-v0_10_10/ryujit.png" target="_blank"><img class="mx-auto d-block" width="600" src="/img/posts/bdn-v0_10_10/ryujit.png" /></a></div>
+<div class="mx-auto"><a href="/img/posts/bdn-v0_10_10/ryujit.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/bdn-v0_10_10/ryujit.png" /></a></div>
 <p>It's really great to see that BenchmarkDotNet helps to develop such products like .NET Core.
 By the way, the development process is also useful for BenchmarkDotNet.
 Here are some great bug reports by Joseph which were fixed by Adam:
