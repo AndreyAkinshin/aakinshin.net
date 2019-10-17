@@ -12,15 +12,15 @@
 
     <title>Distribution comparison via the shift and ratio functions</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="/css/lumen-bootstrap.min.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: no-preference)">
-    <link href="/css/lumen-bootstrap.min.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light)">
-    <link href="/css/slate-bootstrap.min.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+    <!-- Bootstrap CSS & Highlight.js-->
+    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+    <script src="/js/theme-before.js"></script>
 
-    <!-- Highlight.js -->
-    <link href="/css/github-highlight.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: no-preference)">
-    <link href="/css/github-highlight.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light)">
-    <link href="/css/darcula-highlight.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+    <!-- DarkModeToggle -->
+    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
 
     <!-- FontAwesome -->
     <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
@@ -100,6 +100,9 @@
                   <a class="dropdown-item" href='/ru/posts/shift-and-ratio-functions/'>Ru</a>
               </div>
             </li>
+            <li class="nav-item"></li>
+              <dark-mode-toggle permanent="true"></dark-mode-toggle>
+            </li>
           </ul>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
@@ -127,7 +130,8 @@ Let's look at the following image:</p>
 <div class="mx-auto">
 <a href="/img/posts/shift-and-ratio-functions/compare1-light.png" target="_blank">
 <picture>
-<source srcset="/img/posts/shift-and-ratio-functions/compare1-dark.png" media="(prefers-color-scheme: dark)">
+<source theme='dark' srcset="/img/posts/shift-and-ratio-functions/compare1-dark.png" media="(prefers-color-scheme: dark)">
+<source theme='light' srcset="/img/posts/shift-and-ratio-functions/compare1-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
 <img class="mx-auto d-block" width="800" src="/img/posts/shift-and-ratio-functions/compare1-light.png">
 </picture>
 </a>
@@ -142,7 +146,8 @@ difference between mean values.</p>
 <div class="mx-auto">
 <a href="/img/posts/shift-and-ratio-functions/compare2-light.png" target="_blank">
 <picture>
-<source srcset="/img/posts/shift-and-ratio-functions/compare2-dark.png" media="(prefers-color-scheme: dark)">
+<source theme='dark' srcset="/img/posts/shift-and-ratio-functions/compare2-dark.png" media="(prefers-color-scheme: dark)">
+<source theme='light' srcset="/img/posts/shift-and-ratio-functions/compare2-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
 <img class="mx-auto d-block" width="800" src="/img/posts/shift-and-ratio-functions/compare2-light.png">
 </picture>
 </a>
@@ -155,7 +160,8 @@ the right mode has the biggest impact on these metrics than the left more.</p>
 <div class="mx-auto">
 <a href="/img/posts/shift-and-ratio-functions/compare3-light.png" target="_blank">
 <picture>
-<source srcset="/img/posts/shift-and-ratio-functions/compare3-dark.png" media="(prefers-color-scheme: dark)">
+<source theme='dark' srcset="/img/posts/shift-and-ratio-functions/compare3-dark.png" media="(prefers-color-scheme: dark)">
+<source theme='light' srcset="/img/posts/shift-and-ratio-functions/compare3-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
 <img class="mx-auto d-block" width="800" src="/img/posts/shift-and-ratio-functions/compare3-light.png">
 </picture>
 </a>
@@ -176,7 +182,8 @@ For the above three cases, the shift function plots will look like this:</p>
 <div class="mx-auto">
 <a href="/img/posts/shift-and-ratio-functions/shift-light.png" target="_blank">
 <picture>
-<source srcset="/img/posts/shift-and-ratio-functions/shift-dark.png" media="(prefers-color-scheme: dark)">
+<source theme='dark' srcset="/img/posts/shift-and-ratio-functions/shift-dark.png" media="(prefers-color-scheme: dark)">
+<source theme='light' srcset="/img/posts/shift-and-ratio-functions/shift-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
 <img class="mx-auto d-block" width="800" src="/img/posts/shift-and-ratio-functions/shift-light.png">
 </picture>
 </a>
@@ -199,7 +206,8 @@ It will look like this:</p>
 <div class="mx-auto">
 <a href="/img/posts/shift-and-ratio-functions/ratio-light.png" target="_blank">
 <picture>
-<source srcset="/img/posts/shift-and-ratio-functions/ratio-dark.png" media="(prefers-color-scheme: dark)">
+<source theme='dark' srcset="/img/posts/shift-and-ratio-functions/ratio-dark.png" media="(prefers-color-scheme: dark)">
+<source theme='light' srcset="/img/posts/shift-and-ratio-functions/ratio-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
 <img class="mx-auto d-block" width="800" src="/img/posts/shift-and-ratio-functions/ratio-light.png">
 </picture>
 </a>
@@ -217,7 +225,8 @@ other quantiles decreased by ≈15%.</li>
 <div class="mx-auto">
 <a href="/img/posts/shift-and-ratio-functions/compare4-light.png" target="_blank">
 <picture>
-<source srcset="/img/posts/shift-and-ratio-functions/compare4-dark.png" media="(prefers-color-scheme: dark)">
+<source theme='dark' srcset="/img/posts/shift-and-ratio-functions/compare4-dark.png" media="(prefers-color-scheme: dark)">
+<source theme='light' srcset="/img/posts/shift-and-ratio-functions/compare4-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
 <img class="mx-auto d-block" width="800" src="/img/posts/shift-and-ratio-functions/compare4-light.png">
 </picture>
 </a>
@@ -226,7 +235,8 @@ other quantiles decreased by ≈15%.</li>
 <div class="mx-auto">
 <a href="/img/posts/shift-and-ratio-functions/compare5-light.png" target="_blank">
 <picture>
-<source srcset="/img/posts/shift-and-ratio-functions/compare5-dark.png" media="(prefers-color-scheme: dark)">
+<source theme='dark' srcset="/img/posts/shift-and-ratio-functions/compare5-dark.png" media="(prefers-color-scheme: dark)">
+<source theme='light' srcset="/img/posts/shift-and-ratio-functions/compare5-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
 <img class="mx-auto d-block" width="800" src="/img/posts/shift-and-ratio-functions/compare5-light.png">
 </picture>
 </a>
@@ -235,7 +245,8 @@ other quantiles decreased by ≈15%.</li>
 <div class="mx-auto">
 <a href="/img/posts/shift-and-ratio-functions/compare6-light.png" target="_blank">
 <picture>
-<source srcset="/img/posts/shift-and-ratio-functions/compare6-dark.png" media="(prefers-color-scheme: dark)">
+<source theme='dark' srcset="/img/posts/shift-and-ratio-functions/compare6-dark.png" media="(prefers-color-scheme: dark)">
+<source theme='light' srcset="/img/posts/shift-and-ratio-functions/compare6-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
 <img class="mx-auto d-block" width="800" src="/img/posts/shift-and-ratio-functions/compare6-light.png">
 </picture>
 </a>
@@ -299,6 +310,7 @@ Share:
       </div>
     </footer>
 
+    <script src="/js/theme-after.js"></script>
     <!-- jQuery first (header), then popper, then Bootstrap JS. -->
     <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>

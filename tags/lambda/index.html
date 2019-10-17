@@ -12,15 +12,15 @@
 
     <title>Andrey Akinshin</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="/css/lumen-bootstrap.min.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: no-preference)">
-    <link href="/css/lumen-bootstrap.min.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light)">
-    <link href="/css/slate-bootstrap.min.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+    <!-- Bootstrap CSS & Highlight.js-->
+    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+    <script src="/js/theme-before.js"></script>
 
-    <!-- Highlight.js -->
-    <link href="/css/github-highlight.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: no-preference)">
-    <link href="/css/github-highlight.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light)">
-    <link href="/css/darcula-highlight.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+    <!-- DarkModeToggle -->
+    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
 
     <!-- FontAwesome -->
     <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
@@ -100,6 +100,9 @@
                   <a class="dropdown-item" href='/ru/tags/lambda/'>Ru</a>
               </div>
             </li>
+            <li class="nav-item"></li>
+              <dark-mode-toggle permanent="true"></dark-mode-toggle>
+            </li>
           </ul>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
@@ -160,6 +163,7 @@ private sealed class DisplayClass
       </div>
     </footer>
 
+    <script src="/js/theme-after.js"></script>
     <!-- jQuery first (header), then popper, then Bootstrap JS. -->
     <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>

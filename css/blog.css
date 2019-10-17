@@ -173,3 +173,8 @@ h6, .h6 {
 td.slow { color: #ff4444; }
 td.fast { color: #00C851; }
 td.norm { color: #FF8800; }
+
+dark-mode-toggle {
+  --dark-mode-toggle-light-icon: url(/img/icons/moon.svg);
+  --dark-mode-toggle-dark-icon: url(/img/icons/sun.svg);
+}

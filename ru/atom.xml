@@ -3,7 +3,7 @@
     <title>Блог Андрея Акиньшина</title>
     <link href="http://aakinshin.net"/>
     <link type="application/atom+xml" rel="self" href="http://aakinshin.net/ru/atom.xml"/>
-    <updated>2019-10-17T10:51:29.2952432Z</updated>
+    <updated>2019-10-17T15:32:33.1504791Z</updated>
     <id>http://aakinshin.net/</id>
     <author>
         <name>Андрей Акиньшин</name>
@@ -25,7 +25,8 @@ Let&#39;s look at the following image:&lt;/p&gt;
 &lt;div class=&quot;mx-auto&quot;&gt;
 &lt;a href=&quot;/img/posts/shift-and-ratio-functions/compare1-light.png&quot; target=&quot;_blank&quot;&gt;
 &lt;picture&gt;
-&lt;source srcset=&quot;/img/posts/shift-and-ratio-functions/compare1-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare1-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare1-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
 &lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare1-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
@@ -40,7 +41,8 @@ difference between mean values.&lt;/p&gt;
 &lt;div class=&quot;mx-auto&quot;&gt;
 &lt;a href=&quot;/img/posts/shift-and-ratio-functions/compare2-light.png&quot; target=&quot;_blank&quot;&gt;
 &lt;picture&gt;
-&lt;source srcset=&quot;/img/posts/shift-and-ratio-functions/compare2-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare2-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare2-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
 &lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare2-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
@@ -53,7 +55,8 @@ the right mode has the biggest impact on these metrics than the left more.&lt;/p
 &lt;div class=&quot;mx-auto&quot;&gt;
 &lt;a href=&quot;/img/posts/shift-and-ratio-functions/compare3-light.png&quot; target=&quot;_blank&quot;&gt;
 &lt;picture&gt;
-&lt;source srcset=&quot;/img/posts/shift-and-ratio-functions/compare3-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare3-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare3-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
 &lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare3-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
@@ -74,7 +77,8 @@ For the above three cases, the shift function plots will look like this:&lt;/p&g
 &lt;div class=&quot;mx-auto&quot;&gt;
 &lt;a href=&quot;/img/posts/shift-and-ratio-functions/shift-light.png&quot; target=&quot;_blank&quot;&gt;
 &lt;picture&gt;
-&lt;source srcset=&quot;/img/posts/shift-and-ratio-functions/shift-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/shift-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/shift-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
 &lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/shift-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
@@ -97,7 +101,8 @@ It will look like this:&lt;/p&gt;
 &lt;div class=&quot;mx-auto&quot;&gt;
 &lt;a href=&quot;/img/posts/shift-and-ratio-functions/ratio-light.png&quot; target=&quot;_blank&quot;&gt;
 &lt;picture&gt;
-&lt;source srcset=&quot;/img/posts/shift-and-ratio-functions/ratio-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/ratio-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/ratio-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
 &lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/ratio-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
@@ -115,7 +120,8 @@ other quantiles decreased by ≈15%.&lt;/li&gt;
 &lt;div class=&quot;mx-auto&quot;&gt;
 &lt;a href=&quot;/img/posts/shift-and-ratio-functions/compare4-light.png&quot; target=&quot;_blank&quot;&gt;
 &lt;picture&gt;
-&lt;source srcset=&quot;/img/posts/shift-and-ratio-functions/compare4-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare4-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare4-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
 &lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare4-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
@@ -124,7 +130,8 @@ other quantiles decreased by ≈15%.&lt;/li&gt;
 &lt;div class=&quot;mx-auto&quot;&gt;
 &lt;a href=&quot;/img/posts/shift-and-ratio-functions/compare5-light.png&quot; target=&quot;_blank&quot;&gt;
 &lt;picture&gt;
-&lt;source srcset=&quot;/img/posts/shift-and-ratio-functions/compare5-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare5-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare5-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
 &lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare5-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
@@ -133,7 +140,8 @@ other quantiles decreased by ≈15%.&lt;/li&gt;
 &lt;div class=&quot;mx-auto&quot;&gt;
 &lt;a href=&quot;/img/posts/shift-and-ratio-functions/compare6-light.png&quot; target=&quot;_blank&quot;&gt;
 &lt;picture&gt;
-&lt;source srcset=&quot;/img/posts/shift-and-ratio-functions/compare6-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare6-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/shift-and-ratio-functions/compare6-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
 &lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/shift-and-ratio-functions/compare6-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
@@ -184,7 +192,8 @@ it looks like this:&lt;/p&gt;
 &lt;div class=&quot;mx-auto&quot;&gt;
 &lt;a href=&quot;/img/posts/normality/normal-light.png&quot; target=&quot;_blank&quot;&gt;
 &lt;picture&gt;
-&lt;source srcset=&quot;/img/posts/normality/normal-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/normality/normal-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/normality/normal-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
 &lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/normality/normal-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
@@ -206,7 +215,8 @@ when we open the &lt;a href=&quot;https://github.com/OrchardCMS/Orchard&quot;&gt
 &lt;div class=&quot;mx-auto&quot;&gt;
 &lt;a href=&quot;/img/posts/normality/performance-light.png&quot; target=&quot;_blank&quot;&gt;
 &lt;picture&gt;
-&lt;source srcset=&quot;/img/posts/normality/performance-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/normality/performance-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/normality/performance-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
 &lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/normality/performance-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
@@ -236,7 +246,8 @@ Now let&#39;s look at the &amp;quot;Expectation vs. Reality&amp;quot; picture fo
 &lt;div class=&quot;mx-auto&quot;&gt;
 &lt;a href=&quot;/img/posts/normality/misleading-light.png&quot; target=&quot;_blank&quot;&gt;
 &lt;picture&gt;
-&lt;source srcset=&quot;/img/posts/normality/misleading-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/normality/misleading-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/normality/misleading-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
 &lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/normality/misleading-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
@@ -304,7 +315,8 @@ Here is the result:&lt;/p&gt;
 &lt;div class=&quot;mx-auto&quot;&gt;
 &lt;a href=&quot;/img/posts/normality/clt-light.png&quot; target=&quot;_blank&quot;&gt;
 &lt;picture&gt;
-&lt;source srcset=&quot;/img/posts/normality/clt-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/normality/clt-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/normality/clt-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
 &lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/normality/clt-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
@@ -368,7 +380,8 @@ You can see examples of such changes on the following picture (we change the col
 &lt;div class=&quot;mx-auto&quot;&gt;
 &lt;a href=&quot;/img/posts/edpelt/edpelt-light.png&quot; target=&quot;_blank&quot;&gt;
 &lt;picture&gt;
-&lt;source srcset=&quot;/img/posts/edpelt/edpelt-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/edpelt/edpelt-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/edpelt/edpelt-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
 &lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/edpelt/edpelt-light.png&quot;&gt;
 &lt;/picture&gt;
 &lt;/a&gt;
