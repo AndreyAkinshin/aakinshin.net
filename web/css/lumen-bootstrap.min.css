@@ -18,6 +18,12 @@ body {
     font-weight: 400;
     line-height: 1.5;
 }
+.navbar {
+    padding: 0 1rem;
+}
+.navbar .nav-link {
+    padding: 0.5rem;
+}
 
 /* Custom */
 blockquote {
