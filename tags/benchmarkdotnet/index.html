@@ -13,14 +13,12 @@
     <title>Andrey Akinshin</title>
 
     <!-- Bootstrap CSS -->
-    <link href="/css/lumen-bootstrap.min.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: no-preference)">
-    <link href="/css/lumen-bootstrap.min.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light)">
-    <link href="/css/slate-bootstrap.min.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+    <link href="/css/lumen-bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/slate-bootstrap.min.css" rel="stylesheet" type="text/css" media="all" disabled>
 
     <!-- Highlight.js -->
-    <link href="/css/github-highlight.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: no-preference)">
-    <link href="/css/github-highlight.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light)">
-    <link href="/css/darcula-highlight.css" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+    <link href="/css/github-highlight.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/darcula-highlight.css" rel="stylesheet" type="text/css" media="all" disabled>
 
     <!-- FontAwesome -->
     <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
@@ -28,6 +26,9 @@
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Load theme -->
+    <script src="/js/load-theme.js"></script>
 
     <!-- Feeds -->
     <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
@@ -74,7 +75,7 @@
     <!-- /Yandex.Metrika counter -->
 
     <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
+    <script src="/js/jquery-3.2.1.slim.min.js"></script>
   </head>
 
   <body>
@@ -100,6 +101,8 @@
                   <a class="dropdown-item" href='/ru/tags/benchmarkdotnet/'>Ru</a>
               </div>
             </li>
+            <li class="nav-item" id="theme-switcher-to-dark"><a class="nav-link" href="#" onclick="setTheme('slate', 'darcula');"><i class="fas fa-moon" title="Switch To Dark Theme" style="color:white"></i></a></li>
+            <li class="nav-item" id="theme-switcher-to-light"><a class="nav-link" href="#" onclick="setTheme('lumen', 'github');"><i class="far fa-moon" title="Switch To Light Theme" style="color:white"></i></a></li>
           </ul>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>

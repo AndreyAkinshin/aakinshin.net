@@ -31,3 +31,5 @@ anchors.options = {
 anchors.add('h1');
 anchors.add('h2');
 anchors.add('h3');
+
+refreshTheme();
