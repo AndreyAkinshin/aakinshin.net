@@ -13,6 +13,8 @@ talks:
     links:
       - key: event
         url: https://dotnetos.org/
+      - key: slides-web
+        url: http://slides.aakinshin.net/dotnetos2019/
   - date: 2019-06-28
     event: JetBrains Open Day 2019
     event-type: conference
@@ -27,6 +29,8 @@ talks:
         url: https://habr.com/en/company/jetbrains/blog/457986/
       - key: youtube
         url: https://www.youtube.com/watch?v=RLBO5-HZqig
+      - key: google-slides
+        url: https://docs.google.com/presentation/d/1hz4lzWDKf2OnJdnBmC5mtEvD-VNlTyMbQxumYUk0xCg/edit?usp=sharing
   - date: 2019-05-21
     event: Kotlin meetup at Tel Aviv
     event-type: meetup
@@ -38,6 +42,8 @@ talks:
     links:
       - key: event
         url: https://www.meetup.com/KotlinTLV/events/259867311/
+      - key: slides-web
+        url: http://slides.aakinshin.net/kotlin-israel2019/
   - date: 2019-05-20
     event: JetBrains Night Tel Aviv 2019
     event-type: conference
@@ -49,6 +55,8 @@ talks:
     links:
       - key: photos
         url: https://photos.app.goo.gl/TMqw37ibjg1ZZRst6
+      - key: google-slides
+        url: https://docs.google.com/presentation/d/17sf_oDbAUjqcBsSvQeS47xMSPF6mGk74gll4MP8t8HY/edit?usp=sharing
   - date: 2019-05-19
     event: JetBrains Event Haifa
     event-type: meetup
@@ -60,6 +68,8 @@ talks:
     links:
       - key: event
         url: https://www.meetup.com/haifa-cpp/events/259965271/
+      - key: slides-web
+        url: http://slides.aakinshin.net/kotlin-israel2019/
   ######################################################################################################################
   # 2018
   ######################################################################################################################
@@ -311,7 +321,6 @@ talks:
     links:
       - key: event
         url: http://dump-conf.ru/
-        caption: Dump
       - key: youtube
         url: https://www.youtube.com/watch?v=raJ-yhkH9MY
       - key: slideshare

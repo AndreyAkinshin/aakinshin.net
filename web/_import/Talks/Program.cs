@@ -20,14 +20,33 @@ namespace MyTalks
             {"org", "fas fa-building"}
         };
 
+        private static readonly Dictionary<string, string> keyLegend = new Dictionary<string, string>
+        {
+            {"youtube", "Video (YouTube)"},
+            {"slides-web", "Presentation (Web)"},
+            {"pdf", "Presentation (Pdf)"},
+            {"slideshare", "Presentation (SlideShare)"},
+            {"talk", "Abstract"},
+            {"google-slides", "Presentation (GoogleSlides)"},
+        };
+
         public string Key { get; set; }
         public string Url { get; set; }
         public string Caption { get; set; }
+        public string Title { get; set; }
+
+        private static string Capitalize(string s) => s.First().ToString().ToUpper() + s.Substring(1);
 
         public string ToHtml()
         {
-            var fa = faDictionary.ContainsKey(Key) ? faDictionary[Key] : "fas fa-question";
-            return $"<a href=\"{Url}\"><i class=\"{fa} fa-profile-link\" title=\"{Key}\"></i></a>";
+            var label = Title;
+            if (string.IsNullOrWhiteSpace(label))
+            {
+                label = keyLegend.ContainsKey(Key) ? keyLegend[Key] : Capitalize(Key);
+                if (!string.IsNullOrWhiteSpace(Caption))
+                    label += " (" + Caption + ")";
+            }
+            return $"<a href=\"{Url}\" class=\"badge badge-light\">{label}</a>";
         }
     }
 
@@ -60,7 +79,8 @@ namespace MyTalks
             {
                 Key = GetStr(yaml, "key"),
                 Url = GetStr(yaml, "url"),
-                Caption = GetStr(yaml, "caption")
+                Caption = GetStr(yaml, "caption"),
+                Title = GetStr(yaml, "title")
             };
             if (link.Key.Contains("_"))
             {
@@ -122,9 +142,9 @@ namespace MyTalks
 
         private string QuoteWithLink(Talk conf, string text, string linkKey)
         {
-            var link = conf.GetLink(linkKey);
-            if (link != null)
-                return $"<a href=\"{link.Url}\">{Quote(text)}</a>";
+//            var link = conf.GetLink(linkKey);
+//            if (link != null)
+//                return $"<a href=\"{link.Url}\">{Quote(text)}</a>";
             return Quote(text);
         }
 
@@ -152,11 +172,6 @@ namespace MyTalks
                 builder.AppendLine(QuoteWithLink(talk, talk.Title, "talk"));
                 if (talk.Lang != "")
                     builder.AppendLine("    (" + talk.Lang.ToUpperInvariant() + ")");
-                foreach (var link in talk.Links)
-                {
-                    if (link.Key != "event" && link.Key != "talk")
-                        builder.AppendLine("    " + link.ToHtml());
-                }
 
                 builder.AppendLine("  ,<br />");
             }
@@ -176,6 +191,13 @@ namespace MyTalks
                 details.Add(talk.Location.Replace("г. ", "г.&nbsp;"));
             if (details.Any())
                 builder.AppendLine("  <i>" + string.Join(", ", details) + "</i>");
+
+            if (talk.Links.Any())
+            {
+                builder.AppendLine("<br />");
+                foreach (var link in talk.Links) 
+                    builder.AppendLine("    " + link.ToHtml());
+            }
 
             builder.AppendLine("</li>");
 
