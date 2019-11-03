@@ -23,24 +23,30 @@ permalink: /ru/about/
 <a href="mailto:andrey.akinshin@gmail.com">andrey.akinshin@gmail.com</a>
 <hr />
 
-Андрей Акиньшин работает в компании [JetBrains](https://www.jetbrains.com/),
-  где он трудится над проектом [Rider](https://www.jetbrains.com/rider/)
+<div class="compact">
+
+Андрей Акиньшин — разработчик и учёный,
+  частый [спикер](#talks) на конференциях,
+  автор [постов](#posts) и [статей](#publications).
+Он мейнтейнер [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)
+  (самая популярная библиотека для написания .NET-бенчмарков)
+  и автор [Pro .NET Benchmarking](/prodotnetbenchmarking/)
+  (книга о практиках замеров производительности).
+
+Сейчас Андрей работает в [JetBrains](https://www.jetbrains.com/)
+  над проектом [Rider](https://www.jetbrains.com/rider/)
   (кроссплатформенная .NET IDE, основанная на платформе [IntelliJ](https://www.jetbrains.com/idea/) и [ReSharper](https://www.jetbrains.com/resharper/)).
-Его любимые темы — производительность и микрооптимизации,
-  он также мейнтейнер проекта [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)
-  (библиотека для написания .NET-бенчмарков, поддержанная [.NET Foundation](https://dotnetfoundation.org/))
-  и автор [Pro .NET Benchmarking](/prodotnetbenchmarking/).
-Андрей — частый [спикер](#talks) на различных мероприятиях для разработчиков и
-  председатель программного комитета конференции [DotNext](https://dotnext.ru/).
-Он также 
-  к.ф.-м.н.,
+Он также
+  председатель программного комитета конференции [DotNext](https://dotnext.ru/),
   [бывший Microsoft .NET MVP](https://mvp.microsoft.com/en-us/PublicProfile/5001348),
   серебрянный медалист [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest).
-В свободное время любит заниматься наукой,
-  основные научные интересы — математическая биология и теория бифуркаций.
-Раньше он работал
-  постдоком в [Институте Вейцмана](http://www.weizmann.ac.il/) и
-  научным сотрудником в [Институте математики СО РАН](http://www.math.nsc.ru/).
+
+Андрей имеет степень к.ф.-м.н.,
+  занимается научным проектом в [Институте математики СО РАН](http://www.math.nsc.ru/)
+  в сфере математической биологии и теории бифуркаций.
+Раньше работал постдоком в [Институте Вейцмана](http://www.weizmann.ac.il/).
+
+</div>
 
 <div id="about">
 

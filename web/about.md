@@ -25,24 +25,31 @@ redirect_from:
 <a href="mailto:andrey.akinshin@gmail.com">andrey.akinshin@gmail.com</a>
 <hr />
 
-Andrey Akinshin is a senior developer at [JetBrains](https://www.jetbrains.com/),
+<div class="compact">
+
+Andrey Akinshin is a developer and scientist,
+  a frequent [conference speaker](#talks),
+  an author of [blog posts](#posts) and [papers](#publications).
+He is
+  the project lead of [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)
+  (the most popular .NET library for benchmarking)
+  and author of [Pro .NET Benchmarking](/prodotnetbenchmarking/)
+  (a book about good practices of performance measurements).
+
+Currently, Andrey is a senior developer at [JetBrains](https://www.jetbrains.com/),
   where he works on [Rider](https://www.jetbrains.com/rider/)
   (a cross-platform .NET IDE based on the [IntelliJ](https://www.jetbrains.com/idea/) platform and [ReSharper](https://www.jetbrains.com/resharper/)).
-His favorite topics are performance and micro-optimizations,
-  he is the maintainer of [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)
-  (a powerful .NET library for benchmarking supported by the [.NET Foundation](https://dotnetfoundation.org/)),
-  and author of [Pro .NET Benchmarking](/prodotnetbenchmarking/).
-Andrey is a frequent [speaker](#talks) at various events for developers, and
-  he is the program director of the [DotNext](https://dotnext.ru/en/) conference.
-Andrey is also
-  a PhD in computer science,
+He is also
+  the program director of the [DotNext](https://dotnext.ru/en/) conference,
   a [former Microsoft .NET MVP](https://mvp.microsoft.com/en-us/PublicProfile/5001348),
   a silver medalist of [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest).
-In his free time, he likes to study science
-  (his primary research interests are mathematical biology and bifurcation theory).
-Previously, he worked
-  as a postdoctoral research fellow in the [Weizmann Institute of Science](http://www.weizmann.ac.il/) and
-  as a research scientist in the [Sobolev Institute of Mathematics SB RAS](http://math.nsc.ru/english.html).
+
+Andrey is a PhD in computer science.
+He is involved in a research project at the [Sobolev Institute of Mathematics SB RAS](http://math.nsc.ru/english.html)
+  related to the mathematical biology and bifurcation theory.
+Previously, he worked as a postdoctoral research fellow at the [Weizmann Institute of Science](http://www.weizmann.ac.il/).
+
+</div>
 
 <div id="about">
 
