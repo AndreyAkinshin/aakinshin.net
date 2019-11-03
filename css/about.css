@@ -12,3 +12,8 @@
 #about img {
   height: 18px;
 }
+
+.compact p {
+  text-indent: 20px !important;
+  margin: 0 !important;
+}
