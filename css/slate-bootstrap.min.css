@@ -30,3 +30,9 @@ blockquote {
 .badge-info {
     background-color: #3f8499;
 }
+.btn {
+    height: 1.5rem;
+    padding: 0.2rem 0.4rem !important;
+    font-weight: 200 !important;
+    font-size: 0.7rem !important;
+}
