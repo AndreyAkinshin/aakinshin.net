@@ -21,6 +21,8 @@ github:
         title: Workbook for Coursera Dsp course
   - role: Contributor
     repos:
+      - url: dotnet/runtime
+        title: .NET is a cross-platform runtime and libraries, for cloud, IoT and desktop apps. It includes a garbage collector, JIT compiler, primitive data types and class libraries
       - url: dotnet/coreclr
         title: This repo contains the .NET Core runtime, called CoreCLR, and the base library, called System.Private.Corelib (or mscorlib)
       - url: dotnet/corefx
