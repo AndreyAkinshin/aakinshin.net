@@ -116,6 +116,22 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/bdn-v0_10_10/'>BenchmarkDotNet v0.10.10</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> November 03, 2017.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/tags/benchmarkdotnet"><span class="badge badge-pill badge-info">BenchmarkDotNet</span></a>
+                <a href="/tags/benchmarking"><span class="badge badge-pill badge-info">benchmarking</span></a>
+        </span><br /><br />
+        <p>BenchmarkDotNet v0.10.10 has been released!
+This release includes many new features like Disassembly Diagnoser, ParamsSources, .NET Core x86 support, Environment variables, and more!</p>
+</p>
+        <a href='/posts/bdn-v0_10_10/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/reflecting-on-performance-testing/'>Reflecting on performance testing</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> August 01, 2017.
@@ -402,59 +418,6 @@ Here are some interesting results:</p>
 </table>
 </p>
         <a href='/posts/perfex-div/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/perfex-min/'>Performance exercise: Minimum</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> December 20, 2016.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/performanceexercise"><span class="badge badge-pill badge-info">PerformanceExercise</span></a>
-                <a href="/tags/benchmarking"><span class="badge badge-pill badge-info">Benchmarking</span></a>
-                <a href="/tags/math"><span class="badge badge-pill badge-info">Math</span></a>
-        </span><br /><br />
-        <p>Performance is tricky. Especially, if you are working with very fast operations. In today benchmarking exercise, we will try to measure performance of two simple methods which calculate minimum of two numbers. Sounds easy? Ok, let's do it, here are our guinea pigs for today:</p>
-<pre><code class="language-cs">int MinTernary(int x, int y)  =&gt; x &lt; y ? x : y;
-int MinBitHacks(int x, int y) =&gt; x &amp; ((x - y) &gt;&gt; 31) | y &amp; (~(x - y) &gt;&gt; 31);
-</code></pre>
-<p>And here are some results:</p>
-<table class="table table-sm">
-  <style type="text/css" scoped>
-    td.slow { color: #ff4444; } 
-    td.fast { color: #00C851; }
-  </style>
-  
-  <tr> <th></th> <th colspan="2">Random</th>        <th colspan="2">Const</th>          </tr>
-  <tr> <th></th> <th>Ternary</th> <th>BitHacks</th> <th>Ternary</th> <th>BitHacks</th>  </tr>
-  <tr> <th>LegacyJIT-x86</th>
-       <td class="slow">≈643µs</td>
-       <td class="fast">≈227µs</td>
-       <td class="fast">≈160µs</td>
-       <td class="slow">≈226µs</td>
-  </tr>
-  <tr> <th>LegacyJIT-x64</th>
-       <td class="slow">≈450µs</td>
-       <td class="fast">≈123µs</td>
-       <td class="fast">≈68µs</td>
-       <td class="slow">≈123µs</td>
-  </tr>
-  <tr> <th>RyuJIT-x64</th>
-       <td class="slow">≈594µs</td>
-       <td class="fast">≈241µs</td>
-       <td class="fast">≈180µs</td>
-       <td class="slow">≈241µs</td>
-  </tr>
-  <tr> <th>Mono-x64</th>
-       <td class="fast">≈203µs</td>
-       <td class="slow">≈283µs</td>
-       <td class="fast">≈204µs</td>
-       <td class="slow">≈282µs</td>
-  </tr>
-</table>
-<p>What's going on here? Let's discuss it in detail.</p>
-</p>
-        <a href='/posts/perfex-min/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="Introducing perfolizer">
+    <meta name="author" content="Andrey Akinshin">
+    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
+    <meta name="keywords" content='performance'>
+
+    <title>Introducing perfolizer</title>
+
+    <!-- Bootstrap CSS & Highlight.js-->
+    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+    <script src="/js/theme-before.js"></script>
+
+    <!-- DarkModeToggle -->
+    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
+
+    <!-- FontAwesome -->
+    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
+    
+    <!-- Custom styles -->
+    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Feeds -->
+    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
+    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
+
+    <!-- Google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-41419012-5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+        (function (d, w, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    w.yaCounter28700916 = new Ya.Metrika({
+                        id:28700916,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true,
+                        webvisor:true,
+                        trackHash:true
+                    });
+                } catch(e) { }
+            });
+
+            var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () { n.parentNode.insertBefore(s, n); };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f, false);
+            } else { f(); }
+        })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+    <!-- jQuery -->
+    <script src="/js/jquery-3.3.1.slim.min.js"></script>
+  </head>
+
+  <body>
+    <div class="bg-primary">
+      <div class="container bg-primary">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
+              <div class="dropdown-menu">
+                  <a class="dropdown-item" href='/ru/posts/introducing-perfolizer/'>Ru</a>
+              </div>
+            </li>
+            <li class="nav-item"></li>
+              <dark-mode-toggle permanent="true"></dark-mode-toggle>
+            </li>
+          </ul>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
+            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
+            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="blog-main">
+<div class="blog-post">
+
+<h2 class="blog-post-title" id="post-title">Introducing perfolizer</h2>
+<span class="blog-post-meta">
+  <b>Date:</b> March 04, 2020.
+  <b>Tags:</b>
+        <a href="/tags/performance"><span class="badge badge-pill badge-info">performance</span></a>
+</span><br /><br />
+
+<p>Over the last 7 years, I maintain <a href="https://github.com/dotnet/BenchmarkDotNet">BenchmarkDotNet</a>;
+it's a library that helps you to transform methods into benchmarks, track their performance, and share reproducible measurement experiments.
+Today, BenchmarkDotNet become the most popular .NET library for benchmarking which was adopted by <a href="https://github.com/dotnet/BenchmarkDotNet#who-use-benchmarkdotnet">3500+</a> projects including .NET Core.</p>
+<p>While it has tons of features for benchmarking that allows getting reliable and accurate measurements,
+it has a limited set of features for performance analysis.
+And it's a problem for many developers.
+Lately, I started to get a lot of emails when people ask me
+&quot;OK, I benchmarked my application and got tons of numbers. What should I do next?&quot;
+It's an excellent question that requires special tools.
+So, I decided to start another project that focuses specifically on performance analysis.</p>
+<p>Meet <a href="https://github.com/AndreyAkinshin/perfolizer">perfolizer</a> — a toolkit for performance analysis!
+The source code is available on <a href="https://github.com/AndreyAkinshin/perfolizer">GitHub</a> under the MIT license.</p>
+<div class="mx-auto"><a href="/img/posts/introducing-perfolizer/perfolizer.svg" target="_blank"><img class="mx-auto d-block img-fluid" width="800" src="/img/posts/introducing-perfolizer/perfolizer.svg" /></a></div>
+<!--more-->
+<h3 id="whats-available-right-now">What's available right now?</h3>
+<p>For the first announcement, I added a few algorithms like
+<a href="https://github.com/AndreyAkinshin/perfolizer#changepoint-detection">Changepoint detection</a>,
+<a href="https://github.com/AndreyAkinshin/perfolizer#multimodal-sensitive-histograms">Multimodal-sensitive histograms</a>,
+<a href="https://github.com/AndreyAkinshin/perfolizer#multimodality-detection">Multimodality detection</a>,
+<a href="https://github.com/AndreyAkinshin/perfolizer#range-quantile-queries">Range Quantile Queries</a>,
+<a href="https://github.com/AndreyAkinshin/perfolizer#quickselectadaptive">QuickSelectAdaptive</a>.
+Some of them are ported from BenchmarkDotNet; some of them are new.
+For example, it has a new <code>RqqPelt</code> algorithm that works much better than <a href="https://aakinshin.net/posts/edpelt/">EdPelt</a> on cases
+with a huge number of changepoints.</p>
+<p>It's only the beginning, a lot of additional algorithms are coming.</p>
+<h3 id="whats-in-the-roadmap">What's in the roadmap?</h3>
+<p>Here are the most important directions of work:</p>
+<ul>
+<li>A scheme for performance history data format</li>
+<li>Reliable approach for writing performance tests that compares the current revision with previous versions (<a href="https://github.com/dotnet/BenchmarkDotNet/issues/155">BenchmarkDotNet#155</a>)</li>
+<li>Out-of-the-box solution that can be integrated with existing CI infrastructures (<a href="https://github.com/dotnet/BenchmarkDotNet/issues/54">BenchmarkDotNet#54</a>)</li>
+<li>A collection of performance analysis guides (approaches, good practices, recommendations, etc.)</li>
+<li>More awesome algorithms for performance analysis</li>
+</ul>
+<p>I already have drafts for some of these features; others will be written from scratch.
+So, it will take some time, so be patient.</p>
+<h3 id="why-do-we-need-another-nuget-package">Why do we need another NuGet package?</h3>
+<p>The <a href="https://www.nuget.org/packages/BenchmarkDotNet/">BenchmarkDotNet NuGet package</a> becomes pretty heavy because of the dependencies that are essential for benchmarking.
+If you want to just analyze the results, you don't need all the stuff that is required for benchmarking.</p>
+<h3 id="why-its-not-a-part-of-benchmarkdotnet">Why it's not a part of BenchmarkDotNet?</h3>
+<p>Approaches and algorithms for performance analysis are platform-agnostic.
+I want to target a wider audience and make perfolizer available for everyone regardless of platform, runtime, or language.
+Currently, it's available only as a NuGet package and as a command-line tool (which can be installed via the .NET Core SDK),
+but I want to provide an easy way to integrate it with other technology stacks.</p>
+<h3 id="feedback-is-welcome">Feedback is welcome!</h3>
+<p>It's only the first step toward a decent toolkit for performance analysis.
+I will be happy to hear what kind of features you expect to see in the future versions of perfolizer!</p>
+
+<!-- Share -->
+
+Share:
+<a href="https://twitter.com/intent/tweet?text=Introducing perfolizer&url=http://aakinshin.net/posts/introducing-perfolizer/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
+<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/introducing-perfolizer/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
+<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/introducing-perfolizer/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
+<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/introducing-perfolizer/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
+<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/introducing-perfolizer/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
+<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/introducing-perfolizer/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
+<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/introducing-perfolizer/&title=Introducing perfolizer" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
+<hr />
+
+<!-- GitHub -->
+<div>
+  You can find source code of this post on GitHub:<br />
+  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2020/introducing-perfolizer.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2020/introducing-perfolizer.md</a>
+</div>
+
+</div>
+</div>
+    </div>
+
+    <footer class="blog-footer">
+      <div class="container">
+        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
+      </div>
+    </footer>
+
+    <script src="/js/theme-after.js"></script>
+    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- Other scripts -->
+    <script src="/js/highlight.pack.js"></script>
+    <script src="/js/anchor.min.js"></script>
+    <script src="/js/custom.js"></script>
+  </body>
+</html>

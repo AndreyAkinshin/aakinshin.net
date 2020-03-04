@@ -6,9 +6,63 @@
     <atom:link href="http://aakinshin.net/en/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Fri, 03 Jan 2020 09:58:09 GMT</pubDate>
-    <lastBuildDate>Fri, 03 Jan 2020 09:58:09 GMT</lastBuildDate>
+    <pubDate>Wed, 04 Mar 2020 15:52:59 GMT</pubDate>
+    <lastBuildDate>Wed, 04 Mar 2020 15:52:59 GMT</lastBuildDate>
 
+        <item>
+            <title>Introducing perfolizer</title>
+            <link>http://aakinshin.net/posts/introducing-perfolizer/</link> 
+            <pubDate>Wed, 04 Mar 2020 00:00:00 GMT</pubDate>
+            <author>Andrey Akinshin</author>
+            <guid>http://aakinshin.net/posts/introducing-perfolizer/</guid>
+            <description>&lt;p&gt;Over the last 7 years, I maintain &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt;;
+it&#39;s a library that helps you to transform methods into benchmarks, track their performance, and share reproducible measurement experiments.
+Today, BenchmarkDotNet become the most popular .NET library for benchmarking which was adopted by &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet#who-use-benchmarkdotnet&quot;&gt;3500+&lt;/a&gt; projects including .NET Core.&lt;/p&gt;
+&lt;p&gt;While it has tons of features for benchmarking that allows getting reliable and accurate measurements,
+it has a limited set of features for performance analysis.
+And it&#39;s a problem for many developers.
+Lately, I started to get a lot of emails when people ask me
+&amp;quot;OK, I benchmarked my application and got tons of numbers. What should I do next?&amp;quot;
+It&#39;s an excellent question that requires special tools.
+So, I decided to start another project that focuses specifically on performance analysis.&lt;/p&gt;
+&lt;p&gt;Meet &lt;a href=&quot;https://github.com/AndreyAkinshin/perfolizer&quot;&gt;perfolizer&lt;/a&gt; — a toolkit for performance analysis!
+The source code is available on &lt;a href=&quot;https://github.com/AndreyAkinshin/perfolizer&quot;&gt;GitHub&lt;/a&gt; under the MIT license.&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/introducing-perfolizer/perfolizer.svg&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;800&quot; src=&quot;/img/posts/introducing-perfolizer/perfolizer.svg&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;!--more--&gt;
+&lt;h3 id=&quot;whats-available-right-now&quot;&gt;What&#39;s available right now?&lt;/h3&gt;
+&lt;p&gt;For the first announcement, I added a few algorithms like
+&lt;a href=&quot;https://github.com/AndreyAkinshin/perfolizer#changepoint-detection&quot;&gt;Changepoint detection&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/AndreyAkinshin/perfolizer#multimodal-sensitive-histograms&quot;&gt;Multimodal-sensitive histograms&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/AndreyAkinshin/perfolizer#multimodality-detection&quot;&gt;Multimodality detection&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/AndreyAkinshin/perfolizer#range-quantile-queries&quot;&gt;Range Quantile Queries&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/AndreyAkinshin/perfolizer#quickselectadaptive&quot;&gt;QuickSelectAdaptive&lt;/a&gt;.
+Some of them are ported from BenchmarkDotNet; some of them are new.
+For example, it has a new &lt;code&gt;RqqPelt&lt;/code&gt; algorithm that works much better than &lt;a href=&quot;https://aakinshin.net/posts/edpelt/&quot;&gt;EdPelt&lt;/a&gt; on cases
+with a huge number of changepoints.&lt;/p&gt;
+&lt;p&gt;It&#39;s only the beginning, a lot of additional algorithms are coming.&lt;/p&gt;
+&lt;h3 id=&quot;whats-in-the-roadmap&quot;&gt;What&#39;s in the roadmap?&lt;/h3&gt;
+&lt;p&gt;Here are the most important directions of work:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A scheme for performance history data format&lt;/li&gt;
+&lt;li&gt;Reliable approach for writing performance tests that compares the current revision with previous versions (&lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/155&quot;&gt;BenchmarkDotNet#155&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Out-of-the-box solution that can be integrated with existing CI infrastructures (&lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/54&quot;&gt;BenchmarkDotNet#54&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;A collection of performance analysis guides (approaches, good practices, recommendations, etc.)&lt;/li&gt;
+&lt;li&gt;More awesome algorithms for performance analysis&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I already have drafts for some of these features; others will be written from scratch.
+So, it will take some time, so be patient.&lt;/p&gt;
+&lt;h3 id=&quot;why-do-we-need-another-nuget-package&quot;&gt;Why do we need another NuGet package?&lt;/h3&gt;
+&lt;p&gt;The &lt;a href=&quot;https://www.nuget.org/packages/BenchmarkDotNet/&quot;&gt;BenchmarkDotNet NuGet package&lt;/a&gt; becomes pretty heavy because of the dependencies that are essential for benchmarking.
+If you want to just analyze the results, you don&#39;t need all the stuff that is required for benchmarking.&lt;/p&gt;
+&lt;h3 id=&quot;why-its-not-a-part-of-benchmarkdotnet&quot;&gt;Why it&#39;s not a part of BenchmarkDotNet?&lt;/h3&gt;
+&lt;p&gt;Approaches and algorithms for performance analysis are platform-agnostic.
+I want to target a wider audience and make perfolizer available for everyone regardless of platform, runtime, or language.
+Currently, it&#39;s available only as a NuGet package and as a command-line tool (which can be installed via the .NET Core SDK),
+but I want to provide an easy way to integrate it with other technology stacks.&lt;/p&gt;
+&lt;h3 id=&quot;feedback-is-welcome&quot;&gt;Feedback is welcome!&lt;/h3&gt;
+&lt;p&gt;It&#39;s only the first step toward a decent toolkit for performance analysis.
+I will be happy to hear what kind of features you expect to see in the future versions of perfolizer!&lt;/p&gt;</description>
+        </item>
         <item>
             <title>Distribution comparison via the shift and ratio functions</title>
             <link>http://aakinshin.net/posts/shift-and-ratio-functions/</link> 
