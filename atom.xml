@@ -3,7 +3,7 @@
     <title>Andrey Akinshin's blog</title>
     <link href="http://aakinshin.net"/>
     <link type="application/atom+xml" rel="self" href="http://aakinshin.net/en/atom.xml"/>
-    <updated>2020-03-04T15:52:59.2334012Z</updated>
+    <updated>2020-03-04T19:18:04.7576893Z</updated>
     <id>http://aakinshin.net/</id>
     <author>
         <name>Andrey Akinshin</name>
@@ -19,9 +19,9 @@
                 <name>Andrey Akinshin</name>
                 <uri>http://aakinshin.net/</uri>
             </author>
-            <content type="html">&lt;p&gt;Over the last 7 years, I maintain &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt;;
+            <content type="html">&lt;p&gt;Over the last 7 years, I&#39;ve been maintaining &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt;;
 it&#39;s a library that helps you to transform methods into benchmarks, track their performance, and share reproducible measurement experiments.
-Today, BenchmarkDotNet become the most popular .NET library for benchmarking which was adopted by &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet#who-use-benchmarkdotnet&quot;&gt;3500+&lt;/a&gt; projects including .NET Core.&lt;/p&gt;
+Today, BenchmarkDotNet became the most popular .NET library for benchmarking which was adopted by &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet#who-use-benchmarkdotnet&quot;&gt;3500+&lt;/a&gt; projects including .NET Core.&lt;/p&gt;
 &lt;p&gt;While it has tons of features for benchmarking that allows getting reliable and accurate measurements,
 it has a limited set of features for performance analysis.
 And it&#39;s a problem for many developers.

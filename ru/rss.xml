@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/ru/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Wed, 04 Mar 2020 15:52:59 GMT</pubDate>
-    <lastBuildDate>Wed, 04 Mar 2020 15:52:59 GMT</lastBuildDate>
+    <pubDate>Wed, 04 Mar 2020 19:18:04 GMT</pubDate>
+    <lastBuildDate>Wed, 04 Mar 2020 19:18:04 GMT</lastBuildDate>
 
         <item>
             <title>Introducing perfolizer</title>
@@ -15,9 +15,9 @@
             <pubDate>Wed, 04 Mar 2020 00:00:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/posts/introducing-perfolizer/</guid>
-            <description>&lt;p&gt;Over the last 7 years, I maintain &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt;;
+            <description>&lt;p&gt;Over the last 7 years, I&#39;ve been maintaining &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt;;
 it&#39;s a library that helps you to transform methods into benchmarks, track their performance, and share reproducible measurement experiments.
-Today, BenchmarkDotNet become the most popular .NET library for benchmarking which was adopted by &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet#who-use-benchmarkdotnet&quot;&gt;3500+&lt;/a&gt; projects including .NET Core.&lt;/p&gt;
+Today, BenchmarkDotNet became the most popular .NET library for benchmarking which was adopted by &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet#who-use-benchmarkdotnet&quot;&gt;3500+&lt;/a&gt; projects including .NET Core.&lt;/p&gt;
 &lt;p&gt;While it has tons of features for benchmarking that allows getting reliable and accurate measurements,
 it has a limited set of features for performance analysis.
 And it&#39;s a problem for many developers.
