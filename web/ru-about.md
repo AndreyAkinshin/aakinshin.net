@@ -25,12 +25,14 @@ permalink: /ru/about/
 
 <div class="compact">
 
-Андрей Акиньшин — разработчик и учёный,
+Андрей Акиньшин — разработчик и математик,
   частый [спикер](#talks) на конференциях,
   автор [постов](#posts) и [статей](#publications).
 Он мейнтейнер [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)
   (самая популярная библиотека для написания .NET-бенчмарков)
-  и автор [Pro .NET Benchmarking](/prodotnetbenchmarking/)
+  и [perfolizer](https://github.com/AndreyAkinshin/perfolizer)
+  (инструменты для перфоманс-анализа);
+  автор [Pro .NET Benchmarking](/prodotnetbenchmarking/)
   (книга о практиках замеров производительности).
 
 Сейчас Андрей работает в [JetBrains](https://www.jetbrains.com/)
@@ -41,7 +43,7 @@ permalink: /ru/about/
   [бывший Microsoft .NET MVP](https://mvp.microsoft.com/en-us/PublicProfile/5001348),
   серебрянный медалист [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest).
 
-Андрей имеет степень к.ф.-м.н.,
+Андрей имеет степень [к.ф.-м.н.](http://www.sscc.ru/Diss_sov/akinshin-synopsis.pdf),
   занимается научным проектом в [Институте математики СО РАН](http://www.math.nsc.ru/)
   в сфере математической биологии и теории бифуркаций.
 Раньше работал постдоком в [Институте Вейцмана](http://www.weizmann.ac.il/).
@@ -128,8 +130,9 @@ permalink: /ru/about/
 <section>
   <h3 id="enterprise">Программирование</h3>
 
-  *Software Developer в JetBrains, [former Microsoft .NET MVP (2015–2019)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)*<br />
-  **Основные навыки:** .NET/C\#, R, Kotlin, Производительность, Бенчмаркинг, Алгоритмы, Математика
+  *Программист в компании JetBrains, [бывший Microsoft .NET MVP (2015–2019)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)*<br />
+  **Любимые языки:** C\#, Kotlin, R<br />
+  **Специализация:** производительность, бенчмаркинг, алгоритмы, математика
   <br /><br />
 
   ![](/img/icons/jetbrains.png)

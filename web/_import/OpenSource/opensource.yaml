@@ -2,15 +2,17 @@ github:
   - role: Project Lead
     repos:
       - url: dotnet/BenchmarkDotNet
-        title: Powerful .NET library for benchmarking 
+        title: Powerful .NET library for benchmarking
   - role: Owner
     repos:
+      - url: AndreyAkinshin/perfolizer
+        title: Performance analysis toolkit
       - url: AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template
         title: LaTeX-template for russian PhD thesis
       - url: AndreyAkinshin/ProblemBook.NET
-        title: Free book with .NET/C# problems 
+        title: Free book with .NET/C# problems
       - url: AndreyAkinshin/CultureInfoExplorer
-        title: Explorer of CultureInfo instances in .NET 
+        title: Explorer of CultureInfo instances in .NET
       - url: AndreyAkinshin/InteropDotNet
         title: Cross-platform AnyCPU P/Invoke for .NET
       - url: AndreyAkinshin/aakinshin.net
@@ -69,3 +71,9 @@ github:
         title: Unity support for both ReSharper and Rider
       - url: traff/pty4j
         title: Pty for Java
+      - url: nwillc/ksvg
+        title: A Multiplatform Kotlin SVG image DSL
+      - url: KonH/LivelibExport
+        title: Script that converts LiveLib reading list to csv
+      - url: facebook/react-native
+        title: A framework for building native apps with React

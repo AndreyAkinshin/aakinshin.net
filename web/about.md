@@ -33,7 +33,9 @@ Andrey Akinshin is a developer and scientist,
 He is
   the project lead of [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)
   (the most popular .NET library for benchmarking)
-  and author of [Pro .NET Benchmarking](/prodotnetbenchmarking/)
+  and [perfolizer](https://github.com/AndreyAkinshin/perfolizer)
+  (performance analysis toolkit);
+  author of [Pro .NET Benchmarking](/prodotnetbenchmarking/)
   (a book about good practices of performance measurements).
 
 Currently, Andrey is a senior developer at [JetBrains](https://www.jetbrains.com/),
@@ -41,7 +43,7 @@ Currently, Andrey is a senior developer at [JetBrains](https://www.jetbrains.com
   (a cross-platform .NET IDE based on the [IntelliJ](https://www.jetbrains.com/idea/) platform and [ReSharper](https://www.jetbrains.com/resharper/)).
 He is also
   the program director of the [DotNext](https://dotnext.ru/en/) conference,
-  a [former Microsoft .NET MVP](https://mvp.microsoft.com/en-us/PublicProfile/5001348),
+  an [ex Microsoft .NET MVP](https://mvp.microsoft.com/en-us/PublicProfile/5001348),
   a silver medalist of [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest).
 
 Andrey is a PhD in computer science.
@@ -132,8 +134,9 @@ Previously, he worked as a postdoctoral research fellow at the [Weizmann Institu
 <section>
   <h3 id="enterprise">Enterprise programming</h3>
 
-  **Current:** *Software Developer at JetBrains, [former Microsoft .NET MVP (2015–2019)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)*<br />
-  **Main skills:** .NET/C\#, R, Kotlin, Performance, Benchmarking, Algorithms, Mathematics
+  *Software Developer at JetBrains, [ex Microsoft .NET MVP (2015–2019)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)*<br />
+  **Favorite languages:** C\#, Kotlin, R<br />
+  **Specialization:** performance, benchmarking, algorithms, mathematics
   <br /><br />
 
   ![](/img/icons/jetbrains.png)
@@ -190,7 +193,7 @@ Previously, he worked as a postdoctoral research fellow at the [Weizmann Institu
 <section>
   <h3 id="science">Science</h3>
 
-  **Current:** *PhD in Mathematics and Computer Science*
+  *PhD in Mathematics and Computer Science*
   <br /><br />
 
   ![](/img/icons/math-nsc.png)

@@ -1,4 +1,12 @@
 media:
+  - date: 2020-02-04
+    type: interview
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "“Типичная ошибка — бездумно бенчмаркать всё подряд”: интервью с Андреем Акиньшиным о бенчмаркинге"
+    title_en: "«A typical mistake is to mindlessly benchmarking everything»: an interview with Andrey Akinshin about benchmarking"
+    lang: ru
+    url: https://habr.com/en/company/jugru/blog/486712/
   - date: 2019-10-12
     type: podcast
     host: RadioDotNet

@@ -4,7 +4,7 @@ branches:
   only:
     - master
 
-os: Visual Studio 2017
+os: Visual Studio 2019
 test: off
 
 environment:
