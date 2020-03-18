@@ -1,4 +1,10 @@
 media:
+  - date: 2020-03-12
+    type: podcast
+    host: RadioDotNet
+    title: "RadioDotNet-006: DotNext 2020 Piter"
+    lang: ru
+    url: https://anchor.fm/radiodotnet/episodes/RadioDotNet-006-eberjk
   - date: 2020-02-04
     type: interview
     host_en: Habrahabr
