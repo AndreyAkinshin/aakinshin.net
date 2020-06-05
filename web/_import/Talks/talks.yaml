@@ -2,8 +2,8 @@ talks:
   ######################################################################################################################
   # 2020
   ######################################################################################################################
-  - date: 2020-06-14
-    date2: 2020-06-15
+  - date: 2020-06-15
+    date2: 2020-06-18
     event: Heisenbug 2020 Piter
     event-type: conference
     title_en: Analyze performance for the benefit of ourselves and others
@@ -22,8 +22,8 @@ talks:
         url: https://heisenbug-piter.ru/en/2020/spb/talks/7xejc2oupug9reubcwjijo/
       - key: talk_ru
         url: https://heisenbug-piter.ru/2020/spb/talks/7xejc2oupug9reubcwjijo/
-  - date: 2020-06-18
-    date2: 2020-06-19
+  - date: 2020-06-15
+    date2: 2020-06-18
     event: DotNext 2020 Piter
     event-type: conference
     title_en: Let's talk about performance analysis
