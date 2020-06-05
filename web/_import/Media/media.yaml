@@ -1,4 +1,12 @@
 media:
+  - date: 2020-06-04
+    type: interview
+    host_en: "Bar counter"
+    host_ru: "Барная стойка"
+    title_en: "Bar counter №1 / Andrey Akinshin"
+    title_ru: "Барная стойка №1 / Андрей Акиньшин"
+    lang: ru
+    url: https://www.youtube.com/watch?v=_hp2ZcgCjqU
   - date: 2020-03-12
     type: podcast
     host: RadioDotNet
