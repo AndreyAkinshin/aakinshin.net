@@ -9,6 +9,8 @@ github:
         title: Performance analysis toolkit
       - url: AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template
         title: LaTeX-template for russian PhD thesis
+      - url: AndreyAkinshin/ggwaterfall
+        title: R package with functions for drawing density and frequency trail waterfall plots
       - url: AndreyAkinshin/ProblemBook.NET
         title: Free book with .NET/C# problems
       - url: AndreyAkinshin/CultureInfoExplorer
