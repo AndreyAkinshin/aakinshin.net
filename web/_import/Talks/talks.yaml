@@ -4,32 +4,11 @@ talks:
   ######################################################################################################################
   - date: 2020-06-15
     date2: 2020-06-18
-    event: Heisenbug 2020 Piter
-    event-type: conference
-    title_en: Analyze performance for the benefit of ourselves and others
-    title_ru: Анализируем перфоманс с пользой для себя и окружающих
-    location_en: St. Petersburg, Russia
-    location_ru: г. Санкт-Петербург
-    lang: ru
-    abstract_en: "When we are talking about performance testing a lot of programmers only think about measurements and collecting metrics while analysis of metrics is more important. Understand how to use measured metrics correctly and making the most of them is not an easy way. During this session we will discuss the main tasks and difficulties of performance analysis: we'll talk about how to study raw data and summary metrics, how to apply statistical tests, compare performance distributions, write performance tests, analyze the history of measurements and choose right metrics."
-    abstract_ru: "Когда начинается разговор про перформанс-тестирование, то большинство программистов размышляет только о проведении замеров и сборе метрик, в то время как намного важнее задуматься об анализе собранных значений. Понять, как правильно использовать измеренные метрики и извлечь из них максимум пользы, — не такая уж и простая задача. В этом докладе мы обсудим основные задачи и сложности перформанс-анализа: поговорим о том, как изучать сырые данные и сводные метрики, применять статистические тесты, сравнивать перформансные распределения, писать перформансные тесты, анализировать историю замеров и выбирать правильные метрики."
-    links:
-      - key: event_en
-        url: https://heisenbug-piter.ru/en/
-      - key: event_ru
-        url: https://heisenbug-piter.ru/
-      - key: talk_en
-        url: https://heisenbug-piter.ru/en/2020/spb/talks/7xejc2oupug9reubcwjijo/
-      - key: talk_ru
-        url: https://heisenbug-piter.ru/2020/spb/talks/7xejc2oupug9reubcwjijo/
-  - date: 2020-06-15
-    date2: 2020-06-18
     event: DotNext 2020 Piter
     event-type: conference
     title_en: Let's talk about performance analysis
     title_ru: Поговорим про перформанс-анализ
-    location_en: St. Petersburg, Russia
-    location_ru: г. Санкт-Петербург
+    location: Online
     lang: ru
     abstract_en: "When we are talking about performance testing a lot of programmers only think about measurements and collecting metrics while analysis of metrics is more important. Understand how to use measured metrics correctly and making the most of them is not an easy way. During this session we will discuss the main tasks and difficulties of performance analysis: we'll talk about how to study raw data and summary metrics, how to apply statistical tests, compare performance distributions, write performance tests, analyze the history of measurements and choose right metrics."
     abstract_ru: "Когда начинается разговор про перформанс-тестирование, то большинство программистов размышляет только о проведении замеров и сборе метрик, в то время как намного важнее задуматься об анализе собранных значений. Понять, как правильно использовать измеренные метрики и извлечь из них максимум пользы, — не такая уж и простая задача. В этом докладе мы обсудим основные задачи и сложности перформанс-анализа: поговорим о том, как изучать сырые данные и сводные метрики, применять статистические тесты, сравнивать перформансные распределения, писать перформансные тесты, анализировать историю замеров и выбирать правильные метрики."
@@ -42,7 +21,30 @@ talks:
         url: https://dotnext-piter.ru/en/2020/spb/talks/3cd0cc0op48jz304afpmjj/
       - key: talk_ru
         url: https://dotnext-piter.ru/2020/spb/talks/3cd0cc0op48jz304afpmjj/
-  ######################################################################################################################
+      - key: slides-web
+        url: https://slides.aakinshin.net/dotnext-piter2020/
+  - date: 2020-06-15
+    date2: 2020-06-18
+    event: Heisenbug 2020 Piter
+    event-type: conference
+    title_en: Analyze performance for the benefit of ourselves and others
+    title_ru: Анализируем перфоманс с пользой для себя и окружающих
+    location: Online
+    lang: ru
+    abstract_en: "When we are talking about performance testing a lot of programmers only think about measurements and collecting metrics while analysis of metrics is more important. Understand how to use measured metrics correctly and making the most of them is not an easy way. During this session we will discuss the main tasks and difficulties of performance analysis: we'll talk about how to study raw data and summary metrics, how to apply statistical tests, compare performance distributions, write performance tests, analyze the history of measurements and choose right metrics."
+    abstract_ru: "Когда начинается разговор про перформанс-тестирование, то большинство программистов размышляет только о проведении замеров и сборе метрик, в то время как намного важнее задуматься об анализе собранных значений. Понять, как правильно использовать измеренные метрики и извлечь из них максимум пользы, — не такая уж и простая задача. В этом докладе мы обсудим основные задачи и сложности перформанс-анализа: поговорим о том, как изучать сырые данные и сводные метрики, применять статистические тесты, сравнивать перформансные распределения, писать перформансные тесты, анализировать историю замеров и выбирать правильные метрики."
+    links:
+      - key: event_en
+        url: https://heisenbug-piter.ru/en/
+      - key: event_ru
+        url: https://heisenbug-piter.ru/
+      - key: talk_en
+        url: https://heisenbug-piter.ru/en/2020/spb/talks/7xejc2oupug9reubcwjijo/
+      - key: talk_ru
+        url: https://heisenbug-piter.ru/2020/spb/talks/7xejc2oupug9reubcwjijo/
+      - key: slides-web
+        url: https://slides.aakinshin.net/heisenbug-piter2020/
+######################################################################################################################
   # 2019
   ######################################################################################################################
   - date: 2019-10-11
@@ -57,7 +59,7 @@ talks:
       - key: event
         url: https://dotnetos.org/
       - key: slides-web
-        url: http://slides.aakinshin.net/dotnetos2019/
+        url: https://slides.aakinshin.net/dotnetos2019/
       - key: youtube
         url: https://www.youtube.com/watch?v=5S8c3j2HFpY
   - date: 2019-06-28
@@ -88,7 +90,7 @@ talks:
       - key: event
         url: https://www.meetup.com/KotlinTLV/events/259867311/
       - key: slides-web
-        url: http://slides.aakinshin.net/kotlin-israel2019/
+        url: https://slides.aakinshin.net/kotlin-israel2019/
   - date: 2019-05-20
     event: JetBrains Night Tel Aviv 2019
     event-type: conference
@@ -114,7 +116,7 @@ talks:
       - key: event
         url: https://www.meetup.com/haifa-cpp/events/259965271/
       - key: slides-web
-        url: http://slides.aakinshin.net/kotlin-israel2019/
+        url: https://slides.aakinshin.net/kotlin-israel2019/
   ######################################################################################################################
   # 2018
   ######################################################################################################################
