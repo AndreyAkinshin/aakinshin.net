@@ -116,6 +116,129 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/invaliddataexception-in-getprocesses/'>InvalidDataException in Process.GetProcesses</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> February 10, 2017.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
+                <a href="/tags/bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
+                <a href="/tags/xplat"><span class="badge badge-pill badge-info">Xplat</span></a>
+                <a href="/tags/coreclr"><span class="badge badge-pill badge-info">CoreCLR</span></a>
+        </span><br /><br />
+        <p>Consider the following program:</p>
+<pre><code class="language-cs">public static void Main(string[] args)
+{
+    try
+    {
+        Process.GetProcesses();
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+    }
+}
+</code></pre>
+<p>It seems that all exceptions should be caught.
+However, <em>sometimes</em>, I had the following exception on Linux with <code>dotnet cli-1.0.0-preview2</code>:</p>
+<pre><code>$ dotnet run
+System.IO.InvalidDataException: Found invalid data while decoding.
+   at System.IO.StringParser.ParseNextChar()
+   at Interop.procfs.TryParseStatFile(String statFilePath, ParsedStat&amp; result, ReusableTextReader reusableReader)
+   at System.Diagnostics.ProcessManager.CreateProcessInfo(ParsedStat procFsStat, ReusableTextReader reusableReader)
+   at System.Diagnostics.ProcessManager.CreateProcessInfo(Int32 pid, ReusableTextReader reusableReader)
+   at System.Diagnostics.ProcessManager.GetProcessInfos(String machineName)
+   at System.Diagnostics.Process.GetProcesses(String machineName)
+   at System.Diagnostics.Process.GetProcesses()
+   at DotNetCoreConsoleApplication.Program.Main(String[] args) in /home/akinshin/Program.cs:line 12
+</code></pre>
+<p>How is that possible?</p>
+</p>
+        <a href='/posts/invaliddataexception-in-getprocesses/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/rider-nuget-search/'>Why is NuGet search in Rider so fast?</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> February 08, 2017.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
+                <a href="/tags/nuget"><span class="badge badge-pill badge-info">NuGet</span></a>
+        </span><br /><br />
+        <p>I'm the guy who develops the NuGet manager in <a href="https://www.jetbrains.com/rider/">Rider</a>.
+It's not ready yet, there are some bugs here and there, but it already works pretty well.
+The feature which I am most proud of is smart and fast search:</p>
+<div class="mx-auto">
+  <img class="mx-auto d-block" width="400" src="/img/posts/dotnet/rider-nuget-search/front.gif" />
+</div>
+<p>Today I want to share with you some technical details about how it was implemented.</p>
+</p>
+        <a href='/posts/rider-nuget-search/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/nuget2-and-directoryseparatorchar/'>NuGet2 and a DirectorySeparatorChar bug</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> February 06, 2017.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
+                <a href="/tags/bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
+                <a href="/tags/performance"><span class="badge badge-pill badge-info">Performance</span></a>
+                <a href="/tags/nuget"><span class="badge badge-pill badge-info">NuGet</span></a>
+        </span><br /><br />
+        <p>In <a href="https://www.jetbrains.com/rider/">Rider</a>, we care a lot about performance.
+I like to improve the application responsiveness and do interesting optimizations all the time.
+Rider is already well-optimized, and it's often hard to make significant performance improvements, so usually I do micro-optimizations which do not have a very big impact on the whole application.
+However, sometimes it's possible to improve the speed of a feature 100 times with just a few lines of code.</p>
+<p>Rider is based on <a href="https://www.jetbrains.com/resharper/">ReSharper</a>, so we have a lot of cool features out of the box.
+One of these features is <a href="https://www.jetbrains.com/help/resharper/2016.3/Code_Analysis__Solution-Wide_Analysis.html">Solution-Wide Analysis</a>
+which lets you constantly keep track of issues in your solution.
+Sometimes, solution-wide analysis takes a lot of time to run because there are many files which should be analyzed.
+Of course, it works super fast on small and projects.</p>
+<p>Let's talk about a performance bug (<a href="https://youtrack.jetbrains.com/issue/RIDER-3742">#RIDER-3742</a>) that we recently had.</p>
+<ul>
+<li><em>Repro:</em> Open Rider, create a new &quot;ASP .NET MVC Application&quot;, enable solution wide-analysis.</li>
+<li><em>Expected:</em> The analysis should take 1 second.</li>
+<li><em>Actual:</em> The analysis takes 1 second on Windows and <strong>2 minutes</strong> on Linux and MacOS.</li>
+</ul>
+</p>
+        <a href='/posts/nuget2-and-directoryseparatorchar/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/perfex-div/'>Performance exercise: Division</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> December 26, 2016.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/performanceexercise"><span class="badge badge-pill badge-info">PerformanceExercise</span></a>
+                <a href="/tags/benchmarking"><span class="badge badge-pill badge-info">Benchmarking</span></a>
+                <a href="/tags/math"><span class="badge badge-pill badge-info">Math</span></a>
+        </span><br /><br />
+        <p>In the previous post, we <a href="/en/blog/dotnet/perfex-min/">discussed</a> the performance space of the minimum function
+which was implemented via a simple ternary operator and with the help of bit magic.
+Now we continue to talk about performance and bit hacks.
+In particular, we will divide a positive number by three:</p>
+<pre><code class="language-cs">uint Div3Simple(uint n)   =&gt; n / 3;
+uint Div3BitHacks(uint n) =&gt; (uint)((n * (ulong)0xAAAAAAAB) &gt;&gt; 33);
+</code></pre>
+<p>As usual, it's hard to say which method is faster in advanced because the performance depends on the environment.
+Here are some interesting results:</p>
+<table class="table table-sm">
+  <tr> <th></th>              <th>Simple</th>              <th>BitHacks</th>             </tr>
+  <tr> <th>LegacyJIT-x86</th> <td class="norm">≈8.3ns</td> <td class="fast">≈2.6ns</td>  </tr>
+  <tr> <th>LegacyJIT-x64</th> <td class="fast">≈2.6ns</td> <td class="fast">≈1.7ns</td>  </tr>
+  <tr> <th>RyuJIT-x64   </th> <td class="norm">≈6.9ns</td> <td class="fast">≈1.5ns</td>  </tr>
+  <tr> <th>Mono4.6.2-x86</th> <td class="norm">≈8.5ns</td> <td class="slow">≈14.4ns</td> </tr>
+  <tr> <th>Mono4.6.2-x64</th> <td class="norm">≈8.3ns</td> <td class="fast">≈2.8ns</td>  </tr>
+</table>
+</p>
+        <a href='/posts/perfex-div/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/perfex-min/'>Performance exercise: Minimum</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> December 20, 2016.
@@ -305,129 +428,6 @@ class Program
 </table>
 <p>If you want to know why it happens, you probably should learn some useful information about blittable types.</p>
         <a href='/posts/blittable/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/ryujit-rc-and-constant-folding/'>RyuJIT RC and constant folding</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> May 12, 2015.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/jit"><span class="badge badge-pill badge-info">JIT</span></a>
-                <a href="/tags/ryujit"><span class="badge badge-pill badge-info">RyuJIT</span></a>
-                <a href="/tags/constantfolding"><span class="badge badge-pill badge-info">ConstantFolding</span></a>
-        </span><br /><br />
-        <p><strong>Update:</strong> The below results are valid for the release version of RyuJIT in .NET Framework 4.6 without updates.</p>
-<p>The challenge of the day: which method is faster?</p>
-<pre><code class="language-cs">public double Sqrt13()
-{
-    return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
-           Math.Sqrt(6) + Math.Sqrt(7) + Math.Sqrt(8) + Math.Sqrt(9) + Math.Sqrt(10) + 
-           Math.Sqrt(11) + Math.Sqrt(12) + Math.Sqrt(13);
-}
-public double Sqrt14()
-{
-    return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
-           Math.Sqrt(6) + Math.Sqrt(7) + Math.Sqrt(8) + Math.Sqrt(9) + Math.Sqrt(10) + 
-           Math.Sqrt(11) + Math.Sqrt(12) + Math.Sqrt(13) + Math.Sqrt(14);
-}
-</code></pre>
-<p>I have measured the methods performance with help of <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a> for RyuJIT RC (a part of .NET Framework 4.6 RC) and received the following results:</p>
-<pre><code>// BenchmarkDotNet=v0.7.4.0
-// OS=Microsoft Windows NT 6.2.9200.0
-// Processor=Intel(R) Core(TM) i7-4702MQ CPU ＠ 2.20GHz, ProcessorCount=8
-// CLR=MS.NET 4.0.30319.0, Arch=64-bit  [RyuJIT]
-Common:  Type=Math_DoubleSqrtAvx  Mode=Throughput  Platform=X64  Jit=RyuJit  .NET=Current  
-<p>Method |  AvrTime |    StdDev |         op/s |
-------- |--------- |---------- |------------- |
-Sqrt13 | 55.40 ns |  0.571 ns |  18050993.06 |
-Sqrt14 |  1.43 ns | 0.0224 ns | 697125029.18 |
-</code></pre></p>
-<p>How so? If I add one more <code>Math.Sqrt</code> to the expression, the method starts work 40 times faster! Let's examine the situation..</p>
-        <a href='/posts/ryujit-rc-and-constant-folding/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/unrolling-of-small-loops-in-different-jit-versions/'>Unrolling of small loops in different JIT versions</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> March 02, 2015.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/jit"><span class="badge badge-pill badge-info">JIT</span></a>
-                <a href="/tags/bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
-                <a href="/tags/loopunrolling"><span class="badge badge-pill badge-info">LoopUnrolling</span></a>
-        </span><br /><br />
-        <p>Challenge of the day: what will the following code display?</p>
-<pre><code class="language-cs">struct Point
-{
-    public int X;
-    public int Y;
-}
-static void Print(Point p)
-{
-    Console.WriteLine(p.X + &quot; &quot; + p.Y);
-}
-static void Main()
-{
-    var p = new Point();
-    for (p.X = 0; p.X &lt; 2; p.X++)
-        Print(p);
-}
-</code></pre>
-<p>The right answer: it depends. There is a bug in CLR2 JIT-x86 which spoil this wonderful program. This story is about optimization that called unrolling of small loops. This is a very interesting theme, let's discuss it in detail.</p>
-</p>
-        <a href='/posts/unrolling-of-small-loops-in-different-jit-versions/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/ryujit-ctp5-and-loop-unrolling/'>RyuJIT CTP5 and loop unrolling</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> March 01, 2015.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/jit"><span class="badge badge-pill badge-info">JIT</span></a>
-                <a href="/tags/ryujit"><span class="badge badge-pill badge-info">RyuJIT</span></a>
-                <a href="/tags/loopunrolling"><span class="badge badge-pill badge-info">LoopUnrolling</span></a>
-        </span><br /><br />
-        <p>RyuJIT will be available soon. It is a next generation JIT-compiler for .NET-applications. Microsoft likes to tell us about the benefits of SIMD using and JIT-compilation time reducing. But what about basic code optimization which is usually applying by a compiler? Today we talk about the loop unrolling (unwinding) optimization. In general, in this type of code optimization, the code</p>
-<pre><code class="language-cs">for (int i = 0; i &lt; 1024; i++)
-    Foo(i);
-</code></pre>
-<p>transforms to</p>
-<pre><code class="language-cs">for (int i = 0; i &lt; 1024; i += 4)
-{
-    Foo(i);
-    Foo(i + 1);
-    Foo(i + 2);
-    Foo(i + 3);
-}
-</code></pre>
-<p>Such approach can significantly increase performance of your code. So, what's about loop unrolling in .NET?</p>
-</p>
-        <a href='/posts/ryujit-ctp5-and-loop-unrolling/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/jit-version-determining-in-runtime/'>JIT version determining in runtime</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> February 28, 2015.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/jit"><span class="badge badge-pill badge-info">JIT</span></a>
-        </span><br /><br />
-        <p>Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the version in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:</p>
-<pre><code class="language-cs">public enum JitVersion
-{
-    Mono, MsX86, MsX64, RyuJit
-}
-</code></pre>
-<p>It is easy to detect Mono by existing of the <code>Mono.Runtime</code> class. Otherwise, we can assume that we work with Microsoft JIT implementation. It is easy to detect JIT-x86 with help of <code>IntPtr.Size == 4</code>. The challenge is to distinguish JIT-x64 and RyuJIT. Next, I will show how you can do it with help of the bug from my <a href="http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">previous post</a>.</p>
-</p>
-        <a href='/posts/jit-version-determining-in-runtime/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>

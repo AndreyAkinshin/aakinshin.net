@@ -116,6 +116,94 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/system-drawing-color-equals/'>About System.Drawing.Color and operator ==</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> February 21, 2014.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/colors"><span class="badge badge-pill badge-info">Colors</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/tags/equals"><span class="badge badge-pill badge-info">Equals</span></a>
+        </span><br /><br />
+        <p>Operator <code>==</code> that allows easy comparison of your objects is overridden for many standard structures in .NET. Unfortunately, not every developer really knows what is actually compared when working with this wonderful operator. This brief blog post will show the comparison logic based on a sample of <code>System.Drawing.Color</code>. What do you think the following code will get:</p>
+<pre><code class="language-cs">var redName = Color.Red;
+var redArgb = Color.FromArgb(255, 255, 0, 0);
+Console.WriteLine(redName == redArgb);
+</code></pre>
+</p>
+        <a href='/posts/system-drawing-color-equals/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/msbuild-configurations/'>Setting up build configuration in .NET</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> February 08, 2014.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/msbuild"><span class="badge badge-pill badge-info">MSBuild</span></a>
+                <a href="/tags/configurations"><span class="badge badge-pill badge-info">Configurations</span></a>
+        </span><br /><br />
+        <p>You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But there can appear a necessity to extend it with the additional configurations. It’s ok if you need to add just a couple of new settings, but what if there are tens of such settings? And what if your solution contains 20 projects that need setting up of these configurations? In this case it becomes quite difficult to manage and modify build parameters.</p>
+<p>In this article, we will review a way to make this process simpler by reducing description of the build configurations.</p>
+        <a href='/posts/msbuild-configurations/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/jon-skeet-quiz/'>Jon Skeet&#39;s Quiz</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> November 03, 2013.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+        </span><br /><br />
+        <p>Jon Skeet was once asked to give three questions to check how well you know C#. He asked the <a href="http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx">following questions</a>:</p>
+<ul>
+<li><strong>Q1.</strong> <em>What constructor call can you write such that this prints True (at least on the Microsoft .NET implementation)?</em></li>
+</ul>
+<pre><code class="language-cs">object x = new /* fill in code here */;
+object y = new /* fill in code here */;
+Console.WriteLine(x == y);
+</code></pre>
+<p><em>Note that it’s just a constructor call, and you can’t change the type of the variables.</em></p>
+<ul>
+<li><strong>Q2.</strong> <em>How can you make this code compile such that it calls three different method overloads?</em></li>
+</ul>
+<pre><code class="language-cs">void Foo()
+{
+    EvilMethod&lt;string&gt;();
+    EvilMethod&lt;int&gt;();
+    EvilMethod&lt;int?&gt;();
+}
+</code></pre>
+<ul>
+<li><strong>Q3.</strong> <em>With a local variable (so no changing the variable value cunningly), how can you make this code fail on the second line?</em></li>
+</ul>
+<pre><code class="language-cs">string text = x.ToString(); // No exception
+Type type = x.GetType(); // Bang!
+</code></pre>
+<p>These questions seemed interesting to me, that is why I decided to discuss the solutions.</p>
+        <a href='/posts/jon-skeet-quiz/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/comments/'>To Add Comments or Not to Add?</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> August 28, 2013.
+          <b>Tags:</b>
+                <a href="/tags/perfectcode"><span class="badge badge-pill badge-info">PerfectCode</span></a>
+        </span><br /><br />
+        <p><em>A really good comment is the one you managed to avoid. (c) Uncle Bob</em></p>
+<p>Lately, I’ve been feeling really tired of hot discussions on if it’s necessary to add comments in the code. As a rule, there are self-confident juniors with the indisputable statement as: “Why not to comment it, it will be unreadable without the comments!” on one side. And experienced seniors are on the other side. They understand that if it’s possible to go without the comments than “You better, damn it, do it in this way!” Probably, many developers got comment cravings since they’ve been students when professors made them comment every code line, “to make the student better understand it”. Real projects shouldn’t contain a lot of comments that only spoil the code. I don’t agitate for avoiding comments at all, but if you managed to write the code that doesn’t need comments, you can consider it your small victory. I would like to refer you to some good books that helped form my position. I like and respect these authors and completely share their opinion.</p>
+<ul>
+<li><a href="http://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670">Steven C. McConnell, Code Complete</a></li>
+<li><a href="http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">Robert Martin, Clean Code: A Handbook of Agile Software Craftsmanship</a></li>
+<li><a href="http://www.amazon.com/The-Readable-Code-Theory-Practice/dp/0596802293">Dustin Boswell, Trevor Foucher, The Art of Readable Code (Theory in Practice)</a></li>
+</ul>
+</p>
+        <a href='/posts/comments/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/perfect-code-and-real-projects/'>Perfect code and real projects</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> August 28, 2013.

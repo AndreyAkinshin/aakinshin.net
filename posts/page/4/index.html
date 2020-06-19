@@ -116,6 +116,129 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/ryujit-rc-and-constant-folding/'>RyuJIT RC and constant folding</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> May 12, 2015.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/tags/jit"><span class="badge badge-pill badge-info">JIT</span></a>
+                <a href="/tags/ryujit"><span class="badge badge-pill badge-info">RyuJIT</span></a>
+                <a href="/tags/constantfolding"><span class="badge badge-pill badge-info">ConstantFolding</span></a>
+        </span><br /><br />
+        <p><strong>Update:</strong> The below results are valid for the release version of RyuJIT in .NET Framework 4.6 without updates.</p>
+<p>The challenge of the day: which method is faster?</p>
+<pre><code class="language-cs">public double Sqrt13()
+{
+    return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
+           Math.Sqrt(6) + Math.Sqrt(7) + Math.Sqrt(8) + Math.Sqrt(9) + Math.Sqrt(10) + 
+           Math.Sqrt(11) + Math.Sqrt(12) + Math.Sqrt(13);
+}
+public double Sqrt14()
+{
+    return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
+           Math.Sqrt(6) + Math.Sqrt(7) + Math.Sqrt(8) + Math.Sqrt(9) + Math.Sqrt(10) + 
+           Math.Sqrt(11) + Math.Sqrt(12) + Math.Sqrt(13) + Math.Sqrt(14);
+}
+</code></pre>
+<p>I have measured the methods performance with help of <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a> for RyuJIT RC (a part of .NET Framework 4.6 RC) and received the following results:</p>
+<pre><code>// BenchmarkDotNet=v0.7.4.0
+// OS=Microsoft Windows NT 6.2.9200.0
+// Processor=Intel(R) Core(TM) i7-4702MQ CPU ＠ 2.20GHz, ProcessorCount=8
+// CLR=MS.NET 4.0.30319.0, Arch=64-bit  [RyuJIT]
+Common:  Type=Math_DoubleSqrtAvx  Mode=Throughput  Platform=X64  Jit=RyuJit  .NET=Current  
+<p>Method |  AvrTime |    StdDev |         op/s |
+------- |--------- |---------- |------------- |
+Sqrt13 | 55.40 ns |  0.571 ns |  18050993.06 |
+Sqrt14 |  1.43 ns | 0.0224 ns | 697125029.18 |
+</code></pre></p>
+<p>How so? If I add one more <code>Math.Sqrt</code> to the expression, the method starts work 40 times faster! Let's examine the situation..</p>
+        <a href='/posts/ryujit-rc-and-constant-folding/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/unrolling-of-small-loops-in-different-jit-versions/'>Unrolling of small loops in different JIT versions</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> March 02, 2015.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/tags/jit"><span class="badge badge-pill badge-info">JIT</span></a>
+                <a href="/tags/bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
+                <a href="/tags/loopunrolling"><span class="badge badge-pill badge-info">LoopUnrolling</span></a>
+        </span><br /><br />
+        <p>Challenge of the day: what will the following code display?</p>
+<pre><code class="language-cs">struct Point
+{
+    public int X;
+    public int Y;
+}
+static void Print(Point p)
+{
+    Console.WriteLine(p.X + &quot; &quot; + p.Y);
+}
+static void Main()
+{
+    var p = new Point();
+    for (p.X = 0; p.X &lt; 2; p.X++)
+        Print(p);
+}
+</code></pre>
+<p>The right answer: it depends. There is a bug in CLR2 JIT-x86 which spoil this wonderful program. This story is about optimization that called unrolling of small loops. This is a very interesting theme, let's discuss it in detail.</p>
+</p>
+        <a href='/posts/unrolling-of-small-loops-in-different-jit-versions/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/ryujit-ctp5-and-loop-unrolling/'>RyuJIT CTP5 and loop unrolling</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> March 01, 2015.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/tags/jit"><span class="badge badge-pill badge-info">JIT</span></a>
+                <a href="/tags/ryujit"><span class="badge badge-pill badge-info">RyuJIT</span></a>
+                <a href="/tags/loopunrolling"><span class="badge badge-pill badge-info">LoopUnrolling</span></a>
+        </span><br /><br />
+        <p>RyuJIT will be available soon. It is a next generation JIT-compiler for .NET-applications. Microsoft likes to tell us about the benefits of SIMD using and JIT-compilation time reducing. But what about basic code optimization which is usually applying by a compiler? Today we talk about the loop unrolling (unwinding) optimization. In general, in this type of code optimization, the code</p>
+<pre><code class="language-cs">for (int i = 0; i &lt; 1024; i++)
+    Foo(i);
+</code></pre>
+<p>transforms to</p>
+<pre><code class="language-cs">for (int i = 0; i &lt; 1024; i += 4)
+{
+    Foo(i);
+    Foo(i + 1);
+    Foo(i + 2);
+    Foo(i + 3);
+}
+</code></pre>
+<p>Such approach can significantly increase performance of your code. So, what's about loop unrolling in .NET?</p>
+</p>
+        <a href='/posts/ryujit-ctp5-and-loop-unrolling/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/jit-version-determining-in-runtime/'>JIT version determining in runtime</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> February 28, 2015.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/tags/jit"><span class="badge badge-pill badge-info">JIT</span></a>
+        </span><br /><br />
+        <p>Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the version in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:</p>
+<pre><code class="language-cs">public enum JitVersion
+{
+    Mono, MsX86, MsX64, RyuJit
+}
+</code></pre>
+<p>It is easy to detect Mono by existing of the <code>Mono.Runtime</code> class. Otherwise, we can assume that we work with Microsoft JIT implementation. It is easy to detect JIT-x86 with help of <code>IntPtr.Size == 4</code>. The challenge is to distinguish JIT-x64 and RyuJIT. Next, I will show how you can do it with help of the bug from my <a href="http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">previous post</a>.</p>
+</p>
+        <a href='/posts/jit-version-determining-in-runtime/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/subexpression-elimination-bug-in-jit-x64/'>A bug story about JIT-x64</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> February 27, 2015.
@@ -260,94 +383,6 @@ class Test
         </span><br /><br />
         <p>Silverlight features a splendid method: <a href="http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx">VisualTreeHelper.FindElementsInHostCoordinates</a>. It allows the <code>HitTest</code>, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method <a href="http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx">VisualTreeHelper.FindElementsInHostCoordinates</a> is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.</p>
         <a href='/posts/findelementsinhostcoordinates/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/system-drawing-color-equals/'>About System.Drawing.Color and operator ==</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> February 21, 2014.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/colors"><span class="badge badge-pill badge-info">Colors</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/equals"><span class="badge badge-pill badge-info">Equals</span></a>
-        </span><br /><br />
-        <p>Operator <code>==</code> that allows easy comparison of your objects is overridden for many standard structures in .NET. Unfortunately, not every developer really knows what is actually compared when working with this wonderful operator. This brief blog post will show the comparison logic based on a sample of <code>System.Drawing.Color</code>. What do you think the following code will get:</p>
-<pre><code class="language-cs">var redName = Color.Red;
-var redArgb = Color.FromArgb(255, 255, 0, 0);
-Console.WriteLine(redName == redArgb);
-</code></pre>
-</p>
-        <a href='/posts/system-drawing-color-equals/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/msbuild-configurations/'>Setting up build configuration in .NET</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> February 08, 2014.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/msbuild"><span class="badge badge-pill badge-info">MSBuild</span></a>
-                <a href="/tags/configurations"><span class="badge badge-pill badge-info">Configurations</span></a>
-        </span><br /><br />
-        <p>You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But there can appear a necessity to extend it with the additional configurations. It’s ok if you need to add just a couple of new settings, but what if there are tens of such settings? And what if your solution contains 20 projects that need setting up of these configurations? In this case it becomes quite difficult to manage and modify build parameters.</p>
-<p>In this article, we will review a way to make this process simpler by reducing description of the build configurations.</p>
-        <a href='/posts/msbuild-configurations/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/jon-skeet-quiz/'>Jon Skeet&#39;s Quiz</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> November 03, 2013.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-        </span><br /><br />
-        <p>Jon Skeet was once asked to give three questions to check how well you know C#. He asked the <a href="http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx">following questions</a>:</p>
-<ul>
-<li><strong>Q1.</strong> <em>What constructor call can you write such that this prints True (at least on the Microsoft .NET implementation)?</em></li>
-</ul>
-<pre><code class="language-cs">object x = new /* fill in code here */;
-object y = new /* fill in code here */;
-Console.WriteLine(x == y);
-</code></pre>
-<p><em>Note that it’s just a constructor call, and you can’t change the type of the variables.</em></p>
-<ul>
-<li><strong>Q2.</strong> <em>How can you make this code compile such that it calls three different method overloads?</em></li>
-</ul>
-<pre><code class="language-cs">void Foo()
-{
-    EvilMethod&lt;string&gt;();
-    EvilMethod&lt;int&gt;();
-    EvilMethod&lt;int?&gt;();
-}
-</code></pre>
-<ul>
-<li><strong>Q3.</strong> <em>With a local variable (so no changing the variable value cunningly), how can you make this code fail on the second line?</em></li>
-</ul>
-<pre><code class="language-cs">string text = x.ToString(); // No exception
-Type type = x.GetType(); // Bang!
-</code></pre>
-<p>These questions seemed interesting to me, that is why I decided to discuss the solutions.</p>
-        <a href='/posts/jon-skeet-quiz/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/comments/'>To Add Comments or Not to Add?</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> August 28, 2013.
-          <b>Tags:</b>
-                <a href="/tags/perfectcode"><span class="badge badge-pill badge-info">PerfectCode</span></a>
-        </span><br /><br />
-        <p><em>A really good comment is the one you managed to avoid. (c) Uncle Bob</em></p>
-<p>Lately, I’ve been feeling really tired of hot discussions on if it’s necessary to add comments in the code. As a rule, there are self-confident juniors with the indisputable statement as: “Why not to comment it, it will be unreadable without the comments!” on one side. And experienced seniors are on the other side. They understand that if it’s possible to go without the comments than “You better, damn it, do it in this way!” Probably, many developers got comment cravings since they’ve been students when professors made them comment every code line, “to make the student better understand it”. Real projects shouldn’t contain a lot of comments that only spoil the code. I don’t agitate for avoiding comments at all, but if you managed to write the code that doesn’t need comments, you can consider it your small victory. I would like to refer you to some good books that helped form my position. I like and respect these authors and completely share their opinion.</p>
-<ul>
-<li><a href="http://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670">Steven C. McConnell, Code Complete</a></li>
-<li><a href="http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">Robert Martin, Clean Code: A Handbook of Agile Software Craftsmanship</a></li>
-<li><a href="http://www.amazon.com/The-Readable-Code-Theory-Practice/dp/0596802293">Dustin Boswell, Trevor Foucher, The Art of Readable Code (Theory in Practice)</a></li>
-</ul>
-</p>
-        <a href='/posts/comments/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>

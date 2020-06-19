@@ -3,13 +3,1294 @@
     <title>Andrey Akinshin's blog</title>
     <link href="http://aakinshin.net"/>
     <link type="application/atom+xml" rel="self" href="http://aakinshin.net/en/atom.xml"/>
-    <updated>2020-06-19T12:15:57.0293311Z</updated>
+    <updated>2020-06-19T12:18:54.5481142Z</updated>
     <id>http://aakinshin.net/</id>
     <author>
         <name>Andrey Akinshin</name>
         <email>andrey.akinshin@gmail.com</email>
     </author>
 
+        <entry>
+            <id>http://aakinshin.net/posts/how-listseparator-depends-on-runtime-and-operating-system/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/posts/how-listseparator-depends-on-runtime-and-operating-system/'/>
+            <title>How ListSeparator Depends on Runtime and Operating System</title>
+            <updated>2020-05-20T00:00:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;&lt;em&gt;This blog post was &lt;a href=&quot;https://blog.jetbrains.com/dotnet/2020/05/20/listseparator-depends-runtime-operating-system/&quot;&gt;originally posted&lt;/a&gt; on &lt;a href=&quot;https://blog.jetbrains.com/dotnet/&quot;&gt;JetBrains .NET blog&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;In the two previous blog posts from this series, we discussed how socket errors and socket orders depend on the runtime and operating systems. For some, it may be obvious that some things are indeed specific to the operating system or the runtime, but often these issues come as a surprise and are only discovered when running our code on different systems.
+An interesting example that may bite us at runtime is using &lt;code&gt;ListSeparator&lt;/code&gt; in our code. It should give us a common separator for list elements in a string. But is it really common?
+Let&#39;s start our investigation by printing &lt;code&gt;ListSeparator&lt;/code&gt; for the Russian language:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;Console.WriteLine(new CultureInfo(&amp;quot;ru-ru&amp;quot;).TextInfo.ListSeparator);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On Windows, you will get the same result for .NET Framework, .NET Core, and Mono: the &lt;code&gt;ListSeparator&lt;/code&gt; is &lt;code&gt;;&lt;/code&gt; (a semicolon). You will also get a semicolon on Mono+Unix. However, on .NET Core+Unix, you will get a &lt;a href=&quot;https://en.wikipedia.org/wiki/Non-breaking_space&quot;&gt;non-breaking space&lt;/a&gt;.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;&lt;h2&gt;&lt;strong&gt;The Mono approach&lt;/strong&gt;&lt;/h2&gt;
+On Windows, it&#39;s possible to fetch the &lt;code&gt;ListSeparator&lt;/code&gt; value from the operating system’s regional settings. Unfortunately, there is no such option on Linux and macOS. So, how is this problem solved in Mono?
+The missing information about cultures is collected in advance using the &lt;a href=&quot;https://github.com/mono/mono/tree/mono-6.10.0.104/tools/locale-builder&quot;&gt;locale-builder&lt;/a&gt; tool. Some of this data is filled in using &lt;a href=&quot;http://www.unicode.org/Public/cldr/&quot;&gt;unicode CLDR&lt;/a&gt;. The rest is hardcoded. Speaking of &lt;code&gt;TextInfo&lt;/code&gt; (a class that contains the &lt;code&gt;ListSeparator &lt;/code&gt;value), it&#39;s defined in &lt;a href=&quot;https://github.com/mono/mono/blob/mono-6.10.0.104/tools/locale-builder/Patterns.cs#L1610&quot;&gt;Patterns.c&lt;/a&gt;&lt;a href=&quot;https://github.com/mono/mono/blob/mono-6.10.0.104/tools/locale-builder/Patterns.cs#L1610&quot;&gt;s&lt;/a&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;var entry_te = Text[lcid];
+var te = ci.TextInfoEntry;
+te.ANSICodePage = entry_te[0];
+te.EBCDICCodePage = entry_te[1];
+te.IsRightToLeft = entry_te[2] == &amp;quot;1&amp;quot; ? true : false;
+te.ListSeparator = entry_te[3];
+te.MacCodePage = entry_te[4];
+te.OEMCodePage = entry_te[5];
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;code&gt;lcid&lt;/code&gt; value (&lt;a href=&quot;https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/70feba9f-294e-491e-b6eb-56532684c37f&quot;&gt;Language Code Identifier&lt;/a&gt;) for Russian is 1049 or 0x419. (The values for a number of other languages can be found &lt;a href=&quot;https://www.science.co.il/language/Locale-codes.php&quot;&gt;here&lt;/a&gt;).
+The predefined values can also be found in Patterns.cs. Here is the corresponding &lt;a href=&quot;https://github.com/mono/mono/blob/mono-6.10.0.104/tools/locale-builder/Patterns.cs#L665&quot;&gt;entry&lt;/a&gt; for Russian:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;{ 0x0419, new [] { &amp;quot;1251&amp;quot;, &amp;quot;20880&amp;quot;, &amp;quot;0&amp;quot;, &amp;quot;;&amp;quot;, &amp;quot;10007&amp;quot;, &amp;quot;866&amp;quot; } },
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Thus, &lt;code&gt;entry_te[3]&lt;/code&gt; equals &lt;code&gt;&amp;quot;;&amp;quot;&lt;/code&gt;. That&#39;s how Mono knows the &lt;code&gt;ListSeparator&lt;/code&gt; value even if it&#39;s not defined in the current operating system.
+&lt;h2&gt;&lt;strong&gt;The .NET Core approach&lt;/strong&gt;&lt;/h2&gt;
+Unfortunately, .NET Core doesn&#39;t have predefined values for &lt;code&gt;ListSeparator&lt;/code&gt;. There’s a fairly strange logic in the source code of .NET Core 3.1.3:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;case LocaleString_ListSeparator:
+// fall through
+case LocaleString_ThousandSeparator:
+    status = GetLocaleInfoDecimalFormatSymbol(locale, UNUM_GROUPING_SEPARATOR_SYMBOL, value, valueLength);
+    break;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It looks like .NET Core always uses the &lt;code&gt;ThousandSeparator&lt;/code&gt; value instead of &lt;code&gt;ListSeparator&lt;/code&gt; on Linux and macOS. This doesn&#39;t feel right, so we filed an issue: &lt;a href=&quot;https://github.com/dotnet/runtime/issues/536&quot;&gt;dotnet/runtime#536&lt;/a&gt;. Hopefully, this behavior will be improved in the future.
+&lt;h2&gt;&lt;strong&gt;Practical recommendations&lt;/strong&gt;&lt;/h2&gt;
+If you are using some &lt;code&gt;CultureInfo&lt;/code&gt; properties that are not supported by one of your target operating systems, it&#39;s better to provide some fallback values. Here is an &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/commit/0c48c2862f69a63407898680d18dd76b988c4197#diff-225f35e5288a4b6836d56a4fef7b6adc&quot;&gt;example&lt;/a&gt; of how this problem has been solved in BenchmarkDotNet:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public static string GetActualListSeparator([CanBeNull] this CultureInfo cultureInfo)
+{
+    cultureInfo = cultureInfo ?? DefaultCultureInfo.Instance;
+    string listSeparator = cultureInfo.TextInfo.ListSeparator;
+
+    // On .NET Core + Linux, TextInfo.ListSeparator returns NumberFormat.NumberGroupSeparator
+    // To work around this behavior, we patch empty ListSeparator with &amp;quot;;&amp;quot;
+    // See also: https://github.com/dotnet/runtime/issues/536
+    if (string.IsNullOrWhiteSpace(listSeparator))
+        listSeparator = &amp;quot;;&amp;quot;;
+
+    return listSeparator;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Having fallback values in place prevents us from seeing unexpected issues when running our code, and helps us be sure we can safely run our code across multiple platforms without any surprises.&lt;/p&gt;</content>
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/posts/how-sorting-order-depends-on-runtime-and-operating-system/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/posts/how-sorting-order-depends-on-runtime-and-operating-system/'/>
+            <title>How Sorting Order Depends on Runtime and Operating System</title>
+            <updated>2020-05-13T00:00:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;&lt;em&gt;This blog post was &lt;a href=&quot;https://blog.jetbrains.com/dotnet/2020/05/13/sorting-order-depends-runtime-operating-system/&quot;&gt;originally posted&lt;/a&gt; on &lt;a href=&quot;https://blog.jetbrains.com/dotnet/&quot;&gt;JetBrains .NET blog&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;In &lt;a href=&quot;https://www.jetbrains.com/rider/&quot;&gt;Rider&lt;/a&gt;, we have unit tests that enumerate files in your project and dump a sorted list of these files. In one of our test projects, we had the following files: &lt;code&gt;jquery-1.4.1.js&lt;/code&gt;, &lt;code&gt;jquery-1.4.1.min.js&lt;/code&gt;, &lt;code&gt;jquery-1.4.1-vsdoc.js&lt;/code&gt;. On Windows, .NET Framework, .NET Core, and Mono produce the same sorted list:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;jquery-1.4.1.js
+jquery-1.4.1.min.js
+jquery-1.4.1-vsdoc.js
+&lt;/code&gt;&lt;/pre&gt;
+&lt;!--more--&gt;
+&lt;p&gt;On Unix, Mono also produces the same list, so we had a consistent list of files across all environments. However, once we migrated to .NET Core, we discovered that the sorting order had changed to:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;jquery-1.4.1-vsdoc.js
+jquery-1.4.1.js
+jquery-1.4.1.min.js
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After a quick investigation, we realized that the problem was related to the &lt;code&gt;.&lt;/code&gt; and &lt;code&gt;-&lt;/code&gt; symbols. The example above can be simplified to the following minimal repro:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;var list = new List&amp;lt;string&amp;gt; { &amp;quot;a.b&amp;quot;, &amp;quot;a-b&amp;quot; };
+Console.WriteLine(string.Join(&amp;quot; &amp;quot;, list.OrderBy(x =&amp;gt; x)));
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;.NET Framework, Mono, and .NET Core+Windows print &lt;code&gt;a.b a-b&lt;/code&gt; to the output. However, .NET Core on Unix thinks that &lt;code&gt;a-b&lt;/code&gt; is smaller than &lt;code&gt;a.b&lt;/code&gt;, and prints &lt;code&gt;a-b a.b&lt;/code&gt;. Thus, the sorting order depends on the runtime and operating system that you use.
+In our codebase, we fixed this problem with the help of &lt;code&gt;StringComparer.Ordinal&lt;/code&gt;. Instead of &lt;code&gt;list.OrderBy(x =&amp;gt; x)&lt;/code&gt;, in the example above we would write &lt;code&gt;list.OrderBy(x =&amp;gt; x, StringComparer.Ordinal)&lt;/code&gt;. This guarantees a consistent string order that doesn&#39;t depend on the environment.
+We also started to wonder about the other kinds of string sorting &amp;quot;phenomena&amp;quot; we might find by switching between runtimes and operating systems. Let&#39;s find out!
+&lt;h2&gt;&lt;strong&gt;Collecting more data&lt;/strong&gt;&lt;/h2&gt;
+We took a simple set of characters &lt;code&gt;.-&#39;!a&lt;/code&gt; and built all possible two-character combinations from them:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;var chars = &amp;quot;.-&#39;!a&amp;quot;.ToCharArray();
+var strings = new List&amp;amp;lt;string&amp;amp;gt;();
+for (int i = 0; i &amp;amp;lt; chars.Length; i++)
+    for (int j = 0; j &amp;amp;lt; chars.Length; j++)
+        strings.Add(chars[i].ToString() + chars[j]);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next, we compared these combinations to each other on different combinations of runtimes (.NET Framework, .NET Core, Mono) and operating systems (Windows, Linux, macOS):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;using (var writer = new StreamWriter(filename))
+{
+    foreach (var a in strings)
+        foreach (var b in strings)
+             writer.WriteLine(a.CompareTo(b));
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We discovered three different cases in which the &lt;code&gt;CompareTo&lt;/code&gt; results are not consistent. To illustrate them, we took 4 string pairs from each group and built the following diagram for you:
+&lt;img class=&quot;alignnone size-full wp-image-25223&quot; src=&quot;https://blog.jetbrains.com/dotnet/files/2020/05/SortingTable-blog.png&quot; alt=&quot;SortingTable-blog&quot; width=&quot;1600&quot; height=&quot;900&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;In the &lt;a href=&quot;https://blog.jetbrains.com/dotnet/2020/04/27/socket-error-codes-depend-runtime-operating-system/&quot;&gt;previous post&lt;/a&gt; where we discussed socket implementations in different environments, we showed the source code for all relevant cases. This time, we suggest you do this exercise yourself. Try digging into the source code of all runtimes to find explanations for the above picture. For a bonus challenge, do your own experiments with &lt;code&gt;CultureInfo.CurrentCulture&lt;/code&gt; and learn more about how the sorting order depends on the system locale. It would be great if you could share your findings with the community! To give you further inspiration for this kind of research, we want to show you a few more interesting facts.
+&lt;h2&gt;&lt;strong&gt;More tricky cases&lt;/strong&gt;&lt;/h2&gt;
+Sorting order can be pretty tricky, even if you are only working within one environment. A great example of unexpected behavior can be found in this StackOverflow &lt;a href=&quot;https://stackoverflow.com/q/2244480/184842&quot;&gt;question&lt;/a&gt;, where developers discuss the following code snippet:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;quot;+&amp;quot;.CompareTo(&amp;quot;-&amp;quot;)
+Returns: 1
+
+&amp;quot;+1&amp;quot;.CompareTo(&amp;quot;-1&amp;quot;)
+Returns: -1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As you can see, &lt;code&gt;&amp;quot;+&amp;quot;&lt;/code&gt; is greater than &lt;code&gt;&amp;quot;-&amp;quot;&lt;/code&gt; while &lt;code&gt;&amp;quot;+1&amp;quot;&lt;/code&gt; is lesser than &lt;code&gt;&amp;quot;-1&amp;quot;&lt;/code&gt;. The &lt;a href=&quot;https://stackoverflow.com/a/2244615/184842&quot;&gt;best answer&lt;/a&gt; quotes the following paragraph from Microsoft Docs:&lt;/p&gt;
+&lt;blockquote&gt;The comparison uses the current culture to obtain culture-specific information such as casing rules and the alphabetic order of individual characters.
+For example, a culture could specify that certain combinations of characters be treated as a single character, or uppercase and lowercase characters be compared in a particular way, or that the sorting order of a character depends on the characters that precede or follow it.&lt;/blockquote&gt;
+If we continue to read the documentation, we will see that there are overloads of &lt;code&gt;string.Compare&lt;/code&gt; that take &lt;code&gt;System.Globalization.CompareOptions &lt;/code&gt;as one of the arguments. Here is the most common overload:
+&lt;pre&gt;&lt;code&gt;public static int Compare (string strA, string strB, CultureInfo culture, CompareOptions options);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;a href=&quot;https://docs.microsoft.com/en-us/dotnet/api/system.globalization.compareoptions&quot;&gt;CompareOptions&lt;/a&gt; flag enum defines the string comparison rules. Here are the most interesting values:&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;&lt;strong&gt;IgnoreKanaType:&lt;/strong&gt; Indicates that the string comparison must ignore the Kana type. Kana type refers to Japanese hiragana and katakana characters, which represent phonetic sounds in the Japanese language. Hiragana is used for native Japanese expressions and words, while katakana is used for words borrowed from other languages, such as &quot;computer&quot; or &quot;Internet&quot;. A phonetic sound can be expressed in both hiragana and katakana. If this value is selected, the hiragana character for one sound is considered equal to the katakana character for the same sound.&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;IgnoreNonSpace:&lt;/strong&gt; Indicates that the string comparison must ignore non-spacing combining characters, such as diacritics. The Unicode Standard defines combining characters as characters that are combined with base characters to produce a new character. Non-spacing combining characters do not occupy a spacing position by themselves when rendered.&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;IgnoreSymbols:&lt;/strong&gt; Indicates that the string comparison must ignore symbols, such as white-space characters, punctuation, currency symbols, the percent sign, mathematical symbols, the ampersand, and so on.&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;IgnoreWidth&lt;/strong&gt;: Indicates that the string comparison must ignore character width. For example, Japanese katakana characters can be written as full-width or half-width. If this value is selected, the katakana characters written as full-width are considered equal to the same characters written as half-width.&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;Ordinal:&lt;/strong&gt; Indicates that the string comparison must use the successive Unicode UTF-16 encoded values of the string (code unit by code unit comparison), leading to a fast comparison, but one that is culture-insensitive. A string starting with a code unit XXXX16 comes before a string starting with YYYY16, if XXXX16 is less than YYYY16. This value cannot be combined with other CompareOptions values and must be used alone.&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;StringSort:&lt;/strong&gt; Indicates that the string comparison must use the string sort algorithm. In a string sort, the hyphen and the apostrophe, as well as other non-alphanumeric symbols, come before alphanumeric characters.&lt;/li&gt;
+&lt;/ul&gt;
+Try to play with these values, and find examples of string lists that can be sorted differently depending on the above flags. This kind of experiment is a great way to learn more about runtime and to become more aware of pitfalls related to string sorting.
+This is not the end of our adventure, however. There is one more global option that can completely change the behavior of string comparison!
+&lt;h2&gt;&lt;strong&gt;Globalization invariant mode&lt;/strong&gt;&lt;/h2&gt;
+In .NET Core 2.0+, there is a feature called &lt;em&gt;Globalization invariant mode&lt;/em&gt;, which uses the &lt;code&gt;Ordinal&lt;/code&gt; sorting rule for all string comparisons by default. It can be enabled if you set the &lt;code&gt;DOTNET_SYSTEM_GLOBALIZATION_INVARIANT&lt;/code&gt; environment variable to &lt;code&gt;true&lt;/code&gt; or &lt;code&gt;1&lt;/code&gt;. Let&#39;s enable this mode and run examples from the previous section:
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;Console.WriteLine(string.Compare(&amp;quot;-&amp;quot;, &amp;quot;+&amp;quot;));
+Console.WriteLine(string.Compare(&amp;quot;-x&amp;quot;, &amp;quot;+x&amp;quot;));
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now it prints a new result:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;2
+2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Some developers may think that it&#39;s a good idea to always enable this by default to avoid problems with inconsistent sorting. Note that in this mode, you will get poor globalization support: a lot of features will be affected, including all &lt;code&gt;CultureInfo&lt;/code&gt;-specific logic, string operations, internationalized domain names (IDN) support, and even time zone display names on Linux. If you want to enable it, carefully read the &lt;a href=&quot;https://github.com/dotnet/runtime/blob/master/docs/design/features/globalization-invariant-mode.md&quot;&gt;documentation&lt;/a&gt; first.
+It&#39;s worth mentioning that if you don&#39;t control the environment of your application, there is a chance that users will enable it manually. This could significantly affect any .NET Core application!
+&lt;h2&gt;&lt;strong&gt;Conclusion&lt;/strong&gt;&lt;/h2&gt;
+Here are a few practical recommendations that can help you avoid tricky and painful bugs in the future:&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;If you want to achieve consistent string comparison across different runtimes and operating systems, always use &lt;code&gt;StringComparer.Ordinal&lt;/code&gt;.&lt;/li&gt;
+	&lt;li&gt;If you don&#39;t use &lt;code&gt;StringComparer.Ordinal&lt;/code&gt;, always keep in mind that the sorting order may depend on runtime, operating system, current culture, and environment variables.&lt;/li&gt;
+	&lt;li&gt;Try to do your own experiments and learn more about sorting rules in .NET. This time we decided to leave out the detailed explanations and instead encourage you to explore them for yourself. After all, this is the best way to learn something new and improve your programming skills!&lt;/li&gt;
+&lt;/ul&gt;</content>
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/'/>
+            <title>How Socket Error Codes Depend on Runtime and Operating System</title>
+            <updated>2020-04-27T00:00:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;&lt;em&gt;This blog post was &lt;a href=&quot;https://blog.jetbrains.com/dotnet/2020/04/27/socket-error-codes-depend-runtime-operating-system/&quot;&gt;originally posted&lt;/a&gt; on &lt;a href=&quot;https://blog.jetbrains.com/dotnet/&quot;&gt;JetBrains .NET blog&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.jetbrains.com/rider/&quot;&gt;Rider&lt;/a&gt; consists of several processes that send messages to each other via sockets. To ensure the reliability of the whole application, it&#39;s important to properly handle all the socket errors. In our codebase, we had the following code which was adopted from &lt;a href=&quot;https://github.com/mono/debugger-libs/blob/master/Mono.Debugging.Soft/SoftDebuggerSession.cs#L273&quot;&gt;Mono Debugger Libs&lt;/a&gt; and helps us communicate with debugger processes:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;protected virtual bool ShouldRetryConnection (Exception ex, int attemptNumber)
+{
+    var sx = ex as SocketException;
+    if (sx != null) {
+        if (sx.ErrorCode == 10061) //connection refused
+            return true;
+    }
+    return false;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In the case of a failed connection because of a “ConnectionRefused” error, we are retrying the connection attempt. It works fine with .NET Framework and Mono. However, once we migrated to .NET Core, this method no longer correctly detects the &amp;quot;connection refused&amp;quot; situation on Linux and macOS. If we open the &lt;code&gt;SocketException&lt;/code&gt; &lt;a href=&quot;https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.socketexception?view=netframework-4.8&quot;&gt;documentation&lt;/a&gt;, we will learn that this class has three different properties with error codes:&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;&lt;code&gt;SocketError SocketErrorCode&lt;/code&gt;: Gets the error code that is associated with this exception.&lt;/li&gt;
+	&lt;li&gt;&lt;code&gt;int ErrorCode&lt;/code&gt;: Gets the error code that is associated with this exception.&lt;/li&gt;
+	&lt;li&gt;&lt;code&gt;int NativeErrorCode&lt;/code&gt;: Gets the Win32 error code associated with this exception.&lt;/li&gt;
+&lt;/ul&gt;
+What&#39;s the difference between these properties? Should we expect different values on different runtimes or different operating systems? Which one should we use in production? Why do we have problems with &lt;code&gt;ShouldRetryConnection&lt;/code&gt; on .NET Core? Let&#39;s figure it all out!
+&lt;!--more--&gt;
+&lt;p&gt;&lt;h2&gt;&lt;strong&gt;Digging into the problem&lt;/strong&gt;&lt;/h2&gt;
+Let’s start with the following program, which prints error code property values for &lt;code&gt;SocketError.ConnectionRefused&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;var se = new SocketException((int) SocketError.ConnectionRefused);
+Console.WriteLine((int)se.SocketErrorCode);
+Console.WriteLine(se.ErrorCode);
+Console.WriteLine(se.NativeErrorCode);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If we run it on &lt;strong&gt;Windows&lt;/strong&gt;, we will get the same value on .NET Framework, Mono, and .NET Core:&lt;/p&gt;
+&lt;table&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;SocketErrorCode&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;ErrorCode&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;NativeErrorCode&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;.NET Framework&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Mono&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;.NET Core&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+10061 corresponds to the code of the connection refused socket error code &lt;a href=&quot;https://docs.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2&quot;&gt;in Windows&lt;/a&gt; (also known as &lt;code&gt;WSAECONNREFUSED&lt;/code&gt;).
+Now let&#39;s run the same program on &lt;strong&gt;Linux&lt;/strong&gt;:
+&lt;table&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;SocketErrorCode&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;ErrorCode&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;NativeErrorCode&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Mono&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;.NET Core&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;td&gt;111&lt;/td&gt;
+&lt;td&gt;111&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+As you can see, Mono returns Windows-compatible error codes. The situation with .NET Core is different: it returns a Windows-compatible value for SocketErrorCode (10061) and a Linux-like value for &lt;code&gt;ErrorCode&lt;/code&gt; and &lt;code&gt;NativeErrorCode&lt;/code&gt; (111).
+Finally, let&#39;s check &lt;strong&gt;macOS&lt;/strong&gt;:
+&lt;table&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;SocketErrorCode&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;ErrorCode&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;NativeErrorCode&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Mono&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;.NET Core&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;td&gt;61&lt;/td&gt;
+&lt;td&gt;61&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+Here, Mono is completely Windows-compatible again, but .NET Core returns 61 for &lt;code&gt;ErrorCode&lt;/code&gt; and &lt;code&gt;NativeErrorCode&lt;/code&gt;.
+In the &lt;a href=&quot;https://www.ibm.com/support/knowledgecenter/SSEPGG_11.1.0/com.ibm.db2.luw.messages.doc/doc/r0058740.html&quot;&gt;IBM Knowledge Center&lt;/a&gt;, we can find a few more values for the connection refused error code from the Unix world (also known as &lt;code&gt;ECONNREFUSED&lt;/code&gt;):
+&lt;ul&gt;
+	&lt;li&gt;AIX: 79&lt;/li&gt;
+	&lt;li&gt;HP-UX: 239&lt;/li&gt;
+	&lt;li&gt;Solaris: 146&lt;/li&gt;
+&lt;/ul&gt;
+For a better understanding of what&#39;s going on, let’s check out the source code of all the properties.
+&lt;h2&gt;&lt;strong&gt;SocketErrorCode&lt;/strong&gt;&lt;/h2&gt;
+&lt;code&gt;SocketException.SocketErrorCode&lt;/code&gt; returns a value from the &lt;code&gt;SocketError&lt;/code&gt; enum. The numerical values of the enum elements are the same on all the runtimes (see its implementation in &lt;a href=&quot;https://referencesource.microsoft.com/#System/net/System/Net/Sockets/SocketErrors.cs,cb4675d5a1a2c847&quot;&gt;.NET Framework&lt;/a&gt;, &lt;a href=&quot;https://github.com/dotnet/corefx/blob/v3.1.3/src/System.Net.Primitives/src/System/Net/Sockets/SocketError.cs&quot;&gt;.NET Core 3.1.3&lt;/a&gt;, and &lt;a href=&quot;https://github.com/mono/mono/blob/mono-6.8.0.105/mcs/class/referencesource/System/net/System/Net/Sockets/SocketErrors.cs&quot;&gt;Mono 6.8.0.105&lt;/a&gt;):
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;public enum SocketError
+{
+    SocketError = -1, // 0xFFFFFFFF
+    Success = 0,
+    OperationAborted = 995, // 0x000003E3
+    IOPending = 997, // 0x000003E5
+    Interrupted = 10004, // 0x00002714
+    AccessDenied = 10013, // 0x0000271D
+    Fault = 10014, // 0x0000271E
+    InvalidArgument = 10022, // 0x00002726
+    TooManyOpenSockets = 10024, // 0x00002728
+    WouldBlock = 10035, // 0x00002733
+    InProgress = 10036, // 0x00002734
+    AlreadyInProgress = 10037, // 0x00002735
+    NotSocket = 10038, // 0x00002736
+    DestinationAddressRequired = 10039, // 0x00002737
+    MessageSize = 10040, // 0x00002738
+    ProtocolType = 10041, // 0x00002739
+    ProtocolOption = 10042, // 0x0000273A
+    ProtocolNotSupported = 10043, // 0x0000273B
+    SocketNotSupported = 10044, // 0x0000273C
+    OperationNotSupported = 10045, // 0x0000273D
+    ProtocolFamilyNotSupported = 10046, // 0x0000273E
+    AddressFamilyNotSupported = 10047, // 0x0000273F
+    AddressAlreadyInUse = 10048, // 0x00002740
+    AddressNotAvailable = 10049, // 0x00002741
+    NetworkDown = 10050, // 0x00002742
+    NetworkUnreachable = 10051, // 0x00002743
+    NetworkReset = 10052, // 0x00002744
+    ConnectionAborted = 10053, // 0x00002745
+    ConnectionReset = 10054, // 0x00002746
+    NoBufferSpaceAvailable = 10055, // 0x00002747
+    IsConnected = 10056, // 0x00002748
+    NotConnected = 10057, // 0x00002749
+    Shutdown = 10058, // 0x0000274A
+    TimedOut = 10060, // 0x0000274C
+    ConnectionRefused = 10061, // 0x0000274D
+    HostDown = 10064, // 0x00002750
+    HostUnreachable = 10065, // 0x00002751
+    ProcessLimit = 10067, // 0x00002753
+    SystemNotReady = 10091, // 0x0000276B
+    VersionNotSupported = 10092, // 0x0000276C
+    NotInitialized = 10093, // 0x0000276D
+    Disconnecting = 10101, // 0x00002775
+    TypeNotFound = 10109, // 0x0000277D
+    HostNotFound = 11001, // 0x00002AF9
+    TryAgain = 11002, // 0x00002AFA
+    NoRecovery = 11003, // 0x00002AFB
+    NoData = 11004, // 0x00002AFC
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;These values correspond to the &lt;a href=&quot;https://docs.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2&quot;&gt;Windows Sockets Error Codes&lt;/a&gt;.
+&lt;h2&gt;&lt;strong&gt;NativeErrorCode&lt;/strong&gt;&lt;/h2&gt;
+In &lt;a href=&quot;https://referencesource.microsoft.com/#System/net/System/Net/SocketException.cs,89&quot;&gt;.NET Framework&lt;/a&gt; and &lt;a href=&quot;https://github.com/mono/mono/blob/mono-6.8.0.105/mcs/class/referencesource/System/net/System/Net/SocketException.cs#L101&quot;&gt;Mono&lt;/a&gt;, &lt;code&gt;SocketErrorCode&lt;/code&gt; and &lt;code&gt;NativeErrorCode&lt;/code&gt; always have the same values:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public SocketError SocketErrorCode {
+    //
+    // the base class returns the HResult with this property
+    // we need the Win32 Error Code, hence the override.
+    //
+    get {
+        return (SocketError)NativeErrorCode;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In .NET Core, the native code is calculated in the constructor (see &lt;a href=&quot;https://github.com/dotnet/corefx/blob/v3.1.3/src/System.Net.Primitives/src/System/Net/SocketException.cs#L20&quot;&gt;SocketException.cs#L20&lt;/a&gt;):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public SocketException(int errorCode) : this((SocketError)errorCode)
+// ...
+internal SocketException(SocketError socketError) : base(GetNativeErrorForSocketError(socketError))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The Windows implementation of &lt;code&gt;GetNativeErrorForSocketError&lt;/code&gt; is trivial (see &lt;a href=&quot;https://github.com/dotnet/corefx/blob/v3.1.3/src/System.Net.Primitives/src/System/Net/SocketException.Windows.cs&quot;&gt;SocketException.Windows.cs&lt;/a&gt;):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;private static int GetNativeErrorForSocketError(SocketError error)
+{
+    // SocketError values map directly to Win32 error codes
+    return (int)error;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The Unix implementation is more complicated (see &lt;a href=&quot;https://github.com/dotnet/corefx/blob/v3.1.3/src/System.Net.Primitives/src/System/Net/SocketException.Unix.cs&quot;&gt;SocketException.Unix.cs&lt;/a&gt;):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;private static int GetNativeErrorForSocketError(SocketError error)
+{
+    int nativeErr = (int)error;
+    if (error != SocketError.SocketError)
+    {
+        Interop.Error interopErr;
+
+        // If an interop error was not found, then don&#39;t invoke Info().RawErrno as that will fail with assert.
+        if (SocketErrorPal.TryGetNativeErrorForSocketError(error, out interopErr))
+        {
+            nativeErr = interopErr.Info().RawErrno;
+        }
+    }
+
+    return nativeErr;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;TryGetNativeErrorForSocketError&lt;/code&gt; should convert &lt;code&gt;SocketError&lt;/code&gt; to the native Unix error code.
+Unfortunately, there exists no unequivocal mapping between Windows and Unix error codes. As such, the .NET team decided to create a &lt;code&gt;Dictionary&lt;/code&gt; that maps error codes in the best possible way (see &lt;a href=&quot;https://github.com/dotnet/corefx/blob/v3.1.3/src/Common/src/System/Net/Sockets/SocketErrorPal.Unix.cs&quot;&gt;SocketErrorPal.Unix.cs&lt;/a&gt;):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;private const int NativeErrorToSocketErrorCount = 42;
+private const int SocketErrorToNativeErrorCount = 40;
+
+// No Interop.Errors are included for the following SocketErrors, as there&#39;s no good mapping:
+// - SocketError.NoRecovery
+// - SocketError.NotInitialized
+// - SocketError.ProcessLimit
+// - SocketError.SocketError
+// - SocketError.SystemNotReady
+// - SocketError.TypeNotFound
+// - SocketError.VersionNotSupported
+
+private static readonly Dictionary&amp;amp;lt;Interop.Error, SocketError&amp;amp;gt; s_nativeErrorToSocketError = new Dictionary&amp;amp;lt;Interop.Error, SocketError&amp;amp;gt;(NativeErrorToSocketErrorCount)
+{
+    { Interop.Error.EACCES, SocketError.AccessDenied },
+    { Interop.Error.EADDRINUSE, SocketError.AddressAlreadyInUse },
+    { Interop.Error.EADDRNOTAVAIL, SocketError.AddressNotAvailable },
+    { Interop.Error.EAFNOSUPPORT, SocketError.AddressFamilyNotSupported },
+    { Interop.Error.EAGAIN, SocketError.WouldBlock },
+    { Interop.Error.EALREADY, SocketError.AlreadyInProgress },
+    { Interop.Error.EBADF, SocketError.OperationAborted },
+    { Interop.Error.ECANCELED, SocketError.OperationAborted },
+    { Interop.Error.ECONNABORTED, SocketError.ConnectionAborted },
+    { Interop.Error.ECONNREFUSED, SocketError.ConnectionRefused },
+    { Interop.Error.ECONNRESET, SocketError.ConnectionReset },
+    { Interop.Error.EDESTADDRREQ, SocketError.DestinationAddressRequired },
+    { Interop.Error.EFAULT, SocketError.Fault },
+    { Interop.Error.EHOSTDOWN, SocketError.HostDown },
+    { Interop.Error.ENXIO, SocketError.HostNotFound }, // not perfect, but closest match available
+    { Interop.Error.EHOSTUNREACH, SocketError.HostUnreachable },
+    { Interop.Error.EINPROGRESS, SocketError.InProgress },
+    { Interop.Error.EINTR, SocketError.Interrupted },
+    { Interop.Error.EINVAL, SocketError.InvalidArgument },
+    { Interop.Error.EISCONN, SocketError.IsConnected },
+    { Interop.Error.EMFILE, SocketError.TooManyOpenSockets },
+    { Interop.Error.EMSGSIZE, SocketError.MessageSize },
+    { Interop.Error.ENETDOWN, SocketError.NetworkDown },
+    { Interop.Error.ENETRESET, SocketError.NetworkReset },
+    { Interop.Error.ENETUNREACH, SocketError.NetworkUnreachable },
+    { Interop.Error.ENFILE, SocketError.TooManyOpenSockets },
+    { Interop.Error.ENOBUFS, SocketError.NoBufferSpaceAvailable },
+    { Interop.Error.ENODATA, SocketError.NoData },
+    { Interop.Error.ENOENT, SocketError.AddressNotAvailable },
+    { Interop.Error.ENOPROTOOPT, SocketError.ProtocolOption },
+    { Interop.Error.ENOTCONN, SocketError.NotConnected },
+    { Interop.Error.ENOTSOCK, SocketError.NotSocket },
+    { Interop.Error.ENOTSUP, SocketError.OperationNotSupported },
+    { Interop.Error.EPERM, SocketError.AccessDenied },
+    { Interop.Error.EPIPE, SocketError.Shutdown },
+    { Interop.Error.EPFNOSUPPORT, SocketError.ProtocolFamilyNotSupported },
+    { Interop.Error.EPROTONOSUPPORT, SocketError.ProtocolNotSupported },
+    { Interop.Error.EPROTOTYPE, SocketError.ProtocolType },
+    { Interop.Error.ESOCKTNOSUPPORT, SocketError.SocketNotSupported },
+    { Interop.Error.ESHUTDOWN, SocketError.Disconnecting },
+    { Interop.Error.SUCCESS, SocketError.Success },
+    { Interop.Error.ETIMEDOUT, SocketError.TimedOut },
+};
+
+private static readonly Dictionary&amp;amp;lt;SocketError, Interop.Error&amp;amp;gt; s_socketErrorToNativeError = new Dictionary&amp;amp;lt;SocketError, Interop.Error&amp;amp;gt;(SocketErrorToNativeErrorCount)
+{
+    // This is *mostly* an inverse mapping of s_nativeErrorToSocketError.  However, some options have multiple mappings and thus
+    // can&#39;t be inverted directly.  Other options don&#39;t have a mapping from native to SocketError, but when presented with a SocketError,
+    // we want to provide the closest relevant Error possible, e.g. EINPROGRESS maps to SocketError.InProgress, and vice versa, but
+    // SocketError.IOPending also maps closest to EINPROGRESS.  As such, roundtripping won&#39;t necessarily provide the original value 100% of the time,
+    // but it&#39;s the best we can do given the mismatch between Interop.Error and SocketError.
+
+    { SocketError.AccessDenied, Interop.Error.EACCES}, // could also have been EPERM
+    { SocketError.AddressAlreadyInUse, Interop.Error.EADDRINUSE  },
+    { SocketError.AddressNotAvailable, Interop.Error.EADDRNOTAVAIL },
+    { SocketError.AddressFamilyNotSupported, Interop.Error.EAFNOSUPPORT  },
+    { SocketError.AlreadyInProgress, Interop.Error.EALREADY },
+    { SocketError.ConnectionAborted, Interop.Error.ECONNABORTED },
+    { SocketError.ConnectionRefused, Interop.Error.ECONNREFUSED },
+    { SocketError.ConnectionReset, Interop.Error.ECONNRESET },
+    { SocketError.DestinationAddressRequired, Interop.Error.EDESTADDRREQ },
+    { SocketError.Disconnecting, Interop.Error.ESHUTDOWN },
+    { SocketError.Fault, Interop.Error.EFAULT },
+    { SocketError.HostDown, Interop.Error.EHOSTDOWN },
+    { SocketError.HostNotFound, Interop.Error.EHOSTNOTFOUND },
+    { SocketError.HostUnreachable, Interop.Error.EHOSTUNREACH },
+    { SocketError.InProgress, Interop.Error.EINPROGRESS },
+    { SocketError.Interrupted, Interop.Error.EINTR },
+    { SocketError.InvalidArgument, Interop.Error.EINVAL },
+    { SocketError.IOPending, Interop.Error.EINPROGRESS },
+    { SocketError.IsConnected, Interop.Error.EISCONN },
+    { SocketError.MessageSize, Interop.Error.EMSGSIZE },
+    { SocketError.NetworkDown, Interop.Error.ENETDOWN },
+    { SocketError.NetworkReset, Interop.Error.ENETRESET },
+    { SocketError.NetworkUnreachable, Interop.Error.ENETUNREACH },
+    { SocketError.NoBufferSpaceAvailable, Interop.Error.ENOBUFS },
+    { SocketError.NoData, Interop.Error.ENODATA },
+    { SocketError.NotConnected, Interop.Error.ENOTCONN },
+    { SocketError.NotSocket, Interop.Error.ENOTSOCK },
+    { SocketError.OperationAborted, Interop.Error.ECANCELED },
+    { SocketError.OperationNotSupported, Interop.Error.ENOTSUP },
+    { SocketError.ProtocolFamilyNotSupported, Interop.Error.EPFNOSUPPORT },
+    { SocketError.ProtocolNotSupported, Interop.Error.EPROTONOSUPPORT },
+    { SocketError.ProtocolOption, Interop.Error.ENOPROTOOPT },
+    { SocketError.ProtocolType, Interop.Error.EPROTOTYPE },
+    { SocketError.Shutdown, Interop.Error.EPIPE },
+    { SocketError.SocketNotSupported, Interop.Error.ESOCKTNOSUPPORT },
+    { SocketError.Success, Interop.Error.SUCCESS },
+    { SocketError.TimedOut, Interop.Error.ETIMEDOUT },
+    { SocketError.TooManyOpenSockets, Interop.Error.ENFILE }, // could also have been EMFILE
+    { SocketError.TryAgain, Interop.Error.EAGAIN }, // not a perfect mapping, but better than nothing
+    { SocketError.WouldBlock, Interop.Error.EAGAIN  },
+};
+
+internal static bool TryGetNativeErrorForSocketError(SocketError error, out Interop.Error errno)
+{
+    return s_socketErrorToNativeError.TryGetValue(error, out errno);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Once we have an instance of &lt;code&gt;Interop.Error&lt;/code&gt;, we call &lt;code&gt;interopErr.Info().RawErrno&lt;/code&gt;. The implementation of RawErrno can be found in &lt;a href=&quot;https://github.com/dotnet/corefx/blob/v3.1.3/src/Common/src/CoreLib/Interop/Unix/Interop.Errors.cs#L138&quot;&gt;Interop.Errors.cs&lt;/a&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;internal int RawErrno
+{
+    get { return _rawErrno == -1 ? (_rawErrno = Interop.Sys.ConvertErrorPalToPlatform(_error)) : _rawErrno; }
+}
+
+[DllImport(Libraries.SystemNative, EntryPoint = &amp;quot;SystemNative_ConvertErrorPalToPlatform&amp;quot;)]
+internal static extern int ConvertErrorPalToPlatform(Error error);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here we are jumping to the native function &lt;a href=&quot;https://github.com/dotnet/corefx/blob/v3.1.3/src/Native/Unix/System.Native/pal_errno.c#L210&quot;&gt;SystemNative_ConvertErrorPalToPlatform&lt;/a&gt; that maps Error to the native integer code that is defined in &lt;a href=&quot;https://en.wikipedia.org/wiki/Errno.h&quot;&gt;errno.h&lt;/a&gt;. You can get all the values using the &lt;a href=&quot;http://man7.org/linux/man-pages/man3/errno.3.html&quot;&gt;errno&lt;/a&gt; util. Here is a typical output on Linux:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ errno -ls
+EPERM 1 Operation not permitted
+ENOENT 2 No such file or directory
+ESRCH 3 No such process
+EINTR 4 Interrupted system call
+EIO 5 Input/output error
+ENXIO 6 No such device or address
+E2BIG 7 Argument list too long
+ENOEXEC 8 Exec format error
+EBADF 9 Bad file descriptor
+ECHILD 10 No child processes
+EAGAIN 11 Resource temporarily unavailable
+ENOMEM 12 Cannot allocate memory
+EACCES 13 Permission denied
+EFAULT 14 Bad address
+ENOTBLK 15 Block device required
+EBUSY 16 Device or resource busy
+EEXIST 17 File exists
+EXDEV 18 Invalid cross-device link
+ENODEV 19 No such device
+ENOTDIR 20 Not a directory
+EISDIR 21 Is a directory
+EINVAL 22 Invalid argument
+ENFILE 23 Too many open files in system
+EMFILE 24 Too many open files
+ENOTTY 25 Inappropriate ioctl for device
+ETXTBSY 26 Text file busy
+EFBIG 27 File too large
+ENOSPC 28 No space left on device
+ESPIPE 29 Illegal seek
+EROFS 30 Read-only file system
+EMLINK 31 Too many links
+EPIPE 32 Broken pipe
+EDOM 33 Numerical argument out of domain
+ERANGE 34 Numerical result out of range
+EDEADLK 35 Resource deadlock avoided
+ENAMETOOLONG 36 File name too long
+ENOLCK 37 No locks available
+ENOSYS 38 Function not implemented
+ENOTEMPTY 39 Directory not empty
+ELOOP 40 Too many levels of symbolic links
+EWOULDBLOCK 11 Resource temporarily unavailable
+ENOMSG 42 No message of desired type
+EIDRM 43 Identifier removed
+ECHRNG 44 Channel number out of range
+EL2NSYNC 45 Level 2 not synchronized
+EL3HLT 46 Level 3 halted
+EL3RST 47 Level 3 reset
+ELNRNG 48 Link number out of range
+EUNATCH 49 Protocol driver not attached
+ENOCSI 50 No CSI structure available
+EL2HLT 51 Level 2 halted
+EBADE 52 Invalid exchange
+EBADR 53 Invalid request descriptor
+EXFULL 54 Exchange full
+ENOANO 55 No anode
+EBADRQC 56 Invalid request code
+EBADSLT 57 Invalid slot
+EDEADLOCK 35 Resource deadlock avoided
+EBFONT 59 Bad font file format
+ENOSTR 60 Device not a stream
+ENODATA 61 No data available
+ETIME 62 Timer expired
+ENOSR 63 Out of streams resources
+ENONET 64 Machine is not on the network
+ENOPKG 65 Package not installed
+EREMOTE 66 Object is remote
+ENOLINK 67 Link has been severed
+EADV 68 Advertise error
+ESRMNT 69 Srmount error
+ECOMM 70 Communication error on send
+EPROTO 71 Protocol error
+EMULTIHOP 72 Multihop attempted
+EDOTDOT 73 RFS specific error
+EBADMSG 74 Bad message
+EOVERFLOW 75 Value too large for defined data type
+ENOTUNIQ 76 Name not unique on network
+EBADFD 77 File descriptor in bad state
+EREMCHG 78 Remote address changed
+ELIBACC 79 Can not access a needed shared library
+ELIBBAD 80 Accessing a corrupted shared library
+ELIBSCN 81 .lib section in a.out corrupted
+ELIBMAX 82 Attempting to link in too many shared libraries
+ELIBEXEC 83 Cannot exec a shared library directly
+EILSEQ 84 Invalid or incomplete multibyte or wide character
+ERESTART 85 Interrupted system call should be restarted
+ESTRPIPE 86 Streams pipe error
+EUSERS 87 Too many users
+ENOTSOCK 88 Socket operation on non-socket
+EDESTADDRREQ 89 Destination address required
+EMSGSIZE 90 Message too long
+EPROTOTYPE 91 Protocol wrong type for socket
+ENOPROTOOPT 92 Protocol not available
+EPROTONOSUPPORT 93 Protocol not supported
+ESOCKTNOSUPPORT 94 Socket type not supported
+EOPNOTSUPP 95 Operation not supported
+EPFNOSUPPORT 96 Protocol family not supported
+EAFNOSUPPORT 97 Address family not supported by protocol
+EADDRINUSE 98 Address already in use
+EADDRNOTAVAIL 99 Cannot assign requested address
+ENETDOWN 100 Network is down
+ENETUNREACH 101 Network is unreachable
+ENETRESET 102 Network dropped connection on reset
+ECONNABORTED 103 Software caused connection abort
+ECONNRESET 104 Connection reset by peer
+ENOBUFS 105 No buffer space available
+EISCONN 106 Transport endpoint is already connected
+ENOTCONN 107 Transport endpoint is not connected
+ESHUTDOWN 108 Cannot send after transport endpoint shutdown
+ETOOMANYREFS 109 Too many references: cannot splice
+ETIMEDOUT 110 Connection timed out
+ECONNREFUSED 111 Connection refused
+EHOSTDOWN 112 Host is down
+EHOSTUNREACH 113 No route to host
+EALREADY 114 Operation already in progress
+EINPROGRESS 115 Operation now in progress
+ESTALE 116 Stale file handle
+EUCLEAN 117 Structure needs cleaning
+ENOTNAM 118 Not a XENIX named type file
+ENAVAIL 119 No XENIX semaphores available
+EISNAM 120 Is a named type file
+EREMOTEIO 121 Remote I/O error
+EDQUOT 122 Disk quota exceeded
+ENOMEDIUM 123 No medium found
+EMEDIUMTYPE 124 Wrong medium type
+ECANCELED 125 Operation canceled
+ENOKEY 126 Required key not available
+EKEYEXPIRED 127 Key has expired
+EKEYREVOKED 128 Key has been revoked
+EKEYREJECTED 129 Key was rejected by service
+EOWNERDEAD 130 Owner died
+ENOTRECOVERABLE 131 State not recoverable
+ERFKILL 132 Operation not possible due to RF-kill
+EHWPOISON 133 Memory page has hardware error
+ENOTSUP 95 Operation not supported
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Note that &lt;code&gt;errno&lt;/code&gt; may be not available by default in your Linux distro. For example, on Debian, you &lt;a href=&quot;https://unix.stackexchange.com/questions/326766/what-are-the-standard-error-codes-in-linux#comment688800_326811&quot;&gt;should call&lt;/a&gt; &lt;strong&gt;&lt;code&gt;sudo apt-get install moreutils&lt;/code&gt;&lt;/strong&gt; to get this utility.
+Here is a typical output on macOS:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ errno -ls
+EPERM 1 Operation not permitted
+ENOENT 2 No such file or directory
+ESRCH 3 No such process
+EINTR 4 Interrupted system call
+EIO 5 Input/output error
+ENXIO 6 Device not configured
+E2BIG 7 Argument list too long
+ENOEXEC 8 Exec format error
+EBADF 9 Bad file descriptor
+ECHILD 10 No child processes
+EDEADLK 11 Resource deadlock avoided
+ENOMEM 12 Cannot allocate memory
+EACCES 13 Permission denied
+EFAULT 14 Bad address
+ENOTBLK 15 Block device required
+EBUSY 16 Resource busy
+EEXIST 17 File exists
+EXDEV 18 Cross-device link
+ENODEV 19 Operation not supported by device
+ENOTDIR 20 Not a directory
+EISDIR 21 Is a directory
+EINVAL 22 Invalid argument
+ENFILE 23 Too many open files in system
+EMFILE 24 Too many open files
+ENOTTY 25 Inappropriate ioctl for device
+ETXTBSY 26 Text file busy
+EFBIG 27 File too large
+ENOSPC 28 No space left on device
+ESPIPE 29 Illegal seek
+EROFS 30 Read-only file system
+EMLINK 31 Too many links
+EPIPE 32 Broken pipe
+EDOM 33 Numerical argument out of domain
+ERANGE 34 Result too large
+EAGAIN 35 Resource temporarily unavailable
+EWOULDBLOCK 35 Resource temporarily unavailable
+EINPROGRESS 36 Operation now in progress
+EALREADY 37 Operation already in progress
+ENOTSOCK 38 Socket operation on non-socket
+EDESTADDRREQ 39 Destination address required
+EMSGSIZE 40 Message too long
+EPROTOTYPE 41 Protocol wrong type for socket
+ENOPROTOOPT 42 Protocol not available
+EPROTONOSUPPORT 43 Protocol not supported
+ESOCKTNOSUPPORT 44 Socket type not supported
+ENOTSUP 45 Operation not supported
+EPFNOSUPPORT 46 Protocol family not supported
+EAFNOSUPPORT 47 Address family not supported by protocol family
+EADDRINUSE 48 Address already in use
+EADDRNOTAVAIL 49 Can`t assign requested address
+ENETDOWN 50 Network is down
+ENETUNREACH 51 Network is unreachable
+ENETRESET 52 Network dropped connection on reset
+ECONNABORTED 53 Software caused connection abort
+ECONNRESET 54 Connection reset by peer
+ENOBUFS 55 No buffer space available
+EISCONN 56 Socket is already connected
+ENOTCONN 57 Socket is not connected
+ESHUTDOWN 58 Can`t send after socket shutdown
+ETOOMANYREFS 59 Too many references: can`t splice
+ETIMEDOUT 60 Operation timed out
+ECONNREFUSED 61 Connection refused
+ELOOP 62 Too many levels of symbolic links
+ENAMETOOLONG 63 File name too long
+EHOSTDOWN 64 Host is down
+EHOSTUNREACH 65 No route to host
+ENOTEMPTY 66 Directory not empty
+EPROCLIM 67 Too many processes
+EUSERS 68 Too many users
+EDQUOT 69 Disc quota exceeded
+ESTALE 70 Stale NFS file handle
+EREMOTE 71 Too many levels of remote in path
+EBADRPC 72 RPC struct is bad
+ERPCMISMATCH 73 RPC version wrong
+EPROGUNAVAIL 74 RPC prog. not avail
+EPROGMISMATCH 75 Program version wrong
+EPROCUNAVAIL 76 Bad procedure for program
+ENOLCK 77 No locks available
+ENOSYS 78 Function not implemented
+EFTYPE 79 Inappropriate file type or format
+EAUTH 80 Authentication error
+ENEEDAUTH 81 Need authenticator
+EPWROFF 82 Device power is off
+EDEVERR 83 Device error
+EOVERFLOW 84 Value too large to be stored in data type
+EBADEXEC 85 Bad executable (or shared library)
+EBADARCH 86 Bad CPU type in executable
+ESHLIBVERS 87 Shared library version mismatch
+EBADMACHO 88 Malformed Mach-o file
+ECANCELED 89 Operation canceled
+EIDRM 90 Identifier removed
+ENOMSG 91 No message of desired type
+EILSEQ 92 Illegal byte sequence
+ENOATTR 93 Attribute not found
+EBADMSG 94 Bad message
+EMULTIHOP 95 EMULTIHOP (Reserved)
+ENODATA 96 No message available on STREAM
+ENOLINK 97 ENOLINK (Reserved)
+ENOSR 98 No STREAM resources
+ENOSTR 99 Not a STREAM
+EPROTO 100 Protocol error
+ETIME 101 STREAM ioctl timeout
+EOPNOTSUPP 102 Operation not supported on socket
+ENOPOLICY 103 Policy not found
+ENOTRECOVERABLE 104 State not recoverable
+EOWNERDEAD 105 Previous owner died
+EQFULL 106 Interface output queue is full
+ELAST 106 Interface output queue is full
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Hooray! We’ve finished our fascinating journey into the internals of socket error codes. Now you know where .NET is getting the native error code for each &lt;code&gt;SocketException&lt;/code&gt; from!
+&lt;h2&gt;&lt;strong&gt;ErrorCode&lt;/strong&gt;&lt;/h2&gt;
+The &lt;code&gt;ErrorCode&lt;/code&gt; property is the most boring one, as it always returns &lt;code&gt;NativeErrorCode&lt;/code&gt;.
+&lt;a href=&quot;https://referencesource.microsoft.com/#System/net/System/Net/SocketException.cs,67&quot;&gt;.NET Framework&lt;/a&gt;, &lt;a href=&quot;https://github.com/mono/mono/blob/mono-6.8.0.105/mcs/class/referencesource/System/net/System/Net/SocketException.cs#L79&quot;&gt;Mono 6.8.0.105&lt;/a&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public override int ErrorCode {
+    //
+    // the base class returns the HResult with this property
+    // we need the Win32 Error Code, hence the override.
+    //
+    get {
+        return NativeErrorCode;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In &lt;a href=&quot;https://github.com/dotnet/corefx/blob/v3.1.3/src/System.Net.Primitives/src/System/Net/SocketException.cs#L51&quot;&gt;.NET Core 3.1.3&lt;/a&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public override int ErrorCode =&amp;amp;gt; base.NativeErrorCode;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;h2&gt;&lt;strong&gt;Writing cross-platform socket error handling&lt;/strong&gt;&lt;/h2&gt;
+Circling back to the original method we started this post with, we rewrote ShouldRetryConnection as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;protected virtual bool ShouldRetryConnection(Exception ex)
+{
+    if (ex is SocketException sx)
+        return sx.SocketErrorCode == SocketError.ConnectionRefused;
+    return false;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There was a lot of work involved in tracking down the error code to check against, but in the end, our code is much more readable now. Adding to that, this method is now also completely cross-platform, and works correctly on any runtime.
+&lt;h2&gt;&lt;strong&gt;Overview of the native error codes&lt;/strong&gt;&lt;/h2&gt;
+In some situations, you may want to have a table with native error codes on different operating systems. We can get these values with the following code snippet:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;var allErrors = Enum.GetValues(typeof(SocketError)).Cast&amp;amp;lt;SocketError&amp;amp;gt;().ToList();
+var maxNameWidth = allErrors.Select(x =&amp;amp;gt; x.ToString().Length).Max();
+foreach (var socketError in allErrors)
+{
+    var name = socketError.ToString().PadRight(maxNameWidth);
+    var code = new SocketException((int) socketError).NativeErrorCode.ToString().PadLeft(7);
+    Console.WriteLine($TEXT$quot;| {name} | {code} |&amp;quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We executed this program on Windows, Linux, and macOS. Here are the aggregated results:&lt;/p&gt;
+&lt;table&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;SocketError&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Windows&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Linux&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;macOS&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Success&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OperationAborted&lt;/td&gt;
+&lt;td&gt;995&lt;/td&gt;
+&lt;td&gt;125&lt;/td&gt;
+&lt;td&gt;89&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;IOPending&lt;/td&gt;
+&lt;td&gt;997&lt;/td&gt;
+&lt;td&gt;115&lt;/td&gt;
+&lt;td&gt;36&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Interrupted&lt;/td&gt;
+&lt;td&gt;10004&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;AccessDenied&lt;/td&gt;
+&lt;td&gt;10013&lt;/td&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fault&lt;/td&gt;
+&lt;td&gt;10014&lt;/td&gt;
+&lt;td&gt;14&lt;/td&gt;
+&lt;td&gt;14&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;InvalidArgument&lt;/td&gt;
+&lt;td&gt;10022&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;TooManyOpenSockets&lt;/td&gt;
+&lt;td&gt;10024&lt;/td&gt;
+&lt;td&gt;23&lt;/td&gt;
+&lt;td&gt;23&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;WouldBlock&lt;/td&gt;
+&lt;td&gt;10035&lt;/td&gt;
+&lt;td&gt;11&lt;/td&gt;
+&lt;td&gt;35&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;InProgress&lt;/td&gt;
+&lt;td&gt;10036&lt;/td&gt;
+&lt;td&gt;115&lt;/td&gt;
+&lt;td&gt;36&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;AlreadyInProgress&lt;/td&gt;
+&lt;td&gt;10037&lt;/td&gt;
+&lt;td&gt;114&lt;/td&gt;
+&lt;td&gt;37&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NotSocket&lt;/td&gt;
+&lt;td&gt;10038&lt;/td&gt;
+&lt;td&gt;88&lt;/td&gt;
+&lt;td&gt;38&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;DestinationAddressRequired&lt;/td&gt;
+&lt;td&gt;10039&lt;/td&gt;
+&lt;td&gt;89&lt;/td&gt;
+&lt;td&gt;39&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;MessageSize&lt;/td&gt;
+&lt;td&gt;10040&lt;/td&gt;
+&lt;td&gt;90&lt;/td&gt;
+&lt;td&gt;40&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ProtocolType&lt;/td&gt;
+&lt;td&gt;10041&lt;/td&gt;
+&lt;td&gt;91&lt;/td&gt;
+&lt;td&gt;41&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ProtocolOption&lt;/td&gt;
+&lt;td&gt;10042&lt;/td&gt;
+&lt;td&gt;92&lt;/td&gt;
+&lt;td&gt;42&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ProtocolNotSupported&lt;/td&gt;
+&lt;td&gt;10043&lt;/td&gt;
+&lt;td&gt;93&lt;/td&gt;
+&lt;td&gt;43&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SocketNotSupported&lt;/td&gt;
+&lt;td&gt;10044&lt;/td&gt;
+&lt;td&gt;94&lt;/td&gt;
+&lt;td&gt;44&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OperationNotSupported&lt;/td&gt;
+&lt;td&gt;10045&lt;/td&gt;
+&lt;td&gt;95&lt;/td&gt;
+&lt;td&gt;45&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ProtocolFamilyNotSupported&lt;/td&gt;
+&lt;td&gt;10046&lt;/td&gt;
+&lt;td&gt;96&lt;/td&gt;
+&lt;td&gt;46&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;AddressFamilyNotSupported&lt;/td&gt;
+&lt;td&gt;10047&lt;/td&gt;
+&lt;td&gt;97&lt;/td&gt;
+&lt;td&gt;47&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;AddressAlreadyInUse&lt;/td&gt;
+&lt;td&gt;10048&lt;/td&gt;
+&lt;td&gt;98&lt;/td&gt;
+&lt;td&gt;48&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;AddressNotAvailable&lt;/td&gt;
+&lt;td&gt;10049&lt;/td&gt;
+&lt;td&gt;99&lt;/td&gt;
+&lt;td&gt;49&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NetworkDown&lt;/td&gt;
+&lt;td&gt;10050&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;td&gt;50&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NetworkUnreachable&lt;/td&gt;
+&lt;td&gt;10051&lt;/td&gt;
+&lt;td&gt;101&lt;/td&gt;
+&lt;td&gt;51&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NetworkReset&lt;/td&gt;
+&lt;td&gt;10052&lt;/td&gt;
+&lt;td&gt;102&lt;/td&gt;
+&lt;td&gt;52&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ConnectionAborted&lt;/td&gt;
+&lt;td&gt;10053&lt;/td&gt;
+&lt;td&gt;103&lt;/td&gt;
+&lt;td&gt;53&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ConnectionReset&lt;/td&gt;
+&lt;td&gt;10054&lt;/td&gt;
+&lt;td&gt;104&lt;/td&gt;
+&lt;td&gt;54&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NoBufferSpaceAvailable&lt;/td&gt;
+&lt;td&gt;10055&lt;/td&gt;
+&lt;td&gt;105&lt;/td&gt;
+&lt;td&gt;55&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;IsConnected&lt;/td&gt;
+&lt;td&gt;10056&lt;/td&gt;
+&lt;td&gt;106&lt;/td&gt;
+&lt;td&gt;56&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NotConnected&lt;/td&gt;
+&lt;td&gt;10057&lt;/td&gt;
+&lt;td&gt;107&lt;/td&gt;
+&lt;td&gt;57&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Shutdown&lt;/td&gt;
+&lt;td&gt;10058&lt;/td&gt;
+&lt;td&gt;32&lt;/td&gt;
+&lt;td&gt;32&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;TimedOut&lt;/td&gt;
+&lt;td&gt;10060&lt;/td&gt;
+&lt;td&gt;110&lt;/td&gt;
+&lt;td&gt;60&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ConnectionRefused&lt;/td&gt;
+&lt;td&gt;10061&lt;/td&gt;
+&lt;td&gt;111&lt;/td&gt;
+&lt;td&gt;61&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;HostDown&lt;/td&gt;
+&lt;td&gt;10064&lt;/td&gt;
+&lt;td&gt;112&lt;/td&gt;
+&lt;td&gt;64&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;HostUnreachable&lt;/td&gt;
+&lt;td&gt;10065&lt;/td&gt;
+&lt;td&gt;113&lt;/td&gt;
+&lt;td&gt;65&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ProcessLimit&lt;/td&gt;
+&lt;td&gt;10067&lt;/td&gt;
+&lt;td&gt;10067&lt;/td&gt;
+&lt;td&gt;10067&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SystemNotReady&lt;/td&gt;
+&lt;td&gt;10091&lt;/td&gt;
+&lt;td&gt;10091&lt;/td&gt;
+&lt;td&gt;10091&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;VersionNotSupported&lt;/td&gt;
+&lt;td&gt;10092&lt;/td&gt;
+&lt;td&gt;10092&lt;/td&gt;
+&lt;td&gt;10092&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NotInitialized&lt;/td&gt;
+&lt;td&gt;10093&lt;/td&gt;
+&lt;td&gt;10093&lt;/td&gt;
+&lt;td&gt;10093&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Disconnecting&lt;/td&gt;
+&lt;td&gt;10101&lt;/td&gt;
+&lt;td&gt;108&lt;/td&gt;
+&lt;td&gt;58&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;TypeNotFound&lt;/td&gt;
+&lt;td&gt;10109&lt;/td&gt;
+&lt;td&gt;10109&lt;/td&gt;
+&lt;td&gt;10109&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;HostNotFound&lt;/td&gt;
+&lt;td&gt;11001&lt;/td&gt;
+&lt;td&gt;-131073&lt;/td&gt;
+&lt;td&gt;-131073&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;TryAgain&lt;/td&gt;
+&lt;td&gt;11002&lt;/td&gt;
+&lt;td&gt;11&lt;/td&gt;
+&lt;td&gt;35&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NoRecovery&lt;/td&gt;
+&lt;td&gt;11003&lt;/td&gt;
+&lt;td&gt;11003&lt;/td&gt;
+&lt;td&gt;11003&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NoData&lt;/td&gt;
+&lt;td&gt;11004&lt;/td&gt;
+&lt;td&gt;61&lt;/td&gt;
+&lt;td&gt;96&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SocketError&lt;/td&gt;
+&lt;td&gt;-1&lt;/td&gt;
+&lt;td&gt;-1&lt;/td&gt;
+&lt;td&gt;-1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+This table may be useful if you work with native socket error codes.
+&lt;h2&gt;&lt;strong&gt;Summary&lt;/strong&gt;&lt;/h2&gt;
+From this investigation, we’ve learned the following:
+&lt;ul&gt;
+	&lt;li&gt;&lt;code&gt;SocketException.SocketErrorCode&lt;/code&gt; returns a value from the &lt;code&gt;SocketError&lt;/code&gt; enum. The numerical values of the enum elements always correspond to the &lt;a href=&quot;https://docs.microsoft.com/en-us/windows/win32/winsock/&quot;&gt;Windows socket error codes&lt;/a&gt;.&lt;/li&gt;
+	&lt;li&gt;&lt;code&gt;SocketException.ErrorCode&lt;/code&gt; always returns &lt;code&gt;SocketException.NativeErrorCode&lt;/code&gt;.&lt;/li&gt;
+	&lt;li&gt;&lt;code&gt;SocketException.NativeErrorCode&lt;/code&gt; on .NET Framework and Mono always corresponds to the Windows error codes (even if you are using Mono on Unix). On .NET Core, &lt;code&gt;SocketException.NativeErrorCode&lt;/code&gt; equals the corresponding native error code from the current operating system.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;img class=&quot;alignnone size-full wp-image-25129&quot; src=&quot;https://blog.jetbrains.com/dotnet/files/2020/04/SocketErrors-Blog.png&quot; alt=&quot;SocketErrors-Blog&quot; width=&quot;1600&quot; height=&quot;900&quot; /&gt;
+A few practical recommendations:
+&lt;ul&gt;
+	&lt;li&gt;If you want to write portable code, always use &lt;code&gt;SocketException.SocketErrorCode&lt;/code&gt; and compare it with the values of &lt;code&gt;SocketError&lt;/code&gt;. Never use raw numerical error codes.&lt;/li&gt;
+	&lt;li&gt;If you want to get the native error code on .NET Core (e.g., for passing to another native program), use &lt;code&gt;SocketException.NativeErrorCode&lt;/code&gt;. Remember that different Unix-based operating systems (e.g., Linux, macOS, Solaris) have different native code sets. You can get the exact values of the native error codes by using the errno command.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;&lt;strong&gt;References&lt;/strong&gt;&lt;/h2&gt;
+&lt;ul&gt;
+	&lt;li&gt;&lt;a href=&quot;https://docs.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2&quot;&gt;Microsoft Docs: Windows Sockets Error Codes&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;https://www.ibm.com/support/knowledgecenter/SSEPGG_11.1.0/com.ibm.db2.luw.messages.doc/doc/r0058740.html&quot;&gt;IBM Knowledge Center: TCP/IP error codes&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;https://mariadb.com/kb/en/operating-system-error-codes/&quot;&gt;MariaDB: Operating System Error Codes&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;https://www.gnu.org/software/libc/manual/html_node/Error-Codes.html&quot;&gt;gnu.org: Error Codes&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;https://stackoverflow.com/q/961465/184842&quot;&gt;Stackoverflow: Identical Error Codes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content>
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/posts/netcore-performance-revolution-in-rider-2020-1/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/posts/netcore-performance-revolution-in-rider-2020-1/'/>
+            <title>.NET Core performance revolution in Rider 2020.1</title>
+            <updated>2020-04-14T00:00:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;&lt;em&gt;This blog post was &lt;a href=&quot;https://blog.jetbrains.com/dotnet/2020/04/14/net-core-performance-revolution-rider-2020-1/&quot;&gt;originally posted&lt;/a&gt; on &lt;a href=&quot;https://blog.jetbrains.com/dotnet/&quot;&gt;JetBrains .NET blog&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Many &lt;a href=&quot;https://www.jetbrains.com/rider/&quot;&gt;Rider&lt;/a&gt; users may know that &lt;a href=&quot;https://www.codemag.com/Article/1811091/Building-a-.NET-IDE-with-JetBrains-Rider&quot;&gt;the IDE has two main processes&lt;/a&gt;: frontend (Java-application based on the IntelliJ platform) and backend (.NET-application based on ReSharper). Since the first release of Rider, we’ve used Mono as the backend runtime on Linux and macOS. A few years ago, we decided to migrate to .NET Core. After resolving hundreds of technical challenges, &lt;strong&gt;we are finally ready to present the .NET Core edition of Rider!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;In this blog post, we want to share the results of some benchmarks that compare the Mono-powered and the .NET Core-powered editions of Rider. You may find this interesting if you are also thinking about migrating to .NET Core, or if you just want a high-level overview of the improvements to Rider in terms of performance and footprint, following the migration. (Spoiler: they’re huge!)&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;&lt;h2&gt;Setup of our Performance Lab&lt;/h2&gt;
+Before we start to measure, we need to prepare. It&#39;s not easy to benchmark such a huge project, and we have dozens of different approaches for measuring performance. Since Rider is a desktop application, some approaches require physical access to the machine.&lt;/p&gt;
+&lt;p&gt;For example, some issues are monitor specific (like rendering lag on 4K-displays), while some others are laptop specific. Sometimes, performance can be affected by thermal throttling, which is hard to control without physical access. That&#39;s why we built a small performance laboratory with different kinds of hardware. Currently, our employees are working remotely, so the laboratory has temporarily been moved from the office to a home environment:&lt;/p&gt;
+&lt;blockquote class=&quot;twitter-tweet&quot;&gt;
+&lt;p dir=&quot;ltr&quot; lang=&quot;en&quot;&gt;I finally finished setupping my home performance laboratory. It&#39;s time to run some benchmarks! &lt;a href=&quot;https://t.co/o2C62STxwG&quot;&gt;pic.twitter.com/o2C62STxwG&lt;/a&gt;&lt;/p&gt;
+— Andrey Akinshin (@andrey_akinshin) &lt;a href=&quot;https://twitter.com/andrey_akinshin/status/1248259972254834691?ref_src=twsrc%5Etfw&quot;&gt;April 9, 2020&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script src=&quot;https://platform.twitter.com/widgets.js&quot; async=&quot;&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+&lt;p&gt;For this blog post, we captured some manual performance measurements on the following hardware from the above picture:&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;Mac mini, Intel Core i7-3615QM 2.30GHz. We have three such devices with different operating systems:
+&lt;ul&gt;
+	&lt;li&gt;Windows 10 (build 15063.1418)&lt;/li&gt;
+	&lt;li&gt;Ubuntu 18.04&lt;/li&gt;
+	&lt;li&gt;macOS 10.15&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+	&lt;li&gt;MacBook (Mid 2015, Intel Core i7-4870HQ 2.5GHz) with macOS 10.15.4&lt;/li&gt;
+	&lt;li&gt;Linux Desktop (Intel Core i7-6700 3.40GHz) with Deepin 15.11&lt;/li&gt;
+&lt;/ul&gt;
+Our main set of performance tests uses a full-featured instance of Rider, with all child processes and the user interface. We don&#39;t use any mock objects or emulations. Everything works exactly as it does on the computers of our users.
+&lt;p&gt;In this blog post, we will work with our three favorite benchmarks, which open an empty project, the &lt;a href=&quot;https://github.com/OrchardCMS/Orchard&quot;&gt;Orchard&lt;/a&gt; solution (54 projects), and the &lt;a href=&quot;https://github.com/nopSolutions/nopCommerce&quot;&gt;nopCommerce&lt;/a&gt; solution (40 projects). And with respect to the runtime versions, we use &lt;em&gt;Mono 6.8.0&lt;/em&gt; and .&lt;em&gt;NET Core 3.1.3&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Since we use complex integration benchmarks, we can&#39;t use &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt;, &lt;a href=&quot;https://openjdk.java.net/projects/code-tools/jmh/&quot;&gt;JMH&lt;/a&gt;, or other benchmarking libraries for measurements. Instead we use our own benchmark harness, and we use &lt;a href=&quot;https://github.com/AndreyAkinshin/perfolizer&quot;&gt;perfolizer&lt;/a&gt; to analyze the performance data. The density plots in this post are drawn in &lt;a href=&quot;https://www.r-project.org/&quot;&gt;R&lt;/a&gt; using the &lt;a href=&quot;https://ggplot2.tidyverse.org/&quot;&gt;ggplot2&lt;/a&gt; package and the &lt;a href=&quot;https://www.jstor.org/stable/2345597&quot;&gt;Sheather &amp;amp; Jones&lt;/a&gt; bandwidth selector.&lt;/p&gt;
+&lt;p&gt;OK, now we are ready to benchmark!
+&lt;h2&gt;Performance Measuring &amp;amp; Improvements&lt;/h2&gt;
+We start with the test that opens a solution. Let&#39;s check the total time of this test on the Linux desktop:&lt;/p&gt;
+&lt;img class=&quot;alignnone size-full wp-image-24898&quot; src=&quot;https://blog.jetbrains.com/dotnet/files/2020/04/lin-perf-TotalTime.png&quot; alt=&quot;lin-perf-TotalTime&quot; width=&quot;1600&quot; height=&quot;900&quot; /&gt;
+&lt;p&gt;Note that these results don’t mean that Rider takes 40-60 seconds to open a solution. These performance tests are synthetic, which means they include many waits and internal checks. The total duration of the test correlates with the actual time it takes for the solution to open, but it’s much longer. We use such tests to track the relative changes in performance between revisions. At the same time, it’s also useful to compare different runtimes.&lt;/p&gt;
+&lt;p&gt;As you can see, the total opening time improved &lt;strong&gt;20-30%&lt;/strong&gt; after switching from Mono to .NET Core. That’s an impressive result given that we haven’t changed a single line in the source code!&lt;/p&gt;
+&lt;p&gt;Our benchmark harness is capable of measuring not only the total test time, but also individual metrics. Here is a plot that illustrates the difference in performance for a job that is responsible for adding solution assemblies to the internal Rider cache:&lt;/p&gt;
+&lt;img class=&quot;alignnone size-full wp-image-24899&quot; src=&quot;https://blog.jetbrains.com/dotnet/files/2020/04/lin-perf-Job.AddAssemblies.png&quot; alt=&quot;lin-perf-Job.AddAssemblies&quot; width=&quot;1600&quot; height=&quot;900&quot; /&gt;
+&lt;p&gt;Here we see a &lt;strong&gt;40-60%&lt;/strong&gt; improvement! However, not all the metric plots look like this. Let&#39;s look at another metric that corresponds to the time it takes to load assembly metadata from the disk:&lt;/p&gt;
+&lt;img class=&quot;alignnone size-full wp-image-24900&quot; src=&quot;https://blog.jetbrains.com/dotnet/files/2020/04/lin-perf-AllMetadataLoadTime.png&quot; alt=&quot;lin-perf-AllMetadataLoadTime&quot; width=&quot;1600&quot; height=&quot;900&quot; /&gt;
+&lt;p&gt;Here we can see that this metric has significantly degraded. We didn&#39;t have enough time for a detailed investigation, but we are definitely going to figure out why we got this result. The most important result for us right now is the improvement of the overall performance level, even though some sub metrics have degraded.&lt;/p&gt;
+&lt;p&gt;Now let&#39;s check out the same metrics on the MacBook:&lt;/p&gt;
+&lt;img class=&quot;alignnone size-medium wp-image-24903&quot; src=&quot;https://blog.jetbrains.com/dotnet/files/2020/04/mac-perf-TotalTime.png&quot; alt=&quot;mac-perf-TotalTime&quot; width=&quot;1600&quot; /&gt;
+&lt;img class=&quot;alignnone size-medium wp-image-24902&quot; src=&quot;https://blog.jetbrains.com/dotnet/files/2020/04/mac-perf-Job.AddAssemblies.png&quot; alt=&quot;mac-perf-Job.AddAssemblies&quot; width=&quot;1600&quot; /&gt;
+&lt;img class=&quot;alignnone size-full wp-image-24901&quot; src=&quot;https://blog.jetbrains.com/dotnet/files/2020/04/mac-perf-AllMetadataLoadTime.png&quot; alt=&quot;mac-perf-AllMetadataLoadTime&quot; width=&quot;1600&quot; height=&quot;900&quot; /&gt;
+&lt;p&gt;In general, the MacBook results look pretty much the same as the Linux results. However, if we look closely at the charts, we can see that the Linux results are actually better:&lt;/p&gt;
+&lt;img class=&quot;alignnone size-full wp-image-24906&quot; src=&quot;https://blog.jetbrains.com/dotnet/files/2020/04/lin_mac-perf-TotalTime.png&quot; alt=&quot;lin_mac-perf-TotalTime&quot; width=&quot;1600&quot; height=&quot;1800&quot; /&gt;
+&lt;p&gt;Does this mean that .NET Core on Linux works faster than the same .NET Core on macOS? Of course not! The conditions of the experiment were inconsistent. The hardware of the Linux machine is more powerful than that of the MacBook.&lt;/p&gt;
+&lt;p&gt;To resolve this problem, we can compare different operating systems using Mac minis! We have three devices with equal hardware characteristics but different operating systems. Out of curiosity, we added Windows with .NET Framework 4.8 to this experiment (we haven’t yet released .NET Core edition for Windows, but we do already have internal experimental support). Let&#39;s repeat our measurements on this mini-farm of Mac mini&#39;s:&lt;/p&gt;
+&lt;img class=&quot;alignnone size-full wp-image-24909&quot; src=&quot;https://blog.jetbrains.com/dotnet/files/2020/04/minilin_minimac_miniwin-perf-TotalTime.png&quot; alt=&quot;minilin_minimac_miniwin-perf-TotalTime&quot; width=&quot;1600&quot; height=&quot;2700&quot; /&gt;
+&lt;p&gt;Here we can make the following observations:&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;The difference between .NET Core and .NET Framework is not so dramatic as the difference between .NET Core and Mono. .NET Core is still a little bit faster, but it may be indistinguishable from .NET Framework in some cases. At least, however, we haven’t seen any regressions. This means that we can continue making the .NET Core edition Windows-compatible.&lt;/li&gt;
+	&lt;li&gt;If we compare Linux and macOS, the .NET Core edition works faster on Linux, and the Mono edition works faster on macOS. Of course, we can’t draw any general conclusions about runtimes based on a single experiment. However, such analysis is a good starting point for searching for OS-specific bottlenecks. We are definitely going to continue cross-OS benchmarking, which may help us find some interesting places for optimizations.&lt;/li&gt;
+&lt;/ul&gt;
+Total opening time is one of our most important metrics, but it&#39;s not the only one! Once a solution is opened, users start using thousands of Rider features. We are not going to present charts for each feature (they aren’t so exciting). Instead, we’ll describe the main categories that we identified:
+&lt;ul&gt;
+	&lt;li&gt;Features that work extremely fast on any runtime.
+When a feature takes less than &lt;strong&gt;50-100ms&lt;/strong&gt;, minor improvements will not affect user experience. Of course, we are interested in keeping the duration of such features low, but we don&#39;t actually care about minor speedups here.&lt;/li&gt;
+	&lt;li&gt;I/O-bound features.
+It should come as no surprise that we didn&#39;t observe any significant changes in I/O-bound operations. When your main bottleneck is the disk read and write capabilities, it doesn&#39;t matter which runtime you use.&lt;/li&gt;
+	&lt;li&gt;Features that involve external processes.
+Features like build, run, debug, and unit tests mostly depend on the performance of external processes, so they are not affected by the host runtime.&lt;/li&gt;
+	&lt;li&gt;Other features.
+It&#39;s very hard to measure the &quot;average&quot; impact on the rest of the features, but it’s typically in the &lt;strong&gt;0-30%&lt;/strong&gt; range, depending on the scenario.&lt;/li&gt;
+&lt;/ul&gt;
+However, in some features, we saw a tremendous uptick in speed! The most noticeable improvement was in the performance of NuGet restore. Before the migration, there was a limitation in the native NuGet client (see &lt;a href=&quot;https://github.com/NuGet/NuGet.Client/blob/5.5.0.6473/src/NuGet.Core/NuGet.Common/NetworkProtocolUtility.cs#L32&quot;&gt;the&lt;/a&gt; &lt;a href=&quot;https://github.com/NuGet/NuGet.Client/blob/5.5.0.6473/src/NuGet.Clients/NuGet.CommandLine/Commands/InstallCommand.cs#L67&quot;&gt;source&lt;/a&gt; &lt;a href=&quot;https://github.com/NuGet/NuGet.Client/blob/5.5.0.6473/src/NuGet.Core/NuGet.Commands/RestoreCommand/RestoreRunner.cs#L216&quot;&gt;code&lt;/a&gt;): restore on Mono is single-threaded. Once we migrated to .NET Core, we automatically benefitted from NuGet-restore being multi-threaded.
+&lt;p&gt;We decided to measure the restore duration for the BenchmarkDotNet solution, and we took ten measurements on each runtime (the NuGet caches were cleared before each run):&lt;/p&gt;
+&lt;table&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;.NET Core&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Mono&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;16.9 sec&lt;/td&gt;
+&lt;td&gt;88.1 sec&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;18.2 sec&lt;/td&gt;
+&lt;td&gt;88.9 sec&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;17.3 sec&lt;/td&gt;
+&lt;td&gt;91.5 sec&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;17.0 sec&lt;/td&gt;
+&lt;td&gt;94.6 sec&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;15.5 sec&lt;/td&gt;
+&lt;td&gt;88.1 sec&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;15.8 sec&lt;/td&gt;
+&lt;td&gt;103.1 sec&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;15.7 sec&lt;/td&gt;
+&lt;td&gt;89.8 sec&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;17.4 sec&lt;/td&gt;
+&lt;td&gt;107.2 sec&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;16.5 sec&lt;/td&gt;
+&lt;td&gt;87.0 sec&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;16.4 sec&lt;/td&gt;
+&lt;td&gt;80.0 sec&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+In general, NuGet restore on .NET Core works 5.5-6.5 times faster!
+&lt;p&gt;Next, let&#39;s talk about the memory footprint.
+&lt;h2&gt;Memory Footprint Reduction&lt;/h2&gt;
+One of the biggest complaints from our Linux and macOS users was about the amount of memory that is consumed by the Rider backend processes. For many years, we couldn&#39;t help these users, because most of the footprint problems were Mono-specific. It was almost impossible to fix them on our side. Is there a chance that migration to .NET Core has helped with this? Let&#39;s find out.&lt;/p&gt;
+&lt;p&gt;It&#39;s pretty hard to evaluate footprint changes in general. There are too many solution-specific issues and corner cases. Instead of a long list of charts, we decided to present measurements only for the five following solutions:&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;(1) A solution with a single &quot;Hello World&quot; .NET Core project&lt;/li&gt;
+	&lt;li&gt;(2) Perfolizer (4 projects)&lt;/li&gt;
+	&lt;li&gt;(3) BenchmarkDotNet (19 projects)&lt;/li&gt;
+	&lt;li&gt;(4) A subset of the Rider solution without tests (162 projects) and with solution-wide analysis disabled&lt;/li&gt;
+	&lt;li&gt;(5) A subset of the Rider solution with tests (250 projects) and with solution-wide analysis enabled&lt;/li&gt;
+&lt;/ul&gt;
+For each solution, we did the following: opened the solution in Rider, waited for a steady-state (a moment when all the background initialization activities are finished), performed GC.Collect(), and measured the amount of allocated managed memory. For simplification, we’ve aggregated each distribution to a range that contains at least 95% of the measured values. Here are the results for the Linux desktop:
+&lt;table&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Project&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;.NET Core&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Mono&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;(1)&lt;/td&gt;
+&lt;td&gt;75-80&lt;/td&gt;
+&lt;td&gt;150-160&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;(2)&lt;/td&gt;
+&lt;td&gt;90-100&lt;/td&gt;
+&lt;td&gt;170-180&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;(3)&lt;/td&gt;
+&lt;td&gt;180-190&lt;/td&gt;
+&lt;td&gt;330-340&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;(4)&lt;/td&gt;
+&lt;td&gt;560-640&lt;/td&gt;
+&lt;td&gt;800-840&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;(5)&lt;/td&gt;
+&lt;td&gt;1460-1500&lt;/td&gt;
+&lt;td&gt;1820-1860&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+This table doesn&#39;t cover all the corner cases, but it provides a pretty reliable high-level overview. In general, we saw a roughly &lt;strong&gt;40-50%&lt;/strong&gt; improvement for small solutions and a roughly &lt;strong&gt;20-30%&lt;/strong&gt; improvement for huge solutions. That’s another impressive result for a change that doesn&#39;t modify the source code.
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+It&#39;s pretty hard to evaluate performance and footprint changes in such a huge project after migration to another runtime. The metrics depend on many factors, such as the hardware used, the structure of a solution, and the use cases tested. If you ask for a short summarized conclusion, we can say that the total performance improvement ranges from &lt;strong&gt;0-30%&lt;/strong&gt; for solution opening and some general features to &lt;strong&gt;550-650%&lt;/strong&gt; for some individual features like NuGet restore. The total footprint improvement is roughly &lt;strong&gt;20-50%&lt;/strong&gt; depending on the solution and the set of enabled features.
+&lt;p&gt;In case you are interested to know what’s next for us, here is our roadmap for the near future:&lt;/p&gt;
+&lt;ul&gt;
+	&lt;li&gt;We are going to migrate to .NET Core on Windows (currently we are still using .NET Framework; .NET Core is only enabled for Linux and macOS). It will take some time because not all of our features are ready for .NET Core (e.g., the current implementation of WinForms is not compatible with the new runtime), but we will do our best to finish the migration process this year.&lt;/li&gt;
+	&lt;li&gt;We are going to investigate cases where we have degradations after switching runtimes. It&#39;s a pretty interesting topic, but we just didn&#39;t have enough time for a thorough investigation ahead of this release.&lt;/li&gt;
+	&lt;li&gt;We are going to publish &lt;a href=&quot;https://blog.jetbrains.com/dotnet/2020/04/27/socket-error-codes-depend-runtime-operating-system/&quot;&gt;&lt;strong&gt;more blog posts about the technical challenges&lt;/strong&gt;&lt;/a&gt; that we’ve resolved, about differences between .NET Core and Mono, and about our approaches to performance analysis. The goal of this post was to provide a high-level overview of the general impact of the migration, so we weren’t able to present a lot of interesting details. We will share those soon, though, so stay tuned!&lt;/li&gt;
+&lt;/ul&gt;
+Meanwhile, you can do your own performance research on your solutions. Here are a few tips that could help:
+&lt;ul&gt;
+	&lt;li&gt;You can add a status bar widget that displays the current runtime. Press &lt;em&gt;Ctrl+Shift+A&lt;/em&gt; (or &lt;em&gt;Command+Shift+A&lt;/em&gt; on macOS), find &quot;&lt;em&gt;Registry...&lt;/em&gt;&quot;, hit &lt;em&gt;Enter&lt;/em&gt;, find &lt;em&gt;rider.enable.statusbar.runtimeIcon&lt;/em&gt;, enable it, and restart Rider. After that, you will get a widget that displays the icon of .NET Core or Mono depending on the current runtime. While the .NET Core backend is publicly available, this status widget is not. Hence, it’s hidden in the registry, together with other experimental flags for the IDE. You’re now part of the secret group that wields the power of experimental flags!&lt;/li&gt;
+	&lt;li&gt;You can switch between runtimes with the Help menu (choose the &quot;&lt;em&gt;Switch IDE Runtime to *&lt;/em&gt;&quot; action). Alternatively, you can switch using the runtime icon widget with a left-click.&lt;/li&gt;
+	&lt;li&gt;You can add a backend memory widget that displays the current amount of memory that is consumed by the backend process. Right-click on the status bar and choose &quot;&lt;em&gt;Backend Memory Indicator&lt;/em&gt;&quot;.&lt;/li&gt;
+&lt;/ul&gt;
+We would be happy to get your feedback about the .NET Core edition of Rider! We would particularly appreciate it if you shared how this change affects your solutions in terms of performance, footprint, and user experience. If you run into any problems or regressions, please file an issue in our &lt;a href=&quot;https://youtrack.jetbrains.com/issues/RIDER&quot;&gt;issue tracker&lt;/a&gt; so we can investigate your issues and continue to improve our IDE!</content>
+        </entry>
         <entry>
             <id>http://aakinshin.net/posts/introducing-perfolizer/</id>
             <link type="text/html" rel="alternate" href='http://aakinshin.net/posts/introducing-perfolizer/'/>

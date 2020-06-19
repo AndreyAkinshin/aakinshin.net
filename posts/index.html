@@ -116,6 +116,101 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/how-listseparator-depends-on-runtime-and-operating-system/'>How ListSeparator Depends on Runtime and Operating System</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> May 20, 2020.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
+                <a href="/tags/mono"><span class="badge badge-pill badge-info">Mono</span></a>
+                <a href="/tags/net-core"><span class="badge badge-pill badge-info">.NET Core</span></a>
+        </span><br /><br />
+        <p><em>This blog post was <a href="https://blog.jetbrains.com/dotnet/2020/05/20/listseparator-depends-runtime-operating-system/">originally posted</a> on <a href="https://blog.jetbrains.com/dotnet/">JetBrains .NET blog</a>.</em></p>
+<p>In the two previous blog posts from this series, we discussed how socket errors and socket orders depend on the runtime and operating systems. For some, it may be obvious that some things are indeed specific to the operating system or the runtime, but often these issues come as a surprise and are only discovered when running our code on different systems.
+An interesting example that may bite us at runtime is using <code>ListSeparator</code> in our code. It should give us a common separator for list elements in a string. But is it really common?
+Let's start our investigation by printing <code>ListSeparator</code> for the Russian language:</p>
+<pre><code class="language-cs">Console.WriteLine(new CultureInfo(&quot;ru-ru&quot;).TextInfo.ListSeparator);
+</code></pre>
+<p>On Windows, you will get the same result for .NET Framework, .NET Core, and Mono: the <code>ListSeparator</code> is <code>;</code> (a semicolon). You will also get a semicolon on Mono+Unix. However, on .NET Core+Unix, you will get a <a href="https://en.wikipedia.org/wiki/Non-breaking_space">non-breaking space</a>.</p>
+</p>
+        <a href='/posts/how-listseparator-depends-on-runtime-and-operating-system/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/how-sorting-order-depends-on-runtime-and-operating-system/'>How Sorting Order Depends on Runtime and Operating System</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> May 13, 2020.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
+                <a href="/tags/mono"><span class="badge badge-pill badge-info">Mono</span></a>
+                <a href="/tags/net-core"><span class="badge badge-pill badge-info">.NET Core</span></a>
+        </span><br /><br />
+        <p><em>This blog post was <a href="https://blog.jetbrains.com/dotnet/2020/05/13/sorting-order-depends-runtime-operating-system/">originally posted</a> on <a href="https://blog.jetbrains.com/dotnet/">JetBrains .NET blog</a>.</em></p>
+<p>In <a href="https://www.jetbrains.com/rider/">Rider</a>, we have unit tests that enumerate files in your project and dump a sorted list of these files. In one of our test projects, we had the following files: <code>jquery-1.4.1.js</code>, <code>jquery-1.4.1.min.js</code>, <code>jquery-1.4.1-vsdoc.js</code>. On Windows, .NET Framework, .NET Core, and Mono produce the same sorted list:</p>
+<pre><code class="language-bash">jquery-1.4.1.js
+jquery-1.4.1.min.js
+jquery-1.4.1-vsdoc.js
+</code></pre>
+</p>
+        <a href='/posts/how-sorting-order-depends-on-runtime-and-operating-system/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/'>How Socket Error Codes Depend on Runtime and Operating System</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> April 27, 2020.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
+                <a href="/tags/mono"><span class="badge badge-pill badge-info">Mono</span></a>
+                <a href="/tags/net-core"><span class="badge badge-pill badge-info">.NET Core</span></a>
+        </span><br /><br />
+        <p><em>This blog post was <a href="https://blog.jetbrains.com/dotnet/2020/04/27/socket-error-codes-depend-runtime-operating-system/">originally posted</a> on <a href="https://blog.jetbrains.com/dotnet/">JetBrains .NET blog</a>.</em></p>
+<p><a href="https://www.jetbrains.com/rider/">Rider</a> consists of several processes that send messages to each other via sockets. To ensure the reliability of the whole application, it's important to properly handle all the socket errors. In our codebase, we had the following code which was adopted from <a href="https://github.com/mono/debugger-libs/blob/master/Mono.Debugging.Soft/SoftDebuggerSession.cs#L273">Mono Debugger Libs</a> and helps us communicate with debugger processes:</p>
+<pre><code class="language-cs">protected virtual bool ShouldRetryConnection (Exception ex, int attemptNumber)
+{
+    var sx = ex as SocketException;
+    if (sx != null) {
+        if (sx.ErrorCode == 10061) //connection refused
+            return true;
+    }
+    return false;
+}
+</code></pre>
+<p>In the case of a failed connection because of a “ConnectionRefused” error, we are retrying the connection attempt. It works fine with .NET Framework and Mono. However, once we migrated to .NET Core, this method no longer correctly detects the &quot;connection refused&quot; situation on Linux and macOS. If we open the <code>SocketException</code> <a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.socketexception?view=netframework-4.8">documentation</a>, we will learn that this class has three different properties with error codes:</p>
+<ul>
+	<li><code>SocketError SocketErrorCode</code>: Gets the error code that is associated with this exception.</li>
+	<li><code>int ErrorCode</code>: Gets the error code that is associated with this exception.</li>
+	<li><code>int NativeErrorCode</code>: Gets the Win32 error code associated with this exception.</li>
+</ul>
+What's the difference between these properties? Should we expect different values on different runtimes or different operating systems? Which one should we use in production? Why do we have problems with <code>ShouldRetryConnection</code> on .NET Core? Let's figure it all out!
+</p>
+        <a href='/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/netcore-performance-revolution-in-rider-2020-1/'>.NET Core performance revolution in Rider 2020.1</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> April 14, 2020.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
+                <a href="/tags/performance"><span class="badge badge-pill badge-info">Performance</span></a>
+                <a href="/tags/net-core"><span class="badge badge-pill badge-info">.NET Core</span></a>
+        </span><br /><br />
+        <p><em>This blog post was <a href="https://blog.jetbrains.com/dotnet/2020/04/14/net-core-performance-revolution-rider-2020-1/">originally posted</a> on <a href="https://blog.jetbrains.com/dotnet/">JetBrains .NET blog</a>.</em></p>
+<p>Many <a href="https://www.jetbrains.com/rider/">Rider</a> users may know that <a href="https://www.codemag.com/Article/1811091/Building-a-.NET-IDE-with-JetBrains-Rider">the IDE has two main processes</a>: frontend (Java-application based on the IntelliJ platform) and backend (.NET-application based on ReSharper). Since the first release of Rider, we’ve used Mono as the backend runtime on Linux and macOS. A few years ago, we decided to migrate to .NET Core. After resolving hundreds of technical challenges, <strong>we are finally ready to present the .NET Core edition of Rider!</strong></p>
+<p>In this blog post, we want to share the results of some benchmarks that compare the Mono-powered and the .NET Core-powered editions of Rider. You may find this interesting if you are also thinking about migrating to .NET Core, or if you just want a high-level overview of the improvements to Rider in terms of performance and footprint, following the migration. (Spoiler: they’re huge!)</p>
+</p>
+        <a href='/posts/netcore-performance-revolution-in-rider-2020-1/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/introducing-perfolizer/'>Introducing perfolizer</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> March 04, 2020.
@@ -335,129 +430,6 @@ public class IntroDisasm
 </code></pre>
 </p>
         <a href='/posts/dotnet-crossruntime-disasm/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/bdn-v0_10_14/'>BenchmarkDotNet v0.10.14</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> April 09, 2018.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/benchmarkdotnet"><span class="badge badge-pill badge-info">BenchmarkDotNet</span></a>
-                <a href="/tags/benchmarking"><span class="badge badge-pill badge-info">benchmarking</span></a>
-        </span><br /><br />
-        <p>BenchmarkDotNet v0.10.14 has been released! This release includes:</p>
-<ul>
-<li><strong>Per-method parameterization</strong> (<a href="http://benchmarkdotnet.org/Advanced/Arguments.htm">Read more</a>)</li>
-<li><strong>Console histograms and multimodal disribution detection</strong> (<a href="/blog/post/dotnet-crossruntime-disasm/">Read more</a>)</li>
-<li><strong>Many improvements for Mono disassembly support on Windows</strong> (A blog post is coming soon)</li>
-<li><strong>Many bugfixes</strong></li>
-</ul>
-<p>In the <a href="https://github.com/dotnet/BenchmarkDotNet/issues?q=milestone:v0.10.14">v0.10.14</a> scope,
-8 issues were resolved and 11 pull requests where merged.
-This release includes 47 commits by 8 contributors.</p>
-</p>
-        <a href='/posts/bdn-v0_10_14/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/bdn-v0_10_13/'>BenchmarkDotNet v0.10.13</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> March 02, 2018.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/benchmarkdotnet"><span class="badge badge-pill badge-info">BenchmarkDotNet</span></a>
-                <a href="/tags/benchmarking"><span class="badge badge-pill badge-info">benchmarking</span></a>
-        </span><br /><br />
-        <p>BenchmarkDotNet v0.10.13 has been released! This release includes:</p>
-<ul>
-<li><strong>Mono Support for DisassemblyDiagnoser:</strong>
-Now you can easily get an assembly listing not only on .NET Framework/.NET Core, but also on Mono.
-It works on Linux, macOS, and Windows (Windows requires installed cygwin with <code>obj</code> and <code>as</code>).
-(See <a href="https://github.com/dotnet/BenchmarkDotNet/issues/541">#541</a>)</li>
-<li><strong>Support ANY CoreFX and CoreCLR builds:</strong>
-BenchmarkDotNet allows the users to run their benchmarks against ANY CoreCLR and CoreFX builds.
-You can compare your local build vs MyGet feed or Debug vs Release or one version vs another.
-(See <a href="https://github.com/dotnet/BenchmarkDotNet/issues/651">#651</a>)</li>
-<li><strong>C# 7.2 support</strong>
-(See <a href="https://github.com/dotnet/BenchmarkDotNet/issues/643">#643</a>)</li>
-<li><strong>.NET 4.7.1 support</strong>
-(See <a href="https://github.com/dotnet/BenchmarkDotNet/commit/28aa946a9a277b6c2b1166af0397134b02bedf2d">28aa94</a>)</li>
-<li><strong>Support Visual Basic project files (.vbroj) targeting .NET Core</strong>
-(See <a href="https://github.com/dotnet/BenchmarkDotNet/issues/626">#626</a>)</li>
-<li><strong>DisassemblyDiagnoser now supports generic types</strong>
-(See <a href="https://github.com/dotnet/BenchmarkDotNet/issues/640">#640</a>)</li>
-<li><strong>Now it's possible to benchmark both Mono and .NET Core from the same app</strong>
-(See <a href="https://github.com/dotnet/BenchmarkDotNet/issues/653">#653</a>)</li>
-<li><strong>Many bug fixes</strong>
-(See details below)</li>
-</ul>
-</p>
-        <a href='/posts/bdn-v0_10_13/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/mono-gc-collects/'>Analyzing distribution of Mono GC collections</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> February 20, 2018.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/r"><span class="badge badge-pill badge-info">R</span></a>
-                <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
-                <a href="/tags/mono"><span class="badge badge-pill badge-info">Mono</span></a>
-                <a href="/tags/gc"><span class="badge badge-pill badge-info">GC</span></a>
-        </span><br /><br />
-        <p>Sometimes I want to understand the GC performance impact on an application quickly.
-I know that there are many powerful diagnostic tools and approaches,
-but I'm a fan of the &quot;right tool for the job&quot; idea.
-In simple cases, I prefer simple noninvasive approaches which provide a quick way
-to get an overview of the current situation
-(if everything is terrible, I always can switch to an advanced approach).
-Today I want to share with you my favorite way to quickly get statistics
-of GC pauses in Mono and generate nice plots like this:</p>
-<div class="mx-auto"><a href="/img/posts/mono-gc-collects/plot-64.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/mono-gc-collects/plot-64.png" /></a></div>
-</p>
-        <a href='/posts/mono-gc-collects/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/bdn-v0_10_12/'>BenchmarkDotNet v0.10.12</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> January 15, 2018.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/benchmarkdotnet"><span class="badge badge-pill badge-info">BenchmarkDotNet</span></a>
-                <a href="/tags/benchmarking"><span class="badge badge-pill badge-info">benchmarking</span></a>
-        </span><br /><br />
-        <p>BenchmarkDotNet v0.10.12 has been released! This release includes:</p>
-<ul>
-<li><strong>Improved DisassemblyDiagnoser:</strong>
-BenchmarkDotNet contains an embedded disassembler so that it can print assembly code for all benchmarks;
-it's not easy, but the disassembler evolves in every release.</li>
-<li><strong>Improved MemoryDiagnoser:</strong>
-it has a better precision level, and it takes less time to evaluate memory allocations in a benchmark.</li>
-<li><strong>New TailCallDiagnoser:</strong>
-now you get notifications when JIT applies the tail call optimizations to your methods.</li>
-<li><strong>Better environment info:</strong>
-when your share performance results, it's very important to share information about your environment.
-The library generates the environment summary for you by default.
-Now it contains information about the amount of physical CPU, physical cores, and logic cores.
-If you run a benchmark on a virtual machine, you will get the name of the hypervisor
-(e.g., Hyper-V, VMware, or VirtualBox).</li>
-<li><strong>Better summary table:</strong>
-one of the greatest features of BenchmarkDotNet is the summary table.
-It shows all important information about results in a compact and understandable form.
-Now it has better customization options: you can display relative performance of different environments
-(e.g., compare .NET Framework and .NET Core) and group benchmarks by categories.</li>
-<li><strong>New GC settings:</strong> now we support <code>NoAffinitize</code>, <code>HeapAffinitizeMask</code>, <code>HeapCount</code>.</li>
-<li>Other minor improvements and bug fixes</li>
-</ul>
-</p>
-        <a href='/posts/bdn-v0_10_12/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>
