@@ -146,9 +146,9 @@ Console.WriteLine(string.Join(&quot; &quot;, list.OrderBy(x =&gt; x)));
 </code></pre>
 <p>.NET Framework, Mono, and .NET Core+Windows print <code>a.b a-b</code> to the output. However, .NET Core on Unix thinks that <code>a-b</code> is smaller than <code>a.b</code>, and prints <code>a-b a.b</code>. Thus, the sorting order depends on the runtime and operating system that you use.
 In our codebase, we fixed this problem with the help of <code>StringComparer.Ordinal</code>. Instead of <code>list.OrderBy(x =&gt; x)</code>, in the example above we would write <code>list.OrderBy(x =&gt; x, StringComparer.Ordinal)</code>. This guarantees a consistent string order that doesn't depend on the environment.
-We also started to wonder about the other kinds of string sorting &quot;phenomena&quot; we might find by switching between runtimes and operating systems. Let's find out!
+We also started to wonder about the other kinds of string sorting &quot;phenomena&quot; we might find by switching between runtimes and operating systems. Let's find out!</p>
 <h2><strong>Collecting more data</strong></h2>
-We took a simple set of characters <code>.-'!a</code> and built all possible two-character combinations from them:</p>
+We took a simple set of characters <code>.-'!a</code> and built all possible two-character combinations from them:
 <pre><code class="language-cs">var chars = &quot;.-'!a&quot;.ToCharArray();
 var strings = new List&amp;lt;string&amp;gt;();
 for (int i = 0; i &amp;lt; chars.Length; i++)
@@ -165,9 +165,9 @@ for (int i = 0; i &amp;lt; chars.Length; i++)
 </code></pre>
 <p>We discovered three different cases in which the <code>CompareTo</code> results are not consistent. To illustrate them, we took 4 string pairs from each group and built the following diagram for you:
 <img class="alignnone size-full wp-image-25223" src="https://blog.jetbrains.com/dotnet/files/2020/05/SortingTable-blog.png" alt="SortingTable-blog" width="1600" height="900" /></p>
-<p>In the <a href="https://blog.jetbrains.com/dotnet/2020/04/27/socket-error-codes-depend-runtime-operating-system/">previous post</a> where we discussed socket implementations in different environments, we showed the source code for all relevant cases. This time, we suggest you do this exercise yourself. Try digging into the source code of all runtimes to find explanations for the above picture. For a bonus challenge, do your own experiments with <code>CultureInfo.CurrentCulture</code> and learn more about how the sorting order depends on the system locale. It would be great if you could share your findings with the community! To give you further inspiration for this kind of research, we want to show you a few more interesting facts.
+<p>In the <a href="https://blog.jetbrains.com/dotnet/2020/04/27/socket-error-codes-depend-runtime-operating-system/">previous post</a> where we discussed socket implementations in different environments, we showed the source code for all relevant cases. This time, we suggest you do this exercise yourself. Try digging into the source code of all runtimes to find explanations for the above picture. For a bonus challenge, do your own experiments with <code>CultureInfo.CurrentCulture</code> and learn more about how the sorting order depends on the system locale. It would be great if you could share your findings with the community! To give you further inspiration for this kind of research, we want to show you a few more interesting facts.</p>
 <h2><strong>More tricky cases</strong></h2>
-Sorting order can be pretty tricky, even if you are only working within one environment. A great example of unexpected behavior can be found in this StackOverflow <a href="https://stackoverflow.com/q/2244480/184842">question</a>, where developers discuss the following code snippet:</p>
+Sorting order can be pretty tricky, even if you are only working within one environment. A great example of unexpected behavior can be found in this StackOverflow <a href="https://stackoverflow.com/q/2244480/184842">question</a>, where developers discuss the following code snippet:
 <pre><code>&quot;+&quot;.CompareTo(&quot;-&quot;)
 Returns: 1
 
@@ -201,9 +201,9 @@ Console.WriteLine(string.Compare(&quot;-x&quot;, &quot;+x&quot;));
 2
 </code></pre>
 <p>Some developers may think that it's a good idea to always enable this by default to avoid problems with inconsistent sorting. Note that in this mode, you will get poor globalization support: a lot of features will be affected, including all <code>CultureInfo</code>-specific logic, string operations, internationalized domain names (IDN) support, and even time zone display names on Linux. If you want to enable it, carefully read the <a href="https://github.com/dotnet/runtime/blob/master/docs/design/features/globalization-invariant-mode.md">documentation</a> first.
-It's worth mentioning that if you don't control the environment of your application, there is a chance that users will enable it manually. This could significantly affect any .NET Core application!
+It's worth mentioning that if you don't control the environment of your application, there is a chance that users will enable it manually. This could significantly affect any .NET Core application!</p>
 <h2><strong>Conclusion</strong></h2>
-Here are a few practical recommendations that can help you avoid tricky and painful bugs in the future:</p>
+Here are a few practical recommendations that can help you avoid tricky and painful bugs in the future:
 <ul>
 	<li>If you want to achieve consistent string comparison across different runtimes and operating systems, always use <code>StringComparer.Ordinal</code>.</li>
 	<li>If you don't use <code>StringComparer.Ordinal</code>, always keep in mind that the sorting order may depend on runtime, operating system, current culture, and environment variables.</li>

@@ -132,8 +132,8 @@
 <p>Many <a href="https://www.jetbrains.com/rider/">Rider</a> users may know that <a href="https://www.codemag.com/Article/1811091/Building-a-.NET-IDE-with-JetBrains-Rider">the IDE has two main processes</a>: frontend (Java-application based on the IntelliJ platform) and backend (.NET-application based on ReSharper). Since the first release of Rider, we’ve used Mono as the backend runtime on Linux and macOS. A few years ago, we decided to migrate to .NET Core. After resolving hundreds of technical challenges, <strong>we are finally ready to present the .NET Core edition of Rider!</strong></p>
 <p>In this blog post, we want to share the results of some benchmarks that compare the Mono-powered and the .NET Core-powered editions of Rider. You may find this interesting if you are also thinking about migrating to .NET Core, or if you just want a high-level overview of the improvements to Rider in terms of performance and footprint, following the migration. (Spoiler: they’re huge!)</p>
 <!--more-->
-<p><h2>Setup of our Performance Lab</h2>
-Before we start to measure, we need to prepare. It's not easy to benchmark such a huge project, and we have dozens of different approaches for measuring performance. Since Rider is a desktop application, some approaches require physical access to the machine.</p>
+<h2>Setup of our Performance Lab</h2>
+Before we start to measure, we need to prepare. It's not easy to benchmark such a huge project, and we have dozens of different approaches for measuring performance. Since Rider is a desktop application, some approaches require physical access to the machine.
 <p>For example, some issues are monitor specific (like rendering lag on 4K-displays), while some others are laptop specific. Sometimes, performance can be affected by thermal throttling, which is hard to control without physical access. That's why we built a small performance laboratory with different kinds of hardware. Currently, our employees are working remotely, so the laboratory has temporarily been moved from the office to a home environment:</p>
 <blockquote class="twitter-tweet">
 <p dir="ltr" lang="en">I finally finished setupping my home performance laboratory. It's time to run some benchmarks! <a href="https://t.co/o2C62STxwG">pic.twitter.com/o2C62STxwG</a></p>
@@ -154,9 +154,9 @@ Before we start to measure, we need to prepare. It's not easy to benchmark such 
 Our main set of performance tests uses a full-featured instance of Rider, with all child processes and the user interface. We don't use any mock objects or emulations. Everything works exactly as it does on the computers of our users.
 <p>In this blog post, we will work with our three favorite benchmarks, which open an empty project, the <a href="https://github.com/OrchardCMS/Orchard">Orchard</a> solution (54 projects), and the <a href="https://github.com/nopSolutions/nopCommerce">nopCommerce</a> solution (40 projects). And with respect to the runtime versions, we use <em>Mono 6.8.0</em> and .<em>NET Core 3.1.3</em>.</p>
 <p>Since we use complex integration benchmarks, we can't use <a href="https://github.com/dotnet/BenchmarkDotNet">BenchmarkDotNet</a>, <a href="https://openjdk.java.net/projects/code-tools/jmh/">JMH</a>, or other benchmarking libraries for measurements. Instead we use our own benchmark harness, and we use <a href="https://github.com/AndreyAkinshin/perfolizer">perfolizer</a> to analyze the performance data. The density plots in this post are drawn in <a href="https://www.r-project.org/">R</a> using the <a href="https://ggplot2.tidyverse.org/">ggplot2</a> package and the <a href="https://www.jstor.org/stable/2345597">Sheather &amp; Jones</a> bandwidth selector.</p>
-<p>OK, now we are ready to benchmark!
+<p>OK, now we are ready to benchmark!</p>
 <h2>Performance Measuring &amp; Improvements</h2>
-We start with the test that opens a solution. Let's check the total time of this test on the Linux desktop:</p>
+We start with the test that opens a solution. Let's check the total time of this test on the Linux desktop:
 <img class="alignnone size-full wp-image-24898" src="https://blog.jetbrains.com/dotnet/files/2020/04/lin-perf-TotalTime.png" alt="lin-perf-TotalTime" width="1600" height="900" />
 <p>Note that these results don’t mean that Rider takes 40-60 seconds to open a solution. These performance tests are synthetic, which means they include many waits and internal checks. The total duration of the test correlates with the actual time it takes for the solution to open, but it’s much longer. We use such tests to track the relative changes in performance between revisions. At the same time, it’s also useful to compare different runtimes.</p>
 <p>As you can see, the total opening time improved <strong>20-30%</strong> after switching from Mono to .NET Core. That’s an impressive result given that we haven’t changed a single line in the source code!</p>
@@ -241,9 +241,9 @@ However, in some features, we saw a tremendous uptick in speed! The most noticea
 </tbody>
 </table>
 In general, NuGet restore on .NET Core works 5.5-6.5 times faster!
-<p>Next, let's talk about the memory footprint.
+<p>Next, let's talk about the memory footprint.</p>
 <h2>Memory Footprint Reduction</h2>
-One of the biggest complaints from our Linux and macOS users was about the amount of memory that is consumed by the Rider backend processes. For many years, we couldn't help these users, because most of the footprint problems were Mono-specific. It was almost impossible to fix them on our side. Is there a chance that migration to .NET Core has helped with this? Let's find out.</p>
+One of the biggest complaints from our Linux and macOS users was about the amount of memory that is consumed by the Rider backend processes. For many years, we couldn't help these users, because most of the footprint problems were Mono-specific. It was almost impossible to fix them on our side. Is there a chance that migration to .NET Core has helped with this? Let's find out.
 <p>It's pretty hard to evaluate footprint changes in general. There are too many solution-specific issues and corner cases. Instead of a long list of charts, we decided to present measurements only for the five following solutions:</p>
 <ul>
 	<li>(1) A solution with a single "Hello World" .NET Core project</li>

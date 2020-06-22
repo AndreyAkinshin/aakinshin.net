@@ -148,8 +148,8 @@
 </ul>
 What's the difference between these properties? Should we expect different values on different runtimes or different operating systems? Which one should we use in production? Why do we have problems with <code>ShouldRetryConnection</code> on .NET Core? Let's figure it all out!
 <!--more-->
-<p><h2><strong>Digging into the problem</strong></h2>
-Let’s start with the following program, which prints error code property values for <code>SocketError.ConnectionRefused</code>:</p>
+<h2><strong>Digging into the problem</strong></h2>
+Let’s start with the following program, which prints error code property values for <code>SocketError.ConnectionRefused</code>:
 <pre><code class="language-cs">var se = new SocketException((int) SocketError.ConnectionRefused);
 Console.WriteLine((int)se.SocketErrorCode);
 Console.WriteLine(se.ErrorCode);
@@ -293,9 +293,9 @@ For a better understanding of what's going on, let’s check out the source code
     NoData = 11004, // 0x00002AFC
 }
 </code></pre>
-<p>These values correspond to the <a href="https://docs.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2">Windows Sockets Error Codes</a>.
+<p>These values correspond to the <a href="https://docs.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2">Windows Sockets Error Codes</a>.</p>
 <h2><strong>NativeErrorCode</strong></h2>
-In <a href="https://referencesource.microsoft.com/#System/net/System/Net/SocketException.cs,89">.NET Framework</a> and <a href="https://github.com/mono/mono/blob/mono-6.8.0.105/mcs/class/referencesource/System/net/System/Net/SocketException.cs#L101">Mono</a>, <code>SocketErrorCode</code> and <code>NativeErrorCode</code> always have the same values:</p>
+In <a href="https://referencesource.microsoft.com/#System/net/System/Net/SocketException.cs,89">.NET Framework</a> and <a href="https://github.com/mono/mono/blob/mono-6.8.0.105/mcs/class/referencesource/System/net/System/Net/SocketException.cs#L101">Mono</a>, <code>SocketErrorCode</code> and <code>NativeErrorCode</code> always have the same values:
 <pre><code class="language-cs">public SocketError SocketErrorCode {
     //
     // the base class returns the HResult with this property
@@ -709,10 +709,10 @@ EOWNERDEAD 105 Previous owner died
 EQFULL 106 Interface output queue is full
 ELAST 106 Interface output queue is full
 </code></pre>
-<p>Hooray! We’ve finished our fascinating journey into the internals of socket error codes. Now you know where .NET is getting the native error code for each <code>SocketException</code> from!
+<p>Hooray! We’ve finished our fascinating journey into the internals of socket error codes. Now you know where .NET is getting the native error code for each <code>SocketException</code> from!</p>
 <h2><strong>ErrorCode</strong></h2>
 The <code>ErrorCode</code> property is the most boring one, as it always returns <code>NativeErrorCode</code>.
-<a href="https://referencesource.microsoft.com/#System/net/System/Net/SocketException.cs,67">.NET Framework</a>, <a href="https://github.com/mono/mono/blob/mono-6.8.0.105/mcs/class/referencesource/System/net/System/Net/SocketException.cs#L79">Mono 6.8.0.105</a>:</p>
+<a href="https://referencesource.microsoft.com/#System/net/System/Net/SocketException.cs,67">.NET Framework</a>, <a href="https://github.com/mono/mono/blob/mono-6.8.0.105/mcs/class/referencesource/System/net/System/Net/SocketException.cs#L79">Mono 6.8.0.105</a>:
 <pre><code class="language-cs">public override int ErrorCode {
     //
     // the base class returns the HResult with this property
@@ -726,8 +726,8 @@ The <code>ErrorCode</code> property is the most boring one, as it always returns
 <p>In <a href="https://github.com/dotnet/corefx/blob/v3.1.3/src/System.Net.Primitives/src/System/Net/SocketException.cs#L51">.NET Core 3.1.3</a>:</p>
 <pre><code class="language-cs">public override int ErrorCode =&amp;gt; base.NativeErrorCode;
 </code></pre>
-<p><h2><strong>Writing cross-platform socket error handling</strong></h2>
-Circling back to the original method we started this post with, we rewrote ShouldRetryConnection as follows:</p>
+<h2><strong>Writing cross-platform socket error handling</strong></h2>
+Circling back to the original method we started this post with, we rewrote ShouldRetryConnection as follows:
 <pre><code class="language-cs">protected virtual bool ShouldRetryConnection(Exception ex)
 {
     if (ex is SocketException sx)
@@ -735,9 +735,9 @@ Circling back to the original method we started this post with, we rewrote Shoul
     return false;
 }
 </code></pre>
-<p>There was a lot of work involved in tracking down the error code to check against, but in the end, our code is much more readable now. Adding to that, this method is now also completely cross-platform, and works correctly on any runtime.
+<p>There was a lot of work involved in tracking down the error code to check against, but in the end, our code is much more readable now. Adding to that, this method is now also completely cross-platform, and works correctly on any runtime.</p>
 <h2><strong>Overview of the native error codes</strong></h2>
-In some situations, you may want to have a table with native error codes on different operating systems. We can get these values with the following code snippet:</p>
+In some situations, you may want to have a table with native error codes on different operating systems. We can get these values with the following code snippet:
 <pre><code class="language-cs">var allErrors = Enum.GetValues(typeof(SocketError)).Cast&amp;lt;SocketError&amp;gt;().ToList();
 var maxNameWidth = allErrors.Select(x =&amp;gt; x.ToString().Length).Max();
 foreach (var socketError in allErrors)

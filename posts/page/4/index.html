@@ -116,6 +116,52 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/blittable/'>Blittable types</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> November 26, 2015.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/tags/internals"><span class="badge badge-pill badge-info">Internals</span></a>
+        </span><br /><br />
+        <p>Challenge of the day: what will the following code display?</p>
+<pre><code class="language-cs">[StructLayout(LayoutKind.Explicit)]
+public struct UInt128
+{
+    [FieldOffset(0)]
+    public ulong Value1;
+    [FieldOffset(8)]
+    public ulong Value2;
+}
+[StructLayout(LayoutKind.Sequential)]
+public struct MyStruct
+{
+    public UInt128 UInt128;
+    public char Char;
+}
+class Program
+{
+    public static unsafe void Main()
+    {
+        var myStruct = new MyStruct();
+        var baseAddress = (int)&amp;myStruct;
+        var uInt128Adress = (int)&amp;myStruct.UInt128;
+        Console.WriteLine(uInt128Adress - baseAddress);
+        Console.WriteLine(Marshal.OffsetOf(typeof(MyStruct), &quot;UInt128&quot;));
+    }
+}
+</code></pre>
+<p>A hint: two zeros or two another same values are wrong answers in the general case. The following table shows the console output on different runtimes:</p>
+<table>
+<tr><th></th><th>MS.NET-x86</th><th>MS.NET-x64</th><th>Mono</th></tr>
+<tr><td>uInt128Adress - baseAddress                  </td><td>4</td><td>8</td><td>0</td></tr>
+<tr><td>Marshal.OffsetOf(typeof(MyStruct), "UInt128")</td><td>0</td><td>0</td><td>0</td></tr>
+</table>
+<p>If you want to know why it happens, you probably should learn some useful information about blittable types.</p>
+        <a href='/posts/blittable/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/ryujit-rc-and-constant-folding/'>RyuJIT RC and constant folding</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> May 12, 2015.
@@ -369,20 +415,6 @@ class Test
 <p>I hate bad code and bad architecture. I feel quite creepy when I design a new feature and the near-by class contains absolute mess. I just can’t look at the sadly-looking variables. Sometimes before falling asleep I close my eyes and imagine what could be improved in the project. Sometimes I wake up at 3:00AM and go to my computer to improve something. I want to have not just code, but a masterpiece that is pleasant to look at, that is pleasant to work with at any stage of the project.</p>
 <p>If you just a little bit share my feelings we have something to talk about. The matter is that over some time something inside me began to hint that it’s a bad idea to refactor all code, everywhere and all the time. Understand me correctly – code should be good (even better when it’s ideal), but in real life it’s not reasonable to improve code instantly. I formed some rules about the refactoring timeliness. If I am itching to improve something, I look at these rules and think “Is that the moment when I need to refactor the code?” So, let’s talk about when refactoring is necessary and when it’s inappropriate.</p>
         <a href='/posts/refactoring/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/findelementsinhostcoordinates/'>Strange behavior of FindElementsInHostCoordinates in WinRT</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> April 29, 2014.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/silverlight"><span class="badge badge-pill badge-info">Silverlight</span></a>
-                <a href="/tags/winrt"><span class="badge badge-pill badge-info">WinRT</span></a>
-        </span><br /><br />
-        <p>Silverlight features a splendid method: <a href="http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx">VisualTreeHelper.FindElementsInHostCoordinates</a>. It allows the <code>HitTest</code>, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method <a href="http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx">VisualTreeHelper.FindElementsInHostCoordinates</a> is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.</p>
-        <a href='/posts/findelementsinhostcoordinates/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>

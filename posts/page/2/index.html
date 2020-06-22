@@ -116,6 +116,42 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/dotnet-crossruntime-disasm/'>Cross-runtime .NET disassembly with BenchmarkDotNet</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> April 10, 2018.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/tags/benchmarkdotnet"><span class="badge badge-pill badge-info">BenchmarkDotNet</span></a>
+                <a href="/tags/benchmarking"><span class="badge badge-pill badge-info">benchmarking</span></a>
+                <a href="/tags/disassembly"><span class="badge badge-pill badge-info">disassembly</span></a>
+        </span><br /><br />
+        <p><a href="https://github.com/dotnet/BenchmarkDotNet">BenchmarkDotNet</a> is a cool tool for benchmarking.
+It has a lot of useful features that help you with performance investigations.
+However, you can use these features even if you are not actually going to benchmark something.
+One of these features is <code>DisassemblyDiagnoser</code>.
+It shows you a disassembly listing of your code for all required runtimes.
+In this post, I will show you how to get disassembly listing for .NET Framework, .NET Core, and Mono with one click!
+You can do it with a very small code snippet like this:</p>
+<pre><code class="language-cs">[DryCoreJob, DryMonoJob, DryClrJob(Platform.X86)]
+[DisassemblyDiagnoser]
+public class IntroDisasm
+{
+    [Benchmark]
+    public double Sum()
+    {
+        double res = 0;
+        for (int i = 0; i &lt; 64; i++)
+            res += i;
+        return res;
+    }
+}
+</code></pre>
+</p>
+        <a href='/posts/dotnet-crossruntime-disasm/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/bdn-v0_10_14/'>BenchmarkDotNet v0.10.14</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> April 09, 2018.
@@ -388,36 +424,6 @@ There was no clue where we should look for a problem.</li>
 <p>So, what was special about this &quot;bad commit&quot;? Spoiler: after these changes, we sometimes have more than 65535 interface implementations at runtime.</p>
 </p>
         <a href='/posts/mono-and-65535interfaces/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/namedmutex-on-mono/'>A bug story about named mutex on Mono</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> February 13, 2017.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
-                <a href="/tags/bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
-                <a href="/tags/xplat"><span class="badge badge-pill badge-info">Xplat</span></a>
-                <a href="/tags/mono"><span class="badge badge-pill badge-info">Mono</span></a>
-                <a href="/tags/coreclr"><span class="badge badge-pill badge-info">CoreCLR</span></a>
-        </span><br /><br />
-        <p>When you write some multithreading magic on .NET,
-you can use a cool synchronization primitive called <a href="https://msdn.microsoft.com/en-us/library/system.threading.mutex(v=vs.110).aspx">Mutex</a>:</p>
-<pre><code class="language-cs">var mutex = new Mutex(false, &quot;Global\\MyNamedMutex&quot;);
-</code></pre>
-<p>You also can make it <a href="https://msdn.microsoft.com/en-us/library/f55ddskf(v=vs.110).aspx">named</a> (and share the mutex between processes)
-which works perfectly on Windows:</p>
-<div class="mx-auto">
-  <img class="mx-auto d-block" width="600" src="/img/posts/dotnet/namedmutex-on-mono/front.png" />
-</div>
-<p>However, today the .NET Framework is cross-platform, so this code should work on any operation system.
-What will happen if you use named mutex on Linux or MacOS with the help of Mono or CoreCLR?
-Is it possible to create some tricky bug based on this case?
-Of course, it does.
-Today I want to tell you a story about such bug in <a href="https://www.jetbrains.com/rider/">Rider</a> which was a headache for several weeks.</p>
-</p>
-        <a href='/posts/namedmutex-on-mono/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="Yet another robust outlier detector">
+    <meta name="author" content="Andrey Akinshin">
+    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
+    <meta name="keywords" content='Statistics,Outliers,MAD,Harrell-Davis,R,Perfolizer'>
+
+    <title>Yet another robust outlier detector</title>
+
+    <!-- Bootstrap CSS & Highlight.js-->
+    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+    <script src="/js/theme-before.js"></script>
+
+    <!-- DarkModeToggle -->
+    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
+
+    <!-- FontAwesome -->
+    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
+    
+    <!-- Custom styles -->
+    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Feeds -->
+    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
+    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
+
+    <!-- Google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-41419012-5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+        (function (d, w, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    w.yaCounter28700916 = new Ya.Metrika({
+                        id:28700916,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true,
+                        webvisor:true,
+                        trackHash:true
+                    });
+                } catch(e) { }
+            });
+
+            var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () { n.parentNode.insertBefore(s, n); };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f, false);
+            } else { f(); }
+        })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+    <!-- jQuery -->
+    <script src="/js/jquery-3.3.1.slim.min.js"></script>
+  </head>
+
+  <body>
+    <div class="bg-primary">
+      <div class="container bg-primary">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
+              <div class="dropdown-menu">
+                  <a class="dropdown-item" href='/ru/posts/harrell-davis-double-mad-outlier-detector/'>Ru</a>
+              </div>
+            </li>
+            <li class="nav-item"></li>
+              <dark-mode-toggle permanent="true"></dark-mode-toggle>
+            </li>
+          </ul>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
+            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
+            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="blog-main">
+<div class="blog-post">
+
+<h2 class="blog-post-title" id="post-title">Yet another robust outlier detector</h2>
+<span class="blog-post-meta">
+  <b>Date:</b> June 22, 2020.
+  <b>Tags:</b>
+        <a href="/tags/statistics"><span class="badge badge-pill badge-info">Statistics</span></a>
+        <a href="/tags/outliers"><span class="badge badge-pill badge-info">Outliers</span></a>
+        <a href="/tags/mad"><span class="badge badge-pill badge-info">MAD</span></a>
+        <a href="/tags/harrell-davis"><span class="badge badge-pill badge-info">Harrell-Davis</span></a>
+        <a href="/tags/r"><span class="badge badge-pill badge-info">R</span></a>
+        <a href="/tags/perfolizer"><span class="badge badge-pill badge-info">Perfolizer</span></a>
+</span><br /><br />
+
+<p>Outlier detection is an important step in data processing.
+Unfortunately, if the distribution is not normal (e.g., right-skewed and heavy-tailed), it's hard to choose
+a robust outlier detection algorithm that will not be affected by tricky distribution properties.
+During the last several years, I tried many different approaches, but I was not satisfied with their results.
+Finally, I found an algorithm to which I have (almost) no complaints.
+It's based on the <em>double median absolute deviation</em> and the <em>Harrell-Davis quantile estimator</em>.
+In this post, I will show how it works and why it's better than some other approaches.</p>
+<!--more-->
+<h3 id="adopting-to-non-parametric-distributions-with-mad">Adopting to non-parametric distributions with MAD</h3>
+<p>In the world of normal distributions, the typical approach for outlier detection is based on <em>the standard deviation</em>.
+It uses the following thresholds for the outliers:</p>
+<div class="math">
+\[
+\textrm{Lower} = \textrm{Mean} - k \cdot \textrm{StdDev}, \quad
+\textrm{Upper} = \textrm{Mean} + k \cdot \textrm{StdDev}, \quad
+k_{\textrm{default}} = 3.
+\]</div>
+<p>With these thresholds, we mark all the values outside the <span class="math">\([ \textrm{Lower}; \textrm{Upper} ]\)</span> range as outliers.
+Unfortunately, this approach doesn't work well when the distribution is not normal.</p>
+<p>In the world of non-parametric distributions, there is another popular approach called <em>Tukey's fences</em> (<a href="#Tukey1997">[Tukey1997]</a>).
+It defines outlier thresholds as follows:</p>
+<div class="math">
+\[
+\textrm{Lower} = Q_1 - k \cdot \textrm{IQR}, \quad
+\textrm{Upper} = Q_3 + k \cdot \textrm{IQR}, \quad
+k_{\textrm{default}} = 1.5,
+\]</div>
+<p>where <span class="math">\(\textrm{IQR} = Q_3 - Q_1\)</span> is the interquartile range.
+It works well, but it's not robust enough because it's defined only be quartile values <span class="math">\(Q_1\)</span> and <span class="math">\(Q_3\)</span>.
+These quartile values are calculated based on a few sample values and ignore the rest of the sample.</p>
+<p>To resolve this problem, we can use a more robust measure of statistical dispersion called <em>the median absolute deviation (MAD)</em> (<a href="#Leys2013">[Leys2013]</a>).
+For the sample <span class="math">\(X = \{ X_1, X_2, \ldots, X_n \}\)</span>, it can be defined as follows:</p>
+<div class="math">
+\[
+\textrm{MAD} = C \cdot \textrm{median}(|X_i - \textrm{median}(X)|).
+\]</div>
+<p>For the normally distributed values, there is a well-known relationship between the standard deviation and the median absolute deviation:</p>
+<div class="math">
+\[
+\textrm{StdDev} \approx 1.4826 \cdot \textrm{median}(|X_i - \textrm{median}(X)|).
+\]</div>
+<p>Thus, we can use <span class="math">\(C = 1.4826\)</span> (which is also known as <em>the consistency constant</em>) to make <span class="math">\(\textrm{MAD}\)</span> a consistent estimator for the standard deviation estimation.
+With the MAD approach, we can define the outlier thresholds as follows:</p>
+<div class="math">
+\[
+\textrm{Lower} = \textrm{Median} - k \cdot \textrm{MAD}, \quad
+\textrm{Upper} = \textrm{Median} + k \cdot \textrm{MAD}, \quad
+k_{\textrm{default}} = 3.
+\]</div>
+<p>In the case of the normal distribution, it works the same way as the standard deviation approach.
+Meanwhile, it detects outliers in non-parametric distributions much better.
+Also, it's more robust than Tukey's fences because it respects all values from the given sample.</p>
+<p>According to <a href="#Yang2019">[Yang2019]</a>, MAD is not inferior in popularity to the Tukey's fences in recent scientific publications.</p>
+<h3 id="adopting-to-nonsymmetric-distributions-with-double-mad">Adopting to nonsymmetric distributions with Double MAD</h3>
+<p>The classic MAD approach defines a symmetric interval around the median.
+This does not work great for the left-skewed, right-skewed, and other kinds of nonsymmetric distributions.
+Consider the following sample from a right-skewed distribution: (100, 101, 102, 103, 110, 111, 112, 120, 121, 122, 140, 160, 180, 200, 220, 240, 2000, 2001, 2002).
+The obvious outliers are (2000, 2001, 2002).
+If we apply the MAD approach, we will get the following numbers:</p>
+<div class="math">
+\[
+\textrm{Median} = 122, \quad \textrm{MAD} = 31.1346, \quad \textrm{Lower} = 28.5962, \quad \textrm{Upper} = 215.4038.
+\]</div>
+<p>Thus, 220 and 240 will be marked as outliers because they exceed the upper threshold.</p>
+<p>This problem can be resolved with the help of the Double MAD approach (<a href="#Rosenmai2013">[Rosenmai2013]</a>).
+The idea is simple: for the obtained median value, we should calculate two median absolution deviations.
+One deviation should be calculated for the numbers below the median and one for the numbers above the median:</p>
+<div class="math">
+\[
+M = \textrm{median}(X), \quad
+X^{(l)} = \{ x | x \in X \wedge x \leq M \}, \quad
+X^{(u)} = \{ x | x \in X \wedge x \geq M \},
+\]</div>
+<div class="math">
+\[
+\textrm{MAD}^{(l)} = C \cdot \textrm{median}(|X^{(l)}_i - M|), \quad
+\textrm{MAD}^{(u)} = C \cdot \textrm{median}(|X^{(u)}_i - M|).
+\]</div>
+<p>Next, we can define outlier thresholds using <span class="math">\(\textrm{MAD}^{(l)}\)</span> for <span class="math">\(\textrm{Lower}\)</span> and <span class="math">\(\textrm{MAD}^{(u)}\)</span> for <span class="math">\(\textrm{Upper}\)</span>:</p>
+<div class="math">
+\[
+\textrm{Lower} = M - k \cdot \textrm{MAD}^{(l)}, \quad \textrm{Upper} = M + k \cdot \textrm{MAD}^{(u)}.
+\]</div>
+<p>For the above example, we have the following values:</p>
+<div class="math">
+\[
+M = 122, \quad \textrm{MAD}^{(l)} = 17.0499, \quad \textrm{MAD}^{(u)} = 130.4688,
+\]</div>
+<div class="math">
+\[
+\textrm{Lower} = 70.8503, \quad \textrm{Upper} = 513.4064.
+\]</div>
+<p>Now we mark all values that exceed <span class="math">\(\textrm{Upper}\)</span> as outliers.
+In our cases, the outlier set is (2000, 2001, 2002).</p>
+<h3 id="adopting-to-bimodal-distributions-with-the-harrell-davis-quantile-estimator">Adopting to bimodal distributions with the Harrell-Davis quantile estimator</h3>
+<p>The MAD formula involves the median estimation.
+Unfortunately, the most common <a href="https://en.wikipedia.org/wiki/Median#Finite_data_set_of_numbers">&quot;straightforward&quot;</a> approach
+to calculate the median value is not always robust enough.
+Consider the following sample: (4, 10, 15, 18, 19, 20, 501, 502, 503, 504, 3000).
+The straightforward sample median value is 20.</p>
+<p>However, it may not be the best estimation of the population median.
+Here we have a bimodal distribution based on two sample subgroups: (4, 10, 15, 18, 19, 20) and (501, 502, 503, 504).
+The last sample value 3000 is an outlier.
+We got 20 as the median value &quot;by chance&quot; because the first group contains one number more than the second group with the outlier.
+The true median of the population is most likely somewhere between 20 and 501.</p>
+<p>This problem can be resolved with the help of the Harrell-Davis quantile estimator (<a href="#Harrell1982">[Harrell1982]</a>).
+It defines estimation for th <span class="math">\(p^{\textrm{th}}\)</span> quantile as follows:</p>
+<div class="math">
+\[
+Q_p = \Sigma_{i=1}^{n} W_{n,i} X_i,
+\]</div>
+<div class="math">
+\[
+W_{n,i} = I_{i/n} \{p(n+1)), (1-p)(n+1) \} - I_{(i-1)/n} \{ p(n+1), (1-p)(n+1) \},
+\]</div>
+<p>where <span class="math">\(I_x \{ a, b \}\)</span> denotes the incomplete beta function.
+This formula may look scary, but it provides a more robust median estimation than the straightforward approach.
+In the above example, the Harrell-Davis estimation is 202.0452.</p>
+<p>Using the MAD approach, we have the following numbers:</p>
+<div class="math">
+\[
+\textrm{Median} = 20, \quad \textrm{MAD} = 23.7216,
+\]</div>
+<div class="math">
+\[
+\textrm{Lower} = -51.1648, \quad \textrm{Upper} = 91.1648,
+\]</div>
+<div class="math">
+\[
+\textrm{Outliers} = \{ 501, 502, 503, 504, 3000 \}.
+\]</div>
+<p>The whole right mode was marked as a set of outliers.
+It's not the result that we actually want.</p>
+<p>Using the Double MAD approach, we have:</p>
+<div class="math">
+\[
+\textrm{Median} = 20, \quad \textrm{MAD}^{(l)} = 5.1891, \quad \textrm{MAD}^{(u)} = 715.3545,
+\]</div>
+<div class="math">
+\[
+\textrm{Lower} = 4.4327, \quad \textrm{Upper} = 2166.0635,
+\]</div>
+<div class="math">
+\[
+\textrm{Outliers} = \{ 4, 3000 \}.
+\]</div>
+<p>It looks better: the right mode is not considered as a set of outliers anymore.
+However, we have another problem: 4 is marked as an outlier because it's less than the lower threshold.</p>
+<p>Now let's try the Harrell-Davis-powered Double MAD approach:</p>
+<div class="math">
+\[
+\textrm{Median} = 202.0452, \quad \textrm{MAD}^{(l)} = 276.4030, \quad \textrm{MAD}^{(u)} = 660.4467,
+\]</div>
+<div class="math">
+\[
+\textrm{Lower} = -627.1638, \quad \textrm{Upper} = 2183.3854,
+\]</div>
+<div class="math">
+\[
+\textrm{Outliers} = \{ 3000 \}.
+\]</div>
+<p>Hooray, we finally got the correct set of outliers!</p>
+<h3 id="another-example">Another example</h3>
+<p>Let's consider another example that compares different combinations of the discussed approaches.
+We take <code>BaseSample</code> from the beta-distribution <span class="math">\(\textrm{Beta}(1, 10)\)</span> multilied by 10000.
+Next, we add different combinations of lower or upper outliers and check how the following outlier detector work:</p>
+<ul>
+<li><code>TukeySimple</code>: Tukey's fences with the straightforward quantile estimation</li>
+<li><code>TukeyHd</code>: Tukey's fences with the Harrell-Davis quantile estimation</li>
+<li><code>MadSimple</code>: MAD with the straightforward quantile estimation</li>
+<li><code>MadHd</code>: MAD with the Harrell-Davis quantile estimation</li>
+<li><code>DoubleMadSimple</code>: Double MAD with the straightforward quantile estimation</li>
+<li><code>DoubleMadHd</code>: Double MAD with the Harrell-Davis quantile estimation</li>
+</ul>
+<p>Here are the results:</p>
+<pre><code class="language-md">BaseSample = {
+  9, 47, 50, 71, 78, 79, 97, 98, 117, 123,
+  136, 138, 143, 145, 167, 185, 202, 216, 217, 229,
+  235, 242, 257, 297, 300, 315, 344, 347, 347, 360,
+  362, 368, 387, 400, 428, 455, 468, 484, 493, 523,
+  557, 574, 586, 605, 617, 618, 634, 641, 646, 649,
+  674, 678, 689, 699, 703, 709, 714, 740, 795, 798,
+  839, 880, 938, 941, 983, 1014, 1021, 1022, 1165, 1183,
+  1195, 1250, 1254, 1288, 1292, 1326, 1362, 1363, 1421, 1549,
+  1585, 1605, 1629, 1694, 1695, 1719, 1799, 1827, 1828, 1862,
+  1991, 2140, 2186, 2255, 2266, 2295, 2321, 2419, 2919, 3612}
+
+Lower1 = {-2000, BaseSample}
+Lower2 = {-2001, -2000, BaseSample}
+Lower3 = {-2002, -2001, -2000, BaseSample}
+
+                Lower1          Lower2                Lower3
+TukeySimple     -2000,2919,3612 -2001,-2000,2919,3612 -2002,-2001,-2000,2919,3612
+TukeyHd         -2000,2919,3612 -2001,-2000,2919,3612 -2002,-2001,-2000,2919,3612
+MadSimple       -2000,2919,3612 -2001,-2000,2919,3612 -2002,-2001,-2000,2919,3612
+MadHd           -2000,2919,3612 -2001,-2000,2919,3612 -2002,-2001,-2000,2919,3612
+DoubleMadSimple -2000,3612      -2001,-2000,3612      -2002,-2001,-2000,3612
+DoubleMadHd     -2000           -2001,-2000           -2002,-2001,-2000
+
+Upper1 = {BaseSample, 6000}
+Upper2 = {BaseSample, 6000, 6001}
+Upper3 = {BaseSample, 6000, 6001, 6002}
+
+                Upper1         Upper2              Upper3
+TukeySimple     2919,3612,6000 2919,3612,6000,6001 2919,3612,6000,6001,6002
+TukeyHd         3612,6000      3612,6000,6001      3612,6000,6001,6002
+MadSimple       2919,3612,6000 2919,3612,6000,6001 2919,3612,6000,6001,6002
+MadHd           2919,3612,6000 2919,3612,6000,6001 2919,3612,6000,6001,6002
+DoubleMadSimple 3612,6000      6000,6001           6000,6001,6002
+DoubleMadHd     6000           6000,6001           6000,6001,6002
+
+Both1 = {-2000, BaseSample, 6000}
+Both2 = {-2001, -2000, BaseSample, 6000, 6001}
+Both3 = {-2002, -2001, -2000, BaseSample, 6000, 6001, 6002}
+
+                Both1                Both2                           Both3
+TukeySimple     -2000,2919,3612,6000 -2001,-2000,2919,3612,6000,6001 -2002,-2001,-2000,3612,6000,6001,6002
+TukeyHd         -2000,3612,6000      -2001,-2000,3612,6000,6001      -2002,-2001,-2000,3612,6000,6001,6002
+MadSimple       -2000,2919,3612,6000 -2001,-2000,2919,3612,6000,6001 -2002,-2001,-2000,2919,3612,6000,6001,6002
+MadHd           -2000,2919,3612,6000 -2001,-2000,2919,3612,6000,6001 -2002,-2001,-2000,2919,3612,6000,6001,6002
+DoubleMadSimple -2000,6000           -2001,-2000,6000,6001           -2002,-2001,-2000,6000,6001,6002
+DoubleMadHd     -2000,6000           -2001,-2000,6000,6001           -2002,-2001,-2000,6000,6001,6002
+</code></pre>
+<p>As we can see, only <code>DoubleMadHd</code> produces the expected outliers in all the cases.</p>
+<h3 id="reference-implementations">Reference implementations</h3>
+<p>If you use R, here is the function that you can use in your scripts:</p>
+<pre><code class="language-r">library(Hmisc)
+
+removeOutliers &lt;- function(x) {
+  hdmedian &lt;- function(u) as.numeric(hdquantile(u, 0.5))
+  
+  x &lt;- x[!is.na(x)]
+  m &lt;- hdmedian(x)
+  deviations &lt;- abs(x - m)
+  lowerMAD &lt;- 1.4826 * hdmedian(deviations[x &lt;= m])
+  upperMAD &lt;- 1.4826 * hdmedian(deviations[x &gt;= m])
+  
+  return(x[x &gt;= m - 3 * lowerMAD &amp; x &lt;= m + 3 * upperMAD])
+}
+</code></pre>
+<p>If you use C#, you can take an implementation from
+the latest nightly version (0.3.0-nightly.30+) of <a href="https://github.com/AndreyAkinshin/perfolizer">Perfolizer</a>
+(you need <code>DoubleMadOutlierDetector</code>).</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>In this post, we built a robust outlier detector based on Double MAD and the Harrell-Davis quantile estimator.
+It works well with different kinds of non-parametric distributions, including nonsymmetric and bimodal data sets.</p>
+<p>Of course, it's not a universal approach that handles all the possible cases.
+Since we don't have a strict outlier definition, it's always possible to find examples of results that are &quot;incorrect&quot;
+from the researcher's point of view for any outlier detection algorithm.</p>
+<p>I tested the suggested approach on a huge number of data sets based on software performance measurements.
+The corresponding distributions are often right-skewed and heavily-tailed, so it's pretty hard to find the correct set of outliers.
+However, I (almost) have never been disappointed with the results.</p>
+<p>Sometimes, the algorithm may skip some outliers around the thresholds.
+This happens because it &quot;tries&quot; to detect only the most &quot;obvious&quot; outlier values.
+If it's not OK for your case, the outlier sensitivity can be tuned by the scale factor <span class="math">\(k\)</span>.
+However, in my experiments, <span class="math">\(k = 3\)</span> works fine for most cases.</p>
+<p>I hope that the Harrell-Davis-powered Double MAD approach may help you as well in your next outlier hunting journey.</p>
+<h3 id="references">References</h3>
+<ul>
+<li><b id="Tukey1997">[Tukey1997]</b><br />
+Tukey, John W. Exploratory data analysis. Vol. 2. 1977.</li>
+<li><b id="Leys2013">[Leys2013]</b><br />
+Leys, Christophe, Christophe Ley, Olivier Klein, Philippe Bernard, and Laurent Licata.
+&quot;Detecting outliers: Do not use standard deviation around the mean, use absolute deviation around the median.&quot;
+<em>Journal of Experimental Social Psychology</em> 49, no. 4 (2013): 764-766.</li>
+<li><b id="Yang2019">[Yang2019]</b><br />
+Yang, Jiawei, Susanto Rahardja, and Pasi Fränti.
+&quot;Outlier detection: how to threshold outlier scores?.&quot;
+<em>In Proceedings of the International Conference on Artificial Intelligence, Information Processing and Cloud Computing</em>, pp. 1-6. 2019.<br />
+<a href="https://www.researchgate.net/publication/337883760_Outlier_detection_how_to_threshold_outlier_scores">https://www.researchgate.net/publication/337883760_Outlier_detection_how_to_threshold_outlier_scores</a></li>
+<li><b id="Rosenmai2013">[Rosenmai2013]</b><br />
+Rosenmai, Peter.
+&quot;Using the Median Absolute Deviation to Find Outliers.&quot;
+<em>Eureka Statistics.</em>
+November 25, 2013.
+Accessed June 22, 2020.<br />
+<a href="https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/">https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/</a></li>
+<li><b id="Harrell1982">[Harrell1982]</b><br />
+Harrell, F.E. and Davis, C.E., 1982. A new distribution-free quantile estimator.
+<em>Biometrika</em>, 69(3), pp.635-640.<br />
+<a href="https://pdfs.semanticscholar.org/1a48/9bb74293753023c5bb6bff8e41e8fe68060f.pdf">https://pdfs.semanticscholar.org/1a48/9bb74293753023c5bb6bff8e41e8fe68060f.pdf</a></li>
+</ul>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- Share -->
+
+Share:
+<a href="https://twitter.com/intent/tweet?text=Yet another robust outlier detector&url=http://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
+<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
+<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
+<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
+<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
+<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
+<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/&title=Yet another robust outlier detector" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
+<hr />
+
+<!-- GitHub -->
+<div>
+  You can find source code of this post on GitHub:<br />
+  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2020/harrell-davis-double-mad-outlier-detector.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2020/harrell-davis-double-mad-outlier-detector.md</a>
+</div>
+
+</div>
+</div>
+    </div>
+
+    <footer class="blog-footer">
+      <div class="container">
+        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
+      </div>
+    </footer>
+
+    <script src="/js/theme-after.js"></script>
+    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- Other scripts -->
+    <script src="/js/highlight.pack.js"></script>
+    <script src="/js/anchor.min.js"></script>
+    <script src="/js/custom.js"></script>
+  </body>
+</html>

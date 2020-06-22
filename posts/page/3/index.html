@@ -116,6 +116,36 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/namedmutex-on-mono/'>A bug story about named mutex on Mono</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> February 13, 2017.
+          <b>Tags:</b>
+                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
+                <a href="/tags/bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
+                <a href="/tags/xplat"><span class="badge badge-pill badge-info">Xplat</span></a>
+                <a href="/tags/mono"><span class="badge badge-pill badge-info">Mono</span></a>
+                <a href="/tags/coreclr"><span class="badge badge-pill badge-info">CoreCLR</span></a>
+        </span><br /><br />
+        <p>When you write some multithreading magic on .NET,
+you can use a cool synchronization primitive called <a href="https://msdn.microsoft.com/en-us/library/system.threading.mutex(v=vs.110).aspx">Mutex</a>:</p>
+<pre><code class="language-cs">var mutex = new Mutex(false, &quot;Global\\MyNamedMutex&quot;);
+</code></pre>
+<p>You also can make it <a href="https://msdn.microsoft.com/en-us/library/f55ddskf(v=vs.110).aspx">named</a> (and share the mutex between processes)
+which works perfectly on Windows:</p>
+<div class="mx-auto">
+  <img class="mx-auto d-block" width="600" src="/img/posts/dotnet/namedmutex-on-mono/front.png" />
+</div>
+<p>However, today the .NET Framework is cross-platform, so this code should work on any operation system.
+What will happen if you use named mutex on Linux or MacOS with the help of Mono or CoreCLR?
+Is it possible to create some tricky bug based on this case?
+Of course, it does.
+Today I want to tell you a story about such bug in <a href="https://www.jetbrains.com/rider/">Rider</a> which was a headache for several weeks.</p>
+</p>
+        <a href='/posts/namedmutex-on-mono/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/invaliddataexception-in-getprocesses/'>InvalidDataException in Process.GetProcesses</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> February 10, 2017.
@@ -382,52 +412,6 @@ error  : The operation could not be completed.
 </code></pre>
 </p>
         <a href='/posts/projecttypeguids/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/blittable/'>Blittable types</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> November 26, 2015.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/internals"><span class="badge badge-pill badge-info">Internals</span></a>
-        </span><br /><br />
-        <p>Challenge of the day: what will the following code display?</p>
-<pre><code class="language-cs">[StructLayout(LayoutKind.Explicit)]
-public struct UInt128
-{
-    [FieldOffset(0)]
-    public ulong Value1;
-    [FieldOffset(8)]
-    public ulong Value2;
-}
-[StructLayout(LayoutKind.Sequential)]
-public struct MyStruct
-{
-    public UInt128 UInt128;
-    public char Char;
-}
-class Program
-{
-    public static unsafe void Main()
-    {
-        var myStruct = new MyStruct();
-        var baseAddress = (int)&amp;myStruct;
-        var uInt128Adress = (int)&amp;myStruct.UInt128;
-        Console.WriteLine(uInt128Adress - baseAddress);
-        Console.WriteLine(Marshal.OffsetOf(typeof(MyStruct), &quot;UInt128&quot;));
-    }
-}
-</code></pre>
-<p>A hint: two zeros or two another same values are wrong answers in the general case. The following table shows the console output on different runtimes:</p>
-<table>
-<tr><th></th><th>MS.NET-x86</th><th>MS.NET-x64</th><th>Mono</th></tr>
-<tr><td>uInt128Adress - baseAddress                  </td><td>4</td><td>8</td><td>0</td></tr>
-<tr><td>Marshal.OffsetOf(typeof(MyStruct), "UInt128")</td><td>0</td><td>0</td><td>0</td></tr>
-</table>
-<p>If you want to know why it happens, you probably should learn some useful information about blittable types.</p>
-        <a href='/posts/blittable/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>

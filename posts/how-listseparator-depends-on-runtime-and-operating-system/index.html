@@ -136,9 +136,9 @@ Let's start our investigation by printing <code>ListSeparator</code> for the Rus
 </code></pre>
 <p>On Windows, you will get the same result for .NET Framework, .NET Core, and Mono: the <code>ListSeparator</code> is <code>;</code> (a semicolon). You will also get a semicolon on Mono+Unix. However, on .NET Core+Unix, you will get a <a href="https://en.wikipedia.org/wiki/Non-breaking_space">non-breaking space</a>.</p>
 <!--more-->
-<p><h2><strong>The Mono approach</strong></h2>
+<h2><strong>The Mono approach</strong></h2>
 On Windows, it's possible to fetch the <code>ListSeparator</code> value from the operating system’s regional settings. Unfortunately, there is no such option on Linux and macOS. So, how is this problem solved in Mono?
-The missing information about cultures is collected in advance using the <a href="https://github.com/mono/mono/tree/mono-6.10.0.104/tools/locale-builder">locale-builder</a> tool. Some of this data is filled in using <a href="http://www.unicode.org/Public/cldr/">unicode CLDR</a>. The rest is hardcoded. Speaking of <code>TextInfo</code> (a class that contains the <code>ListSeparator </code>value), it's defined in <a href="https://github.com/mono/mono/blob/mono-6.10.0.104/tools/locale-builder/Patterns.cs#L1610">Patterns.c</a><a href="https://github.com/mono/mono/blob/mono-6.10.0.104/tools/locale-builder/Patterns.cs#L1610">s</a>:</p>
+The missing information about cultures is collected in advance using the <a href="https://github.com/mono/mono/tree/mono-6.10.0.104/tools/locale-builder">locale-builder</a> tool. Some of this data is filled in using <a href="http://www.unicode.org/Public/cldr/">unicode CLDR</a>. The rest is hardcoded. Speaking of <code>TextInfo</code> (a class that contains the <code>ListSeparator </code>value), it's defined in <a href="https://github.com/mono/mono/blob/mono-6.10.0.104/tools/locale-builder/Patterns.cs#L1610">Patterns.c</a><a href="https://github.com/mono/mono/blob/mono-6.10.0.104/tools/locale-builder/Patterns.cs#L1610">s</a>:
 <pre><code class="language-cs">var entry_te = Text[lcid];
 var te = ci.TextInfoEntry;
 te.ANSICodePage = entry_te[0];
@@ -152,18 +152,18 @@ te.OEMCodePage = entry_te[5];
 The predefined values can also be found in Patterns.cs. Here is the corresponding <a href="https://github.com/mono/mono/blob/mono-6.10.0.104/tools/locale-builder/Patterns.cs#L665">entry</a> for Russian:</p>
 <pre><code class="language-cs">{ 0x0419, new [] { &quot;1251&quot;, &quot;20880&quot;, &quot;0&quot;, &quot;;&quot;, &quot;10007&quot;, &quot;866&quot; } },
 </code></pre>
-<p>Thus, <code>entry_te[3]</code> equals <code>&quot;;&quot;</code>. That's how Mono knows the <code>ListSeparator</code> value even if it's not defined in the current operating system.
+<p>Thus, <code>entry_te[3]</code> equals <code>&quot;;&quot;</code>. That's how Mono knows the <code>ListSeparator</code> value even if it's not defined in the current operating system.</p>
 <h2><strong>The .NET Core approach</strong></h2>
-Unfortunately, .NET Core doesn't have predefined values for <code>ListSeparator</code>. There’s a fairly strange logic in the source code of .NET Core 3.1.3:</p>
+Unfortunately, .NET Core doesn't have predefined values for <code>ListSeparator</code>. There’s a fairly strange logic in the source code of .NET Core 3.1.3:
 <pre><code class="language-cs">case LocaleString_ListSeparator:
 // fall through
 case LocaleString_ThousandSeparator:
     status = GetLocaleInfoDecimalFormatSymbol(locale, UNUM_GROUPING_SEPARATOR_SYMBOL, value, valueLength);
     break;
 </code></pre>
-<p>It looks like .NET Core always uses the <code>ThousandSeparator</code> value instead of <code>ListSeparator</code> on Linux and macOS. This doesn't feel right, so we filed an issue: <a href="https://github.com/dotnet/runtime/issues/536">dotnet/runtime#536</a>. Hopefully, this behavior will be improved in the future.
+<p>It looks like .NET Core always uses the <code>ThousandSeparator</code> value instead of <code>ListSeparator</code> on Linux and macOS. This doesn't feel right, so we filed an issue: <a href="https://github.com/dotnet/runtime/issues/536">dotnet/runtime#536</a>. Hopefully, this behavior will be improved in the future.</p>
 <h2><strong>Practical recommendations</strong></h2>
-If you are using some <code>CultureInfo</code> properties that are not supported by one of your target operating systems, it's better to provide some fallback values. Here is an <a href="https://github.com/dotnet/BenchmarkDotNet/commit/0c48c2862f69a63407898680d18dd76b988c4197#diff-225f35e5288a4b6836d56a4fef7b6adc">example</a> of how this problem has been solved in BenchmarkDotNet:</p>
+If you are using some <code>CultureInfo</code> properties that are not supported by one of your target operating systems, it's better to provide some fallback values. Here is an <a href="https://github.com/dotnet/BenchmarkDotNet/commit/0c48c2862f69a63407898680d18dd76b988c4197#diff-225f35e5288a4b6836d56a4fef7b6adc">example</a> of how this problem has been solved in BenchmarkDotNet:
 <pre><code class="language-cs">public static string GetActualListSeparator([CanBeNull] this CultureInfo cultureInfo)
 {
     cultureInfo = cultureInfo ?? DefaultCultureInfo.Instance;

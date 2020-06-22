@@ -263,7 +263,7 @@ static void Main()
 05C517A4  pop         ebp                     
 05C517A5  ret                                 
 </code></pre>
-<p>As we can see, loop unrolling have been performed, but the optimization has an error: variable <code>x</code> immediately takes the value<code>2</code> and never changing. This bug has long been known, it have been discussed in the question on StackOverflow [.NET JIT potential error?] (Http://stackoverflow.com/q/2056948/184842).</p>
+<p>As we can see, loop unrolling have been performed, but the optimization has an error: variable <code>x</code> immediately takes the value<code> 2</code> and never changing. This bug has long been known, it have been discussed in the question on StackOverflow [.NET JIT potential error?] (Http://stackoverflow.com/q/2056948/184842).</p>
 <p>Let's check other JIT versions.</p>
 <h4 id="clr4-jit-x86">CLR4 + JIT-x86</h4>
 <pre><code>        var p = new Point();                   

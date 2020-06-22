@@ -97,7 +97,7 @@
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
               <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/tags/r/'>Ru</a>
+                  <a class="dropdown-item" href='/ru/tags/perfolizer/'>Ru</a>
               </div>
             </li>
             <li class="nav-item"></li>
@@ -116,7 +116,7 @@
     <div class="container">
       <div class="blog-main">
 
-<h1 id="r">Posts about R</h1>
+<h1 id="perfolizer">Posts about Perfolizer</h1>
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/harrell-davis-double-mad-outlier-detector/'>Yet another robust outlier detector</a></h2>
         <span class="blog-post-meta">
@@ -138,81 +138,6 @@ It's based on the <em>double median absolute deviation</em> and the <em>Harrell-
 In this post, I will show how it works and why it's better than some other approaches.</p>
 </p>
         <a href='/posts/harrell-davis-double-mad-outlier-detector/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/normality/'>Normality is a myth</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> October 09, 2019.
-          <b>Tags:</b>
-                <a href="/tags/statistics"><span class="badge badge-pill badge-info">Statistics</span></a>
-                <a href="/tags/normality"><span class="badge badge-pill badge-info">Normality</span></a>
-                <a href="/tags/central-limit-theorem"><span class="badge badge-pill badge-info">Central Limit Theorem</span></a>
-                <a href="/tags/performance"><span class="badge badge-pill badge-info">Performance</span></a>
-                <a href="/tags/r"><span class="badge badge-pill badge-info">R</span></a>
-        </span><br /><br />
-        <p>In many statistical papers, you can find the following phrase: &quot;assuming that we have a normal distribution.&quot;
-Probably, you saw plots of the normal distribution density function in some statistics textbooks,
-it looks like this:</p>
-<div class="mx-auto">
-<a href="/img/posts/normality/normal-light.png" target="_blank">
-<picture>
-<source theme='dark' srcset="/img/posts/normality/normal-dark.png" media="(prefers-color-scheme: dark)">
-<source theme='light' srcset="/img/posts/normality/normal-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-<img class="mx-auto d-block img-fluid" width="800" src="/img/posts/normality/normal-light.png">
-</picture>
-</a>
-</div>
-<p>The normal distribution is a pretty user-friendly mental model when we are trying to interpret the statistical metrics
-like mean and standard deviation.
-However, it may also be an insidious and misleading model when your distribution is not normal.
-There is a great sentence in the <a href="https://doi.org/10.1093/biomet/34.3-4.209">&quot;Testing for normality&quot;</a> paper by R.C. Geary, 1947 (the quote was found <a href="https://garstats.wordpress.com/2019/06/17/myth/">here</a>):</p>
-<blockquote>
-<p>Normality is a myth; there never was, and never will be, a normal distribution.</p>
-</blockquote>
-<p>I 100% agree with this statement.
-At least, if you are working with performance distributions
-(that are based on the multiple iterations of your benchmarks that measure the performance metrics of your applications),
-you should forget about normality.
-That's how a typical performance distribution looks like
-(I built the below picture based on a real benchmark that measures the load time of assemblies
-when we open the <a href="https://github.com/OrchardCMS/Orchard">Orchard</a> solution in <a href="https://www.jetbrains.com/rider/">Rider</a> on Linux):</p>
-<div class="mx-auto">
-<a href="/img/posts/normality/performance-light.png" target="_blank">
-<picture>
-<source theme='dark' srcset="/img/posts/normality/performance-dark.png" media="(prefers-color-scheme: dark)">
-<source theme='light' srcset="/img/posts/normality/performance-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-<img class="mx-auto d-block img-fluid" width="800" src="/img/posts/normality/performance-light.png">
-</picture>
-</a>
-</div>
-</p>
-        <a href='/posts/normality/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/mono-gc-collects/'>Analyzing distribution of Mono GC collections</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> February 20, 2018.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/r"><span class="badge badge-pill badge-info">R</span></a>
-                <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
-                <a href="/tags/mono"><span class="badge badge-pill badge-info">Mono</span></a>
-                <a href="/tags/gc"><span class="badge badge-pill badge-info">GC</span></a>
-        </span><br /><br />
-        <p>Sometimes I want to understand the GC performance impact on an application quickly.
-I know that there are many powerful diagnostic tools and approaches,
-but I'm a fan of the &quot;right tool for the job&quot; idea.
-In simple cases, I prefer simple noninvasive approaches which provide a quick way
-to get an overview of the current situation
-(if everything is terrible, I always can switch to an advanced approach).
-Today I want to share with you my favorite way to quickly get statistics
-of GC pauses in Mono and generate nice plots like this:</p>
-<div class="mx-auto"><a href="/img/posts/mono-gc-collects/plot-64.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/mono-gc-collects/plot-64.png" /></a></div>
-</p>
-        <a href='/posts/mono-gc-collects/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>

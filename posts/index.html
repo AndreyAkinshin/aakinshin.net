@@ -116,6 +116,29 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/harrell-davis-double-mad-outlier-detector/'>Yet another robust outlier detector</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> June 22, 2020.
+          <b>Tags:</b>
+                <a href="/tags/statistics"><span class="badge badge-pill badge-info">Statistics</span></a>
+                <a href="/tags/outliers"><span class="badge badge-pill badge-info">Outliers</span></a>
+                <a href="/tags/mad"><span class="badge badge-pill badge-info">MAD</span></a>
+                <a href="/tags/harrell-davis"><span class="badge badge-pill badge-info">Harrell-Davis</span></a>
+                <a href="/tags/r"><span class="badge badge-pill badge-info">R</span></a>
+                <a href="/tags/perfolizer"><span class="badge badge-pill badge-info">Perfolizer</span></a>
+        </span><br /><br />
+        <p>Outlier detection is an important step in data processing.
+Unfortunately, if the distribution is not normal (e.g., right-skewed and heavy-tailed), it's hard to choose
+a robust outlier detection algorithm that will not be affected by tricky distribution properties.
+During the last several years, I tried many different approaches, but I was not satisfied with their results.
+Finally, I found an algorithm to which I have (almost) no complaints.
+It's based on the <em>double median absolute deviation</em> and the <em>Harrell-Davis quantile estimator</em>.
+In this post, I will show how it works and why it's better than some other approaches.</p>
+</p>
+        <a href='/posts/harrell-davis-double-mad-outlier-detector/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/how-listseparator-depends-on-runtime-and-operating-system/'>How ListSeparator Depends on Runtime and Operating System</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> May 20, 2020.
@@ -394,42 +417,6 @@ and some real degradations (which are introduced by the changes in our codebase)
 So, my colleagues and I decided to investigate it.</p>
 </p>
         <a href='/posts/nuget-package-browsing/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/dotnet-crossruntime-disasm/'>Cross-runtime .NET disassembly with BenchmarkDotNet</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> April 10, 2018.
-          <b>Tags:</b>
-                <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/tags/benchmarkdotnet"><span class="badge badge-pill badge-info">BenchmarkDotNet</span></a>
-                <a href="/tags/benchmarking"><span class="badge badge-pill badge-info">benchmarking</span></a>
-                <a href="/tags/disassembly"><span class="badge badge-pill badge-info">disassembly</span></a>
-        </span><br /><br />
-        <p><a href="https://github.com/dotnet/BenchmarkDotNet">BenchmarkDotNet</a> is a cool tool for benchmarking.
-It has a lot of useful features that help you with performance investigations.
-However, you can use these features even if you are not actually going to benchmark something.
-One of these features is <code>DisassemblyDiagnoser</code>.
-It shows you a disassembly listing of your code for all required runtimes.
-In this post, I will show you how to get disassembly listing for .NET Framework, .NET Core, and Mono with one click!
-You can do it with a very small code snippet like this:</p>
-<pre><code class="language-cs">[DryCoreJob, DryMonoJob, DryClrJob(Platform.X86)]
-[DisassemblyDiagnoser]
-public class IntroDisasm
-{
-    [Benchmark]
-    public double Sum()
-    {
-        double res = 0;
-        for (int i = 0; i &lt; 64; i++)
-            res += i;
-        return res;
-    }
-}
-</code></pre>
-</p>
-        <a href='/posts/dotnet-crossruntime-disasm/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>

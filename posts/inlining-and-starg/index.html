@@ -454,7 +454,7 @@ class Program
 </code></pre>
 <p>As we can see, JIT has successfully performed inlining for all method and precalculated the result.</p>
 <h3 id="summary">Summary</h3>
-<p>Specific condition should be satisfied for successfully inlining. JIT-x86 can't apply the inlining optimization for method that contain the <code>starg</code> or<code>ldarga</code> opcodes regardless the <code>MethodImpl</code> attribute. Sometimes, if you really need inlining of some method, you have to make some hacks like we can observe in the <code>Decimal</code> constructors.</p>
+<p>Specific condition should be satisfied for successfully inlining. JIT-x86 can't apply the inlining optimization for method that contain the <code>starg</code> or<code> ldarga</code> opcodes regardless the <code>MethodImpl</code> attribute. Sometimes, if you really need inlining of some method, you have to make some hacks like we can observe in the <code>Decimal</code> constructors.</p>
 <h3 id="links">Links</h3>
 <ul>
 <li><a href="http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158">.NET Reference Source: Constructs a Decimal from an integer value</a></li>
