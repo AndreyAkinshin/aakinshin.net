@@ -116,6 +116,27 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/posts/nonparametric-effect-size/'>Nonparametric Cohen&#39;s d-consistent effect size</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> June 25, 2020.
+          <b>Tags:</b>
+                <a href="/tags/statistics"><span class="badge badge-pill badge-info">Statistics</span></a>
+                <a href="/tags/effect-size"><span class="badge badge-pill badge-info">Effect size</span></a>
+                <a href="/tags/mad"><span class="badge badge-pill badge-info">MAD</span></a>
+                <a href="/tags/harrell-davis"><span class="badge badge-pill badge-info">Harrell-Davis</span></a>
+                <a href="/tags/r"><span class="badge badge-pill badge-info">R</span></a>
+                <a href="/tags/perfolizer"><span class="badge badge-pill badge-info">Perfolizer</span></a>
+        </span><br /><br />
+        <p>The effect size is a common way to describe a difference between two distributions.
+When these distributions are normal, one of the most popular approaches to express the effect size is <a href="https://en.wikipedia.org/wiki/Effect_size#Cohen%27s_d">Cohen's d</a>.
+Unfortunately, it doesn't work great for non-normal distributions.</p>
+<p>In this post, I will show a robust Cohen's d-consistent effect size formula for nonparametric distributions.</p>
+<div class="mx-auto"><a href="/img/posts/nonparametric-effect-size/blackboard.png" target="_blank"><img class="mx-auto d-block img-fluid" width="800" src="/img/posts/nonparametric-effect-size/blackboard.png" /></a></div>
+</p>
+        <a href='/posts/nonparametric-effect-size/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/posts/harrell-davis-double-mad-outlier-detector/'>Yet another robust outlier detector</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> June 22, 2020.
@@ -395,28 +416,6 @@ The reference implementation can be used via the <a href="https://cran.r-project
 However, I can't use <a href="https://www.r-project.org/">R</a> on our build server, so I decided to write my own C# implementation.</p>
 </p>
         <a href='/posts/edpelt/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/posts/nuget-package-browsing/'>A story about slow NuGet package browsing</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> May 08, 2018.
-          <b>Tags:</b>
-                <a href="/tags/nuget"><span class="badge badge-pill badge-info">NuGet</span></a>
-                <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
-        </span><br /><br />
-        <p>In <a href="https://www.jetbrains.com/rider/">Rider</a>, we have integration tests which interact with <a href="https://api.nuget.org/">api.nuget.org</a>.
-Also, we have an internal service which monitors the performance of these tests.
-Two days ago, I noticed that some of these tests sometimes are running for too long.
-For example, <code>nuget_NuGetTest_shouldUpgradeVersionForDotNetCore</code> usually takes around <code>10 sec</code>.
-However, in some cases, it takes around <code>110 sec</code>, <code>210 sec</code>, or <code>310 sec</code>:</p>
-<div class="mx-auto"><a href="/img/posts/nuget-package-browsing/perf-chart.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/nuget-package-browsing/perf-chart.png" /></a></div>
-<p>It looks very suspicious and increases the whole test suite duration.
-Also, our dashboard with performance degradations contains only such tests
-and some real degradations (which are introduced by the changes in our codebase) can go unnoticed.
-So, my colleagues and I decided to investigate it.</p>
-</p>
-        <a href='/posts/nuget-package-browsing/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>

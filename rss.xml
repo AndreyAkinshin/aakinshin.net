@@ -6,9 +6,231 @@
     <atom:link href="http://aakinshin.net/en/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Mon, 22 Jun 2020 10:56:02 GMT</pubDate>
-    <lastBuildDate>Mon, 22 Jun 2020 10:56:02 GMT</lastBuildDate>
+    <pubDate>Thu, 25 Jun 2020 10:03:54 GMT</pubDate>
+    <lastBuildDate>Thu, 25 Jun 2020 10:03:54 GMT</lastBuildDate>
 
+        <item>
+            <title>Nonparametric Cohen&#39;s d-consistent effect size</title>
+            <link>http://aakinshin.net/posts/nonparametric-effect-size/</link> 
+            <pubDate>Thu, 25 Jun 2020 00:00:00 GMT</pubDate>
+            <author>Andrey Akinshin</author>
+            <guid>http://aakinshin.net/posts/nonparametric-effect-size/</guid>
+            <description>&lt;p&gt;The effect size is a common way to describe a difference between two distributions.
+When these distributions are normal, one of the most popular approaches to express the effect size is &lt;a href=&quot;https://en.wikipedia.org/wiki/Effect_size#Cohen%27s_d&quot;&gt;Cohen&#39;s d&lt;/a&gt;.
+Unfortunately, it doesn&#39;t work great for non-normal distributions.&lt;/p&gt;
+&lt;p&gt;In this post, I will show a robust Cohen&#39;s d-consistent effect size formula for nonparametric distributions.&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;a href=&quot;/img/posts/nonparametric-effect-size/blackboard.png&quot; target=&quot;_blank&quot;&gt;&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;800&quot; src=&quot;/img/posts/nonparametric-effect-size/blackboard.png&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;!--more--&gt;
+&lt;h3 id=&quot;cohens-d&quot;&gt;Cohen&#39;s d&lt;/h3&gt;
+&lt;p&gt;Let&#39;s start with the basics.
+For two samples &lt;span class=&quot;math&quot;&gt;\(X = \{ X_1, X_2, \ldots, X_{n_X} \}\)&lt;/span&gt; and &lt;span class=&quot;math&quot;&gt;\(Y = \{ Y_1, Y_2, \ldots, Y_{n_Y} \}\)&lt;/span&gt;, the &lt;em&gt;Cohen&#39;s d&lt;/em&gt; is defined as follows (&lt;a href=&quot;#Cohen1988&quot;&gt;[Cohen1988]&lt;/a&gt;):&lt;/p&gt;
+&lt;div class=&quot;math&quot;&gt;
+\[
+
+d = \frac{\overline{Y}-\overline{X}}{s}
+
+\]&lt;/div&gt;
+&lt;p&gt;where &lt;span class=&quot;math&quot;&gt;\(s\)&lt;/span&gt; is the &lt;a href=&quot;https://en.wikipedia.org/wiki/Pooled_standard_deviation&quot;&gt;pooled standard deviation&lt;/a&gt;:&lt;/p&gt;
+&lt;div class=&quot;math&quot;&gt;
+\[
+
+s = \sqrt{\frac{(n_X - 1) s^2_X + (n_Y - 1) s^2_Y}{n_X + n_Y - 2}}.
+
+\]&lt;/div&gt;
+&lt;p&gt;Our goal is to build a robust effect size formula that works the same way for normal distributions,
+but also is applicable for nonparametric distributions.&lt;/p&gt;
+&lt;h3 id=&quot;wilcoxs-q&quot;&gt;Wilcox&#39;s Q&lt;/h3&gt;
+&lt;p&gt;Another interesting effect size formula for nonparametric distributions is &lt;em&gt;Wilcox&#39;s Q&lt;/em&gt; (&lt;a href=&quot;#Wilcox2019&quot;&gt;[Wilcox2019]&lt;/a&gt;).
+It&#39;s based on the median of pairwise differences between &lt;span class=&quot;math&quot;&gt;\(X\)&lt;/span&gt; and &lt;span class=&quot;math&quot;&gt;\(Y\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class=&quot;math&quot;&gt;
+\[
+
+Q = \frac{1}{n_X n_Y} \Sigma_{i=1}^{n_X} \Sigma_{j=1}^{n_Y} I(D_{ij} - \theta_D \leq \theta_D)
+
+\]&lt;/div&gt;
+&lt;p&gt;where&lt;/p&gt;
+&lt;div class=&quot;math&quot;&gt;
+\[
+
+D_{ij} = Y_i - X_j, \quad
+\theta_D = \textrm{median} (D), \quad
+I(\textrm{true}) = 1, \quad
+I(\textrm{false}) = 0.
+
+\]&lt;/div&gt;
+&lt;p&gt;It&#39;s an interesting approach, but it has some disadvantages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The mapping between Cohen&#39;s d and Wilcox&#39;s Q is non-trivial that complicates the interpretations of obtained value.&lt;/li&gt;
+&lt;li&gt;It&#39;s not robust enough for bimodal distributions.&lt;/li&gt;
+&lt;li&gt;It&#39;s clamped (&lt;span class=&quot;math&quot;&gt;\(Q \in [0; 1]\)&lt;/span&gt;) and can&#39;t be used to compare a large effect size with a very large effect size.&lt;/li&gt;
+&lt;li&gt;It describes only the difference between medians.
+For some complex cases, it&#39;s not always enough for proper description of the difference between distributions.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Replacing the mean by the median is a good step toward nonparametric distribution support,
+but we are looking for an approach without the above disadvantages.&lt;/p&gt;
+&lt;h3 id=&quot;quantiles-and-the-shift-function&quot;&gt;Quantiles and the shift function&lt;/h3&gt;
+&lt;p&gt;When we compare two nonparametric distributions, it&#39;s a good idea to track differences for all quantile values.
+We can do it via the &lt;a href=&quot;/posts/shift-and-ratio-functions/&quot;&gt;shift function&lt;/a&gt; (&lt;a href=&quot;#Doksum1974&quot;&gt;[Doksum1974]&lt;/a&gt;, &lt;a href=&quot;#Doksum1976&quot;&gt;[Doksum1976]&lt;/a&gt;):&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+&lt;a href=&quot;/img/posts/nonparametric-effect-size/compare4-light.png&quot; target=&quot;_blank&quot;&gt;
+&lt;picture&gt;
+&lt;source theme=&#39;dark&#39; srcset=&quot;/img/posts/nonparametric-effect-size/compare4-dark.png&quot; media=&quot;(prefers-color-scheme: dark)&quot;&gt;
+&lt;source theme=&#39;light&#39; srcset=&quot;/img/posts/nonparametric-effect-size/compare4-light.png&quot; media=&quot;(prefers-color-scheme: light), (prefers-color-scheme: no-preference)&quot;&gt;
+&lt;img class=&quot;mx-auto d-block img-fluid&quot; width=&quot;800&quot; src=&quot;/img/posts/nonparametric-effect-size/compare4-light.png&quot;&gt;
+&lt;/picture&gt;
+&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;It shows the absolute shift for each quantile.
+The robustness of the shift function can be improved with the help of &lt;em&gt;the Harrell-Davis quantile estimator&lt;/em&gt; (&lt;a href=&quot;Harrell1982&quot;&gt;[Harrell1982]&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Unfortunately, the raw shift function can&#39;t be used as the effect size because it heavily depends on the distribution dispersion.
+Without it, we can&#39;t say if the shift values are large or small.
+So, we need a way to normalize it.&lt;/p&gt;
+&lt;h3 id=&quot;mad-normalization&quot;&gt;MAD normalization&lt;/h3&gt;
+&lt;p&gt;My favorite measure of the statistical dispersion is &lt;em&gt;the median absolute deviation (MAD)&lt;/em&gt;:&lt;/p&gt;
+&lt;div class=&quot;math&quot;&gt;
+\[
+\mathcal{MAD}_X = C \cdot \textrm{median}(|X_i - \textrm{median}(X)|), \quad
+\mathcal{MAD}_Y = C \cdot \textrm{median}(|Y_i - \textrm{median}(Y)|).
+\]&lt;/div&gt;
+&lt;p&gt;For the normally distributed values, there is a well-known relationship between the standard deviation and the median absolute deviation:&lt;/p&gt;
+&lt;div class=&quot;math&quot;&gt;
+\[
+s_X \approx 1.4826 \cdot \textrm{median}(|X_i - \textrm{median}(X)|).
+\]&lt;/div&gt;
+&lt;p&gt;Thus, we can use &lt;span class=&quot;math&quot;&gt;\(C = 1.4826\)&lt;/span&gt; (which is also known as &lt;em&gt;the consistency constant&lt;/em&gt;) to make &lt;span class=&quot;math&quot;&gt;\(\mathcal{MAD}\)&lt;/span&gt; a consistent estimator for the standard deviation estimation.&lt;/p&gt;
+&lt;p&gt;By analogy with the pooled standard deviation, we can introduce &lt;em&gt;the pooled median absolute deviation&lt;/em&gt;:&lt;/p&gt;
+&lt;div class=&quot;math&quot;&gt;
+\[
+
+\mathcal{PMAD}_{XY} = \sqrt{\frac{(n_X - 1) \mathcal{MAD}^2_X + (n_Y - 1) \mathcal{MAD}^2_Y}{n_X + n_Y - 2}}.
+
+\]&lt;/div&gt;
+&lt;p&gt;As usual, we can use the Harrell-Davis quantile estimator to improve the robustness of this metric.&lt;/p&gt;
+&lt;h3 id=&quot;a-quantile-specific-effect-size&quot;&gt;A quantile-specific effect size&lt;/h3&gt;
+&lt;p&gt;Now we are ready to write down the effect size for the given quantile &lt;span class=&quot;math&quot;&gt;\(p\)&lt;/span&gt;.
+Let&#39;s call it &lt;span class=&quot;math&quot;&gt;\(\gamma_p\)&lt;/span&gt; (just because a lot of other good letters like
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Effect_size#Cohen%27s_d&quot;&gt;d&lt;/a&gt;,
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Effect_size#Glass%27_%CE%94&quot;&gt;Δ&lt;/a&gt;,
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Effect_size#Hedges%27_g&quot;&gt;g&lt;/a&gt;,
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Effect_size#%CE%A8,_root-mean-square_standardized_effect&quot;&gt;Ψ&lt;/a&gt;,
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Effect_size#Cohen%27s_%C6%922&quot;&gt;f&lt;/a&gt;,
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Effect_size#Cohen%27s_q&quot;&gt;q&lt;/a&gt;,
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Effect_size#Cohen%27s_w&quot;&gt;w&lt;/a&gt;,
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Effect_size#Cohen%27s_h&quot;&gt;h&lt;/a&gt;
+are already occupied):&lt;/p&gt;
+&lt;div class=&quot;math&quot;&gt;
+\[
+
+\gamma_p = \frac{Q_p(Y) - Q_p(X)}{\mathcal{PMAD}_{XY}}
+
+\]&lt;/div&gt;
+&lt;p&gt;where &lt;span class=&quot;math&quot;&gt;\(Q_p\)&lt;/span&gt; is the &lt;span class=&quot;math&quot;&gt;\(p^{\textrm{th}}\)&lt;/span&gt; quantile of the given sample.&lt;/p&gt;
+&lt;p&gt;For the normal distribution, the Cohen&#39;s d equals to &lt;span class=&quot;math&quot;&gt;\(\gamma_{0.5}\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class=&quot;math&quot;&gt;
+\[
+
+d = \frac{\overline{Y}-\overline{X}}{s} \approx \frac{Q_{0.5}(Y) - Q_{0.5}(X)}{\mathcal{PMAD}_{XY}} = \gamma_{0.5}.
+
+\]&lt;/div&gt;
+&lt;h3 id=&quot;condensation&quot;&gt;Condensation&lt;/h3&gt;
+&lt;p&gt;It&#39;s nice to have the effect size value for each specific quantile.
+However, it would be more convenient to have a single number (or a few numbers) that express the difference.
+Let&#39;s introduce a set of the &lt;span class=&quot;math&quot;&gt;\(\gamma_p\)&lt;/span&gt; values for an interval:&lt;/p&gt;
+&lt;div class=&quot;math&quot;&gt;
+\[
+
+\tilde{\gamma}_p = \{ \gamma_t | t \in [p; 1 - p] \}.
+
+\]&lt;/div&gt;
+&lt;p&gt;The shift function may be unstable around 0 and 1.
+Thus, it makes sense to drop these values and operate with the middle of the shift function.
+In practice, &lt;span class=&quot;math&quot;&gt;\(\tilde{\gamma}_{0.2}\)&lt;/span&gt; or &lt;span class=&quot;math&quot;&gt;\(\tilde{\gamma}_{0.3}\)&lt;/span&gt; work pretty well.
+For the given &lt;span class=&quot;math&quot;&gt;\(\tilde{\gamma}_p\)&lt;/span&gt;, we can calculate the minimum and maximum values for this function across all quantiles:&lt;/p&gt;
+&lt;div class=&quot;math&quot;&gt;
+\[
+
+\min (\tilde{\gamma}_p) = \min_{t \in [p; 1 - p] } \gamma_t, \quad
+\max (\tilde{\gamma}_p) = \max_{t \in [p; 1 - p] } \gamma_t.
+
+\]&lt;/div&gt;
+&lt;p&gt;Finally, we can define a range of &lt;span class=&quot;math&quot;&gt;\(\tilde{\gamma}_p\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class=&quot;math&quot;&gt;
+\[
+
+\textrm{range}(\tilde{\gamma}_p) = [\min (\tilde{\gamma}_p); \max (\tilde{\gamma}_p)].
+
+\]&lt;/div&gt;
+&lt;p&gt;When the range is narrow, we can replace &lt;span class=&quot;math&quot;&gt;\(\tilde{\gamma}_p\)&lt;/span&gt; by the minimum of the maximum value (or the average of these values).
+In practice, it will be a good way to describe the difference between two distributions using a single number.&lt;/p&gt;
+&lt;p&gt;When the range is wide, we can&#39;t condensate &lt;span class=&quot;math&quot;&gt;\(\tilde{\gamma}_p\)&lt;/span&gt; to a single number
+because the relationship between these distributions is too complex.
+In this case, it&#39;s recommended to look at the plot of &lt;span class=&quot;math&quot;&gt;\(\tilde{\gamma}_p\)&lt;/span&gt; (or just work with the range).&lt;/p&gt;
+&lt;h3 id=&quot;reference-implementation&quot;&gt;Reference implementation&lt;/h3&gt;
+&lt;p&gt;If you use R, here is the function that you can use in your scripts:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-R&quot;&gt;library(Hmisc)
+
+pooled &amp;lt;- function(x, y, FUN) {
+  nx &amp;lt;- length(x)
+  ny &amp;lt;- length(y)
+  sqrt(((nx - 1) * FUN(x) ^ 2 + (ny - 1) * FUN(y) ^ 2) / (nx + ny - 2))
+}
+hdmedian &amp;lt;- function(x) as.numeric(hdquantile(x, 0.5))
+hdmad &amp;lt;- function(x) 1.4826 * hdmedian(abs(x - hdmedian(x)))
+phdmad &amp;lt;- function(x, y) pooled(x, y, hdmad)
+gammaEffectSize &amp;lt;- function(x, y, prob)
+  as.numeric((hdquantile(y, prob) - hdquantile(x, prob)) / pmad(x, y))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you use C#, you can take an implementation from
+the latest nightly version (0.3.0-nightly.33+) of &lt;a href=&quot;https://github.com/AndreyAkinshin/perfolizer&quot;&gt;Perfolizer&lt;/a&gt;
+(you need &lt;code&gt;GammaEffectSize.CalcValue&lt;/code&gt;).&lt;/p&gt;
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;In this post, we built a new formula for the effect size:&lt;/p&gt;
+&lt;div class=&quot;math&quot;&gt;
+\[
+
+\gamma_p = \frac{Q_p(Y) - Q_p(X)}{\mathcal{PMAD}_{XY}}, \quad
+\tilde{\gamma}_p = \{ \gamma_t | t \in [p; 1 - p] \}.
+
+\]&lt;/div&gt;
+&lt;p&gt;It provides the effect size for each quantile, but it can also be condensed to a range or a single number.
+It has the following advantages:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It&#39;s robust (the robustness can be improved using the Harrell-Davis quantile estimator).&lt;/li&gt;
+&lt;li&gt;It&#39;s applicable for nonparametric distributions.&lt;/li&gt;
+&lt;li&gt;It&#39;s consistent with the Cohen&#39;s d for normal distributions.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I use this approach to compare distributions of software performance measurements
+(they are often right-skewed and heavily-tailed) in &lt;a href=&quot;https://www.jetbrains.com/rider/&quot;&gt;Rider&lt;/a&gt;.
+For my use cases, it works well and provides a good measure of the effect size.
+I hope it can be useful in many other applications.
+If you decide to try it, I will be happy to hear feedback about your experience.&lt;/p&gt;
+&lt;h3 id=&quot;references&quot;&gt;References&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;b id=&quot;Cohen1988&quot;&gt;[Cohen1988]&lt;/b&gt;&lt;br /&gt;
+Cohen, Jacob. (1988).
+Statistical Power Analysis for the Behavioral Sciences.
+New York, NY: Routledge Academic&lt;/li&gt;
+&lt;li&gt;&lt;b id=&quot;Wilcox2019&quot;&gt;[Wilcox2019]&lt;/b&gt;&lt;br /&gt;
+Wilcox, Rand.
+&amp;quot;A Robust Nonparametric Measure of Effect Size Based on an Analog of Cohen&#39;s d, Plus Inferences About the Median of the Typical Difference.&amp;quot;
+&lt;em&gt;Journal of Modern Applied Statistical Methods&lt;/em&gt; 17, no. 2 (2019): 1.&lt;/li&gt;
+&lt;li&gt;&lt;b id=&quot;Doksum1974&quot;&gt;[Doksum1974]&lt;/b&gt;&lt;br /&gt;
+Doksum, Kjell.
+&amp;quot;Empirical probability plots and statistical inference for nonlinear models in the two-sample case.&amp;quot;
+&lt;em&gt;The annals of statistics&lt;/em&gt; (1974): 267-277.&lt;br /&gt;
+&lt;a href=&quot;https://doi.org/10.1214/aos/1176342662&quot;&gt;https://doi.org/10.1214/aos/1176342662&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b id=&quot;Doksum1976&quot;&gt;[Doksum1976]&lt;/b&gt;&lt;br /&gt;
+Doksum, Kjell A., and Gerald L. Sievers.
+&amp;quot;Plotting with confidence: Graphical comparisons of two populations.&amp;quot;
+&lt;em&gt;Biometrika&lt;/em&gt;, 63, no. 3 (1976): 421-434.&lt;br /&gt;
+&lt;a href=&quot;https://doi.org/10.2307/2335720&quot;&gt;https://doi.org/10.2307/2335720&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b id=&quot;Harrell1982&quot;&gt;[Harrell1982]&lt;/b&gt;&lt;br /&gt;
+Harrell, F.E. and Davis, C.E., 1982.
+&amp;quot;A new distribution-free quantile estimator.&amp;quot;
+&lt;em&gt;Biometrika&lt;/em&gt;, 69(3), pp.635-640.&lt;br /&gt;
+&lt;a href=&quot;https://pdfs.semanticscholar.org/1a48/9bb74293753023c5bb6bff8e41e8fe68060f.pdf&quot;&gt;https://pdfs.semanticscholar.org/1a48/9bb74293753023c5bb6bff8e41e8fe68060f.pdf&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+        </item>
         <item>
             <title>Yet another robust outlier detector</title>
             <link>http://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/</link> 
