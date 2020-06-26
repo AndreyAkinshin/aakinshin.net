@@ -45,38 +45,34 @@ $$
 Our goal is to build a robust effect size formula that works the same way for normal distributions,
   but also is applicable for nonparametric distributions.
 
-### Wilcox's Q
+### Existing nonparametric effect size measures
 
-Another interesting effect size formula for nonparametric distributions is *Wilcox's Q* ([[Wilcox2019]](#Wilcox2019)).
-It's based on the median of pairwise differences between $ X $ and $ Y $:
+There are some existing nonparametric effect size measures, but most of them are clamped (they have fixed lower and upper bounds):
 
-$$
+* Cliff's Delta ([[Cliff1993]](#Cliff1993)): $ [-1; 1] $
+* Vargha-Delaney A ([[Vargha2000]](#Vargha2000)): $ [0; 1] $
+* Wilcox's Q ([[Wilcox2019]](#Wilcox2019)): $ [0; 1] $
 
-Q = \frac{1}{n_X n_Y} \Sigma_{i=1}^{n_X} \Sigma_{j=1}^{n_Y} I(D_{ij} - \theta_D \leq \theta_D)
-
-$$
-
-where
+Let's consider the two following cases of nonoverlapped distribution pairs:
 
 $$
 
-D_{ij} = Y_i - X_j, \quad
-\theta_D = \textrm{median} (D), \quad
-I(\textrm{true}) = 1, \quad
-I(\textrm{false}) = 0.
+X^{(1)} \in [0; 5] \quad \textrm{vs.} \quad Y^{(1)} \in [10; 20]
 
 $$
 
-It's an interesting approach, but it has some disadvantages:
+and
 
-* The mapping between Cohen's d and Wilcox's Q is non-trivial that complicates the interpretations of obtained value.
-* It's not robust enough for bimodal distributions.
-* It's clamped ($ Q \in [0; 1] $) and can't be used to compare a large effect size with a very large effect size.
-* It describes only the difference between medians.
-  For some complex cases, it's not always enough for proper description of the difference between distributions.
+$$
 
-Replacing the mean by the median is a good step toward nonparametric distribution support,
-  but we are looking for an approach without the above disadvantages.
+X^{(2)} \in [0; 5] \quad \textrm{vs.} \quad Y^{(2)} \in [50; 100].
+
+$$
+
+In both cases, all of the above measures have extreme values.
+Thus, they don't help to distinguish these cases.
+Meanwhile, the effect for $ X^{(2)} \; \textrm{vs.} \; Y^{(2)} $ is much larger than the effect for $ X^{(1)} \; \textrm{vs.} \; Y^{(1)} $.
+It would be nice to have an effect size measure that highlights this difference.
 
 ### Quantiles and the shift function
 
@@ -228,6 +224,7 @@ It has the following advantages:
 * It's robust (the robustness can be improved using the Harrell-Davis quantile estimator).
 * It's applicable for nonparametric distributions.
 * It's consistent with the Cohen's d for normal distributions.
+* It's not clamped, and it allows comparing large effect sizes for nonoverlapped distribution pairs.
 
 I use this approach to compare distributions of software performance measurements
   (they are often right-skewed and heavily-tailed) in [Rider](https://www.jetbrains.com/rider/).
@@ -241,6 +238,16 @@ If you decide to try it, I will be happy to hear feedback about your experience.
   Cohen, Jacob. (1988).
   Statistical Power Analysis for the Behavioral Sciences.
   New York, NY: Routledge Academic
+* <b id="Cliff1993">[Cliff1993]</b>  
+  Cliff, Norman.
+  "Dominance statistics: Ordinal analyses to answer ordinal questions."
+  *Psychological bulletin* 114, no. 3 (1993): 494.  
+  https://doi.org/10.1037/0033-2909.114.3.494
+* <b id="Vargha2000">[Vargha2000]</b>  
+  Vargha A., and Delaney, H. D.
+  "A critique and improvement of the CL common language effect size statistics of McGraw and Wong."
+  *Journal of Educational and Behavioral Statistics*, 25(2):101-132, 2000  
+  https://doi.org/10.3102/10769986025002101
 * <b id="Wilcox2019">[Wilcox2019]</b>  
   Wilcox, Rand.
   "A Robust Nonparametric Measure of Effect Size Based on an Analog of Cohen's d, Plus Inferences About the Median of the Typical Difference."
