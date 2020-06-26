@@ -153,35 +153,31 @@ s = \sqrt{\frac{(n_X - 1) s^2_X + (n_Y - 1) s^2_Y}{n_X + n_Y - 2}}.
 \]</div>
 <p>Our goal is to build a robust effect size formula that works the same way for normal distributions,
 but also is applicable for nonparametric distributions.</p>
-<h3 id="wilcoxs-q">Wilcox's Q</h3>
-<p>Another interesting effect size formula for nonparametric distributions is <em>Wilcox's Q</em> (<a href="#Wilcox2019">[Wilcox2019]</a>).
-It's based on the median of pairwise differences between <span class="math">\(X\)</span> and <span class="math">\(Y\)</span>:</p>
-<div class="math">
-\[
-
-Q = \frac{1}{n_X n_Y} \Sigma_{i=1}^{n_X} \Sigma_{j=1}^{n_Y} I(D_{ij} - \theta_D \leq \theta_D)
-
-\]</div>
-<p>where</p>
-<div class="math">
-\[
-
-D_{ij} = Y_i - X_j, \quad
-\theta_D = \textrm{median} (D), \quad
-I(\textrm{true}) = 1, \quad
-I(\textrm{false}) = 0.
-
-\]</div>
-<p>It's an interesting approach, but it has some disadvantages:</p>
+<h3 id="existing-nonparametric-effect-size-measures">Existing nonparametric effect size measures</h3>
+<p>There are some existing nonparametric effect size measures, but most of them are clamped (they have fixed lower and upper bounds):</p>
 <ul>
-<li>The mapping between Cohen's d and Wilcox's Q is non-trivial that complicates the interpretations of obtained value.</li>
-<li>It's not robust enough for bimodal distributions.</li>
-<li>It's clamped (<span class="math">\(Q \in [0; 1]\)</span>) and can't be used to compare a large effect size with a very large effect size.</li>
-<li>It describes only the difference between medians.
-For some complex cases, it's not always enough for proper description of the difference between distributions.</li>
+<li>Cliff's Delta (<a href="#Cliff1993">[Cliff1993]</a>): <span class="math">\([-1; 1]\)</span></li>
+<li>Vargha-Delaney A (<a href="#Vargha2000">[Vargha2000]</a>): <span class="math">\([0; 1]\)</span></li>
+<li>Wilcox's Q (<a href="#Wilcox2019">[Wilcox2019]</a>): <span class="math">\([0; 1]\)</span></li>
 </ul>
-<p>Replacing the mean by the median is a good step toward nonparametric distribution support,
-but we are looking for an approach without the above disadvantages.</p>
+<p>Let's consider the two following cases of nonoverlapped distribution pairs:</p>
+<div class="math">
+\[
+
+X^{(1)} \in [0; 5] \quad \textrm{vs.} \quad Y^{(1)} \in [10; 20]
+
+\]</div>
+<p>and</p>
+<div class="math">
+\[
+
+X^{(2)} \in [0; 5] \quad \textrm{vs.} \quad Y^{(2)} \in [50; 100].
+
+\]</div>
+<p>In both cases, all of the above measures have extreme values.
+Thus, they don't help to distinguish these cases.
+Meanwhile, the effect for <span class="math">\(X^{(2)} \; \textrm{vs.} \; Y^{(2)}\)</span> is much larger than the effect for <span class="math">\(X^{(1)} \; \textrm{vs.} \; Y^{(1)}\)</span>.
+It would be nice to have an effect size measure that highlights this difference.</p>
 <h3 id="quantiles-and-the-shift-function">Quantiles and the shift function</h3>
 <p>When we compare two nonparametric distributions, it's a good idea to track differences for all quantile values.
 We can do it via the <a href="/posts/shift-and-ratio-functions/">shift function</a> (<a href="#Doksum1974">[Doksum1974]</a>, <a href="#Doksum1976">[Doksum1976]</a>):</p>
@@ -312,6 +308,7 @@ It has the following advantages:</p>
 <li>It's robust (the robustness can be improved using the Harrell-Davis quantile estimator).</li>
 <li>It's applicable for nonparametric distributions.</li>
 <li>It's consistent with the Cohen's d for normal distributions.</li>
+<li>It's not clamped, and it allows comparing large effect sizes for nonoverlapped distribution pairs.</li>
 </ul>
 <p>I use this approach to compare distributions of software performance measurements
 (they are often right-skewed and heavily-tailed) in <a href="https://www.jetbrains.com/rider/">Rider</a>.
@@ -324,6 +321,16 @@ If you decide to try it, I will be happy to hear feedback about your experience.
 Cohen, Jacob. (1988).
 Statistical Power Analysis for the Behavioral Sciences.
 New York, NY: Routledge Academic</li>
+<li><b id="Cliff1993">[Cliff1993]</b><br />
+Cliff, Norman.
+&quot;Dominance statistics: Ordinal analyses to answer ordinal questions.&quot;
+<em>Psychological bulletin</em> 114, no. 3 (1993): 494.<br />
+<a href="https://doi.org/10.1037/0033-2909.114.3.494">https://doi.org/10.1037/0033-2909.114.3.494</a></li>
+<li><b id="Vargha2000">[Vargha2000]</b><br />
+Vargha A., and Delaney, H. D.
+&quot;A critique and improvement of the CL common language effect size statistics of McGraw and Wong.&quot;
+<em>Journal of Educational and Behavioral Statistics</em>, 25(2):101-132, 2000<br />
+<a href="https://doi.org/10.3102/10769986025002101">https://doi.org/10.3102/10769986025002101</a></li>
 <li><b id="Wilcox2019">[Wilcox2019]</b><br />
 Wilcox, Rand.
 &quot;A Robust Nonparametric Measure of Effect Size Based on an Analog of Cohen's d, Plus Inferences About the Median of the Typical Difference.&quot;
