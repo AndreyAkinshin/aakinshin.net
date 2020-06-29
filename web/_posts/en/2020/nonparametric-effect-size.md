@@ -200,7 +200,7 @@ hdmedian <- function(x) as.numeric(hdquantile(x, 0.5))
 hdmad <- function(x) 1.4826 * hdmedian(abs(x - hdmedian(x)))
 phdmad <- function(x, y) pooled(x, y, hdmad)
 gammaEffectSize <- function(x, y, prob)
-  as.numeric((hdquantile(y, prob) - hdquantile(x, prob)) / pmad(x, y))
+  as.numeric((hdquantile(y, prob) - hdquantile(x, prob)) / phdmad(x, y))
 ```
 
 If you use C#, you can take an implementation from
