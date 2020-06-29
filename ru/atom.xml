@@ -3,7 +3,7 @@
     <title>Блог Андрея Акиньшина</title>
     <link href="http://aakinshin.net"/>
     <link type="application/atom+xml" rel="self" href="http://aakinshin.net/ru/atom.xml"/>
-    <updated>2020-06-26T08:54:20.3785755Z</updated>
+    <updated>2020-06-29T07:22:02.9111839Z</updated>
     <id>http://aakinshin.net/</id>
     <author>
         <name>Андрей Акиньшин</name>
@@ -178,7 +178,7 @@ hdmedian &amp;lt;- function(x) as.numeric(hdquantile(x, 0.5))
 hdmad &amp;lt;- function(x) 1.4826 * hdmedian(abs(x - hdmedian(x)))
 phdmad &amp;lt;- function(x, y) pooled(x, y, hdmad)
 gammaEffectSize &amp;lt;- function(x, y, prob)
-  as.numeric((hdquantile(y, prob) - hdquantile(x, prob)) / pmad(x, y))
+  as.numeric((hdquantile(y, prob) - hdquantile(x, prob)) / phdmad(x, y))
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;If you use C#, you can take an implementation from
 the latest nightly version (0.3.0-nightly.33+) of &lt;a href=&quot;https://github.com/AndreyAkinshin/perfolizer&quot;&gt;Perfolizer&lt;/a&gt;

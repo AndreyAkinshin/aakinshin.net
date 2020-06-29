@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/ru/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Fri, 26 Jun 2020 08:54:20 GMT</pubDate>
-    <lastBuildDate>Fri, 26 Jun 2020 08:54:20 GMT</lastBuildDate>
+    <pubDate>Mon, 29 Jun 2020 07:22:02 GMT</pubDate>
+    <lastBuildDate>Mon, 29 Jun 2020 07:22:02 GMT</lastBuildDate>
 
         <item>
             <title>Nonparametric Cohen&#39;s d-consistent effect size</title>
@@ -174,7 +174,7 @@ hdmedian &amp;lt;- function(x) as.numeric(hdquantile(x, 0.5))
 hdmad &amp;lt;- function(x) 1.4826 * hdmedian(abs(x - hdmedian(x)))
 phdmad &amp;lt;- function(x, y) pooled(x, y, hdmad)
 gammaEffectSize &amp;lt;- function(x, y, prob)
-  as.numeric((hdquantile(y, prob) - hdquantile(x, prob)) / pmad(x, y))
+  as.numeric((hdquantile(y, prob) - hdquantile(x, prob)) / phdmad(x, y))
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;If you use C#, you can take an implementation from
 the latest nightly version (0.3.0-nightly.33+) of &lt;a href=&quot;https://github.com/AndreyAkinshin/perfolizer&quot;&gt;Perfolizer&lt;/a&gt;

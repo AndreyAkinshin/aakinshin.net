@@ -288,7 +288,7 @@ hdmedian &lt;- function(x) as.numeric(hdquantile(x, 0.5))
 hdmad &lt;- function(x) 1.4826 * hdmedian(abs(x - hdmedian(x)))
 phdmad &lt;- function(x, y) pooled(x, y, hdmad)
 gammaEffectSize &lt;- function(x, y, prob)
-  as.numeric((hdquantile(y, prob) - hdquantile(x, prob)) / pmad(x, y))
+  as.numeric((hdquantile(y, prob) - hdquantile(x, prob)) / phdmad(x, y))
 </code></pre>
 <p>If you use C#, you can take an implementation from
 the latest nightly version (0.3.0-nightly.33+) of <a href="https://github.com/AndreyAkinshin/perfolizer">Perfolizer</a>
