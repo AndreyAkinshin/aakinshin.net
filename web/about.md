@@ -178,14 +178,14 @@ Previously, he worked as a postdoctoral research fellow at the [Weizmann Institu
       [<img src="/img/icons/ios.png" alt="iPad" title="iPad" />](https://itunes.apple.com/us/app/grapholite-diagrams-flow-charts/id954302708?ls=1&mt=8)
       [<img src="/img/icons/android.png" alt="Android" title="Android" />](https://play.google.com/store/apps/details?id=com.grapholite.diagramsdemo)
     (an analogue of MS Visio).<br />
-    *Developer (algorithm development, mathematics, architecture design)*
+    *Developer (algorithms, mathematics, architecture design)*
   * ![](/img/icons/knockout-mvc.png)
     [Knockout MVC](http://knockoutmvc.com/):
     ASP.NET MVC wrapper for knockout.js<br />
     *Main developer (architecture design, API, client/server logic, official site, documentation, etc.)*
   * ![](/img/icons/ui-controls.png)
     [UI Controls for Windows 8](http://www.perpetuumsoft.com/Windows8-UI-Controls.aspx):
-    A set of UI controls that will help develop true Windows Store application faster<br />
+    A set of UI controls that help to develop Windows Store applications<br />
     *Main developer (architecture design, API, XAML-layout, demo project, documentation, etc.)*
 </section>
 

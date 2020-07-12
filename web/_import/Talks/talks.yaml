@@ -79,7 +79,7 @@ talks:
       - key: google-slides
         url: https://docs.google.com/presentation/d/1hz4lzWDKf2OnJdnBmC5mtEvD-VNlTyMbQxumYUk0xCg/edit?usp=sharing
   - date: 2019-05-21
-    event: Kotlin meetup at Tel Aviv
+    event: Kotlin meetup in Tel Aviv
     event-type: meetup
     title: Idiomatic Kotlin
     location_en: Tel Aviv, Israel
@@ -243,7 +243,7 @@ talks:
     event-type: conference
     event-hint_ru: Конференция .NET-разработчиков
     event-hint_en: Independent .NET conference
-    title: Panel Discussion - Profiling and optimization
+    title: "Panel Discussion: Profiling and optimization"
     location_en: Moscow, Russia
     location_ru: г. Москва
     lang: ru

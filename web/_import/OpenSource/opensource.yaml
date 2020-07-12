@@ -22,7 +22,7 @@ github:
       - url: AndreyAkinshin/knockout-mvc
         title: Knockout.js wrapper for ASP.NET
       - url: AndreyAkinshin/CourseraDspWorkbook
-        title: Workbook for Coursera Dsp course
+        title: Workbook for Coursera DSP course
   - role: Contributor
     repos:
       - url: dotnet/runtime
