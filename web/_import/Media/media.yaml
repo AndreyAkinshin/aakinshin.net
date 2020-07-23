@@ -1,10 +1,18 @@
 media:
+  - date: 2020-07-23
+    type: interview
+    host_en: "We are doomed"
+    host_ru: "Мы обречены"
+    title_en: "We are doomed #12 / Andrey Akinshin - benchmarks, performance, efficient code"
+    title_ru: "Мы обречены #12 / Андрей Акиньшин — бенчмарки, перфоманс, производительный код"
+    lang: ru
+    url: https://www.youtube.com/watch?v=NnXTljsClsg
   - date: 2020-06-04
     type: interview
     host_en: "Bar counter"
     host_ru: "Барная стойка"
-    title_en: "Bar counter №1 / Andrey Akinshin"
-    title_ru: "Барная стойка №1 / Андрей Акиньшин"
+    title_en: "Bar counter #1 / Andrey Akinshin"
+    title_ru: "Барная стойка #1 / Андрей Акиньшин"
     lang: ru
     url: https://www.youtube.com/watch?v=_hp2ZcgCjqU
   - date: 2020-03-12
