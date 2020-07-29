@@ -23,6 +23,8 @@ talks:
         url: https://dotnext-piter.ru/2020/spb/talks/3cd0cc0op48jz304afpmjj/
       - key: slides-web
         url: https://slides.aakinshin.net/dotnext-piter2020/
+      - key: youtube
+        url: https://www.youtube.com/watch?v=-IZx1lT2vAQ
   - date: 2020-06-15
     date2: 2020-06-18
     event: Heisenbug 2020 Piter
