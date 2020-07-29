@@ -1,4 +1,12 @@
 media:
+  - date: 2020-07-28
+    type: interview
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "Если ты видишь статью, что язык Х быстрее, чем язык Y – можешь закрывать статью"
+    title_en: "If you see a paper that states that language X is faster than language Y, you can close it"
+    lang: ru
+    url: https://habr.com/en/post/512872/
   - date: 2020-07-23
     type: interview
     host_en: "We are doomed"
