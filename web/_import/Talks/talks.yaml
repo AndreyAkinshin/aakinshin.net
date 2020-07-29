@@ -7,11 +7,11 @@ talks:
     event: DotNext 2020 Piter
     event-type: conference
     title_en: Let's talk about performance analysis
-    title_ru: Поговорим про перформанс-анализ
+    title_ru: Поговорим про перфоманс-анализ
     location: Online
     lang: ru
     abstract_en: "When we are talking about performance testing a lot of programmers only think about measurements and collecting metrics while analysis of metrics is more important. Understand how to use measured metrics correctly and making the most of them is not an easy way. During this session we will discuss the main tasks and difficulties of performance analysis: we'll talk about how to study raw data and summary metrics, how to apply statistical tests, compare performance distributions, write performance tests, analyze the history of measurements and choose right metrics."
-    abstract_ru: "Когда начинается разговор про перформанс-тестирование, то большинство программистов размышляет только о проведении замеров и сборе метрик, в то время как намного важнее задуматься об анализе собранных значений. Понять, как правильно использовать измеренные метрики и извлечь из них максимум пользы, — не такая уж и простая задача. В этом докладе мы обсудим основные задачи и сложности перформанс-анализа: поговорим о том, как изучать сырые данные и сводные метрики, применять статистические тесты, сравнивать перформансные распределения, писать перформансные тесты, анализировать историю замеров и выбирать правильные метрики."
+    abstract_ru: "Когда начинается разговор про перфоманс-тестирование, то большинство программистов размышляет только о проведении замеров и сборе метрик, в то время как намного важнее задуматься об анализе собранных значений. Понять, как правильно использовать измеренные метрики и извлечь из них максимум пользы, — не такая уж и простая задача. В этом докладе мы обсудим основные задачи и сложности перфоманс-анализа: поговорим о том, как изучать сырые данные и сводные метрики, применять статистические тесты, сравнивать перфомансные распределения, писать перфомансные тесты, анализировать историю замеров и выбирать правильные метрики."
     links:
       - key: event_en
         url: https://dotnext-piter.ru/en/
@@ -34,7 +34,7 @@ talks:
     location: Online
     lang: ru
     abstract_en: "When we are talking about performance testing a lot of programmers only think about measurements and collecting metrics while analysis of metrics is more important. Understand how to use measured metrics correctly and making the most of them is not an easy way. During this session we will discuss the main tasks and difficulties of performance analysis: we'll talk about how to study raw data and summary metrics, how to apply statistical tests, compare performance distributions, write performance tests, analyze the history of measurements and choose right metrics."
-    abstract_ru: "Когда начинается разговор про перформанс-тестирование, то большинство программистов размышляет только о проведении замеров и сборе метрик, в то время как намного важнее задуматься об анализе собранных значений. Понять, как правильно использовать измеренные метрики и извлечь из них максимум пользы, — не такая уж и простая задача. В этом докладе мы обсудим основные задачи и сложности перформанс-анализа: поговорим о том, как изучать сырые данные и сводные метрики, применять статистические тесты, сравнивать перформансные распределения, писать перформансные тесты, анализировать историю замеров и выбирать правильные метрики."
+    abstract_ru: "Когда начинается разговор про перфоманс-тестирование, то большинство программистов размышляет только о проведении замеров и сборе метрик, в то время как намного важнее задуматься об анализе собранных значений. Понять, как правильно использовать измеренные метрики и извлечь из них максимум пользы, — не такая уж и простая задача. В этом докладе мы обсудим основные задачи и сложности перфоманс-анализа: поговорим о том, как изучать сырые данные и сводные метрики, применять статистические тесты, сравнивать перфомансные распределения, писать перфомансные тесты, анализировать историю замеров и выбирать правильные метрики."
     links:
       - key: event_en
         url: https://heisenbug-piter.ru/en/
