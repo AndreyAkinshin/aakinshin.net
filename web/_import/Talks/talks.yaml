@@ -576,7 +576,7 @@ talks:
       - key: event
         url: http://clrium.ru/
       - key: youtube
-        url: https://www.youtube.com/watch?v=Q_Ykz5yyGuQ
+        url: https://www.youtube.com/watch?v=WuJ_hamlFGI
   - date: 2016-04-15
     event_en: "CLRium #3 (St. Petersburg)"
     event_ru: "CLRium #3 (Санкт-Петербург)"
@@ -873,7 +873,7 @@ talks:
       - key: event
         url: http://clrium.ru/
       - key: youtube
-        url: https://www.youtube.com/watch?v=Q_Ykz5yyGuQ
+        url: https://www.youtube.com/watch?v=VAzFTtqv0bo
   - date: 2015-03-24
     date2: 2015-03-25
     event: European AppCup 2015 
