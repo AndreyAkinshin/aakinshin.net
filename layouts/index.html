@@ -1,0 +1,24 @@
+{{ define "main" }}
+
+{{ partial "english-post-message.html" . }}
+
+{{ $paginator := .Paginate (where .Site.RegularPages "Type" "posts") }}
+
+<div class="blog-main">
+{{ range $paginator.Pages }}
+  <div class="blog-post">
+    <h2 class="blog-post-title"><a href='{{ .RelPermalink }}'>{{ .Title }}</a></h2>
+    {{ partial "blog-post-meta.html" . }}
+    <br><br>
+    {{ .Summary | safeHTML }}
+    <a href='{{ .RelPermalink }}'>{{ i18n "readMore" }}</a><br /><br />
+    <hr />
+  </div>
+{{ end }}
+</div>
+
+<div class="paginator">
+  {{ template "_internal/pagination.html" . }}
+</div>
+
+{{ end }}

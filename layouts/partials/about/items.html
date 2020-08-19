@@ -1,0 +1,43 @@
+{{ $data := index .context.Site.Data.gen (printf "%s_%s" .name .context.Site.Language.Lang) }}
+
+{{ $counter := newScratch }}
+{{ $counter.Set "Group" "" }}
+
+{{ range $data.item }}
+  {{ if and (isset . "Group") (ne ($counter.Get "Group") .Group) }}
+    {{ if ne ($counter.Get "Group") "" }}
+      {{ if (eq $data.Indexer true) }}
+        </ol>
+      {{ else }}
+        </ul>
+      {{ end }}
+    {{ end }}
+    <h3>{{ .Group }}</h3>
+    {{ $counter.Set "Group" .Group }}
+    {{ if (eq $data.Indexer true) }}
+      <ol>
+    {{ else }}
+      <ul>
+    {{ end }}
+  {{ end }}
+
+  <li value="{{ .Index }}">
+    {{ safeHTML .Html }}
+    <br />
+    {{ if or (isset . "link") (isset . "badge") }}
+      {{ range .badge }}
+        <span class="badge badge-secondary">{{ .Label }}</span>
+      {{ end }}
+      {{ range .link }}
+        <a href="{{ .Url }}" class="badge badge-info">{{ .Label }}</a>
+      {{ end }}
+    {{ end }}
+  </li>
+  
+{{ end }}
+
+{{ if (eq $data.Indexer true) }}
+  </ol>
+{{ else }}
+  </ul>
+{{ end }}

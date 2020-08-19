@@ -1,0 +1,17 @@
+{{ $dateTime := .PublishDate.Format "2006-01-02" }}
+{{ $dateFormat := .Site.Params.dateFormat | default "January 2, 2006" }}
+
+<span class="blog-post-meta">
+<div class="faicon"><i class="far fa-calendar-alt"></i></div>
+<time datetime="{{ $dateTime }}">{{ partial "date-full.html" . }}</time>
+&nbsp;&nbsp;
+
+{{ with .Params.tags }}
+  <div class="faicon"><i class="fas fa-tag"></i></div>
+  {{ range . }}
+  {{ $href := print (absURL "tags/") (urlize .) }}
+  <a href="{{ $href }}" class="badge badge-info">{{ . }}</a>
+  {{ end }}
+{{ end }}
+
+</span>

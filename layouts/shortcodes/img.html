@@ -1,0 +1,13 @@
+{{ $filename := cond .IsNamedParams (.Get "src") (.Get 0) }}
+{{ $defaultWidth := 800 }}
+
+{{ $image := $.Page.Resources.GetMatch (printf "img/%s*" $filename) }}
+
+<div class="mx-auto">
+    <a href="{{ $image.RelPermalink }}" target="_blank">
+        <img
+            class="mx-auto d-block img-fluid"
+            width='{{ if (.Get "width") }}{{ .Get "width"}}{{ else }}{{ $defaultWidth }}{{ end }}'
+            src="{{ $image.RelPermalink }}" />
+    </a>
+</div>

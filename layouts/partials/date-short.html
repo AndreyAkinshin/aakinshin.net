@@ -1,0 +1,1 @@
+{{ if eq .Site.Language.Lang "ru" }}{{ .Date.Day }} {{ index $.Site.Data.month_ru (printf "%d" .Date.Month) }}{{ else }}{{ .Date | dateFormat "January 2" }}{{ end }}

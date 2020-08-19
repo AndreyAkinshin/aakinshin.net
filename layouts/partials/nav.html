@@ -1,0 +1,38 @@
+<div class="bg-primary">
+  <div class="container bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" id="nav-link-blog" href="{{ .Site.Home.Permalink }}"><i class="fas fa-home" title="Home" style="color:white"></i></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="nav-link-blog" href='{{ (.Site.GetPage "/posts").Permalink }}'>{{ i18n "posts" }}</a>
+        </li>        
+        <li class="nav-item">
+          <a class="nav-link" id="nav-link-about" href='{{ (.Site.GetPage "/pages/about.md").Permalink }}'>{{ i18n "about" }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="nav-link-about" href='{{ (.Site.GetPage "/pages/prodotnetbenchmarking.md").Permalink }}'>Pro .NET Benchmarking</a>
+        </li>
+        {{ if .IsTranslated }}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ upper .Site.Language.Lang }} </a>
+            {{ range .Translations }}
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href='{{ .Permalink }}'>{{ upper .Lang }}</a>
+              </div>
+            {{ end }}
+          </li>
+        {{ end }}
+        <li class="nav-item"></li>
+          <dark-mode-toggle permanent="true"></dark-mode-toggle>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
+        <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
+        <li class="nav-item"><a class="nav-link" href='{{ ((.Site.GetPage "/posts").OutputFormats.Get "rss").Permalink }}'><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
+      </ul>
+    </nav>
+  </div>
+</div>

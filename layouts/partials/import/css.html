@@ -1,0 +1,4 @@
+{{ $baseName := . }}
+{{ $name := printf "css/%s.css" $baseName }}
+{{ $style := resources.Get $name | minify | fingerprint }}
+<link href="{{ $style.Permalink }}" rel="stylesheet" type="text/css" media="all">

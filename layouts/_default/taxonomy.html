@@ -1,0 +1,14 @@
+{{ define "main" }}
+
+<h1>{{ i18n "postsAbout" }} {{ .Title }}</h1>
+
+<!-- TODO: filter out russian posts in english view -->
+<ul>
+{{ range where .Pages.ByPublishDate.Reverse "Lang" .Site.Language.Lang }}
+  <li>
+    <a href="{{ .Permalink }}">{{ .Title }}</a> <i>({{.Date.Format "January 2, 2006"}})</i></li>
+  </li>
+{{ end }}
+</ul>
+
+{{ end }}

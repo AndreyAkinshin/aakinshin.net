@@ -1,0 +1,47 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  {{ hugo.Generator }}
+  
+  {{ with .Site.Params.description }}
+  <meta name="description" content="{{ . }}">
+  {{ end }}
+  <meta name="author" content='{{ i18n "andreyAkinshin" }}'>
+  <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
+  {{/*  <meta name="keywords" content='@(string.Join(",", Model.Page.Tags))'>  */}}
+  
+  {{ $title := print .Title " | " .Site.Title }}
+  {{ if .IsHome }}
+    {{ $title = .Site.Title }}
+  {{ end }}
+  <title>{{ $title }}</title>
+
+  <!-- Bootstrap CSS & Highlight.js-->
+  <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+  <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+  <link href="/css/syntax-light.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+  <link href="/css/syntax-dark.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+  {{ partial "import/js.html" "theme-before" }}
+
+  <!-- DarkModeToggle -->
+  <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
+
+  <!-- FontAwesome -->
+  {{ partial "import/css.html" "fontawesome-all" }}
+  
+  <!-- Custom styles -->
+  {{ partial "import/css.html" "about" }}
+  {{ partial "import/css.html" "blog" }}
+
+  <!-- Feeds -->
+  {{ with (.Site.GetPage "/posts").OutputFormats.Get "rss" -}}
+    {{ printf `<link rel="%s" type="%s" href="%s" title="RSS Feed" />` .Rel .MediaType.Type .Permalink | safeHTML }}
+  {{ end -}}
+
+  {{ partial "scripts/ga.html" }}
+  {{ partial "scripts/ym.html" }}
+
+  <!-- jQuery -->
+  <script src="/js/jquery-3.3.1.slim.min.js"></script>
+</head>

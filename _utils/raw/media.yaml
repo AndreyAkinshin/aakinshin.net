@@ -1,0 +1,148 @@
+media:
+  - date: 2020-07-30
+    type: interview
+    kind: text
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "Тесты на статистическую значимость — это чудовищно ущербный инструмент"
+    title_en: "Null hypothesis significance testing is a terrible tool"
+    lang: ru
+    url: https://habr.com/en/post/513194/
+  - date: 2020-07-28
+    type: interview
+    kind: text
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "Если ты видишь статью, что язык Х быстрее, чем язык Y – можешь закрывать статью"
+    title_en: "If you see a paper that states that language X is faster than language Y, you can close it"
+    lang: ru
+    url: https://habr.com/en/post/512872/
+  - date: 2020-07-23
+    type: interview
+    kind: video
+    host_en: "We are doomed"
+    host_ru: "Мы обречены"
+    title_en: "We are doomed #12 / Andrey Akinshin - benchmarks, performance, efficient code"
+    title_ru: "Мы обречены #12 / Андрей Акиньшин — бенчмарки, перфоманс, производительный код"
+    lang: ru
+    url: https://www.youtube.com/watch?v=NnXTljsClsg
+  - date: 2020-06-04
+    type: interview
+    kind: video
+    host_en: "Bar counter"
+    host_ru: "Барная стойка"
+    title_en: "Bar counter #1 / Andrey Akinshin"
+    title_ru: "Барная стойка #1 / Андрей Акиньшин"
+    lang: ru
+    url: https://www.youtube.com/watch?v=_hp2ZcgCjqU
+  - date: 2020-03-12
+    type: podcast
+    kind: audio
+    host: RadioDotNet
+    title: "RadioDotNet-006: DotNext 2020 Piter"
+    lang: ru
+    url: https://anchor.fm/radiodotnet/episodes/RadioDotNet-006-eberjk
+  - date: 2020-02-04
+    type: interview
+    kind: text
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "“Типичная ошибка — бездумно бенчмаркать всё подряд”: интервью с Андреем Акиньшиным о бенчмаркинге"
+    title_en: "«A typical mistake is to mindlessly benchmarking everything»: an interview with Andrey Akinshin about benchmarking"
+    lang: ru
+    url: https://habr.com/en/company/jugru/blog/486712/
+  - date: 2019-10-12
+    type: podcast
+    kind: audio
+    host: RadioDotNet
+    title: "RadioDotNet-003: DotNext 2019 Moscow"
+    lang: ru
+    url: https://anchor.fm/radiodotnet/episodes/RadioDotNet-003-e79m6t
+  - date: 2019-05-13
+    type: podcast
+    kind: audio
+    host: RadioDotNet
+    title: "RadioDotNet-000: DotNext 2019 Piter"
+    lang: ru
+    url: https://anchor.fm/radiodotnet/episodes/RadioDotNet-000-e6a860
+  - date: 2017-12-05
+    type: podcast
+    kind: audio
+    host_ru: Разбор Полётов
+    host_en: Razbor Poletov
+    title_ru: "Episode 146 — Сложности Performance-тестирования в потустороннем мире"
+    title_en: "Episode 146 — The challenges of performance testing in the afterlife"
+    lang: ru
+    url: https://razborpoletov.com/2017/12/episode-146.html
+  - date: 2017-03-30
+    type: interview
+    kind: text
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "Оптимизация по памяти: сложно, но порой необходимо"
+    title_en: "Memory optimization: difficult, but sometimes necessary"
+    lang: ru
+    url: https://habr.com/en/company/jugru/blog/325178/
+  - date: 2017-03-20
+    type: interview
+    kind: text
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "Как перестать ходить на конференции участником и начать выступать? Советы от Андрея Акиньшина"
+    title_en: "How to stop attending a conference as a participant and start speaking? Tips from Andrey Akinshin"
+    lang: ru
+    url: https://habr.com/en/company/it_people/blog/324352/
+  - date: 2017-02-02
+    type: review
+    kind: text
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "Разбор доклада Андрея Акиньшина про арифметику"
+    title_en: "Review on Andrey Akinshin's talk about arithmetic"
+    lang: ru
+    url: https://habr.com/en/company/jugru/blog/320648/
+  - date: 2016-12-07
+    type: interview
+    kind: text
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "«Хаос в .NET-мире — разумная цена за скорость развития платформы»: интервью с Андреем Акиньшиным (JetBrains)"
+    title_en: "“Chaos in the .NET-world is a reasonable price for the speed of platform development”: an interview with Andrey Akinshin (JetBrains)"
+    lang: ru
+    url: https://habr.com/en/company/jugru/blog/316436/
+  - date: 2016-11-30
+    type: podcast
+    kind: audio
+    host_ru: Разбор Полётов
+    host_en: Razbor Poletov
+    title_ru: "Episode 121 — JVM vs CLR: Чужой не против Хищника!"
+    title_en: "Episode 121 — JVM vs CLR: Alien is not against Predator!"
+    lang: ru
+    url: https://razborpoletov.com/2016/11/episode-121.html
+  - date: 2016-05-26
+    type: interview
+    kind: text
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "«Мы стараемся, чтобы User Experience не отличался в разных операционках» — Интервью с разработчиками Rider из JetBrains"
+    title_en: "“We are trying to ensure that the User Experience does not differ in different operating systems” - Interview with the Rider developers from JetBrains"
+    lang: ru
+    url: https://habr.com/en/company/jugru/blog/301754/
+  - date: 2016-05-13
+    type: interview
+    kind: text
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: ".NET-разработка: девять вопросов взрослым"
+    title_en: ".NET development: nine questions for adults"
+    lang: ru
+    url: https://habr.com/en/company/jugru/blog/283516/
+  - date: 2015-01-13
+    type: interview
+    kind: text
+    host_ru: Национальный банковский журнал
+    host_en: National bank journal
+    title_ru: "Паспорт, мы тебя знаем!"
+    title_en: "Passport, we know you!"
+    lang: ru
+    url: http://nbj.ru/publs/upgrade-modernizatsija-i-razvitie/2015/01/13/pasport-my-tebja-znaem/index.html

@@ -1,0 +1,62 @@
+[andreyAkinshin]
+other = "Andrey Akinshin"
+
+[content]
+other = "Content"
+
+[posts]
+other = "Posts"
+
+[about]
+other = "About"
+
+[activities]
+other = "Activities"
+
+[experience]
+other = "Experience"
+
+[background]
+other = "Background"
+
+[publicTalks]
+other = "Public talks"
+
+[publications]
+other = "Publications"
+
+[media]
+other = "Media"
+
+[openSource]
+other = "Open Source"
+
+[enterpriseProgramming]
+other = "Enterprise programming"
+
+[scienceActivities]
+other = "Science"
+
+[competitiveProgramming]
+other = "Competitive programming"
+
+[teaching]
+other = "Teaching"
+
+[education]
+other = "Education"
+
+[certificates]
+other = "Certificates"
+
+[postsAbout]
+other = "Posts about"
+
+[readMore]
+other = "Read more"
+
+[pageNotFound]
+other = "Page not found"
+
+[share]
+other = "Share"

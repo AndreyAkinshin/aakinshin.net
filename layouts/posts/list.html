@@ -1,0 +1,16 @@
+{{ define "main" }}
+
+{{ partial "english-post-message.html" . }}
+
+<h1>{{ i18n "posts" }}</h1>
+
+{{ range .Pages.ByPublishDate.Reverse.GroupByDate "2006" }}
+  <h2>{{ .Key }}</h2>
+  <ul>
+    {{ range .Pages }}
+      <li><a href="{{ .Permalink }}">{{ .Title }}</a> <i>({{- partial "date-short.html" . -}})</i></li>
+    {{ end }}
+  </ul>
+{{ end }}
+
+{{ end }}

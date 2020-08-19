@@ -1,0 +1,51 @@
+baseURL = "https://aakinshin.net/"
+languageCode = "en-us"
+title = "Andrey Akinshin"
+
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+hasCJKLanguage = false
+[languages]
+  [languages.en]
+  title = "Andrey Akinshin"
+  weight = 1
+  [languages.ru]
+  title = "Андрей Акиньшин"
+  weight = 2
+  contentDir = "content/ru"
+
+summaryLength = 300
+buildFuture = true
+paginate = 10
+
+copyright = "&copy;2013-2020 Andrey Akinshin"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      hardWraps = false
+      unsafe = true
+      xHTML = true
+  [markup.highlight]
+    codeFences = true
+    lineNos = false
+    lineNumbersInTable = false
+    noClasses = false
+  [markup.tableOfContents]
+    endLevel = 4
+    ordered = false
+    startLevel = 2
+
+[outputs]
+  home = ["HTML"]
+  section = ["HTML", "RSS"]
+  taxonomyTerm = ["HTML"]
+  taxonomy = ["HTML"]
+
+[taxonomies]
+  tag = "tags"
+
+[permalinks]
+  posts = "/posts/:filename/"
+
+assetDir = "assets"

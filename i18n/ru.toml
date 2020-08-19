@@ -1,0 +1,62 @@
+[andreyAkinshin]
+other = "Андрей Акиньшин"
+
+[content]
+other = "Содержание"
+
+[posts]
+other = "Посты"
+
+[about]
+other = "Об авторе"
+
+[activities]
+other = "Активности"
+
+[experience]
+other = "Опыт"
+
+[background]
+other = "Квалификация"
+
+[publicTalks]
+other = "Публичные выступления"
+
+[publications]
+other = "Публикации"
+
+[media]
+other = "Медиа"
+
+[openSource]
+other = "Open Source"
+
+[enterpriseProgramming]
+other = "Программирование"
+
+[scienceActivities]
+other = "Научная деятельность"
+
+[competitiveProgramming]
+other = "Олимпиады"
+
+[teaching]
+other = "Преподавание"
+
+[education]
+other = "Образование"
+
+[certificates]
+other = "Сертификаты"
+
+[postsAbout]
+other = "Посты про"
+
+[readMore]
+other = "Читать дальше"
+
+[pageNotFound]
+other = "Страница не найдена"
+
+[share]
+other = "Поделиться"

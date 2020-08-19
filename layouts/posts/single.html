@@ -1,0 +1,21 @@
+{{ define "main" }}
+
+<div class="blog-main">
+<div class="blog-post">
+
+<h2 class="blog-post-title" id="post-title">{{ .Title }}</h2>
+{{ partial "blog-post-meta.html" . }}
+<br /><br />
+
+{{ .Content }}
+
+{{ partial "share.html" . }}
+
+<hr />
+
+<!-- TODO: Show GitHub origin -->
+
+</div>
+</div>
+
+{{ end }}

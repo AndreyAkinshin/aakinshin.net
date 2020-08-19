@@ -1,0 +1,13 @@
+{{ $title := .Title }}
+{{ $url := .Permalink }}
+
+<br /><br />
+<div class="mx-auto">
+  {{ i18n "share" }}:
+<div class="faicon"><a href="https://twitter.com/intent/tweet?text={{ $title }}&url={{ $url }}&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a></div>
+<div class="faicon"><a href="https://www.reddit.com/submit?url={{ $url }}&title={{ $title }}" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div>
+<div class="faicon"><a href="https://news.ycombinator.com/submitlink?u={{ $url }}" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div>
+<div class="faicon"><a href="https://facebook.com/sharer.php?u={{ $url }}" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a></div>
+<div class="faicon"><a href="http://vk.com/share.php?url={{ $url }}" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a></div>
+<div class="faicon"><a href="https://getpocket.com/save?url={{ $url }}&title={{ $title }}" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div>
+</div>

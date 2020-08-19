@@ -1,0 +1,11 @@
+{{ if eq .Site.Language.Lang "ru" }}
+    {{ if .IsTranslated }}
+        {{ range .Translations }}
+            {{ if eq .Lang "en"}}
+            <div class="alert alert-info" role="alert">
+                <a style="font-size:150%" href="{{ .Permalink }}">Последние посты доступны только в английской версии блога</a>
+              </div>
+            {{ end }}
+        {{ end }}
+    {{ end }}
+{{ end }}

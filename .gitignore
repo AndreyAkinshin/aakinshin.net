@@ -1,34 +1,15 @@
-# Main folders
+# Generated files
+data/gen/
+public/
+
+# Binaries
 bin/
+
+# JetBrains
+.idea
+
+# .NET
+[Bb]in
+[Dd]ebug*/
 obj/
-pretzel/
-web/_site/
-_generated/
-gh-pages/
-gh-pages-git/
-
-# TeX
-*.aux
-*.lof
-*.log
-*.lot
-*.fls
-*.out
-*.toc
-*.fdb_latexmk
-*.synctex.gz
-*.synctex.gz(busy)
-*.pdfsync
-*.txt
-*.dst
-*.class
-*.name
-*.blg
-*.bbl
-
-# IDEA
-.idea/workspace.xml
-.idea.Generator
-
-# R
-.Rhistory
+[Rr]elease*/
