@@ -1,493 +1,276 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!doctype html><html lang=ru class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Андрей Акиньшин"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Об итерировании статичных массивов в .NET | Андрей Акиньшин</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/ru/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/posts/>Посты</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/ru/about/>Об авторе</a></li><li class=nav-item><a class=nav-link id=nav-link-about href>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/ru/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Об итерировании статичных массивов в .NET</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2013-08-29>29 августа 2013</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/c class="badge badge-info">C#</a>
+<a href=https://aakinshin.net/tags/benchmarking class="badge badge-info">Benchmarking</a>
+<a href=https://aakinshin.net/tags/static class="badge badge-info">Static</a>
+<a href=https://aakinshin.net/tags/il class="badge badge-info">IL</a>
+<a href=https://aakinshin.net/tags/arrays class="badge badge-info">Arrays</a></span><br><br><h2 id=часть-1>Часть 1</h2><p>Управляемый подход платформы .NET делает жизнь разработчиков достаточно простой, беря на себя многие рутинные операции. Большую часть времени программист может вообще не вспоминать о технической реализации платформы, сосредоточившись исключительно на логике своего приложения. Но иногда попадаются задачи, критичные по производительности. Существует множество различных подходов к оптимизации кода в таких ситуациях вплоть до переписывания наиболее важных частей кода через неуправляемый код. Однако, зачастую для увеличения скорости приложения достаточно понимать, сколько времени тратится на ту или иную операцию. Знание подобных вещей позволит оптимизировать некоторые методы с помощью достаточно простых модификаций исходного кода.</p><p>В этой статье мне хотелось бы поговорить о скорости доступа к массивам, ссылки на которые хранятся в статичных переменных. Дело в том, что в скорость итерирования по ним в зависимости от условий запуска может быть ниже, чем для массива, ссылка на который хранится в обычном поле экземпляра класса или локальной переменной. Рассмотрим пример.</p><p>В примере будем решать простую задачу: подсчёт суммы элементов массива. В первом случае мы будем использовать обычное боле класса, а во втором — статическое. Для замеров времени будем использовать <a href=https://github.com/AndreyAkinshin/BenchmarkDotNet>BenchmarkDotNet</a> (исходный код примера: <a href=https://github.com/AndreyAkinshin/BenchmarkDotNet/blob/master/Benchmarks/ArrayIterationProgram.cs>ArrayIterationProgram.cs</a>, тестировать следует в <strong>Release mode without debugging</strong>):</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>private</span> <span class=k>const</span> <span class=kt>int</span> <span class=n>N</span> <span class=p>=</span> <span class=m>1000</span><span class=p>,</span> <span class=n>IterationCount</span> <span class=p>=</span> <span class=m>1000000</span><span class=p>;</span>
 
-    <meta name="description" content="Об итерировании статичных массивов в .NET">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,C#,Benchmarking,Static,IL,Arrays'>
+<span class=k>private</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>nonStaticField</span><span class=p>;</span>
+<span class=k>private</span> <span class=k>static</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>staticField</span><span class=p>;</span>
 
-    <title>Об итерировании статичных массивов в .NET</title>
+<span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=n>nonStaticField</span> <span class=p>=</span> <span class=n>staticField</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>N</span><span class=p>];</span>
 
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
+    <span class=kt>var</span> <span class=n>competition</span> <span class=p>=</span> <span class=k>new</span> <span class=n>BenchmarkCompetition</span><span class=p>();</span>
+    <span class=n>competition</span><span class=p>.</span><span class=n>AddTask</span><span class=p>(</span><span class=s>&#34;Non-static&#34;</span><span class=p>,</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=n>NonStaticRun</span><span class=p>());</span>
+    <span class=n>competition</span><span class=p>.</span><span class=n>AddTask</span><span class=p>(</span><span class=s>&#34;Static&#34;</span><span class=p>,</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=n>StaticRun</span><span class=p>());</span>
+    <span class=n>competition</span><span class=p>.</span><span class=n>Run</span><span class=p>();</span>
+<span class=p>}</span>
 
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
+<span class=k>private</span> <span class=kt>int</span> <span class=n>NonStaticRun</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=kt>int</span> <span class=n>sum</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>iteration</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>iteration</span> <span class=p>&lt;</span> <span class=n>IterationCount</span><span class=p>;</span> <span class=n>iteration</span><span class=p>++)</span>
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+            <span class=n>sum</span> <span class=p>+=</span> <span class=n>nonStaticField</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+    <span class=k>return</span> <span class=n>sum</span><span class=p>;</span>
+<span class=p>}</span>
 
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/ru/posts/">Блог</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/ru/content/">Содержание</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/ru/about/">Об авторе</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ru</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/posts/static-array-iteration/'>En</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/ru/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Об итерировании статичных массивов в .NET</h2>
-<span class="blog-post-meta">
-  <b>Дата:</b> 29 августа 2013.
-  <b>Теги:</b>
-        <a href="/ru/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/ru/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-        <a href="/ru/tags/benchmarking"><span class="badge badge-pill badge-info">Benchmarking</span></a>
-        <a href="/ru/tags/static"><span class="badge badge-pill badge-info">Static</span></a>
-        <a href="/ru/tags/il"><span class="badge badge-pill badge-info">IL</span></a>
-        <a href="/ru/tags/arrays"><span class="badge badge-pill badge-info">Arrays</span></a>
-</span><br /><br />
-
-<h2 id="section">Часть 1</h2>
-<p>Управляемый подход платформы .NET делает жизнь разработчиков достаточно простой, беря на себя многие рутинные операции. Большую часть времени программист может вообще не вспоминать о технической реализации платформы, сосредоточившись исключительно на логике своего приложения. Но иногда попадаются задачи, критичные по производительности. Существует множество различных подходов к оптимизации кода в таких ситуациях вплоть до переписывания наиболее важных частей кода через неуправляемый код. Однако, зачастую для увеличения скорости приложения достаточно понимать, сколько времени тратится на ту или иную операцию. Знание подобных вещей позволит оптимизировать некоторые методы с помощью достаточно простых модификаций исходного кода.</p>
-<p>В этой статье мне хотелось бы поговорить о скорости доступа к массивам, ссылки на которые хранятся в статичных переменных. Дело в том, что в скорость итерирования по ним в зависимости от условий запуска может быть ниже, чем для массива, ссылка на который хранится в обычном поле экземпляра класса или локальной переменной. Рассмотрим пример.<!--more--></p>
-<p>В примере будем решать простую задачу: подсчёт суммы элементов массива. В первом случае мы будем использовать обычное боле класса, а во втором — статическое. Для замеров времени будем использовать <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a> (исходный код примера: <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet/blob/master/Benchmarks/ArrayIterationProgram.cs">ArrayIterationProgram.cs</a>, тестировать следует в <strong>Release mode without debugging</strong>):</p>
-<pre><code class="language-cs">private const int N = 1000, IterationCount = 1000000;
-
-private int[] nonStaticField;
-private static int[] staticField;
-
-public void Run()
-{
-    nonStaticField = staticField = new int[N];
-
-    var competition = new BenchmarkCompetition();
-    competition.AddTask(&quot;Non-static&quot;, () =&gt; NonStaticRun());
-    competition.AddTask(&quot;Static&quot;, () =&gt; StaticRun());
-    competition.Run();
-}
-
-private int NonStaticRun()
-{
-    int sum = 0;
-    for (int iteration = 0; iteration &lt; IterationCount; iteration++)
-        for (int i = 0; i &lt; N; i++)
-            sum += nonStaticField[i];
-    return sum;
-}
-
-private int StaticRun()
-{
-    int sum = 0;
-    for (int iteration = 0; iteration &lt; IterationCount; iteration++)
-        for (int i = 0; i &lt; N; i++)
-            sum += staticField[i];
-    return sum;
-}
-</code></pre>
-<p>На своей машине я получил следующие результаты:</p>
-<pre><code>Non-static : 346ms
+<span class=k>private</span> <span class=kt>int</span> <span class=n>StaticRun</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=kt>int</span> <span class=n>sum</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>iteration</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>iteration</span> <span class=p>&lt;</span> <span class=n>IterationCount</span><span class=p>;</span> <span class=n>iteration</span><span class=p>++)</span>
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+            <span class=n>sum</span> <span class=p>+=</span> <span class=n>staticField</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+    <span class=k>return</span> <span class=n>sum</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>На своей машине я получил следующие результаты:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>Non-static : 346ms
 Static     : 535ms
-</code></pre>
-<p>Если мы взглянем на IL-код целевых методов, то увидим, что они различаются только в одном месте, при обращении к полю:</p>
-<pre><code>Non-static:
+</code></pre></div><p>Если мы взглянем на IL-код целевых методов, то увидим, что они различаются только в одном месте, при обращении к полю:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>Non-static:
 L_000b: ldarg.0 
 L_000c: ldfld int32[] Benchmarks.StaticFieldBenchmark::nonStaticField
 Static:
 L_000b: ldsfld int32[] Benchmarks.StaticFieldBenchmark::staticField
-</code></pre>
-<p>Заметим, что физически оба поля ссылаются на одну и ту же область памяти. Мы можем ускорить работу со статическим полем, если перед многократным обращением к полю сохраним его в локальную переменную:</p>
-<pre><code class="language-cs">private int StaticRun()
-{
-    var localField = staticField;
-    int sum = 0;
-    for (int iteration = 0; iteration &lt; IterationCount; iteration++)
-        for (int i = 0; i &lt; N; i++)
-            sum += localField[i];
-    return sum;
-}
-</code></pre>
-<p>В итоге <code>StaticRun</code> будет работать столько же, сколько и <code>NonStaticRun</code>.</p>
-<p>Объяснение такого поведения можно прочитать во второй части статьи.</p>
-<h2 id="section-1">Часть 2</h2>
-<p>В первой части я встретился с весьма интересной ситуацией. Были измерены скорости работы двух методов, в первом из которых считалась сумма элементов массива, ссылка на который хранилась в обычном поле объекта, а во втором — массива, ссылка на который хранилась в статичном поле. Результаты меня удивили: массивы были одинаковые, но второй метод работал ощутимо дольше. Сперва я подумал, что дело в организации скорости доступа к статичным полям, но более детальный анализ ситуации и разговоры с коллегами помогли мне понять, что истинная причина такого поведения намного интересней: для массивов, длина которых кратна 4, JIT использует различные оптимизации в случае обычных и статичных массивов. Давайте разберёмся с ситуацией более детально.</p>
-<p>Напомню методы, поведение которых мы будем изучать:</p>
-<pre><code>private const int N = 1000, IterationCount = 1000000;
-private int[] nonStaticField;
-private static int[] staticField;
+</code></pre></div><p>Заметим, что физически оба поля ссылаются на одну и ту же область памяти. Мы можем ускорить работу со статическим полем, если перед многократным обращением к полю сохраним его в локальную переменную:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>private</span> <span class=kt>int</span> <span class=n>StaticRun</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=kt>var</span> <span class=n>localField</span> <span class=p>=</span> <span class=n>staticField</span><span class=p>;</span>
+    <span class=kt>int</span> <span class=n>sum</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>iteration</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>iteration</span> <span class=p>&lt;</span> <span class=n>IterationCount</span><span class=p>;</span> <span class=n>iteration</span><span class=p>++)</span>
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+            <span class=n>sum</span> <span class=p>+=</span> <span class=n>localField</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+    <span class=k>return</span> <span class=n>sum</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>В итоге <code>StaticRun</code> будет работать столько же, сколько и <code>NonStaticRun</code>.</p><p>Объяснение такого поведения можно прочитать во второй части статьи.</p><h2 id=часть-2>Часть 2</h2><p>В первой части я встретился с весьма интересной ситуацией. Были измерены скорости работы двух методов, в первом из которых считалась сумма элементов массива, ссылка на который хранилась в обычном поле объекта, а во втором — массива, ссылка на который хранилась в статичном поле. Результаты меня удивили: массивы были одинаковые, но второй метод работал ощутимо дольше. Сперва я подумал, что дело в организации скорости доступа к статичным полям, но более детальный анализ ситуации и разговоры с коллегами помогли мне понять, что истинная причина такого поведения намного интересней: для массивов, длина которых кратна 4, JIT использует различные оптимизации в случае обычных и статичных массивов. Давайте разберёмся с ситуацией более детально.</p><p>Напомню методы, поведение которых мы будем изучать:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>private</span> <span class=k>const</span> <span class=kt>int</span> <span class=n>N</span> <span class=p>=</span> <span class=m>1000</span><span class=p>,</span> <span class=n>IterationCount</span> <span class=p>=</span> <span class=m>1000000</span><span class=p>;</span>
+<span class=k>private</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>nonStaticField</span><span class=p>;</span>
+<span class=k>private</span> <span class=k>static</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>staticField</span><span class=p>;</span>
 
-public void Run()
-{
-    nonStaticField = staticField = new int[N];
-    NonStaticRun();
-    StaticRun();
-}
+<span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=n>nonStaticField</span> <span class=p>=</span> <span class=n>staticField</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>N</span><span class=p>];</span>
+    <span class=n>NonStaticRun</span><span class=p>();</span>
+    <span class=n>StaticRun</span><span class=p>();</span>
+<span class=p>}</span>
 
-private int NonStaticRun()
-{
-    int sum = 0;
-    for (int iteration = 0; iteration &lt; IterationCount; iteration++)
-        for (int i = 0; i &lt; N; i++)
-            sum += nonStaticField[i];
-    return sum;
-}
+<span class=k>private</span> <span class=kt>int</span> <span class=n>NonStaticRun</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=kt>int</span> <span class=n>sum</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>iteration</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>iteration</span> <span class=p>&lt;</span> <span class=n>IterationCount</span><span class=p>;</span> <span class=n>iteration</span><span class=p>++)</span>
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+            <span class=n>sum</span> <span class=p>+=</span> <span class=n>nonStaticField</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+    <span class=k>return</span> <span class=n>sum</span><span class=p>;</span>
+<span class=p>}</span>
 
-private int StaticRun()
-{
-    int sum = 0;
-    for (int iteration = 0; iteration &lt; IterationCount; iteration++)
-        for (int i = 0; i &lt; N; i++)
-            sum += staticField[i];
-    return sum;
-}
-</code></pre>
-<p>Для начала поменяем Platform target на x86 и запустим <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet/blob/master/Benchmarks/ArrayIterationProgram.cs">бенчмарк</a>. Получим следующие результаты:</p>
-<pre><code>Non-static : 708ms
+<span class=k>private</span> <span class=kt>int</span> <span class=n>StaticRun</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=kt>int</span> <span class=n>sum</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>iteration</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>iteration</span> <span class=p>&lt;</span> <span class=n>IterationCount</span><span class=p>;</span> <span class=n>iteration</span><span class=p>++)</span>
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+            <span class=n>sum</span> <span class=p>+=</span> <span class=n>staticField</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+    <span class=k>return</span> <span class=n>sum</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>Для начала поменяем Platform target на x86 и запустим <a href=https://github.com/AndreyAkinshin/BenchmarkDotNet/blob/master/Benchmarks/ArrayIterationProgram.cs>бенчмарк</a>. Получим следующие результаты:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>Non-static : 708ms
 Static     : 709ms
-</code></pre>
-<p>Интересный вывод: на x86 результаты тестов одинаковы. Чтобы лучше разобраться в проблеме взглянем на нативный код, который получается после JIT-оптимизаций (изучается версия в Release mode without debugging). Конфигурация моей машины, на которой я проводил тестирование: Intel Core i7-3632QM CPU 2.20GHz.</p>
-<p><strong>NonStaticRun-x86.asm</strong></p>
-<pre><code>00 push ebp 
-01 mov  ebp,esp 
-03 push edi 
-04 push esi 
-05 push ebx 
-06 xor  edi,edi                     ; sum = 0
-08 xor  ebx,ebx                     ; iteration
-0a xor  edx,edx                     ; i = 0
-0c mov  eax,dword ptr [ecx+4]       ; eax = &amp;nonStaticField
-0f mov  esi,dword ptr [eax+4]       ; esi = nonStaticField.Length
-12 cmp  edx,esi                     ; if i &gt;= nonStaticField.Length then
-14 jae  00000033                    ; throw IndexOutOfRangeException
-16 add  edi,dword ptr [eax+edx*4+8] ; sum += nonStaticField[i];
-1a inc  edx                         ; i++
-1b cmp  edx,3E8h                    ; if i &lt; 1000 then
-21 jl   00000012                    ; loop by i
-23 inc  ebx                         ; iteration++
-24 cmp  ebx,0F4240h                 ; if iteration &lt; 1000000 then
-2a jl   0000000A                    ; loop by iteration
-2c mov  eax,edi                     ; eax = sum (Result)
-2e pop  ebx 
-2f pop  esi 
-30 pop  edi 
-31 pop  ebp 
-32 ret 
-33 call 63495C4D                    ; IndexOutOfRangeException
-38 int  3 
-</code></pre>
-<p><strong>StaticRun-x86.asm</strong></p>
-<pre><code>00 push ebp 
-01 mov  ebp,esp 
-03 push edi 
-04 push esi 
-05 push ebx 
-06 xor  edi,edi                      ; sum = 0
-08 xor  ebx,ebx                      ; iteration = 0
-0a xor  eax,eax                      ; i = 0
-0c mov  edx,dword ptr ds:[03943380h] ; edx = &amp;staticField
-12 mov  esi,dword ptr [edx+4]        ; esi = staticField.Length 
-15 cmp  eax,esi                      ; if i &gt;= staticField.Length then
-17 jae  00000035                     ; throw IndexOutOfRangeException
-19 add  edi,dword ptr [edx+eax*4+8]  ; sum += staticField[i];
-1d inc  eax                          ; i++
-1e cmp  eax,3E8h                     ; if i &lt; 1000 then
-23 jl   00000015                     ; loop by i
-25 inc  ebx                          ; iteration++
-26 cmp  ebx,0F4240h                  ; if iteration &lt; 1000000 then
-2c jl   0000000A                     ; loop by iteration
-2e mov  eax,edi                      ; eax = sum (Result)
-30 pop  ebx 
-31 pop  esi 
-32 pop  edi 
-33 pop  ebp 
-34 ret 
-35 call 639E52D5                     ; IndexOutOfRangeException
-3a int  3 
-</code></pre>
-<p>Из этого кода становится понятно, что разнице во времени взяться неоткуда: методы отличаются только в одной строчке, в которой берётся адрес интересующего нас массива. В обоих случаях используется команда <code>move</code> , просто её аргументы разнятся, это не должно сказаться на производительности.</p>
-<p>Теперь поменяем платформу на x64 и запустим бенчмарк:</p>
-<pre><code>Non-static : 347ms
+</code></pre></div><p>Интересный вывод: на x86 результаты тестов одинаковы. Чтобы лучше разобраться в проблеме взглянем на нативный код, который получается после JIT-оптимизаций (изучается версия в Release mode without debugging). Конфигурация моей машины, на которой я проводил тестирование: Intel Core i7-3632QM CPU 2.20GHz.</p><p><strong>NonStaticRun-x86.asm</strong></p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=err>00</span> <span class=nf>push</span> <span class=no>ebp</span> 
+<span class=mi>01</span> <span class=no>mov</span>  <span class=no>ebp</span><span class=p>,</span><span class=no>esp</span> 
+<span class=mi>03</span> <span class=no>push</span> <span class=no>edi</span> 
+<span class=mi>04</span> <span class=no>push</span> <span class=no>esi</span> 
+<span class=mi>05</span> <span class=no>push</span> <span class=no>ebx</span> 
+<span class=mi>06</span> <span class=no>xor</span>  <span class=no>edi</span><span class=p>,</span><span class=no>edi</span>                     <span class=c>; sum = 0
+</span><span class=c></span><span class=mi>08</span> <span class=no>xor</span>  <span class=no>ebx</span><span class=p>,</span><span class=no>ebx</span>                     <span class=c>; iteration
+</span><span class=c></span><span class=mi>0</span><span class=no>a</span> <span class=no>xor</span>  <span class=no>edx</span><span class=p>,</span><span class=no>edx</span>                     <span class=c>; i = 0
+</span><span class=c></span><span class=mi>0</span><span class=no>c</span> <span class=no>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>ecx</span><span class=err>+</span><span class=mi>4</span><span class=p>]</span>       <span class=c>; eax = &amp;nonStaticField
+</span><span class=c></span><span class=mi>0</span><span class=no>f</span> <span class=no>mov</span>  <span class=no>esi</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>eax</span><span class=err>+</span><span class=mi>4</span><span class=p>]</span>       <span class=c>; esi = nonStaticField.Length
+</span><span class=c></span><span class=mi>12</span> <span class=no>cmp</span>  <span class=no>edx</span><span class=p>,</span><span class=no>esi</span>                     <span class=c>; if i &gt;= nonStaticField.Length then
+</span><span class=c></span><span class=mi>14</span> <span class=no>jae</span>  <span class=mi>00000033</span>                    <span class=c>; throw IndexOutOfRangeException
+</span><span class=c></span><span class=mi>16</span> <span class=no>add</span>  <span class=no>edi</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>eax</span><span class=err>+</span><span class=no>edx</span><span class=p>*</span><span class=mi>4</span><span class=err>+</span><span class=mi>8</span><span class=p>]</span> <span class=c>; sum += nonStaticField[i];
+</span><span class=c></span><span class=mi>1</span><span class=no>a</span> <span class=no>inc</span>  <span class=no>edx</span>                         <span class=c>; i++
+</span><span class=c></span><span class=mi>1</span><span class=no>b</span> <span class=no>cmp</span>  <span class=no>edx</span><span class=p>,</span><span class=mi>3</span><span class=no>E8h</span>                    <span class=c>; if i &lt; 1000 then
+</span><span class=c></span><span class=mi>21</span> <span class=no>jl</span>   <span class=mi>00000012</span>                    <span class=c>; loop by i
+</span><span class=c></span><span class=mi>23</span> <span class=no>inc</span>  <span class=no>ebx</span>                         <span class=c>; iteration++
+</span><span class=c></span><span class=mi>24</span> <span class=no>cmp</span>  <span class=no>ebx</span><span class=p>,</span><span class=mi>0</span><span class=no>F4240h</span>                 <span class=c>; if iteration &lt; 1000000 then
+</span><span class=c></span><span class=mi>2</span><span class=no>a</span> <span class=no>jl</span>   <span class=mi>0000000</span><span class=no>A</span>                    <span class=c>; loop by iteration
+</span><span class=c></span><span class=mi>2</span><span class=no>c</span> <span class=no>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>edi</span>                     <span class=c>; eax = sum (Result)
+</span><span class=c></span><span class=mi>2</span><span class=no>e</span> <span class=no>pop</span>  <span class=no>ebx</span> 
+<span class=mi>2</span><span class=no>f</span> <span class=no>pop</span>  <span class=no>esi</span> 
+<span class=mi>30</span> <span class=no>pop</span>  <span class=no>edi</span> 
+<span class=mi>31</span> <span class=no>pop</span>  <span class=no>ebp</span> 
+<span class=mi>32</span> <span class=no>ret</span> 
+<span class=mi>33</span> <span class=no>call</span> <span class=mi>63495</span><span class=no>C4D</span>                    <span class=c>; IndexOutOfRangeException
+</span><span class=c></span><span class=mi>38</span> <span class=no>int</span>  <span class=mi>3</span> 
+</code></pre></div><p><strong>StaticRun-x86.asm</strong></p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=err>00</span> <span class=nf>push</span> <span class=no>ebp</span> 
+<span class=mi>01</span> <span class=no>mov</span>  <span class=no>ebp</span><span class=p>,</span><span class=no>esp</span> 
+<span class=mi>03</span> <span class=no>push</span> <span class=no>edi</span> 
+<span class=mi>04</span> <span class=no>push</span> <span class=no>esi</span> 
+<span class=mi>05</span> <span class=no>push</span> <span class=no>ebx</span> 
+<span class=mi>06</span> <span class=no>xor</span>  <span class=no>edi</span><span class=p>,</span><span class=no>edi</span>                      <span class=c>; sum = 0
+</span><span class=c></span><span class=mi>08</span> <span class=no>xor</span>  <span class=no>ebx</span><span class=p>,</span><span class=no>ebx</span>                      <span class=c>; iteration = 0
+</span><span class=c></span><span class=mi>0</span><span class=no>a</span> <span class=no>xor</span>  <span class=no>eax</span><span class=p>,</span><span class=no>eax</span>                      <span class=c>; i = 0
+</span><span class=c></span><span class=mi>0</span><span class=no>c</span> <span class=no>mov</span>  <span class=no>edx</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=no>ds</span><span class=p>:[</span><span class=mi>03943380</span><span class=no>h</span><span class=p>]</span> <span class=c>; edx = &amp;staticField
+</span><span class=c></span><span class=mi>12</span> <span class=no>mov</span>  <span class=no>esi</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>edx</span><span class=err>+</span><span class=mi>4</span><span class=p>]</span>        <span class=c>; esi = staticField.Length 
+</span><span class=c></span><span class=mi>15</span> <span class=no>cmp</span>  <span class=no>eax</span><span class=p>,</span><span class=no>esi</span>                      <span class=c>; if i &gt;= staticField.Length then
+</span><span class=c></span><span class=mi>17</span> <span class=no>jae</span>  <span class=mi>00000035</span>                     <span class=c>; throw IndexOutOfRangeException
+</span><span class=c></span><span class=mi>19</span> <span class=no>add</span>  <span class=no>edi</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>edx</span><span class=err>+</span><span class=no>eax</span><span class=p>*</span><span class=mi>4</span><span class=err>+</span><span class=mi>8</span><span class=p>]</span>  <span class=c>; sum += staticField[i];
+</span><span class=c></span><span class=mi>1</span><span class=no>d</span> <span class=no>inc</span>  <span class=no>eax</span>                          <span class=c>; i++
+</span><span class=c></span><span class=mi>1</span><span class=no>e</span> <span class=no>cmp</span>  <span class=no>eax</span><span class=p>,</span><span class=mi>3</span><span class=no>E8h</span>                     <span class=c>; if i &lt; 1000 then
+</span><span class=c></span><span class=mi>23</span> <span class=no>jl</span>   <span class=mi>00000015</span>                     <span class=c>; loop by i
+</span><span class=c></span><span class=mi>25</span> <span class=no>inc</span>  <span class=no>ebx</span>                          <span class=c>; iteration++
+</span><span class=c></span><span class=mi>26</span> <span class=no>cmp</span>  <span class=no>ebx</span><span class=p>,</span><span class=mi>0</span><span class=no>F4240h</span>                  <span class=c>; if iteration &lt; 1000000 then
+</span><span class=c></span><span class=mi>2</span><span class=no>c</span> <span class=no>jl</span>   <span class=mi>0000000</span><span class=no>A</span>                     <span class=c>; loop by iteration
+</span><span class=c></span><span class=mi>2</span><span class=no>e</span> <span class=no>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>edi</span>                      <span class=c>; eax = sum (Result)
+</span><span class=c></span><span class=mi>30</span> <span class=no>pop</span>  <span class=no>ebx</span> 
+<span class=mi>31</span> <span class=no>pop</span>  <span class=no>esi</span> 
+<span class=mi>32</span> <span class=no>pop</span>  <span class=no>edi</span> 
+<span class=mi>33</span> <span class=no>pop</span>  <span class=no>ebp</span> 
+<span class=mi>34</span> <span class=no>ret</span> 
+<span class=mi>35</span> <span class=no>call</span> <span class=mi>639</span><span class=no>E52D5</span>                     <span class=c>; IndexOutOfRangeException
+</span><span class=c></span><span class=mi>3</span><span class=no>a</span> <span class=no>int</span>  <span class=mi>3</span> 
+</code></pre></div><p>Из этого кода становится понятно, что разнице во времени взяться неоткуда: методы отличаются только в одной строчке, в которой берётся адрес интересующего нас массива. В обоих случаях используется команда <code>move</code> , просто её аргументы разнятся, это не должно сказаться на производительности.</p><p>Теперь поменяем платформу на x64 и запустим бенчмарк:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>Non-static : 347ms
 Static     : 533ms
-</code></pre>
-<p>Любопытно: в обоих случаях быстродействие значительно возросло, но только в случае статичного поля оптимизация вышла «слабее». В чём же дело? Обратимся опять к машинному коду:</p>
-<p><strong>NonStaticRun-x64.asm</strong></p>
-<pre><code>00 sub  rsp,28h
-04 mov  r8,rcx
-07 xor  ecx,ecx
-09 mov  edx,ecx                      ; sum = 0
-0b nop  dword ptr [rax+rax]
-10 xor  r10d,r10d                    ; i = 0
-13 mov  r9,qword ptr [r8+8]          ; r9 = &amp;nonStaticField
-17 mov  rax,qword ptr [r9+8]         ; rax = nonStaticField.Length
-1b mov  r11d,3E4h                    ; r11 = 996
-21 cmp  r11,rax                      ; if r11 &gt;= nonStaticField.Length then
-24 jae  000000000000008A             ; throw IndexOutOfRangeException
-26 mov  r11d,3E5h                    ; r11 = 997
-2c cmp  r11,rax                      ; if r11 &gt;= nonStaticField.Length then
-2f jae  000000000000008A             ; throw IndexOutOfRangeException
-31 mov  r11d,3E6h                    ; r11 = 998
-37 cmp  r11,rax                      ; if r11 &gt;= nonStaticField.Length then
-3a jae  000000000000008A             ; throw IndexOutOfRangeException
-3c mov  r11d,3E7h                    ; r11 = 999
-42 cmp  r11,rax                      ; if r11 &gt;= nonStaticField.Length then
-45 jae  000000000000008A             ; throw IndexOutOfRangeException
-47 nop  word ptr [rax+rax+00000000h]
-50 mov  eax,dword ptr [r9+r10+10h]   ; eax = nonStaticField[i]
-55 add  edx,eax                      ; sum += eax
-57 mov  eax,dword ptr [r9+r10+14h]   ; eax = nonStaticField[i+1]
-5c add  edx,eax                      ; sum += eax
-5e mov  eax,dword ptr [r9+r10+18h]   ; eax = nonStaticField[i+2]
-63 add  edx,eax                      ; sum += eax
-65 mov  eax,dword ptr [r9+r10+1Ch]   ; eax = nonStaticField[i+3]
-6a add  edx,eax                      ; sum += eax
-6c add  r10,10h                      ; i += 4
-70 cmp  r10,0FA0h                    ; if i &lt; 1000 then
-77 jl   0000000000000050             ; loop by i
-79 inc  ecx                          ; iteration++
-7b cmp  ecx,0F4240h                  ; if iteration &lt; 1000000  then
-81 jl   0000000000000010             ; loop by iteration
-83 mov  eax,edx                      ; eax = sum (Result)
-85 add  rsp,28h
-89 ret   
-8a call 000000005FA4AE14             ; IndexOutOfRangeException
-8f nop 
-</code></pre>
-<p>Этот пример намного интересней! Вспомним, что в x86 нам доступно только 8 регистров по 32 бита (EAX, ECX, EDX, EBX, ESP, EBP, ESI, EDI, R8D), а в x64 доступно 16 регистров по 64 бита (RAX, RCX, RDX, RBX, RSP, RBP, RSI, RDI, R8 — R15). Увеличение количества регистров позволило произвести JIT-оптимизацию «размотка цикла» (см.
-<a href="http://en.wikipedia.org/wiki/Loop_unwinding">Loop unwinding</a>). При этом важную роль играет то обстоятельство, что количество итераций в каждом из циклов кратно четвёрке. Мы ещё вернёмся к этому моменту, а пока взглянем на static-версию.</p>
-<p><strong>StaticRun-x64.asm</strong></p>
-<pre><code>00 sub  rsp,28h 
-04 xor  ecx,ecx                       ; iteration = 0
-06 mov  edx,ecx                       ; sum = 0
-08 nop  dword ptr [rax+rax+00000000h] 
-10 xor  r8d,r8d                       ; i = 0
-13 mov  r9,12D756F0h                  ; r9 = staticField
-1d mov  r9,qword ptr [r9]             ; r9 = &amp;staticField
-20 mov  r10,qword ptr [r9+8]          ; r10 = staticField.Length
-24 cmp  r8,r10                        ; if r8 &gt;= staticField.Length then
-27 jae  0000000000000080              ; throw IndexOutOfRangeException
-29 mov  eax,dword ptr [r9+r8*4+10h]   ; eax = staticField[i]
-2e add  edx,eax                       ; sum += eax
-30 lea  rax,[r8+1]                    ; rax = i+1
-34 cmp  rax,r10                       ; if rax &gt;= staticField.Length then
-37 jae  0000000000000080              ; throw IndexOutOfRangeException
-39 mov  eax,dword ptr [r9+rax*4+10h]  ; eax = staticField[i+1]
-3e add  edx,eax                       ; sum += eax
-40 lea  rax,[r8+2]                    ; rax = i+2
-44 cmp  rax,r10                       ; if rax &gt;= staticField.Length then
-47 jae  0000000000000080              ; throw IndexOutOfRangeException
-49 mov  eax,dword ptr [r9+rax*4+10h]  ; eax = staticField[i+2]
-4e add  edx,eax                       ; sum += eax
-50 lea  rax,[r8+3]                    ; rax = i+3
-54 cmp  rax,r10                       ; if rax &gt;= staticField.Length then
-57 jae  0000000000000080              ; throw IndexOutOfRangeException
-59 mov  eax,dword ptr [r9+rax*4+10h]  ; eax = staticField[i+3]
-5e add  edx,eax                       ; sum += eax
-60 add  r8,4                          ; i += 4
-64 cmp  r8,3E8h                       ; if i &lt; 1000 then
-6b jl   0000000000000013              ; loop by i
-6d inc  ecx                           ; iteration++
-6f cmp  ecx,0F4240h                   ; if iteration &lt; 1000000 then
-75 jl   0000000000000010              ; loop by iteration
-77 mov  eax,edx                       ; eax = sum (result)
-79 add  rsp,28h 
-7d ret     
-7e xchg ax,ax 
-80 call 000000005FA49F64              ; IndexOutOfRangeException
-85 nop   
-</code></pre>
-<p>Из примера видно, что для статичного массива оптимизация размотки цикла прошла несколько иначе. Причём, если в методе <code>StaticRun</code> сохранить ссылку на статический массив в локальную переменную и итерировать по ней, то машинный код будет аналогичен примеру NonStaticRun-x64.asm, а производительность обоих методов станет одинаковой. В текущей версии static-версия «проседает» по скорости из-за следующих обстоятельств:</p>
-<ul>
-<li>Вместо того, чтобы явно хранить смещения элементов, хранится индекс, который в момент вычисления адреса умножается на 4 для получения смещения.</li>
-<li>Вычисление адресов элементов [i+1], [i+2], [i+3] происходит в регистрах вместо того, чтобы использовать константные смещения в 4h, 8h, bh, относительно элемента [i].</li>
-</ul>
-<p>Теперь попробуем изменить длину массива, чтобы она больше не делилась на 4: N = 1001. Результаты бенчмарка:</p>
-<pre><code>Non-static : 550ms
-Static     : 719ms
-</code></pre>
-<p>Static-версия по скорости «вернулась» к результату без оптимизации, который мы видели в x86-версии. В NonStatic-версии результат интереснее: текущая версия работает медленнее, чем для N=1000, но быстрее, чем для x86. Опять обратимся к машинному коду, чтобы разобраться:</p>
-<p><strong>NonStaticRun-x64-1001.asm</strong></p>
-<pre><code>00 sub  rsp,28h 
-04 mov  r9,rcx 
-07 xor  ecx,ecx 
-09 mov  edx,ecx 
-0b nop  dword ptr [rax+rax] 
-10 xor  r8d,r8d 
-13 mov  r10,qword ptr [r9+8] 
-17 mov  rax,qword ptr [r10+8] 
-1b mov  r11d,3E8h 
-21 cmp  r11,rax 
-24 jae  0000000000000055 
-26 nop  word ptr [rax+rax+00000000h] 
-30 mov  eax,dword ptr [r10+r8+10h] 
-35 add  edx,eax 
-37 add  r8,4 
-3b cmp  r8,0FA4h 
-42 jl   0000000000000030 
-44 inc  ecx 
-46 cmp  ecx,0F4240h 
-4c jl   0000000000000010 
-4e mov  eax,edx 
-50 add  rsp,28h 
-54 ret    
-55 call 000000005FA5AE14 
-5a nop    
-</code></pre>
-<p><strong>StaticRun-x64-1001.asm</strong></p>
-<pre><code>00 sub  rsp,28h 
-04 xor  ecx,ecx 
-06 mov  edx,ecx 
-08 nop  dword ptr [rax+rax+00000000h] 
-10 xor  r8d,r8d 
-13 mov  r9,12B556F0h 
-1d mov  r9,qword ptr [r9] 
-20 mov  rax,qword ptr [r9+8] 
-24 cmp  r8,rax 
-27 jae  0000000000000050 
-29 mov  eax,dword ptr [r9+r8*4+10h] 
-2e add  edx,eax 
-30 inc  r8 
-33 cmp  r8,3E9h 
-3a jl   0000000000000013 
-3c inc  ecx 
-3e cmp  ecx,0F4240h 
-44 jl   0000000000000010 
-46 mov  eax,edx 
-48 add  rsp,28h 
-4c ret   
-4d nop  dword ptr [rax] 
-50 call 000000005FA69FA4 
-55 nop
-</code></pre>
-<p>Из примеров можно заметить, что в методах NonStaticRun-x86, StaticRun-x86, StaticRun-x64-1001 для вычисления очередного элемента массива используется формула:
-<code>BaseAddress + i * 4 + 10h</code>, а в методе NonStaticRun: <code>BaseAddress + offset + 10h</code>, где <code>offset = i * 4</code> — уже готовое смещение. Этим и объясняется разница в скорости.</p>
-<p>Данную тему можно изучать ещё очень долго: пробовать менять конфигурацию сборки, пробовать различные длины массивов и т.п. Но я ограничусь формулировкой основного вывода.</p>
-<h3 id="section-2">Выводы</h3>
-<p>Скорость итерирования может значительно зависеть от следующих обстоятельств:</p>
-<ul>
-<li>Тип ссылки на массив: статичное поле или обычное поле/локальная переменная</li>
-<li>Используемая архитектура процессора</li>
-<li>Делимость количества элементов на степени двойки</li>
-<li>Версия CLR</li>
-<li>Фаза луны</li>
-</ul>
-<p>Всем хороших бенчмарков =)</p>
-
-<!-- Share -->
-
-Поделиться:
-<a href="https://twitter.com/intent/tweet?text=Об итерировании статичных массивов в .NET&url=http://aakinshin.net/ru/posts/static-array-iteration/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/ru/posts/static-array-iteration/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/ru/posts/static-array-iteration/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/posts/static-array-iteration/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/ru/posts/static-array-iteration/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/ru/posts/static-array-iteration/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/ru/posts/static-array-iteration/&title=Об итерировании статичных массивов в .NET" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  Исходный код поста находится на GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2013/static-array-iteration.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2013/static-array-iteration.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Андрей Акиньшин | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+</code></pre></div><p>Любопытно: в обоих случаях быстродействие значительно возросло, но только в случае статичного поля оптимизация вышла «слабее». В чём же дело? Обратимся опять к машинному коду:</p><p><strong>NonStaticRun-x64.asm</strong></p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=err>00</span> <span class=nf>sub</span>  <span class=no>rsp</span><span class=p>,</span><span class=mi>28</span><span class=no>h</span>
+<span class=err>04</span> <span class=nf>mov</span>  <span class=no>r8</span><span class=p>,</span><span class=no>rcx</span>
+<span class=err>07</span> <span class=nf>xor</span>  <span class=no>ecx</span><span class=p>,</span><span class=no>ecx</span>
+<span class=err>09</span> <span class=nf>mov</span>  <span class=no>edx</span><span class=p>,</span><span class=no>ecx</span>                      <span class=c>; sum = 0
+</span><span class=c></span><span class=mi>0</span><span class=no>b</span> <span class=no>nop</span>  <span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rax</span><span class=err>+</span><span class=no>rax</span><span class=p>]</span>
+<span class=err>10</span> <span class=nf>xor</span>  <span class=no>r10d</span><span class=p>,</span><span class=no>r10d</span>                    <span class=c>; i = 0
+</span><span class=c></span><span class=mi>13</span> <span class=no>mov</span>  <span class=no>r9</span><span class=p>,</span><span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r8</span><span class=err>+</span><span class=mi>8</span><span class=p>]</span>          <span class=c>; r9 = &amp;nonStaticField
+</span><span class=c></span><span class=mi>17</span> <span class=no>mov</span>  <span class=no>rax</span><span class=p>,</span><span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r9</span><span class=err>+</span><span class=mi>8</span><span class=p>]</span>         <span class=c>; rax = nonStaticField.Length
+</span><span class=c></span><span class=mi>1</span><span class=no>b</span> <span class=no>mov</span>  <span class=no>r11d</span><span class=p>,</span><span class=mi>3</span><span class=no>E4h</span>                    <span class=c>; r11 = 996
+</span><span class=c></span><span class=mi>21</span> <span class=no>cmp</span>  <span class=no>r11</span><span class=p>,</span><span class=no>rax</span>                      <span class=c>; if r11 &gt;= nonStaticField.Length then
+</span><span class=c></span><span class=mi>24</span> <span class=no>jae</span>  <span class=mi>000000000000008</span><span class=no>A</span>             <span class=c>; throw IndexOutOfRangeException
+</span><span class=c></span><span class=mi>26</span> <span class=no>mov</span>  <span class=no>r11d</span><span class=p>,</span><span class=mi>3</span><span class=no>E5h</span>                    <span class=c>; r11 = 997
+</span><span class=c></span><span class=mi>2</span><span class=no>c</span> <span class=no>cmp</span>  <span class=no>r11</span><span class=p>,</span><span class=no>rax</span>                      <span class=c>; if r11 &gt;= nonStaticField.Length then
+</span><span class=c></span><span class=mi>2</span><span class=no>f</span> <span class=no>jae</span>  <span class=mi>000000000000008</span><span class=no>A</span>             <span class=c>; throw IndexOutOfRangeException
+</span><span class=c></span><span class=mi>31</span> <span class=no>mov</span>  <span class=no>r11d</span><span class=p>,</span><span class=mi>3</span><span class=no>E6h</span>                    <span class=c>; r11 = 998
+</span><span class=c></span><span class=mi>37</span> <span class=no>cmp</span>  <span class=no>r11</span><span class=p>,</span><span class=no>rax</span>                      <span class=c>; if r11 &gt;= nonStaticField.Length then
+</span><span class=c></span><span class=mi>3</span><span class=no>a</span> <span class=no>jae</span>  <span class=mi>000000000000008</span><span class=no>A</span>             <span class=c>; throw IndexOutOfRangeException
+</span><span class=c></span><span class=mi>3</span><span class=no>c</span> <span class=no>mov</span>  <span class=no>r11d</span><span class=p>,</span><span class=mi>3</span><span class=no>E7h</span>                    <span class=c>; r11 = 999
+</span><span class=c></span><span class=mi>42</span> <span class=no>cmp</span>  <span class=no>r11</span><span class=p>,</span><span class=no>rax</span>                      <span class=c>; if r11 &gt;= nonStaticField.Length then
+</span><span class=c></span><span class=mi>45</span> <span class=no>jae</span>  <span class=mi>000000000000008</span><span class=no>A</span>             <span class=c>; throw IndexOutOfRangeException
+</span><span class=c></span><span class=mi>47</span> <span class=no>nop</span>  <span class=no>word</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rax</span><span class=err>+</span><span class=no>rax</span><span class=err>+</span><span class=mi>00000000</span><span class=no>h</span><span class=p>]</span>
+<span class=err>50</span> <span class=nf>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r9</span><span class=err>+</span><span class=no>r10</span><span class=err>+</span><span class=mi>10</span><span class=no>h</span><span class=p>]</span>   <span class=c>; eax = nonStaticField[i]
+</span><span class=c></span><span class=mi>55</span> <span class=no>add</span>  <span class=no>edx</span><span class=p>,</span><span class=no>eax</span>                      <span class=c>; sum += eax
+</span><span class=c></span><span class=mi>57</span> <span class=no>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r9</span><span class=err>+</span><span class=no>r10</span><span class=err>+</span><span class=mi>14</span><span class=no>h</span><span class=p>]</span>   <span class=c>; eax = nonStaticField[i+1]
+</span><span class=c></span><span class=mi>5</span><span class=no>c</span> <span class=no>add</span>  <span class=no>edx</span><span class=p>,</span><span class=no>eax</span>                      <span class=c>; sum += eax
+</span><span class=c></span><span class=mi>5</span><span class=no>e</span> <span class=no>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r9</span><span class=err>+</span><span class=no>r10</span><span class=err>+</span><span class=mi>18</span><span class=no>h</span><span class=p>]</span>   <span class=c>; eax = nonStaticField[i+2]
+</span><span class=c></span><span class=mi>63</span> <span class=no>add</span>  <span class=no>edx</span><span class=p>,</span><span class=no>eax</span>                      <span class=c>; sum += eax
+</span><span class=c></span><span class=mi>65</span> <span class=no>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r9</span><span class=err>+</span><span class=no>r10</span><span class=err>+</span><span class=mi>1</span><span class=no>Ch</span><span class=p>]</span>   <span class=c>; eax = nonStaticField[i+3]
+</span><span class=c></span><span class=mi>6</span><span class=no>a</span> <span class=no>add</span>  <span class=no>edx</span><span class=p>,</span><span class=no>eax</span>                      <span class=c>; sum += eax
+</span><span class=c></span><span class=mi>6</span><span class=no>c</span> <span class=no>add</span>  <span class=no>r10</span><span class=p>,</span><span class=mi>10</span><span class=no>h</span>                      <span class=c>; i += 4
+</span><span class=c></span><span class=mi>70</span> <span class=no>cmp</span>  <span class=no>r10</span><span class=p>,</span><span class=mi>0</span><span class=no>FA0h</span>                    <span class=c>; if i &lt; 1000 then
+</span><span class=c></span><span class=mi>77</span> <span class=no>jl</span>   <span class=mi>0000000000000050</span>             <span class=c>; loop by i
+</span><span class=c></span><span class=mi>79</span> <span class=no>inc</span>  <span class=no>ecx</span>                          <span class=c>; iteration++
+</span><span class=c></span><span class=mi>7</span><span class=no>b</span> <span class=no>cmp</span>  <span class=no>ecx</span><span class=p>,</span><span class=mi>0</span><span class=no>F4240h</span>                  <span class=c>; if iteration &lt; 1000000  then
+</span><span class=c></span><span class=mi>81</span> <span class=no>jl</span>   <span class=mi>0000000000000010</span>             <span class=c>; loop by iteration
+</span><span class=c></span><span class=mi>83</span> <span class=no>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>edx</span>                      <span class=c>; eax = sum (Result)
+</span><span class=c></span><span class=mi>85</span> <span class=no>add</span>  <span class=no>rsp</span><span class=p>,</span><span class=mi>28</span><span class=no>h</span>
+<span class=err>89</span> <span class=nf>ret</span>   
+<span class=mi>8</span><span class=no>a</span> <span class=no>call</span> <span class=mi>000000005</span><span class=no>FA4AE14</span>             <span class=c>; IndexOutOfRangeException
+</span><span class=c></span><span class=mi>8</span><span class=no>f</span> <span class=no>nop</span> 
+</code></pre></div><p>Этот пример намного интересней! Вспомним, что в x86 нам доступно только 8 регистров по 32 бита (EAX, ECX, EDX, EBX, ESP, EBP, ESI, EDI, R8D), а в x64 доступно 16 регистров по 64 бита (RAX, RCX, RDX, RBX, RSP, RBP, RSI, RDI, R8 — R15). Увеличение количества регистров позволило произвести JIT-оптимизацию «размотка цикла» (см.
+<a href=http://en.wikipedia.org/wiki/Loop_unwinding>Loop unwinding</a>). При этом важную роль играет то обстоятельство, что количество итераций в каждом из циклов кратно четвёрке. Мы ещё вернёмся к этому моменту, а пока взглянем на static-версию.</p><p><strong>StaticRun-x64.asm</strong></p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=err>00</span> <span class=nf>sub</span>  <span class=no>rsp</span><span class=p>,</span><span class=mi>28</span><span class=no>h</span> 
+<span class=mi>04</span> <span class=no>xor</span>  <span class=no>ecx</span><span class=p>,</span><span class=no>ecx</span>                       <span class=c>; iteration = 0
+</span><span class=c></span><span class=mi>06</span> <span class=no>mov</span>  <span class=no>edx</span><span class=p>,</span><span class=no>ecx</span>                       <span class=c>; sum = 0
+</span><span class=c></span><span class=mi>08</span> <span class=no>nop</span>  <span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rax</span><span class=err>+</span><span class=no>rax</span><span class=err>+</span><span class=mi>00000000</span><span class=no>h</span><span class=p>]</span> 
+<span class=mi>10</span> <span class=no>xor</span>  <span class=no>r8d</span><span class=p>,</span><span class=no>r8d</span>                       <span class=c>; i = 0
+</span><span class=c></span><span class=mi>13</span> <span class=no>mov</span>  <span class=no>r9</span><span class=p>,</span><span class=mi>12</span><span class=no>D756F0h</span>                  <span class=c>; r9 = staticField
+</span><span class=c></span><span class=mi>1</span><span class=no>d</span> <span class=no>mov</span>  <span class=no>r9</span><span class=p>,</span><span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r9</span><span class=p>]</span>             <span class=c>; r9 = &amp;staticField
+</span><span class=c></span><span class=mi>20</span> <span class=no>mov</span>  <span class=no>r10</span><span class=p>,</span><span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r9</span><span class=err>+</span><span class=mi>8</span><span class=p>]</span>          <span class=c>; r10 = staticField.Length
+</span><span class=c></span><span class=mi>24</span> <span class=no>cmp</span>  <span class=no>r8</span><span class=p>,</span><span class=no>r10</span>                        <span class=c>; if r8 &gt;= staticField.Length then
+</span><span class=c></span><span class=mi>27</span> <span class=no>jae</span>  <span class=mi>0000000000000080</span>              <span class=c>; throw IndexOutOfRangeException
+</span><span class=c></span><span class=mi>29</span> <span class=no>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r9</span><span class=err>+</span><span class=no>r8</span><span class=p>*</span><span class=mi>4</span><span class=err>+</span><span class=mi>10</span><span class=no>h</span><span class=p>]</span>   <span class=c>; eax = staticField[i]
+</span><span class=c></span><span class=mi>2</span><span class=no>e</span> <span class=no>add</span>  <span class=no>edx</span><span class=p>,</span><span class=no>eax</span>                       <span class=c>; sum += eax
+</span><span class=c></span><span class=mi>30</span> <span class=no>lea</span>  <span class=no>rax</span><span class=p>,[</span><span class=no>r8</span><span class=err>+</span><span class=mi>1</span><span class=p>]</span>                    <span class=c>; rax = i+1
+</span><span class=c></span><span class=mi>34</span> <span class=no>cmp</span>  <span class=no>rax</span><span class=p>,</span><span class=no>r10</span>                       <span class=c>; if rax &gt;= staticField.Length then
+</span><span class=c></span><span class=mi>37</span> <span class=no>jae</span>  <span class=mi>0000000000000080</span>              <span class=c>; throw IndexOutOfRangeException
+</span><span class=c></span><span class=mi>39</span> <span class=no>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r9</span><span class=err>+</span><span class=no>rax</span><span class=p>*</span><span class=mi>4</span><span class=err>+</span><span class=mi>10</span><span class=no>h</span><span class=p>]</span>  <span class=c>; eax = staticField[i+1]
+</span><span class=c></span><span class=mi>3</span><span class=no>e</span> <span class=no>add</span>  <span class=no>edx</span><span class=p>,</span><span class=no>eax</span>                       <span class=c>; sum += eax
+</span><span class=c></span><span class=mi>40</span> <span class=no>lea</span>  <span class=no>rax</span><span class=p>,[</span><span class=no>r8</span><span class=err>+</span><span class=mi>2</span><span class=p>]</span>                    <span class=c>; rax = i+2
+</span><span class=c></span><span class=mi>44</span> <span class=no>cmp</span>  <span class=no>rax</span><span class=p>,</span><span class=no>r10</span>                       <span class=c>; if rax &gt;= staticField.Length then
+</span><span class=c></span><span class=mi>47</span> <span class=no>jae</span>  <span class=mi>0000000000000080</span>              <span class=c>; throw IndexOutOfRangeException
+</span><span class=c></span><span class=mi>49</span> <span class=no>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r9</span><span class=err>+</span><span class=no>rax</span><span class=p>*</span><span class=mi>4</span><span class=err>+</span><span class=mi>10</span><span class=no>h</span><span class=p>]</span>  <span class=c>; eax = staticField[i+2]
+</span><span class=c></span><span class=mi>4</span><span class=no>e</span> <span class=no>add</span>  <span class=no>edx</span><span class=p>,</span><span class=no>eax</span>                       <span class=c>; sum += eax
+</span><span class=c></span><span class=mi>50</span> <span class=no>lea</span>  <span class=no>rax</span><span class=p>,[</span><span class=no>r8</span><span class=err>+</span><span class=mi>3</span><span class=p>]</span>                    <span class=c>; rax = i+3
+</span><span class=c></span><span class=mi>54</span> <span class=no>cmp</span>  <span class=no>rax</span><span class=p>,</span><span class=no>r10</span>                       <span class=c>; if rax &gt;= staticField.Length then
+</span><span class=c></span><span class=mi>57</span> <span class=no>jae</span>  <span class=mi>0000000000000080</span>              <span class=c>; throw IndexOutOfRangeException
+</span><span class=c></span><span class=mi>59</span> <span class=no>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r9</span><span class=err>+</span><span class=no>rax</span><span class=p>*</span><span class=mi>4</span><span class=err>+</span><span class=mi>10</span><span class=no>h</span><span class=p>]</span>  <span class=c>; eax = staticField[i+3]
+</span><span class=c></span><span class=mi>5</span><span class=no>e</span> <span class=no>add</span>  <span class=no>edx</span><span class=p>,</span><span class=no>eax</span>                       <span class=c>; sum += eax
+</span><span class=c></span><span class=mi>60</span> <span class=no>add</span>  <span class=no>r8</span><span class=p>,</span><span class=mi>4</span>                          <span class=c>; i += 4
+</span><span class=c></span><span class=mi>64</span> <span class=no>cmp</span>  <span class=no>r8</span><span class=p>,</span><span class=mi>3</span><span class=no>E8h</span>                       <span class=c>; if i &lt; 1000 then
+</span><span class=c></span><span class=mi>6</span><span class=no>b</span> <span class=no>jl</span>   <span class=mi>0000000000000013</span>              <span class=c>; loop by i
+</span><span class=c></span><span class=mi>6</span><span class=no>d</span> <span class=no>inc</span>  <span class=no>ecx</span>                           <span class=c>; iteration++
+</span><span class=c></span><span class=mi>6</span><span class=no>f</span> <span class=no>cmp</span>  <span class=no>ecx</span><span class=p>,</span><span class=mi>0</span><span class=no>F4240h</span>                   <span class=c>; if iteration &lt; 1000000 then
+</span><span class=c></span><span class=mi>75</span> <span class=no>jl</span>   <span class=mi>0000000000000010</span>              <span class=c>; loop by iteration
+</span><span class=c></span><span class=mi>77</span> <span class=no>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>edx</span>                       <span class=c>; eax = sum (result)
+</span><span class=c></span><span class=mi>79</span> <span class=no>add</span>  <span class=no>rsp</span><span class=p>,</span><span class=mi>28</span><span class=no>h</span> 
+<span class=mi>7</span><span class=no>d</span> <span class=no>ret</span>     
+<span class=mi>7</span><span class=no>e</span> <span class=no>xchg</span> <span class=no>ax</span><span class=p>,</span><span class=no>ax</span> 
+<span class=mi>80</span> <span class=no>call</span> <span class=mi>000000005</span><span class=no>FA49F64</span>              <span class=c>; IndexOutOfRangeException
+</span><span class=c></span><span class=mi>85</span> <span class=no>nop</span>   
+</code></pre></div><p>Из примера видно, что для статичного массива оптимизация размотки цикла прошла несколько иначе. Причём, если в методе <code>StaticRun</code> сохранить ссылку на статический массив в локальную переменную и итерировать по ней, то машинный код будет аналогичен примеру NonStaticRun-x64.asm, а производительность обоих методов станет одинаковой. В текущей версии static-версия «проседает» по скорости из-за следующих обстоятельств:</p><ul><li>Вместо того, чтобы явно хранить смещения элементов, хранится индекс, который в момент вычисления адреса умножается на 4 для получения смещения.</li><li>Вычисление адресов элементов [i+1], [i+2], [i+3] происходит в регистрах вместо того, чтобы использовать константные смещения в 4h, 8h, bh, относительно элемента [i].</li></ul><p>Теперь попробуем изменить длину массива, чтобы она больше не делилась на 4: N = 1001. Результаты бенчмарка:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=nf>Non-static</span> <span class=p>:</span> <span class=mi>550</span><span class=no>ms</span>
+<span class=nf>Static</span>     <span class=p>:</span> <span class=mi>719</span><span class=no>ms</span>
+</code></pre></div><p>Static-версия по скорости «вернулась» к результату без оптимизации, который мы видели в x86-версии. В NonStatic-версии результат интереснее: текущая версия работает медленнее, чем для N=1000, но быстрее, чем для x86. Опять обратимся к машинному коду, чтобы разобраться:</p><p><strong>NonStaticRun-x64-1001.asm</strong></p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=err>00</span> <span class=nf>sub</span>  <span class=no>rsp</span><span class=p>,</span><span class=mi>28</span><span class=no>h</span> 
+<span class=mi>04</span> <span class=no>mov</span>  <span class=no>r9</span><span class=p>,</span><span class=no>rcx</span> 
+<span class=mi>07</span> <span class=no>xor</span>  <span class=no>ecx</span><span class=p>,</span><span class=no>ecx</span> 
+<span class=mi>09</span> <span class=no>mov</span>  <span class=no>edx</span><span class=p>,</span><span class=no>ecx</span> 
+<span class=mi>0</span><span class=no>b</span> <span class=no>nop</span>  <span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rax</span><span class=err>+</span><span class=no>rax</span><span class=p>]</span> 
+<span class=mi>10</span> <span class=no>xor</span>  <span class=no>r8d</span><span class=p>,</span><span class=no>r8d</span> 
+<span class=mi>13</span> <span class=no>mov</span>  <span class=no>r10</span><span class=p>,</span><span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r9</span><span class=err>+</span><span class=mi>8</span><span class=p>]</span> 
+<span class=mi>17</span> <span class=no>mov</span>  <span class=no>rax</span><span class=p>,</span><span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r10</span><span class=err>+</span><span class=mi>8</span><span class=p>]</span> 
+<span class=mi>1</span><span class=no>b</span> <span class=no>mov</span>  <span class=no>r11d</span><span class=p>,</span><span class=mi>3</span><span class=no>E8h</span> 
+<span class=mi>21</span> <span class=no>cmp</span>  <span class=no>r11</span><span class=p>,</span><span class=no>rax</span> 
+<span class=mi>24</span> <span class=no>jae</span>  <span class=mi>0000000000000055</span> 
+<span class=mi>26</span> <span class=no>nop</span>  <span class=no>word</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rax</span><span class=err>+</span><span class=no>rax</span><span class=err>+</span><span class=mi>00000000</span><span class=no>h</span><span class=p>]</span> 
+<span class=mi>30</span> <span class=no>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r10</span><span class=err>+</span><span class=no>r8</span><span class=err>+</span><span class=mi>10</span><span class=no>h</span><span class=p>]</span> 
+<span class=mi>35</span> <span class=no>add</span>  <span class=no>edx</span><span class=p>,</span><span class=no>eax</span> 
+<span class=mi>37</span> <span class=no>add</span>  <span class=no>r8</span><span class=p>,</span><span class=mi>4</span> 
+<span class=mi>3</span><span class=no>b</span> <span class=no>cmp</span>  <span class=no>r8</span><span class=p>,</span><span class=mi>0</span><span class=no>FA4h</span> 
+<span class=mi>42</span> <span class=no>jl</span>   <span class=mi>0000000000000030</span> 
+<span class=mi>44</span> <span class=no>inc</span>  <span class=no>ecx</span> 
+<span class=mi>46</span> <span class=no>cmp</span>  <span class=no>ecx</span><span class=p>,</span><span class=mi>0</span><span class=no>F4240h</span> 
+<span class=mi>4</span><span class=no>c</span> <span class=no>jl</span>   <span class=mi>0000000000000010</span> 
+<span class=mi>4</span><span class=no>e</span> <span class=no>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>edx</span> 
+<span class=mi>50</span> <span class=no>add</span>  <span class=no>rsp</span><span class=p>,</span><span class=mi>28</span><span class=no>h</span> 
+<span class=mi>54</span> <span class=no>ret</span>    
+<span class=mi>55</span> <span class=no>call</span> <span class=mi>000000005</span><span class=no>FA5AE14</span> 
+<span class=mi>5</span><span class=no>a</span> <span class=no>nop</span>    
+</code></pre></div><p><strong>StaticRun-x64-1001.asm</strong></p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=err>00</span> <span class=nf>sub</span>  <span class=no>rsp</span><span class=p>,</span><span class=mi>28</span><span class=no>h</span> 
+<span class=mi>04</span> <span class=no>xor</span>  <span class=no>ecx</span><span class=p>,</span><span class=no>ecx</span> 
+<span class=mi>06</span> <span class=no>mov</span>  <span class=no>edx</span><span class=p>,</span><span class=no>ecx</span> 
+<span class=mi>08</span> <span class=no>nop</span>  <span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rax</span><span class=err>+</span><span class=no>rax</span><span class=err>+</span><span class=mi>00000000</span><span class=no>h</span><span class=p>]</span> 
+<span class=mi>10</span> <span class=no>xor</span>  <span class=no>r8d</span><span class=p>,</span><span class=no>r8d</span> 
+<span class=mi>13</span> <span class=no>mov</span>  <span class=no>r9</span><span class=p>,</span><span class=mi>12</span><span class=no>B556F0h</span> 
+<span class=mi>1</span><span class=no>d</span> <span class=no>mov</span>  <span class=no>r9</span><span class=p>,</span><span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r9</span><span class=p>]</span> 
+<span class=mi>20</span> <span class=no>mov</span>  <span class=no>rax</span><span class=p>,</span><span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r9</span><span class=err>+</span><span class=mi>8</span><span class=p>]</span> 
+<span class=mi>24</span> <span class=no>cmp</span>  <span class=no>r8</span><span class=p>,</span><span class=no>rax</span> 
+<span class=mi>27</span> <span class=no>jae</span>  <span class=mi>0000000000000050</span> 
+<span class=mi>29</span> <span class=no>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>r9</span><span class=err>+</span><span class=no>r8</span><span class=p>*</span><span class=mi>4</span><span class=err>+</span><span class=mi>10</span><span class=no>h</span><span class=p>]</span> 
+<span class=mi>2</span><span class=no>e</span> <span class=no>add</span>  <span class=no>edx</span><span class=p>,</span><span class=no>eax</span> 
+<span class=mi>30</span> <span class=no>inc</span>  <span class=no>r8</span> 
+<span class=mi>33</span> <span class=no>cmp</span>  <span class=no>r8</span><span class=p>,</span><span class=mi>3</span><span class=no>E9h</span> 
+<span class=mi>3</span><span class=no>a</span> <span class=no>jl</span>   <span class=mi>0000000000000013</span> 
+<span class=mi>3</span><span class=no>c</span> <span class=no>inc</span>  <span class=no>ecx</span> 
+<span class=mi>3</span><span class=no>e</span> <span class=no>cmp</span>  <span class=no>ecx</span><span class=p>,</span><span class=mi>0</span><span class=no>F4240h</span> 
+<span class=mi>44</span> <span class=no>jl</span>   <span class=mi>0000000000000010</span> 
+<span class=mi>46</span> <span class=no>mov</span>  <span class=no>eax</span><span class=p>,</span><span class=no>edx</span> 
+<span class=mi>48</span> <span class=no>add</span>  <span class=no>rsp</span><span class=p>,</span><span class=mi>28</span><span class=no>h</span> 
+<span class=mi>4</span><span class=no>c</span> <span class=no>ret</span>   
+<span class=mi>4</span><span class=no>d</span> <span class=no>nop</span>  <span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rax</span><span class=p>]</span> 
+<span class=mi>50</span> <span class=no>call</span> <span class=mi>000000005</span><span class=no>FA69FA4</span> 
+<span class=mi>55</span> <span class=no>nop</span>
+</code></pre></div><p>Из примеров можно заметить, что в методах NonStaticRun-x86, StaticRun-x86, StaticRun-x64-1001 для вычисления очередного элемента массива используется формула:
+<code>BaseAddress + i * 4 + 10h</code>, а в методе NonStaticRun: <code>BaseAddress + offset + 10h</code>, где <code>offset = i * 4</code> — уже готовое смещение. Этим и объясняется разница в скорости.</p><p>Данную тему можно изучать ещё очень долго: пробовать менять конфигурацию сборки, пробовать различные длины массивов и т.п. Но я ограничусь формулировкой основного вывода.</p><h3 id=выводы>Выводы</h3><p>Скорость итерирования может значительно зависеть от следующих обстоятельств:</p><ul><li>Тип ссылки на массив: статичное поле или обычное поле/локальная переменная</li><li>Используемая архитектура процессора</li><li>Делимость количества элементов на степени двойки</li><li>Версия CLR</li><li>Фаза луны</li></ul><p>Всем хороших бенчмарков =)</p><br><br><div class=mx-auto>Поделиться:
+<a href="https://twitter.com/intent/tweet?text=%d0%9e%d0%b1%20%d0%b8%d1%82%d0%b5%d1%80%d0%b8%d1%80%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b8%20%d1%81%d1%82%d0%b0%d1%82%d0%b8%d1%87%d0%bd%d1%8b%d1%85%20%d0%bc%d0%b0%d1%81%d1%81%d0%b8%d0%b2%d0%be%d0%b2%20%d0%b2%20.NET&url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fstatic-array-iteration%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fstatic-array-iteration%2f&title=%d0%9e%d0%b1%20%d0%b8%d1%82%d0%b5%d1%80%d0%b8%d1%80%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b8%20%d1%81%d1%82%d0%b0%d1%82%d0%b8%d1%87%d0%bd%d1%8b%d1%85%20%d0%bc%d0%b0%d1%81%d1%81%d0%b8%d0%b2%d0%be%d0%b2%20%d0%b2%20.NET" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fstatic-array-iteration%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fstatic-array-iteration%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fstatic-array-iteration%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fstatic-array-iteration%2f&title=%d0%9e%d0%b1%20%d0%b8%d1%82%d0%b5%d1%80%d0%b8%d1%80%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b8%20%d1%81%d1%82%d0%b0%d1%82%d0%b8%d1%87%d0%bd%d1%8b%d1%85%20%d0%bc%d0%b0%d1%81%d1%81%d0%b8%d0%b2%d0%be%d0%b2%20%d0%b2%20.NET" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Андрей Акиньшин | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

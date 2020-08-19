@@ -1,0 +1,195 @@
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Внутреннее устройство массивов в .NET | Andrey Akinshin</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><h1>Внутреннее устройство массивов в .NET</h1><p>Иногда бывает полезно понимать, как выглядит внутреннее представление объектов, с которыми мы работаем. В этой статье я хотел бы поговорить о массивах: как именно они хранятся в памяти, какие IL-команды используются для работы с ними, как выглядит ассемблерный код при обращении к их элементам. Я рассмотрю три вида массивов: single (<code>T[]</code>), rectangular (<code>T[,]</code>), jagged (<code>T[][]</code>). Также будет затронута тема массивов с ненулевой нижней границей (<code>T[*]</code>) и нюансов работы с ними.</p><p>При рассмотрении низкоуровневых данных (например, дампов памяти) следует понимать, что адреса различных объектов будут меняться от одного запуска программы к запуску. В примерах нас больше будет интересовать относительное размещение объектов. В качестве целевой архитектуры взята
+<code>x86</code>
+. Для удобства восприятия многие данные переведены из родной шестнадцатеричной формы в десятичную (за исключением адресов, они начинаются с префикса
+<code>0x</code>
+). Данная статья не претендует на фундаментальное описание внутреннего представления массивов, скорее это просто краткий обзор организации различных массивов на низком уровне. В качестве реализации платформы рассматривается стандартная MS.NET, Mono обсуждать не будем.</p><h3 id=single-array>Single array</h3><p>Такие массивы часто называются также <em>SZ-массивами</em> (single-dimensional, zero-based) или <em>векторами</em>. Создадим обычный <code>int[]</code>-массив (каждый элемент занимает 4 байта) длинной 5 элементов, который заполним числами от 0 до 4:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>int</span><span class=p>[]</span> <span class=n>a</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=m>5</span><span class=p>];</span>
+<span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+    <span class=n>a</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>i</span><span class=p>;</span>
+</code></pre></div><p>В памяти он будет представлен следующим образом:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>0x03022424           0  // SyncBlockIndex
+0x03022428  0x61B9C448  // *MethodTable
+0x0302242C           5  // a.Length
+0x03022430           0  // a[0]
+0x03022434           1  // a[1]
+0x03022438           2  // a[2]
+0x0302243C           3  // a[3]
+0x03022440           4  // a[4]
+</code></pre></div><p>Воспользуемся расширением отладчика <a href=http://msdn.microsoft.com/ru-ru/library/bb190764.aspx>SOS</a> и через Immediate Window посмотрим чуть больше информации о нашем массиве:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>.load sos.dll
+!DumpArray 0x03022428
+Name:        System.Int32[]
+MethodTable: 61b9c448
+EEClass:     6180c0d0
+Size:        32(0x20) bytes
+Array:       Rank 1, Number of elements 5, Type Int32
+Element Methodtable: 61b9c480
+[0] 03022430
+[1] 03022434
+[2] 03022438
+[3] 0302243c
+[4] 03022440
+</code></pre></div><p>Тут всё достаточно просто. Переменная <code>a</code> указывает на адрес <code>0x03022428</code>, по которому хранится указатель на таблицу методов соответствующего типа (в данном случае
+<code>System.Int32[]</code>), которая занимает 4 байта (для <code>x64</code> — 8 байт). Перед ней находится SyncBlockIndex (отсчитывается от 1, 0 означает пустое значение; размер под
+<code>x86</code> — 4 байта, под <code>x64</code> — 8 байт). После <code>*MethodTable</code> идёт сначала размер массива, а затем по порядку все его элементы.</p><p>Для операций с SZ-массивами предусмотрены следующие IL-команды:</p><ul><li><code>newarr &lt;etype></code> : создание нового массива с элементами типа etype</li><li><code>ldelem &lt;typeTok></code>: добавить значение элемента по заданному индексу в стек</li><li><code>ldelema &lt;class></code>: добавить адрес элемента по заданному индексу в стек</li><li><code>ldlen</code>: добавить длину массива в стек</li><li><code>stelem &lt;typeTok></code>: заменить значение элемента по заданному индексу значением из стека</li></ul><p>Обращение к элементу на уровне ассемблера имеет примерно следующий вид: <code>[ebx+ecx*4+8]</code>. Здесь <code>ebx</code> обозначает базовый адрес массива, <code>ecx</code> — индекс элемента (он умножается на 4, т.к. Int32 занимает в памяти 4 байта), <code>8</code> — смещение для нулевого элемента (пропускаем MethodTable и количество элементов массива, т.е. два значения по 4 байта).</p><h3 id=rectangular-array>Rectangular array</h3><p>Создадим двумерный массив</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>int</span><span class=p>[,]</span> <span class=n>a</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=m>2</span><span class=p>,</span> <span class=m>3</span><span class=p>];</span>
+<span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>2</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>j</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>j</span> <span class=p>&lt;</span> <span class=m>3</span><span class=p>;</span> <span class=n>j</span><span class=p>++)</span>
+        <span class=n>a</span><span class=p>[</span><span class=n>i</span><span class=p>,</span> <span class=n>j</span><span class=p>]</span> <span class=p>=</span> <span class=n>i</span> <span class=p>*</span> <span class=m>3</span> <span class=p>+</span> <span class=n>j</span><span class=p>;</span>
+</code></pre></div><p>и по аналогии взглянем на дамп памяти:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=m>0</span><span class=n>x03022444</span>           <span class=m>0</span>  <span class=c1>// SyncBlockIndex
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022448</span>  <span class=m>0</span><span class=n>x61B5E938</span>  <span class=c1>// *MethodTable
+</span><span class=c1></span><span class=m>0</span><span class=n>x0302244C</span>           <span class=m>6</span>  <span class=c1>// a.Length
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022450</span>           <span class=m>2</span>  <span class=c1>// a.GetLength(0)
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022454</span>           <span class=m>3</span>  <span class=c1>// a.GetLength(1)
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022458</span>           <span class=m>0</span>  <span class=c1>// a.GetLowerBound(0)
+</span><span class=c1></span><span class=m>0</span><span class=n>x0302245C</span>           <span class=m>0</span>  <span class=c1>// a.GetLowerBound(1)
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022460</span>           <span class=m>0</span>  <span class=c1>// a[0, 0]
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022464</span>           <span class=m>1</span>  <span class=c1>// a[0, 1]
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022468</span>           <span class=m>2</span>  <span class=c1>// a[0, 2]
+</span><span class=c1></span><span class=m>0</span><span class=n>x0302246C</span>           <span class=m>3</span>  <span class=c1>// a[1, 0]
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022470</span>           <span class=m>4</span>  <span class=c1>// a[1, 1]
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022474</span>           <span class=m>5</span>  <span class=c1>// a[1, 2]
+</span></code></pre></div><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>!DumpArray 0x03022448
+Name:        System.Int32[,]
+MethodTable: 61b5e938
+EEClass:     617fd0c4
+Size:        52(0x34) bytes
+Array:       Rank 2, Number of elements 6, Type Int32
+Element Methodtable: 61b9c480
+[0][0] 03022460
+[0][1] 03022464
+[0][2] 03022468
+[1][0] 0302246c
+[1][1] 03022470
+[1][2] 03022474
+</code></pre></div><p>Структура немного усложнилась. Сперва (как и в первом случае), идут <code>SyncBlockIndex</code> и <code>*MethodTable</code> (<code>a</code> указывает именно на *MethodTable, т.е. на <code>0x03022448</code>). Далее точно также идёт длина массива, т.е. общее количество элементов, которые в нём содержатся. А после этого идут отличительные данные для rectangular-массива: длины по каждому измерению и нижние границы (их мы подробнее обсудим чуть позже, по умолчанию они равны нулю). Количество измерений массива (<a href=http://msdn.microsoft.com/en-us/library/system.array.rank.aspx>a.Rank</a>) можно узнать из типа (<code>System.Int32[,]</code>). Далее идут непосредственно сами элементы.</p><p>Для работы с элементами rectangular-массива на IL-уровне нет специальных команд, приходится вызывать методы <code>Get</code> и <code>Set</code>. На уровне ассемблера для двумерного массива мы будем иметь инструкцию вида <code>[ebx+ecx*4+18h]</code>. <code>ebx</code> — базовый адрес массива, <code>ecx</code> — номер элемента (который высчитывается на основе индексов i, j), <code>18h</code>
+— смещение (больше, чем в <code>single</code>-версии, т.к. теперь нам нужно пропустить больше служебных значений: <code>18h=24=6*4</code> — <code>TypeHandle</code>, <code>a.Length</code>, <code>a.GetLength(0)</code>, <code>a.GetLength(1)</code>, <code>a.GetLowerBound(0)</code>, <code>a.GetLowerBound(1))</code>.</p><h3 id=jagged-array>Jagged array</h3><p>Создадим двумерный изломанный массив</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>int</span><span class=p>[][]</span> <span class=n>a</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=m>2</span><span class=p>][];</span>
+<span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>2</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+<span class=p>{</span>
+    <span class=n>a</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=m>3</span><span class=p>];</span>
+    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>j</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>j</span> <span class=p>&lt;</span> <span class=m>3</span><span class=p>;</span> <span class=n>j</span><span class=p>++)</span>
+        <span class=n>a</span><span class=p>[</span><span class=n>i</span><span class=p>][</span><span class=n>j</span><span class=p>]</span> <span class=p>=</span> <span class=n>i</span> <span class=p>*</span> <span class=m>3</span> <span class=p>+</span> <span class=n>j</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>и по аналогии взглянем на дамп памяти:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=m>0</span><span class=n>x03022478</span>           <span class=m>0</span>  <span class=c1>// SyncBlockIndex (a)
+</span><span class=c1></span><span class=m>0</span><span class=n>x0302247C</span>  <span class=m>0</span><span class=n>x61B8D5BC</span>  <span class=c1>// *MethodTable (a)
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022480</span>           <span class=m>2</span>  <span class=c1>// a.Length
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022484</span>  <span class=m>0</span><span class=n>x617A4C8A</span>  <span class=c1>// *TypeDesc (int[])
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022488</span>  <span class=m>0</span><span class=n>x03022494</span>  <span class=c1>// a[0]
+</span><span class=c1></span><span class=m>0</span><span class=n>x0302248C</span>  <span class=m>0</span><span class=n>x030224AC</span>  <span class=c1>// a[1]
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022490</span>           <span class=m>0</span>  <span class=c1>// SyncBlockIndex (a[0])
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022494</span>  <span class=m>0</span><span class=n>x61B9C448</span>  <span class=c1>// *MethodTable (a[0])
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022498</span>           <span class=m>3</span>  <span class=c1>// a[0].Length
+</span><span class=c1></span><span class=m>0</span><span class=n>x0302249C</span>           <span class=m>0</span>  <span class=c1>// a[0][0]
+</span><span class=c1></span><span class=m>0</span><span class=n>x030224A0</span>           <span class=m>1</span>  <span class=c1>// a[0][1]
+</span><span class=c1></span><span class=m>0</span><span class=n>x030224A4</span>           <span class=m>2</span>  <span class=c1>// a[0][2]
+</span><span class=c1></span><span class=m>0</span><span class=n>x030224A8</span>           <span class=m>0</span>  <span class=c1>// SyncBlockIndex (a[1])
+</span><span class=c1></span><span class=m>0</span><span class=n>x030224AC</span>  <span class=m>0</span><span class=n>x61B9C448</span>  <span class=c1>// *MethodTable (a[1])
+</span><span class=c1></span><span class=m>0</span><span class=n>x030224B0</span>           <span class=m>3</span>  <span class=c1>// a[1].Length
+</span><span class=c1></span><span class=m>0</span><span class=n>x030224B4</span>           <span class=m>3</span>  <span class=c1>// a[1][0]
+</span><span class=c1></span><span class=m>0</span><span class=n>x030224B8</span>           <span class=m>4</span>  <span class=c1>// a[1][1]
+</span><span class=c1></span><span class=m>0</span><span class=n>x030224BC</span>           <span class=m>5</span>  <span class=c1>// a[1][2]
+</span></code></pre></div><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>!DumpArray 0x0302247C
+Name:        System.Int32[]
+MethodTable: 61b8d5bc
+EEClass:     618ab450
+Size:        24(0x18) bytes
+Array:       Rank 1, Number of elements 2, Type SZARRAY
+Element Methodtable: 617a4c8a
+[0] 03022494
+[1] 030224ac
+
+!DumpObj 0x0302247C
+Name:        System.Int32[][]
+MethodTable: 61b8d5bc
+EEClass:     618ab450
+Size:        24(0x18) bytes
+Array:       Rank 1, Number of elements 2, Type SZARRAY
+Fields:
+None
+
+!DumpArray 0x03022494
+Name:        System.Int32[]
+MethodTable: 61b9c448
+EEClass:     6180c0d0
+Size:        24(0x18) bytes
+Array:       Rank 1, Number of elements 3, Type Int32
+Element Methodtable: 61b9c480
+[0] 0302249c
+[1] 030224a0
+[2] 030224a4
+
+!DumpArray 0x030224AC
+Name:        System.Int32[]
+MethodTable: 61b9c448
+EEClass:     6180c0d0
+Size:        24(0x18) bytes
+Array:       Rank 1, Number of elements 3, Type Int32
+Element Methodtable: 61b9c480
+[0] 030224b4
+[1] 030224b8
+[2] 030224bc
+</code></pre></div><p>По сути <code>int[][]</code> представляет собой массив массивов. Т.е. это одномерный массив, элементами которого являются ссылки на другие массивы. Команда <code>DumpArray</code>
+не может нормально восстановить тип объекта, для этой цели необходимо пользоваться командой <code>DumpObj</code>.</p><p>Методы по работе с jagged-массивом на IL и ASM уровнях аналогичны single-массиву с той лишь разницей, что теперь нам необходимо перейти к нужному элементу одномерного массива не один раз, а несколько (в зависимости от количества размерностей). По адресу <code>0x03022484</code> находится указатель на TypeDesc для <code>int[]</code> (<a href=http://aakinshin.blogspot.ru/2013/09/dotnet-typehandle.html>тут</a> можно почитать подробнее).</p><h3 id=non-zero-based-single-array>Non-zero based single array</h3><p>Явно объявить одномерный массив с ненулевой нижней границей нельзя, для этого нам понадобится метод <a href=http://msdn.microsoft.com/en-us/library/system.array.createinstance.aspx>Array.CreateInstance</a>, в который передаётся тип элементов, массив длин и массив нижних границ. Создадим элемент из 5-ти элементов с нижней границей 2:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=n>Array</span> <span class=n>a</span> <span class=p>=</span> <span class=n>Array</span><span class=p>.</span><span class=n>CreateInstance</span><span class=p>(</span><span class=k>typeof</span><span class=p>(</span><span class=kt>int</span><span class=p>),</span> <span class=k>new</span><span class=p>[]</span> <span class=p>{</span> <span class=m>5</span> <span class=p>},</span> <span class=k>new</span><span class=p>[]</span> <span class=p>{</span> <span class=m>2</span> <span class=p>});</span>
+<span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>2</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>7</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+    <span class=n>a</span><span class=p>.</span><span class=n>SetValue</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>i</span><span class=p>);</span>
+</code></pre></div><p>Взглянем на соответствующий дамп памяти:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=m>0</span><span class=n>x030224FC</span>           <span class=m>0</span>  <span class=c1>// SyncBlockIndex
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022500</span>  <span class=m>1639311728</span>  <span class=c1>// *MethodTable
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022504</span>           <span class=m>5</span>  <span class=c1>// a.Length
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022508</span>           <span class=m>5</span>  <span class=c1>// a.GetLength(0)
+</span><span class=c1></span><span class=m>0</span><span class=n>x0302250C</span>           <span class=m>2</span>  <span class=c1>// a.GetLowerBound(0)
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022510</span>           <span class=m>2</span>  <span class=c1>// a[2]
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022514</span>           <span class=m>3</span>  <span class=c1>// a[3]
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022518</span>           <span class=m>4</span>  <span class=c1>// a[4]
+</span><span class=c1></span><span class=m>0</span><span class=n>x0302251C</span>           <span class=m>5</span>  <span class=c1>// a[5]
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022520</span>           <span class=m>6</span>  <span class=c1>// a[6]
+</span></code></pre></div><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>!DumpArray 0x03022500
+Name:        System.Int32[]
+MethodTable: 61b5e970
+EEClass:     617fd110
+Size:        40(0x28) bytes
+Array:       Rank 1, Number of elements 5, Type Int32
+Element Methodtable: 61b9c480
+[0] 03022508
+[1] 0302250c
+[2] 03022510
+[3] 03022514
+[4] 03022518
+[5] 0302251c
+[6] 03022520
+
+!DumpObj 0x03022500
+Name:        System.Int32[*]
+MethodTable: 61b5e970
+EEClass:     617fd110
+Size:        40(0x28) bytes
+Array:       Rank 1, Number of elements 5, Type Int32
+Fields:
+None
+</code></pre></div><p>Тип данного объекта: <code>System.Int32[*]</code>. Знак <code>*</code> означает, что CLR знает о ненулевой нижней границе. Синтаксис C# не позволяет явно объявить переменную такого типа, также запрещается явное обращение к его элементам посредствам стандартного синтаксиса, поэтому приходится пользоваться методами <a href=http://msdn.microsoft.com/en-us/library/system.array.getvalue.aspx>GetValue</a> и <a href=http://msdn.microsoft.com/en-us/library/system.array.setvalue.aspx>SetValue</a>.</p><p>Обратите внимание, что команда <code>DumpArray</code> не умеет корректно отображать тип одномерного массива с ненулевой нижней границей. Правильный тип можно получить, используя команду <code>DumpObj</code>.</p><p>Что касается структуры массива в памяти, то она полностью аналогична структуре rectangular-массива. Для доступа к элементам массива специальных IL-команд не предусмотрено, приходится вновь явно вызывать методы.</p><h3 id=non-zero-based-rectangular-array>Non-zero based rectangular array</h3><p>А теперь создадим двумерный массив 2 на 3 с нижними границами 4 и 5. Поможет нам в этом уже знакомый метод <code>Array.CreateInstance</code>:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=n>Array</span> <span class=n>a</span> <span class=p>=</span> <span class=n>Array</span><span class=p>.</span><span class=n>CreateInstance</span><span class=p>(</span><span class=k>typeof</span><span class=p>(</span><span class=kt>int</span><span class=p>),</span> <span class=k>new</span><span class=p>[]</span> <span class=p>{</span> <span class=m>2</span><span class=p>,</span> <span class=m>3</span> <span class=p>},</span> <span class=k>new</span><span class=p>[]</span> <span class=p>{</span> <span class=m>4</span><span class=p>,</span> <span class=m>5</span> <span class=p>});</span>
+<span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>4</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>6</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>j</span> <span class=p>=</span> <span class=m>5</span><span class=p>;</span> <span class=n>j</span> <span class=p>&lt;</span> <span class=m>8</span><span class=p>;</span> <span class=n>j</span><span class=p>++)</span>
+        <span class=n>a</span><span class=p>.</span><span class=n>SetValue</span><span class=p>(</span><span class=n>i</span> <span class=p>*</span> <span class=m>3</span> <span class=p>+</span> <span class=n>j</span> <span class=p>-</span> <span class=m>17</span><span class=p>,</span> <span class=n>i</span><span class=p>,</span> <span class=n>j</span><span class=p>);</span>
+</code></pre></div><p>Дамп памяти:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=m>0</span><span class=n>x03022588</span>           <span class=m>0</span>  <span class=c1>// SyncBlockIndex
+</span><span class=c1></span><span class=m>0</span><span class=n>x0302258C</span>  <span class=m>1639311672</span>  <span class=c1>// *MethodTable
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022590</span>           <span class=m>6</span>  <span class=c1>// a.Length
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022594</span>           <span class=m>2</span>  <span class=c1>// a.GetLength(0)
+</span><span class=c1></span><span class=m>0</span><span class=n>x03022598</span>           <span class=m>3</span>  <span class=c1>// a.GetLength(1)
+</span><span class=c1></span><span class=m>0</span><span class=n>x0302259C</span>           <span class=m>4</span>  <span class=c1>// a.GetLowerBound(0)
+</span><span class=c1></span><span class=m>0</span><span class=n>x030225A0</span>           <span class=m>5</span>  <span class=c1>// a.GetLowerBound(1)
+</span><span class=c1></span><span class=m>0</span><span class=n>x030225A4</span>           <span class=m>0</span>  <span class=c1>// a[4, 5]
+</span><span class=c1></span><span class=m>0</span><span class=n>x030225A8</span>           <span class=m>1</span>  <span class=c1>// a[4, 6]
+</span><span class=c1></span><span class=m>0</span><span class=n>x030225AC</span>           <span class=m>2</span>  <span class=c1>// a[4, 7]
+</span><span class=c1></span><span class=m>0</span><span class=n>x030225B0</span>           <span class=m>3</span>  <span class=c1>// a[5, 5]
+</span><span class=c1></span><span class=m>0</span><span class=n>x030225B4</span>           <span class=m>4</span>  <span class=c1>// a[5, 6]
+</span><span class=c1></span><span class=m>0</span><span class=n>x030225B8</span>           <span class=m>5</span>  <span class=c1>// a[5, 7]
+</span></code></pre></div><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>!DumpArray 0x0302258C
+Name:        System.Int32[,]
+MethodTable: 61b5e938
+EEClass:     617fd0c4
+Size:        52(0x34) bytes
+Array:       Rank 2, Number of elements 6, Type Int32
+Element Methodtable: 61b9c480
+[4][5] 030225a4
+[4][6] 030225a8
+[4][7] 030225ac
+[5][5] 030225b0
+[5][6] 030225b4
+[5][7] 030225b8
+</code></pre></div><p>Заметим, что для rectangular-массивов с ненулевой нижней границей команда <code>DumpArray</code> прекрасно работает. Несложно понять, что структура хранения и организации rectangular-массива не зависит от нижней границы: представление в памяти всегда будет одинаковое, тип всегда будет <code>System.Int32[,]</code>, IL и ASM инструкции будут аналогичны.</p><h3 id=выводы>Выводы</h3><p>Общее устройство массива выглядит следующим образом:</p><ul><li><code>SyncBlockIndex</code> (по отрицательному смещению)</li><li><code>*MethodTable</code> (по нулевому смещению)</li><li>Общая длина массива</li><li><code>*TypeDesc</code> для элементов массива (только для массивов из элементов ссылочного типа; <code>int[][]</code> является частным случаем, т.к. это массив из <code>int[]</code>)</li><li>Длины по каждому измерению массива (только для одномерных массивов с заданной нижней границей и многомерных массивов)</li><li>Нижние индексы по каждому измерению массива (только для одномерных массивов с заданной нижней границей и многомерных массивов)</li><li>Элементы массива</li></ul></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

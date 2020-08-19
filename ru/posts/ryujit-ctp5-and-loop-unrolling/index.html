@@ -1,280 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="RyuJIT CTP5 и размотка циклов">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,C#,JIT,RyuJIT,LoopUnrolling'>
-
-    <title>RyuJIT CTP5 и размотка циклов</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/ru/posts/">Блог</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/ru/content/">Содержание</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/ru/about/">Об авторе</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ru</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/posts/ryujit-ctp5-and-loop-unrolling/'>En</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/ru/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">RyuJIT CTP5 и размотка циклов</h2>
-<span class="blog-post-meta">
-  <b>Дата:</b> 01 марта 2015.
-  <b>Теги:</b>
-        <a href="/ru/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/ru/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-        <a href="/ru/tags/jit"><span class="badge badge-pill badge-info">JIT</span></a>
-        <a href="/ru/tags/ryujit"><span class="badge badge-pill badge-info">RyuJIT</span></a>
-        <a href="/ru/tags/loopunrolling"><span class="badge badge-pill badge-info">LoopUnrolling</span></a>
-</span><br /><br />
-
-<p>Уже скоро нам будет доступен RyuJIT, JIT-компилятор следующего поколения для .NET-приложений. Microsoft любит рассказывать нам о преимуществах использования SIMD и сокращением времени JIT-компиляции. Но что можно сказать о базовых оптимизациях кода, за которые обычно отвечает компилятор? Сегодня мы поговорим о такой оптимизации как размотка (раскрутка) цикла. Если кратко, то это оптимизации кода вида</p>
-<pre><code class="language-cs">for (int i = 0; i &lt; 1024; i++)
-    Foo(i);
-</code></pre>
-<p>превращается в</p>
-<pre><code class="language-cs">for (int i = 0; i &lt; 1024; i += 4)
-{
-    Foo(i);
-    Foo(i + 1);
-    Foo(i + 2);
-    Foo(i + 3);
-}
-</code></pre>
-<p>Подобный подход может заметно увеличить производительность вашего кода. Итак, как же обстоят дела с раскруткой цикла в .NET?</p>
-<!--more-->
-<h3 id="section">Общая теория</h3>
-<p>Сперва поговорим о том, как размотка циклов влияет на наше приложение.</p>
-<h4 id="section-1">Достоинства</h4>
-<ul>
-<li>Мы немного экономим на сокращении количества инкрементов переменной цикла.</li>
-<li>Сокращаются накладные расходы на <a href="https://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B5%D0%B4%D1%81%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D0%B5%D0%BB%D1%8C_%D0%BF%D0%B5%D1%80%D0%B5%D1%85%D0%BE%D0%B4%D0%BE%D0%B2">предсказывание переходов (branch prediction)</a>.</li>
-<li>Повышаются возможности применения <a href="https://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%B0%D0%BB%D0%BB%D0%B5%D0%BB%D0%B8%D0%B7%D0%BC_%D0%BD%D0%B0_%D1%83%D1%80%D0%BE%D0%B2%D0%BD%D0%B5_%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4">параллелизма уровня команд (instruction-level parallelism)</a>.</li>
-<li>Позволяет выполнить дополнительные улучшения кода в связке с другими оптимизациями (например, <a href="http://en.wikipedia.org/wiki/Inline_expansion">инлайнинг</a>).</li>
-</ul>
-<h4 id="section-2">Недостатки</h4>
-<ul>
-<li>Увеличивается размер исходного кода, что негативно сказывается на размере программы.</li>
-<li>Из-за растущего размера количества инструкций иногда невозможно одновременно применить размотку цикла и инлайнинг.</li>
-<li>Возможные <a href="http://en.wikipedia.org/wiki/CPU_cache#Cache_miss">промахи</a> в кеше команд.</li>
-<li>Возрастает нагрузка на регистры в рамках итерации (нам может не хватить регистров, другие оптимизации могут не примениться из-за их нехватки).</li>
-<li>Если внутри итерации есть ветвление, то размотка может отрицательно повлиять на другие оптимизации.</li>
-</ul>
-<h4 id="section-3">Выводы</h4>
-<p>Размотка циклов — очень мощный инструмент для оптимизации, но только если применять её с умом. Не рекомендуется делать размотку самостоятельно: это понизит читаемость кода и может затруднить применение других оптимизаций. Лучше всего оставить этот подход компилятору. Очень важно, чтобы ваш компилятор умел делать размотку циклов грамотно.</p>
-<h3 id="section-4">Эксперименты</h3>
-<h4 id="section-5">Исходный код</h4>
-<p>Мы будем работать с очень простым циклом, который просто грех не размотать:</p>
-<pre><code class="language-cs">int sum = 0;
-for (int i = 0; i &lt; 1024; i++)
-    sum += i;
-Console.WriteLine(sum);
-</code></pre>
-<p>Обратите внимание, что количество итераций известно заранее и равно 2<sup>10</sup>. Это очень важно, т. к. существенно упрощает применение рассматриваемой оптимизации.</p>
-<h4 id="jit-x86">JIT-x86</h4>
-<p>Запустим данный код под x86 и взглянем на ассемблерный код:</p>
-<pre><code>        int sum = 0;                    
-00EE0052  in          al,dx             
-00EE0053  push        esi               
-00EE0054  xor         esi,esi           
-        for (int i = 0; i &lt; 1024; i++)  
-00EE0056  xor         eax,eax           
-            sum += i;                   
-00EE0058  add         esi,eax           ; sum += i
-        for (int i = 0; i &lt; 1024; i++)  
-00EE005A  inc         eax               ; i++
-00EE005B  cmp         eax,400h          
-00EE0060  jl          00EE0058          
-</code></pre>
-<p>Как видно, JIT-x86 размотку не выполнил. Нужно понимать, что 32-битная версия JIT-компилятора достаточно примитивна, от неё не часто можно увидеть хорошие оптимизации. Размотка цикла в JIT-x86 выполняется крайне редко, если выполняются специфические условия.</p>
-<h4 id="jit-x64">JIT-x64</h4>
-<p>Теперь перейдём к 64-битной версии JIT-компилятора:</p>
-<pre><code>        int sum = 0;                               
-00007FFCC8710090  sub         rsp,28h              
-        for (int i = 0; i &lt; 1024; i++)             
-00007FFCC8710094  xor         ecx,ecx              
-00007FFCC8710096  mov         edx,1                ; edx = i + 1
-00007FFCC871009B  nop         dword ptr [rax+rax]  
-00007FFCC87100A0  lea         eax,[rdx-1]          ; eax = i
-            sum += i;                              
-00007FFCC87100A3  add         ecx,eax              ; sum += i
-00007FFCC87100A5  add         ecx,edx              ; sum += i + 1
-00007FFCC87100A7  lea         eax,[rdx+1]          ; eax = i + 2
-00007FFCC87100AA  add         ecx,eax              ; sum += i + 2;
-00007FFCC87100AC  lea         eax,[rdx+2]          ; eax = i + 3
-00007FFCC87100AF  add         ecx,eax              ; sum += i + 3;
-00007FFCC87100B1  add         edx,4                ; i += 4
-        for (int i = 0; i &lt; 1024; i++)             
-00007FFCC87100B4  cmp         edx,401h             
-00007FFCC87100BA  jl          00007FFCC87100A0     
-</code></pre>
-<p>Вы можете видеть, что размотка циклов была выполнена: тело цикла было повторено 4 раза. JIT-x64 умеет повторять тело цикла 2, 3 или 4 раза (в зависимости от количества итераций). Увы, если среди делителей количества итераций чисел 2, 3, 4 нет, то размотка произведена не будет.</p>
-<h4 id="ryujit">RyuJIT</h4>
-<p>Что же произойдёт в новом RyuJIT? Взглянем на ассемблерный код:</p>
-<pre><code>        int sum = 0;                            
-00007FFCC86E0091  sub         rsp,20h           
-00007FFCC86E0095  xor         esi,esi           
-        for (int i = 0; i &lt; 1024; i++)          
-00007FFCC86E0097  xor         eax,eax           
-            sum += i;                           
-00007FFCC86E0099  add         esi,eax           ; sum += i
-        for (int i = 0; i &lt; 1024; i++)          
-00007FFCC86E009B  inc         eax               ; i++
-00007FFCC86E009D  cmp         eax,400h          
-00007FFCC86E00A2  jl          00007FFCC86E0099  
-</code></pre>
-<p>Печальная картина: RyuJIT не может размотать даже простейший цикл. Объяснение следующее: RyuJIT базируется на той же кодовой базе, что и JIT-x86 (см. <a href="http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx">RyuJIT: The next-generation JIT compiler for .NET</a>).</p>
-<h3 id="section-6">Выводы</h3>
-<p>RyuJIT позволяет нам использовать SIMD-инструкции и сокращает время JIT-компиляции. Увы, производительность самого кода с переходом на новый JIT временами начинает страдать. Стоит отметить, что финальной версии RyuJIT ещё не вышло, эксперимент был проведён для CTP5. Надеемся, что ближе к релизу интеллектуальные оптимизации кода всё-таки появятся.</p>
-<h3 id="section-7">Ссылки</h3>
-<ul>
-<li><a href="http://aakinshin.net/ru/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/">Размотка маленьких циклов в разных версиях JIT</a></li>
-<li><a href="https://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B7%D0%BC%D0%BE%D1%82%D0%BA%D0%B0_%D1%86%D0%B8%D0%BA%D0%BB%D0%B0">Википедия: Размотка цикла</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Loop_unrolling">Wikipedia: Loop unrolling</a></li>
-<li><a href="https://www.researchgate.net/publication/2449271_Generalized_Loop-Unrolling_a_Method_for_Program_Speed-Up">J. C. Huang, T. Leng, Generalized Loop-Unrolling: a Method for Program Speed-Up (1998)</a></li>
-<li><a href="https://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B5%D0%B4%D1%81%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D0%B5%D0%BB%D1%8C_%D0%BF%D0%B5%D1%80%D0%B5%D1%85%D0%BE%D0%B4%D0%BE%D0%B2">Википедия: Предсказывание переходов (branch prediction)</a></li>
-<li><a href="https://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%B0%D0%BB%D0%BB%D0%B5%D0%BB%D0%B8%D0%B7%D0%BC_%D0%BD%D0%B0_%D1%83%D1%80%D0%BE%D0%B2%D0%BD%D0%B5_%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4">Википедия: Параллелизма уровня команд (instruction-level parallelism)</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Inline_expansion">Wikipedia: Inline expansion</a></li>
-<li><a href="http://en.wikipedia.org/wiki/CPU_cache#Cache_miss">Wikipedia: Cache miss</a></li>
-<li><a href="http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful">StackOverflow: http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful</a></li>
-<li><a href="http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx">Blogs.Msdn: RyuJIT: The next-generation JIT compiler for .NET</a></li>
-</ul>
-
-<!-- Share -->
-
-Поделиться:
-<a href="https://twitter.com/intent/tweet?text=RyuJIT CTP5 и размотка циклов&url=http://aakinshin.net/ru/posts/ryujit-ctp5-and-loop-unrolling/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/ru/posts/ryujit-ctp5-and-loop-unrolling/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/ru/posts/ryujit-ctp5-and-loop-unrolling/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/posts/ryujit-ctp5-and-loop-unrolling/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/ru/posts/ryujit-ctp5-and-loop-unrolling/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/ru/posts/ryujit-ctp5-and-loop-unrolling/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/ru/posts/ryujit-ctp5-and-loop-unrolling/&title=RyuJIT CTP5 и размотка циклов" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  Исходный код поста находится на GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2015/ryujit-ctp5-and-loop-unrolling.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2015/ryujit-ctp5-and-loop-unrolling.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Андрей Акиньшин | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+<!doctype html><html lang=ru class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Андрей Акиньшин"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>RyuJIT CTP5 и размотка циклов | Андрей Акиньшин</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/ru/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/posts/>Посты</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/ru/about/>Об авторе</a></li><li class=nav-item><a class=nav-link id=nav-link-about href>Pro .NET Benchmarking</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>RU</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/posts/ryujit-ctp5-and-loop-unrolling/>EN</a></div></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/ru/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>RyuJIT CTP5 и размотка циклов</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2015-03-01>1 марта 2015</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/c class="badge badge-info">C#</a>
+<a href=https://aakinshin.net/tags/jit class="badge badge-info">JIT</a>
+<a href=https://aakinshin.net/tags/ryujit class="badge badge-info">RyuJIT</a>
+<a href=https://aakinshin.net/tags/loopunrolling class="badge badge-info">LoopUnrolling</a></span><br><br><p>Уже скоро нам будет доступен RyuJIT, JIT-компилятор следующего поколения для .NET-приложений. Microsoft любит рассказывать нам о преимуществах использования SIMD и сокращением времени JIT-компиляции. Но что можно сказать о базовых оптимизациях кода, за которые обычно отвечает компилятор? Сегодня мы поговорим о такой оптимизации как размотка (раскрутка) цикла. Если кратко, то это оптимизации кода вида</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>1024</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+    <span class=n>Foo</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</code></pre></div><p>превращается в</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>1024</span><span class=p>;</span> <span class=n>i</span> <span class=p>+=</span> <span class=m>4</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=n>Foo</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+    <span class=n>Foo</span><span class=p>(</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>);</span>
+    <span class=n>Foo</span><span class=p>(</span><span class=n>i</span> <span class=p>+</span> <span class=m>2</span><span class=p>);</span>
+    <span class=n>Foo</span><span class=p>(</span><span class=n>i</span> <span class=p>+</span> <span class=m>3</span><span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div><p>Подобный подход может заметно увеличить производительность вашего кода. Итак, как же обстоят дела с раскруткой цикла в .NET?</p><h3 id=общая-теория>Общая теория</h3><p>Сперва поговорим о том, как размотка циклов влияет на наше приложение.</p><h4 id=достоинства>Достоинства</h4><ul><li>Мы немного экономим на сокращении количества инкрементов переменной цикла.</li><li>Сокращаются накладные расходы на <a href=https://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B5%D0%B4%D1%81%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D0%B5%D0%BB%D1%8C_%D0%BF%D0%B5%D1%80%D0%B5%D1%85%D0%BE%D0%B4%D0%BE%D0%B2>предсказывание переходов (branch prediction)</a>.</li><li>Повышаются возможности применения <a href=https://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%B0%D0%BB%D0%BB%D0%B5%D0%BB%D0%B8%D0%B7%D0%BC_%D0%BD%D0%B0_%D1%83%D1%80%D0%BE%D0%B2%D0%BD%D0%B5_%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4>параллелизма уровня команд (instruction-level parallelism)</a>.</li><li>Позволяет выполнить дополнительные улучшения кода в связке с другими оптимизациями (например, <a href=http://en.wikipedia.org/wiki/Inline_expansion>инлайнинг</a>).</li></ul><h4 id=недостатки>Недостатки</h4><ul><li>Увеличивается размер исходного кода, что негативно сказывается на размере программы.</li><li>Из-за растущего размера количества инструкций иногда невозможно одновременно применить размотку цикла и инлайнинг.</li><li>Возможные <a href=http://en.wikipedia.org/wiki/CPU_cache#Cache_miss>промахи</a> в кеше команд.</li><li>Возрастает нагрузка на регистры в рамках итерации (нам может не хватить регистров, другие оптимизации могут не примениться из-за их нехватки).</li><li>Если внутри итерации есть ветвление, то размотка может отрицательно повлиять на другие оптимизации.</li></ul><h4 id=выводы>Выводы</h4><p>Размотка циклов — очень мощный инструмент для оптимизации, но только если применять её с умом. Не рекомендуется делать размотку самостоятельно: это понизит читаемость кода и может затруднить применение других оптимизаций. Лучше всего оставить этот подход компилятору. Очень важно, чтобы ваш компилятор умел делать размотку циклов грамотно.</p><h3 id=эксперименты>Эксперименты</h3><h4 id=исходный-код>Исходный код</h4><p>Мы будем работать с очень простым циклом, который просто грех не размотать:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>int</span> <span class=n>sum</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+<span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>1024</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+    <span class=n>sum</span> <span class=p>+=</span> <span class=n>i</span><span class=p>;</span>
+<span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>sum</span><span class=p>);</span>
+</code></pre></div><p>Обратите внимание, что количество итераций известно заранее и равно 2<sup>10</sup>. Это очень важно, т. к. существенно упрощает применение рассматриваемой оптимизации.</p><h4 id=jit-x86>JIT-x86</h4><p>Запустим данный код под x86 и взглянем на ассемблерный код:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm>        <span class=nf>int</span> <span class=no>sum</span> <span class=err>=</span> <span class=mi>0</span><span class=c>;                    
+</span><span class=c></span><span class=mi>00</span><span class=no>EE0052</span>  <span class=no>in</span>          <span class=no>al</span><span class=p>,</span><span class=no>dx</span>             
+<span class=mi>00</span><span class=no>EE0053</span>  <span class=no>push</span>        <span class=no>esi</span>               
+<span class=mi>00</span><span class=no>EE0054</span>  <span class=no>xor</span>         <span class=no>esi</span><span class=p>,</span><span class=no>esi</span>           
+        <span class=no>for</span> <span class=p>(</span><span class=no>int</span> <span class=no>i</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; i &lt; 1024; i++)  
+</span><span class=c></span><span class=mi>00</span><span class=no>EE0056</span>  <span class=no>xor</span>         <span class=no>eax</span><span class=p>,</span><span class=no>eax</span>           
+            <span class=no>sum</span> <span class=err>+=</span> <span class=no>i</span><span class=c>;                   
+</span><span class=c></span><span class=mi>00</span><span class=no>EE0058</span>  <span class=no>add</span>         <span class=no>esi</span><span class=p>,</span><span class=no>eax</span>           <span class=c>; sum += i
+</span><span class=c></span>        <span class=no>for</span> <span class=p>(</span><span class=no>int</span> <span class=no>i</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; i &lt; 1024; i++)  
+</span><span class=c></span><span class=mi>00</span><span class=no>EE005A</span>  <span class=no>inc</span>         <span class=no>eax</span>               <span class=c>; i++
+</span><span class=c></span><span class=mi>00</span><span class=no>EE005B</span>  <span class=no>cmp</span>         <span class=no>eax</span><span class=p>,</span><span class=mi>400</span><span class=no>h</span>          
+<span class=mi>00</span><span class=no>EE0060</span>  <span class=no>jl</span>          <span class=mi>00</span><span class=no>EE0058</span>          
+</code></pre></div><p>Как видно, JIT-x86 размотку не выполнил. Нужно понимать, что 32-битная версия JIT-компилятора достаточно примитивна, от неё не часто можно увидеть хорошие оптимизации. Размотка цикла в JIT-x86 выполняется крайне редко, если выполняются специфические условия.</p><h4 id=jit-x64>JIT-x64</h4><p>Теперь перейдём к 64-битной версии JIT-компилятора:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm>        <span class=nf>int</span> <span class=no>sum</span> <span class=err>=</span> <span class=mi>0</span><span class=c>;                               
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC8710090</span>  <span class=no>sub</span>         <span class=no>rsp</span><span class=p>,</span><span class=mi>28</span><span class=no>h</span>              
+        <span class=no>for</span> <span class=p>(</span><span class=no>int</span> <span class=no>i</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; i &lt; 1024; i++)             
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC8710094</span>  <span class=no>xor</span>         <span class=no>ecx</span><span class=p>,</span><span class=no>ecx</span>              
+<span class=mi>00007</span><span class=no>FFCC8710096</span>  <span class=no>mov</span>         <span class=no>edx</span><span class=p>,</span><span class=mi>1</span>                <span class=c>; edx = i + 1
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC871009B</span>  <span class=no>nop</span>         <span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rax</span><span class=err>+</span><span class=no>rax</span><span class=p>]</span>  
+<span class=mi>00007</span><span class=no>FFCC87100A0</span>  <span class=no>lea</span>         <span class=no>eax</span><span class=p>,[</span><span class=no>rdx-1</span><span class=p>]</span>          <span class=c>; eax = i
+</span><span class=c></span>            <span class=no>sum</span> <span class=err>+=</span> <span class=no>i</span><span class=c>;                              
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC87100A3</span>  <span class=no>add</span>         <span class=no>ecx</span><span class=p>,</span><span class=no>eax</span>              <span class=c>; sum += i
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC87100A5</span>  <span class=no>add</span>         <span class=no>ecx</span><span class=p>,</span><span class=no>edx</span>              <span class=c>; sum += i + 1
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC87100A7</span>  <span class=no>lea</span>         <span class=no>eax</span><span class=p>,[</span><span class=no>rdx</span><span class=err>+</span><span class=mi>1</span><span class=p>]</span>          <span class=c>; eax = i + 2
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC87100AA</span>  <span class=no>add</span>         <span class=no>ecx</span><span class=p>,</span><span class=no>eax</span>              <span class=c>; sum += i + 2;
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC87100AC</span>  <span class=no>lea</span>         <span class=no>eax</span><span class=p>,[</span><span class=no>rdx</span><span class=err>+</span><span class=mi>2</span><span class=p>]</span>          <span class=c>; eax = i + 3
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC87100AF</span>  <span class=no>add</span>         <span class=no>ecx</span><span class=p>,</span><span class=no>eax</span>              <span class=c>; sum += i + 3;
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC87100B1</span>  <span class=no>add</span>         <span class=no>edx</span><span class=p>,</span><span class=mi>4</span>                <span class=c>; i += 4
+</span><span class=c></span>        <span class=no>for</span> <span class=p>(</span><span class=no>int</span> <span class=no>i</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; i &lt; 1024; i++)             
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC87100B4</span>  <span class=no>cmp</span>         <span class=no>edx</span><span class=p>,</span><span class=mi>401</span><span class=no>h</span>             
+<span class=mi>00007</span><span class=no>FFCC87100BA</span>  <span class=no>jl</span>          <span class=mi>00007</span><span class=no>FFCC87100A0</span>     
+</code></pre></div><p>Вы можете видеть, что размотка циклов была выполнена: тело цикла было повторено 4 раза. JIT-x64 умеет повторять тело цикла 2, 3 или 4 раза (в зависимости от количества итераций). Увы, если среди делителей количества итераций чисел 2, 3, 4 нет, то размотка произведена не будет.</p><h4 id=ryujit>RyuJIT</h4><p>Что же произойдёт в новом RyuJIT? Взглянем на ассемблерный код:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm>        <span class=nf>int</span> <span class=no>sum</span> <span class=err>=</span> <span class=mi>0</span><span class=c>;                            
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC86E0091</span>  <span class=no>sub</span>         <span class=no>rsp</span><span class=p>,</span><span class=mi>20</span><span class=no>h</span>           
+<span class=mi>00007</span><span class=no>FFCC86E0095</span>  <span class=no>xor</span>         <span class=no>esi</span><span class=p>,</span><span class=no>esi</span>           
+        <span class=no>for</span> <span class=p>(</span><span class=no>int</span> <span class=no>i</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; i &lt; 1024; i++)          
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC86E0097</span>  <span class=no>xor</span>         <span class=no>eax</span><span class=p>,</span><span class=no>eax</span>           
+            <span class=no>sum</span> <span class=err>+=</span> <span class=no>i</span><span class=c>;                           
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC86E0099</span>  <span class=no>add</span>         <span class=no>esi</span><span class=p>,</span><span class=no>eax</span>           <span class=c>; sum += i
+</span><span class=c></span>        <span class=no>for</span> <span class=p>(</span><span class=no>int</span> <span class=no>i</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; i &lt; 1024; i++)          
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC86E009B</span>  <span class=no>inc</span>         <span class=no>eax</span>               <span class=c>; i++
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC86E009D</span>  <span class=no>cmp</span>         <span class=no>eax</span><span class=p>,</span><span class=mi>400</span><span class=no>h</span>          
+<span class=mi>00007</span><span class=no>FFCC86E00A2</span>  <span class=no>jl</span>          <span class=mi>00007</span><span class=no>FFCC86E0099</span>  
+</code></pre></div><p>Печальная картина: RyuJIT не может размотать даже простейший цикл. Объяснение следующее: RyuJIT базируется на той же кодовой базе, что и JIT-x86 (см. <a href=http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx>RyuJIT: The next-generation JIT compiler for .NET</a>).</p><h3 id=выводы-1>Выводы</h3><p>RyuJIT позволяет нам использовать SIMD-инструкции и сокращает время JIT-компиляции. Увы, производительность самого кода с переходом на новый JIT временами начинает страдать. Стоит отметить, что финальной версии RyuJIT ещё не вышло, эксперимент был проведён для CTP5. Надеемся, что ближе к релизу интеллектуальные оптимизации кода всё-таки появятся.</p><h3 id=ссылки>Ссылки</h3><ul><li><a href=http://aakinshin.net/ru/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/>Размотка маленьких циклов в разных версиях JIT</a></li><li><a href=https://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B7%D0%BC%D0%BE%D1%82%D0%BA%D0%B0_%D1%86%D0%B8%D0%BA%D0%BB%D0%B0>Википедия: Размотка цикла</a></li><li><a href=http://en.wikipedia.org/wiki/Loop_unrolling>Wikipedia: Loop unrolling</a></li><li><a href=https://www.researchgate.net/publication/2449271_Generalized_Loop-Unrolling_a_Method_for_Program_Speed-Up>J. C. Huang, T. Leng, Generalized Loop-Unrolling: a Method for Program Speed-Up (1998)</a></li><li><a href=https://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B5%D0%B4%D1%81%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D0%B5%D0%BB%D1%8C_%D0%BF%D0%B5%D1%80%D0%B5%D1%85%D0%BE%D0%B4%D0%BE%D0%B2>Википедия: Предсказывание переходов (branch prediction)</a></li><li><a href=https://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%B0%D0%BB%D0%BB%D0%B5%D0%BB%D0%B8%D0%B7%D0%BC_%D0%BD%D0%B0_%D1%83%D1%80%D0%BE%D0%B2%D0%BD%D0%B5_%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4>Википедия: Параллелизма уровня команд (instruction-level parallelism)</a></li><li><a href=http://en.wikipedia.org/wiki/Inline_expansion>Wikipedia: Inline expansion</a></li><li><a href=http://en.wikipedia.org/wiki/CPU_cache#Cache_miss>Wikipedia: Cache miss</a></li><li><a href=http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful>StackOverflow: http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful</a></li><li><a href=http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx>Blogs.Msdn: RyuJIT: The next-generation JIT compiler for .NET</a></li></ul><br><br><div class=mx-auto>Поделиться:
+<a href="https://twitter.com/intent/tweet?text=RyuJIT%20CTP5%20%d0%b8%20%d1%80%d0%b0%d0%b7%d0%bc%d0%be%d1%82%d0%ba%d0%b0%20%d1%86%d0%b8%d0%ba%d0%bb%d0%be%d0%b2&url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fryujit-ctp5-and-loop-unrolling%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fryujit-ctp5-and-loop-unrolling%2f&title=RyuJIT%20CTP5%20%d0%b8%20%d1%80%d0%b0%d0%b7%d0%bc%d0%be%d1%82%d0%ba%d0%b0%20%d1%86%d0%b8%d0%ba%d0%bb%d0%be%d0%b2" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fryujit-ctp5-and-loop-unrolling%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fryujit-ctp5-and-loop-unrolling%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fryujit-ctp5-and-loop-unrolling%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fryujit-ctp5-and-loop-unrolling%2f&title=RyuJIT%20CTP5%20%d0%b8%20%d1%80%d0%b0%d0%b7%d0%bc%d0%be%d1%82%d0%ba%d0%b0%20%d1%86%d0%b8%d0%ba%d0%bb%d0%be%d0%b2" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Андрей Акиньшин | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

@@ -1,150 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="RyuJIT RC and constant folding">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,C#,JIT,RyuJIT,ConstantFolding'>
-
-    <title>RyuJIT RC and constant folding</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-    
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/posts/ryujit-rc-and-constant-folding/'>Ru</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">RyuJIT RC and constant folding</h2>
-<span class="blog-post-meta">
-  <b>Date:</b> May 12, 2015.
-  <b>Tags:</b>
-        <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-        <a href="/tags/jit"><span class="badge badge-pill badge-info">JIT</span></a>
-        <a href="/tags/ryujit"><span class="badge badge-pill badge-info">RyuJIT</span></a>
-        <a href="/tags/constantfolding"><span class="badge badge-pill badge-info">ConstantFolding</span></a>
-</span><br /><br />
-
-<p><strong>Update:</strong> The below results are valid for the release version of RyuJIT in .NET Framework 4.6 without updates.</p>
-<p>The challenge of the day: which method is faster?</p>
-<pre><code class="language-cs">public double Sqrt13()
-{
-    return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
-           Math.Sqrt(6) + Math.Sqrt(7) + Math.Sqrt(8) + Math.Sqrt(9) + Math.Sqrt(10) + 
-           Math.Sqrt(11) + Math.Sqrt(12) + Math.Sqrt(13);
-}
-public double Sqrt14()
-{
-    return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
-           Math.Sqrt(6) + Math.Sqrt(7) + Math.Sqrt(8) + Math.Sqrt(9) + Math.Sqrt(10) + 
-           Math.Sqrt(11) + Math.Sqrt(12) + Math.Sqrt(13) + Math.Sqrt(14);
-}
-</code></pre>
-<p>I have measured the methods performance with help of <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a> for RyuJIT RC (a part of .NET Framework 4.6 RC) and received the following results:</p>
-<pre><code>// BenchmarkDotNet=v0.7.4.0
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>RyuJIT RC and constant folding | Andrey Akinshin</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>EN</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/ru/posts/ryujit-rc-and-constant-folding/>RU</a></div></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>RyuJIT RC and constant folding</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2015-05-12>May 12, 2015</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/c class="badge badge-info">C#</a>
+<a href=https://aakinshin.net/tags/jit class="badge badge-info">JIT</a>
+<a href=https://aakinshin.net/tags/ryujit class="badge badge-info">RyuJIT</a>
+<a href=https://aakinshin.net/tags/constantfolding class="badge badge-info">ConstantFolding</a></span><br><br><p><strong>Update:</strong> The below results are valid for the release version of RyuJIT in .NET Framework 4.6 without updates.</p><p>The challenge of the day: which method is faster?</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=kt>double</span> <span class=n>Sqrt13</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=k>return</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>1</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>2</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>3</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>4</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>5</span><span class=p>)</span> <span class=p>+</span> 
+           <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>6</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>7</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>8</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>9</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>10</span><span class=p>)</span> <span class=p>+</span> 
+           <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>11</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>12</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>13</span><span class=p>);</span>
+<span class=p>}</span>
+<span class=k>public</span> <span class=kt>double</span> <span class=n>Sqrt14</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=k>return</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>1</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>2</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>3</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>4</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>5</span><span class=p>)</span> <span class=p>+</span> 
+           <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>6</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>7</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>8</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>9</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>10</span><span class=p>)</span> <span class=p>+</span> 
+           <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>11</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>12</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>13</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>14</span><span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div><p>I have measured the methods performance with help of <a href=https://github.com/AndreyAkinshin/BenchmarkDotNet>BenchmarkDotNet</a> for RyuJIT RC (a part of .NET Framework 4.6 RC) and received the following results:</p><div class=highlight><pre class=chroma><code class=language-md data-lang=md>// BenchmarkDotNet=v0.7.4.0
 // OS=Microsoft Windows NT 6.2.9200.0
 // Processor=Intel(R) Core(TM) i7-4702MQ CPU ＠ 2.20GHz, ProcessorCount=8
 // CLR=MS.NET 4.0.30319.0, Arch=64-bit  [RyuJIT]
@@ -154,79 +27,70 @@ Common:  Type=Math_DoubleSqrtAvx  Mode=Throughput  Platform=X64  Jit=RyuJit  .NE
 ------- |--------- |---------- |------------- |
  Sqrt13 | 55.40 ns |  0.571 ns |  18050993.06 |
  Sqrt14 |  1.43 ns | 0.0224 ns | 697125029.18 |
-</code></pre>
-<p>How so? If I add one more <code>Math.Sqrt</code> to the expression, the method starts work 40 times faster! Let's examine the situation..<!--more--></p>
-<p>First of all, open in VisualStudio generated ASM code:</p>
-<pre><code class="language-nasm">; Sqrt13
-vsqrtsd     xmm0,xmm0,mmword ptr [7FF94F9E4D28h]  
-vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D30h]  
-vaddsd      xmm0,xmm0,xmm1  
-vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D38h]  
-vaddsd      xmm0,xmm0,xmm1  
-vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D40h]  
-vaddsd      xmm0,xmm0,xmm1  
-vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D48h]  
-vaddsd      xmm0,xmm0,xmm1  
-vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D50h]  
-vaddsd      xmm0,xmm0,xmm1  
-vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D58h]  
-vaddsd      xmm0,xmm0,xmm1  
-vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D60h]  
-vaddsd      xmm0,xmm0,xmm1  
-vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D68h]  
-vaddsd      xmm0,xmm0,xmm1  
-vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D70h]  
-vaddsd      xmm0,xmm0,xmm1  
-vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D78h]  
-vaddsd      xmm0,xmm0,xmm1  
-vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D80h]  
-vaddsd      xmm0,xmm0,xmm1  
-vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D88h]  
-vaddsd      xmm0,xmm0,xmm1  
-ret
+</code></pre></div><p>How so? If I add one more <code>Math.Sqrt</code> to the expression, the method starts work 40 times faster! Let&rsquo;s examine the situation..</p><p>First of all, open in VisualStudio generated ASM code:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=c>; Sqrt13
+</span><span class=c></span><span class=nf>vsqrtsd</span>     <span class=no>xmm0</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>mmword</span> <span class=no>ptr</span> <span class=p>[</span><span class=mi>7</span><span class=no>FF94F9E4D28h</span><span class=p>]</span>  
+<span class=no>vsqrtsd</span>     <span class=no>xmm1</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>mmword</span> <span class=no>ptr</span> <span class=p>[</span><span class=mi>7</span><span class=no>FF94F9E4D30h</span><span class=p>]</span>  
+<span class=no>vaddsd</span>      <span class=no>xmm0</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>xmm1</span>  
+<span class=no>vsqrtsd</span>     <span class=no>xmm1</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>mmword</span> <span class=no>ptr</span> <span class=p>[</span><span class=mi>7</span><span class=no>FF94F9E4D38h</span><span class=p>]</span>  
+<span class=no>vaddsd</span>      <span class=no>xmm0</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>xmm1</span>  
+<span class=no>vsqrtsd</span>     <span class=no>xmm1</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>mmword</span> <span class=no>ptr</span> <span class=p>[</span><span class=mi>7</span><span class=no>FF94F9E4D40h</span><span class=p>]</span>  
+<span class=no>vaddsd</span>      <span class=no>xmm0</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>xmm1</span>  
+<span class=no>vsqrtsd</span>     <span class=no>xmm1</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>mmword</span> <span class=no>ptr</span> <span class=p>[</span><span class=mi>7</span><span class=no>FF94F9E4D48h</span><span class=p>]</span>  
+<span class=no>vaddsd</span>      <span class=no>xmm0</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>xmm1</span>  
+<span class=no>vsqrtsd</span>     <span class=no>xmm1</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>mmword</span> <span class=no>ptr</span> <span class=p>[</span><span class=mi>7</span><span class=no>FF94F9E4D50h</span><span class=p>]</span>  
+<span class=no>vaddsd</span>      <span class=no>xmm0</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>xmm1</span>  
+<span class=no>vsqrtsd</span>     <span class=no>xmm1</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>mmword</span> <span class=no>ptr</span> <span class=p>[</span><span class=mi>7</span><span class=no>FF94F9E4D58h</span><span class=p>]</span>  
+<span class=no>vaddsd</span>      <span class=no>xmm0</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>xmm1</span>  
+<span class=no>vsqrtsd</span>     <span class=no>xmm1</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>mmword</span> <span class=no>ptr</span> <span class=p>[</span><span class=mi>7</span><span class=no>FF94F9E4D60h</span><span class=p>]</span>  
+<span class=no>vaddsd</span>      <span class=no>xmm0</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>xmm1</span>  
+<span class=no>vsqrtsd</span>     <span class=no>xmm1</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>mmword</span> <span class=no>ptr</span> <span class=p>[</span><span class=mi>7</span><span class=no>FF94F9E4D68h</span><span class=p>]</span>  
+<span class=no>vaddsd</span>      <span class=no>xmm0</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>xmm1</span>  
+<span class=no>vsqrtsd</span>     <span class=no>xmm1</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>mmword</span> <span class=no>ptr</span> <span class=p>[</span><span class=mi>7</span><span class=no>FF94F9E4D70h</span><span class=p>]</span>  
+<span class=no>vaddsd</span>      <span class=no>xmm0</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>xmm1</span>  
+<span class=no>vsqrtsd</span>     <span class=no>xmm1</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>mmword</span> <span class=no>ptr</span> <span class=p>[</span><span class=mi>7</span><span class=no>FF94F9E4D78h</span><span class=p>]</span>  
+<span class=no>vaddsd</span>      <span class=no>xmm0</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>xmm1</span>  
+<span class=no>vsqrtsd</span>     <span class=no>xmm1</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>mmword</span> <span class=no>ptr</span> <span class=p>[</span><span class=mi>7</span><span class=no>FF94F9E4D80h</span><span class=p>]</span>  
+<span class=no>vaddsd</span>      <span class=no>xmm0</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>xmm1</span>  
+<span class=no>vsqrtsd</span>     <span class=no>xmm1</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>mmword</span> <span class=no>ptr</span> <span class=p>[</span><span class=mi>7</span><span class=no>FF94F9E4D88h</span><span class=p>]</span>  
+<span class=no>vaddsd</span>      <span class=no>xmm0</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>xmm1</span>  
+<span class=no>ret</span>
 
-; Sqrt14
-vmovsd      xmm0,qword ptr [7FF94F9C4C80h]  
-ret    
-</code></pre>
-<p>How so? It seems that an expression with 13 of <code>Math.Sqrt</code> calculates honestly and an expression with 14 of <code>Math.Sqrt</code> uses constant folding for result precalculation.</p>
-<p>Next, let's build own version of CoreCLR. I will work with the actual version for today (<a href="https://github.com/dotnet/coreclr/commit/0e6021bb96eaee9ac94e5f0095cbe4e846cdb6af">0e6021bb</a>).
-<code>COMPLUS_JitDisasm</code> can help us to print generated ASM code:</p>
-<pre><code class="language-nasm">; Sqrt13
-sqrtsd   xmm0, qword ptr [＠RWD00]
-sqrtsd   xmm1, qword ptr [＠RWD08]
-addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [＠RWD16]
-addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [＠RWD24]
-addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [＠RWD32]
-addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [＠RWD40]
-addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [＠RWD48]
-addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [＠RWD56]
-addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [＠RWD64]
-addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [＠RWD72]
-addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [＠RWD80]
-addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [＠RWD88]
-addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [＠RWD96]
-addsd    xmm0, xmm1
-ret
+<span class=c>; Sqrt14
+</span><span class=c></span><span class=nf>vmovsd</span>      <span class=no>xmm0</span><span class=p>,</span><span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=mi>7</span><span class=no>FF94F9C4C80h</span><span class=p>]</span>  
+<span class=no>ret</span>    
+</code></pre></div><p>How so? It seems that an expression with 13 of <code>Math.Sqrt</code> calculates honestly and an expression with 14 of <code>Math.Sqrt</code> uses constant folding for result precalculation.</p><p>Next, let&rsquo;s build own version of CoreCLR. I will work with the actual version for today (<a href=https://github.com/dotnet/coreclr/commit/0e6021bb96eaee9ac94e5f0095cbe4e846cdb6af>0e6021bb</a>).
+<code>COMPLUS_JitDisasm</code> can help us to print generated ASM code:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=c>; Sqrt13
+</span><span class=c></span><span class=nf>sqrtsd</span>   <span class=no>xmm0</span><span class=p>,</span> <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=err>＠</span><span class=no>RWD00</span><span class=p>]</span>
+<span class=nf>sqrtsd</span>   <span class=no>xmm1</span><span class=p>,</span> <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=err>＠</span><span class=no>RWD08</span><span class=p>]</span>
+<span class=nf>addsd</span>    <span class=no>xmm0</span><span class=p>,</span> <span class=no>xmm1</span>
+<span class=nf>sqrtsd</span>   <span class=no>xmm1</span><span class=p>,</span> <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=err>＠</span><span class=no>RWD16</span><span class=p>]</span>
+<span class=nf>addsd</span>    <span class=no>xmm0</span><span class=p>,</span> <span class=no>xmm1</span>
+<span class=nf>sqrtsd</span>   <span class=no>xmm1</span><span class=p>,</span> <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=err>＠</span><span class=no>RWD24</span><span class=p>]</span>
+<span class=nf>addsd</span>    <span class=no>xmm0</span><span class=p>,</span> <span class=no>xmm1</span>
+<span class=nf>sqrtsd</span>   <span class=no>xmm1</span><span class=p>,</span> <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=err>＠</span><span class=no>RWD32</span><span class=p>]</span>
+<span class=nf>addsd</span>    <span class=no>xmm0</span><span class=p>,</span> <span class=no>xmm1</span>
+<span class=nf>sqrtsd</span>   <span class=no>xmm1</span><span class=p>,</span> <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=err>＠</span><span class=no>RWD40</span><span class=p>]</span>
+<span class=nf>addsd</span>    <span class=no>xmm0</span><span class=p>,</span> <span class=no>xmm1</span>
+<span class=nf>sqrtsd</span>   <span class=no>xmm1</span><span class=p>,</span> <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=err>＠</span><span class=no>RWD48</span><span class=p>]</span>
+<span class=nf>addsd</span>    <span class=no>xmm0</span><span class=p>,</span> <span class=no>xmm1</span>
+<span class=nf>sqrtsd</span>   <span class=no>xmm1</span><span class=p>,</span> <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=err>＠</span><span class=no>RWD56</span><span class=p>]</span>
+<span class=nf>addsd</span>    <span class=no>xmm0</span><span class=p>,</span> <span class=no>xmm1</span>
+<span class=nf>sqrtsd</span>   <span class=no>xmm1</span><span class=p>,</span> <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=err>＠</span><span class=no>RWD64</span><span class=p>]</span>
+<span class=nf>addsd</span>    <span class=no>xmm0</span><span class=p>,</span> <span class=no>xmm1</span>
+<span class=nf>sqrtsd</span>   <span class=no>xmm1</span><span class=p>,</span> <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=err>＠</span><span class=no>RWD72</span><span class=p>]</span>
+<span class=nf>addsd</span>    <span class=no>xmm0</span><span class=p>,</span> <span class=no>xmm1</span>
+<span class=nf>sqrtsd</span>   <span class=no>xmm1</span><span class=p>,</span> <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=err>＠</span><span class=no>RWD80</span><span class=p>]</span>
+<span class=nf>addsd</span>    <span class=no>xmm0</span><span class=p>,</span> <span class=no>xmm1</span>
+<span class=nf>sqrtsd</span>   <span class=no>xmm1</span><span class=p>,</span> <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=err>＠</span><span class=no>RWD88</span><span class=p>]</span>
+<span class=nf>addsd</span>    <span class=no>xmm0</span><span class=p>,</span> <span class=no>xmm1</span>
+<span class=nf>sqrtsd</span>   <span class=no>xmm1</span><span class=p>,</span> <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=err>＠</span><span class=no>RWD96</span><span class=p>]</span>
+<span class=nf>addsd</span>    <span class=no>xmm0</span><span class=p>,</span> <span class=no>xmm1</span>
+<span class=nf>ret</span>
 
-; Sqrt14
-movsd    xmm0, qword ptr [＠RWD00]
-ret
-</code></pre>
-<p>We can see that CoreCLR uses the <code>sqrtsd</code> instruction (SSE2) instead of <code>vsqrtsd</code> (AVX). It is not important for now. We can create an issue on GitHib (<a href="https://github.com/dotnet/coreclr/issues/977">coreclr/issues/977</a>) and continue (now there is a fix for the problem: <a href="https://github.com/dotnet/coreclr/pull/981">coreclr/pull/981</a>).</p>
-<p>Now let's enable <code>COMPLUS_JitDump</code> and print the full dump. We can see that RyuJIT build the following tree for <code>Sqrt13</code>:</p>
-<pre><code>*  stmtExpr  void  (top level) (IL 0x000...  ???)
+<span class=c>; Sqrt14
+</span><span class=c></span><span class=nf>movsd</span>    <span class=no>xmm0</span><span class=p>,</span> <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=err>＠</span><span class=no>RWD00</span><span class=p>]</span>
+<span class=nf>ret</span>
+</code></pre></div><p>We can see that CoreCLR uses the <code>sqrtsd</code> instruction (SSE2) instead of <code>vsqrtsd</code> (AVX). It is not important for now. We can create an issue on GitHib (<a href=https://github.com/dotnet/coreclr/issues/977>coreclr/issues/977</a>) and continue (now there is a fix for the problem: <a href=https://github.com/dotnet/coreclr/pull/981>coreclr/pull/981</a>).</p><p>Now let&rsquo;s enable <code>COMPLUS_JitDump</code> and print the full dump. We can see that RyuJIT build the following tree for <code>Sqrt13</code>:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>*  stmtExpr  void  (top level) (IL 0x000...  ???)
 |     /--*  mathFN    double sqrt
 |     |  \--*  dconst    double 13.000000000000000
 |  /--*  +         double
@@ -267,9 +131,7 @@ ret
 |  |                                      \--*  dconst    double 1.0000000000000000
 \--*  =         double
    \--*  lclVar    double V01 tmp0
-</code></pre>
-<p>RyuJIT marks the expression in <code>Sqrt13</code> as not too big and don't apply any optimization in this case. However, RyuJIT mark the expression in <code>Sqrt14</code> as too big, save in a temp variable, and apply <a href="http://en.wikipedia.org/wiki/Constant_folding">constant folding</a>:</p>
-<pre><code>N001 [000001]   dconst    1.0000000000000000 =&gt; $c0 {DblCns[1.000000]}
+</code></pre></div><p>RyuJIT marks the expression in <code>Sqrt13</code> as not too big and don&rsquo;t apply any optimization in this case. However, RyuJIT mark the expression in <code>Sqrt14</code> as too big, save in a temp variable, and apply <a href=http://en.wikipedia.org/wiki/Constant_folding>constant folding</a>:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>N001 [000001]   dconst    1.0000000000000000 =&gt; $c0 {DblCns[1.000000]}
 N002 [000002]   mathFN    =&gt; $c0 {DblCns[1.000000]}
 N003 [000003]   dconst    2.0000000000000000 =&gt; $c1 {DblCns[2.000000]}
 N004 [000004]   mathFN    =&gt; $c2 {DblCns[1.414214]}
@@ -309,60 +171,12 @@ N037 [000037]   mathFN    =&gt; $e1 {DblCns[3.605551]}
 N038 [000038]   +         =&gt; $e2 {DblCns[32.854556]}
 N039 [000041]   lclVar    V01 tmp0         d:2 =&gt; $e2 {DblCns[32.854556]}
 N040 [000042]   =         =&gt; $e2 {DblCns[32.854556]}
-</code></pre>
-<p>This is very strange situation. I want to see RyuJIT could apply such optimization even for small expression. So, go to GitHub and create another issue: <a href="https://github.com/dotnet/coreclr/issues/978">coreclr/issues/978</a>. We can learn some new fact from the discussion: if we manually save the result of expression in a temp variable:</p>
-<pre><code class="language-cs">public static double Sqrt13B()
-{
-    double res = Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
-                 Math.Sqrt(6) + Math.Sqrt(7) + Math.Sqrt(8) + Math.Sqrt(9) + Math.Sqrt(10) + 
-                 Math.Sqrt(11) + Math.Sqrt(12) + Math.Sqrt(13);
-    return res;
-}
-</code></pre>
-<p>then RyuJIT applies constant folding, the expression will be precalculated. As a result of the discussion, it was decided: RyuJIT shouldn't behave like this. So, another ticked was created: <a href="https://github.com/dotnet/coreclr/issues/987">coreclr/issues/987</a>.</p>
-<h3 id="links">Links</h3>
-<ul>
-<li><a href="https://github.com/dotnet/coreclr/issues/977">coreclr/issues/977</a>: How to run CoreCLR with the AVX support?</li>
-<li><a href="https://github.com/dotnet/coreclr/issues/978">coreclr/issues/978</a>: Is it possible to make &quot;force optimization mode&quot; for RyuJIT?</li>
-<li><a href="https://github.com/dotnet/coreclr/pull/981">coreclr/pull/981</a>: Enable FEATURE_SIMD and FEATURE_AVX_SUPPORT in the JIT</li>
-<li><a href="https://github.com/dotnet/coreclr/issues/987">coreclr/issues/987</a>: JIT optimization - Perform additional constant propagation for expressions</li>
-</ul>
-
-<!-- Share -->
-
-Share:
-<a href="https://twitter.com/intent/tweet?text=RyuJIT RC and constant folding&url=http://aakinshin.net/posts/ryujit-rc-and-constant-folding/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/ryujit-rc-and-constant-folding/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/ryujit-rc-and-constant-folding/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/ryujit-rc-and-constant-folding/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/ryujit-rc-and-constant-folding/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/ryujit-rc-and-constant-folding/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/ryujit-rc-and-constant-folding/&title=RyuJIT RC and constant folding" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  You can find source code of this post on GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2015/ryujit-rc-and-constant-folding.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2015/ryujit-rc-and-constant-folding.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+</code></pre></div><p>This is very strange situation. I want to see RyuJIT could apply such optimization even for small expression. So, go to GitHub and create another issue: <a href=https://github.com/dotnet/coreclr/issues/978>coreclr/issues/978</a>. We can learn some new fact from the discussion: if we manually save the result of expression in a temp variable:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>static</span> <span class=kt>double</span> <span class=n>Sqrt13B</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=kt>double</span> <span class=n>res</span> <span class=p>=</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>1</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>2</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>3</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>4</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>5</span><span class=p>)</span> <span class=p>+</span> 
+                 <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>6</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>7</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>8</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>9</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>10</span><span class=p>)</span> <span class=p>+</span> 
+                 <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>11</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>12</span><span class=p>)</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sqrt</span><span class=p>(</span><span class=m>13</span><span class=p>);</span>
+    <span class=k>return</span> <span class=n>res</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>then RyuJIT applies constant folding, the expression will be precalculated. As a result of the discussion, it was decided: RyuJIT shouldn&rsquo;t behave like this. So, another ticked was created: <a href=https://github.com/dotnet/coreclr/issues/987>coreclr/issues/987</a>.</p><h3 id=links>Links</h3><ul><li><a href=https://github.com/dotnet/coreclr/issues/977>coreclr/issues/977</a>: How to run CoreCLR with the AVX support?</li><li><a href=https://github.com/dotnet/coreclr/issues/978>coreclr/issues/978</a>: Is it possible to make &ldquo;force optimization mode&rdquo; for RyuJIT?</li><li><a href=https://github.com/dotnet/coreclr/pull/981>coreclr/pull/981</a>: Enable FEATURE_SIMD and FEATURE_AVX_SUPPORT in the JIT</li><li><a href=https://github.com/dotnet/coreclr/issues/987>coreclr/issues/987</a>: JIT optimization - Perform additional constant propagation for expressions</li></ul><br><br><div class=mx-auto>Share:
+<a href="https://twitter.com/intent/tweet?text=RyuJIT%20RC%20and%20constant%20folding&url=https%3a%2f%2faakinshin.net%2fposts%2fryujit-rc-and-constant-folding%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fryujit-rc-and-constant-folding%2f&title=RyuJIT%20RC%20and%20constant%20folding" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fryujit-rc-and-constant-folding%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2fryujit-rc-and-constant-folding%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2fryujit-rc-and-constant-folding%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fryujit-rc-and-constant-folding%2f&title=RyuJIT%20RC%20and%20constant%20folding" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

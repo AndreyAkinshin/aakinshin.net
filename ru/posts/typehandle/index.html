@@ -1,180 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="Вся правда о TypeHandle в .NET">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,CLR,CLI,TypeHandle,MethodTable,TypeDesc'>
-
-    <title>Вся правда о TypeHandle в .NET</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/ru/posts/">Блог</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/ru/content/">Содержание</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/ru/about/">Об авторе</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ru</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/posts/typehandle/'>En</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/ru/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Вся правда о TypeHandle в .NET</h2>
-<span class="blog-post-meta">
-  <b>Дата:</b> 14 сентября 2013.
-  <b>Теги:</b>
-        <a href="/ru/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/ru/tags/clr"><span class="badge badge-pill badge-info">CLR</span></a>
-        <a href="/ru/tags/cli"><span class="badge badge-pill badge-info">CLI</span></a>
-        <a href="/ru/tags/typehandle"><span class="badge badge-pill badge-info">TypeHandle</span></a>
-        <a href="/ru/tags/methodtable"><span class="badge badge-pill badge-info">MethodTable</span></a>
-        <a href="/ru/tags/typedesc"><span class="badge badge-pill badge-info">TypeDesc</span></a>
-</span><br /><br />
-
-<p>В разных умных книжках и статьях про .NET я часто наталкивался на упоминания про TypeHandle. Чаще всего пишут, что у каждого .NET-объекта в заголовке находится некоторый TypeHandle, который представляет собой ссылку на тип. Ещё пишут, что TypeHandle — это всегда указатель на таблицу методов типа. А в некоторых местах мне доводилось встречать информацию о том, что TypeHandle указывает на некий TypeDesc. В общем, я устал от неразберихи: давайте вместе разберёмся что к чему. А для этого нам придётся немного подизассемблировать, поизучать дампы памяти и залезть в исходники CLI.<!--more--></p>
-<h3 id="section">Что нам понадобится?</h3>
-<ul>
-<li><p>Нам нужна будет Visual Studio. А в ней нам понадобится консольное приложение, над которым мы будем ставить наши эксперименты. Для чистоты эксперимента не забываем поставить сборку проекта в <code>Release mode</code>, а для честного дебага уберём галочку Suppress JIT optimization on module load (<code>Tools</code> → <code>Options</code> → <code>Debugging</code> → <code>General</code>). В свойствах проекта на вкладке <code>Debug</code> нужно включить опцию <code>Enable native code debugging</code>. Для простоты примера будем собирать наш проект под <code>x86</code>.</p>
-</li>
-<li><p>Расширение отладки <a href="http://msdn.microsoft.com/ru-ru/library/bb190764.aspx">SOS</a>.</p>
-</li>
-<li><p><a href="http://www.microsoft.com/en-us/download/details.aspx?id=4917">Shared Source Common Language Infrastructure 2.0</a></p>
-</li>
-</ul>
-<h3 id="section-1">Пример 1</h3>
-<p>Начнём с совсем простого примера:</p>
-<pre><code class="language-cs">object a = new object();
-Console.WriteLine(a);
-Console.ReadLine();
-</code></pre>
-<p>Последние пара строчек нужна затем, чтобы можно было нормально подебажить (в дальнейшем я их приводить не буду). Давайте поставим точку останова на второй строчке и запустим наше приложение из студии (через <code>F5</code>). Для удобной отладки нам понадобится несколько окошек: <code>Disassembly</code>, <code>Registers</code>, <code>Memory</code> (их можно найти в <code>Debug</code> → <code>Windows</code>).</p>
-<p class="center">
-  <img src="/img/posts/dotnet/typehandle/screen.png" />
-</p>
-<p>Наш объект только что создался, а его адрес вернулся нам через регистр <code>eax</code>:</p>
-<pre><code>;       object a = new object();
-00000000  push        ebp 
-00000001  mov         ebp,esp 
-00000003  push        esi 
-00000004  mov         ecx,65C4B060h 
-00000009  call        FE6BF7A0      ; адрес нового объекта записывается в eax
-0000000e  mov         esi,eax 
-;       Console.WriteLine(a);
-00000010  call        63ECA5E4 
-;       ...
-</code></pre>
-<p>В окне <code>Registers</code> находим значение eax (у вас адреса будут другие)</p>
-<pre><code>EAX = 01ED1598 EBX = 0543EA64 
+<!doctype html><html lang=ru class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Андрей Акиньшин"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Вся правда о TypeHandle в .NET | Андрей Акиньшин</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/ru/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/posts/>Посты</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/ru/about/>Об авторе</a></li><li class=nav-item><a class=nav-link id=nav-link-about href>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/ru/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Вся правда о TypeHandle в .NET</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2013-09-14>14 сентября 2013</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/clr class="badge badge-info">CLR</a>
+<a href=https://aakinshin.net/tags/cli class="badge badge-info">CLI</a>
+<a href=https://aakinshin.net/tags/typehandle class="badge badge-info">TypeHandle</a>
+<a href=https://aakinshin.net/tags/methodtable class="badge badge-info">MethodTable</a>
+<a href=https://aakinshin.net/tags/typedesc class="badge badge-info">TypeDesc</a></span><br><br><p>В разных умных книжках и статьях про .NET я часто наталкивался на упоминания про TypeHandle. Чаще всего пишут, что у каждого .NET-объекта в заголовке находится некоторый TypeHandle, который представляет собой ссылку на тип. Ещё пишут, что TypeHandle — это всегда указатель на таблицу методов типа. А в некоторых местах мне доводилось встречать информацию о том, что TypeHandle указывает на некий TypeDesc. В общем, я устал от неразберихи: давайте вместе разберёмся что к чему. А для этого нам придётся немного подизассемблировать, поизучать дампы памяти и залезть в исходники CLI.</p><h3 id=что-нам-понадобится>Что нам понадобится?</h3><ul><li><p>Нам нужна будет Visual Studio. А в ней нам понадобится консольное приложение, над которым мы будем ставить наши эксперименты. Для чистоты эксперимента не забываем поставить сборку проекта в <code>Release mode</code>, а для честного дебага уберём галочку Suppress JIT optimization on module load (<code>Tools</code> -> <code>Options</code> -> <code>Debugging</code> -> <code>General</code>). В свойствах проекта на вкладке <code>Debug</code> нужно включить опцию <code>Enable native code debugging</code>. Для простоты примера будем собирать наш проект под <code>x86</code>.</p></li><li><p>Расширение отладки <a href=http://msdn.microsoft.com/ru-ru/library/bb190764.aspx>SOS</a>.</p></li><li><p><a href="http://www.microsoft.com/en-us/download/details.aspx?id=4917">Shared Source Common Language Infrastructure 2.0</a></p></li></ul><h3 id=пример-1>Пример 1</h3><p>Начнём с совсем простого примера:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>object</span> <span class=n>a</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>object</span><span class=p>();</span>
+<span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>a</span><span class=p>);</span>
+<span class=n>Console</span><span class=p>.</span><span class=n>ReadLine</span><span class=p>();</span>
+</code></pre></div><p>Последние пара строчек нужна затем, чтобы можно было нормально подебажить (в дальнейшем я их приводить не буду). Давайте поставим точку останова на второй строчке и запустим наше приложение из студии (через <code>F5</code>). Для удобной отладки нам понадобится несколько окошек: <code>Disassembly</code>, <code>Registers</code>, <code>Memory</code> (их можно найти в <code>Debug</code> -> <code>Windows</code>).</p><p class=center><img src=/img/posts/dotnet/typehandle/screen.png></p><p>Наш объект только что создался, а его адрес вернулся нам через регистр <code>eax</code>:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=c>;       object a = new object();
+</span><span class=c></span><span class=err>00000000</span>  <span class=nf>push</span>        <span class=no>ebp</span> 
+<span class=mi>00000001</span>  <span class=no>mov</span>         <span class=no>ebp</span><span class=p>,</span><span class=no>esp</span> 
+<span class=mi>00000003</span>  <span class=no>push</span>        <span class=no>esi</span> 
+<span class=mi>00000004</span>  <span class=no>mov</span>         <span class=no>ecx</span><span class=p>,</span><span class=mi>65</span><span class=no>C4B060h</span> 
+<span class=mi>00000009</span>  <span class=no>call</span>        <span class=no>FE6BF7A0</span>      <span class=c>; адрес нового объекта записывается в eax
+</span><span class=c></span><span class=mi>0000000</span><span class=no>e</span>  <span class=no>mov</span>         <span class=no>esi</span><span class=p>,</span><span class=no>eax</span> 
+<span class=c>;       Console.WriteLine(a);
+</span><span class=c></span><span class=mi>00000010</span>  <span class=no>call</span>        <span class=mi>63</span><span class=no>ECA5E4</span> 
+<span class=c>;       ...
+</span></code></pre></div><p>В окне <code>Registers</code> находим значение eax (у вас адреса будут другие)</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>EAX = 01ED1598 EBX = 0543EA64 
 ECX = 65C4B060 EDX = 005495E8 
 ESI = 01ED1598 EDI = 0543E9D0 
 EIP = 01CF2970 ESP = 0543E9B0 
 EBP = 0543E9B4 EFL = 00000212 
-</code></pre>
-<p>и копируем его в поле Address окна Memory:</p>
-<pre><code>0x01ED1594  00000000  
+</code></pre></div><p>и копируем его в поле Address окна Memory:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>0x01ED1594  00000000  
 0x01ED1598  65c4b060  
 0x01ED159C  00000000  
-</code></pre>
-<p>Заметьте, что я привёл дамп памяти размером 12 байт — именно столько занимает сейчас наш объект. Разберёмся более подробно: в заголовке каждого объекта всегда присутствует два поля: <code>SyncBlockIndex</code> (который размещается непосредственно перед объектом, т.е. обладает отрицательным смещением) и то, что мы пока назовём «ссылкой на тип». Под архитектуру <code>x86</code> каждое из этих полей занимает 4 байта. Но особенности работы GC требуют, чтобы минимальный размер объекта был 12 байт. Поэтому CLR аккуратненько дополняет объект 4 байтами до нужного размера. Давайте посмотрим на наш объект с помощью SOS. Откроем Immediate Window (для каждой дебаг-сессии необходимо включить SOS с помощью команды <code>.load sos.dll</code>) и воспользуемся командой <code>!DumpObj</code>, которой отдадим адрес нашего объекта:</p>
-<pre><code>.load sos.dll
+</code></pre></div><p>Заметьте, что я привёл дамп памяти размером 12 байт — именно столько занимает сейчас наш объект. Разберёмся более подробно: в заголовке каждого объекта всегда присутствует два поля: <code>SyncBlockIndex</code> (который размещается непосредственно перед объектом, т.е. обладает отрицательным смещением) и то, что мы пока назовём «ссылкой на тип». Под архитектуру <code>x86</code> каждое из этих полей занимает 4 байта. Но особенности работы GC требуют, чтобы минимальный размер объекта был 12 байт. Поэтому CLR аккуратненько дополняет объект 4 байтами до нужного размера. Давайте посмотрим на наш объект с помощью SOS. Откроем Immediate Window (для каждой дебаг-сессии необходимо включить SOS с помощью команды <code>.load sos.dll</code>) и воспользуемся командой <code>!DumpObj</code>, которой отдадим адрес нашего объекта:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>.load sos.dll
 !DumpObj 0x01ED1598
 Name:        System.Object
 MethodTable: 65c4b060
@@ -183,11 +36,9 @@ Size:        12(0xc) bytes
 File:        C:\WINDOWS\Microsoft.Net\assembly\GAC_32\mscorlib\v4.0_4.0.0.0__b77a5c561934e089\mscorlib.dll
 Object
 Fields:
-</code></pre>
-<p>Ага, теперь понятно: значение <code>0x65c4b060</code> — это адрес таблицы методов (MethodTable) для нашего объекта. Давайте проверим эту гипотезу: воспользуемся командой
+</code></pre></div><p>Ага, теперь понятно: значение <code>0x65c4b060</code> — это адрес таблицы методов (MethodTable) для нашего объекта. Давайте проверим эту гипотезу: воспользуемся командой
 <code>!DumpMT</code> для просмотра таблицы методов (если вы запустите эту команду с ключом <code>-MD</code>
-, то кроме заголовочной информации увидите ещё и все методы):</p>
-<pre><code>!DumpMT 65c4b060
+, то кроме заголовочной информации увидите ещё и все методы):</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>!DumpMT 65c4b060
 EEClass:         65854920
 Module:          65851000
 Name:            System.Object
@@ -197,40 +48,24 @@ BaseSize:        0xc
 ComponentSize:   0x0
 Slots in VTable: 12
 Number of IFaces in IFaceMap: 0
-</code></pre>
-<p>Казалось бы всё понятно: в начале каждого объекта хранится ссылка на MethodTable — так CLR узнаёт к какому типу относится объект. Но не будем делать выводы по одному примеру: давайте взглянем на исходники CLI. В этом нам поможет <a href="http://en.wikipedia.org/wiki/Shared_Source_Common_Language_Infrastructure">SSCLI</a> (в узких кругах известная как Rotor) — это открытые исходники реализации CLI от Microsoft. Увы, последняя версия SSCLI 2.0 датируется 2006-ым годом и относится к .NET Framework 2.0. Понадеемся, что базовые принципы хранения объектов в памяти не сильно поменялись за последнее время. Если открыть файл <code>sscli20\clr\src\vm\object.h</code>, то ближе к началу можно найти такие строчки:</p>
-<pre><code>class Object
-{
-  protected:
-    MethodTable*    m_pMethTab;
-</code></pre>
-<p>Ну, вроде всё верно: в объекте действительно хранится указатель на MethodTable. Такое заключение вы можете встретить во многих статьях и книжках. Только вот некоторые называют его просто указателем на MethodTable, а некоторые — TypeHandle. Как считаете, правильно ли это? Давайте разбираться дальше.</p>
-<h3 id="section-2">Пример 2</h3>
-<p>А теперь перейдём к устройству массива:</p>
-<pre><code class="language-cs">var a = new object[1];
-a[0] = new object();  
-</code></pre>
-<p>Точно также перейдём в дебаггер, найдём адрес массива через регистры и посмотрим дамп памяти:</p>
-<pre><code class="language-cs">0x02F9240C  00000000  // SyncBlockIndex (a)
-0x02F92410  65bfab98  // System.Object[] MethodTable (a)
-0x02F92414  00000001  // a.Length
-0x02F92418  65c4b060  // (???) Type of elements in a
-0x02F9241C  02f92424  // &amp;a[0]
-0x02F92420  00000000  // SyncBlockIndex (a[0])
-0x02F92424  65c4b060  // System.Object MethodTable (a[0])
-0x02F92428  00000000  // Free space (a[0])
-</code></pre>
-<p>После ссылки на таблицу методов для массива <code>a</code> идёт количество элементов в массиве (1), а затем — «ссылка на тип» элементов массива. Обратите внимание, я ещё ничего не утверждаю об этих данных в общем случае. Просто имеется известный факт о том, что у массивов, элементы которых являются ссылочным типом, имеются дополнительные данные, которые некоторым образом характеризуют тип элементов массива. После всех этих служебных данных находится содержание массива — единственный элемент, хранящий адрес созданного <code>object</code>. Легко видеть, что поле</p>
-<pre><code>0x02F92418  65c4b060 // System.Object[] MethodTable
-</code></pre>
-<p>указывает на таблицу методов для <code>System.Object</code>. Ну, вроде бы всё понятно: в массивах, элементы которого являются ссылочным типом, появляется дополнительное поле, которое указывает на MethodTable типа элементов. Но так ли это? Продолжим наше исследование.</p>
-<h3 id="section-3">Пример 3</h3>
-<p>А теперь создадим jagged-массив:</p>
-<pre><code class="language-cs">var a = new object[1][];
-a[0] = new object[1];
-</code></pre>
-<p>Обратимся к дампу памяти:</p>
-<pre><code>0x0301240C  00000000  // SyncBlockIndex (a)
+</code></pre></div><p>Казалось бы всё понятно: в начале каждого объекта хранится ссылка на MethodTable — так CLR узнаёт к какому типу относится объект. Но не будем делать выводы по одному примеру: давайте взглянем на исходники CLI. В этом нам поможет <a href=http://en.wikipedia.org/wiki/Shared_Source_Common_Language_Infrastructure>SSCLI</a> (в узких кругах известная как Rotor) — это открытые исходники реализации CLI от Microsoft. Увы, последняя версия SSCLI 2.0 датируется 2006-ым годом и относится к .NET Framework 2.0. Понадеемся, что базовые принципы хранения объектов в памяти не сильно поменялись за последнее время. Если открыть файл <code>sscli20\clr\src\vm\object.h</code>, то ближе к началу можно найти такие строчки:</p><div class=highlight><pre class=chroma><code class=language-c data-lang=c><span class=n>class</span> <span class=n>Object</span>
+<span class=p>{</span>
+  <span class=nl>protected</span><span class=p>:</span>
+    <span class=n>MethodTable</span><span class=o>*</span>    <span class=n>m_pMethTab</span><span class=p>;</span>
+</code></pre></div><p>Ну, вроде всё верно: в объекте действительно хранится указатель на MethodTable. Такое заключение вы можете встретить во многих статьях и книжках. Только вот некоторые называют его просто указателем на MethodTable, а некоторые — TypeHandle. Как считаете, правильно ли это? Давайте разбираться дальше.</p><h3 id=пример-2>Пример 2</h3><p>А теперь перейдём к устройству массива:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>var</span> <span class=n>a</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>object</span><span class=p>[</span><span class=m>1</span><span class=p>];</span>
+<span class=n>a</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>object</span><span class=p>();</span>  
+</code></pre></div><p>Точно также перейдём в дебаггер, найдём адрес массива через регистры и посмотрим дамп памяти:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=m>0</span><span class=n>x02F9240C</span>  <span class=m>00000000</span>  <span class=c1>// SyncBlockIndex (a)
+</span><span class=c1></span><span class=m>0</span><span class=n>x02F92410</span>  <span class=m>65</span><span class=n>bfab98</span>  <span class=c1>// System.Object[] MethodTable (a)
+</span><span class=c1></span><span class=m>0</span><span class=n>x02F92414</span>  <span class=m>00000001</span>  <span class=c1>// a.Length
+</span><span class=c1></span><span class=m>0</span><span class=n>x02F92418</span>  <span class=m>65</span><span class=n>c4b060</span>  <span class=c1>// (???) Type of elements in a
+</span><span class=c1></span><span class=m>0</span><span class=n>x02F9241C</span>  <span class=m>02f92424</span>  <span class=c1>// &amp;a[0]
+</span><span class=c1></span><span class=m>0</span><span class=n>x02F92420</span>  <span class=m>00000000</span>  <span class=c1>// SyncBlockIndex (a[0])
+</span><span class=c1></span><span class=m>0</span><span class=n>x02F92424</span>  <span class=m>65</span><span class=n>c4b060</span>  <span class=c1>// System.Object MethodTable (a[0])
+</span><span class=c1></span><span class=m>0</span><span class=n>x02F92428</span>  <span class=m>00000000</span>  <span class=c1>// Free space (a[0])
+</span></code></pre></div><p>После ссылки на таблицу методов для массива <code>a</code> идёт количество элементов в массиве (1), а затем — «ссылка на тип» элементов массива. Обратите внимание, я ещё ничего не утверждаю об этих данных в общем случае. Просто имеется известный факт о том, что у массивов, элементы которых являются ссылочным типом, имеются дополнительные данные, которые некоторым образом характеризуют тип элементов массива. После всех этих служебных данных находится содержание массива — единственный элемент, хранящий адрес созданного <code>object</code>. Легко видеть, что поле</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=m>0</span><span class=n>x02F92418</span>  <span class=m>65</span><span class=n>c4b060</span> <span class=c1>// System.Object[] MethodTable
+</span></code></pre></div><p>указывает на таблицу методов для <code>System.Object</code>. Ну, вроде бы всё понятно: в массивах, элементы которого являются ссылочным типом, появляется дополнительное поле, которое указывает на MethodTable типа элементов. Но так ли это? Продолжим наше исследование.</p><h3 id=пример-3>Пример 3</h3><p>А теперь создадим jagged-массив:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>var</span> <span class=n>a</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>object</span><span class=p>[</span><span class=m>1</span><span class=p>][];</span>
+<span class=n>a</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>object</span><span class=p>[</span><span class=m>1</span><span class=p>];</span>
+</code></pre></div><p>Обратимся к дампу памяти:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>0x0301240C  00000000  // SyncBlockIndex (a)
 0x03012410  011731d4  // System.Object[][] MethodTable (a)
 0x03012414  00000001  // a.Length
 0x03012418  65854d7a  // (???) Type of elements in a
@@ -239,142 +74,81 @@ a[0] = new object[1];
 0x03012424  65bfab98  // System.Object[] MethodTable
 0x03012428  00000001  // a[0].Length
 0x0301242C  65c4b060  // Type of elements in a[0] = System.Object MethodTable
-</code></pre>
-<p>В этом дампе можно увидеть нечто странное: поле, которое должно определять тип элементов массива <code>a</code> (по адресу <code>0x03012418</code>) не ведёт на <code>System.Object[]</code>
+</code></pre></div><p>В этом дампе можно увидеть нечто странное: поле, которое должно определять тип элементов массива <code>a</code> (по адресу <code>0x03012418</code>) не ведёт на <code>System.Object[]</code>
 MethodTable — ведь адрес этой таблицы можно найти по адресу (<code>0x03012424</code>) при описании MethodTable для <code>a[0]</code> — и они различаются. Давайте убедимся, что значение
-<code>0x65854d7a</code> не определяет MethodTable:</p>
-<pre><code>!DumpMT 65854d7a
+<code>0x65854d7a</code> не определяет MethodTable:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>!DumpMT 65854d7a
 65854d7a is not a MethodTable
-</code></pre>
-<p>Хм... Но что же это тогда такое? Давайте обратимся к исходникам CLI за объяснением. В фале <code>sscli20\clr\src\vm\object.h</code> также можно найти следующий код:</p>
-<pre><code class="language-cs">// ArrayBase encapuslates all of these details.  In theory you should never
-// have to peek inside this abstraction
-class ArrayBase : public Object
-{
-    ...
-    // This MUST be the first field, so that it directly follows Object.  This is because
-    // Object::GetSize() looks at m_NumComponents even though it may not be an array (the
-    // values is shifted out if not an array, so it's ok). 
-    DWORD       m_NumComponents;
-    ...
-    // What comes after this conceputally is:
-    // TypeHandle elementType;        Only present if the method table is shared among many types (arrays of pointers)
-    // INT32      bounds[rank];       The bounds are only present for Multidimensional arrays   
-    // INT32      lowerBounds[rank];  Valid indexes are lowerBounds[i] &lt;= index[i] &lt; lowerBounds[i] + bounds[i]
-</code></pre>
-<p>Мы видим, что для массивов из элементов ссылочного типа (arrays of pointers) действительно появляется дополнительное поле, а тип его — TypeHandle. Но что же это такое? Перейдём к файлу <code>sscli20\clr\src\vm\typehandle.h</code> . В самом начале файла к комментариях можно найти следующую полезную информацию:</p>
-<pre><code class="language-cs">// A TypeHandle is the FUNDAMENTAL concept of type identity in the CLR.
-// That is two types are equal if and only if their type handles
-// are equal.  A TypeHandle, is a pointer sized struture that encodes 
-// everything you need to know to figure out what kind of type you are
-// actually dealing with.  
+</code></pre></div><p>Хм&mldr; Но что же это тогда такое? Давайте обратимся к исходникам CLI за объяснением. В фале <code>sscli20\clr\src\vm\object.h</code> также можно найти следующий код:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=c1>// ArrayBase encapuslates all of these details.  In theory you should never
+</span><span class=c1>// have to peek inside this abstraction
+</span><span class=c1></span><span class=k>class</span> <span class=nc>ArrayBase</span> <span class=p>:</span> <span class=k>public</span> <span class=n>Object</span>
+<span class=p>{</span>
+    <span class=p>...</span>
+    <span class=c1>// This MUST be the first field, so that it directly follows Object.  This is because
+</span><span class=c1></span>    <span class=c1>// Object::GetSize() looks at m_NumComponents even though it may not be an array (the
+</span><span class=c1></span>    <span class=c1>// values is shifted out if not an array, so it&#39;s ok). 
+</span><span class=c1></span>    <span class=n>DWORD</span>       <span class=n>m_NumComponents</span><span class=p>;</span>
+    <span class=p>...</span>
+    <span class=c1>// What comes after this conceputally is:
+</span><span class=c1></span>    <span class=c1>// TypeHandle elementType;        Only present if the method table is shared among many types (arrays of pointers)
+</span><span class=c1></span>    <span class=c1>// INT32      bounds[rank];       The bounds are only present for Multidimensional arrays   
+</span><span class=c1></span>    <span class=c1>// INT32      lowerBounds[rank];  Valid indexes are lowerBounds[i] &lt;= index[i] &lt; lowerBounds[i] + bounds[i]
+</span></code></pre></div><p>Мы видим, что для массивов из элементов ссылочного типа (arrays of pointers) действительно появляется дополнительное поле, а тип его — TypeHandle. Но что же это такое? Перейдём к файлу <code>sscli20\clr\src\vm\typehandle.h</code> . В самом начале файла к комментариях можно найти следующую полезную информацию:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=c1>// A TypeHandle is the FUNDAMENTAL concept of type identity in the CLR.
+</span><span class=c1>// That is two types are equal if and only if their type handles
+</span><span class=c1>// are equal.  A TypeHandle, is a pointer sized struture that encodes 
+</span><span class=c1>// everything you need to know to figure out what kind of type you are
+</span><span class=c1>// actually dealing with.  
+</span><span class=c1></span>
+<span class=c1>// At the present time a TypeHandle can point at two possible things
+</span><span class=c1>//
+</span><span class=c1>//      1) A MethodTable    (Intrinsics, Classes, Value Types and their instantiations)
+</span><span class=c1>//      2) A TypeDesc       (all other cases: arrays, byrefs, pointer types, function pointers, generic type variables)  
+</span><span class=c1>//
+</span><span class=c1>// or with IL stubs, a third thing:
+</span><span class=c1>//
+</span><span class=c1>//      3) A MethodTable for a native value type.
+</span><span class=c1>//
+</span><span class=c1>// MTs that satisfy IsSharedByReferenceArrayTypes are not 
+</span><span class=c1>// valid TypeHandles: for example no allocated object will
+</span><span class=c1>// ever return such a type handle from Object::GetTypeHandle(), and
+</span><span class=c1>// these type handles should not be passed across the JIT Interface
+</span><span class=c1>// as CORINFO_CLASS_HANDLEs.  However some code in the EE does create 
+</span><span class=c1>// temporary TypeHandles out of these MTs, so we can&#39;t yet assert 
+</span><span class=c1>// !IsSharedByReferenceArrayTypes() in the TypeHandle constructor.
+</span></code></pre></div><p>Ага, значит TypeHandle может быть как указателем на MethodTable, так и указателем на TypeDesc, в зависимости от типа объекта. Для массивов он указывает на TypeDesc. Тип <code>object[][]</code> — это массив, элементами которого являются <code>object[]</code>, для которых TypeHandle=TypeDesc. Эта информация объясняет наш пример, но всё ещё остаются некоторые вопросы. Например: а как же отличить, на что именно указывает TypeHandle? Поможет нам в этом дальнейшее изучение исходников CLI:</p><div class=highlight><pre class=chroma><code class=language-c data-lang=c>   <span class=n>FORCEINLINE</span> <span class=n>BOOL</span> <span class=nf>IsUnsharedMT</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span>
+        <span class=n>LEAF_CONTRACT</span><span class=p>;</span>
+        <span class=n>STATIC_CONTRACT_SO_TOLERANT</span><span class=p>;</span>
+        <span class=k>return</span><span class=p>((</span><span class=n>m_asTAddr</span> <span class=o>&amp;</span> <span class=mi>2</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span><span class=p>);</span>
+    <span class=p>}</span>
 
-// At the present time a TypeHandle can point at two possible things
-//
-//      1) A MethodTable    (Intrinsics, Classes, Value Types and their instantiations)
-//      2) A TypeDesc       (all other cases: arrays, byrefs, pointer types, function pointers, generic type variables)  
-//
-// or with IL stubs, a third thing:
-//
-//      3) A MethodTable for a native value type.
-//
-// MTs that satisfy IsSharedByReferenceArrayTypes are not 
-// valid TypeHandles: for example no allocated object will
-// ever return such a type handle from Object::GetTypeHandle(), and
-// these type handles should not be passed across the JIT Interface
-// as CORINFO_CLASS_HANDLEs.  However some code in the EE does create 
-// temporary TypeHandles out of these MTs, so we can't yet assert 
-// !IsSharedByReferenceArrayTypes() in the TypeHandle constructor.
-</code></pre>
-<p>Ага, значит TypeHandle может быть как указателем на MethodTable, так и указателем на TypeDesc, в зависимости от типа объекта. Для массивов он указывает на TypeDesc. Тип <code>object[][]</code> — это массив, элементами которого являются <code>object[]</code>, для которых TypeHandle=TypeDesc. Эта информация объясняет наш пример, но всё ещё остаются некоторые вопросы. Например: а как же отличить, на что именно указывает TypeHandle? Поможет нам в этом дальнейшее изучение исходников CLI:</p>
-<pre><code>   FORCEINLINE BOOL IsUnsharedMT() const {
-        LEAF_CONTRACT;
-        STATIC_CONTRACT_SO_TOLERANT;
-        return((m_asTAddr &amp; 2) == 0);
-    }
-
-    FORCEINLINE BOOL IsTypeDesc() const  {
-        WRAPPER_CONTRACT;
-        return(!IsUnsharedMT());
-    }
-</code></pre>
-<p>Всё зависит от второго бита в адресе: нулевое значение определяет MethodTable, а единичное — TypeDesc. Если мы работаем с шестнадцатеричными адресами, то можно легко определить вид TypeHandle по последней цифре:</p>
-<pre><code>MethodTable: 0, 1, 4, 5, 8, 9, C, D
+    <span class=n>FORCEINLINE</span> <span class=n>BOOL</span> <span class=nf>IsTypeDesc</span><span class=p>()</span> <span class=k>const</span>  <span class=p>{</span>
+        <span class=n>WRAPPER_CONTRACT</span><span class=p>;</span>
+        <span class=k>return</span><span class=p>(</span><span class=o>!</span><span class=n>IsUnsharedMT</span><span class=p>());</span>
+    <span class=p>}</span>
+</code></pre></div><p>Всё зависит от второго бита в адресе: нулевое значение определяет MethodTable, а единичное — TypeDesc. Если мы работаем с шестнадцатеричными адресами, то можно легко определить вид TypeHandle по последней цифре:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>MethodTable: 0, 1, 4, 5, 8, 9, C, D
 TypeDesc   : 2, 3, 6, 7, A, B, E, F
-</code></pre>
-<p>А теперь взглянем ещё раз на дамп памяти нашего примера. Можно видеть, что для <code>System.Object[]</code> в дампе присутствуют указатели как на его TypeDesc, так и на MethodTable. Не смотря на то, что под TypeHandle в данном случае подразумевается TypeDesc, заголовочный указатель для <code>a[0]</code> всё-таки указывает на MethodTable. Поэтому некорректно говорить о том, что в заголовке каждого объекта хранится TypeHandle: там хранится указатель на MethodTable, а это далеко не всегда одно и то же.</p>
-<h3 id="section-4">Пример 4</h3>
-<p>Последний пример проиллюстрирует недавно полученное правило про последнюю цифру адреса. Мы можем получить TypeHandle прямо из управляемого кода, а по этому значению мы можем определить, что именно под ним подразумевается:</p>
-<pre><code class="language-cs">private void Run()
-{
-    Print(typeof(int));
-    Print(typeof(object));
-    Print(typeof(Stream));
-    Print(typeof(int[]));
-    Print(typeof(int[][]));
-    Print(typeof(object[]));
-}
+</code></pre></div><p>А теперь взглянем ещё раз на дамп памяти нашего примера. Можно видеть, что для <code>System.Object[]</code> в дампе присутствуют указатели как на его TypeDesc, так и на MethodTable. Не смотря на то, что под TypeHandle в данном случае подразумевается TypeDesc, заголовочный указатель для <code>a[0]</code> всё-таки указывает на MethodTable. Поэтому некорректно говорить о том, что в заголовке каждого объекта хранится TypeHandle: там хранится указатель на MethodTable, а это далеко не всегда одно и то же.</p><h3 id=пример-4>Пример 4</h3><p>Последний пример проиллюстрирует недавно полученное правило про последнюю цифру адреса. Мы можем получить TypeHandle прямо из управляемого кода, а по этому значению мы можем определить, что именно под ним подразумевается:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>private</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=n>Print</span><span class=p>(</span><span class=k>typeof</span><span class=p>(</span><span class=kt>int</span><span class=p>));</span>
+    <span class=n>Print</span><span class=p>(</span><span class=k>typeof</span><span class=p>(</span><span class=kt>object</span><span class=p>));</span>
+    <span class=n>Print</span><span class=p>(</span><span class=k>typeof</span><span class=p>(</span><span class=n>Stream</span><span class=p>));</span>
+    <span class=n>Print</span><span class=p>(</span><span class=k>typeof</span><span class=p>(</span><span class=kt>int</span><span class=p>[]));</span>
+    <span class=n>Print</span><span class=p>(</span><span class=k>typeof</span><span class=p>(</span><span class=kt>int</span><span class=p>[][]));</span>
+    <span class=n>Print</span><span class=p>(</span><span class=k>typeof</span><span class=p>(</span><span class=kt>object</span><span class=p>[]));</span>
+<span class=p>}</span>
 
-private void Print(Type type)
-{
-    bool isTypeDesc = ((int)type.TypeHandle.Value &amp; 2) &gt; 0;
-    Console.WriteLine(&quot;{0}: {1} =&gt; {2}&quot;, 
-        type.Name.PadRight(10), 
-        type.TypeHandle.Value.ToString(&quot;X&quot;), 
-        (isTypeDesc ? &quot;TypeDesc&quot; : &quot;MethodTable&quot;));
-}
-</code></pre>
-<p>У меня этот код выводит следующее:</p>
-<pre><code>Int32     : 65C4C480 =&gt; MethodTable
+<span class=k>private</span> <span class=k>void</span> <span class=n>Print</span><span class=p>(</span><span class=n>Type</span> <span class=n>type</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=kt>bool</span> <span class=n>isTypeDesc</span> <span class=p>=</span> <span class=p>((</span><span class=kt>int</span><span class=p>)</span><span class=n>type</span><span class=p>.</span><span class=n>TypeHandle</span><span class=p>.</span><span class=n>Value</span> <span class=p>&amp;</span> <span class=m>2</span><span class=p>)</span> <span class=p>&gt;</span> <span class=m>0</span><span class=p>;</span>
+    <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;{0}: {1} =&gt; {2}&#34;</span><span class=p>,</span> 
+        <span class=n>type</span><span class=p>.</span><span class=n>Name</span><span class=p>.</span><span class=n>PadRight</span><span class=p>(</span><span class=m>10</span><span class=p>),</span> 
+        <span class=n>type</span><span class=p>.</span><span class=n>TypeHandle</span><span class=p>.</span><span class=n>Value</span><span class=p>.</span><span class=n>ToString</span><span class=p>(</span><span class=s>&#34;X&#34;</span><span class=p>),</span> 
+        <span class=p>(</span><span class=n>isTypeDesc</span> <span class=p>?</span> <span class=s>&#34;TypeDesc&#34;</span> <span class=p>:</span> <span class=s>&#34;MethodTable&#34;</span><span class=p>));</span>
+<span class=p>}</span>
+</code></pre></div><p>У меня этот код выводит следующее:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>Int32     : 65C4C480 =&gt; MethodTable
 Object    : 65C4B060 =&gt; MethodTable
 Stream    : 65C4D954 =&gt; MethodTable
 Int32[]   : 65854C8A =&gt; TypeDesc
 Int32[][] : 658F6BD6 =&gt; TypeDesc
 Object[]  : 65854D7A =&gt; TypeDesc
-</code></pre>
-<h3 id="section-5">Выводы</h3>
-<p>В ходе нашего маленького исследования были получены следующие выводы:</p>
-<ul>
-<li>TypeHandle является указателем либо на MethodTable, либо на TypeDesc (зависит от типа объекта)</li>
-<li>В заголовке каждого объекта для идентификации его типа всегда хранится указатель на MethodTable (это не всегда TypeHandle)</li>
-<li>Для массивов, чьи элементы должны представлять ссылочный тип, хранится дополнительное поле, которое представляет собой TypeHandle для типа элементов.</li>
-</ul>
-
-<!-- Share -->
-
-Поделиться:
-<a href="https://twitter.com/intent/tweet?text=Вся правда о TypeHandle в .NET&url=http://aakinshin.net/ru/posts/typehandle/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/ru/posts/typehandle/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/ru/posts/typehandle/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/posts/typehandle/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/ru/posts/typehandle/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/ru/posts/typehandle/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/ru/posts/typehandle/&title=Вся правда о TypeHandle в .NET" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  Исходный код поста находится на GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2013/typehandle.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2013/typehandle.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Андрей Акиньшин | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+</code></pre></div><h3 id=выводы>Выводы</h3><p>В ходе нашего маленького исследования были получены следующие выводы:</p><ul><li>TypeHandle является указателем либо на MethodTable, либо на TypeDesc (зависит от типа объекта)</li><li>В заголовке каждого объекта для идентификации его типа всегда хранится указатель на MethodTable (это не всегда TypeHandle)</li><li>Для массивов, чьи элементы должны представлять ссылочный тип, хранится дополнительное поле, которое представляет собой TypeHandle для типа элементов.</li></ul><br><br><div class=mx-auto>Поделиться:
+<a href="https://twitter.com/intent/tweet?text=%d0%92%d1%81%d1%8f%20%d0%bf%d1%80%d0%b0%d0%b2%d0%b4%d0%b0%20%d0%be%20TypeHandle%20%d0%b2%20.NET&url=https%3a%2f%2faakinshin.net%2fru%2fposts%2ftypehandle%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2ftypehandle%2f&title=%d0%92%d1%81%d1%8f%20%d0%bf%d1%80%d0%b0%d0%b2%d0%b4%d0%b0%20%d0%be%20TypeHandle%20%d0%b2%20.NET" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2ftypehandle%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2ftypehandle%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2ftypehandle%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2ftypehandle%2f&title=%d0%92%d1%81%d1%8f%20%d0%bf%d1%80%d0%b0%d0%b2%d0%b4%d0%b0%20%d0%be%20TypeHandle%20%d0%b2%20.NET" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Андрей Акиньшин | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

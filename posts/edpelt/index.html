@@ -1,445 +1,261 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="Implementation of efficient algorithm for changepoint detection: ED-PELT">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,C#,ED-PELT,Statistics,ChangePoints'>
-
-    <title>Implementation of efficient algorithm for changepoint detection: ED-PELT</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-    
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/posts/edpelt/'>Ru</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Implementation of efficient algorithm for changepoint detection: ED-PELT</h2>
-<span class="blog-post-meta">
-  <b>Date:</b> October 07, 2019.
-  <b>Tags:</b>
-        <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-        <a href="/tags/ed-pelt"><span class="badge badge-pill badge-info">ED-PELT</span></a>
-        <a href="/tags/statistics"><span class="badge badge-pill badge-info">Statistics</span></a>
-        <a href="/tags/changepoints"><span class="badge badge-pill badge-info">ChangePoints</span></a>
-</span><br /><br />
-
-<p><a href="https://en.wikipedia.org/wiki/Change_detection">Changepoint detection</a> is an important task that has a lot of applications.
-For example, I use it to detect changes in the <a href="https://www.jetbrains.com/rider/">Rider</a> performance test suite.
-It's very important to detect not only performance degradations, but any kinds of performance changes
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Implementation of efficient algorithm for changepoint detection: ED-PELT | Andrey Akinshin</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Implementation of efficient algorithm for changepoint detection: ED-PELT</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2019-10-07>October 7, 2019</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/c class="badge badge-info">C#</a>
+<a href=https://aakinshin.net/tags/ed-pelt class="badge badge-info">ED-PELT</a>
+<a href=https://aakinshin.net/tags/statistics class="badge badge-info">Statistics</a>
+<a href=https://aakinshin.net/tags/changepoints class="badge badge-info">ChangePoints</a></span><br><br><p><a href=https://en.wikipedia.org/wiki/Change_detection>Changepoint detection</a> is an important task that has a lot of applications.
+For example, I use it to detect changes in the <a href=https://www.jetbrains.com/rider/>Rider</a> performance test suite.
+It&rsquo;s very important to detect not only performance degradations, but any kinds of performance changes
 (e.g., the variance may increase, or a unimodal distribution may be split to several modes).
-You can see examples of such changes on the following picture (we change the color when a changepoint is detected):</p>
-<div class="mx-auto">
-<a href="/img/posts/edpelt/edpelt-light.png" target="_blank">
-<picture>
-<source theme='dark' srcset="/img/posts/edpelt/edpelt-dark.png" media="(prefers-color-scheme: dark)">
-<source theme='light' srcset="/img/posts/edpelt/edpelt-light.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-<img class="mx-auto d-block img-fluid" width="600" src="/img/posts/edpelt/edpelt-light.png">
-</picture>
-</a>
-</div>
-<p>Unfortunately, it's pretty hard to write a reliable and fast algorithm for changepoint detection.
-Recently, I found a cool paper (<a href="https://link.springer.com/article/10.1007/s11222-016-9687-5">Haynes, K., Fearnhead, P. &amp; Eckley, I.A. &quot;A computationally efficient nonparametric approach for changepoint detection,&quot; Stat Comput (2017) 27: 1293</a>) that describes the ED-PELT algorithm.
+You can see examples of such changes on the following picture (we change the color when a changepoint is detected):</p><div class=mx-auto><a href=/posts/edpelt/img/edpelt-light.png target=_blank><picture>
+<source theme=dark srcset=/posts/edpelt/img/edpelt-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/edpelt/img/edpelt-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/edpelt/img/edpelt-light.png></picture></a></div><p>Unfortunately, it&rsquo;s pretty hard to write a reliable and fast algorithm for changepoint detection.
+Recently, I found a cool paper (<a href=https://link.springer.com/article/10.1007/s11222-016-9687-5>Haynes, K., Fearnhead, P. & Eckley, I.A. &ldquo;A computationally efficient nonparametric approach for changepoint detection,&rdquo; Stat Comput (2017) 27: 1293</a>) that describes the ED-PELT algorithm.
 It has <code>O(N*log(N))</code> complexity and pretty good detection accuracy.
-The reference implementation can be used via the <a href="https://cran.r-project.org/web/packages/changepoint.np/index.html">changepoint.np</a> R package.
-However, I can't use <a href="https://www.r-project.org/">R</a> on our build server, so I decided to write my own C# implementation.</p>
-<!--more-->
-<p>This implementation resolves the following problems:</p>
-<ul>
-<li><strong>Portability</strong><br />
-Below you can find a C# class which you can just copy-paste to your solution and play with it
-(you don't have to install any NuGet packages and add other kinds of dependencies).
+The reference implementation can be used via the <a href=https://cran.r-project.org/web/packages/changepoint.np/index.html>changepoint.np</a> R package.
+However, I can&rsquo;t use <a href=https://www.r-project.org/>R</a> on our build server, so I decided to write my own C# implementation.</p><p>This implementation resolves the following problems:</p><ul><li><strong>Portability</strong><br>Below you can find a C# class which you can just copy-paste to your solution and play with it
+(you don&rsquo;t have to install any NuGet packages and add other kinds of dependencies).
 If you are using another programming language, it should be pretty easy to port this code
 (let me know if you write another implementation, I will add it to this blog post).
-I tried to comment all the important steps, so you can understand what's going on under the hood
-(it's highly recommended to read the original paper first)
-and customize the algorithm for your own needs.</li>
-<li><strong>Performance</strong><br />
-Performance is one of the most important features of this algorithm.
+I tried to comment all the important steps, so you can understand what&rsquo;s going on under the hood
+(it&rsquo;s highly recommended to read the original paper first)
+and customize the algorithm for your own needs.</li><li><strong>Performance</strong><br>Performance is one of the most important features of this algorithm.
 I tried to make it as efficient as possible (keeping the code readability).
 With the help of some simple optimizations, I got a C# implementation that works much faster than the original R package
-(even though the ED-PELT core implementation in this package was written in C).</li>
-<li><strong>Better default parameters</strong><br />
-The algorithm has a parameter called <code>nquantiles</code>.
+(even though the ED-PELT core implementation in this package was written in C).</li><li><strong>Better default parameters</strong><br>The algorithm has a parameter called <code>nquantiles</code>.
 The paper recommends to use <code>4 * log(n)</code> as the default value, but the <code>changepoint.np</code> always use <code>nquantiles = 10</code>.
 It leads to unreliable results for huge and small n values.
 When <code>n &lt; 10</code>, <code>changepoint.np</code> works incorrectly,
-a PR with a bug fix can be found <a href="https://github.com/AndrewC1998/changepoint-new/pull/1">here</a>.
-When <code>n &gt;&gt; 100</code>, <code>nquantiles = 10</code> may be not enough to detect changes in multimodal distributions.
-All the examples in the <a href="https://cran.r-project.org/web/packages/changepoint.np/changepoint.np.pdf">official documentation</a>
-override the default value with <code>4 * log(n)</code>, but it's not very convenient to do it each time.</li>
-</ul>
-<p>The ED-PELT algorithm will be available out of the box in the next version of <a href="https://github.com/dotnet/BenchmarkDotNet">BenchmarkDotNet</a>,
+a PR with a bug fix can be found <a href=https://github.com/AndrewC1998/changepoint-new/pull/1>here</a>.
+When <code>n >> 100</code>, <code>nquantiles = 10</code> may be not enough to detect changes in multimodal distributions.
+All the examples in the <a href=https://cran.r-project.org/web/packages/changepoint.np/changepoint.np.pdf>official documentation</a>
+override the default value with <code>4 * log(n)</code>, but it&rsquo;s not very convenient to do it each time.</li></ul><p>The ED-PELT algorithm will be available out of the box in the next version of <a href=https://github.com/dotnet/BenchmarkDotNet>BenchmarkDotNet</a>,
 but you can check it right now using the below implementation.
-I'm still not happy with the detection quality in some corner cases, so I'm going to improve it in the future.
-If you also have some problems with the presented implementation, let me know (my contacts can be found <a href="/about/">here</a>).</p>
-<h3 id="ed-pelt-implementation">ED-PELT implementation</h3>
-<p>The actual version of the algorithm is available in <a href="https://gist.github.com/AndreyAkinshin/17c2211a8f0eee090670b80221f11761">this gist</a>.</p>
-<pre><code class="language-cs">// Copyright (c) 2019 Andrey Akinshin
-// Licensed under The MIT License https://opensource.org/licenses/MIT
-using System;
-using System.Collections.Generic;
-using System.Linq;
+I&rsquo;m still not happy with the detection quality in some corner cases, so I&rsquo;m going to improve it in the future.
+If you also have some problems with the presented implementation, let me know (my contacts can be found <a href=/about/>here</a>).</p><h3 id=ed-pelt-implementation>ED-PELT implementation</h3><p>The actual version of the algorithm is available in <a href=https://gist.github.com/AndreyAkinshin/17c2211a8f0eee090670b80221f11761>this gist</a>.</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=c1>// Copyright (c) 2019 Andrey Akinshin
+</span><span class=c1>// Licensed under The MIT License https://opensource.org/licenses/MIT
+</span><span class=c1></span><span class=k>using</span> <span class=nn>System</span><span class=p>;</span>
+<span class=k>using</span> <span class=nn>System.Collections.Generic</span><span class=p>;</span>
+<span class=k>using</span> <span class=nn>System.Linq</span><span class=p>;</span>
 
-/// &lt;summary&gt;
-/// The ED-PELT algorithm for changepoint detection.
-///
-/// &lt;remarks&gt;
-/// The implementation is based on the following papers:
-/// &lt;list type=&quot;bullet&quot;&gt;
-/// &lt;item&gt;
-/// &lt;b&gt;[Haynes2017]&lt;/b&gt; Haynes, Kaylea, Paul Fearnhead, and Idris A. Eckley.
-/// &quot;A computationally efficient nonparametric approach for changepoint detection.&quot;
-/// Statistics and Computing 27, no. 5 (2017): 1293-1305.
-/// https://doi.org/10.1007/s11222-016-9687-5
-/// &lt;/item&gt;
-/// &lt;item&gt;
-/// &lt;b&gt;[Killick2012]&lt;/b&gt; Killick, Rebecca, Paul Fearnhead, and Idris A. Eckley.
-/// &quot;Optimal detection of changepoints with a linear computational cost.&quot;
-/// Journal of the American Statistical Association 107, no. 500 (2012): 1590-1598.
-/// https://arxiv.org/pdf/1101.1438.pdf
-/// &lt;/item&gt;
-/// &lt;/list&gt;
-/// &lt;/remarks&gt;
-/// &lt;/summary&gt;
-public class EdPeltChangePointDetector
-{
-    public static readonly EdPeltChangePointDetector Instance = new EdPeltChangePointDetector();
+<span class=c1>/// &lt;summary&gt;
+</span><span class=c1>/// The ED-PELT algorithm for changepoint detection.
+</span><span class=c1>///
+</span><span class=c1>/// &lt;remarks&gt;
+</span><span class=c1>/// The implementation is based on the following papers:
+</span><span class=c1>/// &lt;list type=&#34;bullet&#34;&gt;
+</span><span class=c1>/// &lt;item&gt;
+</span><span class=c1>/// &lt;b&gt;[Haynes2017]&lt;/b&gt; Haynes, Kaylea, Paul Fearnhead, and Idris A. Eckley.
+</span><span class=c1>/// &#34;A computationally efficient nonparametric approach for changepoint detection.&#34;
+</span><span class=c1>/// Statistics and Computing 27, no. 5 (2017): 1293-1305.
+</span><span class=c1>/// https://doi.org/10.1007/s11222-016-9687-5
+</span><span class=c1>/// &lt;/item&gt;
+</span><span class=c1>/// &lt;item&gt;
+</span><span class=c1>/// &lt;b&gt;[Killick2012]&lt;/b&gt; Killick, Rebecca, Paul Fearnhead, and Idris A. Eckley.
+</span><span class=c1>/// &#34;Optimal detection of changepoints with a linear computational cost.&#34;
+</span><span class=c1>/// Journal of the American Statistical Association 107, no. 500 (2012): 1590-1598.
+</span><span class=c1>/// https://arxiv.org/pdf/1101.1438.pdf
+</span><span class=c1>/// &lt;/item&gt;
+</span><span class=c1>/// &lt;/list&gt;
+</span><span class=c1>/// &lt;/remarks&gt;
+</span><span class=c1>/// &lt;/summary&gt;
+</span><span class=c1></span><span class=k>public</span> <span class=k>class</span> <span class=nc>EdPeltChangePointDetector</span>
+<span class=p>{</span>
+    <span class=k>public</span> <span class=k>static</span> <span class=k>readonly</span> <span class=n>EdPeltChangePointDetector</span> <span class=n>Instance</span> <span class=p>=</span> <span class=k>new</span> <span class=n>EdPeltChangePointDetector</span><span class=p>();</span>
 
-    /// &lt;summary&gt;
-    /// For given array of `double` values, detects locations of changepoints that
-    /// splits original series of values into &quot;statistically homogeneous&quot; segments.
-    /// Such points correspond to moments when statistical properties of the distribution are changing.
-    ///
-    /// This method supports nonparametric distributions and has O(N*log(N)) algorithmic complexity.
-    /// &lt;/summary&gt;
-    /// &lt;param name=&quot;data&quot;&gt;An array of double values&lt;/param&gt;
-    /// &lt;param name=&quot;minDistance&quot;&gt;Minimum distance between changepoints&lt;/param&gt;
-    /// &lt;returns&gt;
-    /// Returns an `int[]` array with 0-based indexes of changepoint.
-    /// Changepoints correspond to the end of the detected segments.
-    /// For example, changepoints for { 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2 } are { 5, 11 }.
-    /// &lt;/returns&gt;
-    public int[] GetChangePointIndexes(double[] data, int minDistance = 1)
-    {
-        // We will use `n` as the number of elements in the `data` array
-        int n = data.Length;
+    <span class=c1>/// &lt;summary&gt;
+</span><span class=c1></span>    <span class=c1>/// For given array of `double` values, detects locations of changepoints that
+</span><span class=c1></span>    <span class=c1>/// splits original series of values into &#34;statistically homogeneous&#34; segments.
+</span><span class=c1></span>    <span class=c1>/// Such points correspond to moments when statistical properties of the distribution are changing.
+</span><span class=c1></span>    <span class=c1>///
+</span><span class=c1></span>    <span class=c1>/// This method supports nonparametric distributions and has O(N*log(N)) algorithmic complexity.
+</span><span class=c1></span>    <span class=c1>/// &lt;/summary&gt;
+</span><span class=c1></span>    <span class=c1>/// &lt;param name=&#34;data&#34;&gt;An array of double values&lt;/param&gt;
+</span><span class=c1></span>    <span class=c1>/// &lt;param name=&#34;minDistance&#34;&gt;Minimum distance between changepoints&lt;/param&gt;
+</span><span class=c1></span>    <span class=c1>/// &lt;returns&gt;
+</span><span class=c1></span>    <span class=c1>/// Returns an `int[]` array with 0-based indexes of changepoint.
+</span><span class=c1></span>    <span class=c1>/// Changepoints correspond to the end of the detected segments.
+</span><span class=c1></span>    <span class=c1>/// For example, changepoints for { 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2 } are { 5, 11 }.
+</span><span class=c1></span>    <span class=c1>/// &lt;/returns&gt;
+</span><span class=c1></span>    <span class=k>public</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>GetChangePointIndexes</span><span class=p>(</span><span class=kt>double</span><span class=p>[]</span> <span class=n>data</span><span class=p>,</span> <span class=kt>int</span> <span class=n>minDistance</span> <span class=p>=</span> <span class=m>1</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=c1>// We will use `n` as the number of elements in the `data` array
+</span><span class=c1></span>        <span class=kt>int</span> <span class=n>n</span> <span class=p>=</span> <span class=n>data</span><span class=p>.</span><span class=n>Length</span><span class=p>;</span>
 
-        // Checking corner cases
-        if (n &lt;= 2)
-            return new int[0];
-        if (minDistance &lt; 1 || minDistance &gt; n)
-            throw new ArgumentOutOfRangeException(
-                nameof(minDistance),$&quot;{minDistance} should be in range from 1 to data.Length&quot;);
+        <span class=c1>// Checking corner cases
+</span><span class=c1></span>        <span class=k>if</span> <span class=p>(</span><span class=n>n</span> <span class=p>&lt;=</span> <span class=m>2</span><span class=p>)</span>
+            <span class=k>return</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=m>0</span><span class=p>];</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>minDistance</span> <span class=p>&lt;</span> <span class=m>1</span> <span class=p>||</span> <span class=n>minDistance</span> <span class=p>&gt;</span> <span class=n>n</span><span class=p>)</span>
+            <span class=k>throw</span> <span class=k>new</span> <span class=n>ArgumentOutOfRangeException</span><span class=p>(</span>
+                <span class=n>nameof</span><span class=p>(</span><span class=n>minDistance</span><span class=p>),</span><span class=s>$&#34;{minDistance} should be in range from 1 to data.Length&#34;</span><span class=p>);</span>
 
-        // The penalty which we add to the final cost for each additional changepoint
-        // Here we use the Modified Bayesian Information Criterion
-        double penalty = 3 * Math.Log(n);
+        <span class=c1>// The penalty which we add to the final cost for each additional changepoint
+</span><span class=c1></span>        <span class=c1>// Here we use the Modified Bayesian Information Criterion
+</span><span class=c1></span>        <span class=kt>double</span> <span class=n>penalty</span> <span class=p>=</span> <span class=m>3</span> <span class=p>*</span> <span class=n>Math</span><span class=p>.</span><span class=n>Log</span><span class=p>(</span><span class=n>n</span><span class=p>);</span>
 
-        // `k` is the number of quantiles that we use to approximate an integral during the segment cost evaluation
-        // We use `k=Ceiling(4*log(n))` as suggested in the Section 4.3 &quot;Choice of K in ED-PELT&quot; in [Haynes2017]
-        // `k` can't be greater than `n`, so we should always use the `Min` function here (important for n &lt;= 8)
-        int k = Math.Min(n, (int) Math.Ceiling(4 * Math.Log(n)));
+        <span class=c1>// `k` is the number of quantiles that we use to approximate an integral during the segment cost evaluation
+</span><span class=c1></span>        <span class=c1>// We use `k=Ceiling(4*log(n))` as suggested in the Section 4.3 &#34;Choice of K in ED-PELT&#34; in [Haynes2017]
+</span><span class=c1></span>        <span class=c1>// `k` can&#39;t be greater than `n`, so we should always use the `Min` function here (important for n &lt;= 8)
+</span><span class=c1></span>        <span class=kt>int</span> <span class=n>k</span> <span class=p>=</span> <span class=n>Math</span><span class=p>.</span><span class=n>Min</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span> <span class=n>Math</span><span class=p>.</span><span class=n>Ceiling</span><span class=p>(</span><span class=m>4</span> <span class=p>*</span> <span class=n>Math</span><span class=p>.</span><span class=n>Log</span><span class=p>(</span><span class=n>n</span><span class=p>)));</span>
 
-        // We should precalculate sums for empirical CDF, it will allow fast evaluating of the segment cost
-        var partialSums = GetPartialSums(data, k);
+        <span class=c1>// We should precalculate sums for empirical CDF, it will allow fast evaluating of the segment cost
+</span><span class=c1></span>        <span class=kt>var</span> <span class=n>partialSums</span> <span class=p>=</span> <span class=n>GetPartialSums</span><span class=p>(</span><span class=n>data</span><span class=p>,</span> <span class=n>k</span><span class=p>);</span>
 
-        // Since we use the same values of `partialSums`, `k`, `n` all the time,
-        // we introduce a shortcut `Cost(tau1, tau2)` for segment cost evaluation.
-        // Hereinafter, we use `tau` to name variables that are changepoint candidates.
-        double Cost(int tau1, int tau2) =&gt; GetSegmentCost(partialSums, tau1, tau2, k, n);
+        <span class=c1>// Since we use the same values of `partialSums`, `k`, `n` all the time,
+</span><span class=c1></span>        <span class=c1>// we introduce a shortcut `Cost(tau1, tau2)` for segment cost evaluation.
+</span><span class=c1></span>        <span class=c1>// Hereinafter, we use `tau` to name variables that are changepoint candidates.
+</span><span class=c1></span>        <span class=kt>double</span> <span class=n>Cost</span><span class=p>(</span><span class=kt>int</span> <span class=n>tau1</span><span class=p>,</span> <span class=kt>int</span> <span class=n>tau2</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=n>GetSegmentCost</span><span class=p>(</span><span class=n>partialSums</span><span class=p>,</span> <span class=n>tau1</span><span class=p>,</span> <span class=n>tau2</span><span class=p>,</span> <span class=n>k</span><span class=p>,</span> <span class=n>n</span><span class=p>);</span>
 
-        // We will use dynamic programming to find the best solution; `bestCost` is the cost array.
-        // `bestCost[i]` is the cost for subarray `data[0..i-1]`.
-        // It's a 1-based array (`data[0]`..`data[n-1]` correspond to `bestCost[1]`..`bestCost[n]`)
-        var bestCost = new double[n + 1];
-        bestCost[0] = -penalty;
-        for (int currentTau = minDistance; currentTau &lt; 2 * minDistance; currentTau++)
-            bestCost[currentTau] = Cost(0, currentTau);
+        <span class=c1>// We will use dynamic programming to find the best solution; `bestCost` is the cost array.
+</span><span class=c1></span>        <span class=c1>// `bestCost[i]` is the cost for subarray `data[0..i-1]`.
+</span><span class=c1></span>        <span class=c1>// It&#39;s a 1-based array (`data[0]`..`data[n-1]` correspond to `bestCost[1]`..`bestCost[n]`)
+</span><span class=c1></span>        <span class=kt>var</span> <span class=n>bestCost</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=n>n</span> <span class=p>+</span> <span class=m>1</span><span class=p>];</span>
+        <span class=n>bestCost</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=p>-</span><span class=n>penalty</span><span class=p>;</span>
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>currentTau</span> <span class=p>=</span> <span class=n>minDistance</span><span class=p>;</span> <span class=n>currentTau</span> <span class=p>&lt;</span> <span class=m>2</span> <span class=p>*</span> <span class=n>minDistance</span><span class=p>;</span> <span class=n>currentTau</span><span class=p>++)</span>
+            <span class=n>bestCost</span><span class=p>[</span><span class=n>currentTau</span><span class=p>]</span> <span class=p>=</span> <span class=n>Cost</span><span class=p>(</span><span class=m>0</span><span class=p>,</span> <span class=n>currentTau</span><span class=p>);</span>
 
-        // `previousChangePointIndex` is an array of references to previous changepoints. If the current segment ends at
-        // the position `i`, the previous segment ends at the position `previousChangePointIndex[i]`. It's a 1-based
-        // array (`data[0]`..`data[n-1]` correspond to the `previousChangePointIndex[1]`..`previousChangePointIndex[n]`)
-        var previousChangePointIndex = new int[n + 1];
+        <span class=c1>// `previousChangePointIndex` is an array of references to previous changepoints. If the current segment ends at
+</span><span class=c1></span>        <span class=c1>// the position `i`, the previous segment ends at the position `previousChangePointIndex[i]`. It&#39;s a 1-based
+</span><span class=c1></span>        <span class=c1>// array (`data[0]`..`data[n-1]` correspond to the `previousChangePointIndex[1]`..`previousChangePointIndex[n]`)
+</span><span class=c1></span>        <span class=kt>var</span> <span class=n>previousChangePointIndex</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>n</span> <span class=p>+</span> <span class=m>1</span><span class=p>];</span>
 
-        // We use PELT (Pruned Exact Linear Time) approach which means that instead of enumerating all possible previous
-        // tau values, we use a whitelist of &quot;good&quot; tau values that can be used in the optimal solution. If we are 100%
-        // sure that some of the tau values will not help us to form the optimal solution, such values should be
-        // removed. See [Killick2012] for details.
-        var previousTaus = new List&lt;int&gt;(n + 1) { 0, minDistance };
-        var costForPreviousTau = new List&lt;double&gt;(n + 1);
+        <span class=c1>// We use PELT (Pruned Exact Linear Time) approach which means that instead of enumerating all possible previous
+</span><span class=c1></span>        <span class=c1>// tau values, we use a whitelist of &#34;good&#34; tau values that can be used in the optimal solution. If we are 100%
+</span><span class=c1></span>        <span class=c1>// sure that some of the tau values will not help us to form the optimal solution, such values should be
+</span><span class=c1></span>        <span class=c1>// removed. See [Killick2012] for details.
+</span><span class=c1></span>        <span class=kt>var</span> <span class=n>previousTaus</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;(</span><span class=n>n</span> <span class=p>+</span> <span class=m>1</span><span class=p>)</span> <span class=p>{</span> <span class=m>0</span><span class=p>,</span> <span class=n>minDistance</span> <span class=p>};</span>
+        <span class=kt>var</span> <span class=n>costForPreviousTau</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=kt>double</span><span class=p>&gt;(</span><span class=n>n</span> <span class=p>+</span> <span class=m>1</span><span class=p>);</span>
 
-        // Following the dynamic programming approach, we enumerate all tau positions. For each `currentTau`, we pretend
-        // that it's the end of the last segment and trying to find the end of the previous segment.
-        for (int currentTau = 2 * minDistance; currentTau &lt; n + 1; currentTau++)
-        {
-            // For each previous tau, we should calculate the cost of taking this tau as the end of the previous
-            // segment. This cost equals the cost for the `previousTau` plus cost of the new segment (from `previousTau`
-            // to `currentTau`) plus penalty for the new changepoint.
-            costForPreviousTau.Clear();
-            foreach (int previousTau in previousTaus)
-                costForPreviousTau.Add(bestCost[previousTau] + Cost(previousTau, currentTau) + penalty);
+        <span class=c1>// Following the dynamic programming approach, we enumerate all tau positions. For each `currentTau`, we pretend
+</span><span class=c1></span>        <span class=c1>// that it&#39;s the end of the last segment and trying to find the end of the previous segment.
+</span><span class=c1></span>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>currentTau</span> <span class=p>=</span> <span class=m>2</span> <span class=p>*</span> <span class=n>minDistance</span><span class=p>;</span> <span class=n>currentTau</span> <span class=p>&lt;</span> <span class=n>n</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span> <span class=n>currentTau</span><span class=p>++)</span>
+        <span class=p>{</span>
+            <span class=c1>// For each previous tau, we should calculate the cost of taking this tau as the end of the previous
+</span><span class=c1></span>            <span class=c1>// segment. This cost equals the cost for the `previousTau` plus cost of the new segment (from `previousTau`
+</span><span class=c1></span>            <span class=c1>// to `currentTau`) plus penalty for the new changepoint.
+</span><span class=c1></span>            <span class=n>costForPreviousTau</span><span class=p>.</span><span class=n>Clear</span><span class=p>();</span>
+            <span class=k>foreach</span> <span class=p>(</span><span class=kt>int</span> <span class=n>previousTau</span> <span class=k>in</span> <span class=n>previousTaus</span><span class=p>)</span>
+                <span class=n>costForPreviousTau</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>bestCost</span><span class=p>[</span><span class=n>previousTau</span><span class=p>]</span> <span class=p>+</span> <span class=n>Cost</span><span class=p>(</span><span class=n>previousTau</span><span class=p>,</span> <span class=n>currentTau</span><span class=p>)</span> <span class=p>+</span> <span class=n>penalty</span><span class=p>);</span>
 
-            // Now we should choose the tau that provides the minimum possible cost.
-            int bestPreviousTauIndex = WhichMin(costForPreviousTau);
-            bestCost[currentTau] = costForPreviousTau[bestPreviousTauIndex];
-            previousChangePointIndex[currentTau] = previousTaus[bestPreviousTauIndex];
+            <span class=c1>// Now we should choose the tau that provides the minimum possible cost.
+</span><span class=c1></span>            <span class=kt>int</span> <span class=n>bestPreviousTauIndex</span> <span class=p>=</span> <span class=n>WhichMin</span><span class=p>(</span><span class=n>costForPreviousTau</span><span class=p>);</span>
+            <span class=n>bestCost</span><span class=p>[</span><span class=n>currentTau</span><span class=p>]</span> <span class=p>=</span> <span class=n>costForPreviousTau</span><span class=p>[</span><span class=n>bestPreviousTauIndex</span><span class=p>];</span>
+            <span class=n>previousChangePointIndex</span><span class=p>[</span><span class=n>currentTau</span><span class=p>]</span> <span class=p>=</span> <span class=n>previousTaus</span><span class=p>[</span><span class=n>bestPreviousTauIndex</span><span class=p>];</span>
 
-            // Prune phase: we remove &quot;useless&quot; tau values that will not help to achieve minimum cost in the future
-            double currentBestCost = bestCost[currentTau];
-            int newPreviousTausSize = 0;
-            for (int i = 0; i &lt; previousTaus.Count; i++)
-                if (costForPreviousTau[i] &lt; currentBestCost + penalty)
-                    previousTaus[newPreviousTausSize++] = previousTaus[i];
-            previousTaus.RemoveRange(newPreviousTausSize, previousTaus.Count - newPreviousTausSize);
+            <span class=c1>// Prune phase: we remove &#34;useless&#34; tau values that will not help to achieve minimum cost in the future
+</span><span class=c1></span>            <span class=kt>double</span> <span class=n>currentBestCost</span> <span class=p>=</span> <span class=n>bestCost</span><span class=p>[</span><span class=n>currentTau</span><span class=p>];</span>
+            <span class=kt>int</span> <span class=n>newPreviousTausSize</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+            <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>previousTaus</span><span class=p>.</span><span class=n>Count</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+                <span class=k>if</span> <span class=p>(</span><span class=n>costForPreviousTau</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&lt;</span> <span class=n>currentBestCost</span> <span class=p>+</span> <span class=n>penalty</span><span class=p>)</span>
+                    <span class=n>previousTaus</span><span class=p>[</span><span class=n>newPreviousTausSize</span><span class=p>++]</span> <span class=p>=</span> <span class=n>previousTaus</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+            <span class=n>previousTaus</span><span class=p>.</span><span class=n>RemoveRange</span><span class=p>(</span><span class=n>newPreviousTausSize</span><span class=p>,</span> <span class=n>previousTaus</span><span class=p>.</span><span class=n>Count</span> <span class=p>-</span> <span class=n>newPreviousTausSize</span><span class=p>);</span>
 
-            // We add a new tau value that is located on the `minDistance` distance from the next `currentTau` value
-            previousTaus.Add(currentTau - (minDistance - 1));
-        }
+            <span class=c1>// We add a new tau value that is located on the `minDistance` distance from the next `currentTau` value
+</span><span class=c1></span>            <span class=n>previousTaus</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>currentTau</span> <span class=p>-</span> <span class=p>(</span><span class=n>minDistance</span> <span class=p>-</span> <span class=m>1</span><span class=p>));</span>
+        <span class=p>}</span>
 
-        // Here we collect the result list of changepoint indexes `changePointIndexes` using `previousChangePointIndex`
-        var changePointIndexes = new List&lt;int&gt;();
-        int currentIndex = previousChangePointIndex[n]; // The index of the end of the last segment is `n`
-        while (currentIndex != 0)
-        {
-            changePointIndexes.Add(currentIndex - 1); // 1-based indexes should be be transformed to 0-based indexes
-            currentIndex = previousChangePointIndex[currentIndex];
-        }
-        changePointIndexes.Reverse(); // The result changepoints should be sorted in ascending order.
-        return changePointIndexes.ToArray();
-    }
+        <span class=c1>// Here we collect the result list of changepoint indexes `changePointIndexes` using `previousChangePointIndex`
+</span><span class=c1></span>        <span class=kt>var</span> <span class=n>changePointIndexes</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
+        <span class=kt>int</span> <span class=n>currentIndex</span> <span class=p>=</span> <span class=n>previousChangePointIndex</span><span class=p>[</span><span class=n>n</span><span class=p>];</span> <span class=c1>// The index of the end of the last segment is `n`
+</span><span class=c1></span>        <span class=k>while</span> <span class=p>(</span><span class=n>currentIndex</span> <span class=p>!=</span> <span class=m>0</span><span class=p>)</span>
+        <span class=p>{</span>
+            <span class=n>changePointIndexes</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>currentIndex</span> <span class=p>-</span> <span class=m>1</span><span class=p>);</span> <span class=c1>// 1-based indexes should be be transformed to 0-based indexes
+</span><span class=c1></span>            <span class=n>currentIndex</span> <span class=p>=</span> <span class=n>previousChangePointIndex</span><span class=p>[</span><span class=n>currentIndex</span><span class=p>];</span>
+        <span class=p>}</span>
+        <span class=n>changePointIndexes</span><span class=p>.</span><span class=n>Reverse</span><span class=p>();</span> <span class=c1>// The result changepoints should be sorted in ascending order.
+</span><span class=c1></span>        <span class=k>return</span> <span class=n>changePointIndexes</span><span class=p>.</span><span class=n>ToArray</span><span class=p>();</span>
+    <span class=p>}</span>
 
-    /// &lt;summary&gt;
-    /// Partial sums for empirical CDF (formula (2.1) from Section 2.1 &quot;Model&quot; in [Haynes2017])
-    /// &lt;code&gt;
-    /// partialSums[i, tau] = (count(data[j] &amp;lt; t) * 2 + count(data[j] == t) * 1) for j=0..tau-1
-    /// where t is the i-th quantile value (see Section 3.1 &quot;Discrete approximation&quot; in [Haynes2017] for details)
-    /// &lt;/code&gt;
-    /// &lt;remarks&gt;
-    /// &lt;list type=&quot;bullet&quot;&gt;
-    /// &lt;item&gt;
-    /// We use doubled sum values in order to use &lt;c&gt;int[,]&lt;/c&gt; instead of &lt;c&gt;double[,]&lt;/c&gt; (it provides noticeable
-    /// performance boost). Thus, multipliers for &lt;c&gt;count(data[j] &amp;lt; t)&lt;/c&gt; and &lt;c&gt;count(data[j] == t)&lt;/c&gt; are
-    /// 2 and 1 instead of 1 and 0.5 from the [Haynes2017].
-    /// &lt;/item&gt;
-    /// &lt;item&gt;
-    /// Note that these quantiles are not uniformly distributed: tails of the &lt;c&gt;data&lt;/c&gt; distribution contain more
-    /// quantile values than the center of the distribution
-    /// &lt;/item&gt;
-    /// &lt;/list&gt;
-    /// &lt;/remarks&gt;
-    /// &lt;/summary&gt;
-    private static int[,] GetPartialSums(double[] data, int k)
-    {
-        int n = data.Length;
-        var partialSums = new int[k, n + 1];
-        var sortedData = data.OrderBy(it =&gt; it).ToArray();
+    <span class=c1>/// &lt;summary&gt;
+</span><span class=c1></span>    <span class=c1>/// Partial sums for empirical CDF (formula (2.1) from Section 2.1 &#34;Model&#34; in [Haynes2017])
+</span><span class=c1></span>    <span class=c1>/// &lt;code&gt;
+</span><span class=c1></span>    <span class=c1>/// partialSums[i, tau] = (count(data[j] &amp;lt; t) * 2 + count(data[j] == t) * 1) for j=0..tau-1
+</span><span class=c1></span>    <span class=c1>/// where t is the i-th quantile value (see Section 3.1 &#34;Discrete approximation&#34; in [Haynes2017] for details)
+</span><span class=c1></span>    <span class=c1>/// &lt;/code&gt;
+</span><span class=c1></span>    <span class=c1>/// &lt;remarks&gt;
+</span><span class=c1></span>    <span class=c1>/// &lt;list type=&#34;bullet&#34;&gt;
+</span><span class=c1></span>    <span class=c1>/// &lt;item&gt;
+</span><span class=c1></span>    <span class=c1>/// We use doubled sum values in order to use &lt;c&gt;int[,]&lt;/c&gt; instead of &lt;c&gt;double[,]&lt;/c&gt; (it provides noticeable
+</span><span class=c1></span>    <span class=c1>/// performance boost). Thus, multipliers for &lt;c&gt;count(data[j] &amp;lt; t)&lt;/c&gt; and &lt;c&gt;count(data[j] == t)&lt;/c&gt; are
+</span><span class=c1></span>    <span class=c1>/// 2 and 1 instead of 1 and 0.5 from the [Haynes2017].
+</span><span class=c1></span>    <span class=c1>/// &lt;/item&gt;
+</span><span class=c1></span>    <span class=c1>/// &lt;item&gt;
+</span><span class=c1></span>    <span class=c1>/// Note that these quantiles are not uniformly distributed: tails of the &lt;c&gt;data&lt;/c&gt; distribution contain more
+</span><span class=c1></span>    <span class=c1>/// quantile values than the center of the distribution
+</span><span class=c1></span>    <span class=c1>/// &lt;/item&gt;
+</span><span class=c1></span>    <span class=c1>/// &lt;/list&gt;
+</span><span class=c1></span>    <span class=c1>/// &lt;/remarks&gt;
+</span><span class=c1></span>    <span class=c1>/// &lt;/summary&gt;
+</span><span class=c1></span>    <span class=k>private</span> <span class=k>static</span> <span class=kt>int</span><span class=p>[,]</span> <span class=n>GetPartialSums</span><span class=p>(</span><span class=kt>double</span><span class=p>[]</span> <span class=n>data</span><span class=p>,</span> <span class=kt>int</span> <span class=n>k</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=kt>int</span> <span class=n>n</span> <span class=p>=</span> <span class=n>data</span><span class=p>.</span><span class=n>Length</span><span class=p>;</span>
+        <span class=kt>var</span> <span class=n>partialSums</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>k</span><span class=p>,</span> <span class=n>n</span> <span class=p>+</span> <span class=m>1</span><span class=p>];</span>
+        <span class=kt>var</span> <span class=n>sortedData</span> <span class=p>=</span> <span class=n>data</span><span class=p>.</span><span class=n>OrderBy</span><span class=p>(</span><span class=n>it</span> <span class=p>=&gt;</span> <span class=n>it</span><span class=p>).</span><span class=n>ToArray</span><span class=p>();</span>
 
-        for (int i = 0; i &lt; k; i++)
-        {
-            double z = -1 + (2 * i + 1.0) / k; // Values from (-1+1/k) to (1-1/k) with step = 2/k
-            double p = 1.0 / (1 + Math.Pow(2 * n - 1, -z)); // Values from 0.0 to 1.0
-            double t = sortedData[(int) Math.Truncate((n - 1) * p)]; // Quantile value, formula (2.1) in [Haynes2017]
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>k</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+        <span class=p>{</span>
+            <span class=kt>double</span> <span class=n>z</span> <span class=p>=</span> <span class=p>-</span><span class=m>1</span> <span class=p>+</span> <span class=p>(</span><span class=m>2</span> <span class=p>*</span> <span class=n>i</span> <span class=p>+</span> <span class=m>1.0</span><span class=p>)</span> <span class=p>/</span> <span class=n>k</span><span class=p>;</span> <span class=c1>// Values from (-1+1/k) to (1-1/k) with step = 2/k
+</span><span class=c1></span>            <span class=kt>double</span> <span class=n>p</span> <span class=p>=</span> <span class=m>1.0</span> <span class=p>/</span> <span class=p>(</span><span class=m>1</span> <span class=p>+</span> <span class=n>Math</span><span class=p>.</span><span class=n>Pow</span><span class=p>(</span><span class=m>2</span> <span class=p>*</span> <span class=n>n</span> <span class=p>-</span> <span class=m>1</span><span class=p>,</span> <span class=p>-</span><span class=n>z</span><span class=p>));</span> <span class=c1>// Values from 0.0 to 1.0
+</span><span class=c1></span>            <span class=kt>double</span> <span class=n>t</span> <span class=p>=</span> <span class=n>sortedData</span><span class=p>[(</span><span class=kt>int</span><span class=p>)</span> <span class=n>Math</span><span class=p>.</span><span class=n>Truncate</span><span class=p>((</span><span class=n>n</span> <span class=p>-</span> <span class=m>1</span><span class=p>)</span> <span class=p>*</span> <span class=n>p</span><span class=p>)];</span> <span class=c1>// Quantile value, formula (2.1) in [Haynes2017]
+</span><span class=c1></span>
+            <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>tau</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span> <span class=n>tau</span> <span class=p>&lt;=</span> <span class=n>n</span><span class=p>;</span> <span class=n>tau</span><span class=p>++)</span>
+            <span class=p>{</span>
+                <span class=n>partialSums</span><span class=p>[</span><span class=n>i</span><span class=p>,</span> <span class=n>tau</span><span class=p>]</span> <span class=p>=</span> <span class=n>partialSums</span><span class=p>[</span><span class=n>i</span><span class=p>,</span> <span class=n>tau</span> <span class=p>-</span> <span class=m>1</span><span class=p>];</span>
+                <span class=k>if</span> <span class=p>(</span><span class=n>data</span><span class=p>[</span><span class=n>tau</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>&lt;</span> <span class=n>t</span><span class=p>)</span>
+                    <span class=n>partialSums</span><span class=p>[</span><span class=n>i</span><span class=p>,</span> <span class=n>tau</span><span class=p>]</span> <span class=p>+=</span> <span class=m>2</span><span class=p>;</span> <span class=c1>// We use doubled value (2) instead of original 1.0
+</span><span class=c1></span>                <span class=k>if</span> <span class=p>(</span><span class=n>data</span><span class=p>[</span><span class=n>tau</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>==</span> <span class=n>t</span><span class=p>)</span>
+                    <span class=n>partialSums</span><span class=p>[</span><span class=n>i</span><span class=p>,</span> <span class=n>tau</span><span class=p>]</span> <span class=p>+=</span> <span class=m>1</span><span class=p>;</span> <span class=c1>// We use doubled value (1) instead of original 0.5
+</span><span class=c1></span>            <span class=p>}</span>
+        <span class=p>}</span>
+        <span class=k>return</span> <span class=n>partialSums</span><span class=p>;</span>
+    <span class=p>}</span>
 
-            for (int tau = 1; tau &lt;= n; tau++)
-            {
-                partialSums[i, tau] = partialSums[i, tau - 1];
-                if (data[tau - 1] &lt; t)
-                    partialSums[i, tau] += 2; // We use doubled value (2) instead of original 1.0
-                if (data[tau - 1] == t)
-                    partialSums[i, tau] += 1; // We use doubled value (1) instead of original 0.5
-            }
-        }
-        return partialSums;
-    }
+    <span class=c1>/// &lt;summary&gt;
+</span><span class=c1></span>    <span class=c1>/// Calculates the cost of the (tau1; tau2] segment.
+</span><span class=c1></span>    <span class=c1>/// &lt;/summary&gt;
+</span><span class=c1></span>    <span class=k>private</span> <span class=k>static</span> <span class=kt>double</span> <span class=n>GetSegmentCost</span><span class=p>(</span><span class=kt>int</span><span class=p>[,]</span> <span class=n>partialSums</span><span class=p>,</span> <span class=kt>int</span> <span class=n>tau1</span><span class=p>,</span> <span class=kt>int</span> <span class=n>tau2</span><span class=p>,</span> <span class=kt>int</span> <span class=n>k</span><span class=p>,</span> <span class=kt>int</span> <span class=n>n</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=kt>double</span> <span class=n>sum</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>k</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+        <span class=p>{</span>
+            <span class=c1>// actualSum is (count(data[j] &lt; t) * 2 + count(data[j] == t) * 1) for j=tau1..tau2-1
+</span><span class=c1></span>            <span class=kt>int</span> <span class=n>actualSum</span> <span class=p>=</span> <span class=n>partialSums</span><span class=p>[</span><span class=n>i</span><span class=p>,</span> <span class=n>tau2</span><span class=p>]</span> <span class=p>-</span> <span class=n>partialSums</span><span class=p>[</span><span class=n>i</span><span class=p>,</span> <span class=n>tau1</span><span class=p>];</span>
 
-    /// &lt;summary&gt;
-    /// Calculates the cost of the (tau1; tau2] segment.
-    /// &lt;/summary&gt;
-    private static double GetSegmentCost(int[,] partialSums, int tau1, int tau2, int k, int n)
-    {
-        double sum = 0;
-        for (int i = 0; i &lt; k; i++)
-        {
-            // actualSum is (count(data[j] &lt; t) * 2 + count(data[j] == t) * 1) for j=tau1..tau2-1
-            int actualSum = partialSums[i, tau2] - partialSums[i, tau1];
+            <span class=c1>// We skip these two cases (correspond to fit = 0 or fit = 1) because of invalid Math.Log values
+</span><span class=c1></span>            <span class=k>if</span> <span class=p>(</span><span class=n>actualSum</span> <span class=p>!=</span> <span class=m>0</span> <span class=p>&amp;&amp;</span> <span class=n>actualSum</span> <span class=p>!=</span> <span class=p>(</span><span class=n>tau2</span> <span class=p>-</span> <span class=n>tau1</span><span class=p>)</span> <span class=p>*</span> <span class=m>2</span><span class=p>)</span>
+            <span class=p>{</span>
+                <span class=c1>// Empirical CDF $\hat{F}_i(t)$ (Section 2.1 &#34;Model&#34; in [Haynes2017])
+</span><span class=c1></span>                <span class=kt>double</span> <span class=n>fit</span> <span class=p>=</span> <span class=n>actualSum</span> <span class=p>*</span> <span class=m>0.5</span> <span class=p>/</span> <span class=p>(</span><span class=n>tau2</span> <span class=p>-</span> <span class=n>tau1</span><span class=p>);</span>
+                <span class=c1>// Segment cost $\mathcal{L}_{np}$ (Section 2.2 &#34;Nonparametric maximum likelihood&#34; in [Haynes2017])
+</span><span class=c1></span>                <span class=kt>double</span> <span class=n>lnp</span> <span class=p>=</span> <span class=p>(</span><span class=n>tau2</span> <span class=p>-</span> <span class=n>tau1</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>fit</span> <span class=p>*</span> <span class=n>Math</span><span class=p>.</span><span class=n>Log</span><span class=p>(</span><span class=n>fit</span><span class=p>)</span> <span class=p>+</span> <span class=p>(</span><span class=m>1</span> <span class=p>-</span> <span class=n>fit</span><span class=p>)</span> <span class=p>*</span> <span class=n>Math</span><span class=p>.</span><span class=n>Log</span><span class=p>(</span><span class=m>1</span> <span class=p>-</span> <span class=n>fit</span><span class=p>));</span>
+                <span class=n>sum</span> <span class=p>+=</span> <span class=n>lnp</span><span class=p>;</span>
+            <span class=p>}</span>
+        <span class=p>}</span>
+        <span class=kt>double</span> <span class=n>c</span> <span class=p>=</span> <span class=p>-</span><span class=n>Math</span><span class=p>.</span><span class=n>Log</span><span class=p>(</span><span class=m>2</span> <span class=p>*</span> <span class=n>n</span> <span class=p>-</span> <span class=m>1</span><span class=p>);</span> <span class=c1>// Constant from Lemma 3.1 in [Haynes2017]
+</span><span class=c1></span>        <span class=k>return</span> <span class=m>2.0</span> <span class=p>*</span> <span class=n>c</span> <span class=p>/</span> <span class=n>k</span> <span class=p>*</span> <span class=n>sum</span><span class=p>;</span> <span class=c1>// See Section 3.1 &#34;Discrete approximation&#34; in [Haynes2017]
+</span><span class=c1></span>    <span class=p>}</span>
 
-            // We skip these two cases (correspond to fit = 0 or fit = 1) because of invalid Math.Log values
-            if (actualSum != 0 &amp;&amp; actualSum != (tau2 - tau1) * 2)
-            {
-                // Empirical CDF $\hat{F}_i(t)$ (Section 2.1 &quot;Model&quot; in [Haynes2017])
-                double fit = actualSum * 0.5 / (tau2 - tau1);
-                // Segment cost $\mathcal{L}_{np}$ (Section 2.2 &quot;Nonparametric maximum likelihood&quot; in [Haynes2017])
-                double lnp = (tau2 - tau1) * (fit * Math.Log(fit) + (1 - fit) * Math.Log(1 - fit));
-                sum += lnp;
-            }
-        }
-        double c = -Math.Log(2 * n - 1); // Constant from Lemma 3.1 in [Haynes2017]
-        return 2.0 * c / k * sum; // See Section 3.1 &quot;Discrete approximation&quot; in [Haynes2017]
-    }
+    <span class=c1>/// &lt;summary&gt;
+</span><span class=c1></span>    <span class=c1>/// Returns the index of the minimum element.
+</span><span class=c1></span>    <span class=c1>/// In case if there are several minimum elements in the given list, the index of the first one will be returned.
+</span><span class=c1></span>    <span class=c1>/// &lt;/summary&gt;
+</span><span class=c1></span>    <span class=k>private</span> <span class=k>static</span> <span class=kt>int</span> <span class=n>WhichMin</span><span class=p>(</span><span class=n>IList</span><span class=p>&lt;</span><span class=kt>double</span><span class=p>&gt;</span> <span class=n>values</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>values</span><span class=p>.</span><span class=n>Count</span> <span class=p>==</span> <span class=m>0</span><span class=p>)</span>
+            <span class=k>throw</span> <span class=k>new</span> <span class=n>InvalidOperationException</span><span class=p>(</span><span class=s>&#34;Array should contain elements&#34;</span><span class=p>);</span>
 
-    /// &lt;summary&gt;
-    /// Returns the index of the minimum element.
-    /// In case if there are several minimum elements in the given list, the index of the first one will be returned.
-    /// &lt;/summary&gt;
-    private static int WhichMin(IList&lt;double&gt; values)
-    {
-        if (values.Count == 0)
-            throw new InvalidOperationException(&quot;Array should contain elements&quot;);
+        <span class=kt>double</span> <span class=n>minValue</span> <span class=p>=</span> <span class=n>values</span><span class=p>[</span><span class=m>0</span><span class=p>];</span>
+        <span class=kt>int</span> <span class=n>minIndex</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>values</span><span class=p>.</span><span class=n>Count</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+            <span class=k>if</span> <span class=p>(</span><span class=n>values</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&lt;</span> <span class=n>minValue</span><span class=p>)</span>
+            <span class=p>{</span>
+                <span class=n>minValue</span> <span class=p>=</span> <span class=n>values</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+                <span class=n>minIndex</span> <span class=p>=</span> <span class=n>i</span><span class=p>;</span>
+            <span class=p>}</span>
 
-        double minValue = values[0];
-        int minIndex = 0;
-        for (int i = 1; i &lt; values.Count; i++)
-            if (values[i] &lt; minValue)
-            {
-                minValue = values[i];
-                minIndex = i;
-            }
-
-        return minIndex;
-    }
-}
-</code></pre>
-
-<!-- Share -->
-
-Share:
-<a href="https://twitter.com/intent/tweet?text=Implementation of efficient algorithm for changepoint detection: ED-PELT&url=http://aakinshin.net/posts/edpelt/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/edpelt/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/edpelt/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/edpelt/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/edpelt/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/edpelt/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/edpelt/&title=Implementation of efficient algorithm for changepoint detection: ED-PELT" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  You can find source code of this post on GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2019/edpelt.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2019/edpelt.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+        <span class=k>return</span> <span class=n>minIndex</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><br><br><div class=mx-auto>Share:
+<a href="https://twitter.com/intent/tweet?text=Implementation%20of%20efficient%20algorithm%20for%20changepoint%20detection%3a%20ED-PELT&url=https%3a%2f%2faakinshin.net%2fposts%2fedpelt%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fedpelt%2f&title=Implementation%20of%20efficient%20algorithm%20for%20changepoint%20detection%3a%20ED-PELT" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fedpelt%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2fedpelt%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2fedpelt%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fedpelt%2f&title=Implementation%20of%20efficient%20algorithm%20for%20changepoint%20detection%3a%20ED-PELT" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

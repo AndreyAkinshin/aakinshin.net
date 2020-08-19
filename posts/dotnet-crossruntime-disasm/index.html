@@ -1,267 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="Cross-runtime .NET disassembly with BenchmarkDotNet">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,C#,BenchmarkDotNet,benchmarking,disassembly'>
-
-    <title>Cross-runtime .NET disassembly with BenchmarkDotNet</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-    
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/posts/dotnet-crossruntime-disasm/'>Ru</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Cross-runtime .NET disassembly with BenchmarkDotNet</h2>
-<span class="blog-post-meta">
-  <b>Date:</b> April 10, 2018.
-  <b>Tags:</b>
-        <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-        <a href="/tags/benchmarkdotnet"><span class="badge badge-pill badge-info">BenchmarkDotNet</span></a>
-        <a href="/tags/benchmarking"><span class="badge badge-pill badge-info">benchmarking</span></a>
-        <a href="/tags/disassembly"><span class="badge badge-pill badge-info">disassembly</span></a>
-</span><br /><br />
-
-<p><a href="https://github.com/dotnet/BenchmarkDotNet">BenchmarkDotNet</a> is a cool tool for benchmarking.
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Cross-runtime .NET disassembly with BenchmarkDotNet | Andrey Akinshin</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Cross-runtime .NET disassembly with BenchmarkDotNet</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2018-04-10>April 10, 2018</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/c class="badge badge-info">C#</a>
+<a href=https://aakinshin.net/tags/benchmarkdotnet class="badge badge-info">BenchmarkDotNet</a>
+<a href=https://aakinshin.net/tags/benchmarking class="badge badge-info">benchmarking</a>
+<a href=https://aakinshin.net/tags/disassembly class="badge badge-info">disassembly</a></span><br><br><p><a href=https://github.com/dotnet/BenchmarkDotNet>BenchmarkDotNet</a> is a cool tool for benchmarking.
 It has a lot of useful features that help you with performance investigations.
 However, you can use these features even if you are not actually going to benchmark something.
 One of these features is <code>DisassemblyDiagnoser</code>.
 It shows you a disassembly listing of your code for all required runtimes.
 In this post, I will show you how to get disassembly listing for .NET Framework, .NET Core, and Mono with one click!
-You can do it with a very small code snippet like this:</p>
-<pre><code class="language-cs">[DryCoreJob, DryMonoJob, DryClrJob(Platform.X86)]
-[DisassemblyDiagnoser]
-public class IntroDisasm
-{
-    [Benchmark]
-    public double Sum()
-    {
-        double res = 0;
-        for (int i = 0; i &lt; 64; i++)
-            res += i;
-        return res;
-    }
-}
-</code></pre>
-<!--more-->
-<p>That's all!
+You can do it with a very small code snippet like this:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[DryCoreJob, DryMonoJob, DryClrJob(Platform.X86)]</span>
+<span class=na>[DisassemblyDiagnoser]</span>
+<span class=k>public</span> <span class=k>class</span> <span class=nc>IntroDisasm</span>
+<span class=p>{</span>
+<span class=na>    [Benchmark]</span>
+    <span class=k>public</span> <span class=kt>double</span> <span class=n>Sum</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=kt>double</span> <span class=n>res</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>64</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+            <span class=n>res</span> <span class=p>+=</span> <span class=n>i</span><span class=p>;</span>
+        <span class=k>return</span> <span class=n>res</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p>That&rsquo;s all!
 <code>[CoreJob]</code>, <code>[MonoJob]</code>, <code>[ClrJob]</code> mean that we are going to run it on .NET Core, Mono, and .NET Framework.
-<code>[Dry]</code> means that we are going to run only single &quot;dry&quot; iteration for each runtime without actual measurements.
-<code>[DisassemblyDiagnoser]</code> means that we want to get assembly listings in the <code>BenchmarkDotNet.Artifacts</code> folder.</p>
-<p>Some important remarks:</p>
-<ul>
-<li>This benchmark requires .NET Framework, so it works only on Windows.</li>
-<li>We use <code>Platform.X86</code> for <code>[ClrJob]</code> because we want to see a difference in assembly listing.
+<code>[Dry]</code> means that we are going to run only single &ldquo;dry&rdquo; iteration for each runtime without actual measurements.
+<code>[DisassemblyDiagnoser]</code> means that we want to get assembly listings in the <code>BenchmarkDotNet.Artifacts</code> folder.</p><p>Some important remarks:</p><ul><li>This benchmark requires .NET Framework, so it works only on Windows.</li><li>We use <code>Platform.X86</code> for <code>[ClrJob]</code> because we want to see a difference in assembly listing.
 The modern versions of .NET Framework and .NET Core use the same JIT engine on <code>x64</code>.
-So let's compare <code>LegacyJIT-x86</code> from .NET Framework and <code>RyuJIT-x64</code> from .NET Core.</li>
-<li>To get assembly listings for Mono on Windows, you need <code>as</code> and <code>x86_64-w64-mingw32-objdump.exe</code> tools.
-You can read more about it in the <a href="http://benchmarkdotnet.org/Configs/Diagnosers.htm#disassembly-diagnoser-for-mono-on-windows">documentation</a>.</li>
-</ul>
-<p>The source code (the benchmark + the csproj file) is available here: <a href="https://gist.github.com/AndreyAkinshin/62d2f4c3e67acde844f569fbf5846570">https://gist.github.com/AndreyAkinshin/62d2f4c3e67acde844f569fbf5846570</a>
-You can try it on your machine with the help of the following script:</p>
-<pre><code class="language-bash">git clone https://gist.github.com/62d2f4c3e67acde844f569fbf5846570.git DisasmDemo
-cd DisasmDemo
+So let&rsquo;s compare <code>LegacyJIT-x86</code> from .NET Framework and <code>RyuJIT-x64</code> from .NET Core.</li><li>To get assembly listings for Mono on Windows, you need <code>as</code> and <code>x86_64-w64-mingw32-objdump.exe</code> tools.
+You can read more about it in the <a href=http://benchmarkdotnet.org/Configs/Diagnosers.htm#disassembly-diagnoser-for-mono-on-windows>documentation</a>.</li></ul><p>The source code (the benchmark + the csproj file) is available here: <a href=https://gist.github.com/AndreyAkinshin/62d2f4c3e67acde844f569fbf5846570>https://gist.github.com/AndreyAkinshin/62d2f4c3e67acde844f569fbf5846570</a>
+You can try it on your machine with the help of the following script:</p><div class=highlight><pre class=chroma><code class=language-bat data-lang=bat>git clone https://gist.github.com/62d2f4c3e67acde844f569fbf5846570.git DisasmDemo
+<span class=k>cd</span> DisasmDemo
 dotnet run -f netcoreapp2.0 -c Release
-start BenchmarkDotNet.Artifacts\results\IntroDisasm-disassembly-report.html
-</code></pre>
-<p>As a result, you will see an html page which contains disassembly listings for all runtimes:</p>
-<div class="mx-auto"><a href="/img/posts/dotnet-crossruntime-disasm/disasm.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/dotnet-crossruntime-disasm/disasm.png" /></a></div>
-<p>The raw code:</p>
-<pre><code class="language-x86asm">; .NET Framework 4.7 (CLR 4.0.30319.42000), 32bit LegacyJIT-v4.7.2633.0
-
-07404098 DisasmDemo.IntroDisasm.Sum()
-0740409c d9ee            fldz
-0740409e 33c0            xor     eax,eax
-074040a0 8945fc          mov     dword ptr [ebp-4],eax
-074040a3 db45fc          fild    dword ptr [ebp-4]
-074040a6 dec1            faddp   st(1),st
-074040a8 40              inc     eax
-074040a9 83f840          cmp     eax,40h
-074040ac 7cf2            jl      074040a0
-074040ae 8be5            mov     esp,ebp
-</code></pre>
-<pre><code class="language-x86asm">; .NET Core 2.0.6 (CoreCLR 4.6.26212.01, CoreFX 4.6.26212.01), 64bit RyuJIT
-
-00007fff 196433b0 DisasmDemo.IntroDisasm.Sum()
-00007fff 196433b3 c4e17957c0      vxorpd  xmm0,xmm0,xmm0
-00007fff 196433b8 33c0            xor     eax,eax
-00007fff 196433ba c4e17057c9      vxorps  xmm1,xmm1,xmm1
-00007fff 196433bf c4e1732ac8      vcvtsi2sd xmm1,xmm1,eax
-00007fff 196433c4 c4e17b58c1      vaddsd  xmm0,xmm0,xmm1
-00007fff 196433c9 ffc0            inc     eax
-00007fff 196433cb 83f840          cmp     eax,40h
-00007fff 196433ce 7cea            jl      00007fff 196433ba
-00007fff 196433d0 c3              ret
-</code></pre>
-<pre><code class="language-x86asm">; Mono 5.4.0 (Visual Studio), 64bit
-
- Sum
-sub    $0x18,%rsp
-mov    %rsi,(%rsp)
-xorpd  %xmm0,%xmm0
-movsd  %xmm0,0x8(%rsp)
-xor    %esi,%esi
-jmp    2e 
-xchg   %ax,%ax
-movsd  0x8(%rsp),%xmm0
-cvtsi2sd %esi,%xmm1
-addsd  %xmm1,%xmm0
-movsd  %xmm0,0x8(%rsp)
-inc    %esi
-cmp    $0x40,%esi
-jl     18 
-movsd  0x8(%rsp),%xmm0
-mov    (%rsp),%rsi
-add    $0x18,%rsp
-retq
-</code></pre>
-<p>As you can see, BenchmarkDotNet uses different diasasm style for each runtime.
+<span class=k>start</span> BenchmarkDotNet.Artifacts\results\IntroDisasm-disassembly-report.html
+</code></pre></div><p>As a result, you will see an html page which contains disassembly listings for all runtimes:</p><div class=mx-auto><a href=/posts/dotnet-crossruntime-disasm/img/disasm.png target=_blank><img class="mx-auto d-block img-fluid" width=800 src=/posts/dotnet-crossruntime-disasm/img/disasm.png></a></div><p>The raw code:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=c>; .NET Framework 4.7 (CLR 4.0.30319.42000), 32bit LegacyJIT-v4.7.2633.0
+</span><span class=c></span>
+<span class=err>07404098</span> <span class=nf>DisasmDemo.IntroDisasm.Sum</span><span class=p>()</span>
+<span class=err>0740409</span><span class=nf>c</span> <span class=no>d9ee</span>            <span class=no>fldz</span>
+<span class=err>0740409</span><span class=nf>e</span> <span class=mi>33</span><span class=no>c0</span>            <span class=no>xor</span>     <span class=no>eax</span><span class=p>,</span><span class=no>eax</span>
+<span class=err>074040</span><span class=nf>a0</span> <span class=mi>8945</span><span class=no>fc</span>          <span class=no>mov</span>     <span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>ebp-4</span><span class=p>],</span><span class=no>eax</span>
+<span class=err>074040</span><span class=nf>a3</span> <span class=no>db45fc</span>          <span class=no>fild</span>    <span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>ebp-4</span><span class=p>]</span>
+<span class=err>074040</span><span class=nf>a6</span> <span class=no>dec1</span>            <span class=no>faddp</span>   <span class=no>st</span><span class=p>(</span><span class=mi>1</span><span class=p>),</span><span class=no>st</span>
+<span class=err>074040</span><span class=nf>a8</span> <span class=mi>40</span>              <span class=no>inc</span>     <span class=no>eax</span>
+<span class=err>074040</span><span class=nf>a9</span> <span class=mi>83</span><span class=no>f840</span>          <span class=no>cmp</span>     <span class=no>eax</span><span class=p>,</span><span class=mi>40</span><span class=no>h</span>
+<span class=err>074040</span><span class=nf>ac</span> <span class=mi>7</span><span class=no>cf2</span>            <span class=no>jl</span>      <span class=mi>074040</span><span class=no>a0</span>
+<span class=err>074040</span><span class=nf>ae</span> <span class=mi>8</span><span class=no>be5</span>            <span class=no>mov</span>     <span class=no>esp</span><span class=p>,</span><span class=no>ebp</span>
+</code></pre></div><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=c>; .NET Core 2.0.6 (CoreCLR 4.6.26212.01, CoreFX 4.6.26212.01), 64bit RyuJIT
+</span><span class=c></span>
+<span class=err>00007</span><span class=nf>fff</span> <span class=mi>196433</span><span class=no>b0</span> <span class=no>DisasmDemo.IntroDisasm.Sum</span><span class=p>()</span>
+<span class=err>00007</span><span class=nf>fff</span> <span class=mi>196433</span><span class=no>b3</span> <span class=no>c4e17957c0</span>      <span class=no>vxorpd</span>  <span class=no>xmm0</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>xmm0</span>
+<span class=err>00007</span><span class=nf>fff</span> <span class=mi>196433</span><span class=no>b8</span> <span class=mi>33</span><span class=no>c0</span>            <span class=no>xor</span>     <span class=no>eax</span><span class=p>,</span><span class=no>eax</span>
+<span class=err>00007</span><span class=nf>fff</span> <span class=mi>196433</span><span class=no>ba</span> <span class=no>c4e17057c9</span>      <span class=no>vxorps</span>  <span class=no>xmm1</span><span class=p>,</span><span class=no>xmm1</span><span class=p>,</span><span class=no>xmm1</span>
+<span class=err>00007</span><span class=nf>fff</span> <span class=mi>196433</span><span class=no>bf</span> <span class=no>c4e1732ac8</span>      <span class=no>vcvtsi2sd</span> <span class=no>xmm1</span><span class=p>,</span><span class=no>xmm1</span><span class=p>,</span><span class=no>eax</span>
+<span class=err>00007</span><span class=nf>fff</span> <span class=mi>196433</span><span class=no>c4</span> <span class=no>c4e17b58c1</span>      <span class=no>vaddsd</span>  <span class=no>xmm0</span><span class=p>,</span><span class=no>xmm0</span><span class=p>,</span><span class=no>xmm1</span>
+<span class=err>00007</span><span class=nf>fff</span> <span class=mi>196433</span><span class=no>c9</span> <span class=no>ffc0</span>            <span class=no>inc</span>     <span class=no>eax</span>
+<span class=err>00007</span><span class=nf>fff</span> <span class=mi>196433</span><span class=no>cb</span> <span class=mi>83</span><span class=no>f840</span>          <span class=no>cmp</span>     <span class=no>eax</span><span class=p>,</span><span class=mi>40</span><span class=no>h</span>
+<span class=err>00007</span><span class=nf>fff</span> <span class=mi>196433</span><span class=no>ce</span> <span class=mi>7</span><span class=no>cea</span>            <span class=no>jl</span>      <span class=mi>00007</span><span class=no>fff</span> <span class=mi>196433</span><span class=no>ba</span>
+<span class=err>00007</span><span class=nf>fff</span> <span class=mi>196433</span><span class=no>d0</span> <span class=no>c3</span>              <span class=no>ret</span>
+</code></pre></div><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=c>; Mono 5.4.0 (Visual Studio), 64bit
+</span><span class=c></span>
+ <span class=nf>Sum</span>
+<span class=nf>sub</span>    <span class=no>$0x18</span><span class=p>,</span><span class=nv>%rsp</span>
+<span class=nf>mov</span>    <span class=nv>%rsi</span><span class=p>,(</span><span class=nv>%rsp</span><span class=p>)</span>
+<span class=nf>xorpd</span>  <span class=nv>%xmm0</span><span class=p>,</span><span class=nv>%xmm0</span>
+<span class=nf>movsd</span>  <span class=nv>%xmm0</span><span class=p>,</span><span class=mi>0x8</span><span class=p>(</span><span class=nv>%rsp</span><span class=p>)</span>
+<span class=nf>xor</span>    <span class=nv>%esi</span><span class=p>,</span><span class=nv>%esi</span>
+<span class=nf>jmp</span>    <span class=mi>2</span><span class=no>e</span> 
+<span class=no>xchg</span>   <span class=nv>%ax</span><span class=p>,</span><span class=nv>%ax</span>
+<span class=nf>movsd</span>  <span class=mi>0x8</span><span class=p>(</span><span class=nv>%rsp</span><span class=p>),</span><span class=nv>%xmm0</span>
+<span class=nf>cvtsi2sd</span> <span class=nv>%esi</span><span class=p>,</span><span class=nv>%xmm1</span>
+<span class=nf>addsd</span>  <span class=nv>%xmm1</span><span class=p>,</span><span class=nv>%xmm0</span>
+<span class=nf>movsd</span>  <span class=nv>%xmm0</span><span class=p>,</span><span class=mi>0x8</span><span class=p>(</span><span class=nv>%rsp</span><span class=p>)</span>
+<span class=nf>inc</span>    <span class=nv>%esi</span>
+<span class=nf>cmp</span>    <span class=no>$0x40</span><span class=p>,</span><span class=nv>%esi</span>
+<span class=nf>jl</span>     <span class=mi>18</span> 
+<span class=no>movsd</span>  <span class=mi>0x8</span><span class=p>(</span><span class=nv>%rsp</span><span class=p>),</span><span class=nv>%xmm0</span>
+<span class=nf>mov</span>    <span class=p>(</span><span class=nv>%rsp</span><span class=p>),</span><span class=nv>%rsi</span>
+<span class=nf>add</span>    <span class=no>$0x18</span><span class=p>,</span><span class=nv>%rsp</span>
+<span class=nf>retq</span>
+</code></pre></div><p>As you can see, BenchmarkDotNet uses different diasasm style for each runtime.
 Well, <code>DisassemblyDiagnoser</code> is a recent feature, it works, but we did not have enough time to polish it.
-However, BenchmarkDotNet is <a href="https://github.com/dotnet/BenchmarkDotNet/wiki/ChangeLog">rapidly evolving</a>,
+However, BenchmarkDotNet is <a href=https://github.com/dotnet/BenchmarkDotNet/wiki/ChangeLog>rapidly evolving</a>,
 each version contains many improvements and bug fixes.
-If you want to help with the disasm support, <a href="https://github.com/dotnet/BenchmarkDotNet#contributions-are-welcome">contributions are welcome</a>!</p>
-
-<!-- Share -->
-
-Share:
-<a href="https://twitter.com/intent/tweet?text=Cross-runtime .NET disassembly with BenchmarkDotNet&url=http://aakinshin.net/posts/dotnet-crossruntime-disasm/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/dotnet-crossruntime-disasm/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/dotnet-crossruntime-disasm/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/dotnet-crossruntime-disasm/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/dotnet-crossruntime-disasm/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/dotnet-crossruntime-disasm/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/dotnet-crossruntime-disasm/&title=Cross-runtime .NET disassembly with BenchmarkDotNet" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  You can find source code of this post on GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2018/dotnet-crossruntime-disasm.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2018/dotnet-crossruntime-disasm.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+If you want to help with the disasm support, <a href=https://github.com/dotnet/BenchmarkDotNet#contributions-are-welcome>contributions are welcome</a>!</p><br><br><div class=mx-auto>Share:
+<a href="https://twitter.com/intent/tweet?text=Cross-runtime%20.NET%20disassembly%20with%20BenchmarkDotNet&url=https%3a%2f%2faakinshin.net%2fposts%2fdotnet-crossruntime-disasm%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fdotnet-crossruntime-disasm%2f&title=Cross-runtime%20.NET%20disassembly%20with%20BenchmarkDotNet" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fdotnet-crossruntime-disasm%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2fdotnet-crossruntime-disasm%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2fdotnet-crossruntime-disasm%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fdotnet-crossruntime-disasm%2f&title=Cross-runtime%20.NET%20disassembly%20with%20BenchmarkDotNet" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

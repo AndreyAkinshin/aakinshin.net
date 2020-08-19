@@ -1,264 +1,223 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!doctype html><html lang=ru class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Андрей Акиньшин"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Cache-Conscious Binary Search | Андрей Акиньшин</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/ru/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/posts/>Посты</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/ru/about/>Об авторе</a></li><li class=nav-item><a class=nav-link id=nav-link-about href>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/ru/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Cache-Conscious Binary Search</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2013-11-20>20 ноября 2013</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/algorithms class="badge badge-info">Algorithms</a>
+<a href=https://aakinshin.net/tags/cacheconscious class="badge badge-info">CacheConscious</a>
+<a href=https://aakinshin.net/tags/binarysearch class="badge badge-info">BinarySearch</a>
+<a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/cache class="badge badge-info">Cache</a>
+<a href=https://aakinshin.net/tags/c class="badge badge-info">C#</a></span><br><br><p>Рассмотрим простую задачу: есть некоторый достаточно большой неизменный набор чисел, к нему осуществляется множество запросов на наличие некоторого числа в этом наборе, необходимо максимально быстро эти запросы обрабатывать. Одно из классических решений заключается в формировании отсортированного массива и обработке запросов через бинарный поиск. Но можно ли добиться более высокой производительности, чем в классической реализации? В этой статье мне хотелось бы рассказать про Cache-Conscious Binary Search. В данном алгоритме предлагается переупорядочить элементы массива таким образом, чтобы использование кэша процессора происходило максимально эффективно.</p><p><b>Дисклеймер:</b>
+я не пытаюсь создать самое эффективное решение данной задачи. Мне хотелось бы просто обсудить подход к построению структур данных на основе учёта особенностей работы с кэшом процессора, т.к. многие при решении оптимизационных задач в принципе не задумываются о процессорной архитектуре. Я также не собираюсь писать идеальную реализацию Cache-Conscious Binary Search, мне хотелось бы посмотреть эффект от подобного подхода на достаточно простом примере (также в целях упрощения кода количество вершин берётся равным N=2^K-1). В качестве языка программирования я буду использовать C# (общее быстродействие для нас не принципиально, т.к. основной акцент делается не на создании самой быстрой программы в мире, а на относительном сравнении различных подходов к решению задачи). Стоит также отметить, что алгоритм эффективен только на больших массивах, поэтому не следует использовать данный подход во всех задачах, сперва нужно убедиться в его целесообразности. Предполагается, что у читателя имеются базовые представления о том, что такое кэш процессора, и как он работает.</p><p>Рассмотрим классическую реализацию бинарного поиска: пусть у нас имеется отсортированный массив
+<code>a</code>
+и некоторый элемент
+<code>x</code>
+, который мы будем в нём искать:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=kt>bool</span> <span class=n>Contains</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=kt>int</span> <span class=n>l</span> <span class=p>=</span> <span class=m>0</span><span class=p>,</span> <span class=n>r</span> <span class=p>=</span> <span class=n>N</span> <span class=p>-</span> <span class=m>1</span><span class=p>;</span>
+    <span class=k>while</span> <span class=p>(</span><span class=n>l</span> <span class=p>&lt;=</span> <span class=n>r</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=kt>int</span> <span class=n>m</span> <span class=p>=</span> <span class=p>(</span><span class=n>l</span> <span class=p>+</span> <span class=n>r</span><span class=p>)</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>a</span><span class=p>[</span><span class=n>m</span><span class=p>]</span> <span class=p>==</span> <span class=n>x</span><span class=p>)</span>
+            <span class=k>return</span> <span class=k>true</span><span class=p>;</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>a</span><span class=p>[</span><span class=n>m</span><span class=p>]</span> <span class=p>&gt;</span> <span class=n>x</span><span class=p>)</span>
+            <span class=n>r</span> <span class=p>=</span> <span class=n>m</span> <span class=p>-</span> <span class=m>1</span><span class=p>;</span>
+        <span class=k>else</span>
+            <span class=n>l</span> <span class=p>=</span> <span class=n>m</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>В данной реализации на первых итерациях алгоритма запросы будут осуществляться к элементам массива, которые находятся далеко друг от друга. Изобразим дерево поиска для массива из 15-и элементов:</p><div class=separator style=clear:both;text-align:center><a href=http://3.bp.blogspot.com/-lS77713GjIQ/Uoygymx31cI/AAAAAAAAAOw/o37c1lotLHo/s1600/img1.png imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 src=http://3.bp.blogspot.com/-lS77713GjIQ/Uoygymx31cI/AAAAAAAAAOw/o37c1lotLHo/s640/img1.png></a></div><p>Из рисунка видно, что при проходе по такому дереву сперва будет обращение к 7-му элементу, а затем (в случае
+<code>a[7]!=x</code>
+) к 3-ему или 11-ому. На таком маленьком массиве это не критично, но в большом массиве эти обращения будут соответствовать разным строчкам кэша процессора, что негативно скажется на производительности. Давайте попробуем переупорядочить элементы так, чтобы последовательные обращения к массиву приходились на близкие участки памяти. В первом приближении можно попробовать расположить друг за другом каждый уровень дерева с помощью простого поиска в ширину. На нашем тестовом дереве получим следующий результат:</p><div class=separator style=clear:both;text-align:center><a href=http://4.bp.blogspot.com/-7v_UqTv09FM/UoyhCIEiIII/AAAAAAAAAO0/EJmozES7E2w/s1600/img2.png imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 src=http://4.bp.blogspot.com/-7v_UqTv09FM/UoyhCIEiIII/AAAAAAAAAO0/EJmozES7E2w/s640/img2.png></a></div><p>Теперь элементы массива, к которым мы будем обращаться на первых итерациях, находятся недалеко друг от друга. Но с ростом номера итерации мы всё равно получим большое количество cache miss-ов. Чтобы исправить данную ситуацию, разобьём наше «большое» дерево бинарного поиска на небольшие поддеревья. Каждое такое поддерево будет соответствовать нескольким уровням оригинального дерева, а элементы поддерева будут находится недалеко друг от друга. Таким образом, cache miss будут образовываться в основном при переходе к очередному поддереву. Высоту поддерева можно варьировать, подбирая её в соответствии с процессорной архитектурой. Проиллюстрируем данные построения на нашем примере, взяв высоту поддерева равным 2:</p><div class=separator style=clear:both;text-align:center><a href=http://4.bp.blogspot.com/-w7UB4jgCGEQ/UoyhFYPW4YI/AAAAAAAAAO8/BUDzRYVmjCY/s1600/img3.png imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 src=http://4.bp.blogspot.com/-w7UB4jgCGEQ/UoyhFYPW4YI/AAAAAAAAAO8/BUDzRYVmjCY/s640/img3.png></a></div><p>А теперь перейдём к практическим исследованиям. Для чистоты эксперимента и получения точных результатов будем замерять время с помощью проекта
+<a href=https://github.com/AndreyAkinshin/BenchmarkDotNet>BenchmarkDotNet</a>
+. Рассмотрим самую тривиальную реализацию рассмотренного алгоритма без каких-либо дополнительных оптимизаций (исходный код
+<a href=https://github.com/AndreyAkinshin/BenchmarkDotNet/blob/master/Benchmarks/CacheConsciousBinarySearchCompetition.cs>приведён</a>
+на GitHub). Сравнивать будем классическую реализацию и cache-conscious-реализации с разными высотами поддеревьев (CacheConsciousSearchK соответствует поддереву с высотой K). Высоту дерева возьмём равной 24. На моей машине (Intel Core i7-3632QM CPU 2.20GHz) получились следующие результаты (алгоритм очень чувствителен к процессорной архитектуре, поэтому у вас могут получиться совсем другие временные оценки):</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>// Microsoft.NET 4.5 x64
+SimpleSearch          : 6725ms
+CacheConsciousSearch1 : 4428ms
+CacheConsciousSearch2 : 3963ms
+CacheConsciousSearch3 : 3778ms
+CacheConsciousSearch4 : 3774ms
+CacheConsciousSearch5 : 3762ms
+</code></pre></div><p>Исходный код бенчмарка:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>class</span> <span class=nc>CacheConsciousBinarySearchCompetition</span> <span class=p>:</span> <span class=n>BenchmarkCompetition</span>
+<span class=p>{</span>
+    <span class=k>private</span> <span class=k>const</span> <span class=kt>int</span> <span class=n>K</span> <span class=p>=</span> <span class=m>24</span><span class=p>,</span> <span class=n>N</span> <span class=p>=</span> <span class=p>(</span><span class=m>1</span> <span class=p>&lt;&lt;</span> <span class=n>K</span><span class=p>)</span> <span class=p>-</span> <span class=m>1</span><span class=p>,</span> <span class=n>IterationCount</span> <span class=p>=</span> <span class=m>10000000</span><span class=p>;</span>
+    <span class=k>private</span> <span class=k>readonly</span> <span class=n>Random</span> <span class=n>random</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Random</span><span class=p>();</span>
 
-    <meta name="description" content="Cache-Conscious Binary Search">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='Algorithms,CacheConscious,BinarySearch,.NET,Cache,C#'>
+    <span class=k>private</span> <span class=n>Tree</span> <span class=n>originalTree</span><span class=p>;</span>
+    <span class=k>private</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>bfs</span><span class=p>;</span>
 
-    <title>Cache-Conscious Binary Search</title>
+    <span class=k>protected</span> <span class=k>override</span> <span class=k>void</span> <span class=n>Prepare</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=n>originalTree</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Tree</span><span class=p>(</span><span class=n>Enumerable</span><span class=p>.</span><span class=n>Range</span><span class=p>(</span><span class=m>0</span><span class=p>,</span> <span class=n>N</span><span class=p>).</span><span class=n>Select</span><span class=p>(</span><span class=n>x</span> <span class=p>=&gt;</span> <span class=m>2</span> <span class=p>*</span> <span class=n>x</span><span class=p>).</span><span class=n>ToArray</span><span class=p>());</span>
+        <span class=n>bfs</span> <span class=p>=</span> <span class=n>originalTree</span><span class=p>.</span><span class=n>Bfs</span><span class=p>();</span>
+    <span class=p>}</span>
+<span class=na>
+</span><span class=na>    [BenchmarkMethod]</span>
+    <span class=k>public</span> <span class=k>void</span> <span class=n>SimpleSearch</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=n>SingleRun</span><span class=p>(</span><span class=n>originalTree</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=na>
+</span><span class=na>    [BenchmarkMethod]</span>
+    <span class=k>public</span> <span class=k>void</span> <span class=n>CacheConsciousSearch1</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=n>SingleRun</span><span class=p>(</span><span class=k>new</span> <span class=n>CacheConsciousTree</span><span class=p>(</span><span class=n>bfs</span><span class=p>,</span> <span class=m>1</span><span class=p>));</span>
+    <span class=p>}</span>
+<span class=na>
+</span><span class=na>    [BenchmarkMethod]</span>
+    <span class=k>public</span> <span class=k>void</span> <span class=n>CacheConsciousSearch2</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=n>SingleRun</span><span class=p>(</span><span class=k>new</span> <span class=n>CacheConsciousTree</span><span class=p>(</span><span class=n>bfs</span><span class=p>,</span> <span class=m>2</span><span class=p>));</span>
+    <span class=p>}</span>
+<span class=na>
+</span><span class=na>    [BenchmarkMethod]</span>
+    <span class=k>public</span> <span class=k>void</span> <span class=n>CacheConsciousSearch3</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=n>SingleRun</span><span class=p>(</span><span class=k>new</span> <span class=n>CacheConsciousTree</span><span class=p>(</span><span class=n>bfs</span><span class=p>,</span> <span class=m>3</span><span class=p>));</span>
+    <span class=p>}</span>
+<span class=na>
+</span><span class=na>    [BenchmarkMethod]</span>
+    <span class=k>public</span> <span class=k>void</span> <span class=n>CacheConsciousSearch4</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=n>SingleRun</span><span class=p>(</span><span class=k>new</span> <span class=n>CacheConsciousTree</span><span class=p>(</span><span class=n>bfs</span><span class=p>,</span> <span class=m>4</span><span class=p>));</span>
+    <span class=p>}</span>
+<span class=na>
+</span><span class=na>    [BenchmarkMethod]</span>
+    <span class=k>public</span> <span class=k>void</span> <span class=n>CacheConsciousSearch5</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=n>SingleRun</span><span class=p>(</span><span class=k>new</span> <span class=n>CacheConsciousTree</span><span class=p>(</span><span class=n>bfs</span><span class=p>,</span> <span class=m>5</span><span class=p>));</span>
+    <span class=p>}</span>
+    
+    <span class=k>private</span> <span class=kt>int</span> <span class=n>SingleRun</span><span class=p>(</span><span class=n>ITree</span> <span class=n>tree</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=kt>int</span> <span class=n>searchedCount</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>iteration</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>iteration</span> <span class=p>&lt;</span> <span class=n>IterationCount</span><span class=p>;</span> <span class=n>iteration</span><span class=p>++)</span>
+        <span class=p>{</span>
+            <span class=kt>int</span> <span class=n>x</span> <span class=p>=</span> <span class=n>random</span><span class=p>.</span><span class=n>Next</span><span class=p>(</span><span class=n>N</span> <span class=p>*</span> <span class=m>2</span><span class=p>);</span>
+            <span class=k>if</span> <span class=p>(</span><span class=n>tree</span><span class=p>.</span><span class=n>Contains</span><span class=p>(</span><span class=n>x</span><span class=p>))</span>
+                <span class=n>searchedCount</span><span class=p>++;</span>
+        <span class=p>}</span>
+        <span class=k>return</span> <span class=n>searchedCount</span><span class=p>;</span>
+    <span class=p>}</span>
 
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
+    <span class=k>interface</span> <span class=n>ITree</span>
+    <span class=p>{</span>
+        <span class=kt>bool</span> <span class=n>Contains</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>);</span>
+    <span class=p>}</span>
 
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
+    <span class=k>class</span> <span class=nc>Tree</span> <span class=p>:</span> <span class=n>ITree</span>
+    <span class=p>{</span>
+        <span class=k>private</span> <span class=k>readonly</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>a</span><span class=p>;</span>
 
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
+        <span class=k>public</span> <span class=n>Tree</span><span class=p>(</span><span class=kt>int</span><span class=p>[]</span> <span class=n>a</span><span class=p>)</span>
+        <span class=p>{</span>
+            <span class=k>this</span><span class=p>.</span><span class=n>a</span> <span class=p>=</span> <span class=n>a</span><span class=p>;</span>
+        <span class=p>}</span>
 
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+        <span class=k>public</span> <span class=kt>bool</span> <span class=n>Contains</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>)</span>
+        <span class=p>{</span>
+            <span class=kt>int</span> <span class=n>l</span> <span class=p>=</span> <span class=m>0</span><span class=p>,</span> <span class=n>r</span> <span class=p>=</span> <span class=n>N</span> <span class=p>-</span> <span class=m>1</span><span class=p>;</span>
+            <span class=k>while</span> <span class=p>(</span><span class=n>l</span> <span class=p>&lt;=</span> <span class=n>r</span><span class=p>)</span>
+            <span class=p>{</span>
+                <span class=kt>int</span> <span class=n>m</span> <span class=p>=</span> <span class=p>(</span><span class=n>l</span> <span class=p>+</span> <span class=n>r</span><span class=p>)</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+                <span class=k>if</span> <span class=p>(</span><span class=n>a</span><span class=p>[</span><span class=n>m</span><span class=p>]</span> <span class=p>==</span> <span class=n>x</span><span class=p>)</span>
+                    <span class=k>return</span> <span class=k>true</span><span class=p>;</span>
+                <span class=k>if</span> <span class=p>(</span><span class=n>a</span><span class=p>[</span><span class=n>m</span><span class=p>]</span> <span class=p>&gt;</span> <span class=n>x</span><span class=p>)</span>
+                    <span class=n>r</span> <span class=p>=</span> <span class=n>m</span> <span class=p>-</span> <span class=m>1</span><span class=p>;</span>
+                <span class=k>else</span>
+                    <span class=n>l</span> <span class=p>=</span> <span class=n>m</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span>
+            <span class=p>}</span>
+            <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+        <span class=p>}</span>
 
-    <!-- Feeds -->
-    <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
+        <span class=k>public</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>Bfs</span><span class=p>()</span>
+        <span class=p>{</span>
+            <span class=kt>int</span><span class=p>[]</span> <span class=n>bfs</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>N</span><span class=p>],</span> <span class=n>l</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>N</span><span class=p>],</span> <span class=n>r</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>N</span><span class=p>];</span>
+            <span class=kt>int</span> <span class=n>tail</span> <span class=p>=</span> <span class=m>0</span><span class=p>,</span> <span class=n>head</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+            <span class=n>l</span><span class=p>[</span><span class=n>head</span><span class=p>]</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+            <span class=n>r</span><span class=p>[</span><span class=n>head</span><span class=p>++]</span> <span class=p>=</span> <span class=n>N</span> <span class=p>-</span> <span class=m>1</span><span class=p>;</span>
+            <span class=k>while</span> <span class=p>(</span><span class=n>tail</span> <span class=p>&lt;</span> <span class=n>head</span><span class=p>)</span>
+            <span class=p>{</span>
+                <span class=kt>int</span> <span class=n>m</span> <span class=p>=</span> <span class=p>(</span><span class=n>l</span><span class=p>[</span><span class=n>tail</span><span class=p>]</span> <span class=p>+</span> <span class=n>r</span><span class=p>[</span><span class=n>tail</span><span class=p>])</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+                <span class=n>bfs</span><span class=p>[</span><span class=n>tail</span><span class=p>]</span> <span class=p>=</span> <span class=n>a</span><span class=p>[</span><span class=n>m</span><span class=p>];</span>
+                <span class=k>if</span> <span class=p>(</span><span class=n>l</span><span class=p>[</span><span class=n>tail</span><span class=p>]</span> <span class=p>&lt;</span> <span class=n>m</span><span class=p>)</span>
+                <span class=p>{</span>
+                    <span class=n>l</span><span class=p>[</span><span class=n>head</span><span class=p>]</span> <span class=p>=</span> <span class=n>l</span><span class=p>[</span><span class=n>tail</span><span class=p>];</span>
+                    <span class=n>r</span><span class=p>[</span><span class=n>head</span><span class=p>++]</span> <span class=p>=</span> <span class=n>m</span> <span class=p>-</span> <span class=m>1</span><span class=p>;</span>
+                <span class=p>}</span>
+                <span class=k>if</span> <span class=p>(</span><span class=n>m</span> <span class=p>&lt;</span> <span class=n>r</span><span class=p>[</span><span class=n>tail</span><span class=p>])</span>
+                <span class=p>{</span>
+                    <span class=n>l</span><span class=p>[</span><span class=n>head</span><span class=p>]</span> <span class=p>=</span> <span class=n>m</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span>
+                    <span class=n>r</span><span class=p>[</span><span class=n>head</span><span class=p>++]</span> <span class=p>=</span> <span class=n>r</span><span class=p>[</span><span class=n>tail</span><span class=p>];</span>
+                <span class=p>}</span>
+                <span class=n>tail</span><span class=p>++;</span>
+            <span class=p>}</span>
+            <span class=k>return</span> <span class=n>bfs</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
 
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
+    <span class=k>class</span> <span class=nc>CacheConsciousTree</span> <span class=p>:</span> <span class=n>ITree</span>
+    <span class=p>{</span>
+        <span class=k>private</span> <span class=k>readonly</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>a</span><span class=p>;</span>
+        <span class=k>private</span> <span class=k>readonly</span> <span class=kt>int</span> <span class=n>level</span><span class=p>;</span>
 
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
+        <span class=k>public</span> <span class=n>CacheConsciousTree</span><span class=p>(</span><span class=kt>int</span><span class=p>[]</span> <span class=n>bfs</span><span class=p>,</span> <span class=kt>int</span> <span class=n>level</span><span class=p>)</span>
+        <span class=p>{</span>
+            <span class=k>this</span><span class=p>.</span><span class=n>level</span> <span class=p>=</span> <span class=n>level</span><span class=p>;</span>
+            <span class=kt>int</span> <span class=n>size</span> <span class=p>=</span> <span class=p>(</span><span class=m>1</span> <span class=p>&lt;&lt;</span> <span class=n>level</span><span class=p>)</span> <span class=p>-</span> <span class=m>1</span><span class=p>,</span> <span class=n>counter</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+            <span class=n>a</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>N</span><span class=p>];</span>
+            <span class=kt>var</span> <span class=n>was</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>bool</span><span class=p>[</span><span class=n>N</span><span class=p>];</span>
+            <span class=kt>var</span> <span class=n>queue</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>size</span><span class=p>];</span>
+            <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+                <span class=k>if</span> <span class=p>(!</span><span class=n>was</span><span class=p>[</span><span class=n>i</span><span class=p>])</span>
+                <span class=p>{</span>
+                    <span class=kt>int</span> <span class=n>head</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+                    <span class=n>queue</span><span class=p>[</span><span class=n>head</span><span class=p>++]</span> <span class=p>=</span> <span class=n>i</span><span class=p>;</span>
+                    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>tail</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>tail</span> <span class=p>&lt;</span> <span class=n>head</span><span class=p>;</span> <span class=n>tail</span><span class=p>++)</span>
+                    <span class=p>{</span>
+                        <span class=n>a</span><span class=p>[</span><span class=n>counter</span><span class=p>++]</span> <span class=p>=</span> <span class=n>bfs</span><span class=p>[</span><span class=n>queue</span><span class=p>[</span><span class=n>tail</span><span class=p>]];</span>
+                        <span class=n>was</span><span class=p>[</span><span class=n>queue</span><span class=p>[</span><span class=n>tail</span><span class=p>]]</span> <span class=p>=</span> <span class=k>true</span><span class=p>;</span>
+                        <span class=k>if</span> <span class=p>(</span><span class=n>queue</span><span class=p>[</span><span class=n>tail</span><span class=p>]</span> <span class=p>*</span> <span class=m>2</span> <span class=p>+</span> <span class=m>1</span> <span class=p>&lt;</span> <span class=n>N</span> <span class=p>&amp;&amp;</span> <span class=n>head</span> <span class=p>&lt;</span> <span class=n>size</span><span class=p>)</span>
+                            <span class=n>queue</span><span class=p>[</span><span class=n>head</span><span class=p>++]</span> <span class=p>=</span> <span class=n>queue</span><span class=p>[</span><span class=n>tail</span><span class=p>]</span> <span class=p>*</span> <span class=m>2</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span>
+                        <span class=k>if</span> <span class=p>(</span><span class=n>queue</span><span class=p>[</span><span class=n>tail</span><span class=p>]</span> <span class=p>*</span> <span class=m>2</span> <span class=p>+</span> <span class=m>2</span> <span class=p>&lt;</span> <span class=n>N</span> <span class=p>&amp;&amp;</span> <span class=n>head</span> <span class=p>&lt;</span> <span class=n>size</span><span class=p>)</span>
+                            <span class=n>queue</span><span class=p>[</span><span class=n>head</span><span class=p>++]</span> <span class=p>=</span> <span class=n>queue</span><span class=p>[</span><span class=n>tail</span><span class=p>]</span> <span class=p>*</span> <span class=m>2</span> <span class=p>+</span> <span class=m>2</span><span class=p>;</span>
+                    <span class=p>}</span>
+                <span class=p>}</span>
+        <span class=p>}</span>
 
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/ru/posts/">Блог</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/ru/content/">Содержание</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/ru/about/">Об авторе</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ru</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/posts/cache-conscious-binary-search/'>En</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/ru/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Cache-Conscious Binary Search</h2>
-<span class="blog-post-meta">
-  <b>Дата:</b> 20 ноября 2013.
-  <b>Теги:</b>
-        <a href="/ru/tags/algorithms"><span class="badge badge-pill badge-info">Algorithms</span></a>
-        <a href="/ru/tags/cacheconscious"><span class="badge badge-pill badge-info">CacheConscious</span></a>
-        <a href="/ru/tags/binarysearch"><span class="badge badge-pill badge-info">BinarySearch</span></a>
-        <a href="/ru/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/ru/tags/cache"><span class="badge badge-pill badge-info">Cache</span></a>
-        <a href="/ru/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-</span><br /><br />
-
-<p>
-	Рассмотрим простую задачу: есть некоторый достаточно большой неизменный набор чисел, к нему осуществляется множество запросов на наличие некоторого числа в этом наборе, необходимо максимально быстро эти запросы обрабатывать. Одно из классических решений заключается в формировании отсортированного массива и обработке запросов через бинарный поиск. Но можно ли добиться более высокой производительности, чем в классической реализации? В этой статье мне хотелось бы рассказать про Cache-Conscious Binary Search. В данном алгоритме предлагается переупорядочить элементы массива таким образом, чтобы использование кэша процессора происходило максимально эффективно.
-</p>
-<!--more-->
-<p> <b>Дисклеймер:</b>
-	я не пытаюсь создать самое эффективное решение данной задачи. Мне хотелось бы просто обсудить подход к построению структур данных на основе учёта особенностей работы с кэшом процессора, т.к. многие при решении оптимизационных задач в принципе не задумываются о процессорной архитектуре. Я также не собираюсь писать идеальную реализацию Cache-Conscious Binary Search, мне хотелось бы посмотреть эффект от подобного подхода на достаточно простом примере (также в целях упрощения кода количество вершин берётся равным N=2^K-1). В качестве языка программирования я буду использовать C# (общее быстродействие для нас не принципиально, т.к. основной акцент делается не на создании самой быстрой программы в мире, а на относительном сравнении различных подходов к решению задачи). Стоит также отметить, что алгоритм эффективен только на больших массивах, поэтому не следует использовать данный подход во всех задачах, сперва нужно убедиться в его целесообразности. Предполагается, что у читателя имеются базовые представления о том, что такое кэш процессора, и как он работает.
-</p>
-<p>
-	Рассмотрим классическую реализацию бинарного поиска: пусть у нас имеется отсортированный массив
-	<code>a</code>
-	и некоторый элемент
-	<code>x</code>
-	, который мы будем в нём искать:
-</p>
-<pre class="prettyprint lang-cs"><br />public bool Contains(int x)<br />{<br />    int l = 0, r = N - 1;<br />    while (l &lt;= r)<br />    {<br />        int m = (l + r) / 2;<br />        if (a[m] == x)<br />            return true;<br />        if (a[m] > x)<br />            r = m - 1;<br />        else<br />            l = m + 1;<br />    }<br />    return false;<br />}<br /></pre>
-<p>
-	В данной реализации на первых итерациях алгоритма запросы будут осуществляться к элементам массива, которые находятся далеко друг от друга. Изобразим дерево поиска для массива из 15-и элементов:
-</p>
-<div class="separator" style="clear: both; text-align: center;">
-	<a href="http://3.bp.blogspot.com/-lS77713GjIQ/Uoygymx31cI/AAAAAAAAAOw/o37c1lotLHo/s1600/img1.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-		<img border="0" src="http://3.bp.blogspot.com/-lS77713GjIQ/Uoygymx31cI/AAAAAAAAAOw/o37c1lotLHo/s640/img1.png" />
-	</a>
-</div>
-<p>
-	Из рисунка видно, что при проходе по такому дереву сперва будет обращение к 7-му элементу, а затем (в случае
-	<code>a[7]!=x</code>
-	) к 3-ему или 11-ому. На таком маленьком массиве это не критично, но в большом массиве эти обращения будут соответствовать разным строчкам кэша процессора, что негативно скажется на производительности. Давайте попробуем переупорядочить элементы так, чтобы последовательные обращения к массиву приходились на близкие участки памяти. В первом приближении можно попробовать расположить друг за другом каждый уровень дерева с помощью простого поиска в ширину. На нашем тестовом дереве получим следующий результат:
-</p>
-<div class="separator" style="clear: both; text-align: center;">
-	<a href="http://4.bp.blogspot.com/-7v_UqTv09FM/UoyhCIEiIII/AAAAAAAAAO0/EJmozES7E2w/s1600/img2.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-		<img border="0" src="http://4.bp.blogspot.com/-7v_UqTv09FM/UoyhCIEiIII/AAAAAAAAAO0/EJmozES7E2w/s640/img2.png" />
-	</a>
-</div>
-<p>
-	Теперь элементы массива, к которым мы будем обращаться на первых итерациях, находятся недалеко друг от друга. Но с ростом номера итерации мы всё равно получим большое количество cache miss-ов. Чтобы исправить данную ситуацию, разобьём наше «большое» дерево бинарного поиска на небольшие поддеревья. Каждое такое поддерево будет соответствовать нескольким уровням оригинального дерева, а элементы поддерева будут находится недалеко друг от друга. Таким образом, cache miss будут образовываться в основном при переходе к очередному поддереву. Высоту поддерева можно варьировать, подбирая её в соответствии с процессорной архитектурой. Проиллюстрируем данные построения на нашем примере, взяв высоту поддерева равным 2:
-</p>
-<div class="separator" style="clear: both; text-align: center;">
-	<a href="http://4.bp.blogspot.com/-w7UB4jgCGEQ/UoyhFYPW4YI/AAAAAAAAAO8/BUDzRYVmjCY/s1600/img3.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-		<img border="0" src="http://4.bp.blogspot.com/-w7UB4jgCGEQ/UoyhFYPW4YI/AAAAAAAAAO8/BUDzRYVmjCY/s640/img3.png" />
-	</a>
-</div>
-<p>
-	А теперь перейдём к практическим исследованиям. Для чистоты эксперимента и получения точных результатов будем замерять время с помощью проекта
-	<a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a>
-	. Рассмотрим самую тривиальную реализацию рассмотренного алгоритма без каких-либо дополнительных оптимизаций (исходный код
-	<a href="https://github.com/AndreyAkinshin/BenchmarkDotNet/blob/master/Benchmarks/CacheConsciousBinarySearchCompetition.cs">приведён</a>
-	на GitHub). Сравнивать будем классическую реализацию и cache-conscious-реализации с разными высотами поддеревьев (CacheConsciousSearchK соответствует поддереву с высотой K). Высоту дерева возьмём равной 24. На моей машине (Intel Core i7-3632QM CPU 2.20GHz) получились следующие результаты (алгоритм очень чувствителен к процессорной архитектуре, поэтому у вас могут получиться совсем другие временные оценки):
-</p>
-<pre class="prettyprint"><br />// Microsoft.NET 4.5 x64<br />SimpleSearch          : 6725ms<br />CacheConsciousSearch1 : 4428ms<br />CacheConsciousSearch2 : 3963ms<br />CacheConsciousSearch3 : 3778ms<br />CacheConsciousSearch4 : 3774ms<br />CacheConsciousSearch5 : 3762ms<br /></pre>
-<div class="spoiler" title="Исходный код бенчмарка">
-	<pre class="prettyprint lang-cs"><br />public class CacheConsciousBinarySearchCompetition : BenchmarkCompetition<br />{<br />    private const int K = 24, N = (1 &lt;&lt; K) - 1, IterationCount = 10000000;<br />    private readonly Random random = new Random();<br /><br />    private Tree originalTree;<br />    private int[] bfs;<br /><br />    protected override void Prepare()<br />    {<br />        originalTree = new Tree(Enumerable.Range(0, N).Select(x =&gt; 2 * x).ToArray());<br />        bfs = originalTree.Bfs();<br />    }<br /><br />    [BenchmarkMethod]<br />    public void SimpleSearch()<br />    {<br />        SingleRun(originalTree);<br />    }<br /><br />    [BenchmarkMethod]<br />    public void CacheConsciousSearch1()<br />    {<br />        SingleRun(new CacheConsciousTree(bfs, 1));<br />    }<br /><br />    [BenchmarkMethod]<br />    public void CacheConsciousSearch2()<br />    {<br />        SingleRun(new CacheConsciousTree(bfs, 2));<br />    }<br /><br />    [BenchmarkMethod]<br />    public void CacheConsciousSearch3()<br />    {<br />        SingleRun(new CacheConsciousTree(bfs, 3));<br />    }<br /><br />    [BenchmarkMethod]<br />    public void CacheConsciousSearch4()<br />    {<br />        SingleRun(new CacheConsciousTree(bfs, 4));<br />    }<br /><br />    [BenchmarkMethod]<br />    public void CacheConsciousSearch5()<br />    {<br />        SingleRun(new CacheConsciousTree(bfs, 5));<br />    }<br />    <br />    private int SingleRun(ITree tree)<br />    {<br />        int searchedCount = 0;<br />        for (int iteration = 0; iteration &lt; IterationCount; iteration++)<br />        {<br />            int x = random.Next(N * 2);<br />            if (tree.Contains(x))<br />                searchedCount++;<br />        }<br />        return searchedCount;<br />    }<br /><br />    interface ITree<br />    {<br />        bool Contains(int x);<br />    }<br /><br />    class Tree : ITree<br />    {<br />        private readonly int[] a;<br /><br />        public Tree(int[] a)<br />        {<br />            this.a = a;<br />        }<br /><br />        public bool Contains(int x)<br />        {<br />            int l = 0, r = N - 1;<br />            while (l &lt;= r)<br />            {<br />                int m = (l + r) / 2;<br />                if (a[m] == x)<br />                    return true;<br />                if (a[m] &gt; x)<br />                    r = m - 1;<br />                else<br />                    l = m + 1;<br />            }<br />            return false;<br />        }<br /><br />        public int[] Bfs()<br />        {<br />            int[] bfs = new int[N], l = new int[N], r = new int[N];<br />            int tail = 0, head = 0;<br />            l[head] = 0;<br />            r[head++] = N - 1;<br />            while (tail &lt; head)<br />            {<br />                int m = (l[tail] + r[tail]) / 2;<br />                bfs[tail] = a[m];<br />                if (l[tail] &lt; m)<br />                {<br />                    l[head] = l[tail];<br />                    r[head++] = m - 1;<br />                }<br />                if (m &lt; r[tail])<br />                {<br />                    l[head] = m + 1;<br />                    r[head++] = r[tail];<br />                }<br />                tail++;<br />            }<br />            return bfs;<br />        }<br />    }<br /><br />    class CacheConsciousTree : ITree<br />    {<br />        private readonly int[] a;<br />        private readonly int level;<br /><br />        public CacheConsciousTree(int[] bfs, int level)<br />        {<br />            this.level = level;<br />            int size = (1 &lt;&lt; level) - 1, counter = 0;<br />            a = new int[N];<br />            var was = new bool[N];<br />            var queue = new int[size];<br />            for (int i = 0; i &lt; N; i++)<br />                if (!was[i])<br />                {<br />                    int head = 0;<br />                    queue[head++] = i;<br />                    for (int tail = 0; tail &lt; head; tail++)<br />                    {<br />                        a[counter++] = bfs[queue[tail]];<br />                        was[queue[tail]] = true;<br />                        if (queue[tail] * 2 + 1 &lt; N &amp;&amp; head &lt; size)<br />                            queue[head++] = queue[tail] * 2 + 1;<br />                        if (queue[tail] * 2 + 2 &lt; N &amp;&amp; head &lt; size)<br />                            queue[head++] = queue[tail] * 2 + 2;<br />                    }<br />                }<br />        }<br /><br />        public bool Contains(int x)<br />        {<br />            int u = 0, deep = 0, leafCount = 1 &lt;&lt; (level - 1);<br />            int root = 0, rootOffset = 0;<br />            while (deep &lt; K)<br />            {<br />                int value = a[root + u];<br />                if (value == x)<br />                    return true;<br />                if (++deep % level != 0)<br />                {<br />                    if (value &gt; x)<br />                        u = 2 * u + 1;<br />                    else<br />                        u = 2 * u + 2;<br />                }<br />                else<br />                {<br />                    int subTreeSize = (1 &lt;&lt; Math.Min(level, K - deep)) - 1;<br />                    if (value &gt; x)<br />                        rootOffset = rootOffset * leafCount * 2 + (u - leafCount + 1) * 2;<br />                    else<br />                        rootOffset = rootOffset * leafCount * 2 + (u - leafCount + 1) * 2 + 1;<br />                    root = (1 &lt;&lt; deep) - 1 + rootOffset * subTreeSize;<br />                    u = 0;<br />                }<br />            }<br />            return false;<br />        }<br />    }<br />}<br /></pre>
-</div>
-<p>
-	На всякий случай я запустил бенчмарк под различными версиями .NET Framework и с различной битностью. Все конфигурации дали схожие результаты:
-</p>
-<div class="separator" style="clear: both; text-align: center;">
-	<a href="http://3.bp.blogspot.com/-vup5W3aaqRg/UoyhK7lTPaI/AAAAAAAAAPE/JHDLACXG7Eg/s1600/ms.net.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-		<img border="0" src="http://3.bp.blogspot.com/-vup5W3aaqRg/UoyhK7lTPaI/AAAAAAAAAPE/JHDLACXG7Eg/s640/ms.net.png" />
-	</a>
-</div>
-<p>Под Mono результаты также получились аналогичными:</p>
-<div class="separator" style="clear: both; text-align: center;">
-	<a href="http://2.bp.blogspot.com/-L8WX6UDHCA4/UoyhOjLKhvI/AAAAAAAAAPM/RBnImyRSQk0/s1600/mono.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;">
-		<img border="0" src="http://2.bp.blogspot.com/-L8WX6UDHCA4/UoyhOjLKhvI/AAAAAAAAAPM/RBnImyRSQk0/s640/mono.png" />
-	</a>
-</div>
-<p>
-	Из этих картинок видно, что классическая реализация бинарного поиска значительно уступает Cache-Conscious-реализации. Стоит отметить, что по началу с ростом высоты поддеревьев быстродействие возрастает, но эта тенденция наблюдается недолго (поддеревья начинают приносить мало пользы, если внутри поддерева возникает большое количество cashe miss-ов).
-</p>
-<p>
-	Разумеется, Cache-Conscious Binary Search является лишь примером того, как можно адаптировать программу к особенностям работы кэша процессора. Подобные Cache-Conscious Data Structures могут оказать неоценимую помощь при оптимизации приложения, если ваши структуры данных имеют достаточно большой объём, а последовательные запросы к ним приходятся на разные участки памяти. Но не стоит бездумно бросаться переписывать всё под Cache-Conscious: помните, что код станет намного сложнее, а повышение эффективности в значительной степени зависит от используемой процессорной архитектуры. В реальной жизни лучше сперва подумать о выборе наиболее оптимальных алгоритмов с хорошей асимптотикой, различных предподсчётах, эвристиках и т.п., а Cache-Conscious приберечь на времена, когда всё станет совсем плохо.
-</p>
-<p>
-	Дополнение от Хабраюзера
-	<a href="http://habrahabr.ru/users/MikeMirzayanov/">MikeMirzayanov</a>
-	: Есть такой трюк. Если надо бинпоиском поискать в массиве длине n, то можно разбить его на sqrt(n) блоков по sqrt(n) элементов. Затем бинпоиском за log(sqrt(n)) подыскать нужный блок и в нём вторым бинпоиском за log(sqrt(n)) найти элемент. В сумме получается всё тот же log(n), но попаданий в кэш значительно больше, т.к. каждый раз ищем на довольно коротком массиве длины sqrt(n).
-</p>
-<p>Быстрых вам приложений!</p>
-<hr />
-<p>Также можно почитать по теме:</p>
-<ul>
-	<li>
-		<a href="http://www.vldb.org/conf/1999/P7.pdf">Cache Conscious Indexing for Decision-Support in Main Memory</a>
-	</li>
-	<li>
-		<a href="http://research.microsoft.com/en-us/um/people/trishulc/papers/ccds.pdf">Cache-Conscious Data Structures</a>
-	</li>
-	<li>
-		<a href="http://mspiegel.github.io/publications/michael-spiegel-dissertation.pdf">Cache-Conscious Concurrent Data Structures</a>
-	</li>
-	<li>
-		<a href="http://ftp.cse.buffalo.edu/users/azhang/disc/disc01/cd1/out/papers/sigmod/p475-rao/p475-rao.pdf">Making B+-Trees Cache Conscious in Main Memory</a>
-	</li>
-</ul>
-
-<!-- Share -->
-
-Поделиться:
-<a href="https://twitter.com/intent/tweet?text=Cache-Conscious Binary Search&url=http://aakinshin.net/ru/posts/cache-conscious-binary-search/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/ru/posts/cache-conscious-binary-search/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/ru/posts/cache-conscious-binary-search/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/posts/cache-conscious-binary-search/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/ru/posts/cache-conscious-binary-search/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/ru/posts/cache-conscious-binary-search/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/ru/posts/cache-conscious-binary-search/&title=Cache-Conscious Binary Search" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  Исходный код поста находится на GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2013/cache-conscious-binary-search.html">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2013/cache-conscious-binary-search.html</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Андрей Акиньшин | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+        <span class=k>public</span> <span class=kt>bool</span> <span class=n>Contains</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>)</span>
+        <span class=p>{</span>
+            <span class=kt>int</span> <span class=n>u</span> <span class=p>=</span> <span class=m>0</span><span class=p>,</span> <span class=n>deep</span> <span class=p>=</span> <span class=m>0</span><span class=p>,</span> <span class=n>leafCount</span> <span class=p>=</span> <span class=m>1</span> <span class=p>&lt;&lt;</span> <span class=p>(</span><span class=n>level</span> <span class=p>-</span> <span class=m>1</span><span class=p>);</span>
+            <span class=kt>int</span> <span class=n>root</span> <span class=p>=</span> <span class=m>0</span><span class=p>,</span> <span class=n>rootOffset</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+            <span class=k>while</span> <span class=p>(</span><span class=n>deep</span> <span class=p>&lt;</span> <span class=n>K</span><span class=p>)</span>
+            <span class=p>{</span>
+                <span class=kt>int</span> <span class=k>value</span> <span class=p>=</span> <span class=n>a</span><span class=p>[</span><span class=n>root</span> <span class=p>+</span> <span class=n>u</span><span class=p>];</span>
+                <span class=k>if</span> <span class=p>(</span><span class=k>value</span> <span class=p>==</span> <span class=n>x</span><span class=p>)</span>
+                    <span class=k>return</span> <span class=k>true</span><span class=p>;</span>
+                <span class=k>if</span> <span class=p>(++</span><span class=n>deep</span> <span class=p>%</span> <span class=n>level</span> <span class=p>!=</span> <span class=m>0</span><span class=p>)</span>
+                <span class=p>{</span>
+                    <span class=k>if</span> <span class=p>(</span><span class=k>value</span> <span class=p>&gt;</span> <span class=n>x</span><span class=p>)</span>
+                        <span class=n>u</span> <span class=p>=</span> <span class=m>2</span> <span class=p>*</span> <span class=n>u</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span>
+                    <span class=k>else</span>
+                        <span class=n>u</span> <span class=p>=</span> <span class=m>2</span> <span class=p>*</span> <span class=n>u</span> <span class=p>+</span> <span class=m>2</span><span class=p>;</span>
+                <span class=p>}</span>
+                <span class=k>else</span>
+                <span class=p>{</span>
+                    <span class=kt>int</span> <span class=n>subTreeSize</span> <span class=p>=</span> <span class=p>(</span><span class=m>1</span> <span class=p>&lt;&lt;</span> <span class=n>Math</span><span class=p>.</span><span class=n>Min</span><span class=p>(</span><span class=n>level</span><span class=p>,</span> <span class=n>K</span> <span class=p>-</span> <span class=n>deep</span><span class=p>))</span> <span class=p>-</span> <span class=m>1</span><span class=p>;</span>
+                    <span class=k>if</span> <span class=p>(</span><span class=k>value</span> <span class=p>&gt;</span> <span class=n>x</span><span class=p>)</span>
+                        <span class=n>rootOffset</span> <span class=p>=</span> <span class=n>rootOffset</span> <span class=p>*</span> <span class=n>leafCount</span> <span class=p>*</span> <span class=m>2</span> <span class=p>+</span> <span class=p>(</span><span class=n>u</span> <span class=p>-</span> <span class=n>leafCount</span> <span class=p>+</span> <span class=m>1</span><span class=p>)</span> <span class=p>*</span> <span class=m>2</span><span class=p>;</span>
+                    <span class=k>else</span>
+                        <span class=n>rootOffset</span> <span class=p>=</span> <span class=n>rootOffset</span> <span class=p>*</span> <span class=n>leafCount</span> <span class=p>*</span> <span class=m>2</span> <span class=p>+</span> <span class=p>(</span><span class=n>u</span> <span class=p>-</span> <span class=n>leafCount</span> <span class=p>+</span> <span class=m>1</span><span class=p>)</span> <span class=p>*</span> <span class=m>2</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span>
+                    <span class=n>root</span> <span class=p>=</span> <span class=p>(</span><span class=m>1</span> <span class=p>&lt;&lt;</span> <span class=n>deep</span><span class=p>)</span> <span class=p>-</span> <span class=m>1</span> <span class=p>+</span> <span class=n>rootOffset</span> <span class=p>*</span> <span class=n>subTreeSize</span><span class=p>;</span>
+                    <span class=n>u</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+                <span class=p>}</span>
+            <span class=p>}</span>
+            <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div></div><p>На всякий случай я запустил бенчмарк под различными версиями .NET Framework и с различной битностью. Все конфигурации дали схожие результаты:</p><div class=separator style=clear:both;text-align:center><a href=http://3.bp.blogspot.com/-vup5W3aaqRg/UoyhK7lTPaI/AAAAAAAAAPE/JHDLACXG7Eg/s1600/ms.net.png imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 src=http://3.bp.blogspot.com/-vup5W3aaqRg/UoyhK7lTPaI/AAAAAAAAAPE/JHDLACXG7Eg/s640/ms.net.png></a></div><p>Под Mono результаты также получились аналогичными:</p><div class=separator style=clear:both;text-align:center><a href=http://2.bp.blogspot.com/-L8WX6UDHCA4/UoyhOjLKhvI/AAAAAAAAAPM/RBnImyRSQk0/s1600/mono.png imageanchor=1 style=margin-left:1em;margin-right:1em><img border=0 src=http://2.bp.blogspot.com/-L8WX6UDHCA4/UoyhOjLKhvI/AAAAAAAAAPM/RBnImyRSQk0/s640/mono.png></a></div><p>Из этих картинок видно, что классическая реализация бинарного поиска значительно уступает Cache-Conscious-реализации. Стоит отметить, что по началу с ростом высоты поддеревьев быстродействие возрастает, но эта тенденция наблюдается недолго (поддеревья начинают приносить мало пользы, если внутри поддерева возникает большое количество cashe miss-ов).</p><p>Разумеется, Cache-Conscious Binary Search является лишь примером того, как можно адаптировать программу к особенностям работы кэша процессора. Подобные Cache-Conscious Data Structures могут оказать неоценимую помощь при оптимизации приложения, если ваши структуры данных имеют достаточно большой объём, а последовательные запросы к ним приходятся на разные участки памяти. Но не стоит бездумно бросаться переписывать всё под Cache-Conscious: помните, что код станет намного сложнее, а повышение эффективности в значительной степени зависит от используемой процессорной архитектуры. В реальной жизни лучше сперва подумать о выборе наиболее оптимальных алгоритмов с хорошей асимптотикой, различных предподсчётах, эвристиках и т.п., а Cache-Conscious приберечь на времена, когда всё станет совсем плохо.</p><p>Дополнение от Хабраюзера
+<a href=http://habrahabr.ru/users/MikeMirzayanov/>MikeMirzayanov</a>
+: Есть такой трюк. Если надо бинпоиском поискать в массиве длине n, то можно разбить его на sqrt(n) блоков по sqrt(n) элементов. Затем бинпоиском за log(sqrt(n)) подыскать нужный блок и в нём вторым бинпоиском за log(sqrt(n)) найти элемент. В сумме получается всё тот же log(n), но попаданий в кэш значительно больше, т.к. каждый раз ищем на довольно коротком массиве длины sqrt(n).</p><p>Быстрых вам приложений!</p><hr><p>Также можно почитать по теме:</p><ul><li><a href=http://www.vldb.org/conf/1999/P7.pdf>Cache Conscious Indexing for Decision-Support in Main Memory</a></li><li><a href=http://research.microsoft.com/en-us/um/people/trishulc/papers/ccds.pdf>Cache-Conscious Data Structures</a></li><li><a href=http://mspiegel.github.io/publications/michael-spiegel-dissertation.pdf>Cache-Conscious Concurrent Data Structures</a></li><li><a href=http://ftp.cse.buffalo.edu/users/azhang/disc/disc01/cd1/out/papers/sigmod/p475-rao/p475-rao.pdf>Making B+-Trees Cache Conscious in Main Memory</a></li></ul><br><br><div class=mx-auto>Поделиться:
+<a href="https://twitter.com/intent/tweet?text=Cache-Conscious%20Binary%20Search&url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fcache-conscious-binary-search%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fcache-conscious-binary-search%2f&title=Cache-Conscious%20Binary%20Search" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fcache-conscious-binary-search%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fcache-conscious-binary-search%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fcache-conscious-binary-search%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fcache-conscious-binary-search%2f&title=Cache-Conscious%20Binary%20Search" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Андрей Акиньшин | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

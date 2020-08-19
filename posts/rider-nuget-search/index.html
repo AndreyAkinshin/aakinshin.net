@@ -1,191 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="Why is NuGet search in Rider so fast?">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,Rider,NuGet'>
-
-    <title>Why is NuGet search in Rider so fast?</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-    
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/posts/rider-nuget-search/'>Ru</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Why is NuGet search in Rider so fast?</h2>
-<span class="blog-post-meta">
-  <b>Date:</b> February 08, 2017.
-  <b>Tags:</b>
-        <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
-        <a href="/tags/nuget"><span class="badge badge-pill badge-info">NuGet</span></a>
-</span><br /><br />
-
-<p>I'm the guy who develops the NuGet manager in <a href="https://www.jetbrains.com/rider/">Rider</a>.
-It's not ready yet, there are some bugs here and there, but it already works pretty well.
-The feature which I am most proud of is smart and fast search:</p>
-<div class="mx-auto">
-  <img class="mx-auto d-block" width="400" src="/img/posts/dotnet/rider-nuget-search/front.gif" />
-</div>
-<p>Today I want to share with you some technical details about how it was implemented.</p>
-<!--more-->
-<h3 id="caching">Caching</h3>
-<p>In Rider, we are using <a href="https://www.nuget.org/packages/NuGet.Client/">NuGet.Client</a>.
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Why is NuGet search in Rider so fast? | Andrey Akinshin</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Why is NuGet search in Rider so fast?</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2017-02-08>February 8, 2017</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/rider class="badge badge-info">Rider</a>
+<a href=https://aakinshin.net/tags/nuget class="badge badge-info">NuGet</a></span><br><br><p>I&rsquo;m the guy who develops the NuGet manager in <a href=https://www.jetbrains.com/rider/>Rider</a>.
+It&rsquo;s not ready yet, there are some bugs here and there, but it already works pretty well.
+The feature which I am most proud of is smart and fast search:</p><div class=mx-auto><img class="mx-auto d-block" width=400 src=/img/posts/dotnet/rider-nuget-search/front.gif></div><p>Today I want to share with you some technical details about how it was implemented.</p><h3 id=caching>Caching</h3><p>In Rider, we are using <a href=https://www.nuget.org/packages/NuGet.Client/>NuGet.Client</a>.
 It is a package with a set of APIs which allows doing all the basic NuGet operations: install, uninstall, restore, and search.
-So, we can write something like this</p>
-<pre><code class="language-cs">packageSearchResource.SearchAsync(searchTerm, searchFilters, skip, take, logger, cancellationToken);
-</code></pre>
-<p>and get a list of packages.
+So, we can write something like this</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=n>packageSearchResource</span><span class=p>.</span><span class=n>SearchAsync</span><span class=p>(</span><span class=n>searchTerm</span><span class=p>,</span> <span class=n>searchFilters</span><span class=p>,</span> <span class=n>skip</span><span class=p>,</span> <span class=n>take</span><span class=p>,</span> <span class=n>logger</span><span class=p>,</span> <span class=n>cancellationToken</span><span class=p>);</span>
+</code></pre></div><p>and get a list of packages.
 And this method is a bottleneck: searching for ten packages can take about 1 second for a remote feed.
-If you want to form a big list of search results, you have to wait tens of seconds.</p>
-<p>But we don't want to wait so long!
+If you want to form a big list of search results, you have to wait tens of seconds.</p><p>But we don&rsquo;t want to wait so long!
 We want to look at the package list right now without any delays!
 Our solution is the following: we create a local packages cache.
-Of course, we don't want to use a lot of storage space.
+Of course, we don&rsquo;t want to use a lot of storage space.
 So, we keep only a few important fields per package (like <code>Id</code>, <code>DownloadCount</code>, <code>IconUrl</code>, and so on).
 When you search a NuGet package in Rider, you always search in our cache!
-That is why you have zero-latency typing in the NuGet manager.</p>
-<p>The NuGet package cache is persisted between Rider sessions.
+That is why you have zero-latency typing in the NuGet manager.</p><p>The NuGet package cache is persisted between Rider sessions.
 Free bonus: if you launch Rider the second time, you already have a warmed cache.
-The search will work as soon as the NuGet component was initialized without additional network requests.</p>
-<h3 id="fetching">Fetching</h3>
-<p>Ok, we can take data for search results from cache.
+The search will work as soon as the NuGet component was initialized without additional network requests.</p><h3 id=fetching>Fetching</h3><p>Ok, we can take data for search results from cache.
 However, we still have to fetch the metadata of packages from a remote feed.
-Let's introduce <em>fetchers</em>.
+Let&rsquo;s introduce <em>fetchers</em>.
 Each fetcher can handle fetch requests of a special kind to a specific feed
-There are several interesting decisions about fetchers.</p>
-<p>Rider allows searching the same package in several feeds.
+There are several interesting decisions about fetchers.</p><p>Rider allows searching the same package in several feeds.
 Each feed can have own request latency.
-We want to show top packages into the cache as soon as possible, and we can't allow feeds with low latency affect other feeds.
-So, we have a separated set of fetchers per feed.</p>
-<p>Next, we create two fetchers per feed: one for the general search and one for fetching metadata of a specific package.
+We want to show top packages into the cache as soon as possible, and we can&rsquo;t allow feeds with low latency affect other feeds.
+So, we have a separated set of fetchers per feed.</p><p>Next, we create two fetchers per feed: one for the general search and one for fetching metadata of a specific package.
 It allows updating
 information about installed packages (some of them can have updates) and
 information about a selected package (which should be shown on the right panel)
-in the background: it doesn't affect the search process.</p>
-<p>Each search fetcher should fetch information about a big amount of packages.
+in the background: it doesn&rsquo;t affect the search process.</p><p>Each search fetcher should fetch information about a big amount of packages.
 By default, we are fetching the top 300 packages for each search term.
-However, we can't ask for 300 packages at once: such request has huge latency.
+However, we can&rsquo;t ask for 300 packages at once: such request has huge latency.
 It will take a lot of time before we can update our cache.
-We also can't ask several times for one package one after the other
+We also can&rsquo;t ask several times for one package one after the other
 because each request (even we ask for only one package) also has some minimum latency.
 Thus, we found a trade-off: we ask 30 times for a ten package batch.
-Maybe there are better values, but it's a point for future investigation.
-Current values work pretty well for now.</p>
-<p>Thus, we have a queue of requests.
-Internally, it's an asynchronous mergeable queue with priorities.
+Maybe there are better values, but it&rsquo;s a point for future investigation.
+Current values work pretty well for now.</p><p>Thus, we have a queue of requests.
+Internally, it&rsquo;s an asynchronous mergeable queue with priorities.
 Each request has
 <code>searchTerm</code> (what are we looking for),
 <code>skip</code> (how many packages we should skip),
 <code>take</code> (how many packages we should take),
 and a few additional flags.
-When you open the NuGet windows for the first time and the search box text is empty, the queue looks like this:</p>
-<pre><code>'' Skip=0, Take=10
+When you open the NuGet windows for the first time and the search box text is empty, the queue looks like this:</p><pre><code>'' Skip=0, Take=10
 '' Skip=10, Take=10
 '' Skip=20, Take=10
 '' Skip=30, Take=10
@@ -193,10 +52,8 @@ When you open the NuGet windows for the first time and the search box text is em
 // ...
 '' Skip=280, Take=10
 '' Skip=290, Take=10
-</code></pre>
-<p>When you start to type some text, we add additional 30 requests per typed symbol.
-So, if you open the NuGet window, type <code>&quot;ab&quot;</code>, press backspace, then the queue will look like this:</p>
-<pre><code>'' Skip=0, Take=10
+</code></pre><p>When you start to type some text, we add additional 30 requests per typed symbol.
+So, if you open the NuGet window, type <code>"ab"</code>, press backspace, then the queue will look like this:</p><pre><code>'' Skip=0, Take=10
 '' Skip=10, Take=10
 '' Skip=20, Take=10
 '' Skip=30, Take=10
@@ -228,46 +85,26 @@ So, if you open the NuGet window, type <code>&quot;ab&quot;</code>, press backsp
 // ...
 'a' Skip=280, Take=10
 'a' Skip=290, Take=10
-</code></pre>
-<p>The source code looks very simple: we just add additional requests and don't think about anything.
-Internally, the queue is very smart; it can optimize this list before it starts to process the next request:</p>
-<ol>
-<li>The obsolete requests (<code>request.SearchTerm</code> ≠ <code>searchBox.Text</code>) will be deleted.</li>
-<li>The same requests will be merged.</li>
-<li>The rest of the requests will be sorted.</li>
-<li>The first request in the result list will be handled.</li>
-</ol>
-<p>This queue has many additional nice features.
+</code></pre><p>The source code looks very simple: we just add additional requests and don&rsquo;t think about anything.
+Internally, the queue is very smart; it can optimize this list before it starts to process the next request:</p><ol><li>The obsolete requests (<code>request.SearchTerm</code> ≠ <code>searchBox.Text</code>) will be deleted.</li><li>The same requests will be merged.</li><li>The rest of the requests will be sorted.</li><li>The first request in the result list will be handled.</li></ol><p>This queue has many additional nice features.
 For example, each queue has its own local history.
 If we already handled 30 requests for empty string,
-next, we type <code>&quot;a&quot;</code>,
+next, we type <code>"a"</code>,
 press backspace,
 new 30 requests for the empty string will not be handled:
 the queue remembers that we already fetched all this information in the recent past.
 Of course, each item in the local history has a timestamp,
-so you shouldn't be worried about obsolete results for cases
-when remote packages were updated.</p>
-<h3 id="smart-search">Smart search</h3>
-<p>Ok, we fetched all the packages and put them into the cache.
-Now you should filter all the cached packages and sort them according to the <code>searchTerm</code>.</p>
-<p>Here we use our awesome <a href="https://www.jetbrains.com/resharper/">R#</a> search engine.
-For example, if I want to find <code>&quot;BenchmarkDotNet&quot;</code>, I can type:</p>
-<ul>
-<li><code>&quot;BnechmarkDotNet&quot;</code>: typos will be detected</li>
-<li><code>&quot;BeDoNe&quot;</code>: <a href="https://www.jetbrains.com/help/resharper/2016.3/Navigation_and_Search__CamelHumps.html">CamelHumps</a> is supported</li>
-<li><code>&quot;ИутсрьфклВщеТуе&quot;</code> or <code>&quot;BקמביצשרלDםאNקא&quot;</code>: no problem if you forget to switch keyboard layout from Russian or Hebrew to English</li>
-</ul>
-<div class="mx-auto">
-  <img class="mx-auto d-block" width="400" src="/img/posts/dotnet/rider-nuget-search/search.gif" />
-</div>
-<p>However, it's not enough for the NuGet search.
-For example, if I type <code>&quot;Json&quot;</code>,
-I probably want to find <a href="https://www.nuget.org/packages/Newtonsoft.Json/">Newtonsoft.Json</a>
-instead of <a href="https://www.nuget.org/packages/JSON/">JSON</a>.
+so you shouldn&rsquo;t be worried about obsolete results for cases
+when remote packages were updated.</p><h3 id=smart-search>Smart search</h3><p>Ok, we fetched all the packages and put them into the cache.
+Now you should filter all the cached packages and sort them according to the <code>searchTerm</code>.</p><p>Here we use our awesome <a href=https://www.jetbrains.com/resharper/>R#</a> search engine.
+For example, if I want to find <code>"BenchmarkDotNet"</code>, I can type:</p><ul><li><code>"BnechmarkDotNet"</code>: typos will be detected</li><li><code>"BeDoNe"</code>: <a href=https://www.jetbrains.com/help/resharper/2016.3/Navigation_and_Search__CamelHumps.html>CamelHumps</a> is supported</li><li><code>"ИутсрьфклВщеТуе"</code> or <code>"BקמביצשרלDםאNקא"</code>: no problem if you forget to switch keyboard layout from Russian or Hebrew to English</li></ul><div class=mx-auto><img class="mx-auto d-block" width=400 src=/img/posts/dotnet/rider-nuget-search/search.gif></div><p>However, it&rsquo;s not enough for the NuGet search.
+For example, if I type <code>"Json"</code>,
+I probably want to find <a href=https://www.nuget.org/packages/Newtonsoft.Json/>Newtonsoft.Json</a>
+instead of <a href=https://www.nuget.org/packages/JSON/>JSON</a>.
 So, we have a set of heuristics which try to improve sorting order and put the package which you really want to install in the first place.
-For example, for the situation described above, we always move &quot;popular&quot; packages on the top.
-But which package is &quot;popular&quot;?
-It's a very hard question especially when you are working with a custom set of packages which are matched to your <code>searchTerm</code>.
+For example, for the situation described above, we always move &ldquo;popular&rdquo; packages on the top.
+But which package is &ldquo;popular&rdquo;?
+It&rsquo;s a very hard question especially when you are working with a custom set of packages which are matched to your <code>searchTerm</code>.
 An obvious idea: we can sort all the matched packages by <code>DownloadCount</code> and take first <code>N</code>.
 But how we should choose <code>N</code>?
 It can not be a constant because our algorithm should work for sets of packages of any size (from 2 to thousands).
@@ -275,71 +112,15 @@ Popular packages could have
 millions of downloads (like Newtonsoft.Json),
 thousands of downloads or
 even hundreds of downloads
-(depends on particular set of packages).<br />
-You can come up with many different approaches, but here is our way:</p>
-<ul>
-<li>Build a sorted list of <code>DownloadCount</code> values</li>
-<li>Peek top 20</li>
-<li>Take the natural logarithm of each number</li>
-<li>Find the largest gap between two neighboring packages,</li>
-<li>All the packages before the gap are popular; they should be moved to the top of the list.</li>
-</ul>
-<p>This algorithm can look strange and illogical, but it works very well.
+(depends on particular set of packages).<br>You can come up with many different approaches, but here is our way:</p><ul><li>Build a sorted list of <code>DownloadCount</code> values</li><li>Peek top 20</li><li>Take the natural logarithm of each number</li><li>Find the largest gap between two neighboring packages,</li><li>All the packages before the gap are popular; they should be moved to the top of the list.</li></ul><p>This algorithm can look strange and illogical, but it works very well.
 There is no perfect solution for such problems.
-So, we just try to create heuristics which work fast and somehow produce the result which you want in each specific situation.</p>
-<h3 id="future-development">Future development</h3>
-<p>For now, Rider is in the EAP stage, and there are many features that we want to implement before release.
-Some examples:</p>
-<ul>
-<li>Search by <a href="https://www.jetbrains.com/help/resharper/2016.3/Finding_Exploring_and_Installing_NuGet_Packages.html">type and namespace</a>.
-It's hard to integrate such feature in our search engine, but we already have some cool ideas.</li>
-<li>Feed statistics: we want to get the detailed diagnostics information about each feed.
-It will allow to predict latency of each request and improve fetcher algorithms.</li>
-<li>Handle &quot;slow&quot; feeds: some private feeds can spend about <em>2 minutes(!)</em> per one request (I don't have any idea why).
-And it's a big problem, so we should handle such feeds in a special way.</li>
-</ul>
-<h3 id="conclusion">Conclusion</h3>
-<p>In this post, I covered only a few things which are implemented in our NuGet search engine.
+So, we just try to create heuristics which work fast and somehow produce the result which you want in each specific situation.</p><h3 id=future-development>Future development</h3><p>For now, Rider is in the EAP stage, and there are many features that we want to implement before release.
+Some examples:</p><ul><li>Search by <a href=https://www.jetbrains.com/help/resharper/2016.3/Finding_Exploring_and_Installing_NuGet_Packages.html>type and namespace</a>.
+It&rsquo;s hard to integrate such feature in our search engine, but we already have some cool ideas.</li><li>Feed statistics: we want to get the detailed diagnostics information about each feed.
+It will allow to predict latency of each request and improve fetcher algorithms.</li><li>Handle &ldquo;slow&rdquo; feeds: some private feeds can spend about <em>2 minutes(!)</em> per one request (I don&rsquo;t have any idea why).
+And it&rsquo;s a big problem, so we should handle such feeds in a special way.</li></ul><h3 id=conclusion>Conclusion</h3><p>In this post, I covered only a few things which are implemented in our NuGet search engine.
 There are many technical details under the hood of the small NuGet search box.
 And we try to improve it all the time and create the best NuGet manager in the world. =)
 If you have any complaints or feature requests, you are welcome on our <a href="https://youtrack.jetbrains.com/issues?q=project:Rider%20">issue tracker</a>.
-Your feedback is very important for us.</p>
-
-<!-- Share -->
-
-Share:
-<a href="https://twitter.com/intent/tweet?text=Why is NuGet search in Rider so fast?&url=http://aakinshin.net/posts/rider-nuget-search/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/rider-nuget-search/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/rider-nuget-search/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/rider-nuget-search/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/rider-nuget-search/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/rider-nuget-search/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/rider-nuget-search/&title=Why is NuGet search in Rider so fast?" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  You can find source code of this post on GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2017/rider-nuget-search.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2017/rider-nuget-search.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+Your feedback is very important for us.</p><br><br><div class=mx-auto>Share:
+<a href="https://twitter.com/intent/tweet?text=Why%20is%20NuGet%20search%20in%20Rider%20so%20fast%3f&url=https%3a%2f%2faakinshin.net%2fposts%2frider-nuget-search%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2frider-nuget-search%2f&title=Why%20is%20NuGet%20search%20in%20Rider%20so%20fast%3f" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2frider-nuget-search%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2frider-nuget-search%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2frider-nuget-search%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2frider-nuget-search%2f&title=Why%20is%20NuGet%20search%20in%20Rider%20so%20fast%3f" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

@@ -1,220 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="How ListSeparator Depends on Runtime and Operating System">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,C#,Rider,Mono,.NET Core'>
-
-    <title>How ListSeparator Depends on Runtime and Operating System</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-    
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/posts/how-listseparator-depends-on-runtime-and-operating-system/'>Ru</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">How ListSeparator Depends on Runtime and Operating System</h2>
-<span class="blog-post-meta">
-  <b>Date:</b> May 20, 2020.
-  <b>Tags:</b>
-        <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-        <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
-        <a href="/tags/mono"><span class="badge badge-pill badge-info">Mono</span></a>
-        <a href="/tags/net-core"><span class="badge badge-pill badge-info">.NET Core</span></a>
-</span><br /><br />
-
-<p><em>This blog post was <a href="https://blog.jetbrains.com/dotnet/2020/05/20/listseparator-depends-runtime-operating-system/">originally posted</a> on <a href="https://blog.jetbrains.com/dotnet/">JetBrains .NET blog</a>.</em></p>
-<p>In the two previous blog posts from this series, we discussed how socket errors and socket orders depend on the runtime and operating systems. For some, it may be obvious that some things are indeed specific to the operating system or the runtime, but often these issues come as a surprise and are only discovered when running our code on different systems.
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>How ListSeparator Depends on Runtime and Operating System | Andrey Akinshin</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>How ListSeparator Depends on Runtime and Operating System</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2020-05-20>May 20, 2020</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/c class="badge badge-info">C#</a>
+<a href=https://aakinshin.net/tags/rider class="badge badge-info">Rider</a>
+<a href=https://aakinshin.net/tags/mono class="badge badge-info">Mono</a>
+<a href=https://aakinshin.net/tags/.net-core class="badge badge-info">.NET Core</a></span><br><br><p><em>This blog post was <a href=https://blog.jetbrains.com/dotnet/2020/05/20/listseparator-depends-runtime-operating-system/>originally posted</a> on <a href=https://blog.jetbrains.com/dotnet/>JetBrains .NET blog</a>.</em></p><p>In the two previous blog posts from this series, we discussed how socket errors and socket orders depend on the runtime and operating systems. For some, it may be obvious that some things are indeed specific to the operating system or the runtime, but often these issues come as a surprise and are only discovered when running our code on different systems.
 An interesting example that may bite us at runtime is using <code>ListSeparator</code> in our code. It should give us a common separator for list elements in a string. But is it really common?
-Let's start our investigation by printing <code>ListSeparator</code> for the Russian language:</p>
-<pre><code class="language-cs">Console.WriteLine(new CultureInfo(&quot;ru-ru&quot;).TextInfo.ListSeparator);
-</code></pre>
-<p>On Windows, you will get the same result for .NET Framework, .NET Core, and Mono: the <code>ListSeparator</code> is <code>;</code> (a semicolon). You will also get a semicolon on Mono+Unix. However, on .NET Core+Unix, you will get a <a href="https://en.wikipedia.org/wiki/Non-breaking_space">non-breaking space</a>.</p>
-<!--more-->
-<h2><strong>The Mono approach</strong></h2>
-On Windows, it's possible to fetch the <code>ListSeparator</code> value from the operating system’s regional settings. Unfortunately, there is no such option on Linux and macOS. So, how is this problem solved in Mono?
-The missing information about cultures is collected in advance using the <a href="https://github.com/mono/mono/tree/mono-6.10.0.104/tools/locale-builder">locale-builder</a> tool. Some of this data is filled in using <a href="http://www.unicode.org/Public/cldr/">unicode CLDR</a>. The rest is hardcoded. Speaking of <code>TextInfo</code> (a class that contains the <code>ListSeparator </code>value), it's defined in <a href="https://github.com/mono/mono/blob/mono-6.10.0.104/tools/locale-builder/Patterns.cs#L1610">Patterns.c</a><a href="https://github.com/mono/mono/blob/mono-6.10.0.104/tools/locale-builder/Patterns.cs#L1610">s</a>:
-<pre><code class="language-cs">var entry_te = Text[lcid];
-var te = ci.TextInfoEntry;
-te.ANSICodePage = entry_te[0];
-te.EBCDICCodePage = entry_te[1];
-te.IsRightToLeft = entry_te[2] == &quot;1&quot; ? true : false;
-te.ListSeparator = entry_te[3];
-te.MacCodePage = entry_te[4];
-te.OEMCodePage = entry_te[5];
-</code></pre>
-<p>The <code>lcid</code> value (<a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/70feba9f-294e-491e-b6eb-56532684c37f">Language Code Identifier</a>) for Russian is 1049 or 0x419. (The values for a number of other languages can be found <a href="https://www.science.co.il/language/Locale-codes.php">here</a>).
-The predefined values can also be found in Patterns.cs. Here is the corresponding <a href="https://github.com/mono/mono/blob/mono-6.10.0.104/tools/locale-builder/Patterns.cs#L665">entry</a> for Russian:</p>
-<pre><code class="language-cs">{ 0x0419, new [] { &quot;1251&quot;, &quot;20880&quot;, &quot;0&quot;, &quot;;&quot;, &quot;10007&quot;, &quot;866&quot; } },
-</code></pre>
-<p>Thus, <code>entry_te[3]</code> equals <code>&quot;;&quot;</code>. That's how Mono knows the <code>ListSeparator</code> value even if it's not defined in the current operating system.</p>
-<h2><strong>The .NET Core approach</strong></h2>
-Unfortunately, .NET Core doesn't have predefined values for <code>ListSeparator</code>. There’s a fairly strange logic in the source code of .NET Core 3.1.3:
-<pre><code class="language-cs">case LocaleString_ListSeparator:
-// fall through
-case LocaleString_ThousandSeparator:
-    status = GetLocaleInfoDecimalFormatSymbol(locale, UNUM_GROUPING_SEPARATOR_SYMBOL, value, valueLength);
-    break;
-</code></pre>
-<p>It looks like .NET Core always uses the <code>ThousandSeparator</code> value instead of <code>ListSeparator</code> on Linux and macOS. This doesn't feel right, so we filed an issue: <a href="https://github.com/dotnet/runtime/issues/536">dotnet/runtime#536</a>. Hopefully, this behavior will be improved in the future.</p>
-<h2><strong>Practical recommendations</strong></h2>
-If you are using some <code>CultureInfo</code> properties that are not supported by one of your target operating systems, it's better to provide some fallback values. Here is an <a href="https://github.com/dotnet/BenchmarkDotNet/commit/0c48c2862f69a63407898680d18dd76b988c4197#diff-225f35e5288a4b6836d56a4fef7b6adc">example</a> of how this problem has been solved in BenchmarkDotNet:
-<pre><code class="language-cs">public static string GetActualListSeparator([CanBeNull] this CultureInfo cultureInfo)
-{
-    cultureInfo = cultureInfo ?? DefaultCultureInfo.Instance;
-    string listSeparator = cultureInfo.TextInfo.ListSeparator;
+Let&rsquo;s start our investigation by printing <code>ListSeparator</code> for the Russian language:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=k>new</span> <span class=n>CultureInfo</span><span class=p>(</span><span class=s>&#34;ru-ru&#34;</span><span class=p>).</span><span class=n>TextInfo</span><span class=p>.</span><span class=n>ListSeparator</span><span class=p>);</span>
+</code></pre></div><p>On Windows, you will get the same result for .NET Framework, .NET Core, and Mono: the <code>ListSeparator</code> is <code>;</code> (a semicolon). You will also get a semicolon on Mono+Unix. However, on .NET Core+Unix, you will get a <a href=https://en.wikipedia.org/wiki/Non-breaking_space>non-breaking space</a>.</p><h2><strong>The Mono approach</strong></h2>On Windows, it's possible to fetch the <code>ListSeparator</code> value from the operating system’s regional settings. Unfortunately, there is no such option on Linux and macOS. So, how is this problem solved in Mono?
+The missing information about cultures is collected in advance using the <a href=https://github.com/mono/mono/tree/mono-6.10.0.104/tools/locale-builder>locale-builder</a> tool. Some of this data is filled in using <a href=http://www.unicode.org/Public/cldr/>unicode CLDR</a>. The rest is hardcoded. Speaking of <code>TextInfo</code> (a class that contains the <code>ListSeparator </code>value), it's defined in <a href=https://github.com/mono/mono/blob/mono-6.10.0.104/tools/locale-builder/Patterns.cs#L1610>Patterns.c</a><a href=https://github.com/mono/mono/blob/mono-6.10.0.104/tools/locale-builder/Patterns.cs#L1610>s</a>:<div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>var</span> <span class=n>entry_te</span> <span class=p>=</span> <span class=n>Text</span><span class=p>[</span><span class=n>lcid</span><span class=p>];</span>
+<span class=kt>var</span> <span class=n>te</span> <span class=p>=</span> <span class=n>ci</span><span class=p>.</span><span class=n>TextInfoEntry</span><span class=p>;</span>
+<span class=n>te</span><span class=p>.</span><span class=n>ANSICodePage</span> <span class=p>=</span> <span class=n>entry_te</span><span class=p>[</span><span class=m>0</span><span class=p>];</span>
+<span class=n>te</span><span class=p>.</span><span class=n>EBCDICCodePage</span> <span class=p>=</span> <span class=n>entry_te</span><span class=p>[</span><span class=m>1</span><span class=p>];</span>
+<span class=n>te</span><span class=p>.</span><span class=n>IsRightToLeft</span> <span class=p>=</span> <span class=n>entry_te</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>==</span> <span class=s>&#34;1&#34;</span> <span class=p>?</span> <span class=k>true</span> <span class=p>:</span> <span class=k>false</span><span class=p>;</span>
+<span class=n>te</span><span class=p>.</span><span class=n>ListSeparator</span> <span class=p>=</span> <span class=n>entry_te</span><span class=p>[</span><span class=m>3</span><span class=p>];</span>
+<span class=n>te</span><span class=p>.</span><span class=n>MacCodePage</span> <span class=p>=</span> <span class=n>entry_te</span><span class=p>[</span><span class=m>4</span><span class=p>];</span>
+<span class=n>te</span><span class=p>.</span><span class=n>OEMCodePage</span> <span class=p>=</span> <span class=n>entry_te</span><span class=p>[</span><span class=m>5</span><span class=p>];</span>
+</code></pre></div><p>The <code>lcid</code> value (<a href=https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/70feba9f-294e-491e-b6eb-56532684c37f>Language Code Identifier</a>) for Russian is 1049 or 0x419. (The values for a number of other languages can be found <a href=https://www.science.co.il/language/Locale-codes.php>here</a>).
+The predefined values can also be found in Patterns.cs. Here is the corresponding <a href=https://github.com/mono/mono/blob/mono-6.10.0.104/tools/locale-builder/Patterns.cs#L665>entry</a> for Russian:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=p>{</span> <span class=m>0</span><span class=n>x0419</span><span class=p>,</span> <span class=k>new</span> <span class=p>[]</span> <span class=p>{</span> <span class=s>&#34;1251&#34;</span><span class=p>,</span> <span class=s>&#34;20880&#34;</span><span class=p>,</span> <span class=s>&#34;0&#34;</span><span class=p>,</span> <span class=s>&#34;;&#34;</span><span class=p>,</span> <span class=s>&#34;10007&#34;</span><span class=p>,</span> <span class=s>&#34;866&#34;</span> <span class=p>}</span> <span class=p>},</span>
+</code></pre></div><p>Thus, <code>entry_te[3]</code> equals <code>&rdquo;;&ldquo;</code>. That&rsquo;s how Mono knows the <code>ListSeparator</code> value even if it&rsquo;s not defined in the current operating system.</p><h2><strong>The .NET Core approach</strong></h2>Unfortunately, .NET Core doesn't have predefined values for <code>ListSeparator</code>. There’s a fairly strange logic in the source code of .NET Core 3.1.3:<div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>case</span> <span class=n>LocaleString_ListSeparator</span><span class=p>:</span>
+<span class=c1>// fall through
+</span><span class=c1></span><span class=k>case</span> <span class=n>LocaleString_ThousandSeparator</span><span class=p>:</span>
+    <span class=n>status</span> <span class=p>=</span> <span class=n>GetLocaleInfoDecimalFormatSymbol</span><span class=p>(</span><span class=n>locale</span><span class=p>,</span> <span class=n>UNUM_GROUPING_SEPARATOR_SYMBOL</span><span class=p>,</span> <span class=k>value</span><span class=p>,</span> <span class=n>valueLength</span><span class=p>);</span>
+    <span class=k>break</span><span class=p>;</span>
+</code></pre></div><p>It looks like .NET Core always uses the <code>ThousandSeparator</code> value instead of <code>ListSeparator</code> on Linux and macOS. This doesn&rsquo;t feel right, so we filed an issue: <a href=https://github.com/dotnet/runtime/issues/536>dotnet/runtime#536</a>. Hopefully, this behavior will be improved in the future.</p><h2><strong>Practical recommendations</strong></h2>If you are using some <code>CultureInfo</code> properties that are not supported by one of your target operating systems, it's better to provide some fallback values. Here is an <a href=https://github.com/dotnet/BenchmarkDotNet/commit/0c48c2862f69a63407898680d18dd76b988c4197#diff-225f35e5288a4b6836d56a4fef7b6adc>example</a> of how this problem has been solved in BenchmarkDotNet:<div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>static</span> <span class=kt>string</span> <span class=n>GetActualListSeparator</span><span class=p>([</span><span class=n>CanBeNull</span><span class=p>]</span> <span class=k>this</span> <span class=n>CultureInfo</span> <span class=n>cultureInfo</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=n>cultureInfo</span> <span class=p>=</span> <span class=n>cultureInfo</span> <span class=p>??</span> <span class=n>DefaultCultureInfo</span><span class=p>.</span><span class=n>Instance</span><span class=p>;</span>
+    <span class=kt>string</span> <span class=n>listSeparator</span> <span class=p>=</span> <span class=n>cultureInfo</span><span class=p>.</span><span class=n>TextInfo</span><span class=p>.</span><span class=n>ListSeparator</span><span class=p>;</span>
 
-    // On .NET Core + Linux, TextInfo.ListSeparator returns NumberFormat.NumberGroupSeparator
-    // To work around this behavior, we patch empty ListSeparator with &quot;;&quot;
-    // See also: https://github.com/dotnet/runtime/issues/536
-    if (string.IsNullOrWhiteSpace(listSeparator))
-        listSeparator = &quot;;&quot;;
+    <span class=c1>// On .NET Core + Linux, TextInfo.ListSeparator returns NumberFormat.NumberGroupSeparator
+</span><span class=c1></span>    <span class=c1>// To work around this behavior, we patch empty ListSeparator with &#34;;&#34;
+</span><span class=c1></span>    <span class=c1>// See also: https://github.com/dotnet/runtime/issues/536
+</span><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=kt>string</span><span class=p>.</span><span class=n>IsNullOrWhiteSpace</span><span class=p>(</span><span class=n>listSeparator</span><span class=p>))</span>
+        <span class=n>listSeparator</span> <span class=p>=</span> <span class=s>&#34;;&#34;</span><span class=p>;</span>
 
-    return listSeparator;
-}
-</code></pre>
-<p>Having fallback values in place prevents us from seeing unexpected issues when running our code, and helps us be sure we can safely run our code across multiple platforms without any surprises.</p>
-
-<!-- Share -->
-
-Share:
-<a href="https://twitter.com/intent/tweet?text=How ListSeparator Depends on Runtime and Operating System&url=http://aakinshin.net/posts/how-listseparator-depends-on-runtime-and-operating-system/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/how-listseparator-depends-on-runtime-and-operating-system/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/how-listseparator-depends-on-runtime-and-operating-system/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/how-listseparator-depends-on-runtime-and-operating-system/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/how-listseparator-depends-on-runtime-and-operating-system/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/how-listseparator-depends-on-runtime-and-operating-system/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/how-listseparator-depends-on-runtime-and-operating-system/&title=How ListSeparator Depends on Runtime and Operating System" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  You can find source code of this post on GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2020/how-listseparator-depends-on-runtime-and-operating-system.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2020/how-listseparator-depends-on-runtime-and-operating-system.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+    <span class=k>return</span> <span class=n>listSeparator</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>Having fallback values in place prevents us from seeing unexpected issues when running our code, and helps us be sure we can safely run our code across multiple platforms without any surprises.</p><br><br><div class=mx-auto>Share:
+<a href="https://twitter.com/intent/tweet?text=How%20ListSeparator%20Depends%20on%20Runtime%20and%20Operating%20System&url=https%3a%2f%2faakinshin.net%2fposts%2fhow-listseparator-depends-on-runtime-and-operating-system%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fhow-listseparator-depends-on-runtime-and-operating-system%2f&title=How%20ListSeparator%20Depends%20on%20Runtime%20and%20Operating%20System" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fhow-listseparator-depends-on-runtime-and-operating-system%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2fhow-listseparator-depends-on-runtime-and-operating-system%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2fhow-listseparator-depends-on-runtime-and-operating-system%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fhow-listseparator-depends-on-runtime-and-operating-system%2f&title=How%20ListSeparator%20Depends%20on%20Runtime%20and%20Operating%20System" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

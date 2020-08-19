@@ -1,467 +1,230 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>How Socket Error Codes Depend on Runtime and Operating System | Andrey Akinshin</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>How Socket Error Codes Depend on Runtime and Operating System</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2020-04-27>April 27, 2020</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/c class="badge badge-info">C#</a>
+<a href=https://aakinshin.net/tags/rider class="badge badge-info">Rider</a>
+<a href=https://aakinshin.net/tags/mono class="badge badge-info">Mono</a>
+<a href=https://aakinshin.net/tags/.net-core class="badge badge-info">.NET Core</a></span><br><br><p><em>This blog post was <a href=https://blog.jetbrains.com/dotnet/2020/04/27/socket-error-codes-depend-runtime-operating-system/>originally posted</a> on <a href=https://blog.jetbrains.com/dotnet/>JetBrains .NET blog</a>.</em></p><p><a href=https://www.jetbrains.com/rider/>Rider</a> consists of several processes that send messages to each other via sockets. To ensure the reliability of the whole application, it&rsquo;s important to properly handle all the socket errors. In our codebase, we had the following code which was adopted from <a href=https://github.com/mono/debugger-libs/blob/master/Mono.Debugging.Soft/SoftDebuggerSession.cs#L273>Mono Debugger Libs</a> and helps us communicate with debugger processes:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>protected</span> <span class=k>virtual</span> <span class=kt>bool</span> <span class=n>ShouldRetryConnection</span> <span class=p>(</span><span class=n>Exception</span> <span class=n>ex</span><span class=p>,</span> <span class=kt>int</span> <span class=n>attemptNumber</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=kt>var</span> <span class=n>sx</span> <span class=p>=</span> <span class=n>ex</span> <span class=k>as</span> <span class=n>SocketException</span><span class=p>;</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>sx</span> <span class=p>!=</span> <span class=k>null</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>sx</span><span class=p>.</span><span class=n>ErrorCode</span> <span class=p>==</span> <span class=m>10061</span><span class=p>)</span> <span class=c1>//connection refused
+</span><span class=c1></span>            <span class=k>return</span> <span class=k>true</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>In the case of a failed connection because of a “ConnectionRefused” error, we are retrying the connection attempt. It works fine with .NET Framework and Mono. However, once we migrated to .NET Core, this method no longer correctly detects the &ldquo;connection refused&rdquo; situation on Linux and macOS. If we open the <code>SocketException</code> <a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.socketexception?view=netframework-4.8">documentation</a>, we will learn that this class has three different properties with error codes:</p><ul><li><code>SocketError SocketErrorCode</code>: Gets the error code that is associated with this exception.</li><li><code>int ErrorCode</code>: Gets the error code that is associated with this exception.</li><li><code>int NativeErrorCode</code>: Gets the Win32 error code associated with this exception.</li></ul>What's the difference between these properties? Should we expect different values on different runtimes or different operating systems? Which one should we use in production? Why do we have problems with <code>ShouldRetryConnection</code> on .NET Core? Let's figure it all out!<h2><strong>Digging into the problem</strong></h2>Let’s start with the following program, which prints error code property values for <code>SocketError.ConnectionRefused</code>:<div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>var</span> <span class=n>se</span> <span class=p>=</span> <span class=k>new</span> <span class=n>SocketException</span><span class=p>((</span><span class=kt>int</span><span class=p>)</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>ConnectionRefused</span><span class=p>);</span>
+<span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>((</span><span class=kt>int</span><span class=p>)</span><span class=n>se</span><span class=p>.</span><span class=n>SocketErrorCode</span><span class=p>);</span>
+<span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>se</span><span class=p>.</span><span class=n>ErrorCode</span><span class=p>);</span>
+<span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>se</span><span class=p>.</span><span class=n>NativeErrorCode</span><span class=p>);</span>
+</code></pre></div><p>If we run it on <strong>Windows</strong>, we will get the same value on .NET Framework, Mono, and .NET Core:</p><table><tbody><tr><td></td><td><strong>SocketErrorCode</strong></td><td><strong>ErrorCode</strong></td><td><strong>NativeErrorCode</strong></td></tr><tr><td>.NET Framework</td><td>10061</td><td>10061</td><td>10061</td></tr><tr><td>Mono</td><td>10061</td><td>10061</td><td>10061</td></tr><tr><td>.NET Core</td><td>10061</td><td>10061</td><td>10061</td></tr></tbody></table>10061 corresponds to the code of the connection refused socket error code <a href=https://docs.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2>in Windows</a> (also known as <code>WSAECONNREFUSED</code>).
+Now let's run the same program on <strong>Linux</strong>:<table><tbody><tr><td></td><td><strong>SocketErrorCode</strong></td><td><strong>ErrorCode</strong></td><td><strong>NativeErrorCode</strong></td></tr><tr><td>Mono</td><td>10061</td><td>10061</td><td>10061</td></tr><tr><td>.NET Core</td><td>10061</td><td>111</td><td>111</td></tr></tbody></table>As you can see, Mono returns Windows-compatible error codes. The situation with .NET Core is different: it returns a Windows-compatible value for SocketErrorCode (10061) and a Linux-like value for <code>ErrorCode</code> and <code>NativeErrorCode</code> (111).
+Finally, let's check <strong>macOS</strong>:<table><tbody><tr><td></td><td><strong>SocketErrorCode</strong></td><td><strong>ErrorCode</strong></td><td><strong>NativeErrorCode</strong></td></tr><tr><td>Mono</td><td>10061</td><td>10061</td><td>10061</td></tr><tr><td>.NET Core</td><td>10061</td><td>61</td><td>61</td></tr></tbody></table>Here, Mono is completely Windows-compatible again, but .NET Core returns 61 for <code>ErrorCode</code> and <code>NativeErrorCode</code>.
+In the <a href=https://www.ibm.com/support/knowledgecenter/SSEPGG_11.1.0/com.ibm.db2.luw.messages.doc/doc/r0058740.html>IBM Knowledge Center</a>, we can find a few more values for the connection refused error code from the Unix world (also known as <code>ECONNREFUSED</code>):<ul><li>AIX: 79</li><li>HP-UX: 239</li><li>Solaris: 146</li></ul>For a better understanding of what's going on, let’s check out the source code of all the properties.<h2><strong>SocketErrorCode</strong></h2><code>SocketException.SocketErrorCode</code> returns a value from the <code>SocketError</code> enum. The numerical values of the enum elements are the same on all the runtimes (see its implementation in <a href=https://referencesource.microsoft.com/#System/net/System/Net/Sockets/SocketErrors.cs,cb4675d5a1a2c847>.NET Framework</a>, <a href=https://github.com/dotnet/corefx/blob/v3.1.3/src/System.Net.Primitives/src/System/Net/Sockets/SocketError.cs>.NET Core 3.1.3</a>, and <a href=https://github.com/mono/mono/blob/mono-6.8.0.105/mcs/class/referencesource/System/net/System/Net/Sockets/SocketErrors.cs>Mono 6.8.0.105</a>):<div class=highlight><pre class=chroma><code class=language-c data-lang=c><span class=n>public</span> <span class=k>enum</span> <span class=n>SocketError</span>
+<span class=p>{</span>
+    <span class=n>SocketError</span> <span class=o>=</span> <span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=c1>// 0xFFFFFFFF
+</span><span class=c1></span>    <span class=n>Success</span> <span class=o>=</span> <span class=mi>0</span><span class=p>,</span>
+    <span class=n>OperationAborted</span> <span class=o>=</span> <span class=mi>995</span><span class=p>,</span> <span class=c1>// 0x000003E3
+</span><span class=c1></span>    <span class=n>IOPending</span> <span class=o>=</span> <span class=mi>997</span><span class=p>,</span> <span class=c1>// 0x000003E5
+</span><span class=c1></span>    <span class=n>Interrupted</span> <span class=o>=</span> <span class=mi>10004</span><span class=p>,</span> <span class=c1>// 0x00002714
+</span><span class=c1></span>    <span class=n>AccessDenied</span> <span class=o>=</span> <span class=mi>10013</span><span class=p>,</span> <span class=c1>// 0x0000271D
+</span><span class=c1></span>    <span class=n>Fault</span> <span class=o>=</span> <span class=mi>10014</span><span class=p>,</span> <span class=c1>// 0x0000271E
+</span><span class=c1></span>    <span class=n>InvalidArgument</span> <span class=o>=</span> <span class=mi>10022</span><span class=p>,</span> <span class=c1>// 0x00002726
+</span><span class=c1></span>    <span class=n>TooManyOpenSockets</span> <span class=o>=</span> <span class=mi>10024</span><span class=p>,</span> <span class=c1>// 0x00002728
+</span><span class=c1></span>    <span class=n>WouldBlock</span> <span class=o>=</span> <span class=mi>10035</span><span class=p>,</span> <span class=c1>// 0x00002733
+</span><span class=c1></span>    <span class=n>InProgress</span> <span class=o>=</span> <span class=mi>10036</span><span class=p>,</span> <span class=c1>// 0x00002734
+</span><span class=c1></span>    <span class=n>AlreadyInProgress</span> <span class=o>=</span> <span class=mi>10037</span><span class=p>,</span> <span class=c1>// 0x00002735
+</span><span class=c1></span>    <span class=n>NotSocket</span> <span class=o>=</span> <span class=mi>10038</span><span class=p>,</span> <span class=c1>// 0x00002736
+</span><span class=c1></span>    <span class=n>DestinationAddressRequired</span> <span class=o>=</span> <span class=mi>10039</span><span class=p>,</span> <span class=c1>// 0x00002737
+</span><span class=c1></span>    <span class=n>MessageSize</span> <span class=o>=</span> <span class=mi>10040</span><span class=p>,</span> <span class=c1>// 0x00002738
+</span><span class=c1></span>    <span class=n>ProtocolType</span> <span class=o>=</span> <span class=mi>10041</span><span class=p>,</span> <span class=c1>// 0x00002739
+</span><span class=c1></span>    <span class=n>ProtocolOption</span> <span class=o>=</span> <span class=mi>10042</span><span class=p>,</span> <span class=c1>// 0x0000273A
+</span><span class=c1></span>    <span class=n>ProtocolNotSupported</span> <span class=o>=</span> <span class=mi>10043</span><span class=p>,</span> <span class=c1>// 0x0000273B
+</span><span class=c1></span>    <span class=n>SocketNotSupported</span> <span class=o>=</span> <span class=mi>10044</span><span class=p>,</span> <span class=c1>// 0x0000273C
+</span><span class=c1></span>    <span class=n>OperationNotSupported</span> <span class=o>=</span> <span class=mi>10045</span><span class=p>,</span> <span class=c1>// 0x0000273D
+</span><span class=c1></span>    <span class=n>ProtocolFamilyNotSupported</span> <span class=o>=</span> <span class=mi>10046</span><span class=p>,</span> <span class=c1>// 0x0000273E
+</span><span class=c1></span>    <span class=n>AddressFamilyNotSupported</span> <span class=o>=</span> <span class=mi>10047</span><span class=p>,</span> <span class=c1>// 0x0000273F
+</span><span class=c1></span>    <span class=n>AddressAlreadyInUse</span> <span class=o>=</span> <span class=mi>10048</span><span class=p>,</span> <span class=c1>// 0x00002740
+</span><span class=c1></span>    <span class=n>AddressNotAvailable</span> <span class=o>=</span> <span class=mi>10049</span><span class=p>,</span> <span class=c1>// 0x00002741
+</span><span class=c1></span>    <span class=n>NetworkDown</span> <span class=o>=</span> <span class=mi>10050</span><span class=p>,</span> <span class=c1>// 0x00002742
+</span><span class=c1></span>    <span class=n>NetworkUnreachable</span> <span class=o>=</span> <span class=mi>10051</span><span class=p>,</span> <span class=c1>// 0x00002743
+</span><span class=c1></span>    <span class=n>NetworkReset</span> <span class=o>=</span> <span class=mi>10052</span><span class=p>,</span> <span class=c1>// 0x00002744
+</span><span class=c1></span>    <span class=n>ConnectionAborted</span> <span class=o>=</span> <span class=mi>10053</span><span class=p>,</span> <span class=c1>// 0x00002745
+</span><span class=c1></span>    <span class=n>ConnectionReset</span> <span class=o>=</span> <span class=mi>10054</span><span class=p>,</span> <span class=c1>// 0x00002746
+</span><span class=c1></span>    <span class=n>NoBufferSpaceAvailable</span> <span class=o>=</span> <span class=mi>10055</span><span class=p>,</span> <span class=c1>// 0x00002747
+</span><span class=c1></span>    <span class=n>IsConnected</span> <span class=o>=</span> <span class=mi>10056</span><span class=p>,</span> <span class=c1>// 0x00002748
+</span><span class=c1></span>    <span class=n>NotConnected</span> <span class=o>=</span> <span class=mi>10057</span><span class=p>,</span> <span class=c1>// 0x00002749
+</span><span class=c1></span>    <span class=n>Shutdown</span> <span class=o>=</span> <span class=mi>10058</span><span class=p>,</span> <span class=c1>// 0x0000274A
+</span><span class=c1></span>    <span class=n>TimedOut</span> <span class=o>=</span> <span class=mi>10060</span><span class=p>,</span> <span class=c1>// 0x0000274C
+</span><span class=c1></span>    <span class=n>ConnectionRefused</span> <span class=o>=</span> <span class=mi>10061</span><span class=p>,</span> <span class=c1>// 0x0000274D
+</span><span class=c1></span>    <span class=n>HostDown</span> <span class=o>=</span> <span class=mi>10064</span><span class=p>,</span> <span class=c1>// 0x00002750
+</span><span class=c1></span>    <span class=n>HostUnreachable</span> <span class=o>=</span> <span class=mi>10065</span><span class=p>,</span> <span class=c1>// 0x00002751
+</span><span class=c1></span>    <span class=n>ProcessLimit</span> <span class=o>=</span> <span class=mi>10067</span><span class=p>,</span> <span class=c1>// 0x00002753
+</span><span class=c1></span>    <span class=n>SystemNotReady</span> <span class=o>=</span> <span class=mi>10091</span><span class=p>,</span> <span class=c1>// 0x0000276B
+</span><span class=c1></span>    <span class=n>VersionNotSupported</span> <span class=o>=</span> <span class=mi>10092</span><span class=p>,</span> <span class=c1>// 0x0000276C
+</span><span class=c1></span>    <span class=n>NotInitialized</span> <span class=o>=</span> <span class=mi>10093</span><span class=p>,</span> <span class=c1>// 0x0000276D
+</span><span class=c1></span>    <span class=n>Disconnecting</span> <span class=o>=</span> <span class=mi>10101</span><span class=p>,</span> <span class=c1>// 0x00002775
+</span><span class=c1></span>    <span class=n>TypeNotFound</span> <span class=o>=</span> <span class=mi>10109</span><span class=p>,</span> <span class=c1>// 0x0000277D
+</span><span class=c1></span>    <span class=n>HostNotFound</span> <span class=o>=</span> <span class=mi>11001</span><span class=p>,</span> <span class=c1>// 0x00002AF9
+</span><span class=c1></span>    <span class=n>TryAgain</span> <span class=o>=</span> <span class=mi>11002</span><span class=p>,</span> <span class=c1>// 0x00002AFA
+</span><span class=c1></span>    <span class=n>NoRecovery</span> <span class=o>=</span> <span class=mi>11003</span><span class=p>,</span> <span class=c1>// 0x00002AFB
+</span><span class=c1></span>    <span class=n>NoData</span> <span class=o>=</span> <span class=mi>11004</span><span class=p>,</span> <span class=c1>// 0x00002AFC
+</span><span class=c1></span><span class=p>}</span>
+</code></pre></div><p>These values correspond to the <a href=https://docs.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2>Windows Sockets Error Codes</a>.</p><h2><strong>NativeErrorCode</strong></h2>In <a href=https://referencesource.microsoft.com/#System/net/System/Net/SocketException.cs,89>.NET Framework</a> and <a href=https://github.com/mono/mono/blob/mono-6.8.0.105/mcs/class/referencesource/System/net/System/Net/SocketException.cs#L101>Mono</a>, <code>SocketErrorCode</code> and <code>NativeErrorCode</code> always have the same values:<div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=n>SocketError</span> <span class=n>SocketErrorCode</span> <span class=p>{</span>
+    <span class=c1>//
+</span><span class=c1></span>    <span class=c1>// the base class returns the HResult with this property
+</span><span class=c1></span>    <span class=c1>// we need the Win32 Error Code, hence the override.
+</span><span class=c1></span>    <span class=c1>//
+</span><span class=c1></span>    <span class=k>get</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=p>(</span><span class=n>SocketError</span><span class=p>)</span><span class=n>NativeErrorCode</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p>In .NET Core, the native code is calculated in the constructor (see <a href=https://github.com/dotnet/corefx/blob/v3.1.3/src/System.Net.Primitives/src/System/Net/SocketException.cs#L20>SocketException.cs#L20</a>):</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=n>SocketException</span><span class=p>(</span><span class=kt>int</span> <span class=n>errorCode</span><span class=p>)</span> <span class=p>:</span> <span class=k>this</span><span class=p>((</span><span class=n>SocketError</span><span class=p>)</span><span class=n>errorCode</span><span class=p>)</span>
+<span class=c1>// ...
+</span><span class=c1></span><span class=k>internal</span> <span class=n>SocketException</span><span class=p>(</span><span class=n>SocketError</span> <span class=n>socketError</span><span class=p>)</span> <span class=p>:</span> <span class=k>base</span><span class=p>(</span><span class=n>GetNativeErrorForSocketError</span><span class=p>(</span><span class=n>socketError</span><span class=p>))</span>
+</code></pre></div><p>The Windows implementation of <code>GetNativeErrorForSocketError</code> is trivial (see <a href=https://github.com/dotnet/corefx/blob/v3.1.3/src/System.Net.Primitives/src/System/Net/SocketException.Windows.cs>SocketException.Windows.cs</a>):</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>private</span> <span class=k>static</span> <span class=kt>int</span> <span class=n>GetNativeErrorForSocketError</span><span class=p>(</span><span class=n>SocketError</span> <span class=n>error</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=c1>// SocketError values map directly to Win32 error codes
+</span><span class=c1></span>    <span class=k>return</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>error</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>The Unix implementation is more complicated (see <a href=https://github.com/dotnet/corefx/blob/v3.1.3/src/System.Net.Primitives/src/System/Net/SocketException.Unix.cs>SocketException.Unix.cs</a>):</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>private</span> <span class=k>static</span> <span class=kt>int</span> <span class=n>GetNativeErrorForSocketError</span><span class=p>(</span><span class=n>SocketError</span> <span class=n>error</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=kt>int</span> <span class=n>nativeErr</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>error</span><span class=p>;</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>error</span> <span class=p>!=</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>SocketError</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span> <span class=n>interopErr</span><span class=p>;</span>
 
-    <meta name="description" content="How Socket Error Codes Depend on Runtime and Operating System">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,C#,Rider,Mono,.NET Core'>
+        <span class=c1>// If an interop error was not found, then don&#39;t invoke Info().RawErrno as that will fail with assert.
+</span><span class=c1></span>        <span class=k>if</span> <span class=p>(</span><span class=n>SocketErrorPal</span><span class=p>.</span><span class=n>TryGetNativeErrorForSocketError</span><span class=p>(</span><span class=n>error</span><span class=p>,</span> <span class=k>out</span> <span class=n>interopErr</span><span class=p>))</span>
+        <span class=p>{</span>
+            <span class=n>nativeErr</span> <span class=p>=</span> <span class=n>interopErr</span><span class=p>.</span><span class=n>Info</span><span class=p>().</span><span class=n>RawErrno</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
 
-    <title>How Socket Error Codes Depend on Runtime and Operating System</title>
+    <span class=k>return</span> <span class=n>nativeErr</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p><code>TryGetNativeErrorForSocketError</code> should convert <code>SocketError</code> to the native Unix error code.
+Unfortunately, there exists no unequivocal mapping between Windows and Unix error codes. As such, the .NET team decided to create a <code>Dictionary</code> that maps error codes in the best possible way (see <a href=https://github.com/dotnet/corefx/blob/v3.1.3/src/Common/src/System/Net/Sockets/SocketErrorPal.Unix.cs>SocketErrorPal.Unix.cs</a>):</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>private</span> <span class=k>const</span> <span class=kt>int</span> <span class=n>NativeErrorToSocketErrorCount</span> <span class=p>=</span> <span class=m>42</span><span class=p>;</span>
+<span class=k>private</span> <span class=k>const</span> <span class=kt>int</span> <span class=n>SocketErrorToNativeErrorCount</span> <span class=p>=</span> <span class=m>40</span><span class=p>;</span>
 
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
+<span class=c1>// No Interop.Errors are included for the following SocketErrors, as there&#39;s no good mapping:
+</span><span class=c1>// - SocketError.NoRecovery
+</span><span class=c1>// - SocketError.NotInitialized
+</span><span class=c1>// - SocketError.ProcessLimit
+</span><span class=c1>// - SocketError.SocketError
+</span><span class=c1>// - SocketError.SystemNotReady
+</span><span class=c1>// - SocketError.TypeNotFound
+</span><span class=c1>// - SocketError.VersionNotSupported
+</span><span class=c1></span>
+<span class=k>private</span> <span class=k>static</span> <span class=k>readonly</span> <span class=n>Dictionary</span><span class=p>&amp;</span><span class=n>lt</span><span class=p>;</span><span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>&amp;</span><span class=n>gt</span><span class=p>;</span> <span class=n>s_nativeErrorToSocketError</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Dictionary</span><span class=p>&amp;</span><span class=n>lt</span><span class=p>;</span><span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>&amp;</span><span class=n>gt</span><span class=p>;(</span><span class=n>NativeErrorToSocketErrorCount</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EACCES</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>AccessDenied</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EADDRINUSE</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>AddressAlreadyInUse</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EADDRNOTAVAIL</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>AddressNotAvailable</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EAFNOSUPPORT</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>AddressFamilyNotSupported</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EAGAIN</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>WouldBlock</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EALREADY</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>AlreadyInProgress</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EBADF</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>OperationAborted</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ECANCELED</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>OperationAborted</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ECONNABORTED</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>ConnectionAborted</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ECONNREFUSED</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>ConnectionRefused</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ECONNRESET</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>ConnectionReset</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EDESTADDRREQ</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>DestinationAddressRequired</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EFAULT</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>Fault</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EHOSTDOWN</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>HostDown</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENXIO</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>HostNotFound</span> <span class=p>},</span> <span class=c1>// not perfect, but closest match available
+</span><span class=c1></span>    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EHOSTUNREACH</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>HostUnreachable</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EINPROGRESS</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>InProgress</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EINTR</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>Interrupted</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EINVAL</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>InvalidArgument</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EISCONN</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>IsConnected</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EMFILE</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>TooManyOpenSockets</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EMSGSIZE</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>MessageSize</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENETDOWN</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>NetworkDown</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENETRESET</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>NetworkReset</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENETUNREACH</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>NetworkUnreachable</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENFILE</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>TooManyOpenSockets</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENOBUFS</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>NoBufferSpaceAvailable</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENODATA</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>NoData</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENOENT</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>AddressNotAvailable</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENOPROTOOPT</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>ProtocolOption</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENOTCONN</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>NotConnected</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENOTSOCK</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>NotSocket</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENOTSUP</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>OperationNotSupported</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EPERM</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>AccessDenied</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EPIPE</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>Shutdown</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EPFNOSUPPORT</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>ProtocolFamilyNotSupported</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EPROTONOSUPPORT</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>ProtocolNotSupported</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EPROTOTYPE</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>ProtocolType</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ESOCKTNOSUPPORT</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>SocketNotSupported</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ESHUTDOWN</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>Disconnecting</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>SUCCESS</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>Success</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ETIMEDOUT</span><span class=p>,</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>TimedOut</span> <span class=p>},</span>
+<span class=p>};</span>
 
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
+<span class=k>private</span> <span class=k>static</span> <span class=k>readonly</span> <span class=n>Dictionary</span><span class=p>&amp;</span><span class=n>lt</span><span class=p>;</span><span class=n>SocketError</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>&amp;</span><span class=n>gt</span><span class=p>;</span> <span class=n>s_socketErrorToNativeError</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Dictionary</span><span class=p>&amp;</span><span class=n>lt</span><span class=p>;</span><span class=n>SocketError</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>&amp;</span><span class=n>gt</span><span class=p>;(</span><span class=n>SocketErrorToNativeErrorCount</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=c1>// This is *mostly* an inverse mapping of s_nativeErrorToSocketError.  However, some options have multiple mappings and thus
+</span><span class=c1></span>    <span class=c1>// can&#39;t be inverted directly.  Other options don&#39;t have a mapping from native to SocketError, but when presented with a SocketError,
+</span><span class=c1></span>    <span class=c1>// we want to provide the closest relevant Error possible, e.g. EINPROGRESS maps to SocketError.InProgress, and vice versa, but
+</span><span class=c1></span>    <span class=c1>// SocketError.IOPending also maps closest to EINPROGRESS.  As such, roundtripping won&#39;t necessarily provide the original value 100% of the time,
+</span><span class=c1></span>    <span class=c1>// but it&#39;s the best we can do given the mismatch between Interop.Error and SocketError.
+</span><span class=c1></span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>AccessDenied</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EACCES</span><span class=p>},</span> <span class=c1>// could also have been EPERM
+</span><span class=c1></span>    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>AddressAlreadyInUse</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EADDRINUSE</span>  <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>AddressNotAvailable</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EADDRNOTAVAIL</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>AddressFamilyNotSupported</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EAFNOSUPPORT</span>  <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>AlreadyInProgress</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EALREADY</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>ConnectionAborted</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ECONNABORTED</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>ConnectionRefused</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ECONNREFUSED</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>ConnectionReset</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ECONNRESET</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>DestinationAddressRequired</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EDESTADDRREQ</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>Disconnecting</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ESHUTDOWN</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>Fault</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EFAULT</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>HostDown</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EHOSTDOWN</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>HostNotFound</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EHOSTNOTFOUND</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>HostUnreachable</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EHOSTUNREACH</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>InProgress</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EINPROGRESS</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>Interrupted</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EINTR</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>InvalidArgument</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EINVAL</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>IOPending</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EINPROGRESS</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>IsConnected</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EISCONN</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>MessageSize</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EMSGSIZE</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>NetworkDown</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENETDOWN</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>NetworkReset</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENETRESET</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>NetworkUnreachable</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENETUNREACH</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>NoBufferSpaceAvailable</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENOBUFS</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>NoData</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENODATA</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>NotConnected</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENOTCONN</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>NotSocket</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENOTSOCK</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>OperationAborted</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ECANCELED</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>OperationNotSupported</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENOTSUP</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>ProtocolFamilyNotSupported</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EPFNOSUPPORT</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>ProtocolNotSupported</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EPROTONOSUPPORT</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>ProtocolOption</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENOPROTOOPT</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>ProtocolType</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EPROTOTYPE</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>Shutdown</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EPIPE</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>SocketNotSupported</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ESOCKTNOSUPPORT</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>Success</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>SUCCESS</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>TimedOut</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ETIMEDOUT</span> <span class=p>},</span>
+    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>TooManyOpenSockets</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>ENFILE</span> <span class=p>},</span> <span class=c1>// could also have been EMFILE
+</span><span class=c1></span>    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>TryAgain</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EAGAIN</span> <span class=p>},</span> <span class=c1>// not a perfect mapping, but better than nothing
+</span><span class=c1></span>    <span class=p>{</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>WouldBlock</span><span class=p>,</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span><span class=p>.</span><span class=n>EAGAIN</span>  <span class=p>},</span>
+<span class=p>};</span>
 
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-    
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/'>Ru</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">How Socket Error Codes Depend on Runtime and Operating System</h2>
-<span class="blog-post-meta">
-  <b>Date:</b> April 27, 2020.
-  <b>Tags:</b>
-        <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-        <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
-        <a href="/tags/mono"><span class="badge badge-pill badge-info">Mono</span></a>
-        <a href="/tags/net-core"><span class="badge badge-pill badge-info">.NET Core</span></a>
-</span><br /><br />
-
-<p><em>This blog post was <a href="https://blog.jetbrains.com/dotnet/2020/04/27/socket-error-codes-depend-runtime-operating-system/">originally posted</a> on <a href="https://blog.jetbrains.com/dotnet/">JetBrains .NET blog</a>.</em></p>
-<p><a href="https://www.jetbrains.com/rider/">Rider</a> consists of several processes that send messages to each other via sockets. To ensure the reliability of the whole application, it's important to properly handle all the socket errors. In our codebase, we had the following code which was adopted from <a href="https://github.com/mono/debugger-libs/blob/master/Mono.Debugging.Soft/SoftDebuggerSession.cs#L273">Mono Debugger Libs</a> and helps us communicate with debugger processes:</p>
-<pre><code class="language-cs">protected virtual bool ShouldRetryConnection (Exception ex, int attemptNumber)
-{
-    var sx = ex as SocketException;
-    if (sx != null) {
-        if (sx.ErrorCode == 10061) //connection refused
-            return true;
-    }
-    return false;
-}
-</code></pre>
-<p>In the case of a failed connection because of a “ConnectionRefused” error, we are retrying the connection attempt. It works fine with .NET Framework and Mono. However, once we migrated to .NET Core, this method no longer correctly detects the &quot;connection refused&quot; situation on Linux and macOS. If we open the <code>SocketException</code> <a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.socketexception?view=netframework-4.8">documentation</a>, we will learn that this class has three different properties with error codes:</p>
-<ul>
-	<li><code>SocketError SocketErrorCode</code>: Gets the error code that is associated with this exception.</li>
-	<li><code>int ErrorCode</code>: Gets the error code that is associated with this exception.</li>
-	<li><code>int NativeErrorCode</code>: Gets the Win32 error code associated with this exception.</li>
-</ul>
-What's the difference between these properties? Should we expect different values on different runtimes or different operating systems? Which one should we use in production? Why do we have problems with <code>ShouldRetryConnection</code> on .NET Core? Let's figure it all out!
-<!--more-->
-<h2><strong>Digging into the problem</strong></h2>
-Let’s start with the following program, which prints error code property values for <code>SocketError.ConnectionRefused</code>:
-<pre><code class="language-cs">var se = new SocketException((int) SocketError.ConnectionRefused);
-Console.WriteLine((int)se.SocketErrorCode);
-Console.WriteLine(se.ErrorCode);
-Console.WriteLine(se.NativeErrorCode);
-</code></pre>
-<p>If we run it on <strong>Windows</strong>, we will get the same value on .NET Framework, Mono, and .NET Core:</p>
-<table>
-<tbody>
-<tr>
-<td></td>
-<td><strong>SocketErrorCode</strong></td>
-<td><strong>ErrorCode</strong></td>
-<td><strong>NativeErrorCode</strong></td>
-</tr>
-<tr>
-<td>.NET Framework</td>
-<td>10061</td>
-<td>10061</td>
-<td>10061</td>
-</tr>
-<tr>
-<td>Mono</td>
-<td>10061</td>
-<td>10061</td>
-<td>10061</td>
-</tr>
-<tr>
-<td>.NET Core</td>
-<td>10061</td>
-<td>10061</td>
-<td>10061</td>
-</tr>
-</tbody>
-</table>
-10061 corresponds to the code of the connection refused socket error code <a href="https://docs.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2">in Windows</a> (also known as <code>WSAECONNREFUSED</code>).
-Now let's run the same program on <strong>Linux</strong>:
-<table>
-<tbody>
-<tr>
-<td></td>
-<td><strong>SocketErrorCode</strong></td>
-<td><strong>ErrorCode</strong></td>
-<td><strong>NativeErrorCode</strong></td>
-</tr>
-<tr>
-<td>Mono</td>
-<td>10061</td>
-<td>10061</td>
-<td>10061</td>
-</tr>
-<tr>
-<td>.NET Core</td>
-<td>10061</td>
-<td>111</td>
-<td>111</td>
-</tr>
-</tbody>
-</table>
-As you can see, Mono returns Windows-compatible error codes. The situation with .NET Core is different: it returns a Windows-compatible value for SocketErrorCode (10061) and a Linux-like value for <code>ErrorCode</code> and <code>NativeErrorCode</code> (111).
-Finally, let's check <strong>macOS</strong>:
-<table>
-<tbody>
-<tr>
-<td></td>
-<td><strong>SocketErrorCode</strong></td>
-<td><strong>ErrorCode</strong></td>
-<td><strong>NativeErrorCode</strong></td>
-</tr>
-<tr>
-<td>Mono</td>
-<td>10061</td>
-<td>10061</td>
-<td>10061</td>
-</tr>
-<tr>
-<td>.NET Core</td>
-<td>10061</td>
-<td>61</td>
-<td>61</td>
-</tr>
-</tbody>
-</table>
-Here, Mono is completely Windows-compatible again, but .NET Core returns 61 for <code>ErrorCode</code> and <code>NativeErrorCode</code>.
-In the <a href="https://www.ibm.com/support/knowledgecenter/SSEPGG_11.1.0/com.ibm.db2.luw.messages.doc/doc/r0058740.html">IBM Knowledge Center</a>, we can find a few more values for the connection refused error code from the Unix world (also known as <code>ECONNREFUSED</code>):
-<ul>
-	<li>AIX: 79</li>
-	<li>HP-UX: 239</li>
-	<li>Solaris: 146</li>
-</ul>
-For a better understanding of what's going on, let’s check out the source code of all the properties.
-<h2><strong>SocketErrorCode</strong></h2>
-<code>SocketException.SocketErrorCode</code> returns a value from the <code>SocketError</code> enum. The numerical values of the enum elements are the same on all the runtimes (see its implementation in <a href="https://referencesource.microsoft.com/#System/net/System/Net/Sockets/SocketErrors.cs,cb4675d5a1a2c847">.NET Framework</a>, <a href="https://github.com/dotnet/corefx/blob/v3.1.3/src/System.Net.Primitives/src/System/Net/Sockets/SocketError.cs">.NET Core 3.1.3</a>, and <a href="https://github.com/mono/mono/blob/mono-6.8.0.105/mcs/class/referencesource/System/net/System/Net/Sockets/SocketErrors.cs">Mono 6.8.0.105</a>):
-<pre><code class="language-c">public enum SocketError
-{
-    SocketError = -1, // 0xFFFFFFFF
-    Success = 0,
-    OperationAborted = 995, // 0x000003E3
-    IOPending = 997, // 0x000003E5
-    Interrupted = 10004, // 0x00002714
-    AccessDenied = 10013, // 0x0000271D
-    Fault = 10014, // 0x0000271E
-    InvalidArgument = 10022, // 0x00002726
-    TooManyOpenSockets = 10024, // 0x00002728
-    WouldBlock = 10035, // 0x00002733
-    InProgress = 10036, // 0x00002734
-    AlreadyInProgress = 10037, // 0x00002735
-    NotSocket = 10038, // 0x00002736
-    DestinationAddressRequired = 10039, // 0x00002737
-    MessageSize = 10040, // 0x00002738
-    ProtocolType = 10041, // 0x00002739
-    ProtocolOption = 10042, // 0x0000273A
-    ProtocolNotSupported = 10043, // 0x0000273B
-    SocketNotSupported = 10044, // 0x0000273C
-    OperationNotSupported = 10045, // 0x0000273D
-    ProtocolFamilyNotSupported = 10046, // 0x0000273E
-    AddressFamilyNotSupported = 10047, // 0x0000273F
-    AddressAlreadyInUse = 10048, // 0x00002740
-    AddressNotAvailable = 10049, // 0x00002741
-    NetworkDown = 10050, // 0x00002742
-    NetworkUnreachable = 10051, // 0x00002743
-    NetworkReset = 10052, // 0x00002744
-    ConnectionAborted = 10053, // 0x00002745
-    ConnectionReset = 10054, // 0x00002746
-    NoBufferSpaceAvailable = 10055, // 0x00002747
-    IsConnected = 10056, // 0x00002748
-    NotConnected = 10057, // 0x00002749
-    Shutdown = 10058, // 0x0000274A
-    TimedOut = 10060, // 0x0000274C
-    ConnectionRefused = 10061, // 0x0000274D
-    HostDown = 10064, // 0x00002750
-    HostUnreachable = 10065, // 0x00002751
-    ProcessLimit = 10067, // 0x00002753
-    SystemNotReady = 10091, // 0x0000276B
-    VersionNotSupported = 10092, // 0x0000276C
-    NotInitialized = 10093, // 0x0000276D
-    Disconnecting = 10101, // 0x00002775
-    TypeNotFound = 10109, // 0x0000277D
-    HostNotFound = 11001, // 0x00002AF9
-    TryAgain = 11002, // 0x00002AFA
-    NoRecovery = 11003, // 0x00002AFB
-    NoData = 11004, // 0x00002AFC
-}
-</code></pre>
-<p>These values correspond to the <a href="https://docs.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2">Windows Sockets Error Codes</a>.</p>
-<h2><strong>NativeErrorCode</strong></h2>
-In <a href="https://referencesource.microsoft.com/#System/net/System/Net/SocketException.cs,89">.NET Framework</a> and <a href="https://github.com/mono/mono/blob/mono-6.8.0.105/mcs/class/referencesource/System/net/System/Net/SocketException.cs#L101">Mono</a>, <code>SocketErrorCode</code> and <code>NativeErrorCode</code> always have the same values:
-<pre><code class="language-cs">public SocketError SocketErrorCode {
-    //
-    // the base class returns the HResult with this property
-    // we need the Win32 Error Code, hence the override.
-    //
-    get {
-        return (SocketError)NativeErrorCode;
-    }
-}
-</code></pre>
-<p>In .NET Core, the native code is calculated in the constructor (see <a href="https://github.com/dotnet/corefx/blob/v3.1.3/src/System.Net.Primitives/src/System/Net/SocketException.cs#L20">SocketException.cs#L20</a>):</p>
-<pre><code class="language-cs">public SocketException(int errorCode) : this((SocketError)errorCode)
-// ...
-internal SocketException(SocketError socketError) : base(GetNativeErrorForSocketError(socketError))
-</code></pre>
-<p>The Windows implementation of <code>GetNativeErrorForSocketError</code> is trivial (see <a href="https://github.com/dotnet/corefx/blob/v3.1.3/src/System.Net.Primitives/src/System/Net/SocketException.Windows.cs">SocketException.Windows.cs</a>):</p>
-<pre><code class="language-cs">private static int GetNativeErrorForSocketError(SocketError error)
-{
-    // SocketError values map directly to Win32 error codes
-    return (int)error;
-}
-</code></pre>
-<p>The Unix implementation is more complicated (see <a href="https://github.com/dotnet/corefx/blob/v3.1.3/src/System.Net.Primitives/src/System/Net/SocketException.Unix.cs">SocketException.Unix.cs</a>):</p>
-<pre><code class="language-cs">private static int GetNativeErrorForSocketError(SocketError error)
-{
-    int nativeErr = (int)error;
-    if (error != SocketError.SocketError)
-    {
-        Interop.Error interopErr;
-
-        // If an interop error was not found, then don't invoke Info().RawErrno as that will fail with assert.
-        if (SocketErrorPal.TryGetNativeErrorForSocketError(error, out interopErr))
-        {
-            nativeErr = interopErr.Info().RawErrno;
-        }
-    }
-
-    return nativeErr;
-}
-</code></pre>
-<p><code>TryGetNativeErrorForSocketError</code> should convert <code>SocketError</code> to the native Unix error code.
-Unfortunately, there exists no unequivocal mapping between Windows and Unix error codes. As such, the .NET team decided to create a <code>Dictionary</code> that maps error codes in the best possible way (see <a href="https://github.com/dotnet/corefx/blob/v3.1.3/src/Common/src/System/Net/Sockets/SocketErrorPal.Unix.cs">SocketErrorPal.Unix.cs</a>):</p>
-<pre><code class="language-cs">private const int NativeErrorToSocketErrorCount = 42;
-private const int SocketErrorToNativeErrorCount = 40;
-
-// No Interop.Errors are included for the following SocketErrors, as there's no good mapping:
-// - SocketError.NoRecovery
-// - SocketError.NotInitialized
-// - SocketError.ProcessLimit
-// - SocketError.SocketError
-// - SocketError.SystemNotReady
-// - SocketError.TypeNotFound
-// - SocketError.VersionNotSupported
-
-private static readonly Dictionary&amp;lt;Interop.Error, SocketError&amp;gt; s_nativeErrorToSocketError = new Dictionary&amp;lt;Interop.Error, SocketError&amp;gt;(NativeErrorToSocketErrorCount)
-{
-    { Interop.Error.EACCES, SocketError.AccessDenied },
-    { Interop.Error.EADDRINUSE, SocketError.AddressAlreadyInUse },
-    { Interop.Error.EADDRNOTAVAIL, SocketError.AddressNotAvailable },
-    { Interop.Error.EAFNOSUPPORT, SocketError.AddressFamilyNotSupported },
-    { Interop.Error.EAGAIN, SocketError.WouldBlock },
-    { Interop.Error.EALREADY, SocketError.AlreadyInProgress },
-    { Interop.Error.EBADF, SocketError.OperationAborted },
-    { Interop.Error.ECANCELED, SocketError.OperationAborted },
-    { Interop.Error.ECONNABORTED, SocketError.ConnectionAborted },
-    { Interop.Error.ECONNREFUSED, SocketError.ConnectionRefused },
-    { Interop.Error.ECONNRESET, SocketError.ConnectionReset },
-    { Interop.Error.EDESTADDRREQ, SocketError.DestinationAddressRequired },
-    { Interop.Error.EFAULT, SocketError.Fault },
-    { Interop.Error.EHOSTDOWN, SocketError.HostDown },
-    { Interop.Error.ENXIO, SocketError.HostNotFound }, // not perfect, but closest match available
-    { Interop.Error.EHOSTUNREACH, SocketError.HostUnreachable },
-    { Interop.Error.EINPROGRESS, SocketError.InProgress },
-    { Interop.Error.EINTR, SocketError.Interrupted },
-    { Interop.Error.EINVAL, SocketError.InvalidArgument },
-    { Interop.Error.EISCONN, SocketError.IsConnected },
-    { Interop.Error.EMFILE, SocketError.TooManyOpenSockets },
-    { Interop.Error.EMSGSIZE, SocketError.MessageSize },
-    { Interop.Error.ENETDOWN, SocketError.NetworkDown },
-    { Interop.Error.ENETRESET, SocketError.NetworkReset },
-    { Interop.Error.ENETUNREACH, SocketError.NetworkUnreachable },
-    { Interop.Error.ENFILE, SocketError.TooManyOpenSockets },
-    { Interop.Error.ENOBUFS, SocketError.NoBufferSpaceAvailable },
-    { Interop.Error.ENODATA, SocketError.NoData },
-    { Interop.Error.ENOENT, SocketError.AddressNotAvailable },
-    { Interop.Error.ENOPROTOOPT, SocketError.ProtocolOption },
-    { Interop.Error.ENOTCONN, SocketError.NotConnected },
-    { Interop.Error.ENOTSOCK, SocketError.NotSocket },
-    { Interop.Error.ENOTSUP, SocketError.OperationNotSupported },
-    { Interop.Error.EPERM, SocketError.AccessDenied },
-    { Interop.Error.EPIPE, SocketError.Shutdown },
-    { Interop.Error.EPFNOSUPPORT, SocketError.ProtocolFamilyNotSupported },
-    { Interop.Error.EPROTONOSUPPORT, SocketError.ProtocolNotSupported },
-    { Interop.Error.EPROTOTYPE, SocketError.ProtocolType },
-    { Interop.Error.ESOCKTNOSUPPORT, SocketError.SocketNotSupported },
-    { Interop.Error.ESHUTDOWN, SocketError.Disconnecting },
-    { Interop.Error.SUCCESS, SocketError.Success },
-    { Interop.Error.ETIMEDOUT, SocketError.TimedOut },
-};
-
-private static readonly Dictionary&amp;lt;SocketError, Interop.Error&amp;gt; s_socketErrorToNativeError = new Dictionary&amp;lt;SocketError, Interop.Error&amp;gt;(SocketErrorToNativeErrorCount)
-{
-    // This is *mostly* an inverse mapping of s_nativeErrorToSocketError.  However, some options have multiple mappings and thus
-    // can't be inverted directly.  Other options don't have a mapping from native to SocketError, but when presented with a SocketError,
-    // we want to provide the closest relevant Error possible, e.g. EINPROGRESS maps to SocketError.InProgress, and vice versa, but
-    // SocketError.IOPending also maps closest to EINPROGRESS.  As such, roundtripping won't necessarily provide the original value 100% of the time,
-    // but it's the best we can do given the mismatch between Interop.Error and SocketError.
-
-    { SocketError.AccessDenied, Interop.Error.EACCES}, // could also have been EPERM
-    { SocketError.AddressAlreadyInUse, Interop.Error.EADDRINUSE  },
-    { SocketError.AddressNotAvailable, Interop.Error.EADDRNOTAVAIL },
-    { SocketError.AddressFamilyNotSupported, Interop.Error.EAFNOSUPPORT  },
-    { SocketError.AlreadyInProgress, Interop.Error.EALREADY },
-    { SocketError.ConnectionAborted, Interop.Error.ECONNABORTED },
-    { SocketError.ConnectionRefused, Interop.Error.ECONNREFUSED },
-    { SocketError.ConnectionReset, Interop.Error.ECONNRESET },
-    { SocketError.DestinationAddressRequired, Interop.Error.EDESTADDRREQ },
-    { SocketError.Disconnecting, Interop.Error.ESHUTDOWN },
-    { SocketError.Fault, Interop.Error.EFAULT },
-    { SocketError.HostDown, Interop.Error.EHOSTDOWN },
-    { SocketError.HostNotFound, Interop.Error.EHOSTNOTFOUND },
-    { SocketError.HostUnreachable, Interop.Error.EHOSTUNREACH },
-    { SocketError.InProgress, Interop.Error.EINPROGRESS },
-    { SocketError.Interrupted, Interop.Error.EINTR },
-    { SocketError.InvalidArgument, Interop.Error.EINVAL },
-    { SocketError.IOPending, Interop.Error.EINPROGRESS },
-    { SocketError.IsConnected, Interop.Error.EISCONN },
-    { SocketError.MessageSize, Interop.Error.EMSGSIZE },
-    { SocketError.NetworkDown, Interop.Error.ENETDOWN },
-    { SocketError.NetworkReset, Interop.Error.ENETRESET },
-    { SocketError.NetworkUnreachable, Interop.Error.ENETUNREACH },
-    { SocketError.NoBufferSpaceAvailable, Interop.Error.ENOBUFS },
-    { SocketError.NoData, Interop.Error.ENODATA },
-    { SocketError.NotConnected, Interop.Error.ENOTCONN },
-    { SocketError.NotSocket, Interop.Error.ENOTSOCK },
-    { SocketError.OperationAborted, Interop.Error.ECANCELED },
-    { SocketError.OperationNotSupported, Interop.Error.ENOTSUP },
-    { SocketError.ProtocolFamilyNotSupported, Interop.Error.EPFNOSUPPORT },
-    { SocketError.ProtocolNotSupported, Interop.Error.EPROTONOSUPPORT },
-    { SocketError.ProtocolOption, Interop.Error.ENOPROTOOPT },
-    { SocketError.ProtocolType, Interop.Error.EPROTOTYPE },
-    { SocketError.Shutdown, Interop.Error.EPIPE },
-    { SocketError.SocketNotSupported, Interop.Error.ESOCKTNOSUPPORT },
-    { SocketError.Success, Interop.Error.SUCCESS },
-    { SocketError.TimedOut, Interop.Error.ETIMEDOUT },
-    { SocketError.TooManyOpenSockets, Interop.Error.ENFILE }, // could also have been EMFILE
-    { SocketError.TryAgain, Interop.Error.EAGAIN }, // not a perfect mapping, but better than nothing
-    { SocketError.WouldBlock, Interop.Error.EAGAIN  },
-};
-
-internal static bool TryGetNativeErrorForSocketError(SocketError error, out Interop.Error errno)
-{
-    return s_socketErrorToNativeError.TryGetValue(error, out errno);
-}
-</code></pre>
-<p>Once we have an instance of <code>Interop.Error</code>, we call <code>interopErr.Info().RawErrno</code>. The implementation of RawErrno can be found in <a href="https://github.com/dotnet/corefx/blob/v3.1.3/src/Common/src/CoreLib/Interop/Unix/Interop.Errors.cs#L138">Interop.Errors.cs</a>:</p>
-<pre><code class="language-cs">internal int RawErrno
-{
-    get { return _rawErrno == -1 ? (_rawErrno = Interop.Sys.ConvertErrorPalToPlatform(_error)) : _rawErrno; }
-}
-
-[DllImport(Libraries.SystemNative, EntryPoint = &quot;SystemNative_ConvertErrorPalToPlatform&quot;)]
-internal static extern int ConvertErrorPalToPlatform(Error error);
-</code></pre>
-<p>Here we are jumping to the native function <a href="https://github.com/dotnet/corefx/blob/v3.1.3/src/Native/Unix/System.Native/pal_errno.c#L210">SystemNative_ConvertErrorPalToPlatform</a> that maps Error to the native integer code that is defined in <a href="https://en.wikipedia.org/wiki/Errno.h">errno.h</a>. You can get all the values using the <a href="http://man7.org/linux/man-pages/man3/errno.3.html">errno</a> util. Here is a typical output on Linux:</p>
-<pre><code>$ errno -ls
+<span class=k>internal</span> <span class=k>static</span> <span class=kt>bool</span> <span class=n>TryGetNativeErrorForSocketError</span><span class=p>(</span><span class=n>SocketError</span> <span class=n>error</span><span class=p>,</span> <span class=k>out</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Error</span> <span class=n>errno</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=k>return</span> <span class=n>s_socketErrorToNativeError</span><span class=p>.</span><span class=n>TryGetValue</span><span class=p>(</span><span class=n>error</span><span class=p>,</span> <span class=k>out</span> <span class=n>errno</span><span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div><p>Once we have an instance of <code>Interop.Error</code>, we call <code>interopErr.Info().RawErrno</code>. The implementation of RawErrno can be found in <a href=https://github.com/dotnet/corefx/blob/v3.1.3/src/Common/src/CoreLib/Interop/Unix/Interop.Errors.cs#L138>Interop.Errors.cs</a>:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>internal</span> <span class=kt>int</span> <span class=n>RawErrno</span>
+<span class=p>{</span>
+    <span class=k>get</span> <span class=p>{</span> <span class=k>return</span> <span class=n>_rawErrno</span> <span class=p>==</span> <span class=p>-</span><span class=m>1</span> <span class=p>?</span> <span class=p>(</span><span class=n>_rawErrno</span> <span class=p>=</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Sys</span><span class=p>.</span><span class=n>ConvertErrorPalToPlatform</span><span class=p>(</span><span class=n>_error</span><span class=p>))</span> <span class=p>:</span> <span class=n>_rawErrno</span><span class=p>;</span> <span class=p>}</span>
+<span class=p>}</span>
+<span class=na>
+</span><span class=na>[DllImport(Libraries.SystemNative, EntryPoint = &#34;SystemNative_ConvertErrorPalToPlatform&#34;)]</span>
+<span class=k>internal</span> <span class=k>static</span> <span class=k>extern</span> <span class=kt>int</span> <span class=n>ConvertErrorPalToPlatform</span><span class=p>(</span><span class=n>Error</span> <span class=n>error</span><span class=p>);</span>
+</code></pre></div><p>Here we are jumping to the native function <a href=https://github.com/dotnet/corefx/blob/v3.1.3/src/Native/Unix/System.Native/pal_errno.c#L210>SystemNative_ConvertErrorPalToPlatform</a> that maps Error to the native integer code that is defined in <a href=https://en.wikipedia.org/wiki/Errno.h>errno.h</a>. You can get all the values using the <a href=http://man7.org/linux/man-pages/man3/errno.3.html>errno</a> util. Here is a typical output on Linux:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>$ errno -ls
 EPERM 1 Operation not permitted
 ENOENT 2 No such file or directory
 ESRCH 3 No such process
@@ -596,10 +359,8 @@ ENOTRECOVERABLE 131 State not recoverable
 ERFKILL 132 Operation not possible due to RF-kill
 EHWPOISON 133 Memory page has hardware error
 ENOTSUP 95 Operation not supported
-</code></pre>
-<p>Note that <code>errno</code> may be not available by default in your Linux distro. For example, on Debian, you <a href="https://unix.stackexchange.com/questions/326766/what-are-the-standard-error-codes-in-linux#comment688800_326811">should call</a> <strong><code>sudo apt-get install moreutils</code></strong> to get this utility.
-Here is a typical output on macOS:</p>
-<pre><code>$ errno -ls
+</code></pre></div><p>Note that <code>errno</code> may be not available by default in your Linux distro. For example, on Debian, you <a href=https://unix.stackexchange.com/questions/326766/what-are-the-standard-error-codes-in-linux#comment688800_326811>should call</a> <strong><code>sudo apt-get install moreutils</code></strong> to get this utility.
+Here is a typical output on macOS:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>$ errno -ls
 EPERM 1 Operation not permitted
 ENOENT 2 No such file or directory
 ESRCH 3 No such process
@@ -708,396 +469,30 @@ ENOTRECOVERABLE 104 State not recoverable
 EOWNERDEAD 105 Previous owner died
 EQFULL 106 Interface output queue is full
 ELAST 106 Interface output queue is full
-</code></pre>
-<p>Hooray! We’ve finished our fascinating journey into the internals of socket error codes. Now you know where .NET is getting the native error code for each <code>SocketException</code> from!</p>
-<h2><strong>ErrorCode</strong></h2>
-The <code>ErrorCode</code> property is the most boring one, as it always returns <code>NativeErrorCode</code>.
-<a href="https://referencesource.microsoft.com/#System/net/System/Net/SocketException.cs,67">.NET Framework</a>, <a href="https://github.com/mono/mono/blob/mono-6.8.0.105/mcs/class/referencesource/System/net/System/Net/SocketException.cs#L79">Mono 6.8.0.105</a>:
-<pre><code class="language-cs">public override int ErrorCode {
-    //
-    // the base class returns the HResult with this property
-    // we need the Win32 Error Code, hence the override.
-    //
-    get {
-        return NativeErrorCode;
-    }
-}
-</code></pre>
-<p>In <a href="https://github.com/dotnet/corefx/blob/v3.1.3/src/System.Net.Primitives/src/System/Net/SocketException.cs#L51">.NET Core 3.1.3</a>:</p>
-<pre><code class="language-cs">public override int ErrorCode =&amp;gt; base.NativeErrorCode;
-</code></pre>
-<h2><strong>Writing cross-platform socket error handling</strong></h2>
-Circling back to the original method we started this post with, we rewrote ShouldRetryConnection as follows:
-<pre><code class="language-cs">protected virtual bool ShouldRetryConnection(Exception ex)
-{
-    if (ex is SocketException sx)
-        return sx.SocketErrorCode == SocketError.ConnectionRefused;
-    return false;
-}
-</code></pre>
-<p>There was a lot of work involved in tracking down the error code to check against, but in the end, our code is much more readable now. Adding to that, this method is now also completely cross-platform, and works correctly on any runtime.</p>
-<h2><strong>Overview of the native error codes</strong></h2>
-In some situations, you may want to have a table with native error codes on different operating systems. We can get these values with the following code snippet:
-<pre><code class="language-cs">var allErrors = Enum.GetValues(typeof(SocketError)).Cast&amp;lt;SocketError&amp;gt;().ToList();
-var maxNameWidth = allErrors.Select(x =&amp;gt; x.ToString().Length).Max();
-foreach (var socketError in allErrors)
-{
-    var name = socketError.ToString().PadRight(maxNameWidth);
-    var code = new SocketException((int) socketError).NativeErrorCode.ToString().PadLeft(7);
-    Console.WriteLine($TEXT$quot;| {name} | {code} |&quot;);
-}
-</code></pre>
-<p>We executed this program on Windows, Linux, and macOS. Here are the aggregated results:</p>
-<table>
-<tbody>
-<tr>
-<td><strong>SocketError</strong></td>
-<td><strong>Windows</strong></td>
-<td><strong>Linux</strong></td>
-<td><strong>macOS</strong></td>
-</tr>
-<tr>
-<td>Success</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td>OperationAborted</td>
-<td>995</td>
-<td>125</td>
-<td>89</td>
-</tr>
-<tr>
-<td>IOPending</td>
-<td>997</td>
-<td>115</td>
-<td>36</td>
-</tr>
-<tr>
-<td>Interrupted</td>
-<td>10004</td>
-<td>4</td>
-<td>4</td>
-</tr>
-<tr>
-<td>AccessDenied</td>
-<td>10013</td>
-<td>13</td>
-<td>13</td>
-</tr>
-<tr>
-<td>Fault</td>
-<td>10014</td>
-<td>14</td>
-<td>14</td>
-</tr>
-<tr>
-<td>InvalidArgument</td>
-<td>10022</td>
-<td>22</td>
-<td>22</td>
-</tr>
-<tr>
-<td>TooManyOpenSockets</td>
-<td>10024</td>
-<td>23</td>
-<td>23</td>
-</tr>
-<tr>
-<td>WouldBlock</td>
-<td>10035</td>
-<td>11</td>
-<td>35</td>
-</tr>
-<tr>
-<td>InProgress</td>
-<td>10036</td>
-<td>115</td>
-<td>36</td>
-</tr>
-<tr>
-<td>AlreadyInProgress</td>
-<td>10037</td>
-<td>114</td>
-<td>37</td>
-</tr>
-<tr>
-<td>NotSocket</td>
-<td>10038</td>
-<td>88</td>
-<td>38</td>
-</tr>
-<tr>
-<td>DestinationAddressRequired</td>
-<td>10039</td>
-<td>89</td>
-<td>39</td>
-</tr>
-<tr>
-<td>MessageSize</td>
-<td>10040</td>
-<td>90</td>
-<td>40</td>
-</tr>
-<tr>
-<td>ProtocolType</td>
-<td>10041</td>
-<td>91</td>
-<td>41</td>
-</tr>
-<tr>
-<td>ProtocolOption</td>
-<td>10042</td>
-<td>92</td>
-<td>42</td>
-</tr>
-<tr>
-<td>ProtocolNotSupported</td>
-<td>10043</td>
-<td>93</td>
-<td>43</td>
-</tr>
-<tr>
-<td>SocketNotSupported</td>
-<td>10044</td>
-<td>94</td>
-<td>44</td>
-</tr>
-<tr>
-<td>OperationNotSupported</td>
-<td>10045</td>
-<td>95</td>
-<td>45</td>
-</tr>
-<tr>
-<td>ProtocolFamilyNotSupported</td>
-<td>10046</td>
-<td>96</td>
-<td>46</td>
-</tr>
-<tr>
-<td>AddressFamilyNotSupported</td>
-<td>10047</td>
-<td>97</td>
-<td>47</td>
-</tr>
-<tr>
-<td>AddressAlreadyInUse</td>
-<td>10048</td>
-<td>98</td>
-<td>48</td>
-</tr>
-<tr>
-<td>AddressNotAvailable</td>
-<td>10049</td>
-<td>99</td>
-<td>49</td>
-</tr>
-<tr>
-<td>NetworkDown</td>
-<td>10050</td>
-<td>100</td>
-<td>50</td>
-</tr>
-<tr>
-<td>NetworkUnreachable</td>
-<td>10051</td>
-<td>101</td>
-<td>51</td>
-</tr>
-<tr>
-<td>NetworkReset</td>
-<td>10052</td>
-<td>102</td>
-<td>52</td>
-</tr>
-<tr>
-<td>ConnectionAborted</td>
-<td>10053</td>
-<td>103</td>
-<td>53</td>
-</tr>
-<tr>
-<td>ConnectionReset</td>
-<td>10054</td>
-<td>104</td>
-<td>54</td>
-</tr>
-<tr>
-<td>NoBufferSpaceAvailable</td>
-<td>10055</td>
-<td>105</td>
-<td>55</td>
-</tr>
-<tr>
-<td>IsConnected</td>
-<td>10056</td>
-<td>106</td>
-<td>56</td>
-</tr>
-<tr>
-<td>NotConnected</td>
-<td>10057</td>
-<td>107</td>
-<td>57</td>
-</tr>
-<tr>
-<td>Shutdown</td>
-<td>10058</td>
-<td>32</td>
-<td>32</td>
-</tr>
-<tr>
-<td>TimedOut</td>
-<td>10060</td>
-<td>110</td>
-<td>60</td>
-</tr>
-<tr>
-<td>ConnectionRefused</td>
-<td>10061</td>
-<td>111</td>
-<td>61</td>
-</tr>
-<tr>
-<td>HostDown</td>
-<td>10064</td>
-<td>112</td>
-<td>64</td>
-</tr>
-<tr>
-<td>HostUnreachable</td>
-<td>10065</td>
-<td>113</td>
-<td>65</td>
-</tr>
-<tr>
-<td>ProcessLimit</td>
-<td>10067</td>
-<td>10067</td>
-<td>10067</td>
-</tr>
-<tr>
-<td>SystemNotReady</td>
-<td>10091</td>
-<td>10091</td>
-<td>10091</td>
-</tr>
-<tr>
-<td>VersionNotSupported</td>
-<td>10092</td>
-<td>10092</td>
-<td>10092</td>
-</tr>
-<tr>
-<td>NotInitialized</td>
-<td>10093</td>
-<td>10093</td>
-<td>10093</td>
-</tr>
-<tr>
-<td>Disconnecting</td>
-<td>10101</td>
-<td>108</td>
-<td>58</td>
-</tr>
-<tr>
-<td>TypeNotFound</td>
-<td>10109</td>
-<td>10109</td>
-<td>10109</td>
-</tr>
-<tr>
-<td>HostNotFound</td>
-<td>11001</td>
-<td>-131073</td>
-<td>-131073</td>
-</tr>
-<tr>
-<td>TryAgain</td>
-<td>11002</td>
-<td>11</td>
-<td>35</td>
-</tr>
-<tr>
-<td>NoRecovery</td>
-<td>11003</td>
-<td>11003</td>
-<td>11003</td>
-</tr>
-<tr>
-<td>NoData</td>
-<td>11004</td>
-<td>61</td>
-<td>96</td>
-</tr>
-<tr>
-<td>SocketError</td>
-<td>-1</td>
-<td>-1</td>
-<td>-1</td>
-</tr>
-</tbody>
-</table>
-This table may be useful if you work with native socket error codes.
-<h2><strong>Summary</strong></h2>
-From this investigation, we’ve learned the following:
-<ul>
-	<li><code>SocketException.SocketErrorCode</code> returns a value from the <code>SocketError</code> enum. The numerical values of the enum elements always correspond to the <a href="https://docs.microsoft.com/en-us/windows/win32/winsock/">Windows socket error codes</a>.</li>
-	<li><code>SocketException.ErrorCode</code> always returns <code>SocketException.NativeErrorCode</code>.</li>
-	<li><code>SocketException.NativeErrorCode</code> on .NET Framework and Mono always corresponds to the Windows error codes (even if you are using Mono on Unix). On .NET Core, <code>SocketException.NativeErrorCode</code> equals the corresponding native error code from the current operating system.</li>
-</ul>
-<img class="alignnone size-full wp-image-25129" src="https://blog.jetbrains.com/dotnet/files/2020/04/SocketErrors-Blog.png" alt="SocketErrors-Blog" width="1600" height="900" />
-A few practical recommendations:
-<ul>
-	<li>If you want to write portable code, always use <code>SocketException.SocketErrorCode</code> and compare it with the values of <code>SocketError</code>. Never use raw numerical error codes.</li>
-	<li>If you want to get the native error code on .NET Core (e.g., for passing to another native program), use <code>SocketException.NativeErrorCode</code>. Remember that different Unix-based operating systems (e.g., Linux, macOS, Solaris) have different native code sets. You can get the exact values of the native error codes by using the errno command.</li>
-</ul>
-<h2><strong>References</strong></h2>
-<ul>
-	<li><a href="https://docs.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2">Microsoft Docs: Windows Sockets Error Codes</a></li>
-	<li><a href="https://www.ibm.com/support/knowledgecenter/SSEPGG_11.1.0/com.ibm.db2.luw.messages.doc/doc/r0058740.html">IBM Knowledge Center: TCP/IP error codes</a></li>
-	<li><a href="https://mariadb.com/kb/en/operating-system-error-codes/">MariaDB: Operating System Error Codes</a></li>
-	<li><a href="https://www.gnu.org/software/libc/manual/html_node/Error-Codes.html">gnu.org: Error Codes</a></li>
-	<li><a href="https://stackoverflow.com/q/961465/184842">Stackoverflow: Identical Error Codes</a></li>
-</ul>
-
-<!-- Share -->
-
-Share:
-<a href="https://twitter.com/intent/tweet?text=How Socket Error Codes Depend on Runtime and Operating System&url=http://aakinshin.net/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/&title=How Socket Error Codes Depend on Runtime and Operating System" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  You can find source code of this post on GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2020/how-socket-error-codes-depend-on-runtime-and-operating-system.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2020/how-socket-error-codes-depend-on-runtime-and-operating-system.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+</code></pre></div><p>Hooray! We’ve finished our fascinating journey into the internals of socket error codes. Now you know where .NET is getting the native error code for each <code>SocketException</code> from!</p><h2><strong>ErrorCode</strong></h2>The <code>ErrorCode</code> property is the most boring one, as it always returns <code>NativeErrorCode</code>.
+<a href=https://referencesource.microsoft.com/#System/net/System/Net/SocketException.cs,67>.NET Framework</a>, <a href=https://github.com/mono/mono/blob/mono-6.8.0.105/mcs/class/referencesource/System/net/System/Net/SocketException.cs#L79>Mono 6.8.0.105</a>:<div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>override</span> <span class=kt>int</span> <span class=n>ErrorCode</span> <span class=p>{</span>
+    <span class=c1>//
+</span><span class=c1></span>    <span class=c1>// the base class returns the HResult with this property
+</span><span class=c1></span>    <span class=c1>// we need the Win32 Error Code, hence the override.
+</span><span class=c1></span>    <span class=c1>//
+</span><span class=c1></span>    <span class=k>get</span> <span class=p>{</span>
+        <span class=k>return</span> <span class=n>NativeErrorCode</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p>In <a href=https://github.com/dotnet/corefx/blob/v3.1.3/src/System.Net.Primitives/src/System/Net/SocketException.cs#L51>.NET Core 3.1.3</a>:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>override</span> <span class=kt>int</span> <span class=n>ErrorCode</span> <span class=p>=&amp;</span><span class=n>gt</span><span class=p>;</span> <span class=k>base</span><span class=p>.</span><span class=n>NativeErrorCode</span><span class=p>;</span>
+</code></pre></div><h2><strong>Writing cross-platform socket error handling</strong></h2>Circling back to the original method we started this post with, we rewrote ShouldRetryConnection as follows:<div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>protected</span> <span class=k>virtual</span> <span class=kt>bool</span> <span class=n>ShouldRetryConnection</span><span class=p>(</span><span class=n>Exception</span> <span class=n>ex</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>ex</span> <span class=k>is</span> <span class=n>SocketException</span> <span class=n>sx</span><span class=p>)</span>
+        <span class=k>return</span> <span class=n>sx</span><span class=p>.</span><span class=n>SocketErrorCode</span> <span class=p>==</span> <span class=n>SocketError</span><span class=p>.</span><span class=n>ConnectionRefused</span><span class=p>;</span>
+    <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>There was a lot of work involved in tracking down the error code to check against, but in the end, our code is much more readable now. Adding to that, this method is now also completely cross-platform, and works correctly on any runtime.</p><h2><strong>Overview of the native error codes</strong></h2>In some situations, you may want to have a table with native error codes on different operating systems. We can get these values with the following code snippet:<div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>var</span> <span class=n>allErrors</span> <span class=p>=</span> <span class=n>Enum</span><span class=p>.</span><span class=n>GetValues</span><span class=p>(</span><span class=k>typeof</span><span class=p>(</span><span class=n>SocketError</span><span class=p>)).</span><span class=n>Cast</span><span class=p>&amp;</span><span class=n>lt</span><span class=p>;</span><span class=n>SocketError</span><span class=p>&amp;</span><span class=n>gt</span><span class=p>;().</span><span class=n>ToList</span><span class=p>();</span>
+<span class=kt>var</span> <span class=n>maxNameWidth</span> <span class=p>=</span> <span class=n>allErrors</span><span class=p>.</span><span class=n>Select</span><span class=p>(</span><span class=n>x</span> <span class=p>=&amp;</span><span class=n>gt</span><span class=p>;</span> <span class=n>x</span><span class=p>.</span><span class=n>ToString</span><span class=p>().</span><span class=n>Length</span><span class=p>).</span><span class=n>Max</span><span class=p>();</span>
+<span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>socketError</span> <span class=k>in</span> <span class=n>allErrors</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=kt>var</span> <span class=n>name</span> <span class=p>=</span> <span class=n>socketError</span><span class=p>.</span><span class=n>ToString</span><span class=p>().</span><span class=n>PadRight</span><span class=p>(</span><span class=n>maxNameWidth</span><span class=p>);</span>
+    <span class=kt>var</span> <span class=n>code</span> <span class=p>=</span> <span class=k>new</span> <span class=n>SocketException</span><span class=p>((</span><span class=kt>int</span><span class=p>)</span> <span class=n>socketError</span><span class=p>).</span><span class=n>NativeErrorCode</span><span class=p>.</span><span class=n>ToString</span><span class=p>().</span><span class=n>PadLeft</span><span class=p>(</span><span class=m>7</span><span class=p>);</span>
+    <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;| {name} | {code} |&#34;</span><span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div><p>We executed this program on Windows, Linux, and macOS. Here are the aggregated results:</p><table><tbody><tr><td><strong>SocketError</strong></td><td><strong>Windows</strong></td><td><strong>Linux</strong></td><td><strong>macOS</strong></td></tr><tr><td>Success</td><td>0</td><td>0</td><td>0</td></tr><tr><td>OperationAborted</td><td>995</td><td>125</td><td>89</td></tr><tr><td>IOPending</td><td>997</td><td>115</td><td>36</td></tr><tr><td>Interrupted</td><td>10004</td><td>4</td><td>4</td></tr><tr><td>AccessDenied</td><td>10013</td><td>13</td><td>13</td></tr><tr><td>Fault</td><td>10014</td><td>14</td><td>14</td></tr><tr><td>InvalidArgument</td><td>10022</td><td>22</td><td>22</td></tr><tr><td>TooManyOpenSockets</td><td>10024</td><td>23</td><td>23</td></tr><tr><td>WouldBlock</td><td>10035</td><td>11</td><td>35</td></tr><tr><td>InProgress</td><td>10036</td><td>115</td><td>36</td></tr><tr><td>AlreadyInProgress</td><td>10037</td><td>114</td><td>37</td></tr><tr><td>NotSocket</td><td>10038</td><td>88</td><td>38</td></tr><tr><td>DestinationAddressRequired</td><td>10039</td><td>89</td><td>39</td></tr><tr><td>MessageSize</td><td>10040</td><td>90</td><td>40</td></tr><tr><td>ProtocolType</td><td>10041</td><td>91</td><td>41</td></tr><tr><td>ProtocolOption</td><td>10042</td><td>92</td><td>42</td></tr><tr><td>ProtocolNotSupported</td><td>10043</td><td>93</td><td>43</td></tr><tr><td>SocketNotSupported</td><td>10044</td><td>94</td><td>44</td></tr><tr><td>OperationNotSupported</td><td>10045</td><td>95</td><td>45</td></tr><tr><td>ProtocolFamilyNotSupported</td><td>10046</td><td>96</td><td>46</td></tr><tr><td>AddressFamilyNotSupported</td><td>10047</td><td>97</td><td>47</td></tr><tr><td>AddressAlreadyInUse</td><td>10048</td><td>98</td><td>48</td></tr><tr><td>AddressNotAvailable</td><td>10049</td><td>99</td><td>49</td></tr><tr><td>NetworkDown</td><td>10050</td><td>100</td><td>50</td></tr><tr><td>NetworkUnreachable</td><td>10051</td><td>101</td><td>51</td></tr><tr><td>NetworkReset</td><td>10052</td><td>102</td><td>52</td></tr><tr><td>ConnectionAborted</td><td>10053</td><td>103</td><td>53</td></tr><tr><td>ConnectionReset</td><td>10054</td><td>104</td><td>54</td></tr><tr><td>NoBufferSpaceAvailable</td><td>10055</td><td>105</td><td>55</td></tr><tr><td>IsConnected</td><td>10056</td><td>106</td><td>56</td></tr><tr><td>NotConnected</td><td>10057</td><td>107</td><td>57</td></tr><tr><td>Shutdown</td><td>10058</td><td>32</td><td>32</td></tr><tr><td>TimedOut</td><td>10060</td><td>110</td><td>60</td></tr><tr><td>ConnectionRefused</td><td>10061</td><td>111</td><td>61</td></tr><tr><td>HostDown</td><td>10064</td><td>112</td><td>64</td></tr><tr><td>HostUnreachable</td><td>10065</td><td>113</td><td>65</td></tr><tr><td>ProcessLimit</td><td>10067</td><td>10067</td><td>10067</td></tr><tr><td>SystemNotReady</td><td>10091</td><td>10091</td><td>10091</td></tr><tr><td>VersionNotSupported</td><td>10092</td><td>10092</td><td>10092</td></tr><tr><td>NotInitialized</td><td>10093</td><td>10093</td><td>10093</td></tr><tr><td>Disconnecting</td><td>10101</td><td>108</td><td>58</td></tr><tr><td>TypeNotFound</td><td>10109</td><td>10109</td><td>10109</td></tr><tr><td>HostNotFound</td><td>11001</td><td>-131073</td><td>-131073</td></tr><tr><td>TryAgain</td><td>11002</td><td>11</td><td>35</td></tr><tr><td>NoRecovery</td><td>11003</td><td>11003</td><td>11003</td></tr><tr><td>NoData</td><td>11004</td><td>61</td><td>96</td></tr><tr><td>SocketError</td><td>-1</td><td>-1</td><td>-1</td></tr></tbody></table>This table may be useful if you work with native socket error codes.<h2><strong>Summary</strong></h2>From this investigation, we’ve learned the following:<ul><li><code>SocketException.SocketErrorCode</code> returns a value from the <code>SocketError</code> enum. The numerical values of the enum elements always correspond to the <a href=https://docs.microsoft.com/en-us/windows/win32/winsock/>Windows socket error codes</a>.</li><li><code>SocketException.ErrorCode</code> always returns <code>SocketException.NativeErrorCode</code>.</li><li><code>SocketException.NativeErrorCode</code> on .NET Framework and Mono always corresponds to the Windows error codes (even if you are using Mono on Unix). On .NET Core, <code>SocketException.NativeErrorCode</code> equals the corresponding native error code from the current operating system.</li></ul><div class=mx-auto><a href=/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/img/dotnet-SocketErrors-Blog.png target=_blank><img class="mx-auto d-block img-fluid" width=800 src=/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/img/dotnet-SocketErrors-Blog.png></a></div><p>A few practical recommendations:</p><ul><li>If you want to write portable code, always use <code>SocketException.SocketErrorCode</code> and compare it with the values of <code>SocketError</code>. Never use raw numerical error codes.</li><li>If you want to get the native error code on .NET Core (e.g., for passing to another native program), use <code>SocketException.NativeErrorCode</code>. Remember that different Unix-based operating systems (e.g., Linux, macOS, Solaris) have different native code sets. You can get the exact values of the native error codes by using the errno command.</li></ul><h2><strong>References</strong></h2><ul><li><a href=https://docs.microsoft.com/en-us/windows/win32/winsock/windows-sockets-error-codes-2>Microsoft Docs: Windows Sockets Error Codes</a></li><li><a href=https://www.ibm.com/support/knowledgecenter/SSEPGG_11.1.0/com.ibm.db2.luw.messages.doc/doc/r0058740.html>IBM Knowledge Center: TCP/IP error codes</a></li><li><a href=https://mariadb.com/kb/en/operating-system-error-codes/>MariaDB: Operating System Error Codes</a></li><li><a href=https://www.gnu.org/software/libc/manual/html_node/Error-Codes.html>gnu.org: Error Codes</a></li><li><a href=https://stackoverflow.com/q/961465/184842>Stackoverflow: Identical Error Codes</a></li></ul><br><br><div class=mx-auto>Share:
+<a href="https://twitter.com/intent/tweet?text=How%20Socket%20Error%20Codes%20Depend%20on%20Runtime%20and%20Operating%20System&url=https%3a%2f%2faakinshin.net%2fposts%2fhow-socket-error-codes-depend-on-runtime-and-operating-system%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fhow-socket-error-codes-depend-on-runtime-and-operating-system%2f&title=How%20Socket%20Error%20Codes%20Depend%20on%20Runtime%20and%20Operating%20System" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fhow-socket-error-codes-depend-on-runtime-and-operating-system%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2fhow-socket-error-codes-depend-on-runtime-and-operating-system%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2fhow-socket-error-codes-depend-on-runtime-and-operating-system%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fhow-socket-error-codes-depend-on-runtime-and-operating-system%2f&title=How%20Socket%20Error%20Codes%20Depend%20on%20Runtime%20and%20Operating%20System" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

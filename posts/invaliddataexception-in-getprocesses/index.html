@@ -1,179 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="InvalidDataException in Process.GetProcesses">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,Rider,Bugs,Xplat,CoreCLR'>
-
-    <title>InvalidDataException in Process.GetProcesses</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-    
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/posts/invaliddataexception-in-getprocesses/'>Ru</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">InvalidDataException in Process.GetProcesses</h2>
-<span class="blog-post-meta">
-  <b>Date:</b> February 10, 2017.
-  <b>Tags:</b>
-        <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
-        <a href="/tags/bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
-        <a href="/tags/xplat"><span class="badge badge-pill badge-info">Xplat</span></a>
-        <a href="/tags/coreclr"><span class="badge badge-pill badge-info">CoreCLR</span></a>
-</span><br /><br />
-
-<p>Consider the following program:</p>
-<pre><code class="language-cs">public static void Main(string[] args)
-{
-    try
-    {
-        Process.GetProcesses();
-    }
-    catch (Exception e)
-    {
-        Console.WriteLine(e);
-    }
-}
-</code></pre>
-<p>It seems that all exceptions should be caught.
-However, <em>sometimes</em>, I had the following exception on Linux with <code>dotnet cli-1.0.0-preview2</code>:</p>
-<pre><code>$ dotnet run
-System.IO.InvalidDataException: Found invalid data while decoding.
-   at System.IO.StringParser.ParseNextChar()
-   at Interop.procfs.TryParseStatFile(String statFilePath, ParsedStat&amp; result, ReusableTextReader reusableReader)
-   at System.Diagnostics.ProcessManager.CreateProcessInfo(ParsedStat procFsStat, ReusableTextReader reusableReader)
-   at System.Diagnostics.ProcessManager.CreateProcessInfo(Int32 pid, ReusableTextReader reusableReader)
-   at System.Diagnostics.ProcessManager.GetProcessInfos(String machineName)
-   at System.Diagnostics.Process.GetProcesses(String machineName)
-   at System.Diagnostics.Process.GetProcesses()
-   at DotNetCoreConsoleApplication.Program.Main(String[] args) in /home/akinshin/Program.cs:line 12
-</code></pre>
-<p>How is that possible?</p>
-<!--more-->
-<h3 id="preamble">Preamble</h3>
-<p>I'm the guy who writes unit testing support in <a href="https://www.jetbrains.com/rider/">Rider</a>.
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>InvalidDataException in Process.GetProcesses | Andrey Akinshin</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>InvalidDataException in Process.GetProcesses</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2017-02-10>February 10, 2017</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/rider class="badge badge-info">Rider</a>
+<a href=https://aakinshin.net/tags/bugs class="badge badge-info">Bugs</a>
+<a href=https://aakinshin.net/tags/xplat class="badge badge-info">Xplat</a>
+<a href=https://aakinshin.net/tags/coreclr class="badge badge-info">CoreCLR</a></span><br><br><p>Consider the following program:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>static</span> <span class=k>void</span> <span class=n>Main</span><span class=p>(</span><span class=kt>string</span><span class=p>[]</span> <span class=n>args</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=k>try</span>
+    <span class=p>{</span>
+        <span class=n>Process</span><span class=p>.</span><span class=n>GetProcesses</span><span class=p>();</span>
+    <span class=p>}</span>
+    <span class=k>catch</span> <span class=p>(</span><span class=n>Exception</span> <span class=n>e</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>e</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p>It seems that all exceptions should be caught.
+However, <em>sometimes</em>, I had the following exception on Linux with <code>dotnet cli-1.0.0-preview2</code>:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=err>$</span> <span class=n>dotnet</span> <span class=n>run</span>
+<span class=n>System</span><span class=p>.</span><span class=n>IO</span><span class=p>.</span><span class=n>InvalidDataException</span><span class=p>:</span> <span class=n>Found</span> <span class=n>invalid</span> <span class=n>data</span> <span class=k>while</span> <span class=n>decoding</span><span class=p>.</span>
+   <span class=n>at</span> <span class=n>System</span><span class=p>.</span><span class=n>IO</span><span class=p>.</span><span class=n>StringParser</span><span class=p>.</span><span class=n>ParseNextChar</span><span class=p>()</span>
+   <span class=n>at</span> <span class=n>Interop</span><span class=p>.</span><span class=n>procfs</span><span class=p>.</span><span class=n>TryParseStatFile</span><span class=p>(</span><span class=n>String</span> <span class=n>statFilePath</span><span class=p>,</span> <span class=n>ParsedStat</span><span class=p>&amp;</span> <span class=n>result</span><span class=p>,</span> <span class=n>ReusableTextReader</span> <span class=n>reusableReader</span><span class=p>)</span>
+   <span class=n>at</span> <span class=n>System</span><span class=p>.</span><span class=n>Diagnostics</span><span class=p>.</span><span class=n>ProcessManager</span><span class=p>.</span><span class=n>CreateProcessInfo</span><span class=p>(</span><span class=n>ParsedStat</span> <span class=n>procFsStat</span><span class=p>,</span> <span class=n>ReusableTextReader</span> <span class=n>reusableReader</span><span class=p>)</span>
+   <span class=n>at</span> <span class=n>System</span><span class=p>.</span><span class=n>Diagnostics</span><span class=p>.</span><span class=n>ProcessManager</span><span class=p>.</span><span class=n>CreateProcessInfo</span><span class=p>(</span><span class=n>Int32</span> <span class=n>pid</span><span class=p>,</span> <span class=n>ReusableTextReader</span> <span class=n>reusableReader</span><span class=p>)</span>
+   <span class=n>at</span> <span class=n>System</span><span class=p>.</span><span class=n>Diagnostics</span><span class=p>.</span><span class=n>ProcessManager</span><span class=p>.</span><span class=n>GetProcessInfos</span><span class=p>(</span><span class=n>String</span> <span class=n>machineName</span><span class=p>)</span>
+   <span class=n>at</span> <span class=n>System</span><span class=p>.</span><span class=n>Diagnostics</span><span class=p>.</span><span class=n>Process</span><span class=p>.</span><span class=n>GetProcesses</span><span class=p>(</span><span class=n>String</span> <span class=n>machineName</span><span class=p>)</span>
+   <span class=n>at</span> <span class=n>System</span><span class=p>.</span><span class=n>Diagnostics</span><span class=p>.</span><span class=n>Process</span><span class=p>.</span><span class=n>GetProcesses</span><span class=p>()</span>
+   <span class=n>at</span> <span class=n>DotNetCoreConsoleApplication</span><span class=p>.</span><span class=n>Program</span><span class=p>.</span><span class=n>Main</span><span class=p>(</span><span class=n>String</span><span class=p>[]</span> <span class=n>args</span><span class=p>)</span> <span class=k>in</span> <span class=p>/</span><span class=n>home</span><span class=p>/</span><span class=n>akinshin</span><span class=p>/</span><span class=n>Program</span><span class=p>.</span><span class=n>cs</span><span class=p>:</span><span class=n>line</span> <span class=m>12</span>
+</code></pre></div><p>How is that possible?</p><h3 id=preamble>Preamble</h3><p>I&rsquo;m the guy who writes unit testing support in <a href=https://www.jetbrains.com/rider/>Rider</a>.
 And it works fine with classic unit tests on the full .NET framework and mono.
 I know that there are many bugs here (Rider is still in the EAP stage), but at least it works:
 you can discover tests, run them, and even debug them.
 However, we also have to support new dotnet cli test toolchain.
 And there are many troubles with coreclr (probably because it is also in the preview stage).
-Even if our communication logic with <code>dotnet test</code> works on Windows, it doesn't mean that it works on Linux and MacOS.
+Even if our communication logic with <code>dotnet test</code> works on Windows, it doesn&rsquo;t mean that it works on Linux and MacOS.
 Today I want to tell you a story about one bug investigation.
 In fact, we have a lot of such stories, but this one is in my favorite bug list.
-This story happened in October 2016, so I will tell you about <code>dotnet cli-1.0.0-preview2</code> (in <code>preview4</code> bug was fixed).</p>
-<h3 id="situation">Situation</h3>
-<p>Do you know what happens when you click 'Run' on a unit test from a modern C# project (e.g. based on project.json) in Rider?
-It starts a new process like this:</p>
-<pre><code>$ dotnet test --port 36513 --parentProcessId 3624 --no-build --framework net451
-</code></pre>
-<p>And it works perfectly on Windows. On Linux, I had the following exception:</p>
-<pre><code>dotnet-test Error: 0 : System.IO.InvalidDataException: Found invalid data while decoding.
+This story happened in October 2016, so I will tell you about <code>dotnet cli-1.0.0-preview2</code> (in <code>preview4</code> bug was fixed).</p><h3 id=situation>Situation</h3><p>Do you know what happens when you click &lsquo;Run&rsquo; on a unit test from a modern C# project (e.g. based on project.json) in Rider?
+It starts a new process like this:</p><pre><code>$ dotnet test --port 36513 --parentProcessId 3624 --no-build --framework net451
+</code></pre><p>And it works perfectly on Windows. On Linux, I had the following exception:</p><pre><code>dotnet-test Error: 0 : System.IO.InvalidDataException: Found invalid data while decoding.
    at System.IO.StringParser.ParseNextChar()
    at Interop.procfs.TryParseStatFile(String statFilePath, ParsedStat&amp; result, ReusableTextReader reusableReader)
    at System.Diagnostics.ProcessManager.CreateProcessInfo(ParsedStat procFsStat, ReusableTextReader reusableReader)
@@ -183,99 +48,39 @@ It starts a new process like this:</p>
    at System.Diagnostics.Process.GetProcesses()
    at Microsoft.DotNet.Tools.Test.TestCommand.RegisterForParentProcessExit(Int32 id)
    at Microsoft.DotNet.Tools.Test.TestCommand.DoRun(String[] args)
-</code></pre>
-<h3 id="investigation">Investigation</h3>
-<p>It seems that the problem is in <code>Process.GetProcesses()</code>.
+</code></pre><h3 id=investigation>Investigation</h3><p>It seems that the problem is in <code>Process.GetProcesses()</code>.
 It was easy to write a minimal repro which produces this bug (you can find it at the beginning of the post).
 Usually, I do a final check for such bugs in a sterile environment: I close all applications and run it from the terminal.
 Guess what?
 My little program works without any exception now.
-Hmmm...
+Hmmm&mldr;
 Ok, open this wonderful program in Rider and run it: the <code>InvalidDataException</code> is back.
-Hmmm...
+Hmmm&mldr;
 Ok, another experiment: keep Rider opened and run the program from the terminal: we again see <code>InvalidDataException</code>.
 Huh!
-It seems that if we want to reproduce the bug, we have to run the program while Rider is running too.</p>
-<p>At this point, I decided to create an issue on GitHub: <a href="https://github.com/dotnet/corefx/issues/12755">dotnet/corefx#12755</a>.
-Thanks to <a href="https://github.com/stephentoub">@stephentoub</a>, he helped me to understand what is going on here.</p>
-<h3 id="explanation">Explanation</h3>
-<p>Rider is based on the <a href="https://www.jetbrains.com/idea/">IntelliJ</a> platform and <a href="https://www.jetbrains.com/resharper/">ReSharper</a>.
+It seems that if we want to reproduce the bug, we have to run the program while Rider is running too.</p><p>At this point, I decided to create an issue on GitHub: <a href=https://github.com/dotnet/corefx/issues/12755>dotnet/corefx#12755</a>.
+Thanks to <a href=https://github.com/stephentoub>@stephentoub</a>, he helped me to understand what is going on here.</p><h3 id=explanation>Explanation</h3><p>Rider is based on the <a href=https://www.jetbrains.com/idea/>IntelliJ</a> platform and <a href=https://www.jetbrains.com/resharper/>ReSharper</a>.
 So, we have two main processes: a JVM process and a CLR process.
 The name if the CLR process is <code>JetBrains.ReSharper.Host.exe</code> which includes a lot of threads.
 ReSharper is very complicated multithreading application, and we have our own pool of threads (each one has its own name).
-Here is a bug <a href="https://github.com/dotnet/corefx/issues/12755#issuecomment-254853345">explanation</a> by <a href="https://github.com/stephentoub">@stephentoub</a>:</p>
-<blockquote>
-<p>The JetBrains.ReSharper.Host.exe process has a thread in it with a name that includes spaces: &quot;JetPool (S) Reg&quot;.
-When we're parsing the processes' task list looking for its threads, we parse the stat file for each task, and in doing so, we misinterpret the space in the name as a space separator for the other items in the line.
+Here is a bug <a href=https://github.com/dotnet/corefx/issues/12755#issuecomment-254853345>explanation</a> by <a href=https://github.com/stephentoub>@stephentoub</a>:</p><blockquote><p>The JetBrains.ReSharper.Host.exe process has a thread in it with a name that includes spaces: &ldquo;JetPool (S) Reg&rdquo;.
+When we&rsquo;re parsing the processes&rsquo; task list looking for its threads, we parse the stat file for each task, and in doing so, we misinterpret the space in the name as a space separator for the other items in the line.
 The fix in System.Diagnostics.Process is likely to track the parens and ensure we treat the whole parenthesized unit as the name.
-In the meantime, as a workaround, if you have control over the thread/task's name (something somewhere is probably calling a function like pthread_setname_np, or using prctl with PR_SET_NAME), you could try using a name that doesn't include spaces.</p>
-</blockquote>
-<h3 id="workaround">Workaround</h3>
-<p>Now the bug if fixed, it is a part of
-<a href="https://github.com/dotnet/corefx/pull/12791">.NET Core 2.0</a> and
-<a href="https://github.com/dotnet/cli/issues/4452">dotnet cli 1.0.0-preview4</a>.
+In the meantime, as a workaround, if you have control over the thread/task&rsquo;s name (something somewhere is probably calling a function like pthread_setname_np, or using prctl with PR_SET_NAME), you could try using a name that doesn&rsquo;t include spaces.</p></blockquote><h3 id=workaround>Workaround</h3><p>Now the bug if fixed, it is a part of
+<a href=https://github.com/dotnet/corefx/pull/12791>.NET Core 2.0</a> and
+<a href=https://github.com/dotnet/cli/issues/4452>dotnet cli 1.0.0-preview4</a>.
 However, many people still use dotnet cli 1.0.0-preview2 and Rider should support it for some time.
 We came up with a workaround which allows running unit tests with preview2:
-we just don't specify <code>--parentProcessId</code> on Linux/MacOS:</p>
-<pre><code class="language-cs">var commonArgs = string.Format(&quot;test --port {0} --no-build{1}&quot;,
-    server.PortNumber, frameworkArg);
-var windowsArgs = string.Format(&quot;test --port {0} --parentProcessId {1} --no-build{2}&quot;,
-    server.PortNumber, Process.GetCurrentProcess().Id, frameworkArg);
-var args = PlatformUtil.IsRunningUnderWindows ? windowsArgs : commonArgs;
-</code></pre>
-<p>In this case, <code>dotnet</code> doesn't call <code>Process.GetProcesses()</code> and everything works fine.
-Rider is able to establish a connection even when the <code>--parentProcessId</code> parameter is omitted.</p>
-<p>Of course, we could also rename our threads, but I wanted to fix the bug without any changes in the ReSharper core libraries.</p>
-<h3 id="conclusion">Conclusion</h3>
-<p>In Rider, we should support many bleeding edge technologies which contain a lot of bugs.
+we just don&rsquo;t specify <code>--parentProcessId</code> on Linux/MacOS:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>var</span> <span class=n>commonArgs</span> <span class=p>=</span> <span class=kt>string</span><span class=p>.</span><span class=n>Format</span><span class=p>(</span><span class=s>&#34;test --port {0} --no-build{1}&#34;</span><span class=p>,</span>
+    <span class=n>server</span><span class=p>.</span><span class=n>PortNumber</span><span class=p>,</span> <span class=n>frameworkArg</span><span class=p>);</span>
+<span class=kt>var</span> <span class=n>windowsArgs</span> <span class=p>=</span> <span class=kt>string</span><span class=p>.</span><span class=n>Format</span><span class=p>(</span><span class=s>&#34;test --port {0} --parentProcessId {1} --no-build{2}&#34;</span><span class=p>,</span>
+    <span class=n>server</span><span class=p>.</span><span class=n>PortNumber</span><span class=p>,</span> <span class=n>Process</span><span class=p>.</span><span class=n>GetCurrentProcess</span><span class=p>().</span><span class=n>Id</span><span class=p>,</span> <span class=n>frameworkArg</span><span class=p>);</span>
+<span class=kt>var</span> <span class=n>args</span> <span class=p>=</span> <span class=n>PlatformUtil</span><span class=p>.</span><span class=n>IsRunningUnderWindows</span> <span class=p>?</span> <span class=n>windowsArgs</span> <span class=p>:</span> <span class=n>commonArgs</span><span class=p>;</span>
+</code></pre></div><p>In this case, <code>dotnet</code> doesn&rsquo;t call <code>Process.GetProcesses()</code> and everything works fine.
+Rider is able to establish a connection even when the <code>--parentProcessId</code> parameter is omitted.</p><p>Of course, we could also rename our threads, but I wanted to fix the bug without any changes in the ReSharper core libraries.</p><h3 id=conclusion>Conclusion</h3><p>In Rider, we should support many bleeding edge technologies which contain a lot of bugs.
 Hopefully, a big part of such technologies will die soon (and will be replaced by stable version).
-However, people can't update all their projects on the same day with the next release of its dependencies.
+However, people can&rsquo;t update all their projects on the same day with the next release of its dependencies.
 So, we have to maintain a lot of hacks and ugly pieces of code for several months after the date when another preview was released.
-It's not easy, and it conflicts with our sense of beauty,
-but we still try to do everything to make our users happy regardless of which version of runtime they use.</p>
-<h3 id="links">Links</h3>
-<ul>
-<li><a href="https://github.com/dotnet/corefx/issues/12755">dotnet/corefx#12755: InvalidDataException in Process.GetProcesses on Linux</a></li>
-<li><a href="https://github.com/dotnet/corefx/pull/12791">dotnet/corefx#12791: Fix parsing of procfs stat files when comm name contains spaces</a></li>
-<li><a href="https://github.com/dotnet/corefx/issues/12834">dotnet/corefx#12834: Linux: System.Diagnostics.Process.GetProcesses can throw if reading from /proc for any process fails</a></li>
-<li><a href="https://github.com/dotnet/cli/issues/4452">dotnet/cli#4452: &quot;dotnet test&quot; crashes if another process or thread has a name with a space</a></li>
-</ul>
-
-<!-- Share -->
-
-Share:
-<a href="https://twitter.com/intent/tweet?text=InvalidDataException in Process.GetProcesses&url=http://aakinshin.net/posts/invaliddataexception-in-getprocesses/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/invaliddataexception-in-getprocesses/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/invaliddataexception-in-getprocesses/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/invaliddataexception-in-getprocesses/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/invaliddataexception-in-getprocesses/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/invaliddataexception-in-getprocesses/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/invaliddataexception-in-getprocesses/&title=InvalidDataException in Process.GetProcesses" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  You can find source code of this post on GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2017/invaliddataexception-in-getprocesses.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2017/invaliddataexception-in-getprocesses.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+It&rsquo;s not easy, and it conflicts with our sense of beauty,
+but we still try to do everything to make our users happy regardless of which version of runtime they use.</p><h3 id=links>Links</h3><ul><li><a href=https://github.com/dotnet/corefx/issues/12755>dotnet/corefx#12755: InvalidDataException in Process.GetProcesses on Linux</a></li><li><a href=https://github.com/dotnet/corefx/pull/12791>dotnet/corefx#12791: Fix parsing of procfs stat files when comm name contains spaces</a></li><li><a href=https://github.com/dotnet/corefx/issues/12834>dotnet/corefx#12834: Linux: System.Diagnostics.Process.GetProcesses can throw if reading from /proc for any process fails</a></li><li><a href=https://github.com/dotnet/cli/issues/4452>dotnet/cli#4452: &ldquo;dotnet test&rdquo; crashes if another process or thread has a name with a space</a></li></ul><br><br><div class=mx-auto>Share:
+<a href="https://twitter.com/intent/tweet?text=InvalidDataException%20in%20Process.GetProcesses&url=https%3a%2f%2faakinshin.net%2fposts%2finvaliddataexception-in-getprocesses%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2finvaliddataexception-in-getprocesses%2f&title=InvalidDataException%20in%20Process.GetProcesses" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2finvaliddataexception-in-getprocesses%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2finvaliddataexception-in-getprocesses%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2finvaliddataexception-in-getprocesses%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2finvaliddataexception-in-getprocesses%2f&title=InvalidDataException%20in%20Process.GetProcesses" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

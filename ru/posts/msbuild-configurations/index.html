@@ -1,405 +1,214 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!doctype html><html lang=ru class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Андрей Акиньшин"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Настраиваем конфигурации сборок в .NET | Андрей Акиньшин</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/ru/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/posts/>Посты</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/ru/about/>Об авторе</a></li><li class=nav-item><a class=nav-link id=nav-link-about href>Pro .NET Benchmarking</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>RU</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/posts/msbuild-configurations/>EN</a></div></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/ru/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Настраиваем конфигурации сборок в .NET</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2014-02-08>8 февраля 2014</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/msbuild class="badge badge-info">MSBuild</a>
+<a href=https://aakinshin.net/tags/configurations class="badge badge-info">Configurations</a></span><br><br><p>При создании нового проекта в Visual Studio по умолчанию вы получаете две конфигурации сборки: Debug и Release. И для большинства мелких проектов этого вполне достаточно. Но с ростом проекта может возникнуть потребность добавить дополнительные конфигурации. И хорошо, если нужно добавить одну-две новые конфигурации, а если их добрый десяток? А если при этом в солюшене находится штук 20 проектов, для каждого из которых эти конфигурации нужно настроить? В данном случае управлять параметрами сборки и модифицировать их становится достаточно сложно.</p><p>В этом посте будет рассмотрен способ, с помощью которого вы сможете немного упростить себе жизнь, существенно сократив описание конфигураций сборок.</p><p>Откройте csproj-файл одного из ваших проектов, вы найдёте в нём строчки такого вида:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
+  <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+  <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
+  <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
+  <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>
+  <span class=nt>&lt;OutputPath&gt;</span>bin\Debug\<span class=nt>&lt;/OutputPath&gt;</span>
+  <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+  <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+<span class=nt>&lt;/PropertyGroup&gt;</span>
+<span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
+  <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+  <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
+  <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>
+  <span class=nt>&lt;OutputPath&gt;</span>bin\Release\<span class=nt>&lt;/OutputPath&gt;</span>
+  <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+  <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+<span class=nt>&lt;/PropertyGroup&gt;</span>
+</code></pre></div><p>Первая проблема, которая стоит перед нами, состоит в том, что эти строчки дублируются (или практически дублируются) во всех проектах. К счастью, csproj-файлы поддерживают импорт конфигураций, так что создадим в корне солюшена файл <code>Configurations.targets</code> следующего содержания:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
+    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
+    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>
+    <span class=nt>&lt;OutputPath&gt;</span>bin\Debug\<span class=nt>&lt;/OutputPath&gt;</span>
+    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
+    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>
+    <span class=nt>&lt;OutputPath&gt;</span>bin\Release\<span class=nt>&lt;/OutputPath&gt;</span>
+    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+<span class=nt>&lt;/Project&gt;</span>
+</code></pre></div><p>После этого вы сможете заменить соответствующие строчки в исходном csproj-файле на</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Import</span> <span class=na>Project=</span><span class=s>&#34;..\Configurations.targets&#34;</span> <span class=nt>/&gt;</span>
+</code></pre></div><p>Отлично, теперь дублирование описаний конфигураций ушло, можно сосредоточиться на редактировании единственного файла. Можно заметить, что в Debug и Release конфигурациях некоторые строчки всё ещё дублируются. Предполагается, что разработчик захочет настроить все эти параметры индивидуально для каждой конфигурации. Если такой потребности нет, то можно вынести дублирующиеся строчки в общую <code>PropertyGroup</code>:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
+  <span class=nt>&lt;PropertyGroup&gt;</span>
+    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span> 
 
-    <meta name="description" content="Настраиваем конфигурации сборок в .NET">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,MSBuild,Configurations'>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
+    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
+    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>
+    <span class=nt>&lt;OutputPath&gt;</span>bin\Debug\<span class=nt>&lt;/OutputPath&gt;</span>
+    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
+    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>
+    <span class=nt>&lt;OutputPath&gt;</span>bin\Release\<span class=nt>&lt;/OutputPath&gt;</span>
+    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+<span class=nt>&lt;/Project&gt;</span>
+</code></pre></div><p>Можно ли ещё что-нибудь улучшить? Давайте подумаем. Глаз сразу цепляется за <code>OutputPath</code>, который можно «вычислить» из названия конфигурации. При наличии двух конфигураций можно оставить для каждой индивидуальную настройку, но вот если конфигураций будет очень много, то здорово было бы сделать так, чтобы <code>OutputPath</code>
+выводился из названия конфигурации. Тут нам на помощь приходит переменная <code>$(Configuration)</code>, с помощью которой это самое название можно узнать:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
+  <span class=c>&lt;!-- Common --&gt;</span>
+  <span class=nt>&lt;PropertyGroup&gt;</span>
+    <span class=nt>&lt;OutputPath&gt;</span>bin\$(Configuration)\<span class=nt>&lt;/OutputPath&gt;</span>
+    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span> 
 
-    <title>Настраиваем конфигурации сборок в .NET</title>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
+    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
+    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>    
+    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
+    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>    
+    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+<span class=nt>&lt;/Project&gt;</span>
+</code></pre></div><p>Замечательно, дублирование ушло. От чего ещё можно избавиться? Как правило, выставляемые свойства зависят только от конфигурации, изменение платформы ни на что не влияет. Давайте уберём лишнее условие:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
+  <span class=c>&lt;!-- Common --&gt;</span>
+  <span class=nt>&lt;PropertyGroup&gt;</span>
+    <span class=nt>&lt;OutputPath&gt;</span>bin\$(Configuration)\<span class=nt>&lt;/OutputPath&gt;</span>
+    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span> 
 
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)&#39; == &#39;Debug&#39; &#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
+    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
+    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>    
+    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)&#39; == &#39;Release&#39; &#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
+    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>    
+    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+<span class=nt>&lt;/Project&gt;</span>
+</code></pre></div><p>Теперь добавим новых конфигураций. Положим, мы хотим ввести в наше приложение Demo-режим, в котором будут доступны не все функции. Demo-режим также может потребоваться отладить, поэтому разумно создать конфигурации <code>DebugDemo</code> и <code>ReleaseDemo</code>. А ещё, к примеру, мы хотим ввести режим сборки, при котором от пользователя будет требоваться лицензия. Demo-версию также может понадобится лицензировать, так что мы имеем ещё 4 конфигурации: <code>DebugLicense</code>, <code>ReleaseLicense</code>, <code>DebugDemoLicense</code>, <code>ReleaseDemoLicense</code> (данная ситуация приведена только для примера, в вашем проекте может быть всё иначе). <code>Demo</code> и <code>License</code> будут добавлять новые переменные в <code>DefineConstatns</code>. Казалось бы, для 8 конфигураций нужно сделать 8 отдельных <code>PropertyGroup</code>, но что-то внутри сознания сразу начинает протестовать. К счастью, в <code>Condition</code> можно разместить более сложное условие, нежели простое сравнение. В данном примере будем искать заданную подстроку в названии конфигурации:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
+  <span class=c>&lt;!-- Common --&gt;</span>
+  <span class=nt>&lt;PropertyGroup&gt;</span>
+    <span class=nt>&lt;OutputPath&gt;</span>bin\$(Configuration)\<span class=nt>&lt;/OutputPath&gt;</span>
+    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span> 
 
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
+  <span class=c>&lt;!-- Conditional --&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Debug&#39;))&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
+    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
+    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>    
+    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Release&#39;))&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
+    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>    
+    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;License&#39;))&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);LICENSE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Demo&#39;))&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);DEMO<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>  
+<span class=nt>&lt;/Project&gt;</span>
+</code></pre></div><p>Выглядит вполне неплохо. Но только образовалась проблема: Visual Studio теперь «не видит» список доступных конфигураций. Эту проблему можно решить, добавив пустых <code>PropertyGroup</code> c таким же <code>Condition</code> , как были вначале. При этом можно добавлять не все возможные конфигурации, а только те, которые вы реально будете использовать при работе. Например, мы не хотим отлаживать <code>Demo</code> и <code>License</code> конфигурации, тогда можно написать так:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
+  <span class=c>&lt;!-- Common --&gt;</span>
+  <span class=nt>&lt;PropertyGroup&gt;</span>
+    <span class=nt>&lt;OutputPath&gt;</span>bin\$(Configuration)\<span class=nt>&lt;/OutputPath&gt;</span>
+    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span> 
 
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
+  <span class=c>&lt;!-- Conditional --&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Debug&#39;))&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
+    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
+    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>    
+    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Release&#39;))&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
+    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>    
+    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;License&#39;))&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);LICENSE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Demo&#39;))&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);DEMO<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>  
 
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+  <span class=c>&lt;!-- Available --&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseDemo|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseLicense|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseDemoLicense|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+<span class=nt>&lt;/Project&gt;</span>
+</code></pre></div><p>Если у вас есть врождённая ненависть к дублированию чего угодно, то в получившийся файл можно также вынести дополнительные свойства, которые дублируются во всех проектах. Например так:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
+  <span class=c>&lt;!-- Common --&gt;</span>
+  <span class=nt>&lt;PropertyGroup&gt;</span>
+    <span class=nt>&lt;Configuration</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)&#39; == &#39;&#39; &#34;</span><span class=nt>&gt;</span>Release<span class=nt>&lt;/Configuration&gt;</span>
+    <span class=nt>&lt;Platform</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Platform)&#39; == &#39;&#39; &#34;</span><span class=nt>&gt;</span>AnyCPU<span class=nt>&lt;/Platform&gt;</span>    
+    <span class=nt>&lt;TargetFrameworkVersion&gt;</span>v4.0<span class=nt>&lt;/TargetFrameworkVersion&gt;</span>
+    <span class=nt>&lt;SolutionDir</span> <span class=na>Condition=</span><span class=s>&#34;$(SolutionDir) == &#39;&#39; Or $(SolutionDir) == &#39;*Undefined*&#39;&#34;</span><span class=nt>&gt;</span>..\<span class=nt>&lt;/SolutionDir&gt;</span>
+    <span class=nt>&lt;OutputPath&gt;</span>bin\$(Configuration)\<span class=nt>&lt;/OutputPath&gt;</span>
+    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span> 
 
-    <!-- Feeds -->
-    <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
+  <span class=c>&lt;!-- Conditional --&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Debug&#39;))&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
+    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
+    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>
+    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Release&#39;))&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
+    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>
+    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;License&#39;))&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);LICENSE<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Demo&#39;))&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);DEMO<span class=nt>&lt;/DefineConstants&gt;</span>
+  <span class=nt>&lt;/PropertyGroup&gt;</span>  
 
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/ru/posts/">Блог</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/ru/content/">Содержание</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/ru/about/">Об авторе</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ru</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/posts/msbuild-configurations/'>En</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/ru/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Настраиваем конфигурации сборок в .NET</h2>
-<span class="blog-post-meta">
-  <b>Дата:</b> 08 февраля 2014.
-  <b>Теги:</b>
-        <a href="/ru/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/ru/tags/msbuild"><span class="badge badge-pill badge-info">MSBuild</span></a>
-        <a href="/ru/tags/configurations"><span class="badge badge-pill badge-info">Configurations</span></a>
-</span><br /><br />
-
-<p>При создании нового проекта в Visual Studio по умолчанию вы получаете две конфигурации сборки: Debug и Release. И для большинства мелких проектов этого вполне достаточно. Но с ростом проекта может возникнуть потребность добавить дополнительные конфигурации. И хорошо, если нужно добавить одну-две новые конфигурации, а если их добрый десяток? А если при этом в солюшене находится штук 20 проектов, для каждого из которых эти конфигурации нужно настроить? В данном случае управлять параметрами сборки и модифицировать их становится достаточно сложно.</p>
-<p>В этом посте будет рассмотрен способ, с помощью которого вы сможете немного упростить себе жизнь, существенно сократив описание конфигураций сборок.<!--more--></p>
-<p>Откройте csproj-файл одного из ваших проектов, вы найдёте в нём строчки такого вида:</p>
-<pre><code class="language-xml">&lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
-  &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
-  &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
-  &lt;DebugType&gt;full&lt;/DebugType&gt;
-  &lt;Optimize&gt;false&lt;/Optimize&gt;
-  &lt;OutputPath&gt;bin\Debug\&lt;/OutputPath&gt;
-  &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
-  &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
-  &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
-&lt;/PropertyGroup&gt;
-&lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
-  &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
-  &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
-  &lt;Optimize&gt;true&lt;/Optimize&gt;
-  &lt;OutputPath&gt;bin\Release\&lt;/OutputPath&gt;
-  &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
-  &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
-  &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
-&lt;/PropertyGroup&gt;
-</code></pre>
-<p>Первая проблема, которая стоит перед нами, состоит в том, что эти строчки дублируются (или практически дублируются) во всех проектах. К счастью, csproj-файлы поддерживают импорт конфигураций, так что создадим в корне солюшена файл <code>Configurations.targets</code> следующего содержания:</p>
-<pre><code class="language-xml">&lt;Project DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
-    &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
-    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
-    &lt;DebugType&gt;full&lt;/DebugType&gt;
-    &lt;Optimize&gt;false&lt;/Optimize&gt;
-    &lt;OutputPath&gt;bin\Debug\&lt;/OutputPath&gt;
-    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
-    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
-    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
-    &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
-    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
-    &lt;Optimize&gt;true&lt;/Optimize&gt;
-    &lt;OutputPath&gt;bin\Release\&lt;/OutputPath&gt;
-    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
-    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
-    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
-  &lt;/PropertyGroup&gt;
-&lt;/Project&gt;
-</code></pre>
-<p>После этого вы сможете заменить соответствующие строчки в исходном csproj-файле на</p>
-<pre><code class="language-xml">&lt;Import Project=&quot;..\Configurations.targets&quot; /&gt;
-</code></pre>
-<p>Отлично, теперь дублирование описаний конфигураций ушло, можно сосредоточиться на редактировании единственного файла. Можно заметить, что в Debug и Release конфигурациях некоторые строчки всё ещё дублируются. Предполагается, что разработчик захочет настроить все эти параметры индивидуально для каждой конфигурации. Если такой потребности нет, то можно вынести дублирующиеся строчки в общую <code>PropertyGroup</code>:</p>
-<pre><code class="language-xml">&lt;Project DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
-  &lt;PropertyGroup&gt;
-    &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
-    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
-    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
-  &lt;/PropertyGroup&gt; 
-
-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
-    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
-    &lt;DebugType&gt;full&lt;/DebugType&gt;
-    &lt;Optimize&gt;false&lt;/Optimize&gt;
-    &lt;OutputPath&gt;bin\Debug\&lt;/OutputPath&gt;
-    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
-    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
-    &lt;Optimize&gt;true&lt;/Optimize&gt;
-    &lt;OutputPath&gt;bin\Release\&lt;/OutputPath&gt;
-    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;
-&lt;/Project&gt;
-</code></pre>
-<p>Можно ли ещё что-нибудь улучшить? Давайте подумаем. Глаз сразу цепляется за <code>OutputPath</code>, который можно «вычислить» из названия конфигурации. При наличии двух конфигураций можно оставить для каждой индивидуальную настройку, но вот если конфигураций будет очень много, то здорово было бы сделать так, чтобы <code>OutputPath</code>
-выводился из названия конфигурации. Тут нам на помощь приходит переменная <code>$(Configuration)</code>, с помощью которой это самое название можно узнать:</p>
-<pre><code class="language-xml">&lt;Project DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
-  &lt;!-- Common --&gt;
-  &lt;PropertyGroup&gt;
-    &lt;OutputPath&gt;bin\$(Configuration)\&lt;/OutputPath&gt;
-    &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
-    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
-    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
-  &lt;/PropertyGroup&gt; 
-
-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
-    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
-    &lt;DebugType&gt;full&lt;/DebugType&gt;
-    &lt;Optimize&gt;false&lt;/Optimize&gt;    
-    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
-    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
-    &lt;Optimize&gt;true&lt;/Optimize&gt;    
-    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;
-&lt;/Project&gt;
-</code></pre>
-<p>Замечательно, дублирование ушло. От чего ещё можно избавиться? Как правило, выставляемые свойства зависят только от конфигурации, изменение платформы ни на что не влияет. Давайте уберём лишнее условие:</p>
-<pre><code class="language-xml">&lt;Project DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
-  &lt;!-- Common --&gt;
-  &lt;PropertyGroup&gt;
-    &lt;OutputPath&gt;bin\$(Configuration)\&lt;/OutputPath&gt;
-    &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
-    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
-    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
-  &lt;/PropertyGroup&gt; 
-
-  &lt;PropertyGroup Condition=&quot;'$(Configuration)' == 'Debug' &quot;&gt;
-    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
-    &lt;DebugType&gt;full&lt;/DebugType&gt;
-    &lt;Optimize&gt;false&lt;/Optimize&gt;    
-    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;PropertyGroup Condition=&quot;'$(Configuration)' == 'Release' &quot;&gt;
-    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
-    &lt;Optimize&gt;true&lt;/Optimize&gt;    
-    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;
-&lt;/Project&gt;
-</code></pre>
-<p>Теперь добавим новых конфигураций. Положим, мы хотим ввести в наше приложение Demo-режим, в котором будут доступны не все функции. Demo-режим также может потребоваться отладить, поэтому разумно создать конфигурации <code>DebugDemo</code> и <code>ReleaseDemo</code>. А ещё, к примеру, мы хотим ввести режим сборки, при котором от пользователя будет требоваться лицензия. Demo-версию также может понадобится лицензировать, так что мы имеем ещё 4 конфигурации: <code>DebugLicense</code>, <code>ReleaseLicense</code>, <code>DebugDemoLicense</code>, <code>ReleaseDemoLicense</code> (данная ситуация приведена только для примера, в вашем проекте может быть всё иначе). <code>Demo</code> и <code>License</code> будут добавлять новые переменные в <code>DefineConstatns</code>. Казалось бы, для 8 конфигураций нужно сделать 8 отдельных <code>PropertyGroup</code>, но что-то внутри сознания сразу начинает протестовать. К счастью, в <code>Condition</code> можно разместить более сложное условие, нежели простое сравнение. В данном примере будем искать заданную подстроку в названии конфигурации:</p>
-<pre><code class="language-xml">&lt;Project DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
-  &lt;!-- Common --&gt;
-  &lt;PropertyGroup&gt;
-    &lt;OutputPath&gt;bin\$(Configuration)\&lt;/OutputPath&gt;
-    &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
-    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
-    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
-  &lt;/PropertyGroup&gt; 
-
-  &lt;!-- Conditional --&gt;
-  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Debug'))&quot;&gt;
-    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
-    &lt;DebugType&gt;full&lt;/DebugType&gt;
-    &lt;Optimize&gt;false&lt;/Optimize&gt;    
-    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Release'))&quot;&gt;
-    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
-    &lt;Optimize&gt;true&lt;/Optimize&gt;    
-    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('License'))&quot;&gt;
-    &lt;DefineConstants&gt;$(DefineConstants);LICENSE&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Demo'))&quot;&gt;
-    &lt;DefineConstants&gt;$(DefineConstants);DEMO&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;  
-&lt;/Project&gt;
-</code></pre>
-<p>Выглядит вполне неплохо. Но только образовалась проблема: Visual Studio теперь «не видит» список доступных конфигураций. Эту проблему можно решить, добавив пустых <code>PropertyGroup</code> c таким же <code>Condition</code> , как были вначале. При этом можно добавлять не все возможные конфигурации, а только те, которые вы реально будете использовать при работе. Например, мы не хотим отлаживать <code>Demo</code> и <code>License</code> конфигурации, тогда можно написать так:</p>
-<pre><code class="language-xml">&lt;Project DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
-  &lt;!-- Common --&gt;
-  &lt;PropertyGroup&gt;
-    &lt;OutputPath&gt;bin\$(Configuration)\&lt;/OutputPath&gt;
-    &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
-    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
-    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
-  &lt;/PropertyGroup&gt; 
-
-  &lt;!-- Conditional --&gt;
-  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Debug'))&quot;&gt;
-    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
-    &lt;DebugType&gt;full&lt;/DebugType&gt;
-    &lt;Optimize&gt;false&lt;/Optimize&gt;    
-    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Release'))&quot;&gt;
-    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
-    &lt;Optimize&gt;true&lt;/Optimize&gt;    
-    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('License'))&quot;&gt;
-    &lt;DefineConstants&gt;$(DefineConstants);LICENSE&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Demo'))&quot;&gt;
-    &lt;DefineConstants&gt;$(DefineConstants);DEMO&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;  
-
-  &lt;!-- Available --&gt;
-  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'&quot; /&gt;
-  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'Release|AnyCPU'&quot; /&gt;
-  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'ReleaseDemo|AnyCPU'&quot; /&gt;
-  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'ReleaseLicense|AnyCPU'&quot; /&gt;
-  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'ReleaseDemoLicense|AnyCPU'&quot; /&gt;
-&lt;/Project&gt;
-</code></pre>
-<p>Если у вас есть врождённая ненависть к дублированию чего угодно, то в получившийся файл можно также вынести дополнительные свойства, которые дублируются во всех проектах. Например так:</p>
-<pre><code class="language-xml">&lt;Project DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
-  &lt;!-- Common --&gt;
-  &lt;PropertyGroup&gt;
-    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Release&lt;/Configuration&gt;
-    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;    
-    &lt;TargetFrameworkVersion&gt;v4.0&lt;/TargetFrameworkVersion&gt;
-    &lt;SolutionDir Condition=&quot;$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'&quot;&gt;..\&lt;/SolutionDir&gt;
-    &lt;OutputPath&gt;bin\$(Configuration)\&lt;/OutputPath&gt;
-    &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
-    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
-    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
-  &lt;/PropertyGroup&gt; 
-
-  &lt;!-- Conditional --&gt;
-  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Debug'))&quot;&gt;
-    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
-    &lt;DebugType&gt;full&lt;/DebugType&gt;
-    &lt;Optimize&gt;false&lt;/Optimize&gt;
-    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Release'))&quot;&gt;
-    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
-    &lt;Optimize&gt;true&lt;/Optimize&gt;
-    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('License'))&quot;&gt;
-    &lt;DefineConstants&gt;$(DefineConstants);LICENSE&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Demo'))&quot;&gt;
-    &lt;DefineConstants&gt;$(DefineConstants);DEMO&lt;/DefineConstants&gt;
-  &lt;/PropertyGroup&gt;  
-
-  &lt;!-- Available --&gt;
-  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'&quot; /&gt;
-  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'Release|AnyCPU'&quot; /&gt;
-  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'ReleaseDemo|AnyCPU'&quot; /&gt;
-  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'ReleaseLicense|AnyCPU'&quot; /&gt;
-  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'ReleaseDemoLicense|AnyCPU'&quot; /&gt;
-&lt;/Project&gt;
-</code></pre>
-<p>Теперь точно всё дублирование ушло, а настраивать конфигурации стало легко и просто. Хочется отметить, что совершенно не обязательно данный подход подойдёт именно вам, многие проекты отлично пишутся и без правки конфигураций. А иногда каждую конфигурацию для каждого проекта и каждой платформы приходится настраивать вручную — в этом случае не особо получится сэкономить на удалении дублирования. Но если всё-таки возникла проблема с настройкой большого количества конфигураций для большого количество проектов, то, возможно, этот способ вам пригодится. Также будет полезно почитать справочные сведения о сборке в MSDN:</p>
-<h3 id="section">Ссылки</h3>
-<ul>
-<li><a href="http://msdn.microsoft.com/ru-ru/library/0k6kkbsd.aspx">Справочные сведения о MSBuild</a></li>
-<li><a href="http://msdn.microsoft.com/ru-ru/library/ms164307.aspx">Условные конструкции MSBuild</a></li>
-<li><a href="http://msdn.microsoft.com/ru-ru/library/7szfhaft.aspx">Условия MSBuild</a></li>
-<li><a href="http://msdn.microsoft.com/ru-ru/library/dd633440.aspx">Функции свойств</a></li>
-<li><a href="http://msdn.microsoft.com/ru-ru/library/ms171459.aspx">Использование переменных среды в построении</a></li>
-<li><a href="http://msdn.microsoft.com/ru-ru/library/bb629394.aspx">Общие свойства проектов MSBuild</a></li>
-<li><a href="http://msdn.microsoft.com/ru-ru/library/bb629388.aspx">Общие элементы проектов MSBuild</a></li>
-</ul>
-
-<!-- Share -->
-
-Поделиться:
-<a href="https://twitter.com/intent/tweet?text=Настраиваем конфигурации сборок в .NET&url=http://aakinshin.net/ru/posts/msbuild-configurations/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/ru/posts/msbuild-configurations/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/ru/posts/msbuild-configurations/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/posts/msbuild-configurations/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/ru/posts/msbuild-configurations/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/ru/posts/msbuild-configurations/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/ru/posts/msbuild-configurations/&title=Настраиваем конфигурации сборок в .NET" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  Исходный код поста находится на GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2014/msbuild-configurations.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2014/msbuild-configurations.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Андрей Акиньшин | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+  <span class=c>&lt;!-- Available --&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseDemo|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseLicense|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseDemoLicense|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+<span class=nt>&lt;/Project&gt;</span>
+</code></pre></div><p>Теперь точно всё дублирование ушло, а настраивать конфигурации стало легко и просто. Хочется отметить, что совершенно не обязательно данный подход подойдёт именно вам, многие проекты отлично пишутся и без правки конфигураций. А иногда каждую конфигурацию для каждого проекта и каждой платформы приходится настраивать вручную — в этом случае не особо получится сэкономить на удалении дублирования. Но если всё-таки возникла проблема с настройкой большого количества конфигураций для большого количество проектов, то, возможно, этот способ вам пригодится. Также будет полезно почитать справочные сведения о сборке в MSDN:</p><h3 id=ссылки>Ссылки</h3><ul><li><a href=http://msdn.microsoft.com/ru-ru/library/0k6kkbsd.aspx>Справочные сведения о MSBuild</a></li><li><a href=http://msdn.microsoft.com/ru-ru/library/ms164307.aspx>Условные конструкции MSBuild</a></li><li><a href=http://msdn.microsoft.com/ru-ru/library/7szfhaft.aspx>Условия MSBuild</a></li><li><a href=http://msdn.microsoft.com/ru-ru/library/dd633440.aspx>Функции свойств</a></li><li><a href=http://msdn.microsoft.com/ru-ru/library/ms171459.aspx>Использование переменных среды в построении</a></li><li><a href=http://msdn.microsoft.com/ru-ru/library/bb629394.aspx>Общие свойства проектов MSBuild</a></li><li><a href=http://msdn.microsoft.com/ru-ru/library/bb629388.aspx>Общие элементы проектов MSBuild</a></li></ul><br><br><div class=mx-auto>Поделиться:
+<a href="https://twitter.com/intent/tweet?text=%d0%9d%d0%b0%d1%81%d1%82%d1%80%d0%b0%d0%b8%d0%b2%d0%b0%d0%b5%d0%bc%20%d0%ba%d0%be%d0%bd%d1%84%d0%b8%d0%b3%d1%83%d1%80%d0%b0%d1%86%d0%b8%d0%b8%20%d1%81%d0%b1%d0%be%d1%80%d0%be%d0%ba%20%d0%b2%20.NET&url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fmsbuild-configurations%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fmsbuild-configurations%2f&title=%d0%9d%d0%b0%d1%81%d1%82%d1%80%d0%b0%d0%b8%d0%b2%d0%b0%d0%b5%d0%bc%20%d0%ba%d0%be%d0%bd%d1%84%d0%b8%d0%b3%d1%83%d1%80%d0%b0%d1%86%d0%b8%d0%b8%20%d1%81%d0%b1%d0%be%d1%80%d0%be%d0%ba%20%d0%b2%20.NET" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fmsbuild-configurations%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fmsbuild-configurations%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fmsbuild-configurations%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fmsbuild-configurations%2f&title=%d0%9d%d0%b0%d1%81%d1%82%d1%80%d0%b0%d0%b8%d0%b2%d0%b0%d0%b5%d0%bc%20%d0%ba%d0%be%d0%bd%d1%84%d0%b8%d0%b3%d1%83%d1%80%d0%b0%d1%86%d0%b8%d0%b8%20%d1%81%d0%b1%d0%be%d1%80%d0%be%d0%ba%20%d0%b2%20.NET" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Андрей Акиньшин | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

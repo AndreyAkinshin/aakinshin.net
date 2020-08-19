@@ -1,233 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="Раскрашиваем R в терминале: пакет colorout">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='R,R-packages,Terminal'>
-
-    <title>Раскрашиваем R в терминале: пакет colorout</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/ru/posts/">Блог</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/ru/content/">Содержание</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/ru/about/">Об авторе</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ru</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/posts/r-colorout/'>En</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/ru/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Раскрашиваем R в терминале: пакет colorout</h2>
-<span class="blog-post-meta">
-  <b>Дата:</b> 11 июля 2014.
-  <b>Теги:</b>
-        <a href="/ru/tags/r"><span class="badge badge-pill badge-info">R</span></a>
-        <a href="/ru/tags/r-packages"><span class="badge badge-pill badge-info">R-packages</span></a>
-        <a href="/ru/tags/terminal"><span class="badge badge-pill badge-info">Terminal</span></a>
-</span><br /><br />
-
-<p>В последнее время мне часто приходится гонять R-скрипты на удалённом Linux-сервере. Большую часть работы я выполняю на домашней машине, но иногда приходится отлаживать скрипты прямо на сервере. В этом мне очень помогает пакет <strong>colorout</strong>, который умеет красиво раскрашивать R в терминале. Давайте взглянем на него чуть подробнее.</p>
-<p class="center">
-  <img src="/img/posts/r/colorout/screen1.png" />
-</p>
-<!--more-->
-<p>Пакета нет в <a href="http://cran.r-project.org/">CRAN</a>, но зато он <a href="https://github.com/jalvesaq/colorout">выложен</a> на GitHub-е, так что установить последнюю версию проще всего с помощью <a href="http://cran.r-project.org/web/packages/devtools/index.html">devtools</a>:</p>
-<pre><code class="language-r">library(devtools)
-install_github('jalvesaq/colorout')
-</code></pre>
-<p>Чтобы пакет подключался автоматически, необходимо прописать <code>library(colorout)</code> в <code>.Rprofile</code> или <code>Rprofile.site</code>. Если вы запускаете R из различных окружений, то сперва стоит проверить, что данная сессия запущена из терминала (в этом поможет <code>Sys.getenv(&quot;TERM&quot;)</code>). Давайте взглянем на то, как теперь выглядит работа с R. Для этого воспользуемся <a href="http://www.lepem.ufc.br/jaa/colorout.html">примером</a> от автора пакета:</p>
-<pre><code class="language-r">cat(&quot;Different colors for normal text, \&quot;string\&quot;, dates (&quot;,
-     as.character(Sys.Date()), &quot;)\n&quot;,
-     &quot;numbers (12, -1.3), NULL, NA, NaN, Inf, TRUE and FALSE.\n&quot;, sep = &quot;&quot;)
-x &lt;- data.frame(logic=c(T, T, F), factor=factor(c(&quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;)),
-                string=c(&quot;ABC&quot;, &quot;DEF&quot;, &quot;GHI&quot;), real=c(1.23, -4.56, 7.89),
-                cien.not = c(1.234e-23, -4.56e+45, 7.89e78),
-                date=as.Date(c(&quot;2012-02-21&quot;, &quot;2013-02-12&quot;, &quot;2014-03-04&quot;)),
-                stringsAsFactors = FALSE)
-rownames(x) &lt;- 1:3
-x
-summary(x[, c(1, 2, 4, 6)])
-# Warnings and erros are highlighted (even if not in English):
-warning(&quot;This is an example of warning.&quot;)
-example.of.error
-# Messages sent to stderr are highlighted:
-library(KernSmooth)
-</code></pre>
-<p class="center">
-  <img src="/img/posts/r/colorout/screen2.png" />
-</p>
-<p>Если ваш терминал поддерживает 256 цветов (<code>Sys.getenv(&quot;TERM&quot;)</code> равно <code>&quot;xterm-256color&quot;</code>, а не просто <code>&quot;xterm&quot;</code>), то вы можете тонко подстроить цветовую гамму:</p>
-<pre><code class="language-r"># The colors are customizable:
-setOutputColors()
-setOutputColors256(normal = 39, number = 51, negnum = 183, date = 43,
-                   string = 79, const = 75, verbose = FALSE)
-x
-setOutputColors256(202, 214, 209, 184, 172, 179, verbose = FALSE)
-x
-</code></pre>
-<p class="center">
-  <img src="/img/posts/r/colorout/screen3.png" />
-</p>
-<p>Если поддержки 256 цветов нет, то выставить нужные цвета поможет обычный <code>setOutputColors</code>. На сегодняшний день у функций <code>setOutputColors</code> и <code>setOutputColors256</code>
-имеются следующие аргументы:</p>
-<pre><code>  normal: Formating and color of normal text.
+<!doctype html><html lang=ru class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Андрей Акиньшин"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Раскрашиваем R в терминале: пакет colorout | Андрей Акиньшин</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/ru/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/posts/>Посты</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/ru/about/>Об авторе</a></li><li class=nav-item><a class=nav-link id=nav-link-about href>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/ru/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Раскрашиваем R в терминале: пакет colorout</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2014-07-11>11 июля 2014</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/r class="badge badge-info">R</a>
+<a href=https://aakinshin.net/tags/r-packages class="badge badge-info">R-packages</a>
+<a href=https://aakinshin.net/tags/terminal class="badge badge-info">Terminal</a></span><br><br><p>В последнее время мне часто приходится гонять R-скрипты на удалённом Linux-сервере. Большую часть работы я выполняю на домашней машине, но иногда приходится отлаживать скрипты прямо на сервере. В этом мне очень помогает пакет <strong>colorout</strong>, который умеет красиво раскрашивать R в терминале. Давайте взглянем на него чуть подробнее.</p><p class=center><img src=/img/posts/r/colorout/screen1.png></p><p>Пакета нет в <a href=http://cran.r-project.org/>CRAN</a>, но зато он <a href=https://github.com/jalvesaq/colorout>выложен</a> на GitHub-е, так что установить последнюю версию проще всего с помощью <a href=http://cran.r-project.org/web/packages/devtools/index.html>devtools</a>:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=nf>library</span><span class=p>(</span><span class=n>devtools</span><span class=p>)</span>
+<span class=nf>install_github</span><span class=p>(</span><span class=s>&#39;jalvesaq/colorout&#39;</span><span class=p>)</span>
+</code></pre></div><p>Чтобы пакет подключался автоматически, необходимо прописать <code>library(colorout)</code> в <code>.Rprofile</code> или <code>Rprofile.site</code>. Если вы запускаете R из различных окружений, то сперва стоит проверить, что данная сессия запущена из терминала (в этом поможет <code>Sys.getenv("TERM")</code>). Давайте взглянем на то, как теперь выглядит работа с R. Для этого воспользуемся <a href=http://www.lepem.ufc.br/jaa/colorout.html>примером</a> от автора пакета:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=nf>cat</span><span class=p>(</span><span class=s>&#34;Different colors for normal text, \&#34;string\&#34;, dates (&#34;</span><span class=p>,</span>
+     <span class=nf>as.character</span><span class=p>(</span><span class=nf>Sys.Date</span><span class=p>()),</span> <span class=s>&#34;)\n&#34;</span><span class=p>,</span>
+     <span class=s>&#34;numbers (12, -1.3), NULL, NA, NaN, Inf, TRUE and FALSE.\n&#34;</span><span class=p>,</span> <span class=n>sep</span> <span class=o>=</span> <span class=s>&#34;&#34;</span><span class=p>)</span>
+<span class=n>x</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>(</span><span class=n>logic</span><span class=o>=</span><span class=nf>c</span><span class=p>(</span><span class=bp>T</span><span class=p>,</span> <span class=bp>T</span><span class=p>,</span> <span class=bp>F</span><span class=p>),</span> <span class=n>factor</span><span class=o>=</span><span class=nf>factor</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=s>&#34;abc&#34;</span><span class=p>,</span> <span class=s>&#34;def&#34;</span><span class=p>,</span> <span class=s>&#34;ghi&#34;</span><span class=p>)),</span>
+                <span class=n>string</span><span class=o>=</span><span class=nf>c</span><span class=p>(</span><span class=s>&#34;ABC&#34;</span><span class=p>,</span> <span class=s>&#34;DEF&#34;</span><span class=p>,</span> <span class=s>&#34;GHI&#34;</span><span class=p>),</span> <span class=n>real</span><span class=o>=</span><span class=nf>c</span><span class=p>(</span><span class=m>1.23</span><span class=p>,</span> <span class=m>-4.56</span><span class=p>,</span> <span class=m>7.89</span><span class=p>),</span>
+                <span class=n>cien.not</span> <span class=o>=</span> <span class=nf>c</span><span class=p>(</span><span class=m>1.234e-23</span><span class=p>,</span> <span class=m>-4.56e+45</span><span class=p>,</span> <span class=m>7.89e78</span><span class=p>),</span>
+                <span class=n>date</span><span class=o>=</span><span class=nf>as.Date</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=s>&#34;2012-02-21&#34;</span><span class=p>,</span> <span class=s>&#34;2013-02-12&#34;</span><span class=p>,</span> <span class=s>&#34;2014-03-04&#34;</span><span class=p>)),</span>
+                <span class=n>stringsAsFactors</span> <span class=o>=</span> <span class=kc>FALSE</span><span class=p>)</span>
+<span class=nf>rownames</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=m>1</span><span class=o>:</span><span class=m>3</span>
+<span class=n>x</span>
+<span class=nf>summary</span><span class=p>(</span><span class=n>x[</span><span class=p>,</span> <span class=nf>c</span><span class=p>(</span><span class=m>1</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>4</span><span class=p>,</span> <span class=m>6</span><span class=p>)</span><span class=n>]</span><span class=p>)</span>
+<span class=c1># Warnings and erros are highlighted (even if not in English):</span>
+<span class=nf>warning</span><span class=p>(</span><span class=s>&#34;This is an example of warning.&#34;</span><span class=p>)</span>
+<span class=n>example.of.error</span>
+<span class=c1># Messages sent to stderr are highlighted:</span>
+<span class=nf>library</span><span class=p>(</span><span class=n>KernSmooth</span><span class=p>)</span>
+</code></pre></div><p class=center><img src=/img/posts/r/colorout/screen2.png></p><p>Если ваш терминал поддерживает 256 цветов (<code>Sys.getenv("TERM")</code> равно <code>"xterm-256color"</code>, а не просто <code>"xterm"</code>), то вы можете тонко подстроить цветовую гамму:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=c1># The colors are customizable:</span>
+<span class=nf>setOutputColors</span><span class=p>()</span>
+<span class=nf>setOutputColors256</span><span class=p>(</span><span class=n>normal</span> <span class=o>=</span> <span class=m>39</span><span class=p>,</span> <span class=n>number</span> <span class=o>=</span> <span class=m>51</span><span class=p>,</span> <span class=n>negnum</span> <span class=o>=</span> <span class=m>183</span><span class=p>,</span> <span class=n>date</span> <span class=o>=</span> <span class=m>43</span><span class=p>,</span>
+                   <span class=n>string</span> <span class=o>=</span> <span class=m>79</span><span class=p>,</span> <span class=n>const</span> <span class=o>=</span> <span class=m>75</span><span class=p>,</span> <span class=n>verbose</span> <span class=o>=</span> <span class=kc>FALSE</span><span class=p>)</span>
+<span class=n>x</span>
+<span class=nf>setOutputColors256</span><span class=p>(</span><span class=m>202</span><span class=p>,</span> <span class=m>214</span><span class=p>,</span> <span class=m>209</span><span class=p>,</span> <span class=m>184</span><span class=p>,</span> <span class=m>172</span><span class=p>,</span> <span class=m>179</span><span class=p>,</span> <span class=n>verbose</span> <span class=o>=</span> <span class=kc>FALSE</span><span class=p>)</span>
+<span class=n>x</span>
+</code></pre></div><p class=center><img src=/img/posts/r/colorout/screen3.png></p><p>Если поддержки 256 цветов нет, то выставить нужные цвета поможет обычный <code>setOutputColors</code>. На сегодняшний день у функций <code>setOutputColors</code> и <code>setOutputColors256</code>
+имеются следующие аргументы:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>  normal: Formating and color of normal text.
   number: Formating and color of numbers.
   negnum: Formating and color of negative numbers.
     date: Formating and color of dates (output in the format
-          'yyyy-mm-dd').
+          &#39;yyyy-mm-dd&#39;).
   string: Formating and color of quoted text.
-   const: Formating and color of 'TRUE', 'FALSE', 'NULL', 'NA', 'NaN'
-          and 'Inf'.
+   const: Formating and color of &#39;TRUE&#39;, &#39;FALSE&#39;, &#39;NULL&#39;, &#39;NA&#39;, &#39;NaN&#39;
+          and &#39;Inf&#39;.
 stderror: Formating and color of text sent to stderr.
     warn: Formating and color of warnings.
    error: Formating and color of errors.
  verbose: Logical value indicating whether to print colored words
           showing the result of the setup.
-</code></pre>
-<p>Как и всегда, полную справку вы можете получить с помощью команд <code>?setOutputColors</code>, <code>?setOutputColors256</code>.</p>
-<p>В общем, <strong>colorout</strong> — отличный штука! Всем рекомендую. А с помощью пакета <strong>txtplot</strong> можно прямо в консоли смотреть цветные графики =).</p>
-<pre><code class="language-r">library(txtplot)
-txtcurve(sin(pi*x),from=0,to=2)
-</code></pre>
-<p class="center">
-  <img src="/img/posts/r/colorout/screen4.png" />
-</p>
-
-<!-- Share -->
-
-Поделиться:
-<a href="https://twitter.com/intent/tweet?text=Раскрашиваем R в терминале: пакет colorout&url=http://aakinshin.net/ru/posts/r-colorout/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/ru/posts/r-colorout/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/ru/posts/r-colorout/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/posts/r-colorout/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/ru/posts/r-colorout/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/ru/posts/r-colorout/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/ru/posts/r-colorout/&title=Раскрашиваем R в терминале: пакет colorout" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  Исходный код поста находится на GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2014/r-colorout.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2014/r-colorout.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Андрей Акиньшин | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+</code></pre></div><p>Как и всегда, полную справку вы можете получить с помощью команд <code>?setOutputColors</code>, <code>?setOutputColors256</code>.</p><p>В общем, <strong>colorout</strong> — отличный штука! Всем рекомендую. А с помощью пакета <strong>txtplot</strong> можно прямо в консоли смотреть цветные графики =).</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=nf>library</span><span class=p>(</span><span class=n>txtplot</span><span class=p>)</span>
+<span class=nf>txtcurve</span><span class=p>(</span><span class=nf>sin</span><span class=p>(</span><span class=kc>pi</span><span class=o>*</span><span class=n>x</span><span class=p>),</span><span class=n>from</span><span class=o>=</span><span class=m>0</span><span class=p>,</span><span class=n>to</span><span class=o>=</span><span class=m>2</span><span class=p>)</span>
+</code></pre></div><p class=center><img src=/img/posts/r/colorout/screen4.png></p><br><br><div class=mx-auto>Поделиться:
+<a href="https://twitter.com/intent/tweet?text=%d0%a0%d0%b0%d1%81%d0%ba%d1%80%d0%b0%d1%88%d0%b8%d0%b2%d0%b0%d0%b5%d0%bc%20R%20%d0%b2%20%d1%82%d0%b5%d1%80%d0%bc%d0%b8%d0%bd%d0%b0%d0%bb%d0%b5%3a%20%d0%bf%d0%b0%d0%ba%d0%b5%d1%82%20colorout&url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-colorout%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-colorout%2f&title=%d0%a0%d0%b0%d1%81%d0%ba%d1%80%d0%b0%d1%88%d0%b8%d0%b2%d0%b0%d0%b5%d0%bc%20R%20%d0%b2%20%d1%82%d0%b5%d1%80%d0%bc%d0%b8%d0%bd%d0%b0%d0%bb%d0%b5%3a%20%d0%bf%d0%b0%d0%ba%d0%b5%d1%82%20colorout" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-colorout%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-colorout%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-colorout%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-colorout%2f&title=%d0%a0%d0%b0%d1%81%d0%ba%d1%80%d0%b0%d1%88%d0%b8%d0%b2%d0%b0%d0%b5%d0%bc%20R%20%d0%b2%20%d1%82%d0%b5%d1%80%d0%bc%d0%b8%d0%bd%d0%b0%d0%bb%d0%b5%3a%20%d0%bf%d0%b0%d0%ba%d0%b5%d1%82%20colorout" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Андрей Акиньшин | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

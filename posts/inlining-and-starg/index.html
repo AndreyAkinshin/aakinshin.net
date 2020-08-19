@@ -1,235 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>A story about JIT-x86 inlining and starg | Andrey Akinshin</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>EN</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/ru/posts/inlining-and-starg/>RU</a></div></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>A story about JIT-x86 inlining and starg</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2015-02-26>February 26, 2015</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/c class="badge badge-info">C#</a>
+<a href=https://aakinshin.net/tags/inlining class="badge badge-info">Inlining</a></span><br><br><p>Sometimes you can learn a lot during reading source .NET. Let&rsquo;s open the source code of a <code>Decimal</code> constructor from .NET Reference Source (<a href=http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158>mscorlib/system/decimal.cs,158</a>):</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=c1>// Constructs a Decimal from an integer value.
+</span><span class=c1>//
+</span><span class=c1></span><span class=k>public</span> <span class=n>Decimal</span><span class=p>(</span><span class=kt>int</span> <span class=k>value</span><span class=p>)</span> <span class=p>{</span>
+    <span class=c1>//  JIT today can&#39;t inline methods that contains &#34;starg&#34; opcode.
+</span><span class=c1></span>    <span class=c1>//  For more details, see DevDiv Bugs 81184: x86 JIT CQ: Removing the inline striction of &#34;starg&#34;.
+</span><span class=c1></span>    <span class=kt>int</span> <span class=n>value_copy</span> <span class=p>=</span> <span class=k>value</span><span class=p>;</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>value_copy</span> <span class=p>&gt;=</span> <span class=m>0</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>flags</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=k>else</span> <span class=p>{</span>
+        <span class=n>flags</span> <span class=p>=</span> <span class=n>SignMask</span><span class=p>;</span>
+        <span class=n>value_copy</span> <span class=p>=</span> <span class=p>-</span><span class=n>value_copy</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=n>lo</span> <span class=p>=</span> <span class=n>value_copy</span><span class=p>;</span>
+    <span class=n>mid</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+    <span class=n>hi</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>The comment states that JIT-x86 can&rsquo;t apply the inlining optimization for a method that contains the <a href=https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx>starg</a> IL-opcode. Curious, is not it?</p><h3 id=the-jit-sources>The JIT sources</h3><p>Let&rsquo;s examine the situation and open the JIT source codes from CoreCLR. The fragment of <a href=https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252>flowgraph.cpp</a>:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=c1>// NetCF had some strict restrictions on inlining.  Specifically they
+</span><span class=c1>// would only inline methods that fit a specific pattern of loading
+</span><span class=c1>// arguments inorder, starting with zero, with no skipping, but not
+</span><span class=c1>// needing to load all of them.  Then a &#39;body&#39; section that could do
+</span><span class=c1>// anything besides control flow.  And a final ending ret opcode.
+</span><span class=c1>// Lastly they did not allow starg or ldarga.
+</span><span class=c1>// These simplifications allowed them to skip past the ldargs, when
+</span><span class=c1>// inlining, and just use the caller&#39;s EE stack as the callee&#39;s EE
+</span><span class=c1>// stack, after optionally popping a few &#39;arguments&#39; from the end.
+</span><span class=c1>//
+</span><span class=c1>// stateNetCFQuirks is a simple state machine to track that state
+</span><span class=c1>// and allow us to match those restrictions.
+</span><span class=c1>// State -1 means we&#39;re not tracking (no quirks mode)
+</span><span class=c1>// State 0 though 0x0000FFFF tracks what the *next* ldarg should be
+</span><span class=c1>//    to match the pattern
+</span><span class=c1>// State 0x00010000 and above means we are in the &#39;body&#39; section and
+</span><span class=c1>//    thus no more ldarg&#39;s are allowed.
+</span></code></pre></div><p>It states that inlining can&rsquo;t be applied for a method with opcodes <code>starg</code> or <code>ldarga</code>. Let&rsquo;s read the below code and make sure that this is true:</p><div class=highlight><pre class=chroma><code class=language-cpp data-lang=cpp><span class=k>switch</span> <span class=p>(</span><span class=n>opcode</span><span class=p>)</span>
 
-    <meta name="description" content="A story about JIT-x86 inlining and starg">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,C#,Inlining'>
+<span class=c1>// ...
+</span><span class=c1></span>
+    <span class=k>case</span> <span class=nl>CEE_STARG</span><span class=p>:</span>
+    <span class=k>case</span> <span class=nl>CEE_STARG_S</span><span class=p>:</span>     <span class=k>goto</span> <span class=n>ARG_WRITE</span><span class=p>;</span>
 
-    <title>A story about JIT-x86 inlining and starg</title>
+    <span class=k>case</span> <span class=nl>CEE_LDARGA</span><span class=p>:</span>
+    <span class=k>case</span> <span class=nl>CEE_LDARGA_S</span><span class=p>:</span>
+    <span class=k>case</span> <span class=nl>CEE_LDLOCA</span><span class=p>:</span>
+    <span class=k>case</span> <span class=nl>CEE_LDLOCA_S</span><span class=p>:</span>    <span class=k>goto</span> <span class=n>ADDR_TAKEN</span><span class=p>;</span>
+</code></pre></div><p>The <code>starg</code> case is the simplest, let&rsquo;s look to the corresponding code:</p><div class=highlight><pre class=chroma><code class=language-cpp data-lang=cpp><span class=nl>ARG_WRITE</span><span class=p>:</span>
+            <span class=k>if</span> <span class=p>(</span><span class=n>compIsForInlining</span><span class=p>())</span>
+            <span class=p>{</span>
 
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-    
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/posts/inlining-and-starg/'>Ru</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">A story about JIT-x86 inlining and starg</h2>
-<span class="blog-post-meta">
-  <b>Date:</b> February 26, 2015.
-  <b>Tags:</b>
-        <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-        <a href="/tags/inlining"><span class="badge badge-pill badge-info">Inlining</span></a>
-</span><br /><br />
-
-<p>Sometimes you can learn a lot during reading source .NET. Let's open the source code of a <code>Decimal</code> constructor from .NET Reference Source (<a href="http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158">mscorlib/system/decimal.cs,158</a>):</p>
-<pre><code class="language-cs">// Constructs a Decimal from an integer value.
-//
-public Decimal(int value) {
-    //  JIT today can't inline methods that contains &quot;starg&quot; opcode.
-    //  For more details, see DevDiv Bugs 81184: x86 JIT CQ: Removing the inline striction of &quot;starg&quot;.
-    int value_copy = value;
-    if (value_copy &gt;= 0) {
-        flags = 0;
-    }
-    else {
-        flags = SignMask;
-        value_copy = -value_copy;
-    }
-    lo = value_copy;
-    mid = 0;
-    hi = 0;
-}
-</code></pre>
-<p>The comment states that JIT-x86 can't apply the inlining optimization for a method that contains the <a href="https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx">starg</a> IL-opcode. Curious, is not it? <!--more--></p>
-<h3 id="the-jit-sources">The JIT sources</h3>
-<p>Let's examine the situation and open the JIT source codes from CoreCLR. The fragment of <a href="https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252">flowgraph.cpp</a>:</p>
-<pre><code class="language-cs">// NetCF had some strict restrictions on inlining.  Specifically they
-// would only inline methods that fit a specific pattern of loading
-// arguments inorder, starting with zero, with no skipping, but not
-// needing to load all of them.  Then a 'body' section that could do
-// anything besides control flow.  And a final ending ret opcode.
-// Lastly they did not allow starg or ldarga.
-// These simplifications allowed them to skip past the ldargs, when
-// inlining, and just use the caller's EE stack as the callee's EE
-// stack, after optionally popping a few 'arguments' from the end.
-//
-// stateNetCFQuirks is a simple state machine to track that state
-// and allow us to match those restrictions.
-// State -1 means we're not tracking (no quirks mode)
-// State 0 though 0x0000FFFF tracks what the *next* ldarg should be
-//    to match the pattern
-// State 0x00010000 and above means we are in the 'body' section and
-//    thus no more ldarg's are allowed.
-</code></pre>
-<p>It states that inlining can't be applied for a method with opcodes <code>starg</code> or <code>ldarga</code>. Let's read the below code and make sure that this is true:</p>
-<pre><code class="language-cpp">switch (opcode)
-
-// ...
-
-    case CEE_STARG:
-    case CEE_STARG_S:     goto ARG_WRITE;
-
-    case CEE_LDARGA:
-    case CEE_LDARGA_S:
-    case CEE_LDLOCA:
-    case CEE_LDLOCA_S:    goto ADDR_TAKEN;
-</code></pre>
-<p>The <code>starg</code> case is the simplest, let's look to the corresponding code:</p>
-<pre><code class="language-cpp">ARG_WRITE:
-            if (compIsForInlining())
-            {
-
-#ifdef DEBUG
-                if (verbose)
-                {
-                    printf(&quot;\n\nInline expansion aborted due to opcode at offset [%02u] which writes to an argument\n&quot;,
-                           codeAddr-codeBegp-1);
-                }
-#endif
-
-                /* The inliner keeps the args as trees and clones them.  Storing the arguments breaks that
-                 * simplification.  To allow this, flag the argument as written to and spill it before
-                 * inlining.  That way the STARG in the inlinee is trivial. */
-                inlineFailReason = &quot;Inlinee writes to an argument.&quot;;
-                goto InlineNever;
-            }
-            else
-            {
-                noway_assert(sz == sizeof(BYTE) || sz == sizeof(WORD));
-                if (codeAddr &gt; codeEndp - sz)
-                goto TOO_FAR;
-                varNum = (sz == sizeof(BYTE)) ? getU1LittleEndian(codeAddr)
-                                              : getU2LittleEndian(codeAddr);
-                varNum = compMapILargNum(varNum); // account for possible hidden param
-
-                // This check is only intended to prevent an AV.  Bad varNum values will later
-                // be handled properly by the verifier.
-                if (varNum &lt; lvaTableCnt)
-                    lvaTable[varNum].lvArgWrite = 1;
-            }
-            break;
-        }
-</code></pre>
-<p>So, for the <code>starg</code> case, <code>goto InlineNever</code> will be executed. In the <code>Debug</code> moode, you also receive a message about aborted inlining.</p>
-<p>This “feature” uses in other JIT source files. Let's open the following fragment from <a href="https://raw.githubusercontent.com/dotnet/coreclr/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/importer.cpp">importer.cpp</a>:</p>
-<pre><code class="language-cs">/******************************************************************************
- Is this the original &quot;this&quot; argument to the call being inlined?
- 
- Note that we do not inline methods with &quot;starg 0&quot;, and so we do not need to
- worry about it.
-*/
-</code></pre>
-<h3 id="look-to-the-decimal">Look to the  Decimal</h3>
-<p>Let's go back to the <code>Decimal</code> constructor and make sure that coping the <code>value</code> argument to a local variable really helps. We will use <a href="http://ilspy.net/">ILSpy</a> for examination of the source constructor IL code:</p>
-<pre><code>// Methods
+<span class=cp>#ifdef DEBUG
+</span><span class=cp></span>                <span class=k>if</span> <span class=p>(</span><span class=n>verbose</span><span class=p>)</span>
+                <span class=p>{</span>
+                    <span class=n>printf</span><span class=p>(</span><span class=s>&#34;</span><span class=se>\n\n</span><span class=s>Inline expansion aborted due to opcode at offset [%02u] which writes to an argument</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span>
+                           <span class=n>codeAddr</span><span class=o>-</span><span class=n>codeBegp</span><span class=o>-</span><span class=mi>1</span><span class=p>);</span>
+                <span class=p>}</span>
+<span class=cp>#endif
+</span><span class=cp></span>
+                <span class=cm>/* The inliner keeps the args as trees and clones them.  Storing the arguments breaks that
+</span><span class=cm>                 * simplification.  To allow this, flag the argument as written to and spill it before
+</span><span class=cm>                 * inlining.  That way the STARG in the inlinee is trivial. */</span>
+                <span class=n>inlineFailReason</span> <span class=o>=</span> <span class=s>&#34;Inlinee writes to an argument.&#34;</span><span class=p>;</span>
+                <span class=k>goto</span> <span class=n>InlineNever</span><span class=p>;</span>
+            <span class=p>}</span>
+            <span class=k>else</span>
+            <span class=p>{</span>
+                <span class=n>noway_assert</span><span class=p>(</span><span class=n>sz</span> <span class=o>==</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>BYTE</span><span class=p>)</span> <span class=o>||</span> <span class=n>sz</span> <span class=o>==</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>WORD</span><span class=p>));</span>
+                <span class=k>if</span> <span class=p>(</span><span class=n>codeAddr</span> <span class=o>&gt;</span> <span class=n>codeEndp</span> <span class=o>-</span> <span class=n>sz</span><span class=p>)</span>
+                <span class=k>goto</span> <span class=n>TOO_FAR</span><span class=p>;</span>
+                <span class=n>varNum</span> <span class=o>=</span> <span class=p>(</span><span class=n>sz</span> <span class=o>==</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>BYTE</span><span class=p>))</span> <span class=o>?</span> <span class=n>getU1LittleEndian</span><span class=p>(</span><span class=n>codeAddr</span><span class=p>)</span>
+                                              <span class=o>:</span> <span class=n>getU2LittleEndian</span><span class=p>(</span><span class=n>codeAddr</span><span class=p>);</span>
+                <span class=n>varNum</span> <span class=o>=</span> <span class=n>compMapILargNum</span><span class=p>(</span><span class=n>varNum</span><span class=p>);</span> <span class=c1>// account for possible hidden param
+</span><span class=c1></span>
+                <span class=c1>// This check is only intended to prevent an AV.  Bad varNum values will later
+</span><span class=c1></span>                <span class=c1>// be handled properly by the verifier.
+</span><span class=c1></span>                <span class=k>if</span> <span class=p>(</span><span class=n>varNum</span> <span class=o>&lt;</span> <span class=n>lvaTableCnt</span><span class=p>)</span>
+                    <span class=n>lvaTable</span><span class=p>[</span><span class=n>varNum</span><span class=p>].</span><span class=n>lvArgWrite</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+            <span class=p>}</span>
+            <span class=k>break</span><span class=p>;</span>
+        <span class=p>}</span>
+</code></pre></div><p>So, for the <code>starg</code> case, <code>goto InlineNever</code> will be executed. In the <code>Debug</code> moode, you also receive a message about aborted inlining.</p><p>This “feature” uses in other JIT source files. Let&rsquo;s open the following fragment from <a href=https://raw.githubusercontent.com/dotnet/coreclr/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/importer.cpp>importer.cpp</a>:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=cm>/******************************************************************************
+</span><span class=cm> Is this the original &#34;this&#34; argument to the call being inlined?
+</span><span class=cm> 
+</span><span class=cm> Note that we do not inline methods with &#34;starg 0&#34;, and so we do not need to
+</span><span class=cm> worry about it.
+</span><span class=cm>*/</span>
+</code></pre></div><h3 id=look-to-the--decimal>Look to the Decimal</h3><p>Let&rsquo;s go back to the <code>Decimal</code> constructor and make sure that coping the <code>value</code> argument to a local variable really helps. We will use <a href=http://ilspy.net/>ILSpy</a> for examination of the source constructor IL code:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>// Methods
 .method public hidebysig specialname rtspecialname 
   instance void .ctor (
-    int32 'value'
+    int32 &#39;value&#39;
   ) cil managed 
 {
   .custom instance void __DynamicallyInvokableAttribute::.ctor() = (
@@ -250,12 +112,12 @@ public Decimal(int value) {
 
   IL_0006: ldarg.0
   IL_0007: ldc.i4.0
-  IL_0008: stfld int32 System.Decimal::'flags'
+  IL_0008: stfld int32 System.Decimal::&#39;flags&#39;
   IL_000d: br.s IL_001d
 
   IL_000f: ldarg.0
   IL_0010: ldc.i4 -2147483648
-  IL_0015: stfld int32 System.Decimal::'flags'
+  IL_0015: stfld int32 System.Decimal::&#39;flags&#39;
   IL_001a: ldloc.0
   IL_001b: neg
   IL_001c: stloc.0
@@ -271,47 +133,41 @@ public Decimal(int value) {
   IL_002d: stfld int32 System.Decimal::hi
   IL_0032: ret
 } // end of method Decimal::.ctor
-</code></pre>
-<p>What would have happened if we had not copied the <code>value</code> in a local variable? Let's check. Write a simple code:</p>
-<pre><code class="language-cs">class MyDecimal
-{
-  private const int SignMask  = unchecked((int)0x80000000);
-  private int flags, hi, lo, mid;
+</code></pre></div><p>What would have happened if we had not copied the <code>value</code> in a local variable? Let&rsquo;s check. Write a simple code:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>class</span> <span class=nc>MyDecimal</span>
+<span class=p>{</span>
+  <span class=k>private</span> <span class=k>const</span> <span class=kt>int</span> <span class=n>SignMask</span>  <span class=p>=</span> <span class=k>unchecked</span><span class=p>((</span><span class=kt>int</span><span class=p>)</span><span class=m>0</span><span class=n>x80000000</span><span class=p>);</span>
+  <span class=k>private</span> <span class=kt>int</span> <span class=n>flags</span><span class=p>,</span> <span class=n>hi</span><span class=p>,</span> <span class=n>lo</span><span class=p>,</span> <span class=n>mid</span><span class=p>;</span>
 
-  public MyDecimal(int value)
-  {
-    if (value &gt;= 0) {
-        flags = 0;
-    }
-    else {
-        flags = SignMask;
-        value = -value;
-    }
-    lo = value;
-    mid = 0;
-    hi = 0;
-  }
-}
-class Program
-{
-  static void Main()
-  {
-  }
-}
-</code></pre>
-<p>Compilation:</p>
-<pre><code>&gt;csc Program.cs /optimize
+  <span class=k>public</span> <span class=n>MyDecimal</span><span class=p>(</span><span class=kt>int</span> <span class=k>value</span><span class=p>)</span>
+  <span class=p>{</span>
+    <span class=k>if</span> <span class=p>(</span><span class=k>value</span> <span class=p>&gt;=</span> <span class=m>0</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>flags</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=k>else</span> <span class=p>{</span>
+        <span class=n>flags</span> <span class=p>=</span> <span class=n>SignMask</span><span class=p>;</span>
+        <span class=k>value</span> <span class=p>=</span> <span class=p>-</span><span class=k>value</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=n>lo</span> <span class=p>=</span> <span class=k>value</span><span class=p>;</span>
+    <span class=n>mid</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+    <span class=n>hi</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+<span class=k>class</span> <span class=nc>Program</span>
+<span class=p>{</span>
+  <span class=k>static</span> <span class=k>void</span> <span class=n>Main</span><span class=p>()</span>
+  <span class=p>{</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p>Compilation:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>&gt;csc Program.cs /optimize
 Microsoft (R) Visual C# Compiler version 4.0.30319.33440
 for Microsoft (R) .NET Framework 4.5
 Copyright (C) Microsoft Corporation. All rights reserved.
-</code></pre>
-<p>The resulted IL:</p>
-<pre><code>.class private auto ansi beforefieldinit MyDecimal
+</code></pre></div><p>The resulted IL:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>.class private auto ansi beforefieldinit MyDecimal
   extends [mscorlib]System.Object
 {
   // Fields
   .field private static literal int32 SignMask = int32(-2147483648)
-  .field private int32 'flags'
+  .field private int32 &#39;flags&#39;
   .field private int32 hi
   .field private int32 lo
   .field private int32 mid
@@ -319,7 +175,7 @@ Copyright (C) Microsoft Corporation. All rights reserved.
   // Methods
   .method public hidebysig specialname rtspecialname 
     instance void .ctor (
-      int32 'value'
+      int32 &#39;value&#39;
     ) cil managed 
   {
     // Method begins at RVA 0x2050
@@ -334,15 +190,15 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 
     IL_000a: ldarg.0
     IL_000b: ldc.i4.0
-    IL_000c: stfld int32 MyDecimal::'flags'
+    IL_000c: stfld int32 MyDecimal::&#39;flags&#39;
     IL_0011: br.s IL_0022
 
     IL_0013: ldarg.0
     IL_0014: ldc.i4 -2147483648
-    IL_0019: stfld int32 MyDecimal::'flags'
+    IL_0019: stfld int32 MyDecimal::&#39;flags&#39;
     IL_001e: ldarg.1
     IL_001f: neg
-    IL_0020: starg.s 'value'
+    IL_0020: starg.s &#39;value&#39;
 
     IL_0022: ldarg.0
     IL_0023: ldarg.1
@@ -357,149 +213,87 @@ Copyright (C) Microsoft Corporation. All rights reserved.
   } // end of method MyDecimal::.ctor
 
 } // end of class MyDecimal
-</code></pre>
-<p>As we can see, in the line <code>IL_0020</code>, the <code>starg.a</code> opcode appears. Authors of the .NET framework use the same approach for the <code>Decimal</code> constructor with the <code>long</code> argument:</p>
-<pre><code>// Constructs a Decimal from a long value.
-//
-public Decimal(long value) {
-    //  JIT today can't inline methods that contains &quot;starg&quot; opcode.
-    //  For more details, see DevDiv Bugs 81184: x86 JIT CQ: Removing the inline striction of &quot;starg&quot;.
-    long value_copy = value;
-    if (value_copy &gt;= 0) {
-        flags = 0;
-    }
-    else {
-        flags = SignMask;
-        value_copy = -value_copy;
-    }
-    lo = (int)value_copy;
-    mid = (int)(value_copy &gt;&gt; 32);
-    hi = 0;
-}
-</code></pre>
-<h3 id="check-the-jit-possibilities">Check the JIT possibilities</h3>
-<p>Now, we want to make sure that JIT really have the described behavior. Let's write the simple code for checking:</p>
-<pre><code class="language-cs">using System;
-using System.Runtime.CompilerServices;
+</code></pre></div><p>As we can see, in the line <code>IL_0020</code>, the <code>starg.a</code> opcode appears. Authors of the .NET framework use the same approach for the <code>Decimal</code> constructor with the <code>long</code> argument:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=c1>// Constructs a Decimal from a long value.
+</span><span class=c1>//
+</span><span class=c1></span><span class=k>public</span> <span class=n>Decimal</span><span class=p>(</span><span class=kt>long</span> <span class=k>value</span><span class=p>)</span> <span class=p>{</span>
+    <span class=c1>//  JIT today can&#39;t inline methods that contains &#34;starg&#34; opcode.
+</span><span class=c1></span>    <span class=c1>//  For more details, see DevDiv Bugs 81184: x86 JIT CQ: Removing the inline striction of &#34;starg&#34;.
+</span><span class=c1></span>    <span class=kt>long</span> <span class=n>value_copy</span> <span class=p>=</span> <span class=k>value</span><span class=p>;</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>value_copy</span> <span class=p>&gt;=</span> <span class=m>0</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>flags</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=k>else</span> <span class=p>{</span>
+        <span class=n>flags</span> <span class=p>=</span> <span class=n>SignMask</span><span class=p>;</span>
+        <span class=n>value_copy</span> <span class=p>=</span> <span class=p>-</span><span class=n>value_copy</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=n>lo</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>value_copy</span><span class=p>;</span>
+    <span class=n>mid</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)(</span><span class=n>value_copy</span> <span class=p>&gt;&gt;</span> <span class=m>32</span><span class=p>);</span>
+    <span class=n>hi</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><h3 id=check-the-jit-possibilities>Check the JIT possibilities</h3><p>Now, we want to make sure that JIT really have the described behavior. Let&rsquo;s write the simple code for checking:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>using</span> <span class=nn>System</span><span class=p>;</span>
+<span class=k>using</span> <span class=nn>System.Runtime.CompilerServices</span><span class=p>;</span>
 
-class Program
-{
-    static void Main()
-    {
-        var value = 0;
-        value += SimpleMethod(0x11);
-        value += MethodWithStarg(0x12);
-        value += MethodWithStargAggressive(0x13);
-        Console.WriteLine(value);
-    }
+<span class=k>class</span> <span class=nc>Program</span>
+<span class=p>{</span>
+    <span class=k>static</span> <span class=k>void</span> <span class=n>Main</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=kt>var</span> <span class=k>value</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+        <span class=k>value</span> <span class=p>+=</span> <span class=n>SimpleMethod</span><span class=p>(</span><span class=m>0</span><span class=n>x11</span><span class=p>);</span>
+        <span class=k>value</span> <span class=p>+=</span> <span class=n>MethodWithStarg</span><span class=p>(</span><span class=m>0</span><span class=n>x12</span><span class=p>);</span>
+        <span class=k>value</span> <span class=p>+=</span> <span class=n>MethodWithStargAggressive</span><span class=p>(</span><span class=m>0</span><span class=n>x13</span><span class=p>);</span>
+        <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=k>value</span><span class=p>);</span>
+    <span class=p>}</span>
 
-    static int SimpleMethod(int value)
-    {
-        return value;
-    }
+    <span class=k>static</span> <span class=kt>int</span> <span class=n>SimpleMethod</span><span class=p>(</span><span class=kt>int</span> <span class=k>value</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>return</span> <span class=k>value</span><span class=p>;</span>
+    <span class=p>}</span>
 
-    static int MethodWithStarg(int value)
-    {
-        if (value &lt; 0)
-            value = -value;
-        return value;
-    }
+    <span class=k>static</span> <span class=kt>int</span> <span class=n>MethodWithStarg</span><span class=p>(</span><span class=kt>int</span> <span class=k>value</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=k>value</span> <span class=p>&lt;</span> <span class=m>0</span><span class=p>)</span>
+            <span class=k>value</span> <span class=p>=</span> <span class=p>-</span><span class=k>value</span><span class=p>;</span>
+        <span class=k>return</span> <span class=k>value</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=na>
+</span><span class=na>    [MethodImpl(MethodImplOptions.AggressiveInlining)]</span>
+    <span class=k>static</span> <span class=kt>int</span> <span class=n>MethodWithStargAggressive</span><span class=p>(</span><span class=kt>int</span> <span class=k>value</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=k>value</span> <span class=p>&lt;</span> <span class=m>0</span><span class=p>)</span>
+            <span class=k>value</span> <span class=p>=</span> <span class=p>-</span><span class=k>value</span><span class=p>;</span>
+        <span class=k>return</span> <span class=k>value</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p>The <code>SimpleMethod</code> method is very small, it will be inlined. The <code>MethodWithStarg</code> method has the following IL-representation:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=p>.</span><span class=n>method</span> <span class=k>private</span> <span class=n>hidebysig</span> <span class=k>static</span> 
+  <span class=n>int32</span> <span class=n>MethodWithStarg</span> <span class=p>(</span>
+    <span class=n>int32</span> <span class=err>&#39;</span><span class=k>value</span><span class=err>&#39;</span>
+  <span class=p>)</span> <span class=n>cil</span> <span class=n>managed</span> 
+<span class=p>{</span>
+  <span class=c1>// Method begins at RVA 0x2086
+</span><span class=c1></span>  <span class=c1>// Code size 10 (0xa)
+</span><span class=c1></span>  <span class=p>.</span><span class=n>maxstack</span> <span class=m>8</span>
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static int MethodWithStargAggressive(int value)
-    {
-        if (value &lt; 0)
-            value = -value;
-        return value;
-    }
-}
-</code></pre>
-<p>The <code>SimpleMethod</code> method is very small, it will be inlined. The <code>MethodWithStarg</code> method has the following IL-representation:</p>
-<pre><code class="language-cs">.method private hidebysig static 
-  int32 MethodWithStarg (
-    int32 'value'
-  ) cil managed 
-{
-  // Method begins at RVA 0x2086
-  // Code size 10 (0xa)
-  .maxstack 8
+  <span class=n>IL_0000</span><span class=p>:</span> <span class=n>ldarg</span><span class=p>.</span><span class=m>0</span>
+  <span class=n>IL_0001</span><span class=p>:</span> <span class=n>ldc</span><span class=p>.</span><span class=n>i4</span><span class=p>.</span><span class=m>0</span>
+  <span class=n>IL_0002</span><span class=p>:</span> <span class=n>bge</span><span class=p>.</span><span class=n>s</span> <span class=n>IL_0008</span>
 
-  IL_0000: ldarg.0
-  IL_0001: ldc.i4.0
-  IL_0002: bge.s IL_0008
+  <span class=n>IL_0004</span><span class=p>:</span> <span class=n>ldarg</span><span class=p>.</span><span class=m>0</span>
+  <span class=n>IL_0005</span><span class=p>:</span> <span class=n>neg</span>
+  <span class=n>IL_0006</span><span class=p>:</span> <span class=n>starg</span><span class=p>.</span><span class=n>s</span> <span class=err>&#39;</span><span class=k>value</span><span class=err>&#39;</span>
 
-  IL_0004: ldarg.0
-  IL_0005: neg
-  IL_0006: starg.s 'value'
-
-  IL_0008: ldarg.0
-  IL_0009: ret
-} // end of method Program::MethodWithStarg
-</code></pre>
-<p>In the <code>IL_0006</code> line, this code contains the target <code>starg.s</code> opcode. The <code>MethodWithStargAggressive</code> method have the same body, but it also has the <code>[MethodImpl(MethodImplOptions.AggressiveInlining)]</code> attribute. Let's look to the assembler code for x86:</p>
-<pre><code>008A0050  push        ebp  
-008A0051  mov         ebp,esp  
-008A0053  push        esi  
-008A0054  mov         ecx,12h  
-008A0059  call        dword ptr ds:[7237BCh]  // MethodWithStarg
-008A005F  add         eax,11h  
-008A0062  mov         esi,eax  
-008A0064  mov         ecx,13h  
-008A0069  call        dword ptr ds:[7237C8h]  // MethodWithStargAggressive
-008A006F  add         esi,eax  
-</code></pre>
-<p>The experiment was a success. <code>SimpleMethod</code> was inlined as we expected. <code>MethodWithStarg</code> wasn't be inlined because it contains the <code>starg.s</code> opcode. Note, <code>[MethodImpl(MethodImplOptions.AggressiveInlining)]</code> didn't help to <code>MethodWithStargAggressive</code> inlining.</p>
-<p>Now we will look to the assembler code for x64:</p>
-<pre><code>00007FFCC8720094  mov         ecx,36h
-</code></pre>
-<p>As we can see, JIT has successfully performed inlining for all method and precalculated the result.</p>
-<h3 id="summary">Summary</h3>
-<p>Specific condition should be satisfied for successfully inlining. JIT-x86 can't apply the inlining optimization for method that contain the <code>starg</code> or<code> ldarga</code> opcodes regardless the <code>MethodImpl</code> attribute. Sometimes, if you really need inlining of some method, you have to make some hacks like we can observe in the <code>Decimal</code> constructors.</p>
-<h3 id="links">Links</h3>
-<ul>
-<li><a href="http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158">.NET Reference Source: Constructs a Decimal from an integer value</a></li>
-<li><a href="https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252">CoreCLR, JIT sources: flowgraph.cpp (Feb 26, 2015)</a></li>
-<li><a href="https://raw.githubusercontent.com/dotnet/coreclr/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/importer.cpp">CoreCLR, JIT sources: importer.cpp (Feb 26, 2015)</a></li>
-<li><a href="https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx">MSDN: starg</a></li>
-<li><a href="https://msdn.microsoft.com/library/system.reflection.emit.opcodes.ldarga.aspx">MSDN: ldarga</a></li>
-<li><a href="http://stackoverflow.com/questions/26369163/net-local-variable-optimization">Stackoverflow: .NET local variable optimization</a></li>
-</ul>
-
-<!-- Share -->
-
-Share:
-<a href="https://twitter.com/intent/tweet?text=A story about JIT-x86 inlining and starg&url=http://aakinshin.net/posts/inlining-and-starg/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/inlining-and-starg/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/inlining-and-starg/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/inlining-and-starg/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/inlining-and-starg/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/inlining-and-starg/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/inlining-and-starg/&title=A story about JIT-x86 inlining and starg" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  You can find source code of this post on GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2015/inlining-and-starg.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2015/inlining-and-starg.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+  <span class=n>IL_0008</span><span class=p>:</span> <span class=n>ldarg</span><span class=p>.</span><span class=m>0</span>
+  <span class=n>IL_0009</span><span class=p>:</span> <span class=n>ret</span>
+<span class=p>}</span> <span class=c1>// end of method Program::MethodWithStarg
+</span></code></pre></div><p>In the <code>IL_0006</code> line, this code contains the target <code>starg.s</code> opcode. The <code>MethodWithStargAggressive</code> method have the same body, but it also has the <code>[MethodImpl(MethodImplOptions.AggressiveInlining)]</code> attribute. Let&rsquo;s look to the assembler code for x86:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=err>008</span><span class=nf>A0050</span>  <span class=no>push</span>        <span class=no>ebp</span>  
+<span class=mi>008</span><span class=no>A0051</span>  <span class=no>mov</span>         <span class=no>ebp</span><span class=p>,</span><span class=no>esp</span>  
+<span class=mi>008</span><span class=no>A0053</span>  <span class=no>push</span>        <span class=no>esi</span>  
+<span class=mi>008</span><span class=no>A0054</span>  <span class=no>mov</span>         <span class=no>ecx</span><span class=p>,</span><span class=mi>12</span><span class=no>h</span>  
+<span class=mi>008</span><span class=no>A0059</span>  <span class=no>call</span>        <span class=no>dword</span> <span class=no>ptr</span> <span class=no>ds</span><span class=p>:[</span><span class=mi>7237</span><span class=no>BCh</span><span class=p>]</span>  <span class=err>//</span> <span class=no>MethodWithStarg</span>
+<span class=err>008</span><span class=nf>A005F</span>  <span class=no>add</span>         <span class=no>eax</span><span class=p>,</span><span class=mi>11</span><span class=no>h</span>  
+<span class=mi>008</span><span class=no>A0062</span>  <span class=no>mov</span>         <span class=no>esi</span><span class=p>,</span><span class=no>eax</span>  
+<span class=mi>008</span><span class=no>A0064</span>  <span class=no>mov</span>         <span class=no>ecx</span><span class=p>,</span><span class=mi>13</span><span class=no>h</span>  
+<span class=mi>008</span><span class=no>A0069</span>  <span class=no>call</span>        <span class=no>dword</span> <span class=no>ptr</span> <span class=no>ds</span><span class=p>:[</span><span class=mi>7237</span><span class=no>C8h</span><span class=p>]</span>  <span class=err>//</span> <span class=no>MethodWithStargAggressive</span>
+<span class=err>008</span><span class=nf>A006F</span>  <span class=no>add</span>         <span class=no>esi</span><span class=p>,</span><span class=no>eax</span>  
+</code></pre></div><p>The experiment was a success. <code>SimpleMethod</code> was inlined as we expected. <code>MethodWithStarg</code> wasn&rsquo;t be inlined because it contains the <code>starg.s</code> opcode. Note, <code>[MethodImpl(MethodImplOptions.AggressiveInlining)]</code> didn&rsquo;t help to <code>MethodWithStargAggressive</code> inlining.</p><p>Now we will look to the assembler code for x64:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=err>00007</span><span class=nf>FFCC8720094</span>  <span class=no>mov</span>         <span class=no>ecx</span><span class=p>,</span><span class=mi>36</span><span class=no>h</span>
+</code></pre></div><p>As we can see, JIT has successfully performed inlining for all method and precalculated the result.</p><h3 id=summary>Summary</h3><p>Specific condition should be satisfied for successfully inlining. JIT-x86 can&rsquo;t apply the inlining optimization for method that contain the <code>starg</code> or<code> ldarga</code> opcodes regardless the <code>MethodImpl</code> attribute. Sometimes, if you really need inlining of some method, you have to make some hacks like we can observe in the <code>Decimal</code> constructors.</p><h3 id=links>Links</h3><ul><li><a href=http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158>.NET Reference Source: Constructs a Decimal from an integer value</a></li><li><a href=https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252>CoreCLR, JIT sources: flowgraph.cpp (Feb 26, 2015)</a></li><li><a href=https://raw.githubusercontent.com/dotnet/coreclr/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/importer.cpp>CoreCLR, JIT sources: importer.cpp (Feb 26, 2015)</a></li><li><a href=https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx>MSDN: starg</a></li><li><a href=https://msdn.microsoft.com/library/system.reflection.emit.opcodes.ldarga.aspx>MSDN: ldarga</a></li><li><a href=http://stackoverflow.com/questions/26369163/net-local-variable-optimization>Stackoverflow: .NET local variable optimization</a></li></ul><br><br><div class=mx-auto>Share:
+<a href="https://twitter.com/intent/tweet?text=A%20story%20about%20JIT-x86%20inlining%20and%20starg&url=https%3a%2f%2faakinshin.net%2fposts%2finlining-and-starg%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2finlining-and-starg%2f&title=A%20story%20about%20JIT-x86%20inlining%20and%20starg" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2finlining-and-starg%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2finlining-and-starg%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2finlining-and-starg%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2finlining-and-starg%2f&title=A%20story%20about%20JIT-x86%20inlining%20and%20starg" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

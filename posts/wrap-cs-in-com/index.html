@@ -1,241 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Wrapping C# class for use in COM | Andrey Akinshin</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>EN</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/ru/posts/wrap-cs-in-com/>RU</a></div></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Wrapping C# class for use in COM</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2013-06-03>June 3, 2013</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/c class="badge badge-info">C#</a>
+<a href=https://aakinshin.net/tags/com class="badge badge-info">COM</a></span><br><br><p>Let us have a C# class that makes something useful, for example:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>class</span> <span class=nc>Calculator</span>
+<span class=p>{</span>
+    <span class=k>public</span> <span class=kt>int</span> <span class=n>Sum</span><span class=p>(</span><span class=kt>int</span> <span class=n>a</span><span class=p>,</span> <span class=kt>int</span> <span class=n>b</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>return</span> <span class=n>a</span> <span class=p>+</span> <span class=n>b</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p>Let’s create a <a href=http://ru.wikipedia.org/wiki/Component_Object_Model>COM</a> interface for this class to make it possible to use its functionality in other areas. At the end we will see how this class is used in Delphi environment.</p><p>For a beginning, we proceed to the project properties and check <em>Register for COM interop</em> on the <em>Build</em> tab.</p><p class=center><img src=/img/posts/dotnet/wrap-cs-in-com/screen1.png></p><p>Create an interface for our class:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>interface</span> <span class=n>ICalculator</span>
+<span class=p>{</span>
+    <span class=kt>int</span> <span class=n>Sum</span><span class=p>(</span><span class=kt>int</span> <span class=n>a</span><span class=p>,</span> <span class=kt>int</span> <span class=n>b</span><span class=p>);</span>
+<span class=p>}</span>
 
-    <meta name="description" content="Wrapping C# class for use in COM">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,C#,COM'>
-
-    <title>Wrapping C# class for use in COM</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-    
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/posts/wrap-cs-in-com/'>Ru</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Wrapping C# class for use in COM</h2>
-<span class="blog-post-meta">
-  <b>Date:</b> June 03, 2013.
-  <b>Tags:</b>
-        <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-        <a href="/tags/com"><span class="badge badge-pill badge-info">COM</span></a>
-</span><br /><br />
-
-<p>Let us have a C# class that makes something useful, for example:</p>
-<pre><code class="language-cs">public class Calculator
-{
-    public int Sum(int a, int b)
-    {
-        return a + b;
-    }
-}
-</code></pre>
-<p>Let’s create a <a href="http://ru.wikipedia.org/wiki/Component_Object_Model">COM</a> interface for this class to make it possible to use its functionality in other areas. At the end we will see how this class is used in Delphi environment.<!--more--></p>
-<p>For a beginning, we proceed to the project properties and check <em>Register for COM interop</em> on the <em>Build</em> tab.</p>
-<p class="center">
-  <img src="/img/posts/dotnet/wrap-cs-in-com/screen1.png" />
-</p>
-<p>Create an interface for our class:</p>
-<pre><code class="language-cs">public interface ICalculator
-{
-    int Sum(int a, int b);
-}
-
-public class Calculator : ICalculator
-{
-    public int Sum(int a, int b)
-    {
-        return a + b;
-    }
-}
-</code></pre>
-<p>It’s necessary to mark the class and the interface with a set of attributes: it’s necessary to specify unique <a href="http://ru.wikipedia.org/wiki/GUID">GUID</a>’s for them, set <code>ComVisible(true)</code>,and add the <code>ClassInterface(ClassInterfaceType.None)</code> attribute to the class:</p>
-<pre><code class="language-cs">[Guid(&quot;364C5E66-4412-48E3-8BD8-7B2BF09E8922&quot;)]
-[ComVisible(true)]
-public interface ICalculator
-{
-    int Sum(int a, int b);
-}
-
-[Guid(&quot;8C034F6A-1D3F-4DB8-BC99-B73873D8C297&quot;)]
-[ClassInterface(ClassInterfaceType.None)]
-[ComVisible(true)]
-public class Calculator : ICalculator
-{
-    public int Sum(int a, int b)
-    {
-        return a + b;
-    }
-}
-</code></pre>
-<p>We’re almost done! Now we can build the assembly. Since we checked <em>Register for COM interop</em>, the COM component will be registered in the system automatically. It’s also possible to register it manually. You can do it with the <a href="http://msdn.microsoft.com/ru-ru/library/tzat5yw6.aspx">RegAsm</a> utility located here: <code>C:\Windows\Microsoft.NET\Framework\v &lt; necessary version number &gt;\</code>. The corresponding tlb file can be created with the help of the <code>/tlb</code> argument. The <code>/u</code> argument will <a href="http://stackoverflow.com/questions/7841428/how-to-unregister-the-assembly-registered-using-regasm">cancel</a> assembly registration. So, let’s execute the command (assume that name of the project and the corresponding dll is ComCalculator):</p>
-<pre><code>RegAsm.exe Calculator.dll /tlb
-</code></pre>
-<p>Great! The component is registered! Run Delphi and try to use it. After a new project is created (a common WinForms project), it’s necessary to import ComCalculator to it. Select <code>Import Type Library</code> from the <code>Project</code> menu. Look for <code>ComCalculator</code> and click <code>Install</code>.</p>
-<p class="center">
-  <img src="/img/posts/dotnet/wrap-cs-in-com/screen2.png" />
-</p>
-<p>You need to add <code>ComCalculator_TLB</code> to the <code>uses</code> section in the <code>Unit1.pas</code> file. After that you <a href="http://stackoverflow.com/questions/7196769/what-is-this-error-mscorlib-tlb-pas">can get some issues</a> with compilation of <code>mscorlib_TBL.pas</code>. If that’s the case, you just need to delete reference to it from the <code>uses</code> section of the <code>ComCalculator_TLB.pas</code> file.</p>
-<p>Now let’s try to use our COM component. We will do it directly in the form constructor. The constructor body will contain two simple lines of code: the first one will contain instance of the <code>TCalculator</code> class, in the second one, we will call the <code>Sum</code> method. Calculation result will be shown with the help of the <code>ShowMessage</code> procedure.</p>
-<pre><code class="language-delphi">procedure TForm1.FormCreate(Sender: TObject);
+<span class=k>public</span> <span class=k>class</span> <span class=nc>Calculator</span> <span class=p>:</span> <span class=n>ICalculator</span>
+<span class=p>{</span>
+    <span class=k>public</span> <span class=kt>int</span> <span class=n>Sum</span><span class=p>(</span><span class=kt>int</span> <span class=n>a</span><span class=p>,</span> <span class=kt>int</span> <span class=n>b</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>return</span> <span class=n>a</span> <span class=p>+</span> <span class=n>b</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p>It’s necessary to mark the class and the interface with a set of attributes: it’s necessary to specify unique <a href=http://ru.wikipedia.org/wiki/GUID>GUID</a>’s for them, set <code>ComVisible(true)</code>,and add the <code>ClassInterface(ClassInterfaceType.None)</code> attribute to the class:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[Guid(&#34;364C5E66-4412-48E3-8BD8-7B2BF09E8922&#34;)]</span>
+<span class=na>[ComVisible(true)]</span>
+<span class=k>public</span> <span class=k>interface</span> <span class=n>ICalculator</span>
+<span class=p>{</span>
+    <span class=kt>int</span> <span class=n>Sum</span><span class=p>(</span><span class=kt>int</span> <span class=n>a</span><span class=p>,</span> <span class=kt>int</span> <span class=n>b</span><span class=p>);</span>
+<span class=p>}</span>
+<span class=na>
+</span><span class=na>[Guid(&#34;8C034F6A-1D3F-4DB8-BC99-B73873D8C297&#34;)]</span>
+<span class=na>[ClassInterface(ClassInterfaceType.None)]</span>
+<span class=na>[ComVisible(true)]</span>
+<span class=k>public</span> <span class=k>class</span> <span class=nc>Calculator</span> <span class=p>:</span> <span class=n>ICalculator</span>
+<span class=p>{</span>
+    <span class=k>public</span> <span class=kt>int</span> <span class=n>Sum</span><span class=p>(</span><span class=kt>int</span> <span class=n>a</span><span class=p>,</span> <span class=kt>int</span> <span class=n>b</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>return</span> <span class=n>a</span> <span class=p>+</span> <span class=n>b</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p>We’re almost done! Now we can build the assembly. Since we checked <em>Register for COM interop</em>, the COM component will be registered in the system automatically. It’s also possible to register it manually. You can do it with the <a href=http://msdn.microsoft.com/ru-ru/library/tzat5yw6.aspx>RegAsm</a> utility located here: <code>C:\Windows\Microsoft.NET\Framework\v &lt; necessary version number >\</code>. The corresponding tlb file can be created with the help of the <code>/tlb</code> argument. The <code>/u</code> argument will <a href=http://stackoverflow.com/questions/7841428/how-to-unregister-the-assembly-registered-using-regasm>cancel</a> assembly registration. So, let’s execute the command (assume that name of the project and the corresponding dll is ComCalculator):</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>RegAsm.exe Calculator.dll /tlb
+</code></pre></div><p>Great! The component is registered! Run Delphi and try to use it. After a new project is created (a common WinForms project), it’s necessary to import ComCalculator to it. Select <code>Import Type Library</code> from the <code>Project</code> menu. Look for <code>ComCalculator</code> and click <code>Install</code>.</p><p class=center><img src=/img/posts/dotnet/wrap-cs-in-com/screen2.png></p><p>You need to add <code>ComCalculator_TLB</code> to the <code>uses</code> section in the <code>Unit1.pas</code> file. After that you <a href=http://stackoverflow.com/questions/7196769/what-is-this-error-mscorlib-tlb-pas>can get some issues</a> with compilation of <code>mscorlib_TBL.pas</code>. If that’s the case, you just need to delete reference to it from the <code>uses</code> section of the <code>ComCalculator_TLB.pas</code> file.</p><p>Now let’s try to use our COM component. We will do it directly in the form constructor. The constructor body will contain two simple lines of code: the first one will contain instance of the <code>TCalculator</code> class, in the second one, we will call the <code>Sum</code> method. Calculation result will be shown with the help of the <code>ShowMessage</code> procedure.</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>procedure TForm1.FormCreate(Sender: TObject);
 var
   calculator : TCalculator;
 begin
   calculator := TCalculator.Create(Self);
   ShowMessage(IntToStr(calculator.Sum(1, 2)));
 end;
-</code></pre>
-<p>Running the application you will see the window with figure 3.</p>
-<h2 id="links">Links</h2>
-<p>I recommend reading the following article for more complicated variants of the creation of COM objects:</p>
-<ul>
-<li><a href="https://msdn.microsoft.com/en-us/library/c3fd4a20.aspx">MSDN: Example COM Class (C# Programming Guide)</a></li>
-</ul>
-<h2 id="cross-posts">Cross-posts</h2>
-<ul>
-<li><a href="http://blogs.perpetuumsoft.com/dotnet/wrapping-c-class-for-use-in-com/">blogs.perpetuumsoft.com</a></li>
-</ul>
-
-<!-- Share -->
-
-Share:
-<a href="https://twitter.com/intent/tweet?text=Wrapping C# class for use in COM&url=http://aakinshin.net/posts/wrap-cs-in-com/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/wrap-cs-in-com/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/wrap-cs-in-com/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/wrap-cs-in-com/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/wrap-cs-in-com/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/wrap-cs-in-com/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/wrap-cs-in-com/&title=Wrapping C# class for use in COM" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  You can find source code of this post on GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2013/wrap-cs-in-com.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2013/wrap-cs-in-com.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+</code></pre></div><p>Running the application you will see the window with figure 3.</p><h2 id=links>Links</h2><p>I recommend reading the following article for more complicated variants of the creation of COM objects:</p><ul><li><a href=https://msdn.microsoft.com/en-us/library/c3fd4a20.aspx>MSDN: Example COM Class (C# Programming Guide)</a></li></ul><h2 id=cross-posts>Cross-posts</h2><ul><li><a href=http://blogs.perpetuumsoft.com/dotnet/wrapping-c-class-for-use-in-com/>blogs.perpetuumsoft.com</a></li></ul><br><br><div class=mx-auto>Share:
+<a href="https://twitter.com/intent/tweet?text=Wrapping%20C%23%20class%20for%20use%20in%20COM&url=https%3a%2f%2faakinshin.net%2fposts%2fwrap-cs-in-com%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fwrap-cs-in-com%2f&title=Wrapping%20C%23%20class%20for%20use%20in%20COM" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fwrap-cs-in-com%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2fwrap-cs-in-com%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2fwrap-cs-in-com%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fwrap-cs-in-com%2f&title=Wrapping%20C%23%20class%20for%20use%20in%20COM" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

@@ -1,244 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Strange behavior of FindElementsInHostCoordinates in WinRT | Andrey Akinshin</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>EN</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/ru/posts/findelementsinhostcoordinates/>RU</a></div></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Strange behavior of FindElementsInHostCoordinates in WinRT</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2014-04-29>April 29, 2014</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/c class="badge badge-info">C#</a>
+<a href=https://aakinshin.net/tags/silverlight class="badge badge-info">Silverlight</a>
+<a href=https://aakinshin.net/tags/winrt class="badge badge-info">WinRT</a></span><br><br><p>Silverlight features a splendid method: <a href="http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx">VisualTreeHelper.FindElementsInHostCoordinates</a>. It allows the <code>HitTest</code>, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method <a href=http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx>VisualTreeHelper.FindElementsInHostCoordinates</a> is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.</p><p>Let’s create a simple Silverlight 5 application. The markup will look like this:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Grid</span> <span class=na>x:Name=</span><span class=s>&#34;LayoutRoot&#34;</span><span class=nt>&gt;</span>
+  <span class=nt>&lt;Grid.RowDefinitions&gt;</span>
+    <span class=nt>&lt;RowDefinition</span> <span class=na>Height=</span><span class=s>&#34;*&#34;</span><span class=nt>/&gt;</span>
+    <span class=nt>&lt;RowDefinition</span> <span class=na>Height=</span><span class=s>&#34;100&#34;</span><span class=nt>/&gt;</span>
+  <span class=nt>&lt;/Grid.RowDefinitions&gt;</span>
 
-    <meta name="description" content="Strange behavior of FindElementsInHostCoordinates in WinRT">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,C#,Silverlight,WinRT'>
+  <span class=nt>&lt;Canvas</span> <span class=na>MouseLeftButtonDown=</span><span class=s>&#34;OnMainCanvasMouseLeftButtonDown&#34;</span> 
+          <span class=na>x:Name=</span><span class=s>&#34;MainCanvas&#34;</span> <span class=na>Background=</span><span class=s>&#34;LightGreen&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;Ellipse</span> <span class=na>Width=</span><span class=s>&#34;200&#34;</span> <span class=na>Height=</span><span class=s>&#34;200&#34;</span> <span class=na>Fill=</span><span class=s>&#34;LightCoral&#34;</span> <span class=nt>/&gt;</span>
+    <span class=nt>&lt;Path</span> <span class=na>Fill=</span><span class=s>&#34;LightBlue&#34;</span> <span class=na>Data=</span><span class=s>&#34;M 10,100 C 10,300 300,-200 300,100&#34;</span><span class=nt>/&gt;</span>
+  <span class=nt>&lt;/Canvas&gt;</span>
 
-    <title>Strange behavior of FindElementsInHostCoordinates in WinRT</title>
+  <span class=nt>&lt;TextBlock</span> <span class=na>Grid.Row=</span><span class=s>&#34;1&#34;</span> <span class=na>x:Name=</span><span class=s>&#34;StatusBlock&#34;</span> <span class=nt>/&gt;</span>
+<span class=nt>&lt;/Grid&gt;</span>
+</code></pre></div><p>It’s very simple: we have a <code>Canvas</code>, an <code>Ellipse</code> and a <code>Path</code> are on the Canvas. A <code>TextBlock</code> for entering some useful info is located under this wonderful masterpiece. The app looks in the following way:</p><p class=center><img src=/img/posts/dotnet/findelementsinhostcoordinates/screen1.png></p><p>Now we will add a mouse click event handler: we will get the elements we clicked on. Here we will use two versions of <code>VisualTreeHelper.FindElementsInHostCoordinates</code> (for point and for rectangle):</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>static</span> <span class=n>IEnumerable</span> <span class=n>FindElementsInHostCoordinates</span><span class=p>(</span>
+ <span class=n>Point</span> <span class=n>intersectingPoint</span><span class=p>,</span>
+ <span class=n>UIElement</span> <span class=n>subtree</span>
+<span class=p>)</span>
+<span class=k>public</span> <span class=k>static</span> <span class=n>IEnumerable</span> <span class=n>FindElementsInHostCoordinates</span><span class=p>(</span>
+ <span class=n>Rect</span> <span class=n>intersectingRect</span><span class=p>,</span>
+ <span class=n>UIElement</span> <span class=n>subtree</span>
+<span class=p>)</span>
+</code></pre></div><p>A list of elements we get will be displayed in <code>StatusBlock</code>:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>private</span> <span class=k>void</span> <span class=n>OnMainCanvasMouseLeftButtonDown</span><span class=p>(</span><span class=kt>object</span> <span class=n>sender</span><span class=p>,</span> 
+                                             <span class=n>MouseButtonEventArgs</span> <span class=n>e</span><span class=p>)</span>
+<span class=p>{</span>
+  <span class=kt>var</span> <span class=n>p</span> <span class=p>=</span> <span class=n>e</span><span class=p>.</span><span class=n>GetPosition</span><span class=p>(</span><span class=n>MainCanvas</span><span class=p>);</span>
+  <span class=kt>var</span> <span class=n>listPoint</span> <span class=p>=</span> <span class=n>VisualTreeHelper</span><span class=p>.</span><span class=n>FindElementsInHostCoordinates</span><span class=p>(</span>
+                    <span class=k>new</span> <span class=n>Point</span><span class=p>(</span><span class=n>p</span><span class=p>.</span><span class=n>X</span><span class=p>,</span> <span class=n>p</span><span class=p>.</span><span class=n>Y</span><span class=p>),</span> <span class=n>MainCanvas</span><span class=p>).</span><span class=n>ToList</span><span class=p>();</span>
+  <span class=kt>var</span> <span class=n>listRect</span> <span class=p>=</span> <span class=n>VisualTreeHelper</span><span class=p>.</span><span class=n>FindElementsInHostCoordinates</span><span class=p>(</span>
+                    <span class=k>new</span> <span class=n>Rect</span><span class=p>(</span><span class=n>p</span><span class=p>.</span><span class=n>X</span><span class=p>,</span> <span class=n>p</span><span class=p>.</span><span class=n>Y</span><span class=p>,</span> <span class=m>1</span><span class=p>,</span> <span class=m>1</span><span class=p>),</span> <span class=n>MainCanvas</span><span class=p>).</span><span class=n>ToList</span><span class=p>();</span>
+  <span class=kt>var</span> <span class=n>strPoint</span> <span class=p>=</span> <span class=kt>string</span><span class=p>.</span><span class=n>Join</span><span class=p>(</span><span class=s>&#34;, &#34;</span><span class=p>,</span> 
+                   <span class=n>listPoint</span><span class=p>.</span><span class=n>Select</span><span class=p>(</span><span class=n>el</span> <span class=p>=&gt;</span> <span class=n>el</span><span class=p>.</span><span class=n>GetType</span><span class=p>().</span><span class=n>Name</span><span class=p>.</span><span class=n>ToString</span><span class=p>()));</span>
+  <span class=kt>var</span> <span class=n>strRect</span> <span class=p>=</span> <span class=kt>string</span><span class=p>.</span><span class=n>Join</span><span class=p>(</span><span class=s>&#34;, &#34;</span><span class=p>,</span> 
+                   <span class=n>listRect</span><span class=p>.</span><span class=n>Select</span><span class=p>(</span><span class=n>el</span> <span class=p>=&gt;</span> <span class=n>el</span><span class=p>.</span><span class=n>GetType</span><span class=p>().</span><span class=n>Name</span><span class=p>.</span><span class=n>ToString</span><span class=p>()));</span>
+  <span class=n>StatusBlock</span><span class=p>.</span><span class=n>Text</span> <span class=p>=</span> <span class=kt>string</span><span class=p>.</span><span class=n>Format</span><span class=p>(</span><span class=s>&#34;[{0}] vs [{1}]&#34;</span><span class=p>,</span> <span class=n>strPoint</span><span class=p>,</span> <span class=n>strRect</span><span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div><p>Our perfect app is ready! Something tells me that considering the rectangle size (1×1) results of two method overloads won’t differ. Let’s check it by clicking on different areas. The picture below shows the result of this test:</p><p class=center><img src=/img/posts/dotnet/findelementsinhostcoordinates/screen2.png></p><p>Everything seems to be ok: all methods work as expected. Now let’s proceed to WinRT. Create a new Windows Store application and add the same markup to it:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Grid</span> <span class=na>Background=</span><span class=s>&#34;{StaticResource ApplicationPageBackgroundThemeBrush}&#34;</span><span class=nt>&gt;</span>
+  <span class=nt>&lt;Grid.RowDefinitions&gt;</span>
+    <span class=nt>&lt;RowDefinition</span> <span class=na>Height=</span><span class=s>&#34;*&#34;</span><span class=nt>/&gt;</span>
+    <span class=nt>&lt;RowDefinition</span> <span class=na>Height=</span><span class=s>&#34;100&#34;</span><span class=nt>/&gt;</span>
+  <span class=nt>&lt;/Grid.RowDefinitions&gt;</span>
 
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
+  <span class=nt>&lt;Canvas</span> <span class=na>Tapped=</span><span class=s>&#34;OnMainCanvasTapped&#34;</span> 
+          <span class=na>x:Name=</span><span class=s>&#34;MainCanvas&#34;</span> <span class=na>Background=</span><span class=s>&#34;LightGreen&#34;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;Ellipse</span> <span class=na>Width=</span><span class=s>&#34;200&#34;</span> <span class=na>Height=</span><span class=s>&#34;200&#34;</span> <span class=na>Fill=</span><span class=s>&#34;LightCoral&#34;</span> <span class=nt>/&gt;</span>
+    <span class=nt>&lt;Path</span> <span class=na>Fill=</span><span class=s>&#34;LightBlue&#34;</span> <span class=na>Data=</span><span class=s>&#34;M 10,100 C 10,300 300,-200 300,100&#34;</span><span class=nt>/&gt;</span>
+  <span class=nt>&lt;/Canvas&gt;</span>
 
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-    
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/posts/findelementsinhostcoordinates/'>Ru</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Strange behavior of FindElementsInHostCoordinates in WinRT</h2>
-<span class="blog-post-meta">
-  <b>Date:</b> April 29, 2014.
-  <b>Tags:</b>
-        <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-        <a href="/tags/silverlight"><span class="badge badge-pill badge-info">Silverlight</span></a>
-        <a href="/tags/winrt"><span class="badge badge-pill badge-info">WinRT</span></a>
-</span><br /><br />
-
-<p>Silverlight features a splendid method: <a href="http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx">VisualTreeHelper.FindElementsInHostCoordinates</a>. It allows the <code>HitTest</code>, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method <a href="http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx">VisualTreeHelper.FindElementsInHostCoordinates</a> is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.<!--more--></p>
-<p>Let’s create a simple Silverlight 5 application. The markup will look like this:</p>
-<pre><code class="language-xml">&lt;Grid x:Name=&quot;LayoutRoot&quot;&gt;
-  &lt;Grid.RowDefinitions&gt;
-    &lt;RowDefinition Height=&quot;*&quot;/&gt;
-    &lt;RowDefinition Height=&quot;100&quot;/&gt;
-  &lt;/Grid.RowDefinitions&gt;
-
-  &lt;Canvas MouseLeftButtonDown=&quot;OnMainCanvasMouseLeftButtonDown&quot; 
-          x:Name=&quot;MainCanvas&quot; Background=&quot;LightGreen&quot;&gt;
-    &lt;Ellipse Width=&quot;200&quot; Height=&quot;200&quot; Fill=&quot;LightCoral&quot; /&gt;
-    &lt;Path Fill=&quot;LightBlue&quot; Data=&quot;M 10,100 C 10,300 300,-200 300,100&quot;/&gt;
-  &lt;/Canvas&gt;
-
-  &lt;TextBlock Grid.Row=&quot;1&quot; x:Name=&quot;StatusBlock&quot; /&gt;
-&lt;/Grid&gt;
-</code></pre>
-<p>It’s very simple: we have a <code>Canvas</code>, an <code>Ellipse</code> and a <code>Path</code> are on the Canvas. A <code>TextBlock</code> for entering some useful info is located under this wonderful masterpiece. The app looks in the following way:</p>
-<p class="center">
-  <img src="/img/posts/dotnet/findelementsinhostcoordinates/screen1.png" />
-</p>
-<p>Now we will add a mouse click event handler: we will get the elements we clicked on. Here we will use two versions of <code>VisualTreeHelper.FindElementsInHostCoordinates</code> (for point and for rectangle):</p>
-<pre><code class="language-cs">public static IEnumerable FindElementsInHostCoordinates(
- Point intersectingPoint,
- UIElement subtree
-)
-public static IEnumerable FindElementsInHostCoordinates(
- Rect intersectingRect,
- UIElement subtree
-)
-</code></pre>
-<p>A list of elements we get will be displayed in <code>StatusBlock</code>:</p>
-<pre><code class="language-cs">private void OnMainCanvasMouseLeftButtonDown(object sender, 
-                                             MouseButtonEventArgs e)
-{
-  var p = e.GetPosition(MainCanvas);
-  var listPoint = VisualTreeHelper.FindElementsInHostCoordinates(
-                    new Point(p.X, p.Y), MainCanvas).ToList();
-  var listRect = VisualTreeHelper.FindElementsInHostCoordinates(
-                    new Rect(p.X, p.Y, 1, 1), MainCanvas).ToList();
-  var strPoint = string.Join(&quot;, &quot;, 
-                   listPoint.Select(el =&gt; el.GetType().Name.ToString()));
-  var strRect = string.Join(&quot;, &quot;, 
-                   listRect.Select(el =&gt; el.GetType().Name.ToString()));
-  StatusBlock.Text = string.Format(&quot;[{0}] vs [{1}]&quot;, strPoint, strRect);
-}
-</code></pre>
-<p>Our perfect app is ready! Something tells me that considering the rectangle size (1×1) results of two method overloads won’t differ. Let’s check it by clicking on different areas. The picture below shows the result of this test:</p>
-<p class="center">
-  <img src="/img/posts/dotnet/findelementsinhostcoordinates/screen2.png" />
-</p>
-<p>Everything seems to be ok: all methods work as expected. Now let’s proceed to WinRT. Create a new Windows Store application and add the same markup to it:</p>
-<pre><code class="language-xml">&lt;Grid Background=&quot;{StaticResource ApplicationPageBackgroundThemeBrush}&quot;&gt;
-  &lt;Grid.RowDefinitions&gt;
-    &lt;RowDefinition Height=&quot;*&quot;/&gt;
-    &lt;RowDefinition Height=&quot;100&quot;/&gt;
-  &lt;/Grid.RowDefinitions&gt;
-
-  &lt;Canvas Tapped=&quot;OnMainCanvasTapped&quot; 
-          x:Name=&quot;MainCanvas&quot; Background=&quot;LightGreen&quot;&gt;
-    &lt;Ellipse Width=&quot;200&quot; Height=&quot;200&quot; Fill=&quot;LightCoral&quot; /&gt;
-    &lt;Path Fill=&quot;LightBlue&quot; Data=&quot;M 10,100 C 10,300 300,-200 300,100&quot;/&gt;
-  &lt;/Canvas&gt;
-
-  &lt;TextBlock Grid.Row=&quot;1&quot; x:Name=&quot;StatusBlock&quot; /&gt;
-&lt;/Grid&gt;
-</code></pre>
-<p>Code of the <code>OnMainCanvasTapped</code> handler matched <code>OnMainCanvasMouseLeftButtonDown</code> code. Let’s run the application and click on it. Results look as follows:</p>
-<p class="center">
-  <img src="/img/posts/dotnet/findelementsinhostcoordinates/screen3.png" />
-</p>
-<p>What a turn out! A short test of the app results in the following conclusion: point <code>HitTest</code> works in the same way as in the Silverlight application while rectangle HitTest for the Path-figures works not for the figure itself, but for its BoundingBox. WinRT applications are created based on the Touch First principle, that’s why Rect-version of the code if more interesting. In most cases this issue won’t be critical, but if an application is oriented to interaction with various arcuate elements, it’s better to pay special attention to the behavior of <code>FindElementsInHostCoordinates</code>.</p>
-<h2 id="cross-posts">Cross-posts</h2>
-<ul>
-<li><a href="http://blogs.perpetuumsoft.com/silverlight/strange-behavior-of-findelementsinhostcoordinates-in-winrt/">blogs.perpetuumsoft.com</a></li>
-</ul>
-
-<!-- Share -->
-
-Share:
-<a href="https://twitter.com/intent/tweet?text=Strange behavior of FindElementsInHostCoordinates in WinRT&url=http://aakinshin.net/posts/findelementsinhostcoordinates/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/findelementsinhostcoordinates/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/findelementsinhostcoordinates/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/findelementsinhostcoordinates/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/findelementsinhostcoordinates/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/findelementsinhostcoordinates/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/findelementsinhostcoordinates/&title=Strange behavior of FindElementsInHostCoordinates in WinRT" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  You can find source code of this post on GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2014/findelementsinhostcoordinates.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2014/findelementsinhostcoordinates.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+  <span class=nt>&lt;TextBlock</span> <span class=na>Grid.Row=</span><span class=s>&#34;1&#34;</span> <span class=na>x:Name=</span><span class=s>&#34;StatusBlock&#34;</span> <span class=nt>/&gt;</span>
+<span class=nt>&lt;/Grid&gt;</span>
+</code></pre></div><p>Code of the <code>OnMainCanvasTapped</code> handler matched <code>OnMainCanvasMouseLeftButtonDown</code> code. Let’s run the application and click on it. Results look as follows:</p><p class=center><img src=/img/posts/dotnet/findelementsinhostcoordinates/screen3.png></p><p>What a turn out! A short test of the app results in the following conclusion: point <code>HitTest</code> works in the same way as in the Silverlight application while rectangle HitTest for the Path-figures works not for the figure itself, but for its BoundingBox. WinRT applications are created based on the Touch First principle, that’s why Rect-version of the code if more interesting. In most cases this issue won’t be critical, but if an application is oriented to interaction with various arcuate elements, it’s better to pay special attention to the behavior of <code>FindElementsInHostCoordinates</code>.</p><h2 id=cross-posts>Cross-posts</h2><ul><li><a href=http://blogs.perpetuumsoft.com/silverlight/strange-behavior-of-findelementsinhostcoordinates-in-winrt/>blogs.perpetuumsoft.com</a></li></ul><br><br><div class=mx-auto>Share:
+<a href="https://twitter.com/intent/tweet?text=Strange%20behavior%20of%20FindElementsInHostCoordinates%20in%20WinRT&url=https%3a%2f%2faakinshin.net%2fposts%2ffindelementsinhostcoordinates%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2ffindelementsinhostcoordinates%2f&title=Strange%20behavior%20of%20FindElementsInHostCoordinates%20in%20WinRT" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2ffindelementsinhostcoordinates%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2ffindelementsinhostcoordinates%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2ffindelementsinhostcoordinates%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2ffindelementsinhostcoordinates%2f&title=Strange%20behavior%20of%20FindElementsInHostCoordinates%20in%20WinRT" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

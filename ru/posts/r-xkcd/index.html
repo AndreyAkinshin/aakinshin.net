@@ -1,284 +1,85 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="Рисуем комиксы в стиле xkcd">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='R,R-plots,R-packages,Fun,xkcd'>
-
-    <title>Рисуем комиксы в стиле xkcd</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/ru/posts/">Блог</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/ru/content/">Содержание</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/ru/about/">Об авторе</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ru</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/posts/r-xkcd/'>En</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/ru/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Рисуем комиксы в стиле xkcd</h2>
-<span class="blog-post-meta">
-  <b>Дата:</b> 03 июня 2013.
-  <b>Теги:</b>
-        <a href="/ru/tags/r"><span class="badge badge-pill badge-info">R</span></a>
-        <a href="/ru/tags/r-plots"><span class="badge badge-pill badge-info">R-plots</span></a>
-        <a href="/ru/tags/r-packages"><span class="badge badge-pill badge-info">R-packages</span></a>
-        <a href="/ru/tags/fun"><span class="badge badge-pill badge-info">Fun</span></a>
-        <a href="/ru/tags/xkcd"><span class="badge badge-pill badge-info">xkcd</span></a>
-</span><br /><br />
-
-<p>Многие слышали о таком замечательном комиксе, как <a href="http://www.xkcd.com/r-xkcd.md">xkcd</a>. Это веб-комикс от <a href="http://ru.wikipedia.org/wiki/%D0%9C%D0%B0%D0%BD%D1%80%D0%BE,_%D0%A0%D1%8D%D0%BD%D0%B4%D0%B5%D0%BB">Рэндела Манро</a> о романтике, сарказме, математике и языке. Для некоторых комиксов есть
-<a href="http://www.xkcd.ru/r-xkcd.md">переводы на русский</a>. Для поиска и просмотра ваших любимых комиксов в R есть отдельный пакет:
-<a href="http://cran.r-project.org/web/packages/RXKCD/index.html">RXKCD</a>. Давайте установим этот пакет и подключим его:</p>
-<pre><code class="language-r">install.packages(&quot;RXKCD&quot;)
-library(&quot;RXKCD&quot;)
-</code></pre>
-<p>Давайте поищем какой-нибудь комикс, а затем нарисуем его. Функция <i>searchXKCD</i>
+<!doctype html><html lang=ru class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Андрей Акиньшин"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Рисуем комиксы в стиле xkcd | Андрей Акиньшин</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/ru/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/posts/>Посты</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/ru/about/>Об авторе</a></li><li class=nav-item><a class=nav-link id=nav-link-about href>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/ru/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Рисуем комиксы в стиле xkcd</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2013-06-03>3 июня 2013</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/r class="badge badge-info">R</a>
+<a href=https://aakinshin.net/tags/r-plots class="badge badge-info">R-plots</a>
+<a href=https://aakinshin.net/tags/r-packages class="badge badge-info">R-packages</a>
+<a href=https://aakinshin.net/tags/fun class="badge badge-info">Fun</a>
+<a href=https://aakinshin.net/tags/xkcd class="badge badge-info">xkcd</a></span><br><br><p>Многие слышали о таком замечательном комиксе, как <a href=http://www.xkcd.com/r-xkcd.md>xkcd</a>. Это веб-комикс от <a href=http://ru.wikipedia.org/wiki/%D0%9C%D0%B0%D0%BD%D1%80%D0%BE,_%D0%A0%D1%8D%D0%BD%D0%B4%D0%B5%D0%BB>Рэндела Манро</a> о романтике, сарказме, математике и языке. Для некоторых комиксов есть
+<a href=http://www.xkcd.ru/r-xkcd.md>переводы на русский</a>. Для поиска и просмотра ваших любимых комиксов в R есть отдельный пакет:
+<a href=http://cran.r-project.org/web/packages/RXKCD/index.html>RXKCD</a>. Давайте установим этот пакет и подключим его:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=nf>install.packages</span><span class=p>(</span><span class=s>&#34;RXKCD&#34;</span><span class=p>)</span>
+<span class=nf>library</span><span class=p>(</span><span class=s>&#34;RXKCD&#34;</span><span class=p>)</span>
+</code></pre></div><p>Давайте поищем какой-нибудь комикс, а затем нарисуем его. Функция <i>searchXKCD</i>
 выдаст нам список всех комиксов, в описании которых встречается заданная фраза. А <i>getXKCD</i>
-выдаст нам полную информацию о комиксе по заданному номеру (включая рисование картинки).</p>
-<pre><code class="language-r">searchXKCD(&quot;someone is wrong&quot;)
-getXKCD(386)
-</code></pre>
-<p class="center">
-  <img src="/img/posts/r/xkcd/screen1.png" />
-</p>
-<p>А теперь помимо стандартных комиксов научимся рисовать свои! <!--more--> Но только вот нарисовать целиком комикс будет не так просто, но вот график в стиле xkcd — проще простого. На Stackoverflow однажды был <a href="http://stackoverflow.com/questions/12675147/how-can-we-make-xkcd-style-graphs-in-r">вопрос</a> о том, как это сделать. Прежде всего, нам понадобится основной шрифт комиксов xkcd — <a href="http://r-language.ru/wp-admin/post.php?post=104&amp;action=edit&amp;message=10">Humor-Sans</a>. Чтобы работать с разными клёвыми шрифтами, нужно прописать следующие строчки:</p>
-<pre><code class="language-r">library(extrafont)
-loadfonts()
-</code></pre>
-<p>Но в некоторых случаях конкретно с Humor-Sans у вас могут быть проблемы (подробнее можно почитать <a href="http://www.r-bloggers.com/change-fonts-in-ggplot2-and-create-xkcd-style-graphs/r-xkcd.md">тут</a>). Если, например, <a href="http://stackoverflow.com/questions/13989644/xkcd-style-graph-error-with-registered-fonts">вы работаете на ОС Windows</a>, то вам необходимо вручную <a href="http://antiyawn.com/uploads/Humor-Sans.ttf">скачать</a> этот шрифт, а затем подключить его:</p>
-<pre><code class="language-r">font_import(paths = c(&quot;path/to/humor-sans&quot;))
-loadfonts(device = &quot;win&quot;)
-</code></pre>
-<p>Теперь мы готовы нарисовать график. Для начала посмотрим способ через <a href="http://ggplot2.org/">ggplot2</a>. Подготовим данные для рисования:</p>
-<pre><code class="language-r">data &lt;- NULL
-data$x &lt;- seq(1, 10, 0.1)
-data$y1 &lt;- sin(data$x)
-data$y2 &lt;- cos(data$x)
-data$xaxis &lt;- -1.5
-data &lt;- as.data.frame(data)
-</code></pre>
-<p>А теперь подключим ggplot2, подготовим тему для рисования xkcd-комиксов, нарисуем график и сохраним его в картинку:</p>
-<pre><code class="language-r">library(&quot;ggplot2&quot;)
+выдаст нам полную информацию о комиксе по заданному номеру (включая рисование картинки).</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=nf>searchXKCD</span><span class=p>(</span><span class=s>&#34;someone is wrong&#34;</span><span class=p>)</span>
+<span class=nf>getXKCD</span><span class=p>(</span><span class=m>386</span><span class=p>)</span>
+</code></pre></div><p class=center><img src=/img/posts/r/xkcd/screen1.png></p><p>А теперь помимо стандартных комиксов научимся рисовать свои!</p><p>Но только вот нарисовать целиком комикс будет не так просто, но вот график в стиле xkcd — проще простого. На Stackoverflow однажды был <a href=http://stackoverflow.com/questions/12675147/how-can-we-make-xkcd-style-graphs-in-r>вопрос</a> о том, как это сделать. Прежде всего, нам понадобится основной шрифт комиксов xkcd — <a href="http://r-language.ru/wp-admin/post.php?post=104&action=edit&message=10">Humor-Sans</a>. Чтобы работать с разными клёвыми шрифтами, нужно прописать следующие строчки:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=nf>library</span><span class=p>(</span><span class=n>extrafont</span><span class=p>)</span>
+<span class=nf>loadfonts</span><span class=p>()</span>
+</code></pre></div><p>Но в некоторых случаях конкретно с Humor-Sans у вас могут быть проблемы (подробнее можно почитать <a href=http://www.r-bloggers.com/change-fonts-in-ggplot2-and-create-xkcd-style-graphs/r-xkcd.md>тут</a>). Если, например, <a href=http://stackoverflow.com/questions/13989644/xkcd-style-graph-error-with-registered-fonts>вы работаете на ОС Windows</a>, то вам необходимо вручную <a href=http://antiyawn.com/uploads/Humor-Sans.ttf>скачать</a> этот шрифт, а затем подключить его:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=nf>font_import</span><span class=p>(</span><span class=n>paths</span> <span class=o>=</span> <span class=nf>c</span><span class=p>(</span><span class=s>&#34;path/to/humor-sans&#34;</span><span class=p>))</span>
+<span class=nf>loadfonts</span><span class=p>(</span><span class=n>device</span> <span class=o>=</span> <span class=s>&#34;win&#34;</span><span class=p>)</span>
+</code></pre></div><p>Теперь мы готовы нарисовать график. Для начала посмотрим способ через <a href=http://ggplot2.org/>ggplot2</a>. Подготовим данные для рисования:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=n>data</span> <span class=o>&lt;-</span> <span class=kc>NULL</span>
+<span class=n>data</span><span class=o>$</span><span class=n>x</span> <span class=o>&lt;-</span> <span class=nf>seq</span><span class=p>(</span><span class=m>1</span><span class=p>,</span> <span class=m>10</span><span class=p>,</span> <span class=m>0.1</span><span class=p>)</span>
+<span class=n>data</span><span class=o>$</span><span class=n>y1</span> <span class=o>&lt;-</span> <span class=nf>sin</span><span class=p>(</span><span class=n>data</span><span class=o>$</span><span class=n>x</span><span class=p>)</span>
+<span class=n>data</span><span class=o>$</span><span class=n>y2</span> <span class=o>&lt;-</span> <span class=nf>cos</span><span class=p>(</span><span class=n>data</span><span class=o>$</span><span class=n>x</span><span class=p>)</span>
+<span class=n>data</span><span class=o>$</span><span class=n>xaxis</span> <span class=o>&lt;-</span> <span class=m>-1.5</span>
+<span class=n>data</span> <span class=o>&lt;-</span> <span class=nf>as.data.frame</span><span class=p>(</span><span class=n>data</span><span class=p>)</span>
+</code></pre></div><p>А теперь подключим ggplot2, подготовим тему для рисования xkcd-комиксов, нарисуем график и сохраним его в картинку:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=nf>library</span><span class=p>(</span><span class=s>&#34;ggplot2&#34;</span><span class=p>)</span>
  
-# XKCD theme
-theme_xkcd &lt;- theme(
-  panel.background = element_rect(fill=&quot;white&quot;), 
-  axis.ticks = element_line(colour=NA),
-  panel.grid = element_line(colour=&quot;white&quot;),
-  axis.text.y = element_text(colour=NA), 
-  axis.text.x = element_text(colour=&quot;black&quot;),
-  text = element_text(size=16, family=&quot;Humor Sans&quot;)
-)
+<span class=c1># XKCD theme</span>
+<span class=n>theme_xkcd</span> <span class=o>&lt;-</span> <span class=nf>theme</span><span class=p>(</span>
+  <span class=n>panel.background</span> <span class=o>=</span> <span class=nf>element_rect</span><span class=p>(</span><span class=n>fill</span><span class=o>=</span><span class=s>&#34;white&#34;</span><span class=p>),</span> 
+  <span class=n>axis.ticks</span> <span class=o>=</span> <span class=nf>element_line</span><span class=p>(</span><span class=n>colour</span><span class=o>=</span><span class=kc>NA</span><span class=p>),</span>
+  <span class=n>panel.grid</span> <span class=o>=</span> <span class=nf>element_line</span><span class=p>(</span><span class=n>colour</span><span class=o>=</span><span class=s>&#34;white&#34;</span><span class=p>),</span>
+  <span class=n>axis.text.y</span> <span class=o>=</span> <span class=nf>element_text</span><span class=p>(</span><span class=n>colour</span><span class=o>=</span><span class=kc>NA</span><span class=p>),</span> 
+  <span class=n>axis.text.x</span> <span class=o>=</span> <span class=nf>element_text</span><span class=p>(</span><span class=n>colour</span><span class=o>=</span><span class=s>&#34;black&#34;</span><span class=p>),</span>
+  <span class=n>text</span> <span class=o>=</span> <span class=nf>element_text</span><span class=p>(</span><span class=n>size</span><span class=o>=</span><span class=m>16</span><span class=p>,</span> <span class=n>family</span><span class=o>=</span><span class=s>&#34;Humor Sans&#34;</span><span class=p>)</span>
+<span class=p>)</span>
  
-# Plot the chart
-p &lt;- ggplot(data=data, aes(x=x, y=y1))+
-  geom_line(aes(y=y2), position=&quot;jitter&quot;)+
-  geom_line(colour=&quot;white&quot;, size=3, position=&quot;jitter&quot;)+
-  geom_line(colour=&quot;red&quot;, size=1, position=&quot;jitter&quot;)+
-  geom_text(family=&quot;Humor Sans&quot;, x=6, y=-1.2, label=&quot;A SIN AND COS CURVE&quot;)+
-  geom_line(aes(y=xaxis), position = position_jitter(h = 0.005), colour=&quot;black&quot;)+
-  scale_x_continuous(breaks=c(2, 5, 6, 9), 
-                     labels = c(&quot;YARD&quot;, &quot;STEPS&quot;, &quot;DOOR&quot;, &quot;INSIDE&quot;))+labs(x=&quot;&quot;, y=&quot;&quot;)+
-  theme_xkcd
+<span class=c1># Plot the chart</span>
+<span class=n>p</span> <span class=o>&lt;-</span> <span class=nf>ggplot</span><span class=p>(</span><span class=n>data</span><span class=o>=</span><span class=n>data</span><span class=p>,</span> <span class=nf>aes</span><span class=p>(</span><span class=n>x</span><span class=o>=</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=o>=</span><span class=n>y1</span><span class=p>))</span><span class=o>+</span>
+  <span class=nf>geom_line</span><span class=p>(</span><span class=nf>aes</span><span class=p>(</span><span class=n>y</span><span class=o>=</span><span class=n>y2</span><span class=p>),</span> <span class=n>position</span><span class=o>=</span><span class=s>&#34;jitter&#34;</span><span class=p>)</span><span class=o>+</span>
+  <span class=nf>geom_line</span><span class=p>(</span><span class=n>colour</span><span class=o>=</span><span class=s>&#34;white&#34;</span><span class=p>,</span> <span class=n>size</span><span class=o>=</span><span class=m>3</span><span class=p>,</span> <span class=n>position</span><span class=o>=</span><span class=s>&#34;jitter&#34;</span><span class=p>)</span><span class=o>+</span>
+  <span class=nf>geom_line</span><span class=p>(</span><span class=n>colour</span><span class=o>=</span><span class=s>&#34;red&#34;</span><span class=p>,</span> <span class=n>size</span><span class=o>=</span><span class=m>1</span><span class=p>,</span> <span class=n>position</span><span class=o>=</span><span class=s>&#34;jitter&#34;</span><span class=p>)</span><span class=o>+</span>
+  <span class=nf>geom_text</span><span class=p>(</span><span class=n>family</span><span class=o>=</span><span class=s>&#34;Humor Sans&#34;</span><span class=p>,</span> <span class=n>x</span><span class=o>=</span><span class=m>6</span><span class=p>,</span> <span class=n>y</span><span class=o>=</span><span class=m>-1.2</span><span class=p>,</span> <span class=n>label</span><span class=o>=</span><span class=s>&#34;A SIN AND COS CURVE&#34;</span><span class=p>)</span><span class=o>+</span>
+  <span class=nf>geom_line</span><span class=p>(</span><span class=nf>aes</span><span class=p>(</span><span class=n>y</span><span class=o>=</span><span class=n>xaxis</span><span class=p>),</span> <span class=n>position</span> <span class=o>=</span> <span class=nf>position_jitter</span><span class=p>(</span><span class=n>h</span> <span class=o>=</span> <span class=m>0.005</span><span class=p>),</span> <span class=n>colour</span><span class=o>=</span><span class=s>&#34;black&#34;</span><span class=p>)</span><span class=o>+</span>
+  <span class=nf>scale_x_continuous</span><span class=p>(</span><span class=n>breaks</span><span class=o>=</span><span class=nf>c</span><span class=p>(</span><span class=m>2</span><span class=p>,</span> <span class=m>5</span><span class=p>,</span> <span class=m>6</span><span class=p>,</span> <span class=m>9</span><span class=p>),</span> 
+                     <span class=n>labels</span> <span class=o>=</span> <span class=nf>c</span><span class=p>(</span><span class=s>&#34;YARD&#34;</span><span class=p>,</span> <span class=s>&#34;STEPS&#34;</span><span class=p>,</span> <span class=s>&#34;DOOR&#34;</span><span class=p>,</span> <span class=s>&#34;INSIDE&#34;</span><span class=p>))</span><span class=o>+</span><span class=nf>labs</span><span class=p>(</span><span class=n>x</span><span class=o>=</span><span class=s>&#34;&#34;</span><span class=p>,</span> <span class=n>y</span><span class=o>=</span><span class=s>&#34;&#34;</span><span class=p>)</span><span class=o>+</span>
+  <span class=n>theme_xkcd</span>
  
-# Save to png
-ggsave(&quot;xkcd_ggplot.jpg&quot;, plot=p, width=8, height=5)
-</code></pre>
-<p class="center">
-  <img src="/img/posts/r/xkcd/screen2.png" />
-</p>
-<br />
-<p>Мы рассмотрели способ рисования графика через jitter-функциональность пакета ggplot2. А <a href="http://stackoverflow.com/a/12680841/184842">в другом ответе</a> предлагается способ эмуляции рисования &quot;от руки&quot; вручную. Создаётся функция рисования линии:</p>
-<pre><code class="language-r">xkcd_line &lt;- function(x, y, color) {
-  len &lt;- length(x);
-  rg &lt;- par(&quot;usr&quot;);
-  yjitter &lt;- (rg[4] - rg[3]) / 1000;
-  xjitter &lt;- (rg[2] - rg[1]) / 1000;
-  x_mod &lt;- x + rnorm(len) * xjitter;
-  y_mod &lt;- y + rnorm(len) * yjitter;
-  lines(x_mod, y_mod, col='white', lwd=10);
-  lines(x_mod, y_mod, col=color, lwd=5);
-}
-</code></pre>
-<p>И функция рисования осей:</p>
-<pre><code class="language-r">xkcd_axis &lt;- function() {
-  rg &lt;- par(&quot;usr&quot;);
-  yaxis &lt;- 1:100 / 100 * (rg[4] - rg[3]) + rg[3];
-  xaxis &lt;- 1:100 / 100 * (rg[2] - rg[1]) + rg[1];
-  xkcd_line(1:100 * 0 + rg[1] + (rg[2]-rg[1])/100, yaxis,'black')
-  xkcd_line(xaxis, 1:100 * 0 + rg[3] + (rg[4]-rg[3])/100, 'black')
-}
-</code></pre>
-<p>А теперь давайте нарисуем простенький график:</p>
-<pre><code class="language-r">data &lt;- data.frame(x=1:100)
-data$one &lt;- exp(-((data$x - 50)/10)^2)
-data$two &lt;- sin(data$x/10)
-plot.new()
-plot.window(
-    c(min(data$x),max(data$x)),
-    c(min(c(data$one,data$two)),max(c(data$one,data$two))))
-xkcd_axis()
-xkcd_line(data$x, data$one, 'red')
-xkcd_line(data$x, data$two, 'blue')
-</code></pre>
-<p>В результате получим следующее изображение:</p>
-<p class="center">
-  <img src="/img/posts/r/xkcd/screen3.png" />
-</p>
-<p>Есть и другие варианты рисования картинок в стилистике xkcd. <a href="http://blog.phytools.org/2012/10/actual-xkcd-tree.html">Например</a>, можно рисовать древовидные структуры следующего вида:</p>
-<p class="center">
-  <img src="/img/posts/r/xkcd/screen4.png" />
-</p>
-<p>А поможет нам в этом пакет <a href="http://cran.r-project.org/web/packages/phytools/index.html">phytools</a>. Пользоваться им достаточно просто. К примеру, вот такой код:</p>
-<pre><code class="language-r">require(phytools)
-require(&quot;extrafont&quot;)
-tree&lt;-read.tree(text=&quot;((mammals,(birds,reptiles)),amphibians);&quot;)
-tree&lt;-compute.brlen(tree)
-xkcdTree(tree,file=&quot;herpetology.pdf&quot;,lwd=2,color=&quot;black&quot;, 
-         dim=c(4,4),jitter=0.001,waver=c(0.03,0.03))
-</code></pre>
-<p>даст нам такую вот замечательную картинку:</p>
-<p class="center">
-  <img src="/img/posts/r/xkcd/screen5.png" />
-</p>
-
-<!-- Share -->
-
-Поделиться:
-<a href="https://twitter.com/intent/tweet?text=Рисуем комиксы в стиле xkcd&url=http://aakinshin.net/ru/posts/r-xkcd/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/ru/posts/r-xkcd/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/ru/posts/r-xkcd/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/posts/r-xkcd/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/ru/posts/r-xkcd/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/ru/posts/r-xkcd/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/ru/posts/r-xkcd/&title=Рисуем комиксы в стиле xkcd" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  Исходный код поста находится на GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2013/r-xkcd.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2013/r-xkcd.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Андрей Акиньшин | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+<span class=c1># Save to png</span>
+<span class=nf>ggsave</span><span class=p>(</span><span class=s>&#34;xkcd_ggplot.jpg&#34;</span><span class=p>,</span> <span class=n>plot</span><span class=o>=</span><span class=n>p</span><span class=p>,</span> <span class=n>width</span><span class=o>=</span><span class=m>8</span><span class=p>,</span> <span class=n>height</span><span class=o>=</span><span class=m>5</span><span class=p>)</span>
+</code></pre></div><p class=center><img src=/img/posts/r/xkcd/screen2.png></p><p><br></p><p>Мы рассмотрели способ рисования графика через jitter-функциональность пакета ggplot2. А <a href=http://stackoverflow.com/a/12680841/184842>в другом ответе</a> предлагается способ эмуляции рисования &ldquo;от руки&rdquo; вручную. Создаётся функция рисования линии:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=n>xkcd_line</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>,</span> <span class=n>color</span><span class=p>)</span> <span class=p>{</span>
+  <span class=n>len</span> <span class=o>&lt;-</span> <span class=nf>length</span><span class=p>(</span><span class=n>x</span><span class=p>);</span>
+  <span class=n>rg</span> <span class=o>&lt;-</span> <span class=nf>par</span><span class=p>(</span><span class=s>&#34;usr&#34;</span><span class=p>);</span>
+  <span class=n>yjitter</span> <span class=o>&lt;-</span> <span class=p>(</span><span class=n>rg[4]</span> <span class=o>-</span> <span class=n>rg[3]</span><span class=p>)</span> <span class=o>/</span> <span class=m>1000</span><span class=p>;</span>
+  <span class=n>xjitter</span> <span class=o>&lt;-</span> <span class=p>(</span><span class=n>rg[2]</span> <span class=o>-</span> <span class=n>rg[1]</span><span class=p>)</span> <span class=o>/</span> <span class=m>1000</span><span class=p>;</span>
+  <span class=n>x_mod</span> <span class=o>&lt;-</span> <span class=n>x</span> <span class=o>+</span> <span class=nf>rnorm</span><span class=p>(</span><span class=n>len</span><span class=p>)</span> <span class=o>*</span> <span class=n>xjitter</span><span class=p>;</span>
+  <span class=n>y_mod</span> <span class=o>&lt;-</span> <span class=n>y</span> <span class=o>+</span> <span class=nf>rnorm</span><span class=p>(</span><span class=n>len</span><span class=p>)</span> <span class=o>*</span> <span class=n>yjitter</span><span class=p>;</span>
+  <span class=nf>lines</span><span class=p>(</span><span class=n>x_mod</span><span class=p>,</span> <span class=n>y_mod</span><span class=p>,</span> <span class=n>col</span><span class=o>=</span><span class=s>&#39;white&#39;</span><span class=p>,</span> <span class=n>lwd</span><span class=o>=</span><span class=m>10</span><span class=p>);</span>
+  <span class=nf>lines</span><span class=p>(</span><span class=n>x_mod</span><span class=p>,</span> <span class=n>y_mod</span><span class=p>,</span> <span class=n>col</span><span class=o>=</span><span class=n>color</span><span class=p>,</span> <span class=n>lwd</span><span class=o>=</span><span class=m>5</span><span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div><p>И функция рисования осей:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=n>xkcd_axis</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>()</span> <span class=p>{</span>
+  <span class=n>rg</span> <span class=o>&lt;-</span> <span class=nf>par</span><span class=p>(</span><span class=s>&#34;usr&#34;</span><span class=p>);</span>
+  <span class=n>yaxis</span> <span class=o>&lt;-</span> <span class=m>1</span><span class=o>:</span><span class=m>100</span> <span class=o>/</span> <span class=m>100</span> <span class=o>*</span> <span class=p>(</span><span class=n>rg[4]</span> <span class=o>-</span> <span class=n>rg[3]</span><span class=p>)</span> <span class=o>+</span> <span class=n>rg[3]</span><span class=p>;</span>
+  <span class=n>xaxis</span> <span class=o>&lt;-</span> <span class=m>1</span><span class=o>:</span><span class=m>100</span> <span class=o>/</span> <span class=m>100</span> <span class=o>*</span> <span class=p>(</span><span class=n>rg[2]</span> <span class=o>-</span> <span class=n>rg[1]</span><span class=p>)</span> <span class=o>+</span> <span class=n>rg[1]</span><span class=p>;</span>
+  <span class=nf>xkcd_line</span><span class=p>(</span><span class=m>1</span><span class=o>:</span><span class=m>100</span> <span class=o>*</span> <span class=m>0</span> <span class=o>+</span> <span class=n>rg[1]</span> <span class=o>+</span> <span class=p>(</span><span class=n>rg[2]</span><span class=o>-</span><span class=n>rg[1]</span><span class=p>)</span><span class=o>/</span><span class=m>100</span><span class=p>,</span> <span class=n>yaxis</span><span class=p>,</span><span class=s>&#39;black&#39;</span><span class=p>)</span>
+  <span class=nf>xkcd_line</span><span class=p>(</span><span class=n>xaxis</span><span class=p>,</span> <span class=m>1</span><span class=o>:</span><span class=m>100</span> <span class=o>*</span> <span class=m>0</span> <span class=o>+</span> <span class=n>rg[3]</span> <span class=o>+</span> <span class=p>(</span><span class=n>rg[4]</span><span class=o>-</span><span class=n>rg[3]</span><span class=p>)</span><span class=o>/</span><span class=m>100</span><span class=p>,</span> <span class=s>&#39;black&#39;</span><span class=p>)</span>
+<span class=p>}</span>
+</code></pre></div><p>А теперь давайте нарисуем простенький график:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=n>data</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>(</span><span class=n>x</span><span class=o>=</span><span class=m>1</span><span class=o>:</span><span class=m>100</span><span class=p>)</span>
+<span class=n>data</span><span class=o>$</span><span class=n>one</span> <span class=o>&lt;-</span> <span class=nf>exp</span><span class=p>(</span><span class=o>-</span><span class=p>((</span><span class=n>data</span><span class=o>$</span><span class=n>x</span> <span class=o>-</span> <span class=m>50</span><span class=p>)</span><span class=o>/</span><span class=m>10</span><span class=p>)</span><span class=n>^2</span><span class=p>)</span>
+<span class=n>data</span><span class=o>$</span><span class=n>two</span> <span class=o>&lt;-</span> <span class=nf>sin</span><span class=p>(</span><span class=n>data</span><span class=o>$</span><span class=n>x</span><span class=o>/</span><span class=m>10</span><span class=p>)</span>
+<span class=nf>plot.new</span><span class=p>()</span>
+<span class=nf>plot.window</span><span class=p>(</span>
+    <span class=nf>c</span><span class=p>(</span><span class=nf>min</span><span class=p>(</span><span class=n>data</span><span class=o>$</span><span class=n>x</span><span class=p>),</span><span class=nf>max</span><span class=p>(</span><span class=n>data</span><span class=o>$</span><span class=n>x</span><span class=p>)),</span>
+    <span class=nf>c</span><span class=p>(</span><span class=nf>min</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=n>data</span><span class=o>$</span><span class=n>one</span><span class=p>,</span><span class=n>data</span><span class=o>$</span><span class=n>two</span><span class=p>)),</span><span class=nf>max</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=n>data</span><span class=o>$</span><span class=n>one</span><span class=p>,</span><span class=n>data</span><span class=o>$</span><span class=n>two</span><span class=p>))))</span>
+<span class=nf>xkcd_axis</span><span class=p>()</span>
+<span class=nf>xkcd_line</span><span class=p>(</span><span class=n>data</span><span class=o>$</span><span class=n>x</span><span class=p>,</span> <span class=n>data</span><span class=o>$</span><span class=n>one</span><span class=p>,</span> <span class=s>&#39;red&#39;</span><span class=p>)</span>
+<span class=nf>xkcd_line</span><span class=p>(</span><span class=n>data</span><span class=o>$</span><span class=n>x</span><span class=p>,</span> <span class=n>data</span><span class=o>$</span><span class=n>two</span><span class=p>,</span> <span class=s>&#39;blue&#39;</span><span class=p>)</span>
+</code></pre></div><p>В результате получим следующее изображение:</p><p class=center><img src=/img/posts/r/xkcd/screen3.png></p><p>Есть и другие варианты рисования картинок в стилистике xkcd. <a href=http://blog.phytools.org/2012/10/actual-xkcd-tree.html>Например</a>, можно рисовать древовидные структуры следующего вида:</p><p class=center><img src=/img/posts/r/xkcd/screen4.png></p><p>А поможет нам в этом пакет <a href=http://cran.r-project.org/web/packages/phytools/index.html>phytools</a>. Пользоваться им достаточно просто. К примеру, вот такой код:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=nf>require</span><span class=p>(</span><span class=n>phytools</span><span class=p>)</span>
+<span class=nf>require</span><span class=p>(</span><span class=s>&#34;extrafont&#34;</span><span class=p>)</span>
+<span class=n>tree</span><span class=o>&lt;-</span><span class=nf>read.tree</span><span class=p>(</span><span class=n>text</span><span class=o>=</span><span class=s>&#34;((mammals,(birds,reptiles)),amphibians);&#34;</span><span class=p>)</span>
+<span class=n>tree</span><span class=o>&lt;-</span><span class=nf>compute.brlen</span><span class=p>(</span><span class=n>tree</span><span class=p>)</span>
+<span class=nf>xkcdTree</span><span class=p>(</span><span class=n>tree</span><span class=p>,</span><span class=n>file</span><span class=o>=</span><span class=s>&#34;herpetology.pdf&#34;</span><span class=p>,</span><span class=n>lwd</span><span class=o>=</span><span class=m>2</span><span class=p>,</span><span class=n>color</span><span class=o>=</span><span class=s>&#34;black&#34;</span><span class=p>,</span> 
+         <span class=n>dim</span><span class=o>=</span><span class=nf>c</span><span class=p>(</span><span class=m>4</span><span class=p>,</span><span class=m>4</span><span class=p>),</span><span class=n>jitter</span><span class=o>=</span><span class=m>0.001</span><span class=p>,</span><span class=n>waver</span><span class=o>=</span><span class=nf>c</span><span class=p>(</span><span class=m>0.03</span><span class=p>,</span><span class=m>0.03</span><span class=p>))</span>
+</code></pre></div><p>даст нам такую вот замечательную картинку:</p><p class=center><img src=/img/posts/r/xkcd/screen5.png></p><br><br><div class=mx-auto>Поделиться:
+<a href="https://twitter.com/intent/tweet?text=%d0%a0%d0%b8%d1%81%d1%83%d0%b5%d0%bc%20%d0%ba%d0%be%d0%bc%d0%b8%d0%ba%d1%81%d1%8b%20%d0%b2%20%d1%81%d1%82%d0%b8%d0%bb%d0%b5%20xkcd&url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-xkcd%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-xkcd%2f&title=%d0%a0%d0%b8%d1%81%d1%83%d0%b5%d0%bc%20%d0%ba%d0%be%d0%bc%d0%b8%d0%ba%d1%81%d1%8b%20%d0%b2%20%d1%81%d1%82%d0%b8%d0%bb%d0%b5%20xkcd" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-xkcd%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-xkcd%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-xkcd%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-xkcd%2f&title=%d0%a0%d0%b8%d1%81%d1%83%d0%b5%d0%bc%20%d0%ba%d0%be%d0%bc%d0%b8%d0%ba%d1%81%d1%8b%20%d0%b2%20%d1%81%d1%82%d0%b8%d0%bb%d0%b5%20xkcd" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Андрей Акиньшин | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

@@ -1,225 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="65535 interfaces ought to be enough for anybody">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,Rider,Bugs,Mono'>
-
-    <title>65535 interfaces ought to be enough for anybody</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-    
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/posts/mono-and-65535interfaces/'>Ru</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">65535 interfaces ought to be enough for anybody</h2>
-<span class="blog-post-meta">
-  <b>Date:</b> February 14, 2017.
-  <b>Tags:</b>
-        <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
-        <a href="/tags/bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
-        <a href="/tags/mono"><span class="badge badge-pill badge-info">Mono</span></a>
-</span><br /><br />
-
-<p>It was a bright, sunny morning.
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>65535 interfaces ought to be enough for anybody | Andrey Akinshin</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>65535 interfaces ought to be enough for anybody</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2017-02-14>February 14, 2017</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/rider class="badge badge-info">Rider</a>
+<a href=https://aakinshin.net/tags/bugs class="badge badge-info">Bugs</a>
+<a href=https://aakinshin.net/tags/mono class="badge badge-info">Mono</a></span><br><br><p>It was a bright, sunny morning.
 There were no signs of trouble.
-I came to work, opened Slack, and received many messages from my coworkers about failed tests.</p>
-<div class="mx-auto">
-  <img class="mx-auto d-block" width="800" src="/img/posts/dotnet/mono-and-65535interfaces/front.png" />
-</div>
-<p>After a few hours of investigation, the situation became clear:</p>
-<ul>
-<li>I'm responsible for the unit tests subsystem in <a href="https://www.jetbrains.com/rider/">Rider</a>, and only tests from this subsystem were failing.</li>
-<li>I didn't commit anything to the subsystem for a week because I worked with a local branch.
-Other developers also didn't touch this code.</li>
-<li>The unit tests subsystem is completely independent.
-It's hard to imagine a situation when only the corresponded tests would fail, thousands of other tests pass, and there are no changes in the source code.</li>
-<li><code>git blame</code> helped to find the &quot;bad commit&quot;: it didn't include anything suspicious, only a few additional classes in other subsystems.</li>
-<li>Only tests on Linux and MacOS were red.
-On Windows, everything was ok.</li>
-<li>Stacktraces in failed tests were completely random.
+I came to work, opened Slack, and received many messages from my coworkers about failed tests.</p><div class=mx-auto><img class="mx-auto d-block" width=800 src=/img/posts/dotnet/mono-and-65535interfaces/front.png></div><p>After a few hours of investigation, the situation became clear:</p><ul><li>I&rsquo;m responsible for the unit tests subsystem in <a href=https://www.jetbrains.com/rider/>Rider</a>, and only tests from this subsystem were failing.</li><li>I didn&rsquo;t commit anything to the subsystem for a week because I worked with a local branch.
+Other developers also didn&rsquo;t touch this code.</li><li>The unit tests subsystem is completely independent.
+It&rsquo;s hard to imagine a situation when only the corresponded tests would fail, thousands of other tests pass, and there are no changes in the source code.</li><li><code>git blame</code> helped to find the &ldquo;bad commit&rdquo;: it didn&rsquo;t include anything suspicious, only a few additional classes in other subsystems.</li><li>Only tests on Linux and MacOS were red.
+On Windows, everything was ok.</li><li>Stacktraces in failed tests were completely random.
 We had a new stack trace in each test from different subsystems.
-There was no connection between these stack traces, unit tests source code, and the changes in the &quot;bad commit.&quot;
-There was no clue where we should look for a problem.</li>
-</ul>
-<p>So, what was special about this &quot;bad commit&quot;? Spoiler: after these changes, we sometimes have more than 65535 interface implementations at runtime.</p>
-<!--more-->
-<h3 id="going-back-to-2005">Going back to 2005</h3>
-<p>Do you remember these days?
+There was no connection between these stack traces, unit tests source code, and the changes in the &ldquo;bad commit.&rdquo;
+There was no clue where we should look for a problem.</li></ul><p>So, what was special about this &ldquo;bad commit&rdquo;? Spoiler: after these changes, we sometimes have more than 65535 interface implementations at runtime.</p><h3 id=going-back-to-2005>Going back to 2005</h3><p>Do you remember these days?
 It was time of the
-<a href="https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_1.1">.NET Framework 1.1</a>,
+<a href=https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_1.1>.NET Framework 1.1</a>,
 <a href="https://msdn.microsoft.com/en-us/library/aa289527(v=vs.71).aspx">C# 1.2</a>, and
-<a href="http://www.mono-project.com/docs/about-mono/releases/1.1.3/">Mono 1.1.3</a>.
+<a href=http://www.mono-project.com/docs/about-mono/releases/1.1.3/>Mono 1.1.3</a>.
 Yes, Mono already existed, but no one ran huge applications on it.
-So, it seemed ok <a href="https://github.com/mono/mono/commit/4e68cba74f65110cf894867c43754f9655bac297">to use</a> 16-bit integer type <code>guint16</code> for <code>interface_id</code>.
-Indeed, who needs more than 65535 interfaces?</p>
-<div class="mx-auto">
-  <img class="mx-auto d-block" width="800" src="/img/posts/dotnet/mono-and-65535interfaces/commit2005.png" />
-</div>
-<h3 id="present-day">Present day</h3>
-<p>Rider uses the <a href="https://www.jetbrains.com/resharper/">ReSharper</a> codebase which is really big.
+So, it seemed ok <a href=https://github.com/mono/mono/commit/4e68cba74f65110cf894867c43754f9655bac297>to use</a> 16-bit integer type <code>guint16</code> for <code>interface_id</code>.
+Indeed, who needs more than 65535 interfaces?</p><div class=mx-auto><img class="mx-auto d-block" width=800 src=/img/posts/dotnet/mono-and-65535interfaces/commit2005.png></div><h3 id=present-day>Present day</h3><p>Rider uses the <a href=https://www.jetbrains.com/resharper/>ReSharper</a> codebase which is really big.
 Of course, we have many generic classes.
-A short fact about .NET: if you have an interface <code>IFoo&lt;T&gt;</code>, the runtime generates a separate method table per each <code>IFoo&lt;int&gt;</code>, <code>IFoo&lt;double&gt;</code>, <code>IFoo&lt;bool&gt;</code>, and so on.
-A short fact about the unit tests subsystem in ReSharper: it uses <em>a lot</em> of generic classes (especially in the tests for unit tests).</p>
-<p>On Windows, everything worked fine because Rider uses the full .NET Framework which doesn't have such limitation on the number of interfaces.
+A short fact about .NET: if you have an interface <code>IFoo&lt;T></code>, the runtime generates a separate method table per each <code>IFoo&lt;int></code>, <code>IFoo&lt;double></code>, <code>IFoo&lt;bool></code>, and so on.
+A short fact about the unit tests subsystem in ReSharper: it uses <em>a lot</em> of generic classes (especially in the tests for unit tests).</p><p>On Windows, everything worked fine because Rider uses the full .NET Framework which doesn&rsquo;t have such limitation on the number of interfaces.
 On Linux and MacOS, we use Mono as a runtime.
 And tests were failing because we have too many interfaces!
-It took a week of debugging to find the problem, but we finally did it.</p>
-<p>We found a report in the Mono bug tracking system: <a href="https://bugzilla.xamarin.com/show_bug.cgi?id=10784">bugzilla.xamarin#10784</a> (2013-02-28).
-We also found a <a href="https://github.com/mono/mono/pull/2408">pull request</a> (2016-01-08) which should solve this problem.
+It took a week of debugging to find the problem, but we finally did it.</p><p>We found a report in the Mono bug tracking system: <a href="https://bugzilla.xamarin.com/show_bug.cgi?id=10784">bugzilla.xamarin#10784</a> (2013-02-28).
+We also found a <a href=https://github.com/mono/mono/pull/2408>pull request</a> (2016-01-08) which should solve this problem.
 Unfortunately, it was unmerged without any progress.
-A <a href="https://github.com/mono/mono/pull/2408#issuecomment-255080892">friendly reminder</a> (2016-10-20) helped, and it was eventually <a href="https://github.com/mono/mono/pull/2408#event-850109553">merged</a> into master (2016-11-07).</p>
-<p>This fix is not a part of the latest stable mono yet.
+A <a href=https://github.com/mono/mono/pull/2408#issuecomment-255080892>friendly reminder</a> (2016-10-20) helped, and it was eventually <a href=https://github.com/mono/mono/pull/2408#event-850109553>merged</a> into master (2016-11-07).</p><p>This fix is not a part of the latest stable mono yet.
 Fortunately, Rider uses its own Mono fork.
-So, we just cherry-picked this commit, and now all of our tests are green again.</p>
-<h3 id="links">Links</h3>
-<ul>
-<li><a href="https://bugzilla.xamarin.com/show_bug.cgi?id=10784">bugzilla.xamarin#10784: Too many classes implementing an interface? Assertion at class.c:2586, condition `iid ⇐ 65535' not met</a></li>
-<li><a href="https://github.com/mono/mono/pull/2408">mono/mono#2408: Enhance maximum number of supported interfaces from 2^16</a></li>
-<li><a href="https://github.com/mono/mono/commit/4e68cba74f65110cf894867c43754f9655bac297">mono/mono/4e68cba: class.c, object.c, class-internals.h, marshal.c: rearrange some fields and tweak some types to lower memory usage</a></li>
-</ul>
-
-<!-- Share -->
-
-Share:
-<a href="https://twitter.com/intent/tweet?text=65535 interfaces ought to be enough for anybody&url=http://aakinshin.net/posts/mono-and-65535interfaces/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/mono-and-65535interfaces/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/mono-and-65535interfaces/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/mono-and-65535interfaces/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/mono-and-65535interfaces/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/mono-and-65535interfaces/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/mono-and-65535interfaces/&title=65535 interfaces ought to be enough for anybody" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  You can find source code of this post on GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2017/mono-and-65535interfaces.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2017/mono-and-65535interfaces.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+So, we just cherry-picked this commit, and now all of our tests are green again.</p><h3 id=links>Links</h3><ul><li><a href="https://bugzilla.xamarin.com/show_bug.cgi?id=10784">bugzilla.xamarin#10784: Too many classes implementing an interface? Assertion at class.c:2586, condition `iid &lt;= 65535&rsquo; not met</a></li><li><a href=https://github.com/mono/mono/pull/2408>mono/mono#2408: Enhance maximum number of supported interfaces from 2^16</a></li><li><a href=https://github.com/mono/mono/commit/4e68cba74f65110cf894867c43754f9655bac297>mono/mono/4e68cba: class.c, object.c, class-internals.h, marshal.c: rearrange some fields and tweak some types to lower memory usage</a></li></ul><br><br><div class=mx-auto>Share:
+<a href="https://twitter.com/intent/tweet?text=65535%20interfaces%20ought%20to%20be%20enough%20for%20anybody&url=https%3a%2f%2faakinshin.net%2fposts%2fmono-and-65535interfaces%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fmono-and-65535interfaces%2f&title=65535%20interfaces%20ought%20to%20be%20enough%20for%20anybody" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fmono-and-65535interfaces%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2fmono-and-65535interfaces%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2fmono-and-65535interfaces%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fmono-and-65535interfaces%2f&title=65535%20interfaces%20ought%20to%20be%20enough%20for%20anybody" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

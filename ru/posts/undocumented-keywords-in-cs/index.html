@@ -1,160 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="Недокументированные ключевые слова C# или превращаем объект в тыкву">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,C#,IL,Benchmarking'>
-
-    <title>Недокументированные ключевые слова C# или превращаем объект в тыкву</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/ru/posts/">Блог</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/ru/content/">Содержание</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/ru/about/">Об авторе</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ru</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/posts/undocumented-keywords-in-cs/'>En</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/ru/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Недокументированные ключевые слова C# или превращаем объект в тыкву</h2>
-<span class="blog-post-meta">
-  <b>Дата:</b> 26 августа 2013.
-  <b>Теги:</b>
-        <a href="/ru/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/ru/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-        <a href="/ru/tags/il"><span class="badge badge-pill badge-info">IL</span></a>
-        <a href="/ru/tags/benchmarking"><span class="badge badge-pill badge-info">Benchmarking</span></a>
-</span><br /><br />
-
-<p>Стандартный компилятор C# поддерживает 4 недокументированных ключевых слова: <code>__makeref</code>, <code>__reftype</code>, <code>__refvalue</code>, <code>__arglist</code>. Эти слова даже успешно распознаются в Visual Studio (хотя, ReSharper на них ругается). Они не даром исключены из стандарта — их использование может повлечь серьёзные проблемы с безопасностью. Поэтому не нужно их использовать везде подряд, но в отдельных исключительных случаях они могут пригодиться. В этом посте я обсужу предназначение недокументированных команд, рассмотрю вопросы их производительности и научусь превращать объект в тыкву.<!--more--></p>
-<h3 id="section">Описание ключевых слов</h3>
-<p>Все рассматриваемые слова связаны со структурой <a href="http://msdn.microsoft.com/en-us/library/system.typedreference.aspx">TypedReference</a>. Она хранит в себе два поля: указатель на область памяти и тип данных объекта, который расположен по этому указателю. Помимо рассмотренных ниже ключевых слов для операций над этой структурой могут пригодиться методы
-<a href="http://msdn.microsoft.com/en-us/library/system.typedreference.gettargettype.aspx">GetTargetType</a>,
-<a href="http://msdn.microsoft.com/en-us/library/system.typedreference.maketypedreference.aspx">MakeTypedReference</a>,
-<a href="http://msdn.microsoft.com/en-us/library/system.typedreference.settypedreference.aspx">SetTypedReference</a>,
-<a href="http://msdn.microsoft.com/en-us/library/system.typedreference.targettypetoken.aspx">TargetTypeToken</a>,
-<a href="http://msdn.microsoft.com/en-us/library/system.typedreference.toobject.aspx">ToObject</a>.</p>
-<p>Теперь перейдём непосредственно к ключевым словам. <code>__makeref</code> принимает на входе объект и возвращает <code>TypedReference</code> ссылку на него. <code>__reftype</code> и <code>__refvalue</code>
-способны достать из <code>TypedReference</code> значения двух его полей: тип и значение. Посмотрим простой пример, который поясняет использование ключевых слов:</p>
-<pre><code>double value = 10;
-TypedReference typedReference = __makeref(value); // typedReference = &amp;value;
-Console.WriteLine( __refvalue(typedReference, double)); // 10
-__refvalue(typedReference, double) = 11; // *typedReference = 11
-Console.WriteLine( __refvalue(typedReference, double)); // 11
-Type type = __reftype(typedReference); // value.GetType()
-Console.WriteLine(type.Name); // Double
-</code></pre>
-<p>Данный пример развернётся в IL-код, который представлен ниже. Как можно понять, рассмотренные ключевые слова транслируются в IL-команды <code>mkrefany</code> , <code>refanyval</code> ,
-<code>refanytype</code>.</p>
-<pre><code>.maxstack 2
+<!doctype html><html lang=ru class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Андрей Акиньшин"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Недокументированные ключевые слова C# или превращаем объект в тыкву | Андрей Акиньшин</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/ru/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/posts/>Посты</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/ru/about/>Об авторе</a></li><li class=nav-item><a class=nav-link id=nav-link-about href>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/ru/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Недокументированные ключевые слова C# или превращаем объект в тыкву</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2013-08-26>26 августа 2013</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/c class="badge badge-info">C#</a>
+<a href=https://aakinshin.net/tags/il class="badge badge-info">IL</a>
+<a href=https://aakinshin.net/tags/benchmarking class="badge badge-info">Benchmarking</a></span><br><br><p>Стандартный компилятор C# поддерживает 4 недокументированных ключевых слова: <code>__makeref</code>, <code>__reftype</code>, <code>__refvalue</code>, <code>__arglist</code>. Эти слова даже успешно распознаются в Visual Studio (хотя, ReSharper на них ругается). Они не даром исключены из стандарта — их использование может повлечь серьёзные проблемы с безопасностью. Поэтому не нужно их использовать везде подряд, но в отдельных исключительных случаях они могут пригодиться. В этом посте я обсужу предназначение недокументированных команд, рассмотрю вопросы их производительности и научусь превращать объект в тыкву.</p><h3 id=описание-ключевых-слов>Описание ключевых слов</h3><p>Все рассматриваемые слова связаны со структурой <a href=http://msdn.microsoft.com/en-us/library/system.typedreference.aspx>TypedReference</a>. Она хранит в себе два поля: указатель на область памяти и тип данных объекта, который расположен по этому указателю. Помимо рассмотренных ниже ключевых слов для операций над этой структурой могут пригодиться методы
+<a href=http://msdn.microsoft.com/en-us/library/system.typedreference.gettargettype.aspx>GetTargetType</a>,
+<a href=http://msdn.microsoft.com/en-us/library/system.typedreference.maketypedreference.aspx>MakeTypedReference</a>,
+<a href=http://msdn.microsoft.com/en-us/library/system.typedreference.settypedreference.aspx>SetTypedReference</a>,
+<a href=http://msdn.microsoft.com/en-us/library/system.typedreference.targettypetoken.aspx>TargetTypeToken</a>,
+<a href=http://msdn.microsoft.com/en-us/library/system.typedreference.toobject.aspx>ToObject</a>.</p><p>Теперь перейдём непосредственно к ключевым словам. <code>__makeref</code> принимает на входе объект и возвращает <code>TypedReference</code> ссылку на него. <code>__reftype</code> и <code>__refvalue</code>
+способны достать из <code>TypedReference</code> значения двух его полей: тип и значение. Посмотрим простой пример, который поясняет использование ключевых слов:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>double</span> <span class=k>value</span> <span class=p>=</span> <span class=m>10</span><span class=p>;</span>
+<span class=n>TypedReference</span> <span class=n>typedReference</span> <span class=p>=</span> <span class=n>__makeref</span><span class=p>(</span><span class=k>value</span><span class=p>);</span> <span class=c1>// typedReference = &amp;value;
+</span><span class=c1></span><span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span> <span class=n>__refvalue</span><span class=p>(</span><span class=n>typedReference</span><span class=p>,</span> <span class=kt>double</span><span class=p>));</span> <span class=c1>// 10
+</span><span class=c1></span><span class=n>__refvalue</span><span class=p>(</span><span class=n>typedReference</span><span class=p>,</span> <span class=kt>double</span><span class=p>)</span> <span class=p>=</span> <span class=m>11</span><span class=p>;</span> <span class=c1>// *typedReference = 11
+</span><span class=c1></span><span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span> <span class=n>__refvalue</span><span class=p>(</span><span class=n>typedReference</span><span class=p>,</span> <span class=kt>double</span><span class=p>));</span> <span class=c1>// 11
+</span><span class=c1></span><span class=n>Type</span> <span class=n>type</span> <span class=p>=</span> <span class=n>__reftype</span><span class=p>(</span><span class=n>typedReference</span><span class=p>);</span> <span class=c1>// value.GetType()
+</span><span class=c1></span><span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>type</span><span class=p>.</span><span class=n>Name</span><span class=p>);</span> <span class=c1>// Double
+</span></code></pre></div><p>Данный пример развернётся в IL-код, который представлен ниже. Как можно понять, рассмотренные ключевые слова транслируются в IL-команды <code>mkrefany</code> , <code>refanyval</code> ,
+<code>refanytype</code>.</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>.maxstack 2
 .locals init (
-    [0] float64 'value',
+    [0] float64 &#39;value&#39;,
     [1] valuetype [mscorlib]System.TypedReference typedReference,
-    [2] class [mscorlib]System.Type 'type')
+    [2] class [mscorlib]System.Type &#39;type&#39;)
 L_0000: ldc.r8 10
 L_0009: stloc.0 
-L_000a: ldloca.s 'value'
+L_000a: ldloca.s &#39;value&#39;
 L_000c: mkrefany float64
 L_0011: stloc.1 
 L_0012: ldloc.1 
@@ -180,33 +51,29 @@ L_0044: callvirt instance string
           [mscorlib]System.Reflection.MemberInfo::get_Name()
 L_0049: call void [mscorlib]System.Console::WriteLine(string)
 L_004e: ret 
-</code></pre>
-<p><code>__arglist</code> позволяет создать метод с переменным количеством параметров. Причём это не передача массива объектов через <code>params</code>, а в чистом виде переменное количество параметров. Получить переданные значения можно через структуру <a href="http://msdn.microsoft.com/en-us/library/system.argiterator.aspx">ArgIterator</a>. Ниже приведён пример, который иллюстрирует использование команды.</p>
-<pre><code>public void Run()
-{
-    Foo(__arglist(1, 2.0, &quot;3&quot;, new int[0]));
-}
+</code></pre></div><p><code>__arglist</code> позволяет создать метод с переменным количеством параметров. Причём это не передача массива объектов через <code>params</code>, а в чистом виде переменное количество параметров. Получить переданные значения можно через структуру <a href=http://msdn.microsoft.com/en-us/library/system.argiterator.aspx>ArgIterator</a>. Ниже приведён пример, который иллюстрирует использование команды.</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=n>Foo</span><span class=p>(</span><span class=n>__arglist</span><span class=p>(</span><span class=m>1</span><span class=p>,</span> <span class=m>2.0</span><span class=p>,</span> <span class=s>&#34;3&#34;</span><span class=p>,</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=m>0</span><span class=p>]));</span>
+<span class=p>}</span>
 
-public void Foo(__arglist)
-{
-    var iterator = new ArgIterator(__arglist);
-    while (iterator.GetRemainingCount() &gt; 0)
-    {
-        TypedReference typedReference = iterator.GetNextArg();
-        Console.WriteLine(&quot;{0} / {1}&quot;, 
-            TypedReference.ToObject(typedReference), 
-            TypedReference.GetTargetType(typedReference));
-    }
-}
-</code></pre>
-<p>И соответствующий IL-код, в котором можно познакомиться с командой <code>arglist</code>:</p>
-<pre><code>.method public hidebysig instance void Run() cil managed
+<span class=k>public</span> <span class=k>void</span> <span class=n>Foo</span><span class=p>(</span><span class=n>__arglist</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=kt>var</span> <span class=n>iterator</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ArgIterator</span><span class=p>(</span><span class=n>__arglist</span><span class=p>);</span>
+    <span class=k>while</span> <span class=p>(</span><span class=n>iterator</span><span class=p>.</span><span class=n>GetRemainingCount</span><span class=p>()</span> <span class=p>&gt;</span> <span class=m>0</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=n>TypedReference</span> <span class=n>typedReference</span> <span class=p>=</span> <span class=n>iterator</span><span class=p>.</span><span class=n>GetNextArg</span><span class=p>();</span>
+        <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;{0} / {1}&#34;</span><span class=p>,</span> 
+            <span class=n>TypedReference</span><span class=p>.</span><span class=n>ToObject</span><span class=p>(</span><span class=n>typedReference</span><span class=p>),</span> 
+            <span class=n>TypedReference</span><span class=p>.</span><span class=n>GetTargetType</span><span class=p>(</span><span class=n>typedReference</span><span class=p>));</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p>И соответствующий IL-код, в котором можно познакомиться с командой <code>arglist</code>:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>.method public hidebysig instance void Run() cil managed
 {
 .maxstack 8
 L_0000: ldarg.0 
 L_0001: ldc.i4.1 
 L_0002: ldc.r8 2
-L_000b: ldstr &quot;3&quot;
+L_000b: ldstr &#34;3&#34;
 L_0010: ldc.i4.0 
 L_0011: newarr int32
 L_0016: call instance vararg void Program::Foo(..., int32, float64, string)
@@ -230,7 +97,7 @@ L_000d: call instance valuetype
           [mscorlib]System.TypedReference 
           [mscorlib]System.ArgIterator::GetNextArg()
 L_0012: stloc.1 
-L_0013: ldstr &quot;{0} / {1}&quot;
+L_0013: ldstr &#34;{0} / {1}&#34;
 L_0018: ldloc.1 
 L_0019: call object [mscorlib]System.TypedReference::ToObject
           (valuetype [mscorlib]System.TypedReference)
@@ -245,90 +112,43 @@ L_0030: ldc.i4.0
 L_0031: bgt.s L_000b
 L_0033: ret 
 }
-</code></pre>
-<h3 id="section-1">Поговорим о производительности</h3>
-<p>На StackOverflow есть <a href="http://stackoverflow.com/questions/4764573/why-is-typedreference-behind-the-scenes-its-so-fast-and-safe-almost-magical">обсуждение</a>, в котором утверждается, что якобы работа с <code>TypedReference</code> осуществляется быстрее, чем упаковка/распаковка. Но бенчмарк у автора очень странный. Плюс, как мне кажется, автор запускал его в Debug mode with debugging — в этом случае действительно могут получиться такие результаты. Но некоторые люди писали в комментариях, что на самом деле упаковка/распаковка работает намного быстрее. Я решил проверить это, составив бенчмарк с помощью <a href="https://github.com/dotnet/BenchmarkDotNet">BenchmarkDotNet</a> v0.5.1 (<strong>Update:</strong> данный пост был написан в 2013 году, в ту пору BenchmarkDotNet только начинал развиваться. С тех пор библиотека была значительно доработана, API был изменён.):</p>
-<pre><code class="language-cs">private const int IterationCount = 10000000;
-private int[] array;
+</code></pre></div><h3 id=поговорим-о-производительности>Поговорим о производительности</h3><p>На StackOverflow есть <a href=http://stackoverflow.com/questions/4764573/why-is-typedreference-behind-the-scenes-its-so-fast-and-safe-almost-magical>обсуждение</a>, в котором утверждается, что якобы работа с <code>TypedReference</code> осуществляется быстрее, чем упаковка/распаковка. Но бенчмарк у автора очень странный. Плюс, как мне кажется, автор запускал его в Debug mode with debugging — в этом случае действительно могут получиться такие результаты. Но некоторые люди писали в комментариях, что на самом деле упаковка/распаковка работает намного быстрее. Я решил проверить это, составив бенчмарк с помощью <a href=https://github.com/dotnet/BenchmarkDotNet>BenchmarkDotNet</a> v0.5.1 (<strong>Update:</strong> данный пост был написан в 2013 году, в ту пору BenchmarkDotNet только начинал развиваться. С тех пор библиотека была значительно доработана, API был изменён.):</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>private</span> <span class=k>const</span> <span class=kt>int</span> <span class=n>IterationCount</span> <span class=p>=</span> <span class=m>10000000</span><span class=p>;</span>
+<span class=k>private</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>array</span><span class=p>;</span>
 
-public void Run()
-{
-    array = new int[5];
+<span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=n>array</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=m>5</span><span class=p>];</span>
 
-    var competition = new BenchmarkCompetition();
-    competition.AddTask(&quot;MakeRef&quot;, MakeRef);
-    competition.AddTask(&quot;Boxing&quot;, Boxing);
-    competition.Run();
-}
+    <span class=kt>var</span> <span class=n>competition</span> <span class=p>=</span> <span class=k>new</span> <span class=n>BenchmarkCompetition</span><span class=p>();</span>
+    <span class=n>competition</span><span class=p>.</span><span class=n>AddTask</span><span class=p>(</span><span class=s>&#34;MakeRef&#34;</span><span class=p>,</span> <span class=n>MakeRef</span><span class=p>);</span>
+    <span class=n>competition</span><span class=p>.</span><span class=n>AddTask</span><span class=p>(</span><span class=s>&#34;Boxing&#34;</span><span class=p>,</span> <span class=n>Boxing</span><span class=p>);</span>
+    <span class=n>competition</span><span class=p>.</span><span class=n>Run</span><span class=p>();</span>
+<span class=p>}</span>
 
-public void MakeRef()
-{
-    for (int i = 0; i &lt; IterationCount; i++)
-        Set1(array, 0, i);
-}
+<span class=k>public</span> <span class=k>void</span> <span class=n>MakeRef</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>IterationCount</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+        <span class=n>Set1</span><span class=p>(</span><span class=n>array</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=n>i</span><span class=p>);</span>
+<span class=p>}</span>
 
-public void Boxing()
-{
-    for (int i = 0; i &lt; IterationCount; i++)
-        Set2(array, 0, i);
-}
+<span class=k>public</span> <span class=k>void</span> <span class=n>Boxing</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>IterationCount</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+        <span class=n>Set2</span><span class=p>(</span><span class=n>array</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=n>i</span><span class=p>);</span>
+<span class=p>}</span>
 
-public void Set1(T[] a, int i, int v)
-{
-    __refvalue(__makeref(a[i]), int) = v;
-}
+<span class=k>public</span> <span class=k>void</span> <span class=n>Set1</span><span class=p>(</span><span class=n>T</span><span class=p>[]</span> <span class=n>a</span><span class=p>,</span> <span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>int</span> <span class=n>v</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=n>__refvalue</span><span class=p>(</span><span class=n>__makeref</span><span class=p>(</span><span class=n>a</span><span class=p>[</span><span class=n>i</span><span class=p>]),</span> <span class=kt>int</span><span class=p>)</span> <span class=p>=</span> <span class=n>v</span><span class=p>;</span>
+<span class=p>}</span>
 
-public void Set2(T[] a, int i, int v)
-{
-    a[i] = (T)(object)v;
-}
-</code></pre>
-<p>Не забывайте, что бенчмарки нужно запускать только в <strong>Release mode without debugging</strong>. Результаты, которые получились на моём ноутбуке:</p>
-<pre><code>MakeRef : 313ms
+<span class=k>public</span> <span class=k>void</span> <span class=n>Set2</span><span class=p>(</span><span class=n>T</span><span class=p>[]</span> <span class=n>a</span><span class=p>,</span> <span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>int</span> <span class=n>v</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=n>a</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=p>(</span><span class=n>T</span><span class=p>)(</span><span class=kt>object</span><span class=p>)</span><span class=n>v</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>Не забывайте, что бенчмарки нужно запускать только в <strong>Release mode without debugging</strong>. Результаты, которые получились на моём ноутбуке:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>MakeRef : 313ms
 Boxing  :  34ms
-</code></pre>
-<p>У нас имеются классы <code>MyObject</code>, который содержит одно поле на 64 бита, и <code>Pumpkin</code>, который содержит два поля по 32 бита. В методе Run выполняются следующие вещи: мы создаём объект <code>myObject</code>, инициализируем его поле, получаем на него ссылку, а затем создаём <code>pumpkin</code>, который ссылается на ту же область памяти. В качестве теста мы пробуем поменять значение 64-х битного поля изначально объекта и смотрим на изменение соответствующих полей в тыкве.</p>
-<p>Особый интерес представляют методы <code>GetAddress</code> и <code>Convert&lt;T&gt;</code> . Начнём с первого: он получает указатель <code>IntPtr</code> на переданный объект. В первой строчке всё просто: мы получаем <code>TypedReference</code> на переданный объект, а вот во второй строчке происходит немного магии. Первое поле <code>TypedReference</code> хранит <code>IntPtr</code> -ссылку на наш объект, но явно мы получить эту ссылку не можем. Поэтому мы получаем указатель на наш <code>TypedReference</code> (который также является указателем на его первое поле), приводим его к указателю на <code>IntPtr</code> , а потом разыменовываем. В итоге имеем своего рода неуправляемое получение адреса объекта.</p>
-<p>А теперь переходим к методу <code>Convert&lt;T&gt;</code>. Этот метод должен нам создать объект типа <code>T</code>, который ссылается на заданную область памяти. В первой строке мы создаём дефолтный экземпляр типа <code>T</code> . Единственное его предназначение — это получить соответствующий <code>typedReference</code>, который создаётся во второй строчке. Второе поле полученной структуры указывает на нужный нам тип. Третьей строчкой мы записываем переданный нам адрес в первое поле структуры с помощью уже знакомой нам конструкции
-<code>*(IntPtr*)(&amp;typedReference)</code> . И в последней четвёртой строчке мы собираем из нашей <code>typedReference</code> структуры готовый объект целевого типа с помощью <code>__refvalue</code>
-. Вуаля: тыква готова.</p>
-<p><strong>P.S. Приведённый пример имеет чисто академическое предназначение, он приведён как демонстрация использования заявленных ключевых слов. В продакшн-коде нужно несколько раз подумать, прежде чем решить, что вам действительно необходимы подобные конструкции.</strong></p>
-
-<!-- Share -->
-
-Поделиться:
-<a href="https://twitter.com/intent/tweet?text=Недокументированные ключевые слова C# или превращаем объект в тыкву&url=http://aakinshin.net/ru/posts/undocumented-keywords-in-cs/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/ru/posts/undocumented-keywords-in-cs/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/ru/posts/undocumented-keywords-in-cs/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/posts/undocumented-keywords-in-cs/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/ru/posts/undocumented-keywords-in-cs/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/ru/posts/undocumented-keywords-in-cs/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/ru/posts/undocumented-keywords-in-cs/&title=Недокументированные ключевые слова C# или превращаем объект в тыкву" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  Исходный код поста находится на GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2013/undocumented-keywords-in-cs.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2013/undocumented-keywords-in-cs.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Андрей Акиньшин | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+</code></pre></div><p>У нас имеются классы <code>MyObject</code>, который содержит одно поле на 64 бита, и <code>Pumpkin</code>, который содержит два поля по 32 бита. В методе Run выполняются следующие вещи: мы создаём объект <code>myObject</code>, инициализируем его поле, получаем на него ссылку, а затем создаём <code>pumpkin</code>, который ссылается на ту же область памяти. В качестве теста мы пробуем поменять значение 64-х битного поля изначально объекта и смотрим на изменение соответствующих полей в тыкве.</p><p>Особый интерес представляют методы <code>GetAddress</code> и <code>Convert&lt;T></code> . Начнём с первого: он получает указатель <code>IntPtr</code> на переданный объект. В первой строчке всё просто: мы получаем <code>TypedReference</code> на переданный объект, а вот во второй строчке происходит немного магии. Первое поле <code>TypedReference</code> хранит <code>IntPtr</code> -ссылку на наш объект, но явно мы получить эту ссылку не можем. Поэтому мы получаем указатель на наш <code>TypedReference</code> (который также является указателем на его первое поле), приводим его к указателю на <code>IntPtr</code> , а потом разыменовываем. В итоге имеем своего рода неуправляемое получение адреса объекта.</p><p>А теперь переходим к методу <code>Convert&lt;T></code>. Этот метод должен нам создать объект типа <code>T</code>, который ссылается на заданную область памяти. В первой строке мы создаём дефолтный экземпляр типа <code>T</code> . Единственное его предназначение — это получить соответствующий <code>typedReference</code>, который создаётся во второй строчке. Второе поле полученной структуры указывает на нужный нам тип. Третьей строчкой мы записываем переданный нам адрес в первое поле структуры с помощью уже знакомой нам конструкции
+<code>*(IntPtr*)(&typedReference)</code> . И в последней четвёртой строчке мы собираем из нашей <code>typedReference</code> структуры готовый объект целевого типа с помощью <code>__refvalue</code>
+. Вуаля: тыква готова.</p><p><strong>P.S. Приведённый пример имеет чисто академическое предназначение, он приведён как демонстрация использования заявленных ключевых слов. В продакшн-коде нужно несколько раз подумать, прежде чем решить, что вам действительно необходимы подобные конструкции.</strong></p><br><br><div class=mx-auto>Поделиться:
+<a href="https://twitter.com/intent/tweet?text=%d0%9d%d0%b5%d0%b4%d0%be%d0%ba%d1%83%d0%bc%d0%b5%d0%bd%d1%82%d0%b8%d1%80%d0%be%d0%b2%d0%b0%d0%bd%d0%bd%d1%8b%d0%b5%20%d0%ba%d0%bb%d1%8e%d1%87%d0%b5%d0%b2%d1%8b%d0%b5%20%d1%81%d0%bb%d0%be%d0%b2%d0%b0%20C%23%20%d0%b8%d0%bb%d0%b8%20%d0%bf%d1%80%d0%b5%d0%b2%d1%80%d0%b0%d1%89%d0%b0%d0%b5%d0%bc%20%d0%be%d0%b1%d1%8a%d0%b5%d0%ba%d1%82%20%d0%b2%20%d1%82%d1%8b%d0%ba%d0%b2%d1%83&url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fundocumented-keywords-in-cs%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fundocumented-keywords-in-cs%2f&title=%d0%9d%d0%b5%d0%b4%d0%be%d0%ba%d1%83%d0%bc%d0%b5%d0%bd%d1%82%d0%b8%d1%80%d0%be%d0%b2%d0%b0%d0%bd%d0%bd%d1%8b%d0%b5%20%d0%ba%d0%bb%d1%8e%d1%87%d0%b5%d0%b2%d1%8b%d0%b5%20%d1%81%d0%bb%d0%be%d0%b2%d0%b0%20C%23%20%d0%b8%d0%bb%d0%b8%20%d0%bf%d1%80%d0%b5%d0%b2%d1%80%d0%b0%d1%89%d0%b0%d0%b5%d0%bc%20%d0%be%d0%b1%d1%8a%d0%b5%d0%ba%d1%82%20%d0%b2%20%d1%82%d1%8b%d0%ba%d0%b2%d1%83" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fundocumented-keywords-in-cs%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fundocumented-keywords-in-cs%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fundocumented-keywords-in-cs%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fundocumented-keywords-in-cs%2f&title=%d0%9d%d0%b5%d0%b4%d0%be%d0%ba%d1%83%d0%bc%d0%b5%d0%bd%d1%82%d0%b8%d1%80%d0%be%d0%b2%d0%b0%d0%bd%d0%bd%d1%8b%d0%b5%20%d0%ba%d0%bb%d1%8e%d1%87%d0%b5%d0%b2%d1%8b%d0%b5%20%d1%81%d0%bb%d0%be%d0%b2%d0%b0%20C%23%20%d0%b8%d0%bb%d0%b8%20%d0%bf%d1%80%d0%b5%d0%b2%d1%80%d0%b0%d1%89%d0%b0%d0%b5%d0%bc%20%d0%be%d0%b1%d1%8a%d0%b5%d0%ba%d1%82%20%d0%b2%20%d1%82%d1%8b%d0%ba%d0%b2%d1%83" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Андрей Акиньшин | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

@@ -1,320 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="To Add Comments or Not to Add?">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='PerfectCode'>
-
-    <title>To Add Comments or Not to Add?</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-    
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/posts/comments/'>Ru</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">To Add Comments or Not to Add?</h2>
-<span class="blog-post-meta">
-  <b>Date:</b> August 28, 2013.
-  <b>Tags:</b>
-        <a href="/tags/perfectcode"><span class="badge badge-pill badge-info">PerfectCode</span></a>
-</span><br /><br />
-
-<p><em>A really good comment is the one you managed to avoid. (c) Uncle Bob</em></p>
-<p>Lately, I’ve been feeling really tired of hot discussions on if it’s necessary to add comments in the code. As a rule, there are self-confident juniors with the indisputable statement as: “Why not to comment it, it will be unreadable without the comments!” on one side. And experienced seniors are on the other side. They understand that if it’s possible to go without the comments than “You better, damn it, do it in this way!” Probably, many developers got comment cravings since they’ve been students when professors made them comment every code line, “to make the student better understand it”. Real projects shouldn’t contain a lot of comments that only spoil the code. I don’t agitate for avoiding comments at all, but if you managed to write the code that doesn’t need comments, you can consider it your small victory. I would like to refer you to some good books that helped form my position. I like and respect these authors and completely share their opinion.</p>
-<ul>
-<li><a href="http://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670">Steven C. McConnell, Code Complete</a></li>
-<li><a href="http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">Robert Martin, Clean Code: A Handbook of Agile Software Craftsmanship</a></li>
-<li><a href="http://www.amazon.com/The-Readable-Code-Theory-Practice/dp/0596802293">Dustin Boswell, Trevor Foucher, The Art of Readable Code (Theory in Practice)</a></li>
-</ul>
-<!--more-->
-<p>So, what makes me mad about the comments? Here are some main statements:</p>
-<ul>
-<li>Comments spoil the code itself, make it less readable;</li>
-<li>Comments require time for writing and maintenance;</li>
-<li>Comments lie (starting from the improperly composed comments and ending with the obsolete ones)</li>
-</ul>
-<p>Basically, I agree that in some cases the comments are necessary. But the less such cases exist the more beautiful your code is. Besides, writing a good comment is the art as well. Unfortunately, just few developers have that skill, the rest of them write the comments anyhow. The benefit of such commenting is quite doubtful. Isn’t it better not to spend time and effort for writing a good comment but to spend it for re-writing the code in the way it could go without any comments?</p>
-<p>Let’s discuss some typical scenarios and define to what extent the comment is necessary. I provide C# code, but this is not that critical for this article.</p>
-<h2 id="when-you-can-go-without-the-comments">When you can go without the comments</h2>
-<h3 id="comments-that-repeat-code">Comments that repeat code</h3>
-<p>Let’s have a look at the following code:</p>
-<pre><code class="language-cs">// This method is responsible for calculating array elements sum
-// The method receives elements array at the input
-public int CalcSumOfElement(int[] elements)
-{
-  int result = 0; // Creating a special variable for the result
-  int n = elements.Length; // Defining array length, i.e. number of elements
-  for (int i = 0; i &lt; n; i++) // Running cycle for all elements
-    result += elements[i]; // Adding an element to the result
-  return result; // Returning the result
-}
-</code></pre>
-<p>Of course, this sample is fake, but unfortunately, I don’t overdo. I saw such code quite often. In this sample, the comments don’t provide any new information; everything can be understood from code. And reading this code without the comments would be much easier. I don’t even say about maintenance of such code: it’s quite tiresome to support this level of commenting. Most likely, when the code becomes more sophisticated half of code won’t have comments, the rest of code will include obsolete comments.</p>
-<h3 id="comments-explaining-syntax">Comments explaining syntax</h3>
-<p>Here is the sample:</p>
-<pre><code class="language-cs">public class Item
-{
-  private int value; // This is a private field, it’s not available from outside
-
-  // This is a constructor
-  public Item(int twoValue)
-  {
-    value = twoValue &gt;&gt; 1; // Two characters don’t mean bitwise sift to the right
-    // so, we divide the value in two
-  }
-}
-</code></pre>
-<p>If this is a laboratory research of a fresher, it’s ok. But if this is the production code and your developers need such comments, I’ve got bad news for you. Probably, this article is not for you.</p>
-<h3 id="comments-explaining-standard-classes">Comments explaining standard classes</h3>
-<pre><code class="language-cs">HashSet set; // This is data structure called Hash-Set
-// It represents a set of elements
-// We can easily find out if an element is included in this set
-// More information on hash-tables can be found in wikipedia:
-// http://ru.wikipedia.org/wiki
-// /%D0%A5%D0%B5%D1%88-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0
-</code></pre>
-<p>If a programmer really doesn’t know designation of some standard class or method, he can always use Google search / read documentation / ask an associate. Most good developers already know it. That’s why I strongly doubt usefulness of such comments.</p>
-<h3 id="comments-explaining-improper-names">Comments explaining improper names</h3>
-<pre><code class="language-cs">// Setting up server connection
-public void DoIt()
-</code></pre>
-<p>I agree that it’s not always possible to name a class/method/property/variable properly. And if the project deadline is yesterday, there is no time to think over good names. Let’s take some arbitrary name and explain what’s happening in the comments. This is much easier and quicker! Or you will spare a minute or two to give an understandable name?</p>
-<h3 id="comments-explaining-a-paragraph">Comments explaining a paragraph</h3>
-<p>I often hear the following phrases: “This method is 300 lines, it does lots of things. You can’t understand it without the comments. I will comment every 10 lines”. If this is the case, you, probably, do something wrong. May be it’s better to divide this big 300-lines method into several smaller methods. And give an understandable name to every small method. In this way you won’t need the comments.</p>
-<h3 id="comments-explaining-constants">Comments explaining constants</h3>
-<pre><code class="language-cs">public int GetSeconds(int hours)
-{
-  return hours * 3600; // 3600 – this is amount of seconds forming an hour
-}
-</code></pre>
-<p>In this variant, availability of the comment is a more adequate variant that just a figure added to the code and meaning something. But it’s even better to create a named constant which name made everything understandable.</p>
-<p>For example, in this way:</p>
-<pre><code class="language-cs">private const int SecondsInHour = 3600;
-public int GetSeconds(int hours)
-{
-  return hours * SecondsInHour;
-}
-</code></pre>
-<h3 id="comments-not-related-to-programming">Comments not related to programming</h3>
-<p>I like a story from “Code Complete” about how a developer tried to understand the following comment for the whole night:</p>
-<pre><code class="language-asm">MOV AX, 723h ; R. I. P. L. V. В.
-</code></pre>
-<p>Some months later he met the author of this code and learnt that the comment meant the following: «Rest in peace, Ludwig van Beethoven» as 723 is a hexadecimal view of the year of Beethoven’s death. Unfortunately, some programmers think that the code is some kind of a forum where they can communicate. Some of them try to be witty (nearly telling funny stories), others tell something about themselves (for example, “It’s 3.00am right now and I am still writing this class as I am fond of programming”). You don’t do it in this way; there are hundreds of other communication means. If the comment is included in the project it should add some value to this project.</p>
-<h3 id="comments-containing-thoughts">Comments containing thoughts</h3>
-<p>It happens that a comment contains some smart ideas that are very useful. But very often this is not the case:</p>
-<pre><code class="language-cs">public void Main()
-{
-  // Well, this is a very useful method
-  // It executes main logic of this class.
-  // At first I wanted to name it Run.
-  // But then I thought that Run means “to go quickly”.
-  // And this method doesn’t run, it’s very slow.
-  // I was thinking about it when washing the dishes.
-  // And when I finished washing the dishes and got back to my computer I renamed the method to Main.
-  // This is the main method of this class, let it be Main.
-}
-</code></pre>
-<h3 id="comments-containing-use-cases">Comments containing use cases</h3>
-<p>Sometimes an author of the method is not sure that everybody will correctly understand how to use his method. And he gives use cases that demonstrate what the method gets with the definite data:</p>
-<pre><code class="language-cs">// Sum(1, 2) == 3
-// Sum(2, 1) == 3
-// Sum(2, 2) == 4
-public int Sum(int a, int b)
-</code></pre>
-<p>I think that every task should have its own tool. And unit tests were created for this exact purpose. This is a very smart thing. Necessity of unit tests is a debatable topic as well. But if you need to describe samples of the returned results for the method, why not to do a corresponding unit test?</p>
-<h3 id="comments-containing-code-history">Comments containing code history</h3>
-<p>Luckily, I haven’t seen such comments for quite a long time. But sometimes I have to review the following comments: // 11.06.13: Fixed a bug in the method. Previously it worked in the following way, now it works in this way. // 12.06.13: Oops, that bug wasn’t a bug at all. Got everything back. I will repeat once again: there is a separate tool for every task. Source control systems are able to store change history. You don’t need to overload source code with unnecessary history of how the code was written. If anyone gets interested in it, he can always review it in the repository.</p>
-<h3 id="comments-containing-code">Comments containing code</h3>
-<p>Such comments make me especially sad. Let’s say you are reviewing the code of some good class and subbenly you see:</p>
-<pre><code class="language-cs">// int number = GetNumber()
-// int number = 4;
-// int number = 5;
-int number = 4;
-// double number = 4.5;
-// decimal number = 4.5;
-// string number = &quot;This number&quot;;
-</code></pre>
-<p>What did author want to say in this comment? Some developers want to say: “I am making some experiments changing the code, but I don’t want to lose old versions of this code in case I will need to get back to them”. This phrase reminds us of the idea to use repository for this purpose, since it can store intermediate versions of your code and they won’t get lost. Take pity on the developers who will read your code. And the worst thing is that this code will stay in the project for a long time. The author just forgets to delete bad code version after a number of experiments. His associates are afraid to thoughtlessly delete the code which designation is unclear: “I will delete the thing and then it will occur that it was absolutely necessary.There was a great idea and I spoiled everything”.</p>
-<h3 id="incomprehensible-comments">Incomprehensible comments</h3>
-<pre><code class="language-cs">bool flagA = true;
-bool flagB = false;
-bool flagC = true;
-if (Condition(flagA, flagB, flagC))
-  Foo();
-// else checkbox true, turn off server
-</code></pre>
-<p>In such cases you can’t guess what an author wanted to say. What checkbox is true? Is it always set to true in the else-branch? Or is it necessary to add some code that will set the checkbox to true? What is the server? Why is it turned off? Will it turn off automatically? Or do we need to do it manually?</p>
-<p>Such comments are likely to do more harm, than good. It doesn’t contain any useful information and just confuses the reader. Don’t confuse your readers! Or don’t write anything at all. Or spend a little more time to write a message everyone will understand.</p>
-<h3 id="comments-containing-too-much-text">Comments containing too much text</h3>
-<p>Some commenters are afraid of being misunderstood. Or to provide too little information. That is why a comment for a three-lines method can take several screens. In this extensive essay, you will read about the used algorithms, their temporary complexity, see pseudo-code of the method, diagram in ASCII graphics, variable names rationale, some general ideas. And everything will be given in so many details to make even a first-grader understand it.</p>
-<p>This is a bad approach. It makes a reader spend much time to review your essay. If you decide to insert a comment take care about its laconism (of course, without prejudice to its readability and information value).</p>
-<h3 id="comments-that-lie">Comments that lie</h3>
-<pre><code>// two figures product
-public int Sum(int a, int b)
-</code></pre>
-<p>Again, you confuse your reader. What happens here? Probably, sometimes the method got a product and then it was converted to sum and the comment became obsolete. Or vice-versa, the comment was updated, but method name got out of attention. And may be the method got sum from the very beginning and a programmer just made a mistake while inserting a comment. The method can be very complicated and it can take much time to understand which one of the turtles lie.</p>
-<h2 id="when-you-can-insert-a-comment">When you can insert a comment</h2>
-<h3 id="comments-that-add-abstraction-level">Comments that add abstraction level</h3>
-<p>Domain scope can be very complicated. It’s not always possible to get simple and clear names for the classes that will immediately indicate the things they correspond to. That is why it’s ok to set some concise term to denote a complicated domain. Main team developers know it by heart. And it is good to insert a laconic comment for new team members that will explain everything.</p>
-<h3 id="comments-that-explain-unexplainable">Comments that explain unexplainable</h3>
-<p>It’s a pity, but sometimes you can’t write the code that is understandable as it is. Probably, some sophisticated algorithm is used. Or a coming deadline made you write a quick but not readable code. May be you need to deliver the project yesterday and have no time to put it in order. It doesn’t matter how the unreadable code got in your project. If it becomes more understandable, let the comment be added in the code.</p>
-<h3 id="todo-comments">TODO comments</h3>
-<p>The issue is disputable as well. Someone can say that there is an Issue Tracker, let’s store all tasks in it. Others can say that there is no need to generate lots of small issues when it’s possible to insert special comments that will attract developers’ attention to the fact that some functionality needs to be added. It’s good that today’s IDE’s can search for TODO comments and output them as a big fine list, so you won’t worry the instructions will be lost. It’s just necessary to agree within a team on what methodology will be used. Many programmers think that TODO comments are very convenient and there is no harm to use them.</p>
-<h3 id="comments-that-attract-attention">Comments that attract attention</h3>
-<p>Sometimes there appear some important things in the code which you want your reader to pay attention to. But it’s impossible to do with the code means. For example, you need to warn a reader that the method executes for a long time. Or the class is being developed and refactored by several people, it contains some bad piece of code that needs to be deleted or revised. But you better don’t do it since it’s very important and everything will fail without it. In general, if there are some important but not obvious aspects of your code, you can add a comment, it won’t be excessive.</p>
-<h3 id="comments-that-documentation">Comments that documentation</h3>
-<p>Many developers generate documentation based on the specific comments (such approach is used in many languages). There are other means to create documentation without the comments. But depending on some circumstances it’s a concept to use the comments for documenting, you can’t do anything with it. Here we talk about a public API, not about a private method in the in-house project. The team should agree on when and where this approach to documenting will be used. Time is priceless; don’t spend it for generating documentation that no one will read.</p>
-<h3 id="comments-containing-legal-information">Comments containing legal information</h3>
-<p>Some projects require adding a header-comment with license or copyright information in every file. No discussions in this case.</p>
-<h2 id="summary">Summary</h2>
-<p>I would like to focus on the main idea: though I insist on reduction of the comments number, it doesn’t mean that comments are evil incarnate that shouldn’t appear in the project. If you can justify the availability of a comment in this code snippet, if you really can’t avoid it, if you can compose it correctly and laconically – you’re welcome to insert a comment since it makes the source code more informative. Unfortunately, most comments don’t provide much benefit and just spoil the code. If you are about to write another wonderful comment, give yourself some more time to think if the comment is really wonderful, can’t you go without it?</p>
-<p>I also would like to note that, in real life, many things depend on the programming language, on IDE, on team agreements. Probably, in your definite situation it’s necessary to insert a lot of comments (it can be a complicated algorithm, low-level code, sophisticated optimizations, etc.). May be you are writing local code at the moment and comments make it more convenient to work with the code (though nobody makes you commit comments to the repository). It may occur that your project is 100 lines of code and it’s easier to add some comments than to create a complicated extensible architecture. In this article, I offered some general recommendations for a big project in a high-level language. These recommendations can save you and your associates from unnecessary headache. Just don’t consider the suggested practices as the absolute rules. You need to get the situation: is it appropriate to add a comment? Is it necessary here? Or it’s better to go without it? Just try to pay more attention to such things and your project will be better.</p>
-<h2 id="cross-posts">Cross-posts</h2>
-<ul>
-<li><a href="http://blogs.perpetuumsoft.com/dotnet/to-add-comments-or-not-to-add/">blogs.perpetuumsoft.com, Part 1</a></li>
-<li><a href="http://blogs.perpetuumsoft.com/dotnet/to-add-comments-or-not-to-add-part-2/">blogs.perpetuumsoft.com, Part 2</a></li>
-</ul>
-
-<!-- Share -->
-
-Share:
-<a href="https://twitter.com/intent/tweet?text=To Add Comments or Not to Add?&url=http://aakinshin.net/posts/comments/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/comments/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/comments/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/comments/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/comments/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/comments/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/comments/&title=To Add Comments or Not to Add?" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  You can find source code of this post on GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2013/comments.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2013/comments.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>To Add Comments or Not to Add? | Andrey Akinshin</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>EN</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/ru/posts/comments/>RU</a></div></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>To Add Comments or Not to Add?</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2013-08-28>August 28, 2013</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/perfectcode class="badge badge-info">PerfectCode</a></span><br><br><p><em>A really good comment is the one you managed to avoid. (c) Uncle Bob</em></p><p>Lately, I’ve been feeling really tired of hot discussions on if it’s necessary to add comments in the code. As a rule, there are self-confident juniors with the indisputable statement as: “Why not to comment it, it will be unreadable without the comments!” on one side. And experienced seniors are on the other side. They understand that if it’s possible to go without the comments than “You better, damn it, do it in this way!” Probably, many developers got comment cravings since they’ve been students when professors made them comment every code line, “to make the student better understand it”. Real projects shouldn’t contain a lot of comments that only spoil the code. I don’t agitate for avoiding comments at all, but if you managed to write the code that doesn’t need comments, you can consider it your small victory. I would like to refer you to some good books that helped form my position. I like and respect these authors and completely share their opinion.</p><ul><li><a href=http://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670>Steven C. McConnell, Code Complete</a></li><li><a href=http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882>Robert Martin, Clean Code: A Handbook of Agile Software Craftsmanship</a></li><li><a href=http://www.amazon.com/The-Readable-Code-Theory-Practice/dp/0596802293>Dustin Boswell, Trevor Foucher, The Art of Readable Code (Theory in Practice)</a></li></ul><p>So, what makes me mad about the comments? Here are some main statements:</p><ul><li>Comments spoil the code itself, make it less readable;</li><li>Comments require time for writing and maintenance;</li><li>Comments lie (starting from the improperly composed comments and ending with the obsolete ones)</li></ul><p>Basically, I agree that in some cases the comments are necessary. But the less such cases exist the more beautiful your code is. Besides, writing a good comment is the art as well. Unfortunately, just few developers have that skill, the rest of them write the comments anyhow. The benefit of such commenting is quite doubtful. Isn’t it better not to spend time and effort for writing a good comment but to spend it for re-writing the code in the way it could go without any comments?</p><p>Let’s discuss some typical scenarios and define to what extent the comment is necessary. I provide C# code, but this is not that critical for this article.</p><h2 id=when-you-can-go-without-the-comments>When you can go without the comments</h2><h3 id=comments-that-repeat-code>Comments that repeat code</h3><p>Let’s have a look at the following code:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=c1>// This method is responsible for calculating array elements sum
+</span><span class=c1>// The method receives elements array at the input
+</span><span class=c1></span><span class=k>public</span> <span class=kt>int</span> <span class=n>CalcSumOfElement</span><span class=p>(</span><span class=kt>int</span><span class=p>[]</span> <span class=n>elements</span><span class=p>)</span>
+<span class=p>{</span>
+  <span class=kt>int</span> <span class=n>result</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=c1>// Creating a special variable for the result
+</span><span class=c1></span>  <span class=kt>int</span> <span class=n>n</span> <span class=p>=</span> <span class=n>elements</span><span class=p>.</span><span class=n>Length</span><span class=p>;</span> <span class=c1>// Defining array length, i.e. number of elements
+</span><span class=c1></span>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>n</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span> <span class=c1>// Running cycle for all elements
+</span><span class=c1></span>    <span class=n>result</span> <span class=p>+=</span> <span class=n>elements</span><span class=p>[</span><span class=n>i</span><span class=p>];</span> <span class=c1>// Adding an element to the result
+</span><span class=c1></span>  <span class=k>return</span> <span class=n>result</span><span class=p>;</span> <span class=c1>// Returning the result
+</span><span class=c1></span><span class=p>}</span>
+</code></pre></div><p>Of course, this sample is fake, but unfortunately, I don’t overdo. I saw such code quite often. In this sample, the comments don’t provide any new information; everything can be understood from code. And reading this code without the comments would be much easier. I don’t even say about maintenance of such code: it’s quite tiresome to support this level of commenting. Most likely, when the code becomes more sophisticated half of code won’t have comments, the rest of code will include obsolete comments.</p><h3 id=comments-explaining-syntax>Comments explaining syntax</h3><p>Here is the sample:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>class</span> <span class=nc>Item</span>
+<span class=p>{</span>
+  <span class=k>private</span> <span class=kt>int</span> <span class=k>value</span><span class=p>;</span> <span class=c1>// This is a private field, it’s not available from outside
+</span><span class=c1></span>
+  <span class=c1>// This is a constructor
+</span><span class=c1></span>  <span class=k>public</span> <span class=n>Item</span><span class=p>(</span><span class=kt>int</span> <span class=n>twoValue</span><span class=p>)</span>
+  <span class=p>{</span>
+    <span class=k>value</span> <span class=p>=</span> <span class=n>twoValue</span> <span class=p>&gt;&gt;</span> <span class=m>1</span><span class=p>;</span> <span class=c1>// Two characters don’t mean bitwise sift to the right
+</span><span class=c1></span>    <span class=c1>// so, we divide the value in two
+</span><span class=c1></span>  <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p>If this is a laboratory research of a fresher, it’s ok. But if this is the production code and your developers need such comments, I’ve got bad news for you. Probably, this article is not for you.</p><h3 id=comments-explaining-standard-classes>Comments explaining standard classes</h3><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=n>HashSet</span> <span class=k>set</span><span class=p>;</span> <span class=c1>// This is data structure called Hash-Set
+</span><span class=c1>// It represents a set of elements
+</span><span class=c1>// We can easily find out if an element is included in this set
+</span><span class=c1>// More information on hash-tables can be found in wikipedia:
+</span><span class=c1>// http://ru.wikipedia.org/wiki
+</span><span class=c1>// /%D0%A5%D0%B5%D1%88-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0
+</span></code></pre></div><p>If a programmer really doesn’t know designation of some standard class or method, he can always use Google search / read documentation / ask an associate. Most good developers already know it. That’s why I strongly doubt usefulness of such comments.</p><h3 id=comments-explaining-improper-names>Comments explaining improper names</h3><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=c1>// Setting up server connection
+</span><span class=c1></span><span class=k>public</span> <span class=k>void</span> <span class=n>DoIt</span><span class=p>()</span>
+</code></pre></div><p>I agree that it’s not always possible to name a class/method/property/variable properly. And if the project deadline is yesterday, there is no time to think over good names. Let’s take some arbitrary name and explain what’s happening in the comments. This is much easier and quicker! Or you will spare a minute or two to give an understandable name?</p><h3 id=comments-explaining-a-paragraph>Comments explaining a paragraph</h3><p>I often hear the following phrases: “This method is 300 lines, it does lots of things. You can’t understand it without the comments. I will comment every 10 lines”. If this is the case, you, probably, do something wrong. May be it’s better to divide this big 300-lines method into several smaller methods. And give an understandable name to every small method. In this way you won’t need the comments.</p><h3 id=comments-explaining-constants>Comments explaining constants</h3><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=kt>int</span> <span class=n>GetSeconds</span><span class=p>(</span><span class=kt>int</span> <span class=n>hours</span><span class=p>)</span>
+<span class=p>{</span>
+  <span class=k>return</span> <span class=n>hours</span> <span class=p>*</span> <span class=m>3600</span><span class=p>;</span> <span class=c1>// 3600 – this is amount of seconds forming an hour
+</span><span class=c1></span><span class=p>}</span>
+</code></pre></div><p>In this variant, availability of the comment is a more adequate variant that just a figure added to the code and meaning something. But it’s even better to create a named constant which name made everything understandable.</p><p>For example, in this way:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>private</span> <span class=k>const</span> <span class=kt>int</span> <span class=n>SecondsInHour</span> <span class=p>=</span> <span class=m>3600</span><span class=p>;</span>
+<span class=k>public</span> <span class=kt>int</span> <span class=n>GetSeconds</span><span class=p>(</span><span class=kt>int</span> <span class=n>hours</span><span class=p>)</span>
+<span class=p>{</span>
+  <span class=k>return</span> <span class=n>hours</span> <span class=p>*</span> <span class=n>SecondsInHour</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><h3 id=comments-not-related-to-programming>Comments not related to programming</h3><p>I like a story from “Code Complete” about how a developer tried to understand the following comment for the whole night:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=nf>MOV</span> <span class=no>AX</span><span class=p>,</span> <span class=mi>723</span><span class=no>h</span> <span class=c>; R. I. P. L. V. В.
+</span></code></pre></div><p>Some months later he met the author of this code and learnt that the comment meant the following: «Rest in peace, Ludwig van Beethoven» as 723 is a hexadecimal view of the year of Beethoven’s death. Unfortunately, some programmers think that the code is some kind of a forum where they can communicate. Some of them try to be witty (nearly telling funny stories), others tell something about themselves (for example, “It’s 3.00am right now and I am still writing this class as I am fond of programming”). You don’t do it in this way; there are hundreds of other communication means. If the comment is included in the project it should add some value to this project.</p><h3 id=comments-containing-thoughts>Comments containing thoughts</h3><p>It happens that a comment contains some smart ideas that are very useful. But very often this is not the case:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>void</span> <span class=n>Main</span><span class=p>()</span>
+<span class=p>{</span>
+  <span class=c1>// Well, this is a very useful method
+</span><span class=c1></span>  <span class=c1>// It executes main logic of this class.
+</span><span class=c1></span>  <span class=c1>// At first I wanted to name it Run.
+</span><span class=c1></span>  <span class=c1>// But then I thought that Run means “to go quickly”.
+</span><span class=c1></span>  <span class=c1>// And this method doesn’t run, it’s very slow.
+</span><span class=c1></span>  <span class=c1>// I was thinking about it when washing the dishes.
+</span><span class=c1></span>  <span class=c1>// And when I finished washing the dishes and got back to my computer I renamed the method to Main.
+</span><span class=c1></span>  <span class=c1>// This is the main method of this class, let it be Main.
+</span><span class=c1></span><span class=p>}</span>
+</code></pre></div><h3 id=comments-containing-use-cases>Comments containing use cases</h3><p>Sometimes an author of the method is not sure that everybody will correctly understand how to use his method. And he gives use cases that demonstrate what the method gets with the definite data:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=c1>// Sum(1, 2) == 3
+</span><span class=c1>// Sum(2, 1) == 3
+</span><span class=c1>// Sum(2, 2) == 4
+</span><span class=c1></span><span class=k>public</span> <span class=kt>int</span> <span class=n>Sum</span><span class=p>(</span><span class=kt>int</span> <span class=n>a</span><span class=p>,</span> <span class=kt>int</span> <span class=n>b</span><span class=p>)</span>
+</code></pre></div><p>I think that every task should have its own tool. And unit tests were created for this exact purpose. This is a very smart thing. Necessity of unit tests is a debatable topic as well. But if you need to describe samples of the returned results for the method, why not to do a corresponding unit test?</p><h3 id=comments-containing-code-history>Comments containing code history</h3><p>Luckily, I haven’t seen such comments for quite a long time. But sometimes I have to review the following comments: // 11.06.13: Fixed a bug in the method. Previously it worked in the following way, now it works in this way. // 12.06.13: Oops, that bug wasn’t a bug at all. Got everything back. I will repeat once again: there is a separate tool for every task. Source control systems are able to store change history. You don’t need to overload source code with unnecessary history of how the code was written. If anyone gets interested in it, he can always review it in the repository.</p><h3 id=comments-containing-code>Comments containing code</h3><p>Such comments make me especially sad. Let’s say you are reviewing the code of some good class and subbenly you see:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=c1>// int number = GetNumber()
+</span><span class=c1>// int number = 4;
+</span><span class=c1>// int number = 5;
+</span><span class=c1></span><span class=kt>int</span> <span class=n>number</span> <span class=p>=</span> <span class=m>4</span><span class=p>;</span>
+<span class=c1>// double number = 4.5;
+</span><span class=c1>// decimal number = 4.5;
+</span><span class=c1>// string number = &#34;This number&#34;;
+</span></code></pre></div><p>What did author want to say in this comment? Some developers want to say: “I am making some experiments changing the code, but I don’t want to lose old versions of this code in case I will need to get back to them”. This phrase reminds us of the idea to use repository for this purpose, since it can store intermediate versions of your code and they won’t get lost. Take pity on the developers who will read your code. And the worst thing is that this code will stay in the project for a long time. The author just forgets to delete bad code version after a number of experiments. His associates are afraid to thoughtlessly delete the code which designation is unclear: “I will delete the thing and then it will occur that it was absolutely necessary.There was a great idea and I spoiled everything”.</p><h3 id=incomprehensible-comments>Incomprehensible comments</h3><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>bool</span> <span class=n>flagA</span> <span class=p>=</span> <span class=k>true</span><span class=p>;</span>
+<span class=kt>bool</span> <span class=n>flagB</span> <span class=p>=</span> <span class=k>false</span><span class=p>;</span>
+<span class=kt>bool</span> <span class=n>flagC</span> <span class=p>=</span> <span class=k>true</span><span class=p>;</span>
+<span class=k>if</span> <span class=p>(</span><span class=n>Condition</span><span class=p>(</span><span class=n>flagA</span><span class=p>,</span> <span class=n>flagB</span><span class=p>,</span> <span class=n>flagC</span><span class=p>))</span>
+  <span class=n>Foo</span><span class=p>();</span>
+<span class=c1>// else checkbox true, turn off server
+</span></code></pre></div><p>In such cases you can’t guess what an author wanted to say. What checkbox is true? Is it always set to true in the else-branch? Or is it necessary to add some code that will set the checkbox to true? What is the server? Why is it turned off? Will it turn off automatically? Or do we need to do it manually?</p><p>Such comments are likely to do more harm, than good. It doesn’t contain any useful information and just confuses the reader. Don’t confuse your readers! Or don’t write anything at all. Or spend a little more time to write a message everyone will understand.</p><h3 id=comments-containing-too-much-text>Comments containing too much text</h3><p>Some commenters are afraid of being misunderstood. Or to provide too little information. That is why a comment for a three-lines method can take several screens. In this extensive essay, you will read about the used algorithms, their temporary complexity, see pseudo-code of the method, diagram in ASCII graphics, variable names rationale, some general ideas. And everything will be given in so many details to make even a first-grader understand it.</p><p>This is a bad approach. It makes a reader spend much time to review your essay. If you decide to insert a comment take care about its laconism (of course, without prejudice to its readability and information value).</p><h3 id=comments-that-lie>Comments that lie</h3><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=c1>// two figures product
+</span><span class=c1></span><span class=k>public</span> <span class=kt>int</span> <span class=n>Sum</span><span class=p>(</span><span class=kt>int</span> <span class=n>a</span><span class=p>,</span> <span class=kt>int</span> <span class=n>b</span><span class=p>)</span>
+</code></pre></div><p>Again, you confuse your reader. What happens here? Probably, sometimes the method got a product and then it was converted to sum and the comment became obsolete. Or vice-versa, the comment was updated, but method name got out of attention. And may be the method got sum from the very beginning and a programmer just made a mistake while inserting a comment. The method can be very complicated and it can take much time to understand which one of the turtles lie.</p><h2 id=when-you-can-insert-a-comment>When you can insert a comment</h2><h3 id=comments-that-add-abstraction-level>Comments that add abstraction level</h3><p>Domain scope can be very complicated. It’s not always possible to get simple and clear names for the classes that will immediately indicate the things they correspond to. That is why it’s ok to set some concise term to denote a complicated domain. Main team developers know it by heart. And it is good to insert a laconic comment for new team members that will explain everything.</p><h3 id=comments-that-explain-unexplainable>Comments that explain unexplainable</h3><p>It’s a pity, but sometimes you can’t write the code that is understandable as it is. Probably, some sophisticated algorithm is used. Or a coming deadline made you write a quick but not readable code. May be you need to deliver the project yesterday and have no time to put it in order. It doesn’t matter how the unreadable code got in your project. If it becomes more understandable, let the comment be added in the code.</p><h3 id=todo-comments>TODO comments</h3><p>The issue is disputable as well. Someone can say that there is an Issue Tracker, let’s store all tasks in it. Others can say that there is no need to generate lots of small issues when it’s possible to insert special comments that will attract developers’ attention to the fact that some functionality needs to be added. It’s good that today’s IDE’s can search for TODO comments and output them as a big fine list, so you won’t worry the instructions will be lost. It’s just necessary to agree within a team on what methodology will be used. Many programmers think that TODO comments are very convenient and there is no harm to use them.</p><h3 id=comments-that-attract-attention>Comments that attract attention</h3><p>Sometimes there appear some important things in the code which you want your reader to pay attention to. But it’s impossible to do with the code means. For example, you need to warn a reader that the method executes for a long time. Or the class is being developed and refactored by several people, it contains some bad piece of code that needs to be deleted or revised. But you better don’t do it since it’s very important and everything will fail without it. In general, if there are some important but not obvious aspects of your code, you can add a comment, it won’t be excessive.</p><h3 id=comments-that-documentation>Comments that documentation</h3><p>Many developers generate documentation based on the specific comments (such approach is used in many languages). There are other means to create documentation without the comments. But depending on some circumstances it’s a concept to use the comments for documenting, you can’t do anything with it. Here we talk about a public API, not about a private method in the in-house project. The team should agree on when and where this approach to documenting will be used. Time is priceless; don’t spend it for generating documentation that no one will read.</p><h3 id=comments-containing-legal-information>Comments containing legal information</h3><p>Some projects require adding a header-comment with license or copyright information in every file. No discussions in this case.</p><h2 id=summary>Summary</h2><p>I would like to focus on the main idea: though I insist on reduction of the comments number, it doesn’t mean that comments are evil incarnate that shouldn’t appear in the project. If you can justify the availability of a comment in this code snippet, if you really can’t avoid it, if you can compose it correctly and laconically – you’re welcome to insert a comment since it makes the source code more informative. Unfortunately, most comments don’t provide much benefit and just spoil the code. If you are about to write another wonderful comment, give yourself some more time to think if the comment is really wonderful, can’t you go without it?</p><p>I also would like to note that, in real life, many things depend on the programming language, on IDE, on team agreements. Probably, in your definite situation it’s necessary to insert a lot of comments (it can be a complicated algorithm, low-level code, sophisticated optimizations, etc.). May be you are writing local code at the moment and comments make it more convenient to work with the code (though nobody makes you commit comments to the repository). It may occur that your project is 100 lines of code and it’s easier to add some comments than to create a complicated extensible architecture. In this article, I offered some general recommendations for a big project in a high-level language. These recommendations can save you and your associates from unnecessary headache. Just don’t consider the suggested practices as the absolute rules. You need to get the situation: is it appropriate to add a comment? Is it necessary here? Or it’s better to go without it? Just try to pay more attention to such things and your project will be better.</p><h2 id=cross-posts>Cross-posts</h2><ul><li><a href=http://blogs.perpetuumsoft.com/dotnet/to-add-comments-or-not-to-add/>blogs.perpetuumsoft.com, Part 1</a></li><li><a href=http://blogs.perpetuumsoft.com/dotnet/to-add-comments-or-not-to-add-part-2/>blogs.perpetuumsoft.com, Part 2</a></li></ul><br><br><div class=mx-auto>Share:
+<a href="https://twitter.com/intent/tweet?text=To%20Add%20Comments%20or%20Not%20to%20Add%3f&url=https%3a%2f%2faakinshin.net%2fposts%2fcomments%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fcomments%2f&title=To%20Add%20Comments%20or%20Not%20to%20Add%3f" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fcomments%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2fcomments%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2fcomments%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fcomments%2f&title=To%20Add%20Comments%20or%20Not%20to%20Add%3f" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

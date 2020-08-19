@@ -1,175 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="Вызов R-скрипта с аргументами из консоли">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='R,Terminal'>
-
-    <title>Вызов R-скрипта с аргументами из консоли</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/ru/posts/">Блог</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/ru/content/">Содержание</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/ru/about/">Об авторе</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ru</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/posts/r-terminal-arguments/'>En</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/ru/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Вызов R-скрипта с аргументами из консоли</h2>
-<span class="blog-post-meta">
-  <b>Дата:</b> 03 июня 2013.
-  <b>Теги:</b>
-        <a href="/ru/tags/r"><span class="badge badge-pill badge-info">R</span></a>
-        <a href="/ru/tags/terminal"><span class="badge badge-pill badge-info">Terminal</span></a>
-</span><br /><br />
-
-<p>Для выполнения R-скрипта из консоли нам понадобится помощь утилит <code>Rscript.exe</code> и <code>Rterm.exe</code>. Разница между ними состоит в том, что <code>Rscript.exe</code>
-в результате выполнения выдаст нам только результат работы R-скрипта, а <code>Rterm.exe</code> выдаст полный лог R-сессии (включая стартовое приглашение к работе и все исполняемые команды). Если быть до конца честными, то <code>Rscript.exe</code> по сути вызывает <code>Rterm.exe</code> с специальными аргументами (об этом немного ниже). Рассмотрим пример запуска скрипта с аргументами командной строки:</p>
-<pre><code>Rterm.exe --no-restore --no-save --args 100 image &lt;script.R &gt;output.txt
-Rscript.exe script.R 100 image &gt;output.txt
-</code></pre>
-<p>Разберём эти команды чуть подробней.<!--more--></p>
-<p>Для начала напишем скрипт под названием <code>script.R</code> для рисования случайных точек, который будет принимать два аргумента: количество точек и имя файла, в который мы будем сохранять итоговую картинку. Код скрипта будет следующим:</p>
-<pre><code class="language-r">args &lt;- commandArgs(trailingOnly = T) # Получаем аргументы из командной строки
-print(args)                           # Выводим их
-n &lt;- as.integer(args[1])              # Первый аргумент — количество точек
-name &lt;- args[2]                       # Второй аргумент — имя картинки
-x &lt;- rnorm(n)                         # Генерируем точки
-png(paste0(name, &quot;.png&quot;))             # Создаём png-картинку
-plot(1:n, x)                          # Рисуем картинку
-dev.off()                             # Заканчиваем рисовать
-summary(x)                            # И немного статистики напоследок
-</code></pre>
-<p>Особый интерес для нас представляет только первая строчка (остальной код приведён для иллюстрации). Для получения аргументов используется функция <code>commandArgs</code>
-, принимающая единственный параметр — <code>trailingOnly</code>. Если <code>trailingOnly</code> выставлен в <code>FALSE</code> , то функция вернёт список вообще всех аргументов, которые были переданы исполняемому файлу <code>Rterm.exe</code> . В случае значения <code>TRUE</code> будут возвращены только аргументы, указанные после аргумента <code>--args</code> .</p>
-<p>Вернёмся к двум строчкам запуска скрипта из консоли. Аргументы <code>--no-restore --no-save</code> в первой строчке означают, что перед выполнением скрипта нам не нужно восстанавливать никакое рабочее окружение, а после его выполнения — не нужно сохранять. <code>&amp;gt;output</code> в самом конце каждой строчке означает, что вывод с консоли будет перенаправлен в файл <code>output.txt</code>. В конце работы скрипта в каждом случае будет создан файл <code>image.png</code> с распределением наших случайных точек. Разница будет заключаться в выводе <code>output.txt</code>. В первом случае мы получим примерно следующее:</p>
-<pre><code>R version 3.0.0 (2013-04-03) -- &quot;Masked Marvel&quot;
+<!doctype html><html lang=ru class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Андрей Акиньшин"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Вызов R-скрипта с аргументами из консоли | Андрей Акиньшин</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/ru/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/posts/>Посты</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/ru/about/>Об авторе</a></li><li class=nav-item><a class=nav-link id=nav-link-about href>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/ru/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Вызов R-скрипта с аргументами из консоли</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2013-06-03>3 июня 2013</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/r class="badge badge-info">R</a>
+<a href=https://aakinshin.net/tags/terminal class="badge badge-info">Terminal</a></span><br><br><p>Для выполнения R-скрипта из консоли нам понадобится помощь утилит <code>Rscript.exe</code> и <code>Rterm.exe</code>. Разница между ними состоит в том, что <code>Rscript.exe</code>
+в результате выполнения выдаст нам только результат работы R-скрипта, а <code>Rterm.exe</code> выдаст полный лог R-сессии (включая стартовое приглашение к работе и все исполняемые команды). Если быть до конца честными, то <code>Rscript.exe</code> по сути вызывает <code>Rterm.exe</code> с специальными аргументами (об этом немного ниже). Рассмотрим пример запуска скрипта с аргументами командной строки:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=n>Rterm.exe</span> <span class=o>--</span><span class=n>no</span><span class=o>-</span><span class=n>restore</span> <span class=o>--</span><span class=n>no</span><span class=o>-</span><span class=n>save</span> <span class=o>--</span><span class=n>args</span> <span class=m>100</span> <span class=n>image</span> <span class=o>&lt;</span><span class=n>script.R</span> <span class=o>&gt;</span><span class=n>output.txt</span>
+<span class=n>Rscript.exe</span> <span class=n>script.R</span> <span class=m>100</span> <span class=n>image</span> <span class=o>&gt;</span><span class=n>output.txt</span>
+</code></pre></div><p>Разберём эти команды чуть подробней.</p><p>Для начала напишем скрипт под названием <code>script.R</code> для рисования случайных точек, который будет принимать два аргумента: количество точек и имя файла, в который мы будем сохранять итоговую картинку. Код скрипта будет следующим:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=n>args</span> <span class=o>&lt;-</span> <span class=nf>commandArgs</span><span class=p>(</span><span class=n>trailingOnly</span> <span class=o>=</span> <span class=bp>T</span><span class=p>)</span> <span class=c1># Получаем аргументы из командной строки</span>
+<span class=nf>print</span><span class=p>(</span><span class=n>args</span><span class=p>)</span>                           <span class=c1># Выводим их</span>
+<span class=n>n</span> <span class=o>&lt;-</span> <span class=nf>as.integer</span><span class=p>(</span><span class=n>args[1]</span><span class=p>)</span>              <span class=c1># Первый аргумент — количество точек</span>
+<span class=n>name</span> <span class=o>&lt;-</span> <span class=n>args[2]</span>                       <span class=c1># Второй аргумент — имя картинки</span>
+<span class=n>x</span> <span class=o>&lt;-</span> <span class=nf>rnorm</span><span class=p>(</span><span class=n>n</span><span class=p>)</span>                         <span class=c1># Генерируем точки</span>
+<span class=nf>png</span><span class=p>(</span><span class=nf>paste0</span><span class=p>(</span><span class=n>name</span><span class=p>,</span> <span class=s>&#34;.png&#34;</span><span class=p>))</span>             <span class=c1># Создаём png-картинку</span>
+<span class=nf>plot</span><span class=p>(</span><span class=m>1</span><span class=o>:</span><span class=n>n</span><span class=p>,</span> <span class=n>x</span><span class=p>)</span>                          <span class=c1># Рисуем картинку</span>
+<span class=nf>dev.off</span><span class=p>()</span>                             <span class=c1># Заканчиваем рисовать</span>
+<span class=nf>summary</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>                            <span class=c1># И немного статистики напоследок</span>
+</code></pre></div><p>Особый интерес для нас представляет только первая строчка (остальной код приведён для иллюстрации). Для получения аргументов используется функция <code>commandArgs</code>
+, принимающая единственный параметр — <code>trailingOnly</code>. Если <code>trailingOnly</code> выставлен в <code>FALSE</code> , то функция вернёт список вообще всех аргументов, которые были переданы исполняемому файлу <code>Rterm.exe</code> . В случае значения <code>TRUE</code> будут возвращены только аргументы, указанные после аргумента <code>--args</code> .</p><p>Вернёмся к двум строчкам запуска скрипта из консоли. Аргументы <code>--no-restore --no-save</code> в первой строчке означают, что перед выполнением скрипта нам не нужно восстанавливать никакое рабочее окружение, а после его выполнения — не нужно сохранять. <code>&amp;gt;output</code> в самом конце каждой строчке означает, что вывод с консоли будет перенаправлен в файл <code>output.txt</code>. В конце работы скрипта в каждом случае будет создан файл <code>image.png</code> с распределением наших случайных точек. Разница будет заключаться в выводе <code>output.txt</code>. В первом случае мы получим примерно следующее:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>R version 3.0.0 (2013-04-03) -- &#34;Masked Marvel&#34;
 Copyright (C) 2013 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R -- это свободное ПО, и оно поставляется безо всяких гарантий.
 Вы вольны распространять его при соблюдении некоторых условий.
-Введите 'license()' для получения более подробной информации.
+Введите &#39;license()&#39; для получения более подробной информации.
 
 R -- это проект, в котором сотрудничает множество разработчиков.
-Введите 'contributors()' для получения дополнительной информации и
-'citation()' для ознакомления с правилами упоминания R и его пакетов
+Введите &#39;contributors()&#39; для получения дополнительной информации и
+&#39;citation()&#39; для ознакомления с правилами упоминания R и его пакетов
 в публикациях.
 
-Введите 'demo()' для запуска демонстрационных программ, 'help()' -- для
-получения справки, 'help.start()' -- для доступа к справке через браузер.
-Введите 'q()', чтобы выйти из R.
+Введите &#39;demo()&#39; для запуска демонстрационных программ, &#39;help()&#39; -- для
+получения справки, &#39;help.start()&#39; -- для доступа к справке через браузер.
+Введите &#39;q()&#39;, чтобы выйти из R.
 
 &gt; args &lt;- commandArgs(trailingOnly = T)
 &gt; print(args)
-[1] &quot;100&quot;   &quot;image&quot;
+[1] &#34;100&#34;   &#34;image&#34;
 &gt; n &lt;- as.integer(args[1])
 &gt; name &lt;- args[2]
 &gt; 
 &gt; x &lt;- rnorm(n)
-&gt; png(paste0(name, &quot;.png&quot;))
+&gt; png(paste0(name, &#34;.png&#34;))
 &gt; plot(1:n, x)
 &gt; dev.off()
 null device 
@@ -178,46 +48,33 @@ null device
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 -2.3830 -0.5616  0.0813 -0.0322  0.5742  2.1000 
 &gt;
-</code></pre>
-<p>А во втором случае:</p>
-<pre><code class="language-r">[1] &quot;100&quot;   &quot;image&quot;
-null device 
-          1 
-    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
--2.58000 -0.61260 -0.03309  0.05922  0.87230  1.72800 
-</code></pre>
-<p>Теперь вернёмся к параметру
+</code></pre></div><p>А во втором случае:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=n>[1]</span> <span class=s>&#34;100&#34;</span>   <span class=s>&#34;image&#34;</span>
+<span class=n>null</span> <span class=n>device</span> 
+          <span class=m>1</span> 
+    <span class=n>Min.</span>  <span class=m>1</span><span class=n>st</span> <span class=n>Qu.</span>   <span class=n>Median</span>     <span class=n>Mean</span>  <span class=m>3</span><span class=n>rd</span> <span class=n>Qu.</span>     <span class=n>Max.</span> 
+<span class=m>-2.58000</span> <span class=m>-0.61260</span> <span class=m>-0.03309</span>  <span class=m>0.05922</span>  <span class=m>0.87230</span>  <span class=m>1.72800</span> 
+</code></pre></div><p>Теперь вернёмся к параметру
 <code>trailingOnly</code>
 . Напишем ещё один скрипт (под названием
 <code>printArgs.R</code>
-) для иллюстрации его работы:</p>
-<pre><code class="language-r">print(commandArgs(trailingOnly = F))
-</code></pre>
-<p>И вызовем его уже знакомыми нам инструментами (на этот раз вывод будет осуществляться на консоль):</p>
-<pre><code>Rterm.exe --no-restore --no-save --args 100 image &lt;printArgs.R
+) для иллюстрации его работы:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=nf>print</span><span class=p>(</span><span class=nf>commandArgs</span><span class=p>(</span><span class=n>trailingOnly</span> <span class=o>=</span> <span class=bp>F</span><span class=p>))</span>
+</code></pre></div><p>И вызовем его уже знакомыми нам инструментами (на этот раз вывод будет осуществляться на консоль):</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>Rterm.exe --no-restore --no-save --args 100 image &lt;printArgs.R
 Rscript.exe printArgs.R 100 image
-</code></pre>
-<p>Первая команда даст нам:</p>
-<pre><code>[1] &quot;c:\\Program Files\\R\\R-3.0.0\\bin\\x64\\Rterm.exe&quot;
-[2] &quot;--no-restore&quot;                                      
-[3] &quot;--no-save&quot;                                         
-[4] &quot;--args&quot;                                            
-[5] &quot;100&quot;                                               
-[6] &quot;image&quot;  
-</code></pre>
-<p>Как можно видеть, помимо наших основных аргументов <code>100</code> и <code>image</code> в список также попали исполняемый файл <code>Rterm</code> и передаваемые в него аргументы. Ниже представлен вывод второй команды:</p>
-<pre><code>[1] &quot;c:\\Program Files\\R\\R-3.0.0\\bin\\x64\\Rterm.exe&quot;
-[2] &quot;--slave&quot;                                           
-[3] &quot;--no-restore&quot;                                      
-[4] &quot;--file=printArgs.R&quot;                                
-[5] &quot;--args&quot;                                            
-[6] &quot;100&quot;                                               
-[7] &quot;image&quot;                                             
-</code></pre>
-<p>Отсюда становится понятно, что <code>Rscript</code> только и делает-то, что запускает <code>Rterm</code> с параметрами <code>--slave</code> (отключает приглашение и вывод текста выполняемых команд),
-<code>--no-restore</code> не нужно восстанавливать рабочее окружение), <code>--file</code> (указывает выполняемый файл) и <code>--args</code> (означает, что далее следуют настоящие аргументы для основного скрипта; если бы мы выставили <code>trailingOnly = T</code>, то получили бы только их).</p>
-<p>Ниже представлена полная справка по использованию <code>Rterm</code> и <code>Rscript</code>:</p>
-<pre><code>&gt;Rterm.exe --help
+</code></pre></div><p>Первая команда даст нам:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>[1] &#34;c:\\Program Files\\R\\R-3.0.0\\bin\\x64\\Rterm.exe&#34;
+[2] &#34;--no-restore&#34;                                      
+[3] &#34;--no-save&#34;                                         
+[4] &#34;--args&#34;                                            
+[5] &#34;100&#34;                                               
+[6] &#34;image&#34;  
+</code></pre></div><p>Как можно видеть, помимо наших основных аргументов <code>100</code> и <code>image</code> в список также попали исполняемый файл <code>Rterm</code> и передаваемые в него аргументы. Ниже представлен вывод второй команды:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>[1] &#34;c:\\Program Files\\R\\R-3.0.0\\bin\\x64\\Rterm.exe&#34;
+[2] &#34;--slave&#34;                                           
+[3] &#34;--no-restore&#34;                                      
+[4] &#34;--file=printArgs.R&#34;                                
+[5] &#34;--args&#34;                                            
+[6] &#34;100&#34;                                               
+[7] &#34;image&#34;                                             
+</code></pre></div><p>Отсюда становится понятно, что <code>Rscript</code> только и делает-то, что запускает <code>Rterm</code> с параметрами <code>--slave</code> (отключает приглашение и вывод текста выполняемых команд),
+<code>--no-restore</code> не нужно восстанавливать рабочее окружение), <code>--file</code> (указывает выполняемый файл) и <code>--args</code> (означает, что далее следуют настоящие аргументы для основного скрипта; если бы мы выставили <code>trailingOnly = T</code>, то получили бы только их).</p><p>Ниже представлена полная справка по использованию <code>Rterm</code> и <code>Rscript</code>:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>&gt;Rterm.exe --help
 Usage: Rterm [options] [&lt; infile] [&gt; outfile] [EnvVars]
 
 Start R, a system for statistical computation and graphics, with the
@@ -231,36 +88,35 @@ Options:
   --encoding=enc        Specify encoding to be used for stdin
   --encoding enc        ditto
   --save                Do save workspace at the end of the session
-  --no-save             Don't save it
-  --no-environ          Don't read the site and user environment files
-  --no-site-file        Don't read the site-wide Rprofile
-  --no-init-file        Don't read the .Rprofile or ~/.Rprofile files
+  --no-save             Don&#39;t save it
+  --no-environ          Don&#39;t read the site and user environment files
+  --no-site-file        Don&#39;t read the site-wide Rprofile
+  --no-init-file        Don&#39;t read the .Rprofile or ~/.Rprofile files
   --restore             Do restore previously saved objects at startup
-  --no-restore-data     Don't restore previously saved objects
-  --no-restore-history  Don't restore the R history file
-  --no-restore          Don't restore anything
+  --no-restore-data     Don&#39;t restore previously saved objects
+  --no-restore-history  Don&#39;t restore the R history file
+  --no-restore          Don&#39;t restore anything
   --vanilla             Combine --no-save, --no-restore, --no-site-file,
                           --no-init-file and --no-environ
   --max-mem-size=N      Set limit for memory to be used by R
   --max-ppsize=N        Set max size of protect stack to N
-  -q, --quiet           Don't print startup message
+  -q, --quiet           Don&#39;t print startup message
   --silent              Same as --quiet
   --slave               Make R run as quietly as possible
   --verbose             Print more information about progress
   --internet2           Use Internet Explorer for proxies etc.
   --args                Skip the rest of the command line
-  --ess                 Don't use getline for command-line editing
+  --ess                 Don&#39;t use getline for command-line editing
                           and assert interactive use
-  -f file               Take input from 'file'
+  -f file               Take input from &#39;file&#39;
   --file=file           ditto
-  -e expression         Use 'expression' as input
+  -e expression         Use &#39;expression&#39; as input
 
 One or more -e options can be used, but not together with -f or --file
 
 An argument ending in .RData (in any case) is taken as the path
 to the workspace to be restored (and implies --restore)
-</code></pre>
-<pre><code>&gt;Rscript.exe -- help
+</code></pre></div><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>&gt;Rscript.exe -- help
 Usage: /path/to/Rscript [--options] [-e expr] file [args]
 
 --options accepted are
@@ -268,55 +124,17 @@ Usage: /path/to/Rscript [--options] [-e expr] file [args]
   --version           Print version and exit
   --verbose           Print information on progress
   --default-packages=list
-                      Where 'list' is a comma-separated set
-                        of package names, or 'NULL'
+                      Where &#39;list&#39; is a comma-separated set
+                        of package names, or &#39;NULL&#39;
 or options to R, in addition to --slave --no-restore, such as
   --save              Do save workspace at the end of the session
-  --no-environ        Don't read the site and user environment files
-  --no-site-file      Don't read the site-wide Rprofile
-  --no-init-file      Don't read the user R profile
+  --no-environ        Don&#39;t read the site and user environment files
+  --no-site-file      Don&#39;t read the site-wide Rprofile
+  --no-init-file      Don&#39;t read the user R profile
   --restore           Do restore previously saved objects at startup
   --vanilla           Combine --no-save, --no-restore, --no-site-file
                         --no-init-file and --no-environ
 
-'file' may contain spaces but not shell metacharacters
-</code></pre>
-
-<!-- Share -->
-
-Поделиться:
-<a href="https://twitter.com/intent/tweet?text=Вызов R-скрипта с аргументами из консоли&url=http://aakinshin.net/ru/posts/r-terminal-arguments/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/ru/posts/r-terminal-arguments/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/ru/posts/r-terminal-arguments/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/posts/r-terminal-arguments/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/ru/posts/r-terminal-arguments/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/ru/posts/r-terminal-arguments/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/ru/posts/r-terminal-arguments/&title=Вызов R-скрипта с аргументами из консоли" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  Исходный код поста находится на GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2013/r-terminal-arguments.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2013/r-terminal-arguments.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Андрей Акиньшин | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+&#39;file&#39; may contain spaces but not shell metacharacters
+</code></pre></div><br><br><div class=mx-auto>Поделиться:
+<a href="https://twitter.com/intent/tweet?text=%d0%92%d1%8b%d0%b7%d0%be%d0%b2%20R-%d1%81%d0%ba%d1%80%d0%b8%d0%bf%d1%82%d0%b0%20%d1%81%20%d0%b0%d1%80%d0%b3%d1%83%d0%bc%d0%b5%d0%bd%d1%82%d0%b0%d0%bc%d0%b8%20%d0%b8%d0%b7%20%d0%ba%d0%be%d0%bd%d1%81%d0%be%d0%bb%d0%b8&url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-terminal-arguments%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-terminal-arguments%2f&title=%d0%92%d1%8b%d0%b7%d0%be%d0%b2%20R-%d1%81%d0%ba%d1%80%d0%b8%d0%bf%d1%82%d0%b0%20%d1%81%20%d0%b0%d1%80%d0%b3%d1%83%d0%bc%d0%b5%d0%bd%d1%82%d0%b0%d0%bc%d0%b8%20%d0%b8%d0%b7%20%d0%ba%d0%be%d0%bd%d1%81%d0%be%d0%bb%d0%b8" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-terminal-arguments%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-terminal-arguments%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-terminal-arguments%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fr-terminal-arguments%2f&title=%d0%92%d1%8b%d0%b7%d0%be%d0%b2%20R-%d1%81%d0%ba%d1%80%d0%b8%d0%bf%d1%82%d0%b0%20%d1%81%20%d0%b0%d1%80%d0%b3%d1%83%d0%bc%d0%b5%d0%bd%d1%82%d0%b0%d0%bc%d0%b8%20%d0%b8%d0%b7%20%d0%ba%d0%be%d0%bd%d1%81%d0%be%d0%bb%d0%b8" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Андрей Акиньшин | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

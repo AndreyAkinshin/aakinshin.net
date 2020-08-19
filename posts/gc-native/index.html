@@ -1,279 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Unexpected area to collect garbage in .NET | Andrey Akinshin</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>EN</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/ru/posts/gc-native/>RU</a></div></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Unexpected area to collect garbage in .NET</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2013-08-08>August 8, 2013</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/gc class="badge badge-info">GC</a>
+<a href=https://aakinshin.net/tags/opencv class="badge badge-info">OpenCV</a></span><br><br><p>The .NET framework provides an intelligent garbage collector that saves us a trouble of manual memory management. And in 95% of cases you can forget about memory and related issues. But the remaining 5% have some specific aspects connected to unmanaged resources, too big objects, etc. And it’s better to know how the garbage is collected. Otherwise, you can get surprises.</p><p>Do you think GC is able to collect an object till its last method is complete? It appears it is. But it is necessary to run an application in release mode without debugging. In this case JIT compiler will perform optimizations that will make this situation possible. Of course, JIT compiler does it when the remaining method body doesn’t contain references to the object or its fields. It should seem a very harmless optimization. But it can lead to the problems if you work with the unmanaged resources: object compilation can be executed before the operation over the unmanaged resource is finished. And most likely it will result in the application crash.</p><p>Let’s reproduce the situation. For a beginning, we will need something unmanaged, for example <a href=https://code.google.com/p/opencvsharp/>OpenCvSharp</a> that is a wrapper for <a href=http://opencv.org/>OpenCV</a>, a computer vision and image processing library.</p><p>I am talking about this library since I got this irritating issue using it. Have a look the following class:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>class</span> <span class=nc>ImageWithCircle</span>
+<span class=p>{</span>
+  <span class=k>private</span> <span class=k>const</span> <span class=kt>int</span> <span class=n>Size</span> <span class=p>=</span> <span class=m>10000</span><span class=p>;</span>
+  <span class=k>private</span> <span class=k>readonly</span> <span class=n>IplImage</span> <span class=n>image</span><span class=p>;</span>
 
-    <meta name="description" content="Unexpected area to collect garbage in .NET">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,GC,OpenCV'>
+  <span class=k>public</span> <span class=n>ImageWithCircle</span><span class=p>()</span>
+  <span class=p>{</span>            
+    <span class=n>image</span> <span class=p>=</span> <span class=n>Cv</span><span class=p>.</span><span class=n>CreateImage</span><span class=p>(</span><span class=k>new</span> <span class=n>CvSize</span><span class=p>(</span><span class=n>Size</span><span class=p>,</span> <span class=n>Size</span><span class=p>),</span> <span class=n>BitDepth</span><span class=p>.</span><span class=n>U8</span><span class=p>,</span> <span class=m>3</span><span class=p>);</span>
+    <span class=n>DrawCircle</span><span class=p>();</span>
+  <span class=p>}</span>
 
-    <title>Unexpected area to collect garbage in .NET</title>
+  <span class=p>~</span><span class=n>ImageWithCircle</span><span class=p>()</span>
+  <span class=p>{</span>
+    <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;~ImageWithCircle&#34;</span><span class=p>);</span>
+    <span class=n>Cv</span><span class=p>.</span><span class=n>ReleaseImage</span><span class=p>(</span><span class=n>image</span><span class=p>);</span>
+  <span class=p>}</span>
 
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
+  <span class=k>public</span> <span class=k>void</span> <span class=n>Save</span><span class=p>()</span>
+  <span class=p>{</span>
+    <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;Save start&#34;</span><span class=p>);</span>
+    <span class=n>image</span><span class=p>.</span><span class=n>SaveImage</span><span class=p>(</span><span class=s>&#34;image.tif&#34;</span><span class=p>);</span>
+    <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;Save end&#34;</span><span class=p>);</span>
+  <span class=p>}</span>
 
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-    
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/posts/gc-native/'>Ru</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Unexpected area to collect garbage in .NET</h2>
-<span class="blog-post-meta">
-  <b>Date:</b> August 08, 2013.
-  <b>Tags:</b>
-        <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/tags/gc"><span class="badge badge-pill badge-info">GC</span></a>
-        <a href="/tags/opencv"><span class="badge badge-pill badge-info">OpenCV</span></a>
-</span><br /><br />
-
-<p>The .NET framework provides an intelligent garbage collector that saves us a trouble of manual memory management. And in 95% of cases you can forget about memory and related issues. But the remaining 5% have some specific aspects connected to unmanaged resources, too big objects, etc. And it’s better to know how the garbage is collected. Otherwise, you can get surprises.</p>
-<p>Do you think GC is able to collect an object till its last method is complete? It appears it is. But it is necessary to run an application in release mode without debugging. In this case JIT compiler will perform optimizations that will make this situation possible. Of course, JIT compiler does it when the remaining method body doesn’t contain references to the object or its fields. It should seem a very harmless optimization. But it can lead to the problems if you work with the unmanaged resources: object compilation can be executed before the operation over the unmanaged resource is finished. And most likely it will result in the application crash. <!--more--></p>
-<p>Let’s reproduce the situation. For a beginning, we will need something unmanaged, for example <a href="https://code.google.com/p/opencvsharp/">OpenCvSharp</a> that is a wrapper for <a href="http://opencv.org/">OpenCV</a>, a computer vision and image processing library.</p>
-<p>I am talking about this library since I got this irritating issue using it. Have a look the following class:</p>
-<pre><code class="language-cs">public class ImageWithCircle
-{
-  private const int Size = 10000;
-  private readonly IplImage image;
-
-  public ImageWithCircle()
-  {            
-    image = Cv.CreateImage(new CvSize(Size, Size), BitDepth.U8, 3);
-    DrawCircle();
-  }
-
-  ~ImageWithCircle()
-  {
-    Console.WriteLine(&quot;~ImageWithCircle&quot;);
-    Cv.ReleaseImage(image);
-  }
-
-  public void Save()
-  {
-    Console.WriteLine(&quot;Save start&quot;);
-    image.SaveImage(&quot;image.tif&quot;);
-    Console.WriteLine(&quot;Save end&quot;);
-  }
-
-  public void DrawCircle()
-  {
-    image.FloodFill(new CvPoint(Size / 2, Size / 2), CvColor.White);
-    image.Circle(new CvPoint(Size / 2, Size / 2), Size / 4, 
-                 CvColor.Random(), 10);
-  }
-}
-</code></pre>
-<p>This is quite a simple class responsible for drawing a very big picture with a circle. There is a <code>Save()</code> method that saves a picture to a file. Logic of the work with a picture is stored in the <code>IplImage</code> class from OpenCvSharp. Run this code:</p>
-<pre><code class="language-cs">static void Main()
-{
-  new ImageWithCircle().Save();
-}
-</code></pre>
-<p>The console will show an expected variant: we started <code>Save()</code> method and ended it. Only after it garbage was collected and the corresponding finalizer is invoked.</p>
-<pre><code>Save start
+  <span class=k>public</span> <span class=k>void</span> <span class=n>DrawCircle</span><span class=p>()</span>
+  <span class=p>{</span>
+    <span class=n>image</span><span class=p>.</span><span class=n>FloodFill</span><span class=p>(</span><span class=k>new</span> <span class=n>CvPoint</span><span class=p>(</span><span class=n>Size</span> <span class=p>/</span> <span class=m>2</span><span class=p>,</span> <span class=n>Size</span> <span class=p>/</span> <span class=m>2</span><span class=p>),</span> <span class=n>CvColor</span><span class=p>.</span><span class=n>White</span><span class=p>);</span>
+    <span class=n>image</span><span class=p>.</span><span class=n>Circle</span><span class=p>(</span><span class=k>new</span> <span class=n>CvPoint</span><span class=p>(</span><span class=n>Size</span> <span class=p>/</span> <span class=m>2</span><span class=p>,</span> <span class=n>Size</span> <span class=p>/</span> <span class=m>2</span><span class=p>),</span> <span class=n>Size</span> <span class=p>/</span> <span class=m>4</span><span class=p>,</span> 
+                 <span class=n>CvColor</span><span class=p>.</span><span class=n>Random</span><span class=p>(),</span> <span class=m>10</span><span class=p>);</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p>This is quite a simple class responsible for drawing a very big picture with a circle. There is a <code>Save()</code> method that saves a picture to a file. Logic of the work with a picture is stored in the <code>IplImage</code> class from OpenCvSharp. Run this code:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>static</span> <span class=k>void</span> <span class=n>Main</span><span class=p>()</span>
+<span class=p>{</span>
+  <span class=k>new</span> <span class=n>ImageWithCircle</span><span class=p>().</span><span class=n>Save</span><span class=p>();</span>
+<span class=p>}</span>
+</code></pre></div><p>The console will show an expected variant: we started <code>Save()</code> method and ended it. Only after it garbage was collected and the corresponding finalizer is invoked.</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>Save start
 Save end
 ~ImageWithCircle
-</code></pre>
-<p>And now let’s call garbage collection while the picture is being saved. This is just a sample; that is why we won’t invent anything complicated and just enable <code>Timer</code> that will call <code>GC.Collect()</code> quite frequently. The picture is very big and we will call garbage collector at least once before it is saved to a file. So, the executable code now looks in the following way:</p>
-<pre><code class="language-cs">private static void Main()
-{
-  var timer = new Timer(100);
-  timer.Elapsed += RunGc;
-  timer.Start();
-  new ImageWithCircle().Save();
-}
+</code></pre></div><p>And now let’s call garbage collection while the picture is being saved. This is just a sample; that is why we won’t invent anything complicated and just enable <code>Timer</code> that will call <code>GC.Collect()</code> quite frequently. The picture is very big and we will call garbage collector at least once before it is saved to a file. So, the executable code now looks in the following way:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>private</span> <span class=k>static</span> <span class=k>void</span> <span class=n>Main</span><span class=p>()</span>
+<span class=p>{</span>
+  <span class=kt>var</span> <span class=n>timer</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Timer</span><span class=p>(</span><span class=m>100</span><span class=p>);</span>
+  <span class=n>timer</span><span class=p>.</span><span class=n>Elapsed</span> <span class=p>+=</span> <span class=n>RunGc</span><span class=p>;</span>
+  <span class=n>timer</span><span class=p>.</span><span class=n>Start</span><span class=p>();</span>
+  <span class=k>new</span> <span class=n>ImageWithCircle</span><span class=p>().</span><span class=n>Save</span><span class=p>();</span>
+<span class=p>}</span>
 
-private static void RunGc(object sender, ElapsedEventArgs e)
-{
-  Console.WriteLine(&quot;Gc.Collect();&quot;);
-  GC.Collect();
-}
-</code></pre>
-<p>Probably, you expect to see something of this kind:</p>
-<pre><code>Gc.Collect();
-Gc.Collect();
-Gc.Collect();
-Save start
-Gc.Collect();
-Gc.Collect();
-Gc.Collect();
-Gc.Collect();
-Gc.Collect();
-Gc.Collect();
-Save end
-~ImageWithCircle
-</code></pre>
-<p>But if you run the application in release mode without debugging the app will crash:</p>
-<pre><code>Gc.Collect();
-Gc.Collect();
-Gc.Collect();
-Save start
-Gc.Collect();
-~ImageWithCircle
+<span class=k>private</span> <span class=k>static</span> <span class=k>void</span> <span class=n>RunGc</span><span class=p>(</span><span class=kt>object</span> <span class=n>sender</span><span class=p>,</span> <span class=n>ElapsedEventArgs</span> <span class=n>e</span><span class=p>)</span>
+<span class=p>{</span>
+  <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;Gc.Collect();&#34;</span><span class=p>);</span>
+  <span class=n>GC</span><span class=p>.</span><span class=n>Collect</span><span class=p>();</span>
+<span class=p>}</span>
+</code></pre></div><p>Probably, you expect to see something of this kind:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=n>Gc</span><span class=p>.</span><span class=n>Collect</span><span class=p>();</span>
+<span class=n>Gc</span><span class=p>.</span><span class=n>Collect</span><span class=p>();</span>
+<span class=n>Gc</span><span class=p>.</span><span class=n>Collect</span><span class=p>();</span>
+<span class=n>Save</span> <span class=n>start</span>
+<span class=n>Gc</span><span class=p>.</span><span class=n>Collect</span><span class=p>();</span>
+<span class=n>Gc</span><span class=p>.</span><span class=n>Collect</span><span class=p>();</span>
+<span class=n>Gc</span><span class=p>.</span><span class=n>Collect</span><span class=p>();</span>
+<span class=n>Gc</span><span class=p>.</span><span class=n>Collect</span><span class=p>();</span>
+<span class=n>Gc</span><span class=p>.</span><span class=n>Collect</span><span class=p>();</span>
+<span class=n>Gc</span><span class=p>.</span><span class=n>Collect</span><span class=p>();</span>
+<span class=n>Save</span> <span class=n>end</span>
+<span class=p>~</span><span class=n>ImageWithCircle</span>
+</code></pre></div><p>But if you run the application in release mode without debugging the app will crash:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=n>Gc</span><span class=p>.</span><span class=n>Collect</span><span class=p>();</span>
+<span class=n>Gc</span><span class=p>.</span><span class=n>Collect</span><span class=p>();</span>
+<span class=n>Gc</span><span class=p>.</span><span class=n>Collect</span><span class=p>();</span>
+<span class=n>Save</span> <span class=n>start</span>
+<span class=n>Gc</span><span class=p>.</span><span class=n>Collect</span><span class=p>();</span>
+<span class=p>~</span><span class=n>ImageWithCircle</span>
 
-Unhandled Exception: System.AccessViolationException: Attempted to read or write
- protected memory. This is often an indication that other memory is corrupt.
-   at OpenCvSharp.CvInvoke.cvSaveImage(String filename, IntPtr image, Int32[] pa
-rams)
-   at OpenCvSharp.Cv.SaveImage(String filename, CvArr image, ImageEncodingParam[
-] prms)
-   at ConsoleApplication.ImageWithCircle.Save() in d:\Tests\ConsoleApplica
-tion\ConsoleApplication\ImageWithCircle.cs:line 28
-   at ConsoleApplication.Program.Main() in d:\Tests\ConsoleApplication\Co
-nsoleApplication\Program.cs:line 18
-Gc.Collect();
-Gc.Collect();
-</code></pre>
-<p>The problem is that JIT executed its insidious optimization: our object was subject to garbage collection before the picture is completely saved to a file. Unfortunately, OpenCvSharp couldn’t stand it and threw an exception.</p>
-<p>The issue can be easily fixed: it’s just necessary to keep reference to the current picture till the method completes its work. For example, you can use some static object to which the picture will write reference to itself in the beginning of the <code>Save()</code> method. But I prefer to use the <a href="http://msdn.microsoft.com/en-us/library/system.gc.keepalive.aspx">GC.KeepAlive</a> method:</p>
-<pre><code class="language-cs">public void Save()
-{
-  Console.WriteLine(&quot;Save start&quot;);
-  image.SaveImage(&quot;image.tif&quot;);
-  Console.WriteLine(&quot;Save end&quot;);
-  GC.KeepAlive(this);
-}
-</code></pre>
-<p>Actually, it’s not important in what way you will fix the issue; the main thing is to understand how garbage collector works to foresee such problems. They are hard to discover: the application in the sample crashes only with definite start configuration, in case if the garbage collector is able to run while some time-consuming unmanaged method is executed. And if you occasionally get such application crash you will spend much time trying to reproduce it. To avoid such issues it is necessary to carefully design interaction with any native objects trying to foresee probable troubles before the code is written.</p>
-<h2 id="cross-posts">Cross-posts</h2>
-<ul>
-<li><a href="http://blogs.perpetuumsoft.com/dotnet/unexpected-area-to-collect-garbage-in-net/">blogs.perpetuumsoft.com</a></li>
-</ul>
-
-<!-- Share -->
-
-Share:
-<a href="https://twitter.com/intent/tweet?text=Unexpected area to collect garbage in .NET&url=http://aakinshin.net/posts/gc-native/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/gc-native/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/gc-native/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/gc-native/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/gc-native/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/gc-native/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/gc-native/&title=Unexpected area to collect garbage in .NET" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  You can find source code of this post on GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2013/gc-native.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2013/gc-native.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+<span class=n>Unhandled</span> <span class=n>Exception</span><span class=p>:</span> <span class=n>System</span><span class=p>.</span><span class=n>AccessViolationException</span><span class=p>:</span> <span class=n>Attempted</span> <span class=n>to</span> <span class=n>read</span> <span class=n>or</span> <span class=n>write</span>
+ <span class=k>protected</span> <span class=n>memory</span><span class=p>.</span> <span class=n>This</span> <span class=k>is</span> <span class=n>often</span> <span class=n>an</span> <span class=n>indication</span> <span class=n>that</span> <span class=n>other</span> <span class=n>memory</span> <span class=k>is</span> <span class=n>corrupt</span><span class=p>.</span>
+   <span class=n>at</span> <span class=n>OpenCvSharp</span><span class=p>.</span><span class=n>CvInvoke</span><span class=p>.</span><span class=n>cvSaveImage</span><span class=p>(</span><span class=n>String</span> <span class=n>filename</span><span class=p>,</span> <span class=n>IntPtr</span> <span class=n>image</span><span class=p>,</span> <span class=n>Int32</span><span class=p>[]</span> <span class=n>pa</span>
+<span class=n>rams</span><span class=p>)</span>
+   <span class=n>at</span> <span class=n>OpenCvSharp</span><span class=p>.</span><span class=n>Cv</span><span class=p>.</span><span class=n>SaveImage</span><span class=p>(</span><span class=n>String</span> <span class=n>filename</span><span class=p>,</span> <span class=n>CvArr</span> <span class=n>image</span><span class=p>,</span> <span class=n>ImageEncodingParam</span><span class=p>[</span>
+<span class=p>]</span> <span class=n>prms</span><span class=p>)</span>
+   <span class=n>at</span> <span class=n>ConsoleApplication</span><span class=p>.</span><span class=n>ImageWithCircle</span><span class=p>.</span><span class=n>Save</span><span class=p>()</span> <span class=k>in</span> <span class=n>d</span><span class=p>:</span><span class=err>\</span><span class=n>Tests</span><span class=err>\</span><span class=n>ConsoleApplica</span>
+<span class=n>tion</span><span class=err>\</span><span class=n>ConsoleApplication</span><span class=err>\</span><span class=n>ImageWithCircle</span><span class=p>.</span><span class=n>cs</span><span class=p>:</span><span class=n>line</span> <span class=m>28</span>
+   <span class=n>at</span> <span class=n>ConsoleApplication</span><span class=p>.</span><span class=n>Program</span><span class=p>.</span><span class=n>Main</span><span class=p>()</span> <span class=k>in</span> <span class=n>d</span><span class=p>:</span><span class=err>\</span><span class=n>Tests</span><span class=err>\</span><span class=n>ConsoleApplication</span><span class=err>\</span><span class=n>Co</span>
+<span class=n>nsoleApplication</span><span class=err>\</span><span class=n>Program</span><span class=p>.</span><span class=n>cs</span><span class=p>:</span><span class=n>line</span> <span class=m>18</span>
+<span class=n>Gc</span><span class=p>.</span><span class=n>Collect</span><span class=p>();</span>
+<span class=n>Gc</span><span class=p>.</span><span class=n>Collect</span><span class=p>();</span>
+</code></pre></div><p>The problem is that JIT executed its insidious optimization: our object was subject to garbage collection before the picture is completely saved to a file. Unfortunately, OpenCvSharp couldn’t stand it and threw an exception.</p><p>The issue can be easily fixed: it’s just necessary to keep reference to the current picture till the method completes its work. For example, you can use some static object to which the picture will write reference to itself in the beginning of the <code>Save()</code> method. But I prefer to use the <a href=http://msdn.microsoft.com/en-us/library/system.gc.keepalive.aspx>GC.KeepAlive</a> method:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>void</span> <span class=n>Save</span><span class=p>()</span>
+<span class=p>{</span>
+  <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;Save start&#34;</span><span class=p>);</span>
+  <span class=n>image</span><span class=p>.</span><span class=n>SaveImage</span><span class=p>(</span><span class=s>&#34;image.tif&#34;</span><span class=p>);</span>
+  <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;Save end&#34;</span><span class=p>);</span>
+  <span class=n>GC</span><span class=p>.</span><span class=n>KeepAlive</span><span class=p>(</span><span class=k>this</span><span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div><p>Actually, it’s not important in what way you will fix the issue; the main thing is to understand how garbage collector works to foresee such problems. They are hard to discover: the application in the sample crashes only with definite start configuration, in case if the garbage collector is able to run while some time-consuming unmanaged method is executed. And if you occasionally get such application crash you will spend much time trying to reproduce it. To avoid such issues it is necessary to carefully design interaction with any native objects trying to foresee probable troubles before the code is written.</p><h2 id=cross-posts>Cross-posts</h2><ul><li><a href=http://blogs.perpetuumsoft.com/dotnet/unexpected-area-to-collect-garbage-in-net/>blogs.perpetuumsoft.com</a></li></ul><br><br><div class=mx-auto>Share:
+<a href="https://twitter.com/intent/tweet?text=Unexpected%20area%20to%20collect%20garbage%20in%20.NET&url=https%3a%2f%2faakinshin.net%2fposts%2fgc-native%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fgc-native%2f&title=Unexpected%20area%20to%20collect%20garbage%20in%20.NET" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fgc-native%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2fgc-native%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2fgc-native%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fgc-native%2f&title=Unexpected%20area%20to%20collect%20garbage%20in%20.NET" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

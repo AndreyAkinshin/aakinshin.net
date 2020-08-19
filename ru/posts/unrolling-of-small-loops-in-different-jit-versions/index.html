@@ -1,421 +1,197 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!doctype html><html lang=ru class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Андрей Акиньшин"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Размотка маленьких циклов в разных версиях JIT | Андрей Акиньшин</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/ru/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/posts/>Посты</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/ru/about/>Об авторе</a></li><li class=nav-item><a class=nav-link id=nav-link-about href>Pro .NET Benchmarking</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>RU</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/posts/unrolling-of-small-loops-in-different-jit-versions/>EN</a></div></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/ru/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Размотка маленьких циклов в разных версиях JIT</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2015-03-02>2 марта 2015</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/c class="badge badge-info">C#</a>
+<a href=https://aakinshin.net/tags/jit class="badge badge-info">JIT</a>
+<a href=https://aakinshin.net/tags/bugs class="badge badge-info">Bugs</a>
+<a href=https://aakinshin.net/tags/loopunrolling class="badge badge-info">LoopUnrolling</a></span><br><br><p>Вопрос дня: что выведет нижеприведённый код?</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>struct</span> <span class=nc>Point</span>
+<span class=p>{</span>
+    <span class=k>public</span> <span class=kt>int</span> <span class=n>X</span><span class=p>;</span>
+    <span class=k>public</span> <span class=kt>int</span> <span class=n>Y</span><span class=p>;</span>
+<span class=p>}</span>
+<span class=k>static</span> <span class=k>void</span> <span class=n>Print</span><span class=p>(</span><span class=n>Point</span> <span class=n>p</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>p</span><span class=p>.</span><span class=n>X</span> <span class=p>+</span> <span class=s>&#34; &#34;</span> <span class=p>+</span> <span class=n>p</span><span class=p>.</span><span class=n>Y</span><span class=p>);</span>
+<span class=p>}</span>
+<span class=k>static</span> <span class=k>void</span> <span class=n>Main</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=kt>var</span> <span class=n>p</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Point</span><span class=p>();</span>
+    <span class=k>for</span> <span class=p>(</span><span class=n>p</span><span class=p>.</span><span class=n>X</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>p</span><span class=p>.</span><span class=n>X</span> <span class=p>&lt;</span> <span class=m>2</span><span class=p>;</span> <span class=n>p</span><span class=p>.</span><span class=n>X</span><span class=p>++)</span>
+        <span class=n>Print</span><span class=p>(</span><span class=n>p</span><span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div><p>Правильный ответ: зависит. В JIT-x86 под CLR2 был баг, который портил эту замечательную программу. А проблема кроется в оптимизации, которая назвается раскрутка маленького цикла. Тема интересная, давайте обсудим её подробно.</p><h3 id=эксперимент-1-sum>Эксперимент 1 (Sum)</h3><p>В <a href=http://aakinshin.net/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/>предыдущем посте</a> я рассказывал, как происходит раскрутка циклов. Существует частный случай этой оптимизации: если количество итераций мало, то JIT может полностью избавиться от цикла, повторив его тело указанное число раз. Давайте разберёмся в этом чуть подробней на простом примере:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>int</span> <span class=n>sum</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+<span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>4</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+    <span class=n>sum</span> <span class=p>+=</span> <span class=n>i</span><span class=p>;</span>
+<span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>sum</span><span class=p>);</span>
+</code></pre></div><h4 id=jit-x86>JIT-x86</h4><p>Запустим программу под CLR4 + JIT-x86:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm>        <span class=nf>int</span> <span class=no>sum</span> <span class=err>=</span> <span class=mi>0</span><span class=c>;                           
+</span><span class=c></span><span class=mi>0125291</span><span class=no>A</span>  <span class=no>in</span>          <span class=no>al</span><span class=p>,</span><span class=no>dx</span>                    
+<span class=mi>0125291</span><span class=no>B</span>  <span class=no>push</span>        <span class=no>esi</span>                      
+<span class=mi>0125291</span><span class=no>C</span>  <span class=no>xor</span>         <span class=no>esi</span><span class=p>,</span><span class=no>esi</span>                  
+            <span class=no>sum</span> <span class=err>+=</span> <span class=no>i</span><span class=c>;                          
+</span><span class=c></span><span class=mi>0125291</span><span class=no>E</span>  <span class=no>inc</span>         <span class=no>esi</span>                      <span class=c>; sum += 1
+</span><span class=c></span><span class=mi>0125291</span><span class=no>F</span>  <span class=no>inc</span>         <span class=no>esi</span>                      <span class=c>; sum += 2 (Part 1)
+</span><span class=c></span><span class=mi>01252920</span>  <span class=no>inc</span>         <span class=no>esi</span>                      <span class=c>; sum += 2 (Part 2)
+</span><span class=c></span><span class=mi>01252921</span>  <span class=no>add</span>         <span class=no>esi</span><span class=p>,</span><span class=mi>3</span>                    <span class=c>; sum += 3
+</span><span class=c></span>        <span class=no>Console.WriteLine</span><span class=p>(</span><span class=no>sum</span><span class=p>)</span><span class=c>;                
+</span><span class=c></span><span class=mi>01252924</span>  <span class=no>call</span>        <span class=mi>72</span><span class=no>EE0258</span>                 
+<span class=mi>01252929</span>  <span class=no>mov</span>         <span class=no>ecx</span><span class=p>,</span><span class=no>eax</span>                  
+<span class=mi>0125292</span><span class=no>B</span>  <span class=no>mov</span>         <span class=no>edx</span><span class=p>,</span><span class=no>esi</span>                  
+<span class=mi>0125292</span><span class=no>D</span>  <span class=no>mov</span>         <span class=no>eax</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>ecx</span><span class=p>]</span>      
+<span class=mi>0125292</span><span class=no>F</span>  <span class=no>mov</span>         <span class=no>eax</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>eax</span><span class=err>+</span><span class=mi>38</span><span class=no>h</span><span class=p>]</span>  
+<span class=mi>01252932</span>  <span class=no>call</span>        <span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>eax</span><span class=err>+</span><span class=mi>14</span><span class=no>h</span><span class=p>]</span>      
+<span class=mi>01252935</span>  <span class=no>pop</span>         <span class=no>esi</span>                      
+<span class=mi>01252936</span>  <span class=no>pop</span>         <span class=no>ebp</span>                      
+<span class=mi>01252937</span>  <span class=no>ret</span>                                  
+</code></pre></div><p>Как мы видим, условных переходов в этой программе нет, цикл был полностью уничтожен. Вместо него появились команды, которые высчитывают значение переменно <code>sum</code> в регистре <code>esi</code>.</p><h4 id=jit-x64>JIT-x64</h4><p>Следующий эксперимент: CLR4 + JIT-x64:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm>        <span class=nf>int</span> <span class=no>sum</span> <span class=err>=</span> <span class=mi>0</span><span class=c>;                            
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC86F3EC0</span>  <span class=no>sub</span>         <span class=no>rsp</span><span class=p>,</span><span class=mi>28</span><span class=no>h</span>           
+        <span class=no>Console.WriteLine</span><span class=p>(</span><span class=no>sum</span><span class=p>)</span><span class=c>;                 
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC86F3EC4</span>  <span class=no>mov</span>         <span class=no>ecx</span><span class=p>,</span><span class=mi>6</span>             <span class=c>; sum = 6
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC86F3EC9</span>  <span class=no>call</span>        <span class=mi>00007</span><span class=no>FFD273DCF10</span>  
+<span class=mi>00007</span><span class=no>FFCC86F3ECE</span>  <span class=no>nop</span>                           
+<span class=mi>00007</span><span class=no>FFCC86F3ECF</span>  <span class=no>add</span>         <span class=no>rsp</span><span class=p>,</span><span class=mi>28</span><span class=no>h</span>           
+<span class=mi>00007</span><span class=no>FFCC86F3ED3</span>  <span class=no>ret</span>                           
+</code></pre></div><p>JIT-x64 нас приятно радует: он догадался, что <code>0+1+2+3=6</code>. В результате на консоль выводится <code>6</code> без каких-либо арифметических операций для её расчёта.</p><h4 id=ryujit-ctp5>RyuJIT CTP5</h4><p>А теперь запускаем CLR4 + RyuJIT CTP5:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm>        <span class=nf>int</span> <span class=no>sum</span> <span class=err>=</span> <span class=mi>0</span><span class=c>;
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC8713A02</span>  <span class=no>sub</span>         <span class=no>esp</span><span class=p>,</span><span class=mi>20</span><span class=no>h</span>  
+<span class=mi>00007</span><span class=no>FFCC8713A05</span>  <span class=no>xor</span>         <span class=no>esi</span><span class=p>,</span><span class=no>esi</span>  
+        <span class=no>for</span> <span class=p>(</span><span class=no>int</span> <span class=no>i</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; i &lt; 4; i++)
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC8713A07</span>  <span class=no>xor</span>         <span class=no>eax</span><span class=p>,</span><span class=no>eax</span>  
+            <span class=no>sum</span> <span class=err>+=</span> <span class=no>i</span><span class=c>;
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC8713A09</span>  <span class=no>add</span>         <span class=no>esi</span><span class=p>,</span><span class=no>eax</span>  
+        <span class=no>for</span> <span class=p>(</span><span class=no>int</span> <span class=no>i</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; i &lt; 4; i++)
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC8713A0B</span>  <span class=no>inc</span>         <span class=no>eax</span>  
+<span class=mi>00007</span><span class=no>FFCC8713A0D</span>  <span class=no>cmp</span>         <span class=no>eax</span><span class=p>,</span><span class=mi>4</span>  
+<span class=mi>00007</span><span class=no>FFCC8713A10</span>  <span class=no>jl</span>          <span class=mi>00007</span><span class=no>FFCC8713A09</span>  
+        <span class=no>Console.WriteLine</span><span class=p>(</span><span class=no>sum</span><span class=p>)</span><span class=c>;
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC8713A12</span>  <span class=no>call</span>        <span class=mi>00007</span><span class=no>FFD26C0AFA0</span>  
+<span class=mi>00007</span><span class=no>FFCC8713A17</span>  <span class=no>mov</span>         <span class=no>rcx</span><span class=p>,</span><span class=no>rax</span>  
+<span class=mi>00007</span><span class=no>FFCC8713A1A</span>  <span class=no>mov</span>         <span class=no>edx</span><span class=p>,</span><span class=no>esi</span>  
+<span class=mi>00007</span><span class=no>FFCC8713A1C</span>  <span class=no>mov</span>         <span class=no>rax</span><span class=p>,</span><span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rax</span><span class=p>]</span>  
+<span class=mi>00007</span><span class=no>FFCC8713A1F</span>  <span class=no>mov</span>         <span class=no>rax</span><span class=p>,</span><span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rax</span><span class=err>+</span><span class=mi>60</span><span class=no>h</span><span class=p>]</span>  
+<span class=mi>00007</span><span class=no>FFCC8713A23</span>  <span class=no>call</span>        <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rax</span><span class=err>+</span><span class=mi>28</span><span class=no>h</span><span class=p>]</span>  
+<span class=mi>00007</span><span class=no>FFCC8713A26</span>  <span class=no>nop</span>  
+<span class=mi>00007</span><span class=no>FFCC8713A27</span>  <span class=no>add</span>         <span class=no>rsp</span><span class=p>,</span><span class=mi>20</span><span class=no>h</span>  
+<span class=mi>00007</span><span class=no>FFCC8713A2B</span>  <span class=no>pop</span>         <span class=no>rsi</span>  
+<span class=mi>00007</span><span class=no>FFCC8713A2C</span>  <span class=no>ret</span>  
+</code></pre></div><p>Эй, RyuJIT, ну что же ты? Вроде бы такая простая оптимизация, а ты её не сделал! Ну, будем надеяться, что в релизе ты научишься такие вещи делать.</p><h3 id=эксперимент-2-point>Эксперимент 2 (Point)</h3><p>А теперь вернёмся к коду из начала статьи:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>struct</span> <span class=nc>Point</span>
+<span class=p>{</span>
+    <span class=k>public</span> <span class=kt>int</span> <span class=n>X</span><span class=p>;</span>
+    <span class=k>public</span> <span class=kt>int</span> <span class=n>Y</span><span class=p>;</span>
+<span class=p>}</span>
 
-    <meta name="description" content="Размотка маленьких циклов в разных версиях JIT">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,C#,JIT,Bugs,LoopUnrolling'>
+<span class=k>static</span> <span class=k>void</span> <span class=n>Print</span><span class=p>(</span><span class=n>Point</span> <span class=n>p</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>p</span><span class=p>.</span><span class=n>X</span> <span class=p>+</span> <span class=s>&#34; &#34;</span> <span class=p>+</span> <span class=n>p</span><span class=p>.</span><span class=n>Y</span><span class=p>);</span>
+<span class=p>}</span>
 
-    <title>Размотка маленьких циклов в разных версиях JIT</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/ru/posts/">Блог</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/ru/content/">Содержание</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/ru/about/">Об авторе</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Ru</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/posts/unrolling-of-small-loops-in-different-jit-versions/'>En</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/ru/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Размотка маленьких циклов в разных версиях JIT</h2>
-<span class="blog-post-meta">
-  <b>Дата:</b> 02 марта 2015.
-  <b>Теги:</b>
-        <a href="/ru/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/ru/tags/csharp"><span class="badge badge-pill badge-info">C#</span></a>
-        <a href="/ru/tags/jit"><span class="badge badge-pill badge-info">JIT</span></a>
-        <a href="/ru/tags/bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
-        <a href="/ru/tags/loopunrolling"><span class="badge badge-pill badge-info">LoopUnrolling</span></a>
-</span><br /><br />
-
-<p>Вопрос дня: что выведет нижеприведённый код?</p>
-<pre><code class="language-cs">struct Point
-{
-    public int X;
-    public int Y;
-}
-static void Print(Point p)
-{
-    Console.WriteLine(p.X + &quot; &quot; + p.Y);
-}
-static void Main()
-{
-    var p = new Point();
-    for (p.X = 0; p.X &lt; 2; p.X++)
-        Print(p);
-}
-</code></pre>
-<p>Правильный ответ: зависит. В JIT-x86 под CLR2 был баг, который портил эту замечательную программу. А проблема кроется в оптимизации, которая назвается раскрутка маленького цикла. Тема интересная, давайте обсудим её подробно.</p>
-<!--more-->
-<h3 id="sum">Эксперимент 1 (Sum)</h3>
-<p>В <a href="http://aakinshin.net/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/">предыдущем посте</a> я рассказывал, как происходит раскрутка циклов. Существует частный случай этой оптимизации: если количество итераций мало, то JIT может полностью избавиться от цикла, повторив его тело указанное число раз. Давайте разберёмся в этом чуть подробней на простом примере:</p>
-<pre><code class="language-cs">int sum = 0;
-for (int i = 0; i &lt; 4; i++)
-    sum += i;
-Console.WriteLine(sum);
-</code></pre>
-<h4 id="jit-x86">JIT-x86</h4>
-<p>Запустим программу под CLR4 + JIT-x86:</p>
-<pre><code>        int sum = 0;                           
-0125291A  in          al,dx                    
-0125291B  push        esi                      
-0125291C  xor         esi,esi                  
-            sum += i;                          
-0125291E  inc         esi                      ; sum += 1
-0125291F  inc         esi                      ; sum += 2 (Part 1)
-01252920  inc         esi                      ; sum += 2 (Part 2)
-01252921  add         esi,3                    ; sum += 3
-        Console.WriteLine(sum);                
-01252924  call        72EE0258                 
-01252929  mov         ecx,eax                  
-0125292B  mov         edx,esi                  
-0125292D  mov         eax,dword ptr [ecx]      
-0125292F  mov         eax,dword ptr [eax+38h]  
-01252932  call        dword ptr [eax+14h]      
-01252935  pop         esi                      
-01252936  pop         ebp                      
-01252937  ret                                  
-</code></pre>
-<p>Как мы видим, условных переходов в этой программе нет, цикл был полностью уничтожен. Вместо него появились команды, которые высчитывают значение переменно <code>sum</code> в регистре <code>esi</code>.</p>
-<h4 id="jit-x64">JIT-x64</h4>
-<p>Следующий эксперимент: CLR4 + JIT-x64:</p>
-<pre><code>        int sum = 0;                            
-00007FFCC86F3EC0  sub         rsp,28h           
-        Console.WriteLine(sum);                 
-00007FFCC86F3EC4  mov         ecx,6             ; sum = 6
-00007FFCC86F3EC9  call        00007FFD273DCF10  
-00007FFCC86F3ECE  nop                           
-00007FFCC86F3ECF  add         rsp,28h           
-00007FFCC86F3ED3  ret                           
-</code></pre>
-<p>JIT-x64 нас приятно радует: он догадался, что <code>0+1+2+3=6</code>. В результате на консоль выводится <code>6</code> без каких-либо арифметических операций для её расчёта.</p>
-<h4 id="ryujit-ctp5">RyuJIT CTP5</h4>
-<p>А теперь запускаем CLR4 + RyuJIT CTP5:</p>
-<pre><code>        int sum = 0;
-00007FFCC8713A02  sub         esp,20h  
-00007FFCC8713A05  xor         esi,esi  
-        for (int i = 0; i &lt; 4; i++)
-00007FFCC8713A07  xor         eax,eax  
-            sum += i;
-00007FFCC8713A09  add         esi,eax  
-        for (int i = 0; i &lt; 4; i++)
-00007FFCC8713A0B  inc         eax  
-00007FFCC8713A0D  cmp         eax,4  
-00007FFCC8713A10  jl          00007FFCC8713A09  
-        Console.WriteLine(sum);
-00007FFCC8713A12  call        00007FFD26C0AFA0  
-00007FFCC8713A17  mov         rcx,rax  
-00007FFCC8713A1A  mov         edx,esi  
-00007FFCC8713A1C  mov         rax,qword ptr [rax]  
-00007FFCC8713A1F  mov         rax,qword ptr [rax+60h]  
-00007FFCC8713A23  call        qword ptr [rax+28h]  
-00007FFCC8713A26  nop  
-00007FFCC8713A27  add         rsp,20h  
-00007FFCC8713A2B  pop         rsi  
-00007FFCC8713A2C  ret  
-</code></pre>
-<p>Эй, RyuJIT, ну что же ты? Вроде бы такая простая оптимизация, а ты её не сделал! Ну, будем надеяться, что в релизе ты научишься такие вещи делать.</p>
-<h3 id="point">Эксперимент 2 (Point)</h3>
-<p>А теперь вернёмся к коду из начала статьи:</p>
-<pre><code class="language-cs">struct Point
-{
-    public int X;
-    public int Y;
-}
-
-static void Print(Point p)
-{
-    Console.WriteLine(p.X + &quot; &quot; + p.Y);
-}
-
-static void Main()
-{
-    var p = new Point();
-    for (p.X = 0; p.X &lt; 2; p.X++)
-        Print(p);
-}
-</code></pre>
-<p>Логика подсказывает нам, что на консоль будет выведено:</p>
-<pre><code>0 0
+<span class=k>static</span> <span class=k>void</span> <span class=n>Main</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=kt>var</span> <span class=n>p</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Point</span><span class=p>();</span>
+    <span class=k>for</span> <span class=p>(</span><span class=n>p</span><span class=p>.</span><span class=n>X</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>p</span><span class=p>.</span><span class=n>X</span> <span class=p>&lt;</span> <span class=m>2</span><span class=p>;</span> <span class=n>p</span><span class=p>.</span><span class=n>X</span><span class=p>++)</span>
+        <span class=n>Print</span><span class=p>(</span><span class=n>p</span><span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div><p>Логика подсказывает нам, что на консоль будет выведено:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>0 0
 1 0
-</code></pre>
-<p>Давайте проверим!</p>
-<h4 id="clr2-jit-x86">CLR2 + JIT-x86</h4>
-<p>Начнём с конфигурации, в которой возникает бага: CLR2 + JIT-x86. В этом случае на консоль будет выведено:</p>
-<pre><code>2 0
+</code></pre></div><p>Давайте проверим!</p><h4 id=clr2--jit-x86>CLR2 + JIT-x86</h4><p>Начнём с конфигурации, в которой возникает бага: CLR2 + JIT-x86. В этом случае на консоль будет выведено:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>2 0
 2 0
-</code></pre>
-<p>Взглянем на ассемблерный код, чтобы разобраться в ситуации:</p>
-<pre><code>        var p = new Point();                  
-05C5178C  push        esi                     
-05C5178D  xor         esi,esi                 ; p.Y = 0
-        for (p.X = 0; p.X &lt; 2; p.X++)         
-05C5178F  lea         edi,[esi+2]             ; p.X = 2
-            Print(p);                         
-05C51792  push        esi                     ; push p.Y
-05C51793  push        edi                     ; push p.X
-05C51794  call        dword ptr ds:[54607F4h] ; Print(p)
-05C5179A  push        esi                     ; push p.Y
-05C5179B  push        edi                     ; push p.X
-05C5179C  call        dword ptr ds:[54607F4h] ; Print(p)
-05C517A2  pop         esi                     
-05C517A3  pop         edi                     
-05C517A4  pop         ebp                     
-05C517A5  ret                                 
-</code></pre>
-<p>Мы видим, что размотка цикла была произведена, но в оптимизацию вкралась ошибка: переменная <code>x</code> сразу принимает значение <code>2</code> и больше не меняется. Данная бага известна давно, она обсуждалась на StackOverflow в вопросе <a href="http://stackoverflow.com/q/2056948/184842">.NET JIT potential error?</a>. Там приведён более сложный пример кода, но в рамках данного поста я его упростил, чтобы было проще разобраться в проблеме.</p>
-<p>Для полноты эксперимента взглянем на работу остальных версий JIT.</p>
-<h4 id="clr4-jit-x86">CLR4 + JIT-x86</h4>
-<p>Для версии CLR4 имеем следующий листинг:</p>
-<pre><code>        var p = new Point();                   
-01392620  push        ebp                      
-01392621  mov         ebp,esp                  
-01392623  push        edi                      
-01392624  push        esi                      
-01392625  xor         edi,edi                  ; p.Y = 0
-        for (p.X = 0; p.X &lt; 2; p.X++)          
-01392627  xor         esi,esi                  ; p.X = 0
-            Print(p);                          
-01392629  push        edi                      ; push p.Y
-0139262A  push        esi                      ; push p.X
-0139262B  call        dword ptr ds:[2DB2108h]  ; Print(p)
-        for (p.X = 0; p.X &lt; 2; p.X++)          
-01392631  inc         esi                      ; p.X++
-01392632  cmp         esi,2                    
-01392635  jl          01392629                 
-01392637  pop         esi                      
-01392638  pop         edi                      
-01392639  pop         ebp                      
-0139263A  ret                                  
-</code></pre>
-<p>Microsoft пофиксили багу в CLR4. Увы, сделали они это за счёт выключения размотки. Код теперь работает правильно, хоть и не так быстро.</p>
-<h4 id="clr2-jit-x64">CLR2 + JIT-x64</h4>
-<pre><code>        var p = new Point();
-00007FFCB94A3502  in          al,dx  
-00007FFCB94A3503  cmp         byte ptr [rbx],dh  
-00007FFCB94A3505  ror         byte ptr [rax-77h],44h  
-00007FFCB94A3509  and         al,20h  
-00007FFCB94A350B  xor         eax,eax  
-00007FFCB94A350D  mov         qword ptr [rsp+20h],rax  
-        for (p.X = 0; p.X &lt; 2; p.X++)
-00007FFCB94A3512  mov         dword ptr [rsp+20h],0  
-00007FFCB94A351A  mov         eax,dword ptr [rsp+20h]  
-00007FFCB94A351E  cmp         eax,2  
-00007FFCB94A3521  jge         00007FFCB94A3544  
-            Print(p);
-00007FFCB94A3523  mov         rcx,qword ptr [rsp+20h]  
-00007FFCB94A3528  call        00007FFCB936C868  
-        for (p.X = 0; p.X &lt; 2; p.X++)
-00007FFCB94A352D  mov         r11d,dword ptr [rsp+20h]  
-00007FFCB94A3532  add         r11d,1  
-00007FFCB94A3536  mov         dword ptr [rsp+20h],r11d  
-00007FFCB94A353B  mov         eax,dword ptr [rsp+20h]  
-00007FFCB94A353F  cmp         eax,2  
-00007FFCB94A3542  jl          00007FFCB94A3523  
-00007FFCB94A3544  add         rsp,38h  
-00007FFCB94A3548  rep ret  
-</code></pre>
-<p>Хоть этот код работает и правильно, но он очень плох: мало того, что размотка цикла не выполнилась, так ещё и добавилось много лишних операций по перекидыванию значений из регистра в стек и обратно. Ай-яй-яй! Посмотрим, что изменилось в CLR4.</p>
-<h4 id="clr4-jit-x64">CLR4 + JIT-x64</h4>
-<pre><code>        var p = new Point();                           
-00007FFCC8703EC2  sub         esp,30h                  
-00007FFCC8703EC5  mov         qword ptr [rsp+20h],0    
-        for (p.X = 0; p.X &lt; 2; p.X++)                  
-00007FFCC8703ECE  xor         ebx,ebx                  
-00007FFCC8703ED0  mov         dword ptr [rsp+20h],ebx  
-00007FFCC8703ED4  cmp         ebx,2                    
-00007FFCC8703ED7  jge         00007FFCC8703EF5         
-00007FFCC8703ED9  nop         dword ptr [rax]          
-            Print(p);                                  
-00007FFCC8703EE0  mov         rcx,qword ptr [rsp+20h]  
-00007FFCC8703EE5  call        00007FFCC85EC8E0         
-        for (p.X = 0; p.X &lt; 2; p.X++)                  
-00007FFCC8703EEA  inc         ebx                      
-00007FFCC8703EEC  mov         dword ptr [rsp+20h],ebx  
-00007FFCC8703EF0  cmp         ebx,2                    
-00007FFCC8703EF3  jl          00007FFCC8703EE0         
-00007FFCC8703EF5  add         rsp,30h                  
-00007FFCC8703EF9  pop         rbx                      
-00007FFCC8703EFA  ret                                  
-</code></pre>
-<p>Размотки цикла по-прежнему нет, но зато код стал заметно лучше по сравнению с CLR2 + JIT-x64. Обратите внимание, что по сравнению с JIT-x86 мы пересылаем структуру <code>Point</code> в метод <code>Print</code> через один 64-битный регистр вместо двух 32-битных значений на стеке.</p>
-<h4 id="clr4-ryujit-ctp5">CLR4 + RyuJIT CTP5</h4>
-<p>Теперь попробуем запустить RyuJIT CTP5:</p>
-<pre><code>        var p = new Point();
-00007FFCC8723A02  sub         rsp,28h  
-00007FFCC8723A06  xor         esi,esi  
-        for (p.X = 0; p.X &lt; 2; p.X++)
-00007FFCC8723A08  xor         edi,edi  
-            Print(p);
-00007FFCC8723A0A  lea         rcx,[rsp+20h]  
-00007FFCC8723A0F  mov         dword ptr [rcx],edi  
-00007FFCC8723A11  mov         dword ptr [rcx+4],esi  
-00007FFCC8723A14  mov         rcx,qword ptr [rsp+20h]  
-00007FFCC8723A19  call        00007FFCC860C8E0  
-        for (p.X = 0; p.X &lt; 2; p.X++)
-00007FFCC8723A1E  inc         edi  
-00007FFCC8723A20  cmp         edi,2  
-00007FFCC8723A23  jl          00007FFCC8723A0A  
-00007FFCC8723A25  add         rsp,28h  
-00007FFCC8723A29  pop         rsi  
-00007FFCC8723A2A  pop         rdi  
-00007FFCC8723A2B  ret  
-</code></pre>
-<p>Размотки цикла нет, то зато код выглядит немного чище по сравнению с CLR4 + JIT-x64.</p>
-<h3 id="section">Выводы</h3>
-<p>Проиллюстрируем результаты экспериментов в виде таблицы:</p>
-<table>
-  <tr> <th>Эксперимент</th> <th>CLR</th> <th>JIT</th>    <th>Результаты</th> </tr>
-  <tr> <td>Sum</td>         <td>4</td>   <td>x86</td>    <td>Размотка цикла</td> </tr>
-  <tr> <td>Sum</td>         <td>4</td>   <td>x64</td>    <td>Предподсчёт значения</td> </tr>
-  <tr> <td>Sum</td>         <td>4</td>   <td>RuyJIT</td> <td>Размотки цикла нет</td> </tr>
-  <tr> <td>Point</td>       <td>2</td>   <td>x86</td>    <td>Размотка цикла с багом</td> </tr>
-  <tr> <td>Point</td>       <td>4</td>   <td>x86</td>    <td>Размотки цикла нет</td> </tr>
-  <tr> <td>Point</td>       <td>2</td>   <td>x64</td>    <td>Размотки цикла нет, плохой код</td> </tr>
-  <tr> <td>Point</td>       <td>4</td>   <td>x64</td>    <td>Размотки цикла нет, код среднего качество</td> </tr>
-  <tr> <td>Point</td>       <td>4</td>   <td>RyuJIT</td> <td>Размотки цикла нет, код хорошего качества</td> </tr>
-</table>
-<h3 id="section-1">Ссылки</h3>
-<ul>
-<li><a href="http://aakinshin.net/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/">RyuJIT CTP5 и размотка циклов</a></li>
-<li><a href="http://stackoverflow.com/q/2056948/184842">StackOverflow: .NET JIT potential error?</a></li>
-</ul>
-
-<!-- Share -->
-
-Поделиться:
-<a href="https://twitter.com/intent/tweet?text=Размотка маленьких циклов в разных версиях JIT&url=http://aakinshin.net/ru/posts/unrolling-of-small-loops-in-different-jit-versions/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/ru/posts/unrolling-of-small-loops-in-different-jit-versions/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/ru/posts/unrolling-of-small-loops-in-different-jit-versions/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/posts/unrolling-of-small-loops-in-different-jit-versions/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/ru/posts/unrolling-of-small-loops-in-different-jit-versions/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/ru/posts/unrolling-of-small-loops-in-different-jit-versions/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/ru/posts/unrolling-of-small-loops-in-different-jit-versions/&title=Размотка маленьких циклов в разных версиях JIT" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  Исходный код поста находится на GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2015/unrolling-of-small-loops-in-different-jit-versions.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/2015/unrolling-of-small-loops-in-different-jit-versions.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Андрей Акиньшин | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+</code></pre></div><p>Взглянем на ассемблерный код, чтобы разобраться в ситуации:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm>        <span class=nf>var</span> <span class=no>p</span> <span class=err>=</span> <span class=no>new</span> <span class=no>Point</span><span class=p>()</span><span class=c>;                  
+</span><span class=c></span><span class=mi>05</span><span class=no>C5178C</span>  <span class=no>push</span>        <span class=no>esi</span>                     
+<span class=mi>05</span><span class=no>C5178D</span>  <span class=no>xor</span>         <span class=no>esi</span><span class=p>,</span><span class=no>esi</span>                 <span class=c>; p.Y = 0
+</span><span class=c></span>        <span class=no>for</span> <span class=p>(</span><span class=no>p.X</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; p.X &lt; 2; p.X++)         
+</span><span class=c></span><span class=mi>05</span><span class=no>C5178F</span>  <span class=no>lea</span>         <span class=no>edi</span><span class=p>,[</span><span class=no>esi</span><span class=err>+</span><span class=mi>2</span><span class=p>]</span>             <span class=c>; p.X = 2
+</span><span class=c></span>            <span class=no>Print</span><span class=p>(</span><span class=no>p</span><span class=p>)</span><span class=c>;                         
+</span><span class=c></span><span class=mi>05</span><span class=no>C51792</span>  <span class=no>push</span>        <span class=no>esi</span>                     <span class=c>; push p.Y
+</span><span class=c></span><span class=mi>05</span><span class=no>C51793</span>  <span class=no>push</span>        <span class=no>edi</span>                     <span class=c>; push p.X
+</span><span class=c></span><span class=mi>05</span><span class=no>C51794</span>  <span class=no>call</span>        <span class=no>dword</span> <span class=no>ptr</span> <span class=no>ds</span><span class=p>:[</span><span class=mi>54607</span><span class=no>F4h</span><span class=p>]</span> <span class=c>; Print(p)
+</span><span class=c></span><span class=mi>05</span><span class=no>C5179A</span>  <span class=no>push</span>        <span class=no>esi</span>                     <span class=c>; push p.Y
+</span><span class=c></span><span class=mi>05</span><span class=no>C5179B</span>  <span class=no>push</span>        <span class=no>edi</span>                     <span class=c>; push p.X
+</span><span class=c></span><span class=mi>05</span><span class=no>C5179C</span>  <span class=no>call</span>        <span class=no>dword</span> <span class=no>ptr</span> <span class=no>ds</span><span class=p>:[</span><span class=mi>54607</span><span class=no>F4h</span><span class=p>]</span> <span class=c>; Print(p)
+</span><span class=c></span><span class=mi>05</span><span class=no>C517A2</span>  <span class=no>pop</span>         <span class=no>esi</span>                     
+<span class=mi>05</span><span class=no>C517A3</span>  <span class=no>pop</span>         <span class=no>edi</span>                     
+<span class=mi>05</span><span class=no>C517A4</span>  <span class=no>pop</span>         <span class=no>ebp</span>                     
+<span class=mi>05</span><span class=no>C517A5</span>  <span class=no>ret</span>                                 
+</code></pre></div><p>Мы видим, что размотка цикла была произведена, но в оптимизацию вкралась ошибка: переменная <code>x</code> сразу принимает значение <code>2</code> и больше не меняется. Данная бага известна давно, она обсуждалась на StackOverflow в вопросе <a href=http://stackoverflow.com/q/2056948/184842>.NET JIT potential error?</a>. Там приведён более сложный пример кода, но в рамках данного поста я его упростил, чтобы было проще разобраться в проблеме.</p><p>Для полноты эксперимента взглянем на работу остальных версий JIT.</p><h4 id=clr4--jit-x86>CLR4 + JIT-x86</h4><p>Для версии CLR4 имеем следующий листинг:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm>        <span class=nf>var</span> <span class=no>p</span> <span class=err>=</span> <span class=no>new</span> <span class=no>Point</span><span class=p>()</span><span class=c>;                   
+</span><span class=c></span><span class=mi>01392620</span>  <span class=no>push</span>        <span class=no>ebp</span>                      
+<span class=mi>01392621</span>  <span class=no>mov</span>         <span class=no>ebp</span><span class=p>,</span><span class=no>esp</span>                  
+<span class=mi>01392623</span>  <span class=no>push</span>        <span class=no>edi</span>                      
+<span class=mi>01392624</span>  <span class=no>push</span>        <span class=no>esi</span>                      
+<span class=mi>01392625</span>  <span class=no>xor</span>         <span class=no>edi</span><span class=p>,</span><span class=no>edi</span>                  <span class=c>; p.Y = 0
+</span><span class=c></span>        <span class=no>for</span> <span class=p>(</span><span class=no>p.X</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; p.X &lt; 2; p.X++)          
+</span><span class=c></span><span class=mi>01392627</span>  <span class=no>xor</span>         <span class=no>esi</span><span class=p>,</span><span class=no>esi</span>                  <span class=c>; p.X = 0
+</span><span class=c></span>            <span class=no>Print</span><span class=p>(</span><span class=no>p</span><span class=p>)</span><span class=c>;                          
+</span><span class=c></span><span class=mi>01392629</span>  <span class=no>push</span>        <span class=no>edi</span>                      <span class=c>; push p.Y
+</span><span class=c></span><span class=mi>0139262</span><span class=no>A</span>  <span class=no>push</span>        <span class=no>esi</span>                      <span class=c>; push p.X
+</span><span class=c></span><span class=mi>0139262</span><span class=no>B</span>  <span class=no>call</span>        <span class=no>dword</span> <span class=no>ptr</span> <span class=no>ds</span><span class=p>:[</span><span class=mi>2</span><span class=no>DB2108h</span><span class=p>]</span>  <span class=c>; Print(p)
+</span><span class=c></span>        <span class=no>for</span> <span class=p>(</span><span class=no>p.X</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; p.X &lt; 2; p.X++)          
+</span><span class=c></span><span class=mi>01392631</span>  <span class=no>inc</span>         <span class=no>esi</span>                      <span class=c>; p.X++
+</span><span class=c></span><span class=mi>01392632</span>  <span class=no>cmp</span>         <span class=no>esi</span><span class=p>,</span><span class=mi>2</span>                    
+<span class=mi>01392635</span>  <span class=no>jl</span>          <span class=mi>01392629</span>                 
+<span class=mi>01392637</span>  <span class=no>pop</span>         <span class=no>esi</span>                      
+<span class=mi>01392638</span>  <span class=no>pop</span>         <span class=no>edi</span>                      
+<span class=mi>01392639</span>  <span class=no>pop</span>         <span class=no>ebp</span>                      
+<span class=mi>0139263</span><span class=no>A</span>  <span class=no>ret</span>                                  
+</code></pre></div><p>Microsoft пофиксили багу в CLR4. Увы, сделали они это за счёт выключения размотки. Код теперь работает правильно, хоть и не так быстро.</p><h4 id=clr2--jit-x64>CLR2 + JIT-x64</h4><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm>        <span class=nf>var</span> <span class=no>p</span> <span class=err>=</span> <span class=no>new</span> <span class=no>Point</span><span class=p>()</span><span class=c>;
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCB94A3502</span>  <span class=no>in</span>          <span class=no>al</span><span class=p>,</span><span class=no>dx</span>  
+<span class=mi>00007</span><span class=no>FFCB94A3503</span>  <span class=no>cmp</span>         <span class=no>byte</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rbx</span><span class=p>],</span><span class=no>dh</span>  
+<span class=mi>00007</span><span class=no>FFCB94A3505</span>  <span class=no>ror</span>         <span class=no>byte</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rax-77h</span><span class=p>],</span><span class=mi>44</span><span class=no>h</span>  
+<span class=mi>00007</span><span class=no>FFCB94A3509</span>  <span class=no>and</span>         <span class=no>al</span><span class=p>,</span><span class=mi>20</span><span class=no>h</span>  
+<span class=mi>00007</span><span class=no>FFCB94A350B</span>  <span class=no>xor</span>         <span class=no>eax</span><span class=p>,</span><span class=no>eax</span>  
+<span class=mi>00007</span><span class=no>FFCB94A350D</span>  <span class=no>mov</span>         <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rsp</span><span class=err>+</span><span class=mi>20</span><span class=no>h</span><span class=p>],</span><span class=no>rax</span>  
+        <span class=no>for</span> <span class=p>(</span><span class=no>p.X</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; p.X &lt; 2; p.X++)
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCB94A3512</span>  <span class=no>mov</span>         <span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rsp</span><span class=err>+</span><span class=mi>20</span><span class=no>h</span><span class=p>],</span><span class=mi>0</span>  
+<span class=mi>00007</span><span class=no>FFCB94A351A</span>  <span class=no>mov</span>         <span class=no>eax</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rsp</span><span class=err>+</span><span class=mi>20</span><span class=no>h</span><span class=p>]</span>  
+<span class=mi>00007</span><span class=no>FFCB94A351E</span>  <span class=no>cmp</span>         <span class=no>eax</span><span class=p>,</span><span class=mi>2</span>  
+<span class=mi>00007</span><span class=no>FFCB94A3521</span>  <span class=no>jge</span>         <span class=mi>00007</span><span class=no>FFCB94A3544</span>  
+            <span class=no>Print</span><span class=p>(</span><span class=no>p</span><span class=p>)</span><span class=c>;
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCB94A3523</span>  <span class=no>mov</span>         <span class=no>rcx</span><span class=p>,</span><span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rsp</span><span class=err>+</span><span class=mi>20</span><span class=no>h</span><span class=p>]</span>  
+<span class=mi>00007</span><span class=no>FFCB94A3528</span>  <span class=no>call</span>        <span class=mi>00007</span><span class=no>FFCB936C868</span>  
+        <span class=no>for</span> <span class=p>(</span><span class=no>p.X</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; p.X &lt; 2; p.X++)
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCB94A352D</span>  <span class=no>mov</span>         <span class=no>r11d</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rsp</span><span class=err>+</span><span class=mi>20</span><span class=no>h</span><span class=p>]</span>  
+<span class=mi>00007</span><span class=no>FFCB94A3532</span>  <span class=no>add</span>         <span class=no>r11d</span><span class=p>,</span><span class=mi>1</span>  
+<span class=mi>00007</span><span class=no>FFCB94A3536</span>  <span class=no>mov</span>         <span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rsp</span><span class=err>+</span><span class=mi>20</span><span class=no>h</span><span class=p>],</span><span class=no>r11d</span>  
+<span class=mi>00007</span><span class=no>FFCB94A353B</span>  <span class=no>mov</span>         <span class=no>eax</span><span class=p>,</span><span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rsp</span><span class=err>+</span><span class=mi>20</span><span class=no>h</span><span class=p>]</span>  
+<span class=mi>00007</span><span class=no>FFCB94A353F</span>  <span class=no>cmp</span>         <span class=no>eax</span><span class=p>,</span><span class=mi>2</span>  
+<span class=mi>00007</span><span class=no>FFCB94A3542</span>  <span class=no>jl</span>          <span class=mi>00007</span><span class=no>FFCB94A3523</span>  
+<span class=mi>00007</span><span class=no>FFCB94A3544</span>  <span class=no>add</span>         <span class=no>rsp</span><span class=p>,</span><span class=mi>38</span><span class=no>h</span>  
+<span class=mi>00007</span><span class=no>FFCB94A3548</span>  <span class=no>rep</span> <span class=no>ret</span>  
+</code></pre></div><p>Хоть этот код работает и правильно, но он очень плох: мало того, что размотка цикла не выполнилась, так ещё и добавилось много лишних операций по перекидыванию значений из регистра в стек и обратно. Ай-яй-яй! Посмотрим, что изменилось в CLR4.</p><h4 id=clr4--jit-x64>CLR4 + JIT-x64</h4><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm>        <span class=nf>var</span> <span class=no>p</span> <span class=err>=</span> <span class=no>new</span> <span class=no>Point</span><span class=p>()</span><span class=c>;                           
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC8703EC2</span>  <span class=no>sub</span>         <span class=no>esp</span><span class=p>,</span><span class=mi>30</span><span class=no>h</span>                  
+<span class=mi>00007</span><span class=no>FFCC8703EC5</span>  <span class=no>mov</span>         <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rsp</span><span class=err>+</span><span class=mi>20</span><span class=no>h</span><span class=p>],</span><span class=mi>0</span>    
+        <span class=no>for</span> <span class=p>(</span><span class=no>p.X</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; p.X &lt; 2; p.X++)                  
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC8703ECE</span>  <span class=no>xor</span>         <span class=no>ebx</span><span class=p>,</span><span class=no>ebx</span>                  
+<span class=mi>00007</span><span class=no>FFCC8703ED0</span>  <span class=no>mov</span>         <span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rsp</span><span class=err>+</span><span class=mi>20</span><span class=no>h</span><span class=p>],</span><span class=no>ebx</span>  
+<span class=mi>00007</span><span class=no>FFCC8703ED4</span>  <span class=no>cmp</span>         <span class=no>ebx</span><span class=p>,</span><span class=mi>2</span>                    
+<span class=mi>00007</span><span class=no>FFCC8703ED7</span>  <span class=no>jge</span>         <span class=mi>00007</span><span class=no>FFCC8703EF5</span>         
+<span class=mi>00007</span><span class=no>FFCC8703ED9</span>  <span class=no>nop</span>         <span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rax</span><span class=p>]</span>          
+            <span class=no>Print</span><span class=p>(</span><span class=no>p</span><span class=p>)</span><span class=c>;                                  
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC8703EE0</span>  <span class=no>mov</span>         <span class=no>rcx</span><span class=p>,</span><span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rsp</span><span class=err>+</span><span class=mi>20</span><span class=no>h</span><span class=p>]</span>  
+<span class=mi>00007</span><span class=no>FFCC8703EE5</span>  <span class=no>call</span>        <span class=mi>00007</span><span class=no>FFCC85EC8E0</span>         
+        <span class=no>for</span> <span class=p>(</span><span class=no>p.X</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; p.X &lt; 2; p.X++)                  
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC8703EEA</span>  <span class=no>inc</span>         <span class=no>ebx</span>                      
+<span class=mi>00007</span><span class=no>FFCC8703EEC</span>  <span class=no>mov</span>         <span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rsp</span><span class=err>+</span><span class=mi>20</span><span class=no>h</span><span class=p>],</span><span class=no>ebx</span>  
+<span class=mi>00007</span><span class=no>FFCC8703EF0</span>  <span class=no>cmp</span>         <span class=no>ebx</span><span class=p>,</span><span class=mi>2</span>                    
+<span class=mi>00007</span><span class=no>FFCC8703EF3</span>  <span class=no>jl</span>          <span class=mi>00007</span><span class=no>FFCC8703EE0</span>         
+<span class=mi>00007</span><span class=no>FFCC8703EF5</span>  <span class=no>add</span>         <span class=no>rsp</span><span class=p>,</span><span class=mi>30</span><span class=no>h</span>                  
+<span class=mi>00007</span><span class=no>FFCC8703EF9</span>  <span class=no>pop</span>         <span class=no>rbx</span>                      
+<span class=mi>00007</span><span class=no>FFCC8703EFA</span>  <span class=no>ret</span>                                  
+</code></pre></div><p>Размотки цикла по-прежнему нет, но зато код стал заметно лучше по сравнению с CLR2 + JIT-x64. Обратите внимание, что по сравнению с JIT-x86 мы пересылаем структуру <code>Point</code> в метод <code>Print</code> через один 64-битный регистр вместо двух 32-битных значений на стеке.</p><h4 id=clr4--ryujit-ctp5>CLR4 + RyuJIT CTP5</h4><p>Теперь попробуем запустить RyuJIT CTP5:</p><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm>        <span class=nf>var</span> <span class=no>p</span> <span class=err>=</span> <span class=no>new</span> <span class=no>Point</span><span class=p>()</span><span class=c>;
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC8723A02</span>  <span class=no>sub</span>         <span class=no>rsp</span><span class=p>,</span><span class=mi>28</span><span class=no>h</span>  
+<span class=mi>00007</span><span class=no>FFCC8723A06</span>  <span class=no>xor</span>         <span class=no>esi</span><span class=p>,</span><span class=no>esi</span>  
+        <span class=no>for</span> <span class=p>(</span><span class=no>p.X</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; p.X &lt; 2; p.X++)
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC8723A08</span>  <span class=no>xor</span>         <span class=no>edi</span><span class=p>,</span><span class=no>edi</span>  
+            <span class=no>Print</span><span class=p>(</span><span class=no>p</span><span class=p>)</span><span class=c>;
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC8723A0A</span>  <span class=no>lea</span>         <span class=no>rcx</span><span class=p>,[</span><span class=no>rsp</span><span class=err>+</span><span class=mi>20</span><span class=no>h</span><span class=p>]</span>  
+<span class=mi>00007</span><span class=no>FFCC8723A0F</span>  <span class=no>mov</span>         <span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rcx</span><span class=p>],</span><span class=no>edi</span>  
+<span class=mi>00007</span><span class=no>FFCC8723A11</span>  <span class=no>mov</span>         <span class=no>dword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rcx</span><span class=err>+</span><span class=mi>4</span><span class=p>],</span><span class=no>esi</span>  
+<span class=mi>00007</span><span class=no>FFCC8723A14</span>  <span class=no>mov</span>         <span class=no>rcx</span><span class=p>,</span><span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rsp</span><span class=err>+</span><span class=mi>20</span><span class=no>h</span><span class=p>]</span>  
+<span class=mi>00007</span><span class=no>FFCC8723A19</span>  <span class=no>call</span>        <span class=mi>00007</span><span class=no>FFCC860C8E0</span>  
+        <span class=no>for</span> <span class=p>(</span><span class=no>p.X</span> <span class=err>=</span> <span class=mi>0</span><span class=c>; p.X &lt; 2; p.X++)
+</span><span class=c></span><span class=mi>00007</span><span class=no>FFCC8723A1E</span>  <span class=no>inc</span>         <span class=no>edi</span>  
+<span class=mi>00007</span><span class=no>FFCC8723A20</span>  <span class=no>cmp</span>         <span class=no>edi</span><span class=p>,</span><span class=mi>2</span>  
+<span class=mi>00007</span><span class=no>FFCC8723A23</span>  <span class=no>jl</span>          <span class=mi>00007</span><span class=no>FFCC8723A0A</span>  
+<span class=mi>00007</span><span class=no>FFCC8723A25</span>  <span class=no>add</span>         <span class=no>rsp</span><span class=p>,</span><span class=mi>28</span><span class=no>h</span>  
+<span class=mi>00007</span><span class=no>FFCC8723A29</span>  <span class=no>pop</span>         <span class=no>rsi</span>  
+<span class=mi>00007</span><span class=no>FFCC8723A2A</span>  <span class=no>pop</span>         <span class=no>rdi</span>  
+<span class=mi>00007</span><span class=no>FFCC8723A2B</span>  <span class=no>ret</span>  
+</code></pre></div><p>Размотки цикла нет, то зато код выглядит немного чище по сравнению с CLR4 + JIT-x64.</p><h3 id=выводы>Выводы</h3><p>Проиллюстрируем результаты экспериментов в виде таблицы:</p><table><tr><th>Эксперимент</th><th>CLR</th><th>JIT</th><th>Результаты</th></tr><tr><td>Sum</td><td>4</td><td>x86</td><td>Размотка цикла</td></tr><tr><td>Sum</td><td>4</td><td>x64</td><td>Предподсчёт значения</td></tr><tr><td>Sum</td><td>4</td><td>RuyJIT</td><td>Размотки цикла нет</td></tr><tr><td>Point</td><td>2</td><td>x86</td><td>Размотка цикла с багом</td></tr><tr><td>Point</td><td>4</td><td>x86</td><td>Размотки цикла нет</td></tr><tr><td>Point</td><td>2</td><td>x64</td><td>Размотки цикла нет, плохой код</td></tr><tr><td>Point</td><td>4</td><td>x64</td><td>Размотки цикла нет, код среднего качество</td></tr><tr><td>Point</td><td>4</td><td>RyuJIT</td><td>Размотки цикла нет, код хорошего качества</td></tr></table><h3 id=ссылки>Ссылки</h3><ul><li><a href=http://aakinshin.net/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/>RyuJIT CTP5 и размотка циклов</a></li><li><a href=http://stackoverflow.com/q/2056948/184842>StackOverflow: .NET JIT potential error?</a></li></ul><br><br><div class=mx-auto>Поделиться:
+<a href="https://twitter.com/intent/tweet?text=%d0%a0%d0%b0%d0%b7%d0%bc%d0%be%d1%82%d0%ba%d0%b0%20%d0%bc%d0%b0%d0%bb%d0%b5%d0%bd%d1%8c%d0%ba%d0%b8%d1%85%20%d1%86%d0%b8%d0%ba%d0%bb%d0%be%d0%b2%20%d0%b2%20%d1%80%d0%b0%d0%b7%d0%bd%d1%8b%d1%85%20%d0%b2%d0%b5%d1%80%d1%81%d0%b8%d1%8f%d1%85%20JIT&url=https%3a%2f%2faakinshin.net%2fru%2fposts%2funrolling-of-small-loops-in-different-jit-versions%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2funrolling-of-small-loops-in-different-jit-versions%2f&title=%d0%a0%d0%b0%d0%b7%d0%bc%d0%be%d1%82%d0%ba%d0%b0%20%d0%bc%d0%b0%d0%bb%d0%b5%d0%bd%d1%8c%d0%ba%d0%b8%d1%85%20%d1%86%d0%b8%d0%ba%d0%bb%d0%be%d0%b2%20%d0%b2%20%d1%80%d0%b0%d0%b7%d0%bd%d1%8b%d1%85%20%d0%b2%d0%b5%d1%80%d1%81%d0%b8%d1%8f%d1%85%20JIT" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2funrolling-of-small-loops-in-different-jit-versions%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2funrolling-of-small-loops-in-different-jit-versions%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2funrolling-of-small-loops-in-different-jit-versions%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2funrolling-of-small-loops-in-different-jit-versions%2f&title=%d0%a0%d0%b0%d0%b7%d0%bc%d0%be%d1%82%d0%ba%d0%b0%20%d0%bc%d0%b0%d0%bb%d0%b5%d0%bd%d1%8c%d0%ba%d0%b8%d1%85%20%d1%86%d0%b8%d0%ba%d0%bb%d0%be%d0%b2%20%d0%b2%20%d1%80%d0%b0%d0%b7%d0%bd%d1%8b%d1%85%20%d0%b2%d0%b5%d1%80%d1%81%d0%b8%d1%8f%d1%85%20JIT" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Андрей Акиньшин | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

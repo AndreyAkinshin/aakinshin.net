@@ -1,197 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="Stopwatch under the hood">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='.NET,Hardware,Timers,Internals'>
-
-    <title>Stopwatch under the hood</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-    
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/posts/stopwatch/'>Ru</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Stopwatch under the hood</h2>
-<span class="blog-post-meta">
-  <b>Date:</b> September 09, 2016.
-  <b>Tags:</b>
-        <a href="/tags/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-        <a href="/tags/hardware"><span class="badge badge-pill badge-info">Hardware</span></a>
-        <a href="/tags/timers"><span class="badge badge-pill badge-info">Timers</span></a>
-        <a href="/tags/internals"><span class="badge badge-pill badge-info">Internals</span></a>
-</span><br /><br />
-
-<div class="blog-post-toc">
-<p><strong>Update:</strong>
-You can find an updated and significantly improved version of this post in my book <a href="/prodotnetbenchmarking/">&quot;Pro .NET Benchmarking&quot;</a>.</p>
-<p>In <a href="/en/blog/dotnet/datetime/">the previous post</a>, we discussed <code>DateTime</code>.
-This structure can be used in situations when you don't need a good level of precision.
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Stopwatch under the hood | Andrey Akinshin</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Stopwatch under the hood</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2016-09-09>September 9, 2016</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/.net class="badge badge-info">.NET</a>
+<a href=https://aakinshin.net/tags/hardware class="badge badge-info">Hardware</a>
+<a href=https://aakinshin.net/tags/timers class="badge badge-info">Timers</a>
+<a href=https://aakinshin.net/tags/internals class="badge badge-info">Internals</a></span><br><br><p><strong>Update:</strong>
+You can find an updated and significantly improved version of this post in my book <a href=/prodotnetbenchmarking/>&ldquo;Pro .NET Benchmarking&rdquo;</a>.</p><p>In <a href=/en/blog/dotnet/datetime/>the previous post</a>, we discussed <code>DateTime</code>.
+This structure can be used in situations when you don&rsquo;t need a good level of precision.
 If you want to do high-precision time measurements, you need a better tool because <code>DateTime</code> has a small resolution and a big latency.
-Also, time is tricky, you can create wonderful bugs if you don't understand how it works (see <a href="http://infiniteundo.com/post/25326999628/falsehoods-programmers-believe-about-time">Falsehoods programmers believe about time</a> and <a href="http://infiniteundo.com/post/25509354022/more-falsehoods-programmers-believe-about-time">More falsehoods programmers believe about time</a>).</p>
-<p>In this post, we will briefly talk about the <a href="https://msdn.microsoft.com/library/system.diagnostics.stopwatch.aspx">Stopwatch</a> class:</p>
-<ul>
-<li>Which kind of hardware timers could be a base for <code>Stopwatch</code></li>
-<li>High precision timestamp API on Windows and Linux</li>
-<li>Latency and Resolution of <code>Stopwatch</code> in different environments</li>
-<li>Common pitfalls: which kind of problems could we get trying to measure small time intervals</li>
-</ul>
-<p>If you are not a .NET developer, you can also find a lot of useful information in this post: mainly we will discuss low-level details of high-resolution timestamping (probably your favorite language also uses the same API).
-As usual, you can also find useful links for further reading.</p>
-<!--more-->
-<div id="toc"></div>
-<hr />
-<h3 id="hardware-timers">Hardware timers</h3>
-<h4 id="tsc">TSC</h4>
-<p><strong>TSC</strong> — <a href="https://en.wikipedia.org/wiki/Time_Stamp_Counter">Time Stamp Counter</a>.
+Also, time is tricky, you can create wonderful bugs if you don&rsquo;t understand how it works (see <a href=http://infiniteundo.com/post/25326999628/falsehoods-programmers-believe-about-time>Falsehoods programmers believe about time</a> and <a href=http://infiniteundo.com/post/25509354022/more-falsehoods-programmers-believe-about-time>More falsehoods programmers believe about time</a>).</p><p>In this post, we will briefly talk about the <a href=https://msdn.microsoft.com/library/system.diagnostics.stopwatch.aspx>Stopwatch</a> class:</p><ul><li>Which kind of hardware timers could be a base for <code>Stopwatch</code></li><li>High precision timestamp API on Windows and Linux</li><li>Latency and Resolution of <code>Stopwatch</code> in different environments</li><li>Common pitfalls: which kind of problems could we get trying to measure small time intervals</li></ul><p>If you are not a .NET developer, you can also find a lot of useful information in this post: mainly we will discuss low-level details of high-resolution timestamping (probably your favorite language also uses the same API).
+As usual, you can also find useful links for further reading.</p><div id=toc></div><hr><h3 id=hardware-timers>Hardware timers</h3><h4 id=tsc>TSC</h4><p><strong>TSC</strong> — <a href=https://en.wikipedia.org/wiki/Time_Stamp_Counter>Time Stamp Counter</a>.
 It is an internal 64-bit register present on all x86 processors since the Pentium.
-Can be read into <code>EDX:EAX</code> using the instruction <code>RDTSC</code>.</p>
-<p>You can fine a lot of useful information in <a href="http://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-manual-325462.pdf">Intel: Intel® 64 and IA-32 Architectures Software Developer’s Manual</a>. In this section, I will often refer to this manual and will call it just “the manual”.</p>
-<p>Opcode for <code>RDTSC</code> is <code>0F 31</code> (the manual, Vol. 2B 4-545).
-On Windows, it can be read directly from C# code with help of the following asm injection:</p>
-<pre><code class="language-cs">const uint PAGE_EXECUTE_READWRITE = 0x40;
-const uint MEM_COMMIT = 0x1000;
+Can be read into <code>EDX:EAX</code> using the instruction <code>RDTSC</code>.</p><p>You can fine a lot of useful information in <a href=http://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-manual-325462.pdf>Intel: Intel® 64 and IA-32 Architectures Software Developer’s Manual</a>. In this section, I will often refer to this manual and will call it just “the manual”.</p><p>Opcode for <code>RDTSC</code> is <code>0F 31</code> (the manual, Vol. 2B 4-545).
+On Windows, it can be read directly from C# code with help of the following asm injection:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>const</span> <span class=kt>uint</span> <span class=n>PAGE_EXECUTE_READWRITE</span> <span class=p>=</span> <span class=m>0</span><span class=n>x40</span><span class=p>;</span>
+<span class=k>const</span> <span class=kt>uint</span> <span class=n>MEM_COMMIT</span> <span class=p>=</span> <span class=m>0</span><span class=n>x1000</span><span class=p>;</span>
+<span class=na>
+</span><span class=na>[DllImport(&#34;kernel32.dll&#34;, SetLastError = true)]</span>
+<span class=k>static</span> <span class=k>extern</span> <span class=n>IntPtr</span> <span class=n>VirtualAlloc</span><span class=p>(</span><span class=n>IntPtr</span> <span class=n>lpAddress</span><span class=p>,</span> <span class=kt>uint</span> <span class=n>dwSize</span><span class=p>,</span> 
+                                  <span class=kt>uint</span> <span class=n>flAllocationType</span><span class=p>,</span> <span class=kt>uint</span> <span class=n>flProtect</span><span class=p>);</span>
 
-[DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
-static extern IntPtr VirtualAlloc(IntPtr lpAddress, uint dwSize, 
-                                  uint flAllocationType, uint flProtect);
+<span class=k>static</span> <span class=n>IntPtr</span> <span class=n>Alloc</span><span class=p>(</span><span class=kt>byte</span><span class=p>[]</span> <span class=n>asm</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=kt>var</span> <span class=n>ptr</span> <span class=p>=</span> <span class=n>VirtualAlloc</span><span class=p>(</span><span class=n>IntPtr</span><span class=p>.</span><span class=n>Zero</span><span class=p>,</span> <span class=p>(</span><span class=kt>uint</span><span class=p>)</span><span class=n>asm</span><span class=p>.</span><span class=n>Length</span><span class=p>,</span> 
+                           <span class=n>MEM_COMMIT</span><span class=p>,</span> <span class=n>PAGE_EXECUTE_READWRITE</span><span class=p>);</span>
+    <span class=n>Marshal</span><span class=p>.</span><span class=n>Copy</span><span class=p>(</span><span class=n>asm</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=n>ptr</span><span class=p>,</span> <span class=n>asm</span><span class=p>.</span><span class=n>Length</span><span class=p>);</span>
+    <span class=k>return</span> <span class=n>ptr</span><span class=p>;</span>
+<span class=p>}</span>
 
-static IntPtr Alloc(byte[] asm)
-{
-    var ptr = VirtualAlloc(IntPtr.Zero, (uint)asm.Length, 
-                           MEM_COMMIT, PAGE_EXECUTE_READWRITE);
-    Marshal.Copy(asm, 0, ptr, asm.Length);
-    return ptr;
-}
+<span class=k>delegate</span> <span class=kt>long</span> <span class=n>RdtscDelegate</span><span class=p>();</span>
 
-delegate long RdtscDelegate();
+<span class=k>static</span> <span class=k>readonly</span> <span class=kt>byte</span><span class=p>[]</span> <span class=n>rdtscAsm</span> <span class=p>=</span>
+<span class=p>{</span>
+    <span class=m>0</span><span class=n>x0F</span><span class=p>,</span> <span class=m>0</span><span class=n>x31</span><span class=p>,</span> <span class=c1>// rdtsc
+</span><span class=c1></span>    <span class=m>0</span><span class=n>xC3</span>        <span class=c1>// ret
+</span><span class=c1></span><span class=p>};</span>
 
-static readonly byte[] rdtscAsm =
-{
-    0x0F, 0x31, // rdtsc
-    0xC3        // ret
-};
-
-static void Main()
-{
-    var rdtsc = Marshal.GetDelegateForFunctionPointer&lt;RdtscDelegate&gt;(Alloc(rdtscAsm));
-    Console.WriteLine(rdtsc());
-}
-</code></pre>
-<p>On modern hardware and modern operation systems, TSC works well, but it has a long history and people often consider TSC as an unreliable source of timestamps.
-Let's discuss different generations of TSC and problems which we could get with TSC (you can find more information about it in the manual, Vol. 3B 17-40, section 17.15).</p>
-<p><strong>Variant TSC</strong></p>
-<p>The first version of TSC (see the list of the processors families in the manual, Vol. 3B 17-40, section 17.15) was very simple: it just counts internal processor clock cycle.</p>
-<p>It's not a good way to measure time on modern hardware because the processor can dynamically change own frequency (e.g. see <a href="https://en.wikipedia.org/wiki/SpeedStep">SpeedStep</a>).</p>
-<p>There is another problem: each processor core has own TSC, and these TSCs are not synchronized.
-If a thread starts measurement on one core and ends on another core, the obtained result can't be reliable.
-For example, there is a nice bug report on <code>support.microsoft.com</code> (see <a href="https://support.microsoft.com/en-us/kb/895980">Programs that use the QueryPerformanceCounter function may perform poorly</a>):</p>
-<pre><code>C:\&gt;ping x.x.x.x
+<span class=k>static</span> <span class=k>void</span> <span class=n>Main</span><span class=p>()</span>
+<span class=p>{</span>
+    <span class=kt>var</span> <span class=n>rdtsc</span> <span class=p>=</span> <span class=n>Marshal</span><span class=p>.</span><span class=n>GetDelegateForFunctionPointer</span><span class=p>&lt;</span><span class=n>RdtscDelegate</span><span class=p>&gt;(</span><span class=n>Alloc</span><span class=p>(</span><span class=n>rdtscAsm</span><span class=p>));</span>
+    <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>rdtsc</span><span class=p>());</span>
+<span class=p>}</span>
+</code></pre></div><p>On modern hardware and modern operation systems, TSC works well, but it has a long history and people often consider TSC as an unreliable source of timestamps.
+Let&rsquo;s discuss different generations of TSC and problems which we could get with TSC (you can find more information about it in the manual, Vol. 3B 17-40, section 17.15).</p><p><strong>Variant TSC</strong></p><p>The first version of TSC (see the list of the processors families in the manual, Vol. 3B 17-40, section 17.15) was very simple: it just counts internal processor clock cycle.</p><p>It&rsquo;s not a good way to measure time on modern hardware because the processor can dynamically change own frequency (e.g. see <a href=https://en.wikipedia.org/wiki/SpeedStep>SpeedStep</a>).</p><p>There is another problem: each processor core has own TSC, and these TSCs are not synchronized.
+If a thread starts measurement on one core and ends on another core, the obtained result can&rsquo;t be reliable.
+For example, there is a nice bug report on <code>support.microsoft.com</code> (see <a href=https://support.microsoft.com/en-us/kb/895980>Programs that use the QueryPerformanceCounter function may perform poorly</a>):</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>C:\&gt;ping x.x.x.x
 
 Pinging x.x.x.x with 32 bytes of data:
 
@@ -199,189 +51,42 @@ Reply from x.x.x.x: bytes=32 time=-59ms TTL=128
 Reply from x.x.x.x: bytes=32 time=-59ms TTL=128
 Reply from x.x.x.x: bytes=32 time=-59ms TTL=128
 Reply from x.x.x.x: bytes=32 time=-59ms TTL=128
-</code></pre>
-<p>The cause:</p>
-<blockquote>
-<p>This problem occurs when the computer has the AMD Cool'n'Quiet technology (AMD dual cores) enabled in the BIOS or some Intel multi core processors. Multi core or multiprocessor systems may encounter Time Stamp Counter (TSC) drift when the time between different cores is not synchronized. The operating systems which use TSC as a timekeeping resource may experience the issue.</p>
-</blockquote>
-<p>If you want to use TSC on old hardware/software, you should probably set processor affinity for you thread (see <a href="https://msdn.microsoft.com/library/windows/desktop/ms686247.aspx"><code>SetThreadAffinityMask</code></a> for Windows, <a href="http://linux.die.net/man/2/sched_setaffinity"><code>sched_setaffinity</code></a> for Linux).</p>
-<p><strong>Constant TSC</strong></p>
-<p><code>Constant TSC</code> is the next generation of TSC which solves the dynamic frequency problem: this kind of TSC increments at a constant rate. It's a good step forward, but <code>Constant TSC</code> still has some issues (e.g. it could be stopped when CPU run into deep C-state, see also <a href="https://software.intel.com/en-us/articles/power-management-states-p-states-c-states-and-package-c-states">Power Management States: P-States, C-States, and Package C-States</a>).</p>
-<p><strong>Invariant TSC</strong></p>
-<p><code>Invariant TSC</code> is the latest version of the counter which works well.
-From the manual:</p>
-<blockquote>
-<p>The invariant TSC will run at a constant rate in all ACPI P-, C-. and T-states. This is the architectural behavior moving forward. On processors with invariant TSC support, the OS may use the TSC for wall clock timer services (instead of ACPI or HPET timers).</p>
-</blockquote>
-<p>You can check which kind of <code>TSC</code> do you have with the help of the <a href="https://en.wikipedia.org/wiki/CPUID">CPUID</a> opcode.
-For example, processors support for invariant TSC is indicated by <code>CPUID.80000007H:EDX[8]</code> (the manual, Vol. 2A 3-190, Table 3-17).</p>
-<p>On Windows, you can also check it via the <a href="https://technet.microsoft.com/en-us/sysinternals/cc835722">Coreinfo</a> utility:</p>
-<pre><code class="language-dos">&gt; Coreinfo.exe | grep -i &quot;tsc&quot;
-</code></pre>
-<p>The output on my laptop:</p>
-<pre><code>Coreinfo v3.31 - Dump information on system CPU and memory topology
+</code></pre></div><p>The cause:</p><blockquote><p>This problem occurs when the computer has the AMD Cool&rsquo;n&rsquo;Quiet technology (AMD dual cores) enabled in the BIOS or some Intel multi core processors. Multi core or multiprocessor systems may encounter Time Stamp Counter (TSC) drift when the time between different cores is not synchronized. The operating systems which use TSC as a timekeeping resource may experience the issue.</p></blockquote><p>If you want to use TSC on old hardware/software, you should probably set processor affinity for you thread (see <a href=https://msdn.microsoft.com/library/windows/desktop/ms686247.aspx><code>SetThreadAffinityMask</code></a> for Windows, <a href=http://linux.die.net/man/2/sched_setaffinity><code>sched_setaffinity</code></a> for Linux).</p><p><strong>Constant TSC</strong></p><p><code>Constant TSC</code> is the next generation of TSC which solves the dynamic frequency problem: this kind of TSC increments at a constant rate. It&rsquo;s a good step forward, but <code>Constant TSC</code> still has some issues (e.g. it could be stopped when CPU run into deep C-state, see also <a href=https://software.intel.com/en-us/articles/power-management-states-p-states-c-states-and-package-c-states>Power Management States: P-States, C-States, and Package C-States</a>).</p><p><strong>Invariant TSC</strong></p><p><code>Invariant TSC</code> is the latest version of the counter which works well.
+From the manual:</p><blockquote><p>The invariant TSC will run at a constant rate in all ACPI P-, C-. and T-states. This is the architectural behavior moving forward. On processors with invariant TSC support, the OS may use the TSC for wall clock timer services (instead of ACPI or HPET timers).</p></blockquote><p>You can check which kind of <code>TSC</code> do you have with the help of the <a href=https://en.wikipedia.org/wiki/CPUID>CPUID</a> opcode.
+For example, processors support for invariant TSC is indicated by <code>CPUID.80000007H:EDX[8]</code> (the manual, Vol. 2A 3-190, Table 3-17).</p><p>On Windows, you can also check it via the <a href=https://technet.microsoft.com/en-us/sysinternals/cc835722>Coreinfo</a> utility:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>&gt; Coreinfo.exe | grep -i &#34;tsc&#34;
+</code></pre></div><p>The output on my laptop:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>Coreinfo v3.31 - Dump information on system CPU and memory topology
 Copyright (C) 2008-2014 Mark Russinovich
 Sysinternals - www.sysinternals.com
 RDTSCP          *       Supports RDTSCP instruction
 TSC             *       Supports RDTSC instruction
 TSC-DEADLINE    *       Local APIC supports one-shot deadline timer
 TSC-INVARIANT   *       TSC runs at constant rate
-</code></pre>
-<p>(You can read more about <code>TSC-DEADLINE</code> in the same manual, Vol. 3A 10-17, section 10.5.4.1)</p>
-<p>You can do the same thing on Linux with the following command:</p>
-<pre><code>$ cat /proc/cpuinfo | tr ' ' '\n' | sort -u | grep -i &quot;tsc&quot;
-</code></pre>
-<p>Output on my laptop:</p>
-<pre><code>constant_tsc
+</code></pre></div><p>(You can read more about <code>TSC-DEADLINE</code> in the same manual, Vol. 3A 10-17, section 10.5.4.1)</p><p>You can do the same thing on Linux with the following command:</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>$ cat /proc/cpuinfo <span class=p>|</span> tr <span class=s1>&#39; &#39;</span> <span class=s1>&#39;\n&#39;</span> <span class=p>|</span> sort -u <span class=p>|</span> grep -i <span class=s2>&#34;tsc&#34;</span>
+</code></pre></div><p>Output on my laptop:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>constant_tsc
 nonstop_tsc
 rdtscp
 tsc
 tsc_adjust
 tsc_deadline_timer
-</code></pre>
-<p><code>Invariant TSC</code> is specified by a combination of <code>constant_tsc</code> and <code>nonstop_tsc</code> flags.</p>
-<p>In the most cases, you can trust <code>Invariant TSC</code> and use it for high-precision measurements (however, there are still some problems, e.g. synchronization problems on large multi-processor systems).</p>
-<p><strong>TSC and out-of-order execution</strong></p>
-<p>There is another interesting fact which you should consider if you want to read the TSC value directly via the <code>RDTSC</code> instruction: processor can reorder your instruction and spoil your measurements.</p>
-<p>From the manual, Vol. 3B 17-41, section 17.15:</p>
-<blockquote>
-<p>The RDTSC instruction is not serializing or ordered with other instructions. It does not necessarily wait until all previous instructions have been executed before reading the counter. Similarly, subsequent instructions may begin execution before the RDTSC instruction operation is performed.</p>
-</blockquote>
-<p>From <a href="http://www.agner.org/optimize/optimizing_assembly.pdf">Optimizing subroutines in assembly language</a> by Agner Fog (section 18.1):</p>
-<blockquote>
-<p>On all processors with out-of-order execution, you have to insert <code>XOR EAX,EAX</code>/<code>CPUID</code> before and after each read of the counter to prevent it from executing in parallel with anything else. <code>CPUID</code> is a serializing instruction, which means that it flushes the pipeline and waits for all pending operations to finish before proceeding. This is very useful for testing purposes.</p>
-</blockquote>
-<p>So, we can't just call <code>RDTSC</code> and be sure that there is no out-of-order execution here.
+</code></pre></div><p><code>Invariant TSC</code> is specified by a combination of <code>constant_tsc</code> and <code>nonstop_tsc</code> flags.</p><p>In the most cases, you can trust <code>Invariant TSC</code> and use it for high-precision measurements (however, there are still some problems, e.g. synchronization problems on large multi-processor systems).</p><p><strong>TSC and out-of-order execution</strong></p><p>There is another interesting fact which you should consider if you want to read the TSC value directly via the <code>RDTSC</code> instruction: processor can reorder your instruction and spoil your measurements.</p><p>From the manual, Vol. 3B 17-41, section 17.15:</p><blockquote><p>The RDTSC instruction is not serializing or ordered with other instructions. It does not necessarily wait until all previous instructions have been executed before reading the counter. Similarly, subsequent instructions may begin execution before the RDTSC instruction operation is performed.</p></blockquote><p>From <a href=http://www.agner.org/optimize/optimizing_assembly.pdf>Optimizing subroutines in assembly language</a> by Agner Fog (section 18.1):</p><blockquote><p>On all processors with out-of-order execution, you have to insert <code>XOR EAX,EAX</code>/<code>CPUID</code> before and after each read of the counter to prevent it from executing in parallel with anything else. <code>CPUID</code> is a serializing instruction, which means that it flushes the pipeline and waits for all pending operations to finish before proceeding. This is very useful for testing purposes.</p></blockquote><p>So, we can&rsquo;t just call <code>RDTSC</code> and be sure that there is no out-of-order execution here.
 How can we call it the right way?
-Here is a C++ example by Agner Fog (see <a href="http://www.agner.org/optimize/optimizing_cpp.pdf">Optimizing software in C++. An optimization guide for Windows, Linux and Mac platforms</a>, section 16 &quot;Testing speed&quot;):</p>
-<pre><code class="language-cpp">// Example 16.1
-#include &lt;intrin.h&gt;         // Or #include &lt;ia32intrin.h&gt; etc.
-long long ReadTSC() {       // Returns time stamp counter
-    int dummy[4];           // For unused returns
-    volatile int DontSkip;  // Volatile to prevent optimizing
-    long long clock;        // Time
-    __cpuid(dummy, 0);      // Serialize
-    DontSkip = dummy[0];    // Prevent optimizing away cpuid
-    clock = __rdtsc();      // Read time
-    return clock;
-}
-</code></pre>
-<p>There is another interesting instruction: <code>RDTSCP</code>, it reads time stamp counter and processor ID (see the manual, Vol. 2B 4-547):</p>
-<blockquote>
-<p>Reads the current value of the processor’s time-stamp counter (a 64-bit <code>MSR</code>) into the <code>EDX:EAX</code> registers and also
-reads the value of the <code>IA32_TSC_AUX MSR</code> (address <code>C0000103H</code>) into the <code>ECX</code> register.</p>
-</blockquote>
-<blockquote>
-<p>The <code>RDTSCP</code> instruction <strong>waits until all previous instructions have been executed before reading the counter</strong>.</p>
-</blockquote>
-<p>From the manual, Vol. 2B 4-545:</p>
-<blockquote>
-<p>If software requires RDTSC to be executed only after all previous instructions have completed locally, it can either use <code>RDTSCP</code> (if the processor supports that instruction) or execute the sequence <code>LFENCE</code>;<code>RDTSC</code>.</p>
-</blockquote>
-<p>Thus, you can use <code>RDTSCP</code> instead of <code>RDTSC</code> (if your hardware supports this instruction) and not to be afraid of out-of-order execution.</p>
-<p><strong>Latency and resolution</strong></p>
-<p>Here is a list of reciprocal throughputs (CPU clock cycles) of <code>RDTSC</code> from <a href="http://www.agner.org/optimize/instruction_tables.pdf">Instruction tables by Agner Fog</a> <em>(2016-01-09)</em> for different processors:</p>
-<table>
-<thead>
-<tr>
-<th>Processor Name</th>
-<th>Reciprocal throughput</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AMD K7</td>
-<td>11</td>
-</tr>
-<tr>
-<td>AMD K8</td>
-<td>7</td>
-</tr>
-<tr>
-<td>AMD K10</td>
-<td>67</td>
-</tr>
-<tr>
-<td>AMD Bulldozer</td>
-<td>42</td>
-</tr>
-<tr>
-<td>AMD Pilediver</td>
-<td>42</td>
-</tr>
-<tr>
-<td>AMD Steamroller</td>
-<td>78</td>
-</tr>
-<tr>
-<td>AMD Bobcat</td>
-<td>87</td>
-</tr>
-<tr>
-<td>AMD Jaguar</td>
-<td>41</td>
-</tr>
-<tr>
-<td>Intel Pentium II/III</td>
-<td>42</td>
-</tr>
-<tr>
-<td>Intel Core 2 (Merom)</td>
-<td>64</td>
-</tr>
-<tr>
-<td>Intel Core 2 (Wolfdale)</td>
-<td>32</td>
-</tr>
-<tr>
-<td>Intel Nehalem</td>
-<td>24</td>
-</tr>
-<tr>
-<td>Intel Sandy Bridge</td>
-<td>28</td>
-</tr>
-<tr>
-<td>Intel Ivy Bridge</td>
-<td>27</td>
-</tr>
-<tr>
-<td>Intel Haswell</td>
-<td>24</td>
-</tr>
-<tr>
-<td>Intel Broadwell</td>
-<td>24</td>
-</tr>
-<tr>
-<td>Intel Skylake</td>
-<td>25</td>
-</tr>
-<tr>
-<td>Intel Pentium 4</td>
-<td>80</td>
-</tr>
-<tr>
-<td>Intel Pentium 4 w. EM64T (Prescott)</td>
-<td>100</td>
-</tr>
-<tr>
-<td>VIA Nano 2000 series</td>
-<td>39</td>
-</tr>
-<tr>
-<td>VIA Nano 3000 series</td>
-<td>37</td>
-</tr>
-</tbody>
-</table>
-<p>How can we interpret these numbers?
-Let's say that we have Intel Haswell (our reciprocal throughput is <code>24</code>) with fixed CPU frequency = <code>2.2GHz</code>.
-So, <code>1</code> CPU clock cycle is about <code>0.45ns</code> (it's our resolution).
-We can say that single <code>RDTSC</code> invocation takes approximately <code>24 x 0.45ns ≈ 10.8ns</code> (for <code>RDTSC</code> we can assume that latency is approximate equals to reciprocal throughput).</p>
-<p>You can also evaluate throughput of <code>RDTSC</code> on your machine. Download <a href="www.agner.org/optimize/testp.zip"><code>testp.zip</code></a> from the Anger Fog site, build it, and run <code>misc_int.sh1</code>.
-Here are results on my laptop (Intel Haswell):</p>
-<pre><code>rdtsc Throughput
+Here is a C++ example by Agner Fog (see <a href=http://www.agner.org/optimize/optimizing_cpp.pdf>Optimizing software in C++. An optimization guide for Windows, Linux and Mac platforms</a>, section 16 &ldquo;Testing speed&rdquo;):</p><div class=highlight><pre class=chroma><code class=language-cpp data-lang=cpp><span class=c1>// Example 16.1
+</span><span class=c1></span><span class=cp>#include</span> <span class=cpf>&lt;intrin.h&gt;         // Or #include &lt;ia32intrin.h&gt; etc.</span><span class=cp>
+</span><span class=cp></span><span class=kt>long</span> <span class=kt>long</span> <span class=nf>ReadTSC</span><span class=p>()</span> <span class=p>{</span>       <span class=c1>// Returns time stamp counter
+</span><span class=c1></span>    <span class=kt>int</span> <span class=n>dummy</span><span class=p>[</span><span class=mi>4</span><span class=p>];</span>           <span class=c1>// For unused returns
+</span><span class=c1></span>    <span class=k>volatile</span> <span class=kt>int</span> <span class=n>DontSkip</span><span class=p>;</span>  <span class=c1>// Volatile to prevent optimizing
+</span><span class=c1></span>    <span class=kt>long</span> <span class=kt>long</span> <span class=n>clock</span><span class=p>;</span>        <span class=c1>// Time
+</span><span class=c1></span>    <span class=n>__cpuid</span><span class=p>(</span><span class=n>dummy</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span>      <span class=c1>// Serialize
+</span><span class=c1></span>    <span class=n>DontSkip</span> <span class=o>=</span> <span class=n>dummy</span><span class=p>[</span><span class=mi>0</span><span class=p>];</span>    <span class=c1>// Prevent optimizing away cpuid
+</span><span class=c1></span>    <span class=n>clock</span> <span class=o>=</span> <span class=n>__rdtsc</span><span class=p>();</span>      <span class=c1>// Read time
+</span><span class=c1></span>    <span class=k>return</span> <span class=n>clock</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>There is another interesting instruction: <code>RDTSCP</code>, it reads time stamp counter and processor ID (see the manual, Vol. 2B 4-547):</p><blockquote><p>Reads the current value of the processor’s time-stamp counter (a 64-bit <code>MSR</code>) into the <code>EDX:EAX</code> registers and also
+reads the value of the <code>IA32_TSC_AUX MSR</code> (address <code>C0000103H</code>) into the <code>ECX</code> register.</p></blockquote><blockquote><p>The <code>RDTSCP</code> instruction <strong>waits until all previous instructions have been executed before reading the counter</strong>.</p></blockquote><p>From the manual, Vol. 2B 4-545:</p><blockquote><p>If software requires RDTSC to be executed only after all previous instructions have completed locally, it can either use <code>RDTSCP</code> (if the processor supports that instruction) or execute the sequence <code>LFENCE</code>;<code>RDTSC</code>.</p></blockquote><p>Thus, you can use <code>RDTSCP</code> instead of <code>RDTSC</code> (if your hardware supports this instruction) and not to be afraid of out-of-order execution.</p><p><strong>Latency and resolution</strong></p><p>Here is a list of reciprocal throughputs (CPU clock cycles) of <code>RDTSC</code> from <a href=http://www.agner.org/optimize/instruction_tables.pdf>Instruction tables by Agner Fog</a> <em>(2016-01-09)</em> for different processors:</p><table><thead><tr><th>Processor Name</th><th>Reciprocal throughput</th></tr></thead><tbody><tr><td>AMD K7</td><td>11</td></tr><tr><td>AMD K8</td><td>7</td></tr><tr><td>AMD K10</td><td>67</td></tr><tr><td>AMD Bulldozer</td><td>42</td></tr><tr><td>AMD Pilediver</td><td>42</td></tr><tr><td>AMD Steamroller</td><td>78</td></tr><tr><td>AMD Bobcat</td><td>87</td></tr><tr><td>AMD Jaguar</td><td>41</td></tr><tr><td>Intel Pentium II/III</td><td>42</td></tr><tr><td>Intel Core 2 (Merom)</td><td>64</td></tr><tr><td>Intel Core 2 (Wolfdale)</td><td>32</td></tr><tr><td>Intel Nehalem</td><td>24</td></tr><tr><td>Intel Sandy Bridge</td><td>28</td></tr><tr><td>Intel Ivy Bridge</td><td>27</td></tr><tr><td>Intel Haswell</td><td>24</td></tr><tr><td>Intel Broadwell</td><td>24</td></tr><tr><td>Intel Skylake</td><td>25</td></tr><tr><td>Intel Pentium 4</td><td>80</td></tr><tr><td>Intel Pentium 4 w. EM64T (Prescott)</td><td>100</td></tr><tr><td>VIA Nano 2000 series</td><td>39</td></tr><tr><td>VIA Nano 3000 series</td><td>37</td></tr></tbody></table><p>How can we interpret these numbers?
+Let&rsquo;s say that we have Intel Haswell (our reciprocal throughput is <code>24</code>) with fixed CPU frequency = <code>2.2GHz</code>.
+So, <code>1</code> CPU clock cycle is about <code>0.45ns</code> (it&rsquo;s our resolution).
+We can say that single <code>RDTSC</code> invocation takes approximately <code>24 x 0.45ns ≈ 10.8ns</code> (for <code>RDTSC</code> we can assume that latency is approximate equals to reciprocal throughput).</p><p>You can also evaluate throughput of <code>RDTSC</code> on your machine. Download <a href=www.agner.org/optimize/testp.zip><code>testp.zip</code></a> from the Anger Fog site, build it, and run <code>misc_int.sh1</code>.
+Here are results on my laptop (Intel Haswell):</p><pre><code>rdtsc Throughput
 
 Processor 0
      Clock   Core cyc   Instruct       Uops     uop p0     uop p1     uop p2 
@@ -395,557 +100,419 @@ Processor 0
       1686       2384        100       1500        254        399          0 
       1686       2384        100       1500        255        399          0 
       1686       2384        100       1500        255        399          0 
-</code></pre>
-<p>Here we have 2384 CPU cycles per 100 <code>RDTSC</code> instructions which mean approximately 24 cycles per instruction.</p>
-<p><strong>Summary</strong></p>
-<p>As we can see, TSC has a high resolution and low latency.
-However, you don't want to use it in general because there are a lot of problems with TSC.
-Here is a brief summary:</p>
-<ul>
-<li>Some old processors don't have TSC registers.</li>
-<li>The processor can change the frequency and affect the old version of TSC.</li>
-<li>There are synchronization problems on multi-core systems.</li>
-<li>Even if we have <code>Invariant TSC</code>, there are still synchronization problems on large multi-processor systems.</li>
-<li>Some processors can execute <code>RDTSC</code> out of order.</li>
-</ul>
-<p>There is another detailed problems summary in MSDN: <a href="https://msdn.microsoft.com/library/windows/desktop/dn553408.aspx#AppendixB">Acquiring high-resolution time stamps, &quot;TSC Register&quot; section</a>. Also, you can find a nice problems overview in this article: <a href="http://oliveryang.net/2015/09/pitfalls-of-TSC-usage/">Pitfalls of TSC usage</a>.</p>
-<p>Thus, TSC is not a good choice for time measurements in general case because you can't be sure in advance that it produces reliable measurements.
-Fortunately, modern operation systems provide nice API which allows getting the most reliable timestamps for current hardware.</p>
-<hr />
-<h4 id="acpi-pm-and-hpet">ACPI PM and HPET</h4>
-<p><strong>ACPI PM</strong></p>
-<p><em>ACPI</em> is Advanced Configuration and Power Interface. It defines a power management timer that provides accurate time values. By <a href="http://www.uefi.org/sites/default/files/resources/ACPI_6.0.pdf">specification</a> (<em>v6.0, April 2015</em>), frequency of the Power Management Timer should be <code>3.579545 MHz</code> (see section <em>4.8.2.1</em>):</p>
-<blockquote>
-<p>The power management timer is a 24-bit or 32-bit fixed rate free running count-up timer that runs off a <code>3.579545 MHz</code> clock. The ACPI OS checks the <code>FADT</code> to determine whether the PM Timer is a 32-bit or 24-bit timer. The programming model for the PM Timer consists of event logic and a read port to the counter value. The event logic consists of an event status and enables bit. The status bit is set any time the last bit of the timer (bit 23 or bit 31) goes from set to clear or clear to set. If the <code>TMR_EN</code> bit is set, then the setting of the <code>TMR_STS</code> will generate an ACPI event in the <code>PM1_EVT</code> register grouping (referred to as <code>PMTMR_PME</code> in the diagram). The event logic is only used to emulate a larger timer.</p>
-</blockquote>
-<p>But why do we have exactly <code>3.579545 MHz</code> (which equals to <code>5×7×9/(8×11) MHz</code>)?
-Historically, this number comes from The National Television System Committee (<a href="https://en.wikipedia.org/wiki/NTSC">NTSC</a>),
-here is <a href="https://en.wikipedia.org/wiki/NTSC#History">a nice explanation</a> from Wikipedia:</p>
-<blockquote>
-<p>In January 1950, the Committee was reconstituted to standardize color television. In December 1953, it unanimously approved what is now called the NTSC color television standard (later defined as RS-170a). The &quot;compatible color&quot; standard retained full backward compatibility with existing black-and-white television sets. Color information was added to the black-and-white image by introducing a color subcarrier of precisely <code>3.579545 MHz</code> (nominally <code>3.58 MHz</code>). The precise frequency was chosen so that horizontal line-rate modulation components of the chrominance signal would fall exactly in between the horizontal line-rate modulation components of the luminance signal, thereby enabling the chrominance signal to be filtered out of the luminance signal with minor degradation of the luminance signal. Due to limitations of frequency divider circuits at the time the color standard was promulgated, the color subcarrier frequency was constructed as composite frequency assembled from small integers, in this case, 5×7×9/(8×11) MHz. The horizontal line rate was reduced to approximately 15,734 lines per second (<code>3.579545×2/455 MHz</code>) from 15,750 lines per second, and the frame rate was reduced to approximately 29.970 frames per second (the horizontal line rate divided by 525 lines/frame) from 30 frames per second. These changes amounted to 0.1 percent and were readily tolerated by existing television receivers.</p>
-</blockquote>
-<p><strong>HPET</strong></p>
-<p>From <a href="https://en.wikipedia.org/wiki/High_Precision_Event_Timer">Wikipedia</a>:</p>
-<blockquote>
-<p>The High Precision Event Timer (HPET) is a hardware timer used in personal computers. It was developed jointly by AMD and Microsoft and has been incorporated in PC chipsets since circa 2005.</p>
-</blockquote>
-<p>According to (<a href="http://www.intel.com/content/dam/www/public/us/en/documents/technical-specifications/software-developers-hpet-spec-1-0a.pdf">IA-PC HPET Specification Rev 1.0a</a>, section 2.2), minimum HPET clock frequency is <code>10 MHz</code>.
+</code></pre><p>Here we have 2384 CPU cycles per 100 <code>RDTSC</code> instructions which mean approximately 24 cycles per instruction.</p><p><strong>Summary</strong></p><p>As we can see, TSC has a high resolution and low latency.
+However, you don&rsquo;t want to use it in general because there are a lot of problems with TSC.
+Here is a brief summary:</p><ul><li>Some old processors don&rsquo;t have TSC registers.</li><li>The processor can change the frequency and affect the old version of TSC.</li><li>There are synchronization problems on multi-core systems.</li><li>Even if we have <code>Invariant TSC</code>, there are still synchronization problems on large multi-processor systems.</li><li>Some processors can execute <code>RDTSC</code> out of order.</li></ul><p>There is another detailed problems summary in MSDN: <a href=https://msdn.microsoft.com/library/windows/desktop/dn553408.aspx#AppendixB>Acquiring high-resolution time stamps, &ldquo;TSC Register&rdquo; section</a>. Also, you can find a nice problems overview in this article: <a href=http://oliveryang.net/2015/09/pitfalls-of-TSC-usage/>Pitfalls of TSC usage</a>.</p><p>Thus, TSC is not a good choice for time measurements in general case because you can&rsquo;t be sure in advance that it produces reliable measurements.
+Fortunately, modern operation systems provide nice API which allows getting the most reliable timestamps for current hardware.</p><hr><h4 id=acpi-pm-and-hpet>ACPI PM and HPET</h4><p><strong>ACPI PM</strong></p><p><em>ACPI</em> is Advanced Configuration and Power Interface. It defines a power management timer that provides accurate time values. By <a href=http://www.uefi.org/sites/default/files/resources/ACPI_6.0.pdf>specification</a> (<em>v6.0, April 2015</em>), frequency of the Power Management Timer should be <code>3.579545 MHz</code> (see section <em>4.8.2.1</em>):</p><blockquote><p>The power management timer is a 24-bit or 32-bit fixed rate free running count-up timer that runs off a <code>3.579545 MHz</code> clock. The ACPI OS checks the <code>FADT</code> to determine whether the PM Timer is a 32-bit or 24-bit timer. The programming model for the PM Timer consists of event logic and a read port to the counter value. The event logic consists of an event status and enables bit. The status bit is set any time the last bit of the timer (bit 23 or bit 31) goes from set to clear or clear to set. If the <code>TMR_EN</code> bit is set, then the setting of the <code>TMR_STS</code> will generate an ACPI event in the <code>PM1_EVT</code> register grouping (referred to as <code>PMTMR_PME</code> in the diagram). The event logic is only used to emulate a larger timer.</p></blockquote><p>But why do we have exactly <code>3.579545 MHz</code> (which equals to <code>5×7×9/(8×11) MHz</code>)?
+Historically, this number comes from The National Television System Committee (<a href=https://en.wikipedia.org/wiki/NTSC>NTSC</a>),
+here is <a href=https://en.wikipedia.org/wiki/NTSC#History>a nice explanation</a> from Wikipedia:</p><blockquote><p>In January 1950, the Committee was reconstituted to standardize color television. In December 1953, it unanimously approved what is now called the NTSC color television standard (later defined as RS-170a). The &ldquo;compatible color&rdquo; standard retained full backward compatibility with existing black-and-white television sets. Color information was added to the black-and-white image by introducing a color subcarrier of precisely <code>3.579545 MHz</code> (nominally <code>3.58 MHz</code>). The precise frequency was chosen so that horizontal line-rate modulation components of the chrominance signal would fall exactly in between the horizontal line-rate modulation components of the luminance signal, thereby enabling the chrominance signal to be filtered out of the luminance signal with minor degradation of the luminance signal. Due to limitations of frequency divider circuits at the time the color standard was promulgated, the color subcarrier frequency was constructed as composite frequency assembled from small integers, in this case, 5×7×9/(8×11) MHz. The horizontal line rate was reduced to approximately 15,734 lines per second (<code>3.579545×2/455 MHz</code>) from 15,750 lines per second, and the frame rate was reduced to approximately 29.970 frames per second (the horizontal line rate divided by 525 lines/frame) from 30 frames per second. These changes amounted to 0.1 percent and were readily tolerated by existing television receivers.</p></blockquote><p><strong>HPET</strong></p><p>From <a href=https://en.wikipedia.org/wiki/High_Precision_Event_Timer>Wikipedia</a>:</p><blockquote><p>The High Precision Event Timer (HPET) is a hardware timer used in personal computers. It was developed jointly by AMD and Microsoft and has been incorporated in PC chipsets since circa 2005.</p></blockquote><p>According to (<a href=http://www.intel.com/content/dam/www/public/us/en/documents/technical-specifications/software-developers-hpet-spec-1-0a.pdf>IA-PC HPET Specification Rev 1.0a</a>, section 2.2), minimum HPET clock frequency is <code>10 MHz</code>.
 However, default HPET frequency is <code>14.31818 MHz</code> or 4x the ACPI clock
-(it allows to use the same crystal oscillator in HPET and ACPI PM, see also <a href="https://en.wikipedia.org/wiki/Colorburst#Crystals">wiki/Colorburst#Crystals</a>).</p>
-<p>On Windows you can enable or disable HPET with the help of the following commands:</p>
-<pre><code class="language-bash">:: Enable HPET (reboot is required): 
-bcdedit /set useplatformclock true
-:: Disable HPET (reboot is required):
+(it allows to use the same crystal oscillator in HPET and ACPI PM, see also <a href=https://en.wikipedia.org/wiki/Colorburst#Crystals>wiki/Colorburst#Crystals</a>).</p><p>On Windows you can enable or disable HPET with the help of the following commands:</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>:: Enable HPET <span class=o>(</span>reboot is required<span class=o>)</span>: 
+bcdedit /set useplatformclock <span class=nb>true</span>
+:: Disable HPET <span class=o>(</span>reboot is required<span class=o>)</span>:
 bcdedit /deletevalue useplatformclock
 :: View all Windows Boot Manager/Loader values:
 bcdedit /enum
-</code></pre>
-<p>There are some useful commands on Linux:</p>
-<pre><code class="language-bash"># Get available clocksource:
+</code></pre></div><p>There are some useful commands on Linux:</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash><span class=c1># Get available clocksource:</span>
 $ cat /sys/devices/system/clocksource/clocksource0/available_clocksource
 tsc hpet acpi_pm 
 
-# Get current clocksource:
+<span class=c1># Get current clocksource:</span>
 $ cat /sys/devices/system/clocksource/clocksource0/current_clocksource 
 tsc
 
-# Set current clocksource:
-$ sudo /bin/sh -c 'echo hpet &gt; /sys/devices/system/clocksource/clocksource0/current_clocksource'
-</code></pre>
-<p>Usually, HPET is disabled by default on modern hardware because of large latency (see the <a href="#benchmarks">Benchmarks</a> section).</p>
-<hr />
-<h3 id="operation-systems">Operation Systems</h3>
-<h4 id="windows">Windows</h4>
-<p>The best article about time stamps on Windows is <a href="https://msdn.microsoft.com/library/windows/desktop/dn553408.aspx">Acquiring high-resolution time stamps</a>.
-Brief summary:</p>
-<p>On Windows, the primary API for high-resolution time stamps is <a href="https://msdn.microsoft.com/library/windows/desktop/ms644904.aspx">QueryPerformanceCounter (QPC)</a>.
-For device drivers, the kernel-mode API is <a href="https://msdn.microsoft.com/library/windows/desktop/ff553053.aspx">KeQueryPerformanceCounter</a>.
-If you need high-resolution time-of-day measurements, use <a href="https://msdn.microsoft.com/library/windows/desktop/hh706895.aspx">GetSystemTimePreciseAsFileTime</a> (available since Windows 8 / Windows Server 2012).</p>
-<p><code>QPC</code> is completely independent of the system time and UTC (it is not affected by daylight savings time, leap seconds, time zones).
+<span class=c1># Set current clocksource:</span>
+$ sudo /bin/sh -c <span class=s1>&#39;echo hpet &gt; /sys/devices/system/clocksource/clocksource0/current_clocksource&#39;</span>
+</code></pre></div><p>Usually, HPET is disabled by default on modern hardware because of large latency (see the <a href=#benchmarks>Benchmarks</a> section).</p><hr><h3 id=operation-systems>Operation Systems</h3><h4 id=windows>Windows</h4><p>The best article about time stamps on Windows is <a href=https://msdn.microsoft.com/library/windows/desktop/dn553408.aspx>Acquiring high-resolution time stamps</a>.
+Brief summary:</p><p>On Windows, the primary API for high-resolution time stamps is <a href=https://msdn.microsoft.com/library/windows/desktop/ms644904.aspx>QueryPerformanceCounter (QPC)</a>.
+For device drivers, the kernel-mode API is <a href=https://msdn.microsoft.com/library/windows/desktop/ff553053.aspx>KeQueryPerformanceCounter</a>.
+If you need high-resolution time-of-day measurements, use <a href=https://msdn.microsoft.com/library/windows/desktop/hh706895.aspx>GetSystemTimePreciseAsFileTime</a> (available since Windows 8 / Windows Server 2012).</p><p><code>QPC</code> is completely independent of the system time and UTC (it is not affected by daylight savings time, leap seconds, time zones).
 It is also not affected by processor frequency changes.
-Thus, it is th best option, if you want to measure duration of an operation. If you want to know high-precision DateTime, use <code>GetSystemTimePreciseAsFileTime</code>.</p>
-<ul>
-<li>QPC is available on <em>Windows XP and Windows 2000</em> and works well on most systems. However, some hardware systems BIOS did not indicate the hardware CPU characteristics correctly (a non-invariant TSC), and some multi-core or multi-processor systems used processors with TSCs that could not be synchronized across cores. Systems with flawed firmware that run these versions of Windows might not provide the same QPC reading on different cores if they used the TSC as the basis for QPC.</li>
-<li>All computers that shipped with <em>Windows Vista and Windows Server 2008</em> used the HPET or the ACPI PM as the basis for QPC.</li>
-<li>The majority of <em>Windows 7 and Windows Server 2008 R2</em> computers have processors with constant-rate TSCs and use these counters as the basis for QPC.</li>
-<li><em>Windows 8, Windows 8.1, Windows Server 2012, and Windows Server 2012 R2</em> use TSCs as the basis for the performance counter.</li>
-</ul>
-<p>There are two main functions for high-resolution time stamps in <code>kernel32.dll</code>:</p>
-<pre><code class="language-cs">[DllImport(&quot;kernel32.dll&quot;)]
-private static extern bool QueryPerformanceCounter(out long value);
-
-[DllImport(&quot;kernel32.dll&quot;)]
-private static extern bool QueryPerformanceFrequency(out long value);
-</code></pre>
-<p>Thus, we can get tick counter via <code>QueryPerformanceCounter</code>.
+Thus, it is th best option, if you want to measure duration of an operation. If you want to know high-precision DateTime, use <code>GetSystemTimePreciseAsFileTime</code>.</p><ul><li>QPC is available on <em>Windows XP and Windows 2000</em> and works well on most systems. However, some hardware systems BIOS did not indicate the hardware CPU characteristics correctly (a non-invariant TSC), and some multi-core or multi-processor systems used processors with TSCs that could not be synchronized across cores. Systems with flawed firmware that run these versions of Windows might not provide the same QPC reading on different cores if they used the TSC as the basis for QPC.</li><li>All computers that shipped with <em>Windows Vista and Windows Server 2008</em> used the HPET or the ACPI PM as the basis for QPC.</li><li>The majority of <em>Windows 7 and Windows Server 2008 R2</em> computers have processors with constant-rate TSCs and use these counters as the basis for QPC.</li><li><em>Windows 8, Windows 8.1, Windows Server 2012, and Windows Server 2012 R2</em> use TSCs as the basis for the performance counter.</li></ul><p>There are two main functions for high-resolution time stamps in <code>kernel32.dll</code>:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[DllImport(&#34;kernel32.dll&#34;)]</span>
+<span class=k>private</span> <span class=k>static</span> <span class=k>extern</span> <span class=kt>bool</span> <span class=n>QueryPerformanceCounter</span><span class=p>(</span><span class=k>out</span> <span class=kt>long</span> <span class=k>value</span><span class=p>);</span>
+<span class=na>
+</span><span class=na>[DllImport(&#34;kernel32.dll&#34;)]</span>
+<span class=k>private</span> <span class=k>static</span> <span class=k>extern</span> <span class=kt>bool</span> <span class=n>QueryPerformanceFrequency</span><span class=p>(</span><span class=k>out</span> <span class=kt>long</span> <span class=k>value</span><span class=p>);</span>
+</code></pre></div><p>Thus, we can get tick counter via <code>QueryPerformanceCounter</code>.
 But how does it work?
-Let's write a simple program:</p>
-<pre><code class="language-cs">static void Main(string[] args)
-{
-    long ticks;
-    QueryPerformanceCounter(out ticks);
-}
-
-[DllImport(&quot;kernel32.dll&quot;)]
-private static extern bool QueryPerformanceCounter(out long value);
-</code></pre>
-<p>build it (Release-x64) and open the executable in WinDbg.
-There is a difference between x86 and x64 asm code, but x64 asm code will be enough to understand what's going on.
-Let's go to to the <code>KERNEL32!QueryPerformanceCounter</code> (we even don't need <code>sos.dll</code> here):</p>
-<pre><code>&gt; bp KERNEL32!QueryPerformanceCounter
+Let&rsquo;s write a simple program:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>static</span> <span class=k>void</span> <span class=n>Main</span><span class=p>(</span><span class=kt>string</span><span class=p>[]</span> <span class=n>args</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=kt>long</span> <span class=n>ticks</span><span class=p>;</span>
+    <span class=n>QueryPerformanceCounter</span><span class=p>(</span><span class=k>out</span> <span class=n>ticks</span><span class=p>);</span>
+<span class=p>}</span>
+<span class=na>
+</span><span class=na>[DllImport(&#34;kernel32.dll&#34;)]</span>
+<span class=k>private</span> <span class=k>static</span> <span class=k>extern</span> <span class=kt>bool</span> <span class=n>QueryPerformanceCounter</span><span class=p>(</span><span class=k>out</span> <span class=kt>long</span> <span class=k>value</span><span class=p>);</span>
+</code></pre></div><p>build it (Release-x64) and open the executable in WinDbg.
+There is a difference between x86 and x64 asm code, but x64 asm code will be enough to understand what&rsquo;s going on.
+Let&rsquo;s go to to the <code>KERNEL32!QueryPerformanceCounter</code> (we even don&rsquo;t need <code>sos.dll</code> here):</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>&gt; bp KERNEL32!QueryPerformanceCounter
 &gt; g
-</code></pre>
-<pre><code class="language-x86asm">KERNEL32!QueryPerformanceCounter:
-00007ffe6ccbb720  jmp     qword ptr [KERNEL32!QuirkIsEnabled2Worker+0x9ec8 (00007ffe6cd16378)] 
-                                    ds:00007ffe6cd16378={ntdll!RtlQueryPerformanceCounter (00007ffe6d83a7b0)}
-</code></pre>
-<p>If you are not able to set a breakpoint to <code>KERNEL32!QueryPerformanceCounter</code>, you can try to use <code>KERNEL32!QueryPerformanceCounterStub</code>
-(I have observed both situations on Windows 10):</p>
-<pre><code>&gt; bp KERNEL32!QueryPerformanceCounterStub
+</code></pre></div><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=nf>KERNEL32</span><span class=p>!</span><span class=no>QueryPerformanceCounter</span><span class=p>:</span>
+<span class=err>00007</span><span class=nf>ffe6ccbb720</span>  <span class=no>jmp</span>     <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>KERNEL32</span><span class=p>!</span><span class=no>QuirkIsEnabled2Worker</span><span class=err>+</span><span class=mi>0x9ec8</span> <span class=p>(</span><span class=mi>00007</span><span class=no>ffe6cd16378</span><span class=p>)]</span> 
+                                    <span class=no>ds</span><span class=p>:</span><span class=mi>00007</span><span class=no>ffe6cd16378</span><span class=err>={</span><span class=no>ntdll</span><span class=p>!</span><span class=no>RtlQueryPerformanceCounter</span> <span class=p>(</span><span class=mi>00007</span><span class=no>ffe6d83a7b0</span><span class=p>)</span><span class=err>}</span>
+</code></pre></div><p>If you are not able to set a breakpoint to <code>KERNEL32!QueryPerformanceCounter</code>, you can try to use <code>KERNEL32!QueryPerformanceCounterStub</code>
+(I have observed both situations on Windows 10):</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>&gt; bp KERNEL32!QueryPerformanceCounterStub
 &gt; g
-</code></pre>
-<pre><code class="language-x86asm">KERNEL32!QueryPerformanceCounterStub:
-00007fff431f5750 jmp      qword ptr [KERNEL32!_imp_QueryPerformanceCounter (00007fff`43255290)]
-                                    ds:00007fff43255290={ntdll!RtlQueryPerformanceCounter (00007fff`45300ff0)}
-</code></pre>
-<p><code>KERNEL32!QueryPerformanceCounter</code> (or <code>KERNEL32!QueryPerformanceCounterStub</code>) just redirects us to <code>ntdll!RtlQueryPerformanceCounter</code>.
-Let's look at the disassembly of this method:</p>
-<pre><code>&gt; uf ntdll!RtlQueryPerformanceCounter
-</code></pre>
-<pre><code class="language-x86asm">ntdll!RtlQueryPerformanceCounter:
-00007ffe6d83a7b0  push    rbx
-00007ffe6d83a7b2  sub     rsp,20h
-00007ffe6d83a7b6  mov     al,byte ptr [SharedUserData+0x3c6 (000000007ffe03c6)]
-00007ffe6d83a7bd  mov     rbx,rcx
-00007ffe6d83a7c0  cmp     al,1
-00007ffe6d83a7c2  jne     ntdll!RtlQueryPerformanceCounter+0x44 (00007ffe6d83a7f4)
+</code></pre></div><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=nf>KERNEL32</span><span class=p>!</span><span class=no>QueryPerformanceCounterStub</span><span class=p>:</span>
+<span class=err>00007</span><span class=nf>fff431f5750</span> <span class=no>jmp</span>      <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>KERNEL32</span><span class=p>!</span><span class=no>_imp_QueryPerformanceCounter</span> <span class=p>(</span><span class=mi>00007</span><span class=no>fff</span><span class=err>`</span><span class=mi>43255290</span><span class=p>)]</span>
+                                    <span class=nl>ds:</span><span class=err>00007</span><span class=nf>fff43255290</span><span class=err>={</span><span class=no>ntdll</span><span class=p>!</span><span class=no>RtlQueryPerformanceCounter</span> <span class=p>(</span><span class=mi>00007</span><span class=no>fff</span><span class=err>`</span><span class=mi>45300</span><span class=no>ff0</span><span class=p>)</span><span class=err>}</span>
+</code></pre></div><p><code>KERNEL32!QueryPerformanceCounter</code> (or <code>KERNEL32!QueryPerformanceCounterStub</code>) just redirects us to <code>ntdll!RtlQueryPerformanceCounter</code>.
+Let&rsquo;s look at the disassembly of this method:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>&gt; uf ntdll!RtlQueryPerformanceCounter
+</code></pre></div><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=nf>ntdll</span><span class=p>!</span><span class=no>RtlQueryPerformanceCounter</span><span class=p>:</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7b0</span>  <span class=no>push</span>    <span class=no>rbx</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7b2</span>  <span class=no>sub</span>     <span class=no>rsp</span><span class=p>,</span><span class=mi>20</span><span class=no>h</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7b6</span>  <span class=no>mov</span>     <span class=no>al</span><span class=p>,</span><span class=no>byte</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>SharedUserData</span><span class=err>+</span><span class=mi>0x3c6</span> <span class=p>(</span><span class=mi>000000007</span><span class=no>ffe03c6</span><span class=p>)]</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7bd</span>  <span class=no>mov</span>     <span class=no>rbx</span><span class=p>,</span><span class=no>rcx</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7c0</span>  <span class=no>cmp</span>     <span class=no>al</span><span class=p>,</span><span class=mi>1</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7c2</span>  <span class=no>jne</span>     <span class=no>ntdll</span><span class=p>!</span><span class=no>RtlQueryPerformanceCounter</span><span class=err>+</span><span class=mi>0x44</span> <span class=p>(</span><span class=mi>00007</span><span class=no>ffe6d83a7f4</span><span class=p>)</span>
 
-ntdll!RtlQueryPerformanceCounter+0x14:
-00007ffe6d83a7c4  mov     rcx,qword ptr [SharedUserData+0x3b8 (000000007ffe03b8)]
-00007ffe6d83a7cc  rdtsc
-00007ffe6d83a7ce  shl     rdx,20h
-00007ffe6d83a7d2  or      rax,rdx
-00007ffe6d83a7d5  mov     qword ptr [rbx],rax
-00007ffe6d83a7d8  lea     rdx,[rax+rcx]
-00007ffe6d83a7dc  mov     cl,byte ptr [SharedUserData+0x3c7 (000000007ffe03c7)]
-00007ffe6d83a7e3  shr     rdx,cl
-00007ffe6d83a7e6  mov     qword ptr [rbx],rdx
+<span class=nf>ntdll</span><span class=p>!</span><span class=no>RtlQueryPerformanceCounter</span><span class=err>+</span><span class=mi>0x14</span><span class=p>:</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7c4</span>  <span class=no>mov</span>     <span class=no>rcx</span><span class=p>,</span><span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>SharedUserData</span><span class=err>+</span><span class=mi>0x3b8</span> <span class=p>(</span><span class=mi>000000007</span><span class=no>ffe03b8</span><span class=p>)]</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7cc</span>  <span class=no>rdtsc</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7ce</span>  <span class=no>shl</span>     <span class=no>rdx</span><span class=p>,</span><span class=mi>20</span><span class=no>h</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7d2</span>  <span class=no>or</span>      <span class=no>rax</span><span class=p>,</span><span class=no>rdx</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7d5</span>  <span class=no>mov</span>     <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rbx</span><span class=p>],</span><span class=no>rax</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7d8</span>  <span class=no>lea</span>     <span class=no>rdx</span><span class=p>,[</span><span class=no>rax</span><span class=err>+</span><span class=no>rcx</span><span class=p>]</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7dc</span>  <span class=no>mov</span>     <span class=no>cl</span><span class=p>,</span><span class=no>byte</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>SharedUserData</span><span class=err>+</span><span class=mi>0x3c7</span> <span class=p>(</span><span class=mi>000000007</span><span class=no>ffe03c7</span><span class=p>)]</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7e3</span>  <span class=no>shr</span>     <span class=no>rdx</span><span class=p>,</span><span class=no>cl</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7e6</span>  <span class=no>mov</span>     <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rbx</span><span class=p>],</span><span class=no>rdx</span>
 
-ntdll!RtlQueryPerformanceCounter+0x39:
-00007ffe6d83a7e9  mov     eax,1
-00007ffe6d83a7ee  add     rsp,20h
-00007ffe6d83a7f2  pop     rbx
-00007ffe6d83a7f3  ret
+<span class=nf>ntdll</span><span class=p>!</span><span class=no>RtlQueryPerformanceCounter</span><span class=err>+</span><span class=mi>0x39</span><span class=p>:</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7e9</span>  <span class=no>mov</span>     <span class=no>eax</span><span class=p>,</span><span class=mi>1</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7ee</span>  <span class=no>add</span>     <span class=no>rsp</span><span class=p>,</span><span class=mi>20</span><span class=no>h</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7f2</span>  <span class=no>pop</span>     <span class=no>rbx</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7f3</span>  <span class=no>ret</span>
 
-ntdll!RtlQueryPerformanceCounter+0x44:
-00007ffe6d83a7f4  lea     rdx,[rsp+40h]
-00007ffe6d83a7f9  lea     rcx,[rsp+38h]
-00007ffe6d83a7fe  call    ntdll!NtQueryPerformanceCounter (00007ffe6d8956f0)
-00007ffe6d83a803  mov     rax,qword ptr [rsp+38h]
-00007ffe6d83a808  mov     qword ptr [rbx],rax
-00007ffe6d83a80b  jmp     ntdll!RtlQueryPerformanceCounter+0x39 (00007ffe6d83a7e9)
-</code></pre>
-<p>I will try to explain the situation in simple terms.
+<span class=nf>ntdll</span><span class=p>!</span><span class=no>RtlQueryPerformanceCounter</span><span class=err>+</span><span class=mi>0x44</span><span class=p>:</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7f4</span>  <span class=no>lea</span>     <span class=no>rdx</span><span class=p>,[</span><span class=no>rsp</span><span class=err>+</span><span class=mi>40</span><span class=no>h</span><span class=p>]</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7f9</span>  <span class=no>lea</span>     <span class=no>rcx</span><span class=p>,[</span><span class=no>rsp</span><span class=err>+</span><span class=mi>38</span><span class=no>h</span><span class=p>]</span>
+<span class=err>00007</span><span class=nf>ffe6d83a7fe</span>  <span class=no>call</span>    <span class=no>ntdll</span><span class=p>!</span><span class=no>NtQueryPerformanceCounter</span> <span class=p>(</span><span class=mi>00007</span><span class=no>ffe6d8956f0</span><span class=p>)</span>
+<span class=err>00007</span><span class=nf>ffe6d83a803</span>  <span class=no>mov</span>     <span class=no>rax</span><span class=p>,</span><span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rsp</span><span class=err>+</span><span class=mi>38</span><span class=no>h</span><span class=p>]</span>
+<span class=err>00007</span><span class=nf>ffe6d83a808</span>  <span class=no>mov</span>     <span class=no>qword</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>rbx</span><span class=p>],</span><span class=no>rax</span>
+<span class=err>00007</span><span class=nf>ffe6d83a80b</span>  <span class=no>jmp</span>     <span class=no>ntdll</span><span class=p>!</span><span class=no>RtlQueryPerformanceCounter</span><span class=err>+</span><span class=mi>0x39</span> <span class=p>(</span><span class=mi>00007</span><span class=no>ffe6d83a7e9</span><span class=p>)</span>
+</code></pre></div><p>I will try to explain the situation in simple terms.
 There is a special flag in <code>[SharedUserData+0x3c6 (000000007ffe03c6)]</code> that determines which QPC algorithm we will use.
-If everything is fine (we are working on modern hardware with invariant TSC and we can directly use it), we are going to the fast algorithm (<code>ntdll!RtlQueryPerformanceCounter+0x14</code>). Otherwise, we are going to call <code>ntdll!NtQueryPerformanceCounter</code> which produces a <code>syscall</code>:</p>
-<pre><code>&gt; uf ntdll!NtQueryPerformanceCounter
-</code></pre>
-<pre><code>ntdll!NtQueryPerformanceCounter:
-00007ffe6d8956f0  mov     r10,rcx
-00007ffe6d8956f3  mov     eax,31h
-00007ffe6d8956f8  test    byte ptr [SharedUserData+0x308 (000000007ffe0308)],1
-00007ffe6d895700  jne     ntdll!NtQueryPerformanceCounter+0x15 (00007ffe6d895705)
+If everything is fine (we are working on modern hardware with invariant TSC and we can directly use it), we are going to the fast algorithm (<code>ntdll!RtlQueryPerformanceCounter+0x14</code>). Otherwise, we are going to call <code>ntdll!NtQueryPerformanceCounter</code> which produces a <code>syscall</code>:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>&gt; uf ntdll!NtQueryPerformanceCounter
+</code></pre></div><div class=highlight><pre class=chroma><code class=language-asm data-lang=asm><span class=nf>ntdll</span><span class=p>!</span><span class=no>NtQueryPerformanceCounter</span><span class=p>:</span>
+<span class=err>00007</span><span class=nf>ffe6d8956f0</span>  <span class=no>mov</span>     <span class=no>r10</span><span class=p>,</span><span class=no>rcx</span>
+<span class=err>00007</span><span class=nf>ffe6d8956f3</span>  <span class=no>mov</span>     <span class=no>eax</span><span class=p>,</span><span class=mi>31</span><span class=no>h</span>
+<span class=err>00007</span><span class=nf>ffe6d8956f8</span>  <span class=no>test</span>    <span class=no>byte</span> <span class=no>ptr</span> <span class=p>[</span><span class=no>SharedUserData</span><span class=err>+</span><span class=mi>0x308</span> <span class=p>(</span><span class=mi>000000007</span><span class=no>ffe0308</span><span class=p>)],</span><span class=mi>1</span>
+<span class=err>00007</span><span class=nf>ffe6d895700</span>  <span class=no>jne</span>     <span class=no>ntdll</span><span class=p>!</span><span class=no>NtQueryPerformanceCounter</span><span class=err>+</span><span class=mi>0x15</span> <span class=p>(</span><span class=mi>00007</span><span class=no>ffe6d895705</span><span class=p>)</span>
 
-ntdll!NtQueryPerformanceCounter+0x12:
-00007ffe6d895702  syscall
-00007ffe6d895704  ret
+<span class=nf>ntdll</span><span class=p>!</span><span class=no>NtQueryPerformanceCounter</span><span class=err>+</span><span class=mi>0x12</span><span class=p>:</span>
+<span class=err>00007</span><span class=nf>ffe6d895702</span>  <span class=no>syscall</span>
+<span class=err>00007</span><span class=nf>ffe6d895704</span>  <span class=no>ret</span>
 
-ntdll!NtQueryPerformanceCounter+0x15:
-00007ffe6d895705  int     2Eh
-00007ffe6d895707  ret
-</code></pre>
-<p>An important fact about the fast algorithm (<code>ntdll!RtlQueryPerformanceCounter+0x14</code>): it directly calls <code>rdtsc</code> without any syscalls. It allows achieving low latency for simple situations (when we really can use TSC without any troubles).</p>
-<p>Another interesting fact: <code>QPC</code> use shifted value of <code>rdtsc</code>: after it puts full value of the counter in <code>rdx</code>, it performs <code>shr rdx,cl</code> (where <code>cl</code> typically equals to <code>0xA</code>).
+<span class=nf>ntdll</span><span class=p>!</span><span class=no>NtQueryPerformanceCounter</span><span class=err>+</span><span class=mi>0x15</span><span class=p>:</span>
+<span class=err>00007</span><span class=nf>ffe6d895705</span>  <span class=no>int</span>     <span class=mi>2</span><span class=no>Eh</span>
+<span class=err>00007</span><span class=nf>ffe6d895707</span>  <span class=no>ret</span>
+</code></pre></div><p>An important fact about the fast algorithm (<code>ntdll!RtlQueryPerformanceCounter+0x14</code>): it directly calls <code>rdtsc</code> without any syscalls. It allows achieving low latency for simple situations (when we really can use TSC without any troubles).</p><p>Another interesting fact: <code>QPC</code> use shifted value of <code>rdtsc</code>: after it puts full value of the counter in <code>rdx</code>, it performs <code>shr rdx,cl</code> (where <code>cl</code> typically equals to <code>0xA</code>).
 Thus, one <code>QPC</code> tick is 1024 <code>rdtsc</code> ticks.
-We can say the same thing about <code>QPF</code>: nominal Windows frequency for high-precision measurements is 1024 times less than <code>rdtsc</code> frequency.</p>
-<hr />
-<h4 id="linux">Linux</h4>
-<p>On Linux, there are many different time functions:
-<a href="http://linux.die.net/man/2/time"><code>time()</code></a>,
-<a href="http://linux.die.net/man/3/clock"><code>clock()</code></a>,
-<a href="http://linux.die.net/man/3/clock_gettime"><code>clock_gettime()</code></a>,
-<a href="http://linux.die.net/man/2/getrusage"><code>getrusage()</code></a>,
-<a href="http://linux.die.net/man/2/gettimeofday"><code>gettimeofday()</code></a>,
-<a href="https://developer.apple.com/library/mac/#qa/qa1398/_index.html"><code>mach_absolute_time()</code></a>
-(you can find a nice overview <a href="http://stackoverflow.com/a/12480485/184842">here</a>).
-Both CoreCLR and Mono uses <code>clock_getttime</code> as a primary way (with fallbacks to <code>mach_absolute_time</code> and <code>gettimeofday</code>) because it's the best way to get high-precision time stamp. This function has the following signature:</p>
-<pre><code class="language-cpp">int clock_gettime(clockid_t clk_id, struct timespec *tp);
-</code></pre>
-<p>Here <code>clockid_t</code> is ID of the target clock. For high precision timestamping, we should use <code>CLOCK_MONOTONIC</code> (if this option is available on current hardware) but there are other clock option (like <code>CLOCK_REALTIME</code> for real-time clock or <code>CLOCK_THREAD_CPUTIME_ID</code> for thread-specific CPU-time clock). The target timestamp will be returned as a <code>timespec</code>:</p>
-<pre><code>struct timespec {
-    time_t tv_sec; /* seconds */
-    long tv_nsec;  /* nanoseconds */ };
-</code></pre>
-<p>A usage example:</p>
-<pre><code class="language-cpp">struct timespec ts;
-uint64_t timestamp;
-clock_gettime(CLOCK_MONOTONIC, &amp;ts);
-timestamp = (static_cast&lt;uint64_t&gt;(ts.tv_sec) * 1000000000) + static_cast&lt;uint64_t&gt;(ts.tv_nsec);
-</code></pre>
-<p>Thus, minimal possible resolution of <code>clock_gettime</code> is <code>1 ns</code>. Internally, <code>clock_gettime(CLOCK_MONOTONIC, ...)</code> is based on the current high precision hardware timer (usually <code>TSC</code>, but it can also be <code>HPET</code> or <code>ACPI_PM</code>).</p>
-<p>To reduce <code>clock_gettime</code> latency, Linux kernel uses the <code>vsyscalls</code> (virtual system calls) and <code>VDSOs</code> (Virtual Dynamically linked Shared Objects) instead of direct <code>syscall</code> (you can find some useful implementation details <a href="http://linuxmogeb.blogspot.co.il/2013/10/how-does-clockgettime-work.html">here</a> and <a href="https://lwn.net/Articles/615809/">here</a>).</p>
-<p>If <code>Invariant TSC</code> is available, <code>clock_gettime(CLOCK_MONOTONIC, ...)</code> will use it directly via the <code>rdtsc</code> instruction.
+We can say the same thing about <code>QPF</code>: nominal Windows frequency for high-precision measurements is 1024 times less than <code>rdtsc</code> frequency.</p><hr><h4 id=linux>Linux</h4><p>On Linux, there are many different time functions:
+<a href=http://linux.die.net/man/2/time><code>time()</code></a>,
+<a href=http://linux.die.net/man/3/clock><code>clock()</code></a>,
+<a href=http://linux.die.net/man/3/clock_gettime><code>clock_gettime()</code></a>,
+<a href=http://linux.die.net/man/2/getrusage><code>getrusage()</code></a>,
+<a href=http://linux.die.net/man/2/gettimeofday><code>gettimeofday()</code></a>,
+<a href=https://developer.apple.com/library/mac/#qa/qa1398/_index.html><code>mach_absolute_time()</code></a>
+(you can find a nice overview <a href=http://stackoverflow.com/a/12480485/184842>here</a>).
+Both CoreCLR and Mono uses <code>clock_getttime</code> as a primary way (with fallbacks to <code>mach_absolute_time</code> and <code>gettimeofday</code>) because it&rsquo;s the best way to get high-precision time stamp. This function has the following signature:</p><div class=highlight><pre class=chroma><code class=language-cpp data-lang=cpp><span class=kt>int</span> <span class=nf>clock_gettime</span><span class=p>(</span><span class=n>clockid_t</span> <span class=n>clk_id</span><span class=p>,</span> <span class=k>struct</span> <span class=nc>timespec</span> <span class=o>*</span><span class=n>tp</span><span class=p>);</span>
+</code></pre></div><p>Here <code>clockid_t</code> is ID of the target clock. For high precision timestamping, we should use <code>CLOCK_MONOTONIC</code> (if this option is available on current hardware) but there are other clock option (like <code>CLOCK_REALTIME</code> for real-time clock or <code>CLOCK_THREAD_CPUTIME_ID</code> for thread-specific CPU-time clock). The target timestamp will be returned as a <code>timespec</code>:</p><div class=highlight><pre class=chroma><code class=language-c data-lang=c><span class=k>struct</span> <span class=n>timespec</span> <span class=p>{</span>
+    <span class=n>time_t</span> <span class=n>tv_sec</span><span class=p>;</span> <span class=cm>/* seconds */</span>
+    <span class=kt>long</span> <span class=n>tv_nsec</span><span class=p>;</span>  <span class=cm>/* nanoseconds */</span> <span class=p>};</span>
+</code></pre></div><p>A usage example:</p><div class=highlight><pre class=chroma><code class=language-cpp data-lang=cpp><span class=k>struct</span> <span class=nc>timespec</span> <span class=n>ts</span><span class=p>;</span>
+<span class=kt>uint64_t</span> <span class=n>timestamp</span><span class=p>;</span>
+<span class=n>clock_gettime</span><span class=p>(</span><span class=n>CLOCK_MONOTONIC</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>ts</span><span class=p>);</span>
+<span class=n>timestamp</span> <span class=o>=</span> <span class=p>(</span><span class=k>static_cast</span><span class=o>&lt;</span><span class=kt>uint64_t</span><span class=o>&gt;</span><span class=p>(</span><span class=n>ts</span><span class=p>.</span><span class=n>tv_sec</span><span class=p>)</span> <span class=o>*</span> <span class=mi>1000000000</span><span class=p>)</span> <span class=o>+</span> <span class=k>static_cast</span><span class=o>&lt;</span><span class=kt>uint64_t</span><span class=o>&gt;</span><span class=p>(</span><span class=n>ts</span><span class=p>.</span><span class=n>tv_nsec</span><span class=p>);</span>
+</code></pre></div><p>Thus, minimal possible resolution of <code>clock_gettime</code> is <code>1 ns</code>. Internally, <code>clock_gettime(CLOCK_MONOTONIC, ...)</code> is based on the current high precision hardware timer (usually <code>TSC</code>, but it can also be <code>HPET</code> or <code>ACPI_PM</code>).</p><p>To reduce <code>clock_gettime</code> latency, Linux kernel uses the <code>vsyscalls</code> (virtual system calls) and <code>VDSOs</code> (Virtual Dynamically linked Shared Objects) instead of direct <code>syscall</code> (you can find some useful implementation details <a href=http://linuxmogeb.blogspot.co.il/2013/10/how-does-clockgettime-work.html>here</a> and <a href=https://lwn.net/Articles/615809/>here</a>).</p><p>If <code>Invariant TSC</code> is available, <code>clock_gettime(CLOCK_MONOTONIC, ...)</code> will use it directly via the <code>rdtsc</code> instruction.
 Of course, it adds some overhead, but in general case, you should use <code>clock_gettime</code> instead of <code>rdtsc</code> because it solves a lot of portability problems.
-For example, see this nice commit: <a href="https://github.com/torvalds/linux/commit/d8bb6f4c1670c8324e4135c61ef07486f7f17379">x86: tsc prevent time going backward</a>.</p>
-<hr />
-<h3 id="source-code">Source code</h3>
-<h4 id="full.net-framework">Full .NET Framework</h4>
-<p>Stopwatch on the Full .NET Framework simply uses QPC/QPF, let's look at the source code.</p>
-<p><a href="http://referencesource.microsoft.com/#System/services/monitoring/system/diagnosticts/Stopwatch.cs,28"><code>Stopwatch.cs</code></a></p>
-<pre><code class="language-cs">public class Stopwatch
-{
-    private const long TicksPerMillisecond = 10000;
-    private const long TicksPerSecond = TicksPerMillisecond * 1000;
+For example, see this nice commit: <a href=https://github.com/torvalds/linux/commit/d8bb6f4c1670c8324e4135c61ef07486f7f17379>x86: tsc prevent time going backward</a>.</p><hr><h3 id=source-code>Source code</h3><h4 id=full-net-framework>Full .NET Framework</h4><p>Stopwatch on the Full .NET Framework simply uses QPC/QPF, let&rsquo;s look at the source code.</p><p><a href=http://referencesource.microsoft.com/#System/services/monitoring/system/diagnosticts/Stopwatch.cs,28><code>Stopwatch.cs</code></a></p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>class</span> <span class=nc>Stopwatch</span>
+<span class=p>{</span>
+    <span class=k>private</span> <span class=k>const</span> <span class=kt>long</span> <span class=n>TicksPerMillisecond</span> <span class=p>=</span> <span class=m>10000</span><span class=p>;</span>
+    <span class=k>private</span> <span class=k>const</span> <span class=kt>long</span> <span class=n>TicksPerSecond</span> <span class=p>=</span> <span class=n>TicksPerMillisecond</span> <span class=p>*</span> <span class=m>1000</span><span class=p>;</span>
 
-    // &quot;Frequency&quot; stores the frequency of the high-resolution performance counter, 
-    // if one exists. Otherwise it will store TicksPerSecond. 
-    // The frequency cannot change while the system is running,
-    // so we only need to initialize it once. 
-    public static readonly long Frequency;
-    public static readonly bool IsHighResolution;
+    <span class=c1>// &#34;Frequency&#34; stores the frequency of the high-resolution performance counter, 
+</span><span class=c1></span>    <span class=c1>// if one exists. Otherwise it will store TicksPerSecond. 
+</span><span class=c1></span>    <span class=c1>// The frequency cannot change while the system is running,
+</span><span class=c1></span>    <span class=c1>// so we only need to initialize it once. 
+</span><span class=c1></span>    <span class=k>public</span> <span class=k>static</span> <span class=k>readonly</span> <span class=kt>long</span> <span class=n>Frequency</span><span class=p>;</span>
+    <span class=k>public</span> <span class=k>static</span> <span class=k>readonly</span> <span class=kt>bool</span> <span class=n>IsHighResolution</span><span class=p>;</span>
 
-    // performance-counter frequency, in counts per ticks.
-    // This can speed up conversion from high frequency performance-counter 
-    // to ticks. 
-    private static readonly double tickFrequency;
+    <span class=c1>// performance-counter frequency, in counts per ticks.
+</span><span class=c1></span>    <span class=c1>// This can speed up conversion from high frequency performance-counter 
+</span><span class=c1></span>    <span class=c1>// to ticks. 
+</span><span class=c1></span>    <span class=k>private</span> <span class=k>static</span> <span class=k>readonly</span> <span class=kt>double</span> <span class=n>tickFrequency</span><span class=p>;</span>
 
-    static Stopwatch()
-    {
-        bool succeeded = SafeNativeMethods.QueryPerformanceFrequency(out Frequency);
-        if (!succeeded)
-        {
-            IsHighResolution = false;
-            Frequency = TicksPerSecond;
-            tickFrequency = 1;
-        }
-        else
-        {
-            IsHighResolution = true;
-            tickFrequency = TicksPerSecond;
-            tickFrequency /= Frequency;
-        }
-    }
+    <span class=k>static</span> <span class=n>Stopwatch</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=kt>bool</span> <span class=n>succeeded</span> <span class=p>=</span> <span class=n>SafeNativeMethods</span><span class=p>.</span><span class=n>QueryPerformanceFrequency</span><span class=p>(</span><span class=k>out</span> <span class=n>Frequency</span><span class=p>);</span>
+        <span class=k>if</span> <span class=p>(!</span><span class=n>succeeded</span><span class=p>)</span>
+        <span class=p>{</span>
+            <span class=n>IsHighResolution</span> <span class=p>=</span> <span class=k>false</span><span class=p>;</span>
+            <span class=n>Frequency</span> <span class=p>=</span> <span class=n>TicksPerSecond</span><span class=p>;</span>
+            <span class=n>tickFrequency</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=k>else</span>
+        <span class=p>{</span>
+            <span class=n>IsHighResolution</span> <span class=p>=</span> <span class=k>true</span><span class=p>;</span>
+            <span class=n>tickFrequency</span> <span class=p>=</span> <span class=n>TicksPerSecond</span><span class=p>;</span>
+            <span class=n>tickFrequency</span> <span class=p>/=</span> <span class=n>Frequency</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
 
-    public static long GetTimestamp()
-    {
-        if (IsHighResolution)
-        {
-            long timestamp = 0;
-            SafeNativeMethods.QueryPerformanceCounter(out timestamp);
-            return timestamp;
-        }
-        else
-        {
-            return DateTime.UtcNow.Ticks;
-        }
-    }
-}
-</code></pre>
-<br />
-<p><a href="http://referencesource.microsoft.com/#System/compmod/microsoft/win32/SafeNativeMethods.cs,122"><code>SafeNativeMethods.cs</code></a></p>
-<pre><code class="language-cs">[DllImport(ExternDll.Kernel32)]
-[ResourceExposure(ResourceScope.None)]
-public static extern bool QueryPerformanceCounter(out long value);
-
-[DllImport(ExternDll.Kernel32)]
-[ResourceExposure(ResourceScope.None)]
-public static extern bool QueryPerformanceFrequency(out long value);
-</code></pre>
-<p>What do you think, is it possible to get a negative elapsed time interval using Stopwatch?
+    <span class=k>public</span> <span class=k>static</span> <span class=kt>long</span> <span class=n>GetTimestamp</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>IsHighResolution</span><span class=p>)</span>
+        <span class=p>{</span>
+            <span class=kt>long</span> <span class=n>timestamp</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+            <span class=n>SafeNativeMethods</span><span class=p>.</span><span class=n>QueryPerformanceCounter</span><span class=p>(</span><span class=k>out</span> <span class=n>timestamp</span><span class=p>);</span>
+            <span class=k>return</span> <span class=n>timestamp</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=k>else</span>
+        <span class=p>{</span>
+            <span class=k>return</span> <span class=n>DateTime</span><span class=p>.</span><span class=n>UtcNow</span><span class=p>.</span><span class=n>Ticks</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p><br></p><p><a href=http://referencesource.microsoft.com/#System/compmod/microsoft/win32/SafeNativeMethods.cs,122><code>SafeNativeMethods.cs</code></a></p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[DllImport(ExternDll.Kernel32)]</span>
+<span class=na>[ResourceExposure(ResourceScope.None)]</span>
+<span class=k>public</span> <span class=k>static</span> <span class=k>extern</span> <span class=kt>bool</span> <span class=n>QueryPerformanceCounter</span><span class=p>(</span><span class=k>out</span> <span class=kt>long</span> <span class=k>value</span><span class=p>);</span>
+<span class=na>
+</span><span class=na>[DllImport(ExternDll.Kernel32)]</span>
+<span class=na>[ResourceExposure(ResourceScope.None)]</span>
+<span class=k>public</span> <span class=k>static</span> <span class=k>extern</span> <span class=kt>bool</span> <span class=n>QueryPerformanceFrequency</span><span class=p>(</span><span class=k>out</span> <span class=kt>long</span> <span class=k>value</span><span class=p>);</span>
+</code></pre></div><p>What do you think, is it possible to get a negative elapsed time interval using Stopwatch?
 There was a bug until .NET 3.5 because of which you can observe such situation.
 The bug was fixed in .NET 4.0 (originally with <code>#if NET_4_0</code>..<code>#endif</code>; without these directives since .NET 4.5).
-<a href="https://github.com/dotnet/corefx/blob/v1.0.0/src/System.Runtime.Extensions/src/System/Diagnostics/Stopwatch.cs#L82">Here is</a> a comment with explanation:</p>
-<pre><code class="language-cs">if (_elapsed &lt; 0)
-{
-    // When measuring small time periods the StopWatch.Elapsed* 
-    // properties can return negative values.  This is due to 
-    // bugs in the basic input/output system (BIOS) or the hardware
-    // abstraction layer (HAL) on machines with variable-speed CPUs
-    // (e.g. Intel SpeedStep).
+<a href=https://github.com/dotnet/corefx/blob/v1.0.0/src/System.Runtime.Extensions/src/System/Diagnostics/Stopwatch.cs#L82>Here is</a> a comment with explanation:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>if</span> <span class=p>(</span><span class=n>_elapsed</span> <span class=p>&lt;</span> <span class=m>0</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=c1>// When measuring small time periods the StopWatch.Elapsed* 
+</span><span class=c1></span>    <span class=c1>// properties can return negative values.  This is due to 
+</span><span class=c1></span>    <span class=c1>// bugs in the basic input/output system (BIOS) or the hardware
+</span><span class=c1></span>    <span class=c1>// abstraction layer (HAL) on machines with variable-speed CPUs
+</span><span class=c1></span>    <span class=c1>// (e.g. Intel SpeedStep).
+</span><span class=c1></span>
+    <span class=n>_elapsed</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><hr><h4 id=coreclr>CoreCLR</h4><p>Basically, CoreCLR 1.0.0 contains almost the same <a href=https://github.com/dotnet/corefx/blob/v1.0.0/src/System.Runtime.Extensions/src/System/Diagnostics/Stopwatch.cs>Stopwatch.cs</a> as in a case of the Full .NET Framework except for some minor changes in private variable names, <code>SecuritySafeCritical</code> attribute usages, and <code>FEATURE_NETCORE</code> depended on code.
+The main difference is the following: CoreCLR uses another declaration of QPC and QPF methods depend on the target platform (instead of using fixed <code>SafeNativeMethods.cs</code> implementation).</p><p><strong>Windows</strong></p><p><a href=https://github.com/dotnet/corefx/blob/v1.0.0/src/System.Runtime.Extensions/src/System/Diagnostics/Stopwatch.Windows.cs><code>Stopwatch.Windows.cs</code></a></p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>partial</span> <span class=k>class</span> <span class=nc>Stopwatch</span>
+<span class=p>{</span>
+    <span class=k>private</span> <span class=k>static</span> <span class=kt>bool</span> <span class=n>QueryPerformanceFrequency</span><span class=p>(</span><span class=k>out</span> <span class=kt>long</span> <span class=k>value</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>return</span> <span class=n>Interop</span><span class=p>.</span><span class=n>mincore</span><span class=p>.</span><span class=n>QueryPerformanceFrequency</span><span class=p>(</span><span class=k>out</span> <span class=k>value</span><span class=p>);</span>
+    <span class=p>}</span>
 
-    _elapsed = 0;
-}
-</code></pre>
-<hr />
-<h4 id="coreclr">CoreCLR</h4>
-<p>Basically, CoreCLR 1.0.0 contains almost the same <a href="https://github.com/dotnet/corefx/blob/v1.0.0/src/System.Runtime.Extensions/src/System/Diagnostics/Stopwatch.cs">Stopwatch.cs</a> as in a case of the Full .NET Framework except for some minor changes in private variable names, <code>SecuritySafeCritical</code> attribute usages, and <code>FEATURE_NETCORE</code> depended on code.
-The main difference is the following: CoreCLR uses another declaration of QPC and QPF methods depend on the target platform (instead of using fixed <code>SafeNativeMethods.cs</code> implementation).</p>
-<p><strong>Windows</strong></p>
-<p><a href="https://github.com/dotnet/corefx/blob/v1.0.0/src/System.Runtime.Extensions/src/System/Diagnostics/Stopwatch.Windows.cs"><code>Stopwatch.Windows.cs</code></a></p>
-<pre><code class="language-cs">public partial class Stopwatch
-{
-    private static bool QueryPerformanceFrequency(out long value)
-    {
-        return Interop.mincore.QueryPerformanceFrequency(out value);
-    }
+    <span class=k>private</span> <span class=k>static</span> <span class=kt>bool</span> <span class=n>QueryPerformanceCounter</span><span class=p>(</span><span class=k>out</span> <span class=kt>long</span> <span class=k>value</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>return</span> <span class=n>Interop</span><span class=p>.</span><span class=n>mincore</span><span class=p>.</span><span class=n>QueryPerformanceCounter</span><span class=p>(</span><span class=k>out</span> <span class=k>value</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p><br></p><p><a href=https://github.com/dotnet/corefx/blob/v1.0.0/src/Common/src/Interop/Windows/mincore/Interop.QueryPerformanceCounter.cs><code>Interop/Windows/mincore/Interop.QueryPerformanceCounter.cs</code></a></p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>internal</span> <span class=k>partial</span> <span class=k>class</span> <span class=nc>mincore</span>
+<span class=p>{</span>
+<span class=na>    [DllImport(Libraries.Profile)]</span>
+    <span class=k>internal</span> <span class=k>static</span> <span class=k>extern</span> <span class=kt>bool</span> <span class=n>QueryPerformanceCounter</span><span class=p>(</span><span class=k>out</span> <span class=kt>long</span> <span class=k>value</span><span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div><p><br></p><p><a href=https://github.com/dotnet/corefx/blob/v1.0.0/src/Common/src/Interop/Windows/mincore/Interop.QueryPerformanceFrequency.cs><code>Interop/Windows/mincore/Interop.QueryPerformanceFrequency.cs</code></a></p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>internal</span> <span class=k>partial</span> <span class=k>class</span> <span class=nc>mincore</span>
+<span class=p>{</span>
+<span class=na>    [DllImport(Libraries.Profile)]</span>
+    <span class=k>internal</span> <span class=k>static</span> <span class=k>extern</span> <span class=kt>bool</span> <span class=n>QueryPerformanceFrequency</span><span class=p>(</span><span class=k>out</span> <span class=kt>long</span> <span class=k>value</span><span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div><p>Thus, on Windows, we just call usual QPC/QPF API.</p><p><strong>Unix</strong></p><p><a href=https://github.com/dotnet/corefx/blob/v1.0.0/src/System.Runtime.Extensions/src/System/Diagnostics/Stopwatch.Unix.cs><code>Stopwatch.Unix.cs</code></a></p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>partial</span> <span class=k>class</span> <span class=nc>Stopwatch</span>
+<span class=p>{</span>
+    <span class=k>private</span> <span class=k>static</span> <span class=kt>bool</span> <span class=n>QueryPerformanceFrequency</span><span class=p>(</span><span class=k>out</span> <span class=kt>long</span> <span class=k>value</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>return</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Sys</span><span class=p>.</span><span class=n>GetTimestampResolution</span><span class=p>(</span><span class=k>out</span> <span class=k>value</span><span class=p>);</span>
+    <span class=p>}</span>
 
-    private static bool QueryPerformanceCounter(out long value)
-    {
-        return Interop.mincore.QueryPerformanceCounter(out value);
-    }
-}
-</code></pre>
-<br />
-<p><a href="https://github.com/dotnet/corefx/blob/v1.0.0/src/Common/src/Interop/Windows/mincore/Interop.QueryPerformanceCounter.cs"><code>Interop/Windows/mincore/Interop.QueryPerformanceCounter.cs</code></a></p>
-<pre><code class="language-cs">internal partial class mincore
-{
-    [DllImport(Libraries.Profile)]
-    internal static extern bool QueryPerformanceCounter(out long value);
-}
-</code></pre>
-<br />
-<p><a href="https://github.com/dotnet/corefx/blob/v1.0.0/src/Common/src/Interop/Windows/mincore/Interop.QueryPerformanceFrequency.cs"><code>Interop/Windows/mincore/Interop.QueryPerformanceFrequency.cs</code></a></p>
-<pre><code class="language-cs">internal partial class mincore
-{
-    [DllImport(Libraries.Profile)]
-    internal static extern bool QueryPerformanceFrequency(out long value);
-}
-</code></pre>
-<p>Thus, on Windows, we just call usual QPC/QPF API.</p>
-<p><strong>Unix</strong></p>
-<p><a href="https://github.com/dotnet/corefx/blob/v1.0.0/src/System.Runtime.Extensions/src/System/Diagnostics/Stopwatch.Unix.cs"><code>Stopwatch.Unix.cs</code></a></p>
-<pre><code class="language-cs">public partial class Stopwatch
-{
-    private static bool QueryPerformanceFrequency(out long value)
-    {
-        return Interop.Sys.GetTimestampResolution(out value);
-    }
+    <span class=k>private</span> <span class=k>static</span> <span class=kt>bool</span> <span class=n>QueryPerformanceCounter</span><span class=p>(</span><span class=k>out</span> <span class=kt>long</span> <span class=k>value</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>return</span> <span class=n>Interop</span><span class=p>.</span><span class=n>Sys</span><span class=p>.</span><span class=n>GetTimestamp</span><span class=p>(</span><span class=k>out</span> <span class=k>value</span><span class=p>);</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p><br></p><p><a href=https://github.com/dotnet/corefx/blob/v1.0.0/src/Common/src/Interop/Unix/System.Native/Interop.GetTimestamp.cs><code>Interop/Unix/System.Native/Interop.GetTimestamp.cs</code></a></p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>internal</span> <span class=k>static</span> <span class=k>partial</span> <span class=k>class</span> <span class=nc>Sys</span>
+<span class=p>{</span>
+<span class=na>    [DllImport(Libraries.SystemNative, EntryPoint = &#34;SystemNative_GetTimestampResolution&#34;)]</span>
+    <span class=k>internal</span> <span class=k>static</span> <span class=k>extern</span> <span class=kt>bool</span> <span class=n>GetTimestampResolution</span><span class=p>(</span><span class=k>out</span> <span class=kt>long</span> <span class=n>resolution</span><span class=p>);</span>
+<span class=na>
+</span><span class=na>    [DllImport(Libraries.SystemNative, EntryPoint = &#34;SystemNative_GetTimestamp&#34;)]</span>
+    <span class=k>internal</span> <span class=k>static</span> <span class=k>extern</span> <span class=kt>bool</span> <span class=n>GetTimestamp</span><span class=p>(</span><span class=k>out</span> <span class=kt>long</span> <span class=n>timestamp</span><span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div><p><br></p><p><a href=https://github.com/dotnet/corefx/blob/v1.0.0/src/Native/System.Native/pal_time.cpp><code>Native/System.Native/pal_time.cpp</code></a></p><div class=highlight><pre class=chroma><code class=language-cpp data-lang=cpp><span class=k>extern</span> <span class=s>&#34;C&#34;</span> <span class=kt>int32_t</span> <span class=n>SystemNative_GetTimestampResolution</span><span class=p>(</span><span class=kt>uint64_t</span><span class=o>*</span> <span class=n>resolution</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=n>assert</span><span class=p>(</span><span class=n>resolution</span><span class=p>);</span>
 
-    private static bool QueryPerformanceCounter(out long value)
-    {
-        return Interop.Sys.GetTimestamp(out value);
-    }
-}
-</code></pre>
-<br />
-<p><a href="https://github.com/dotnet/corefx/blob/v1.0.0/src/Common/src/Interop/Unix/System.Native/Interop.GetTimestamp.cs"><code>Interop/Unix/System.Native/Interop.GetTimestamp.cs</code></a></p>
-<pre><code class="language-cs">internal static partial class Sys
-{
-    [DllImport(Libraries.SystemNative, EntryPoint = &quot;SystemNative_GetTimestampResolution&quot;)]
-    internal static extern bool GetTimestampResolution(out long resolution);
+<span class=cp>#if HAVE_CLOCK_MONOTONIC
+</span><span class=cp></span>    <span class=c1>// Make sure we can call clock_gettime with MONOTONIC.  Stopwatch invokes
+</span><span class=c1></span>    <span class=c1>// GetTimestampResolution as the very first thing, and by calling this here
+</span><span class=c1></span>    <span class=c1>// to verify we can successfully, we don&#39;t have to branch in GetTimestamp.
+</span><span class=c1></span>    <span class=k>struct</span> <span class=nc>timespec</span> <span class=n>ts</span><span class=p>;</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>clock_gettime</span><span class=p>(</span><span class=n>CLOCK_MONOTONIC</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>ts</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> 
+    <span class=p>{</span>
+        <span class=o>*</span><span class=n>resolution</span> <span class=o>=</span> <span class=n>SecondsToNanoSeconds</span><span class=p>;</span>
+        <span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=k>else</span>
+    <span class=p>{</span>
+        <span class=o>*</span><span class=n>resolution</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+        <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+    <span class=p>}</span>
 
-    [DllImport(Libraries.SystemNative, EntryPoint = &quot;SystemNative_GetTimestamp&quot;)]
-    internal static extern bool GetTimestamp(out long timestamp);
-}
-</code></pre>
-<br />
-<p><a href="https://github.com/dotnet/corefx/blob/v1.0.0/src/Native/System.Native/pal_time.cpp"><code>Native/System.Native/pal_time.cpp</code></a></p>
-<pre><code class="language-cpp">extern &quot;C&quot; int32_t SystemNative_GetTimestampResolution(uint64_t* resolution)
-{
-    assert(resolution);
+<span class=cp>#elif HAVE_MACH_ABSOLUTE_TIME
+</span><span class=cp></span>    <span class=n>mach_timebase_info_data_t</span> <span class=n>mtid</span><span class=p>;</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>mach_timebase_info</span><span class=p>(</span><span class=o>&amp;</span><span class=n>mtid</span><span class=p>)</span> <span class=o>==</span> <span class=n>KERN_SUCCESS</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=o>*</span><span class=n>resolution</span> <span class=o>=</span> <span class=n>SecondsToNanoSeconds</span> <span class=o>*</span> <span class=p>(</span><span class=k>static_cast</span><span class=o>&lt;</span><span class=kt>uint64_t</span><span class=o>&gt;</span><span class=p>(</span><span class=n>mtid</span><span class=p>.</span><span class=n>denom</span><span class=p>)</span> <span class=o>/</span> <span class=k>static_cast</span><span class=o>&lt;</span><span class=kt>uint64_t</span><span class=o>&gt;</span><span class=p>(</span><span class=n>mtid</span><span class=p>.</span><span class=n>numer</span><span class=p>));</span>
+        <span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=k>else</span>
+    <span class=p>{</span>
+        <span class=o>*</span><span class=n>resolution</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+        <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+    <span class=p>}</span>
 
-#if HAVE_CLOCK_MONOTONIC
-    // Make sure we can call clock_gettime with MONOTONIC.  Stopwatch invokes
-    // GetTimestampResolution as the very first thing, and by calling this here
-    // to verify we can successfully, we don't have to branch in GetTimestamp.
-    struct timespec ts;
-    if (clock_gettime(CLOCK_MONOTONIC, &amp;ts) == 0) 
-    {
-        *resolution = SecondsToNanoSeconds;
-        return 1;
-    }
-    else
-    {
-        *resolution = 0;
-        return 0;
-    }
+<span class=cp>#else </span><span class=cm>/* gettimeofday */</span><span class=cp>
+</span><span class=cp></span>    <span class=o>*</span><span class=n>resolution</span> <span class=o>=</span> <span class=n>SecondsToMicroSeconds</span><span class=p>;</span>
+    <span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
 
-#elif HAVE_MACH_ABSOLUTE_TIME
-    mach_timebase_info_data_t mtid;
-    if (mach_timebase_info(&amp;mtid) == KERN_SUCCESS)
-    {
-        *resolution = SecondsToNanoSeconds * (static_cast&lt;uint64_t&gt;(mtid.denom) / static_cast&lt;uint64_t&gt;(mtid.numer));
-        return 1;
-    }
-    else
-    {
-        *resolution = 0;
-        return 0;
-    }
+<span class=cp>#endif
+</span><span class=cp></span><span class=p>}</span>
+</code></pre></div><div class=highlight><pre class=chroma><code class=language-cpp data-lang=cpp><span class=k>extern</span> <span class=s>&#34;C&#34;</span> <span class=kt>int32_t</span> <span class=n>SystemNative_GetTimestamp</span><span class=p>(</span><span class=kt>uint64_t</span><span class=o>*</span> <span class=n>timestamp</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=n>assert</span><span class=p>(</span><span class=n>timestamp</span><span class=p>);</span>
 
-#else /* gettimeofday */
-    *resolution = SecondsToMicroSeconds;
-    return 1;
+<span class=cp>#if HAVE_CLOCK_MONOTONIC
+</span><span class=cp></span>    <span class=k>struct</span> <span class=nc>timespec</span> <span class=n>ts</span><span class=p>;</span>
+    <span class=kt>int</span> <span class=n>result</span> <span class=o>=</span> <span class=n>clock_gettime</span><span class=p>(</span><span class=n>CLOCK_MONOTONIC</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>ts</span><span class=p>);</span>
+    <span class=n>assert</span><span class=p>(</span><span class=n>result</span> <span class=o>==</span> <span class=mi>0</span><span class=p>);</span> <span class=c1>// only possible errors are if MONOTONIC isn&#39;t supported or &amp;ts is an invalid address
+</span><span class=c1></span>    <span class=p>(</span><span class=kt>void</span><span class=p>)</span><span class=n>result</span><span class=p>;</span> <span class=c1>// suppress unused parameter warning in release builds
+</span><span class=c1></span>    <span class=o>*</span><span class=n>timestamp</span> <span class=o>=</span> <span class=p>(</span><span class=k>static_cast</span><span class=o>&lt;</span><span class=kt>uint64_t</span><span class=o>&gt;</span><span class=p>(</span><span class=n>ts</span><span class=p>.</span><span class=n>tv_sec</span><span class=p>)</span> <span class=o>*</span> <span class=n>SecondsToNanoSeconds</span><span class=p>)</span> <span class=o>+</span> <span class=k>static_cast</span><span class=o>&lt;</span><span class=kt>uint64_t</span><span class=o>&gt;</span><span class=p>(</span><span class=n>ts</span><span class=p>.</span><span class=n>tv_nsec</span><span class=p>);</span>
+    <span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
 
-#endif
-}
-</code></pre>
-<pre><code class="language-cpp">extern &quot;C&quot; int32_t SystemNative_GetTimestamp(uint64_t* timestamp)
-{
-    assert(timestamp);
+<span class=cp>#elif HAVE_MACH_ABSOLUTE_TIME
+</span><span class=cp></span>    <span class=o>*</span><span class=n>timestamp</span> <span class=o>=</span> <span class=n>mach_absolute_time</span><span class=p>();</span>
+    <span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
 
-#if HAVE_CLOCK_MONOTONIC
-    struct timespec ts;
-    int result = clock_gettime(CLOCK_MONOTONIC, &amp;ts);
-    assert(result == 0); // only possible errors are if MONOTONIC isn't supported or &amp;ts is an invalid address
-    (void)result; // suppress unused parameter warning in release builds
-    *timestamp = (static_cast&lt;uint64_t&gt;(ts.tv_sec) * SecondsToNanoSeconds) + static_cast&lt;uint64_t&gt;(ts.tv_nsec);
-    return 1;
+<span class=cp>#else
+</span><span class=cp></span>    <span class=k>struct</span> <span class=nc>timeval</span> <span class=n>tv</span><span class=p>;</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>gettimeofday</span><span class=p>(</span><span class=o>&amp;</span><span class=n>tv</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=o>*</span><span class=n>timestamp</span> <span class=o>=</span> <span class=p>(</span><span class=k>static_cast</span><span class=o>&lt;</span><span class=kt>uint64_t</span><span class=o>&gt;</span><span class=p>(</span><span class=n>tv</span><span class=p>.</span><span class=n>tv_sec</span><span class=p>)</span> <span class=o>*</span> <span class=n>SecondsToMicroSeconds</span><span class=p>)</span> <span class=o>+</span> <span class=k>static_cast</span><span class=o>&lt;</span><span class=kt>uint64_t</span><span class=o>&gt;</span><span class=p>(</span><span class=n>tv</span><span class=p>.</span><span class=n>tv_usec</span><span class=p>);</span>
+        <span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=k>else</span>
+    <span class=p>{</span>
+        <span class=o>*</span><span class=n>timestamp</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+        <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+    <span class=p>}</span>
 
-#elif HAVE_MACH_ABSOLUTE_TIME
-    *timestamp = mach_absolute_time();
-    return 1;
+<span class=cp>#endif
+</span><span class=cp></span><span class=p>}</span>
+</code></pre></div><p>As you can see, primarily we are trying to use <code>clock_gettime</code> (in the <code>HAVE_CLOCK_MONOTONIC</code> mode),
+otherwise we are trying to use <code>mach_absolute_time</code> (in the <code>HAVE_MACH_ABSOLUTE_TIME</code> mode), otherwise we are using <code>gettimeofday</code> (with corresponded conversions).</p><hr><h4 id=mono>Mono</h4><p>Let&rsquo;s look at an implementation of <code>Stopwatch</code> in Mono (we will work with <code>mono-4.4.2.11</code> in this post).</p><p><a href=https://github.com/mono/mono/blob/mono-4.4.2.11/mcs/class/System/System.Diagnostics/Stopwatch.cs><code>Stopwatch.cs</code></a></p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>class</span> <span class=nc>Stopwatch</span>
+<span class=p>{</span>
+<span class=na>    [MethodImplAttribute(MethodImplOptions.InternalCall)]</span>
+    <span class=k>public</span> <span class=k>static</span> <span class=k>extern</span> <span class=kt>long</span> <span class=n>GetTimestamp</span><span class=p>();</span>
 
-#else
-    struct timeval tv;
-    if (gettimeofday(&amp;tv, NULL) == 0)
-    {
-        *timestamp = (static_cast&lt;uint64_t&gt;(tv.tv_sec) * SecondsToMicroSeconds) + static_cast&lt;uint64_t&gt;(tv.tv_usec);
-        return 1;
-    }
-    else
-    {
-        *timestamp = 0;
-        return 0;
-    }
+    <span class=k>public</span> <span class=k>static</span> <span class=k>readonly</span> <span class=kt>long</span> <span class=n>Frequency</span> <span class=p>=</span> <span class=m>10000000</span><span class=p>;</span>
 
-#endif
-}
-</code></pre>
-<p>As you can see, primarily we are trying to use <code>clock_gettime</code> (in the <code>HAVE_CLOCK_MONOTONIC</code> mode),
-otherwise we are trying to use <code>mach_absolute_time</code> (in the <code>HAVE_MACH_ABSOLUTE_TIME</code> mode), otherwise we are using <code>gettimeofday</code> (with corresponded conversions).</p>
-<hr />
-<h4 id="mono">Mono</h4>
-<p>Let's look at an implementation of <code>Stopwatch</code> in Mono (we will work with <code>mono-4.4.2.11</code> in this post).</p>
-<p><a href="https://github.com/mono/mono/blob/mono-4.4.2.11/mcs/class/System/System.Diagnostics/Stopwatch.cs"><code>Stopwatch.cs</code></a></p>
-<pre><code class="language-cs">public class Stopwatch
-{
-    [MethodImplAttribute(MethodImplOptions.InternalCall)]
-    public static extern long GetTimestamp();
+    <span class=k>public</span> <span class=k>static</span> <span class=k>readonly</span> <span class=kt>bool</span> <span class=n>IsHighResolution</span> <span class=p>=</span> <span class=k>true</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>As you can see, the frequency of <code>Stopwatch</code> in Mono is a const (10'000'000).
+For some historical reasons, this <code>Stopwatch</code> uses the same tick value (<code>100ns</code>) as the <code>DateTime</code>.</p><p>Now let&rsquo;s look at the internal implementation.</p><p><a href=https://github.com/mono/mono/blob/mono-4.4.2.11/mono/metadata/icall-def.h#L218><code>icall-def.h</code></a></p><div class=highlight><pre class=chroma><code class=language-cpp data-lang=cpp><span class=n>ICALL_TYPE</span><span class=p>(</span><span class=n>STOPWATCH</span><span class=p>,</span> <span class=s>&#34;System.Diagnostics.Stopwatch&#34;</span><span class=p>,</span> <span class=n>STOPWATCH_1</span><span class=p>)</span>
+<span class=n>ICALL</span><span class=p>(</span><span class=n>STOPWATCH_1</span><span class=p>,</span> <span class=s>&#34;GetTimestamp&#34;</span><span class=p>,</span> <span class=n>mono_100ns_ticks</span><span class=p>)</span>
+</code></pre></div><p><br></p><p><a href=https://github.com/mono/mono/blob/mono-4.4.2.11/mono/utils/mono-time.c#L30><code>mono-time.c#L30</code></a></p><div class=highlight><pre class=chroma><code class=language-cpp data-lang=cpp><span class=cm>/* Returns the number of 100ns ticks from unspecified time: this should be monotonic */</span>
+<span class=n>gint64</span>
+<span class=nf>mono_100ns_ticks</span> <span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=k>static</span> <span class=n>LARGE_INTEGER</span> <span class=n>freq</span><span class=p>;</span>
+    <span class=k>static</span> <span class=n>UINT64</span> <span class=n>start_time</span><span class=p>;</span>
+    <span class=n>UINT64</span> <span class=n>cur_time</span><span class=p>;</span>
+    <span class=n>LARGE_INTEGER</span> <span class=n>value</span><span class=p>;</span>
 
-    public static readonly long Frequency = 10000000;
-
-    public static readonly bool IsHighResolution = true;
-}
-</code></pre>
-<p>As you can see, the frequency of <code>Stopwatch</code> in Mono is a const (10'000'000).
-For some historical reasons, this <code>Stopwatch</code> uses the same tick value (<code>100ns</code>) as the <code>DateTime</code>.</p>
-<p>Now let's look at the internal implementation.</p>
-<p><a href="https://github.com/mono/mono/blob/mono-4.4.2.11/mono/metadata/icall-def.h#L218"><code>icall-def.h</code></a></p>
-<pre><code class="language-cpp">ICALL_TYPE(STOPWATCH, &quot;System.Diagnostics.Stopwatch&quot;, STOPWATCH_1)
-ICALL(STOPWATCH_1, &quot;GetTimestamp&quot;, mono_100ns_ticks)
-</code></pre>
-<br />
-<p><a href="https://github.com/mono/mono/blob/mono-4.4.2.11/mono/utils/mono-time.c#L30"><code>mono-time.c#L30</code></a></p>
-<pre><code class="language-cpp">/* Returns the number of 100ns ticks from unspecified time: this should be monotonic */
-gint64
-mono_100ns_ticks (void)
-{
-    static LARGE_INTEGER freq;
-    static UINT64 start_time;
-    UINT64 cur_time;
-    LARGE_INTEGER value;
-
-    if (!freq.QuadPart) {
-        if (!QueryPerformanceFrequency (&amp;freq))
-            return mono_100ns_datetime ();
-        QueryPerformanceCounter (&amp;value);
-        start_time = value.QuadPart;
-    }
-    QueryPerformanceCounter (&amp;value);
-    cur_time = value.QuadPart;
-    /* we use unsigned numbers and return the difference to avoid overflows */
-    return (cur_time - start_time) * (double)MTICKS_PER_SEC / freq.QuadPart;
-}
-</code></pre>
-<br />
-<p><a href="https://github.com/mono/mono/blob/mono-4.4.2.11/mono/utils/mono-time.c#L128"><code>mono-time.c#L128</code></a></p>
-<pre><code class="language-cpp">/* Returns the number of 100ns ticks from unspecified time: this should be monotonic */
-gint64
-mono_100ns_ticks (void)
-{
-    struct timeval tv;
-#ifdef CLOCK_MONOTONIC
-    struct timespec tspec;
-    static struct timespec tspec_freq = {0};
-    static int can_use_clock = 0;
-    if (!tspec_freq.tv_nsec) {
-        can_use_clock = clock_getres (CLOCK_MONOTONIC, &amp;tspec_freq) == 0;
-        /*printf (&quot;resolution: %lu.%lu\n&quot;, tspec_freq.tv_sec, tspec_freq.tv_nsec);*/
-    }
-    if (can_use_clock) {
-        if (clock_gettime (CLOCK_MONOTONIC, &amp;tspec) == 0) {
-            /*printf (&quot;time: %lu.%lu\n&quot;, tspec.tv_sec, tspec.tv_nsec); */
-            return ((gint64)tspec.tv_sec * MTICKS_PER_SEC + tspec.tv_nsec / 100);
-        }
-    }
+    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>freq</span><span class=p>.</span><span class=n>QuadPart</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>QueryPerformanceFrequency</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>freq</span><span class=p>))</span>
+            <span class=k>return</span> <span class=n>mono_100ns_datetime</span> <span class=p>();</span>
+        <span class=n>QueryPerformanceCounter</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>value</span><span class=p>);</span>
+        <span class=n>start_time</span> <span class=o>=</span> <span class=n>value</span><span class=p>.</span><span class=n>QuadPart</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=n>QueryPerformanceCounter</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>value</span><span class=p>);</span>
+    <span class=n>cur_time</span> <span class=o>=</span> <span class=n>value</span><span class=p>.</span><span class=n>QuadPart</span><span class=p>;</span>
+    <span class=cm>/* we use unsigned numbers and return the difference to avoid overflows */</span>
+    <span class=k>return</span> <span class=p>(</span><span class=n>cur_time</span> <span class=o>-</span> <span class=n>start_time</span><span class=p>)</span> <span class=o>*</span> <span class=p>(</span><span class=kt>double</span><span class=p>)</span><span class=n>MTICKS_PER_SEC</span> <span class=o>/</span> <span class=n>freq</span><span class=p>.</span><span class=n>QuadPart</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p><br></p><p><a href=https://github.com/mono/mono/blob/mono-4.4.2.11/mono/utils/mono-time.c#L128><code>mono-time.c#L128</code></a></p><div class=highlight><pre class=chroma><code class=language-cpp data-lang=cpp><span class=cm>/* Returns the number of 100ns ticks from unspecified time: this should be monotonic */</span>
+<span class=n>gint64</span>
+<span class=nf>mono_100ns_ticks</span> <span class=p>(</span><span class=kt>void</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=k>struct</span> <span class=nc>timeval</span> <span class=n>tv</span><span class=p>;</span>
+<span class=cp>#ifdef CLOCK_MONOTONIC
+</span><span class=cp></span>    <span class=k>struct</span> <span class=nc>timespec</span> <span class=n>tspec</span><span class=p>;</span>
+    <span class=k>static</span> <span class=k>struct</span> <span class=nc>timespec</span> <span class=n>tspec_freq</span> <span class=o>=</span> <span class=p>{</span><span class=mi>0</span><span class=p>};</span>
+    <span class=k>static</span> <span class=kt>int</span> <span class=n>can_use_clock</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>tspec_freq</span><span class=p>.</span><span class=n>tv_nsec</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>can_use_clock</span> <span class=o>=</span> <span class=n>clock_getres</span> <span class=p>(</span><span class=n>CLOCK_MONOTONIC</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>tspec_freq</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span><span class=p>;</span>
+        <span class=cm>/*printf (&#34;resolution: %lu.%lu\n&#34;, tspec_freq.tv_sec, tspec_freq.tv_nsec);*/</span>
+    <span class=p>}</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>can_use_clock</span><span class=p>)</span> <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>clock_gettime</span> <span class=p>(</span><span class=n>CLOCK_MONOTONIC</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>tspec</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+            <span class=cm>/*printf (&#34;time: %lu.%lu\n&#34;, tspec.tv_sec, tspec.tv_nsec); */</span>
+            <span class=k>return</span> <span class=p>((</span><span class=n>gint64</span><span class=p>)</span><span class=n>tspec</span><span class=p>.</span><span class=n>tv_sec</span> <span class=o>*</span> <span class=n>MTICKS_PER_SEC</span> <span class=o>+</span> <span class=n>tspec</span><span class=p>.</span><span class=n>tv_nsec</span> <span class=o>/</span> <span class=mi>100</span><span class=p>);</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
     
-#elif defined(PLATFORM_MACOSX)
-    /* http://developer.apple.com/library/mac/#qa/qa1398/_index.html */
-    static mach_timebase_info_data_t timebase;
-    guint64 now = mach_absolute_time ();
-    if (timebase.denom == 0) {
-        mach_timebase_info (&amp;timebase);
-        timebase.denom *= 100; /* we return 100ns ticks */
-    }
-    return now * timebase.numer / timebase.denom;
-#endif
-    if (gettimeofday (&amp;tv, NULL) == 0)
-        return ((gint64)tv.tv_sec * 1000000 + tv.tv_usec) * 10;
-    return 0;
-}
-</code></pre>
-<p>As you can see, the algorithms Mono internally uses the same API as API in CoreCLR:
+<span class=cp>#elif defined(PLATFORM_MACOSX)
+</span><span class=cp></span>    <span class=cm>/* http://developer.apple.com/library/mac/#qa/qa1398/_index.html */</span>
+    <span class=k>static</span> <span class=n>mach_timebase_info_data_t</span> <span class=n>timebase</span><span class=p>;</span>
+    <span class=n>guint64</span> <span class=n>now</span> <span class=o>=</span> <span class=n>mach_absolute_time</span> <span class=p>();</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>timebase</span><span class=p>.</span><span class=n>denom</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+        <span class=n>mach_timebase_info</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>timebase</span><span class=p>);</span>
+        <span class=n>timebase</span><span class=p>.</span><span class=n>denom</span> <span class=o>*=</span> <span class=mi>100</span><span class=p>;</span> <span class=cm>/* we return 100ns ticks */</span>
+    <span class=p>}</span>
+    <span class=k>return</span> <span class=n>now</span> <span class=o>*</span> <span class=n>timebase</span><span class=p>.</span><span class=n>numer</span> <span class=o>/</span> <span class=n>timebase</span><span class=p>.</span><span class=n>denom</span><span class=p>;</span>
+<span class=cp>#endif
+</span><span class=cp></span>    <span class=k>if</span> <span class=p>(</span><span class=n>gettimeofday</span> <span class=p>(</span><span class=o>&amp;</span><span class=n>tv</span><span class=p>,</span> <span class=nb>NULL</span><span class=p>)</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span>
+        <span class=k>return</span> <span class=p>((</span><span class=n>gint64</span><span class=p>)</span><span class=n>tv</span><span class=p>.</span><span class=n>tv_sec</span> <span class=o>*</span> <span class=mi>1000000</span> <span class=o>+</span> <span class=n>tv</span><span class=p>.</span><span class=n>tv_usec</span><span class=p>)</span> <span class=o>*</span> <span class=mi>10</span><span class=p>;</span>
+    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>As you can see, the algorithms Mono internally uses the same API as API in CoreCLR:
 <code>QPC</code>/<code>clock_gettime</code> as a primary way,
-<code>mono_100ns_datetime</code>/<code>gettimeofday</code> as a fallback case.</p>
-<p>Is it possible to get a negative elapsed interval on Mono?
-It's theoretically possible on the old version on Mono and old hardware.
-This bug was <a href="https://github.com/mono/mono/commit/dbc021772a8c0a8bf97615523c73d55cf9b376c3">fixed</a> by me and <a href="https://github.com/mono/mono/commit/226af94a2345f88d3170823646e1c25a276ba281">merged</a> into the master (Sep 23, 2015).</p>
-<hr />
-<h3 id="pitfalls">Pitfalls</h3>
-<h4 id="small-time-intervals">Small time intervals</h4>
-<p>When you are trying to measure time of an operation, it's really important to understand order of this measurement and order of <code>Stopwatch</code> resolution and latency
-(it will be covered in details in the <a href="#benchmarks">Benchmarks</a> section).
+<code>mono_100ns_datetime</code>/<code>gettimeofday</code> as a fallback case.</p><p>Is it possible to get a negative elapsed interval on Mono?
+It&rsquo;s theoretically possible on the old version on Mono and old hardware.
+This bug was <a href=https://github.com/mono/mono/commit/dbc021772a8c0a8bf97615523c73d55cf9b376c3>fixed</a> by me and <a href=https://github.com/mono/mono/commit/226af94a2345f88d3170823646e1c25a276ba281>merged</a> into the master (Sep 23, 2015).</p><hr><h3 id=pitfalls>Pitfalls</h3><h4 id=small-time-intervals>Small time intervals</h4><p>When you are trying to measure time of an operation, it&rsquo;s really important to understand order of this measurement and order of <code>Stopwatch</code> resolution and latency
+(it will be covered in details in the <a href=#benchmarks>Benchmarks</a> section).
 If your operations take 1 second and you both latency and resolution are less than <code>1 μs</code>, everything is fine.
 But if you are trying to measure an operation which takes <code>10 ns</code> and <code>Stopwatch</code> Resolution is about <code>300-400ns</code>, you will have some problems.
-Of course, you can repeat the target operation several times, but there are still many microbenchmark problems (which <a href="https://github.com/PerfDotNet/BenchmarkDotNet">BenchmarkDotNet</a> trying to solve).
-Be careful in such situations; it's really easy to make wrong measurements of short operations.</p>
-<h4 id="sequential-reads">Sequential reads</h4>
-<p>Let's say that we do two sequential reads of <code>Stopwatch.GetTimestamp()</code>:</p>
-<pre><code class="language-cs">var a = Stopwatch.GetTimestamp();
-var b = Stopwatch.GetTimestamp();
-var delta = b - a;
-</code></pre>
-<p>Can you say possible values of <code>delta</code>? Let's check it with help of the following program:</p>
-<pre><code class="language-cs">const int N = 1000000;
-var values = new long[N];
-for (int i = 0; i &lt; N; i++)
-    values[i] = Stopwatch.GetTimestamp();
-var deltas = new long[N - 1];
-for (int i = 0; i &lt; N - 1; i++)
-    deltas[i] = values[i + 1] - values[i];
-var table =
-    from d in deltas
-    group d by d into g
-    orderby g.Key
-    select new
-    {
-        Ticks = g.Key,
-        Microseconds = g.Key * 1000000.0 / Stopwatch.Frequency,
-        Count = g.Count()
-    };
-Console.WriteLine(&quot;Ticks | Time(μs) | Count   &quot;);
-Console.WriteLine(&quot;------|----------|---------&quot;);
-foreach (var line in table)
-{
-    var ticks = line.Ticks.ToString().PadRight(5);
-    var us = line.Microseconds.ToString(&quot;0.0&quot;).PadRight(8);
-    var count = line.Count.ToString();
-    Console.WriteLine($&quot;{ticks} | {μs} | {count}&quot;);
-}
-</code></pre>
-<p>Here is a typical output on my laptop:</p>
-<pre><code>Ticks | Time(μs) | Count
+Of course, you can repeat the target operation several times, but there are still many microbenchmark problems (which <a href=https://github.com/PerfDotNet/BenchmarkDotNet>BenchmarkDotNet</a> trying to solve).
+Be careful in such situations; it&rsquo;s really easy to make wrong measurements of short operations.</p><h4 id=sequential-reads>Sequential reads</h4><p>Let&rsquo;s say that we do two sequential reads of <code>Stopwatch.GetTimestamp()</code>:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>var</span> <span class=n>a</span> <span class=p>=</span> <span class=n>Stopwatch</span><span class=p>.</span><span class=n>GetTimestamp</span><span class=p>();</span>
+<span class=kt>var</span> <span class=n>b</span> <span class=p>=</span> <span class=n>Stopwatch</span><span class=p>.</span><span class=n>GetTimestamp</span><span class=p>();</span>
+<span class=kt>var</span> <span class=n>delta</span> <span class=p>=</span> <span class=n>b</span> <span class=p>-</span> <span class=n>a</span><span class=p>;</span>
+</code></pre></div><p>Can you say possible values of <code>delta</code>? Let&rsquo;s check it with help of the following program:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>const</span> <span class=kt>int</span> <span class=n>N</span> <span class=p>=</span> <span class=m>1000000</span><span class=p>;</span>
+<span class=kt>var</span> <span class=n>values</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>long</span><span class=p>[</span><span class=n>N</span><span class=p>];</span>
+<span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+    <span class=n>values</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>Stopwatch</span><span class=p>.</span><span class=n>GetTimestamp</span><span class=p>();</span>
+<span class=kt>var</span> <span class=n>deltas</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>long</span><span class=p>[</span><span class=n>N</span> <span class=p>-</span> <span class=m>1</span><span class=p>];</span>
+<span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span> <span class=p>-</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+    <span class=n>deltas</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>values</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>values</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+<span class=kt>var</span> <span class=n>table</span> <span class=p>=</span>
+    <span class=k>from</span> <span class=n>d</span> <span class=k>in</span> <span class=n>deltas</span>
+    <span class=k>group</span> <span class=n>d</span> <span class=k>by</span> <span class=n>d</span> <span class=k>into</span> <span class=n>g</span>
+    <span class=k>orderby</span> <span class=n>g</span><span class=p>.</span><span class=n>Key</span>
+    <span class=k>select</span> <span class=k>new</span>
+    <span class=p>{</span>
+        <span class=n>Ticks</span> <span class=p>=</span> <span class=n>g</span><span class=p>.</span><span class=n>Key</span><span class=p>,</span>
+        <span class=n>Microseconds</span> <span class=p>=</span> <span class=n>g</span><span class=p>.</span><span class=n>Key</span> <span class=p>*</span> <span class=m>1000000.0</span> <span class=p>/</span> <span class=n>Stopwatch</span><span class=p>.</span><span class=n>Frequency</span><span class=p>,</span>
+        <span class=n>Count</span> <span class=p>=</span> <span class=n>g</span><span class=p>.</span><span class=n>Count</span><span class=p>()</span>
+    <span class=p>};</span>
+<span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;Ticks | Time(μs) | Count   &#34;</span><span class=p>);</span>
+<span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;------|----------|---------&#34;</span><span class=p>);</span>
+<span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>line</span> <span class=k>in</span> <span class=n>table</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=kt>var</span> <span class=n>ticks</span> <span class=p>=</span> <span class=n>line</span><span class=p>.</span><span class=n>Ticks</span><span class=p>.</span><span class=n>ToString</span><span class=p>().</span><span class=n>PadRight</span><span class=p>(</span><span class=m>5</span><span class=p>);</span>
+    <span class=kt>var</span> <span class=n>us</span> <span class=p>=</span> <span class=n>line</span><span class=p>.</span><span class=n>Microseconds</span><span class=p>.</span><span class=n>ToString</span><span class=p>(</span><span class=s>&#34;0.0&#34;</span><span class=p>).</span><span class=n>PadRight</span><span class=p>(</span><span class=m>8</span><span class=p>);</span>
+    <span class=kt>var</span> <span class=n>count</span> <span class=p>=</span> <span class=n>line</span><span class=p>.</span><span class=n>Count</span><span class=p>.</span><span class=n>ToString</span><span class=p>();</span>
+    <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>$&#34;{ticks} | {μs} | {count}&#34;</span><span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div><p>Here is a typical output on my laptop:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>Ticks | Time(μs) | Count
 ------|----------|---------
 0     | 0.0      | 931768
 1     | 0.4      | 66462
@@ -985,286 +552,91 @@ foreach (var line in table)
 123   | 45.1     | 1
 314   | 115.1    | 1
 2412  | 884.1    | 1
-</code></pre>
-<p>As you can see, once I had a delta between two sequential <code>GetTimestamp</code> which equals to <code>2412 ticks</code> or <code>0.8ms</code> (my current <code>Stopwatch.Frequency = 2728068</code>)! This fact is not obvious for most developers. There are two popular kinds of mistakes here.</p>
-<ul>
-<li><strong>Handwritten benchmarks.</strong> Here is a popular pattern for time measurements:</li>
-</ul>
-<pre><code class="language-cs">var sw = Stopwatch.StartNew();
-// Target method
-sw.Stop();
-var time = sw.Elapsed;
-</code></pre>
-<p>This code usually works fine for target method that takes seconds and works awfully for method that takes milliseconds. Let's write another check program:</p>
-<pre><code class="language-cs">var maxTime = 0.0;
-for (int i = 0; i &lt; 10000000; i++)
-{
-    var sw = Stopwatch.StartNew();
-    sw.Stop();
-    maxTime = Math.Max(maxTime, sw.Elapsed.TotalMilliseconds);
-}
-Console.WriteLine(maxTime + &quot; ms&quot;);
-</code></pre>
-<p>Usually, I get <code>maxTime</code> is about <code>1ms</code> but sometimes it equals to <code>6–7ms</code>.
-But we even don't have any target method here; we are trying to measure nothing!
+</code></pre></div><p>As you can see, once I had a delta between two sequential <code>GetTimestamp</code> which equals to <code>2412 ticks</code> or <code>0.8ms</code> (my current <code>Stopwatch.Frequency = 2728068</code>)! This fact is not obvious for most developers. There are two popular kinds of mistakes here.</p><ul><li><strong>Handwritten benchmarks.</strong> Here is a popular pattern for time measurements:</li></ul><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>var</span> <span class=n>sw</span> <span class=p>=</span> <span class=n>Stopwatch</span><span class=p>.</span><span class=n>StartNew</span><span class=p>();</span>
+<span class=c1>// Target method
+</span><span class=c1></span><span class=n>sw</span><span class=p>.</span><span class=n>Stop</span><span class=p>();</span>
+<span class=kt>var</span> <span class=n>time</span> <span class=p>=</span> <span class=n>sw</span><span class=p>.</span><span class=n>Elapsed</span><span class=p>;</span>
+</code></pre></div><p>This code usually works fine for target method that takes seconds and works awfully for method that takes milliseconds. Let&rsquo;s write another check program:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>var</span> <span class=n>maxTime</span> <span class=p>=</span> <span class=m>0.0</span><span class=p>;</span>
+<span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>10000000</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+<span class=p>{</span>
+    <span class=kt>var</span> <span class=n>sw</span> <span class=p>=</span> <span class=n>Stopwatch</span><span class=p>.</span><span class=n>StartNew</span><span class=p>();</span>
+    <span class=n>sw</span><span class=p>.</span><span class=n>Stop</span><span class=p>();</span>
+    <span class=n>maxTime</span> <span class=p>=</span> <span class=n>Math</span><span class=p>.</span><span class=n>Max</span><span class=p>(</span><span class=n>maxTime</span><span class=p>,</span> <span class=n>sw</span><span class=p>.</span><span class=n>Elapsed</span><span class=p>.</span><span class=n>TotalMilliseconds</span><span class=p>);</span>
+<span class=p>}</span>
+<span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>maxTime</span> <span class=p>+</span> <span class=s>&#34; ms&#34;</span><span class=p>);</span>
+</code></pre></div><p>Usually, I get <code>maxTime</code> is about <code>1ms</code> but sometimes it equals to <code>6–7ms</code>.
+But we even don&rsquo;t have any target method here; we are trying to measure nothing!
 Of course, it is a rare situation. Usually, you get plausible measurements.
 But you can never be sure!
 Besides, it is methodologically wrong.
-Please, don't write such benchmarks.</p>
-<ul>
-<li><strong>Two GetTimestamp in an expression.</strong></li>
-</ul>
-<p>Can you say where is a bug in the following expression?</p>
-<pre><code class="language-cs">  stopwatch.ElapsedMilliseconds &gt; timeout ? 0 : timeout - (int)stopwatch.ElapsedMilliseconds
-</code></pre>
-<p>The answer: we can't be sure that two invocations of <code>stopwatch.ElapsedMilliseconds</code> will return the same value.
-For example, let's say that <code>timeout</code> equals to <code>100</code>.
-We are trying to evaluate <code>stopwatch.ElapsedMilliseconds &gt; timeout</code>, <code>stopwatch.ElapsedMilliseconds</code> returns <code>99</code>, the expression value is <code>false</code>.
+Please, don&rsquo;t write such benchmarks.</p><ul><li><strong>Two GetTimestamp in an expression.</strong></li></ul><p>Can you say where is a bug in the following expression?</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs>  <span class=n>stopwatch</span><span class=p>.</span><span class=n>ElapsedMilliseconds</span> <span class=p>&gt;</span> <span class=n>timeout</span> <span class=p>?</span> <span class=m>0</span> <span class=p>:</span> <span class=n>timeout</span> <span class=p>-</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>stopwatch</span><span class=p>.</span><span class=n>ElapsedMilliseconds</span>
+</code></pre></div><p>The answer: we can&rsquo;t be sure that two invocations of <code>stopwatch.ElapsedMilliseconds</code> will return the same value.
+For example, let&rsquo;s say that <code>timeout</code> equals to <code>100</code>.
+We are trying to evaluate <code>stopwatch.ElapsedMilliseconds > timeout</code>, <code>stopwatch.ElapsedMilliseconds</code> returns <code>99</code>, the expression value is <code>false</code>.
 Next, we are going to evaluate <code>timeout - (int)stopwatch.ElapsedMilliseconds</code>.
 But we have another <code>stopwatch.ElapsedMilliseconds</code> here!
-Let's say, it returns <code>101</code>.
+Let&rsquo;s say, it returns <code>101</code>.
 Then, result value will be equal to <code>-1</code>!
-Probably, the author of this code did not expect negative values here.</p>
-<p>You can say that nobody writes such code.
+Probably, the author of this code did not expect negative values here.</p><p>You can say that nobody writes such code.
 Or that such code never is a cause of a bug in the real application.
 But it can.
-This expression was taken from the <a href="https://github.com/somdoron/AsyncIO">AsyncIO</a> library (this code was already <a href="https://github.com/somdoron/AsyncIO/commit/5c838f3d30d483dcadb4181233a4437fb5e7f327">fixed</a>).
+This expression was taken from the <a href=https://github.com/somdoron/AsyncIO>AsyncIO</a> library (this code was already <a href=https://github.com/somdoron/AsyncIO/commit/5c838f3d30d483dcadb4181233a4437fb5e7f327>fixed</a>).
 Once I really had a bug because this value was negative!
 By the way, such kind of bugs is <em>really</em> hard to reproduce.
-So, just don't write code like this.</p>
-<h4 id="reciprocal-frequency-and-actual-resolution">Reciprocal frequency and actual resolution</h4>
-<p>A lot of developers think that these values are equal.
+So, just don&rsquo;t write code like this.</p><h4 id=reciprocal-frequency-and-actual-resolution>Reciprocal frequency and actual resolution</h4><p>A lot of developers think that these values are equal.
 But they can be not equal in the general case.
-In fact, we have only one guarantee here: actual resolution ≥ reciprocal frequency because we can't achieve resolution better than one tick.
+In fact, we have only one guarantee here: actual resolution ≥ reciprocal frequency because we can&rsquo;t achieve resolution better than one tick.
 However, there are a lot of cases when one tick defined by <code>Stopwatch.Frequency</code> does not correspond to actual resolution (for example, on Mono or on Hypervisors).
 But what if we really want to know the actual resolution?
 Unfortunately, there is no API for that.
 But we can calculate an approximation of this value.
-For example, if we take the table from the <a href="#sequential-reads">Sequential reads</a> section and remove the first line (where <code>ticks=0</code>), we get an observable resolution distribution for an interval of time.
+For example, if we take the table from the <a href=#sequential-reads>Sequential reads</a> section and remove the first line (where <code>ticks=0</code>), we get an observable resolution distribution for an interval of time.
 We can calculate a minimal observable resolution and average/median observable resolution.
-But be careful: keep in mind that it's just <em>observable</em> values for a single series of measurements.
+But be careful: keep in mind that it&rsquo;s just <em>observable</em> values for a single series of measurements.
 You can get a new distribution per each run.
-You can not trust these values, but sometimes you can use them for some resolution approximation (may be useful in some applications).</p>
-<hr />
-<h3 id="benchmarks">Benchmarks</h3>
-<p>Let's write the following benchmark with the help of <a href="https://github.com/PerfDotNet/BenchmarkDotNet">BenchmarkDotNet</a>:</p>
-<pre><code class="language-cs">[ClrJob, CoreJob, MonoJob]
-public class StopwatchBenchmarks
-{
-    [Benchmark]
-    public long Latency() =&gt; Stopwatch.GetTimestamp();
-
-    [Benchmark]
-    public long Resolution()
-    {
-        long lastTimestamp = Stopwatch.GetTimestamp();
-        while (Stopwatch.GetTimestamp() == lastTimestamp)
-        {
-        }
-        return lastTimestamp;
-    }
-}
-</code></pre>
-<p>Be careful: the <code>Resolution</code> methods does not produce correct value of Resolution when Latency is much bigger than actual resolution (see the Interpretation subsection).
-We will omit results for such situations.</p>
-<h4 id="windows-1">Windows</h4>
-<pre><code class="language-ini">BenchmarkDotNet=v0.9.9.0
-OS=Microsoft Windows NT 6.2.9200.0 (Windows 10 anniversary update)
-Processor=Intel(R) Core(TM) i7-4702MQ CPU 2.20GHz, ProcessorCount=8
-Frequency=2143473 ticks, Resolution=466.5326 ns, Timer=TSC
-CLR1=CORE, Arch=64-bit ? [RyuJIT]
-CLR2=MS.NET 4.0.30319.42000
-CLR3=Mono JIT compiler version 4.2.3
-JitModules=clrjit-v4.6.1586.0
-dotnet cli version: 1.0.0-preview2-003121
-</code></pre>
-<p><strong>TSC:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Runtime</th>
-<th style="text-align: right;">Median</th>
-<th style="text-align: right;">StdDev</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Latency</td>
-<td>Clr</td>
-<td style="text-align: right;">17.1918 ns</td>
-<td style="text-align: right;">0.2723 ns</td>
-</tr>
-<tr>
-<td>Resolution</td>
-<td>Clr</td>
-<td style="text-align: right;">475.1302 ns</td>
-<td style="text-align: right;">7.4886 ns</td>
-</tr>
-<tr>
-<td>Latency</td>
-<td>Core</td>
-<td style="text-align: right;">15.6241 ns</td>
-<td style="text-align: right;">0.3809 ns</td>
-</tr>
-<tr>
-<td>Resolution</td>
-<td>Core</td>
-<td style="text-align: right;">467.9744 ns</td>
-<td style="text-align: right;">7.1308 ns</td>
-</tr>
-<tr>
-<td>Latency</td>
-<td>Mono</td>
-<td style="text-align: right;">40.4701 ns</td>
-<td style="text-align: right;">0.5814 ns</td>
-</tr>
-<tr>
-<td>Resolution</td>
-<td>Mono</td>
-<td style="text-align: right;">475.2795 ns</td>
-<td style="text-align: right;">4.4417 ns</td>
-</tr>
-</tbody>
-</table>
-<p><strong>HPET:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Runtime</th>
-<th style="text-align: right;">Median</th>
-<th style="text-align: right;">StdDev</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Latency</td>
-<td>Clr</td>
-<td style="text-align: right;">598.5198 ns</td>
-<td style="text-align: right;">78.7814 ns</td>
-</tr>
-<tr>
-<td>Latency</td>
-<td>Core</td>
-<td style="text-align: right;">603.3178 ns</td>
-<td style="text-align: right;">18.0963 ns</td>
-</tr>
-<tr>
-<td>Latency</td>
-<td>Mono</td>
-<td style="text-align: right;">737.9618 ns</td>
-<td style="text-align: right;">4.5637 ns</td>
-</tr>
-</tbody>
-</table>
-<h4 id="linux-1">Linux</h4>
-<p>Xubuntu 16.04.01, the same hardware:</p>
-<pre><code class="language-ini">BenchmarkDotNet=v0.9.9.0
-OS=Unix 4.4.0.34
-Processor=Intel(R) Core(TM) i7-4702MQ CPU 2.20GHz, ProcessorCount=8
-CLR1=CORE, Arch=64-bit ? [RyuJIT]
-CLR2=Mono 4.4.2 (Stable 4.4.2.11/f72fe45 Fri Jul 29 09:58:49 UTC 2016), Arch=64-bit RELEASE
-dotnet cli version: 1.0.0-preview2-003121
-</code></pre>
-<p><strong>TSC:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Runtime</th>
-<th style="text-align: right;">Median</th>
-<th style="text-align: right;">StdDev</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Latency</td>
-<td>Core</td>
-<td style="text-align: right;">31.9727 ns</td>
-<td style="text-align: right;">1.8880 ns</td>
-</tr>
-<tr>
-<td>Latency</td>
-<td>Mono</td>
-<td style="text-align: right;">22.4036 ns</td>
-<td style="text-align: right;">1.3299 ns</td>
-</tr>
-<tr>
-<td>Resolution</td>
-<td>Mono</td>
-<td style="text-align: right;">97.6713 ns</td>
-<td style="text-align: right;">0.0971 ns</td>
-</tr>
-</tbody>
-</table>
-<p><strong>ACPI_PM:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Runtime</th>
-<th style="text-align: right;">Median</th>
-<th style="text-align: right;">StdDev</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Latency</td>
-<td>Core</td>
-<td style="text-align: right;">683.2088 ns</td>
-<td style="text-align: right;">16.5555 ns</td>
-</tr>
-<tr>
-<td>Latency</td>
-<td>Mono</td>
-<td style="text-align: right;">653.4289 ns</td>
-<td style="text-align: right;">1.5812 ns</td>
-</tr>
-</tbody>
-</table>
-<p><strong>HPET:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Runtime</th>
-<th style="text-align: right;">Median</th>
-<th style="text-align: right;">StdDev</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Latency</td>
-<td>Core</td>
-<td style="text-align: right;">536.0179 ns</td>
-<td style="text-align: right;">7.4501 ns</td>
-</tr>
-<tr>
-<td>Latency</td>
-<td>Mono</td>
-<td style="text-align: right;">526.4265 ns</td>
-<td style="text-align: right;">1.8113 ns</td>
-</tr>
-</tbody>
-</table>
-<h4 id="interpretation">Interpretation</h4>
-<p>Ok, we got a lot of interesting numbers, but we should interpret it in the right way.
-The latency benchmark looks great; it produced a nice approximation of real timestamp latency.</p>
-<p>But there are some troubles with the resolution benchmark because it's hard to design correct microbenchmark in this situation.</p>
-<p>It works well only for cases where Latency is much smaller than resolution: for example, it produces believable numbers for Windows+TSC.
-In this case we get <code>Resolution</code> ≈ (<code>1 second</code> / <code>Stopwatch.Frequency</code>) ≈ (<code>1 second</code> / (<code>rdstc Frequency</code> / 1024)).</p>
-<p>In the case of <code>HPET</code>/<code>ACPI_PM</code> benchmarks show that <code>Resolution</code> ≈ 2 x <code>Latency</code> because we call <code>Stopwatch.GetTimestamp</code> at least twice per the <code>Resolution</code> method invocation.
-It's hard to say something about real resolution because the value of <code>HPET</code>/<code>ACPI_PM</code> ticks is much smaller than the latency.
-For practical use, you can assume that the Resolution has the same order as Latency.</p>
-<p>Now let's consider the Linux+<code>TSC</code> case. On Mono, we have <code>Resolution</code> = <code>100 ns</code> because it is the value of <code>1 tick</code> (and it can be achieved).
+You can not trust these values, but sometimes you can use them for some resolution approximation (may be useful in some applications).</p><hr><h3 id=benchmarks>Benchmarks</h3><p>Let&rsquo;s write the following benchmark with the help of <a href=https://github.com/PerfDotNet/BenchmarkDotNet>BenchmarkDotNet</a>:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[ClrJob, CoreJob, MonoJob]</span>
+<span class=k>public</span> <span class=k>class</span> <span class=nc>StopwatchBenchmarks</span>
+<span class=p>{</span>
+<span class=na>    [Benchmark]</span>
+    <span class=k>public</span> <span class=kt>long</span> <span class=n>Latency</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Stopwatch</span><span class=p>.</span><span class=n>GetTimestamp</span><span class=p>();</span>
+<span class=na>
+</span><span class=na>    [Benchmark]</span>
+    <span class=k>public</span> <span class=kt>long</span> <span class=n>Resolution</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=kt>long</span> <span class=n>lastTimestamp</span> <span class=p>=</span> <span class=n>Stopwatch</span><span class=p>.</span><span class=n>GetTimestamp</span><span class=p>();</span>
+        <span class=k>while</span> <span class=p>(</span><span class=n>Stopwatch</span><span class=p>.</span><span class=n>GetTimestamp</span><span class=p>()</span> <span class=p>==</span> <span class=n>lastTimestamp</span><span class=p>)</span>
+        <span class=p>{</span>
+        <span class=p>}</span>
+        <span class=k>return</span> <span class=n>lastTimestamp</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p>Be careful: the <code>Resolution</code> methods does not produce correct value of Resolution when Latency is much bigger than actual resolution (see the Interpretation subsection).
+We will omit results for such situations.</p><h4 id=windows-1>Windows</h4><div class=highlight><pre class=chroma><code class=language-ini data-lang=ini><span class=na>BenchmarkDotNet</span><span class=o>=</span><span class=s>v0.9.9.0</span>
+<span class=na>OS</span><span class=o>=</span><span class=s>Microsoft Windows NT 6.2.9200.0 (Windows 10 anniversary update)</span>
+<span class=na>Processor</span><span class=o>=</span><span class=s>Intel(R) Core(TM) i7-4702MQ CPU 2.20GHz, ProcessorCount=8</span>
+<span class=na>Frequency</span><span class=o>=</span><span class=s>2143473 ticks, Resolution=466.5326 ns, Timer=TSC</span>
+<span class=na>CLR1</span><span class=o>=</span><span class=s>CORE, Arch=64-bit ? [RyuJIT]</span>
+<span class=na>CLR2</span><span class=o>=</span><span class=s>MS.NET 4.0.30319.42000</span>
+<span class=na>CLR3</span><span class=o>=</span><span class=s>Mono JIT compiler version 4.2.3</span>
+<span class=na>JitModules</span><span class=o>=</span><span class=s>clrjit-v4.6.1586.0</span>
+<span class=na>dotnet cli version: 1.0.0-preview2-003121</span>
+</code></pre></div><p><strong>TSC:</strong></p><table><thead><tr><th>Method</th><th>Runtime</th><th align=right>Median</th><th align=right>StdDev</th></tr></thead><tbody><tr><td>Latency</td><td>Clr</td><td align=right>17.1918 ns</td><td align=right>0.2723 ns</td></tr><tr><td>Resolution</td><td>Clr</td><td align=right>475.1302 ns</td><td align=right>7.4886 ns</td></tr><tr><td>Latency</td><td>Core</td><td align=right>15.6241 ns</td><td align=right>0.3809 ns</td></tr><tr><td>Resolution</td><td>Core</td><td align=right>467.9744 ns</td><td align=right>7.1308 ns</td></tr><tr><td>Latency</td><td>Mono</td><td align=right>40.4701 ns</td><td align=right>0.5814 ns</td></tr><tr><td>Resolution</td><td>Mono</td><td align=right>475.2795 ns</td><td align=right>4.4417 ns</td></tr></tbody></table><p><strong>HPET:</strong></p><table><thead><tr><th>Method</th><th>Runtime</th><th align=right>Median</th><th align=right>StdDev</th></tr></thead><tbody><tr><td>Latency</td><td>Clr</td><td align=right>598.5198 ns</td><td align=right>78.7814 ns</td></tr><tr><td>Latency</td><td>Core</td><td align=right>603.3178 ns</td><td align=right>18.0963 ns</td></tr><tr><td>Latency</td><td>Mono</td><td align=right>737.9618 ns</td><td align=right>4.5637 ns</td></tr></tbody></table><h4 id=linux-1>Linux</h4><p>Xubuntu 16.04.01, the same hardware:</p><div class=highlight><pre class=chroma><code class=language-ini data-lang=ini><span class=na>BenchmarkDotNet</span><span class=o>=</span><span class=s>v0.9.9.0</span>
+<span class=na>OS</span><span class=o>=</span><span class=s>Unix 4.4.0.34</span>
+<span class=na>Processor</span><span class=o>=</span><span class=s>Intel(R) Core(TM) i7-4702MQ CPU 2.20GHz, ProcessorCount=8</span>
+<span class=na>CLR1</span><span class=o>=</span><span class=s>CORE, Arch=64-bit ? [RyuJIT]</span>
+<span class=na>CLR2</span><span class=o>=</span><span class=s>Mono 4.4.2 (Stable 4.4.2.11/f72fe45 Fri Jul 29 09:58:49 UTC 2016), Arch=64-bit RELEASE</span>
+<span class=na>dotnet cli version: 1.0.0-preview2-003121</span>
+</code></pre></div><p><strong>TSC:</strong></p><table><thead><tr><th>Method</th><th>Runtime</th><th align=right>Median</th><th align=right>StdDev</th></tr></thead><tbody><tr><td>Latency</td><td>Core</td><td align=right>31.9727 ns</td><td align=right>1.8880 ns</td></tr><tr><td>Latency</td><td>Mono</td><td align=right>22.4036 ns</td><td align=right>1.3299 ns</td></tr><tr><td>Resolution</td><td>Mono</td><td align=right>97.6713 ns</td><td align=right>0.0971 ns</td></tr></tbody></table><p><strong>ACPI_PM:</strong></p><table><thead><tr><th>Method</th><th>Runtime</th><th align=right>Median</th><th align=right>StdDev</th></tr></thead><tbody><tr><td>Latency</td><td>Core</td><td align=right>683.2088 ns</td><td align=right>16.5555 ns</td></tr><tr><td>Latency</td><td>Mono</td><td align=right>653.4289 ns</td><td align=right>1.5812 ns</td></tr></tbody></table><p><strong>HPET:</strong></p><table><thead><tr><th>Method</th><th>Runtime</th><th align=right>Median</th><th align=right>StdDev</th></tr></thead><tbody><tr><td>Latency</td><td>Core</td><td align=right>536.0179 ns</td><td align=right>7.4501 ns</td></tr><tr><td>Latency</td><td>Mono</td><td align=right>526.4265 ns</td><td align=right>1.8113 ns</td></tr></tbody></table><h4 id=interpretation>Interpretation</h4><p>Ok, we got a lot of interesting numbers, but we should interpret it in the right way.
+The latency benchmark looks great; it produced a nice approximation of real timestamp latency.</p><p>But there are some troubles with the resolution benchmark because it&rsquo;s hard to design correct microbenchmark in this situation.</p><p>It works well only for cases where Latency is much smaller than resolution: for example, it produces believable numbers for Windows+TSC.
+In this case we get <code>Resolution</code> ≈ (<code>1 second</code> / <code>Stopwatch.Frequency</code>) ≈ (<code>1 second</code> / (<code>rdstc Frequency</code> / 1024)).</p><p>In the case of <code>HPET</code>/<code>ACPI_PM</code> benchmarks show that <code>Resolution</code> ≈ 2 x <code>Latency</code> because we call <code>Stopwatch.GetTimestamp</code> at least twice per the <code>Resolution</code> method invocation.
+It&rsquo;s hard to say something about real resolution because the value of <code>HPET</code>/<code>ACPI_PM</code> ticks is much smaller than the latency.
+For practical use, you can assume that the Resolution has the same order as Latency.</p><p>Now let&rsquo;s consider the Linux+<code>TSC</code> case. On Mono, we have <code>Resolution</code> = <code>100 ns</code> because it is the value of <code>1 tick</code> (and it can be achieved).
 On CoreCLR, <code>1 ticks</code> is <code>1 ns</code>, and it use <code>rdtsc</code> which works on frequency = <code>≈2.20GHz</code>.
 Thus, we have a situation which is similar to the <code>HPET</code>/<code>ACPI_PM</code> case: latency is much bigger than resolution.
-So, it's hard to evaluate it via a microbenchmark.
-Let's use the program from the <a href="#pitfalls">Pitfalls</a> section (where we played with sequential reads).
+So, it&rsquo;s hard to evaluate it via a microbenchmark.
+Let&rsquo;s use the program from the <a href=#pitfalls>Pitfalls</a> section (where we played with sequential reads).
 We will use <code>ns</code> instead of <code>μs</code> and run it on Linux+<code>TSC</code>+CoreCLR.
-Result on my laptop (the middle part was cut):</p>
-<pre><code>Ticks | Time(ns) | Count   
+Result on my laptop (the middle part was cut):</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>Ticks | Time(ns) | Count   
 ------|----------|---------
 22    | 22.0     | 2
 23    | 23.0     | 485
@@ -1338,274 +710,15 @@ Result on my laptop (the middle part was cut):</p>
 32808 | 32808.0  | 1
 110366 | 110366.0 | 1
 112423 | 112423.0 | 1
-</code></pre>
-<p>The minimal resolution <em>in this experiment</em> is <code>22 ns</code> but it was achieved only twice (<code>N = 1000000</code>).
+</code></pre></div><p>The minimal resolution <em>in this experiment</em> is <code>22 ns</code> but it was achieved only twice (<code>N = 1000000</code>).
 Once we had two sequential timestamp invocation with difference in <code>112423 ticks</code> (or <code>≈112 μs</code>).
-So, we can't say that there is a specific value of resolution in this case, but we can say that the resolution has the same order as latency.</p>
-<hr />
-<h3 id="summary">Summary</h3>
-<p>This was a brief overview of the <code>Stopwatch</code> class.
+So, we can&rsquo;t say that there is a specific value of resolution in this case, but we can say that the resolution has the same order as latency.</p><hr><h3 id=summary>Summary</h3><p>This was a brief overview of the <code>Stopwatch</code> class.
 It is hard to cover all the details of <code>Stopwatch</code> behavior because there is a lot of different combinations of runtimes / operation systems / hardware.
-When we are using <code>Stopwatch</code>, usually we care about its latency and resolution because these values determine what we can measure with <code>Stopwatch</code> and what we can't.
-There are some possible configurations:</p>
-<table>
-<thead>
-<tr>
-<th>Runtime</th>
-<th>OS</th>
-<th>Hardware Timer</th>
-<th style="text-align: right;">1 tick</th>
-<th style="text-align: right;">Latency</th>
-<th style="text-align: right;">Resolution</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Full .NET</td>
-<td>Windows</td>
-<td>TSC</td>
-<td style="text-align: right;">300-400ns</td>
-<td style="text-align: right;">15-18ns</td>
-<td style="text-align: right;">300-400ns</td>
-</tr>
-<tr>
-<td>Full .NET</td>
-<td>Windows</td>
-<td>HPET</td>
-<td style="text-align: right;">69.8ns</td>
-<td style="text-align: right;">0.5-0.8us</td>
-<td style="text-align: right;">≈Latency</td>
-</tr>
-<tr>
-<td>Full .NET</td>
-<td>Windows</td>
-<td>NA</td>
-<td style="text-align: right;">100ns</td>
-<td style="text-align: right;">7-10ns</td>
-<td style="text-align: right;">0.5-55ms</td>
-</tr>
-<tr>
-<td>Mono</td>
-<td>Windows</td>
-<td>TSC</td>
-<td style="text-align: right;">100ns</td>
-<td style="text-align: right;">35-45ns</td>
-<td style="text-align: right;">300-400ns</td>
-</tr>
-<tr>
-<td>Mono</td>
-<td>Windows</td>
-<td>HPET</td>
-<td style="text-align: right;">100ns</td>
-<td style="text-align: right;">0.5-0.8us</td>
-<td style="text-align: right;">≈Latency</td>
-</tr>
-<tr>
-<td>Mono</td>
-<td>Windows</td>
-<td>NA</td>
-<td style="text-align: right;">100ns</td>
-<td style="text-align: right;">30-40ns</td>
-<td style="text-align: right;">0.5-55ms</td>
-</tr>
-<tr>
-<td>CoreCLR</td>
-<td>Linux</td>
-<td>TSC</td>
-<td style="text-align: right;">1ns</td>
-<td style="text-align: right;">30-35ns</td>
-<td style="text-align: right;">≈Latency</td>
-</tr>
-<tr>
-<td>CoreCLR</td>
-<td>Linux</td>
-<td>HPET/ACPI_PM</td>
-<td style="text-align: right;">1ns</td>
-<td style="text-align: right;">0.5-0.8us</td>
-<td style="text-align: right;">≈Latency</td>
-</tr>
-<tr>
-<td>Mono</td>
-<td>Linux</td>
-<td>TSC</td>
-<td style="text-align: right;">100ns</td>
-<td style="text-align: right;">20-25ns</td>
-<td style="text-align: right;">100ns</td>
-</tr>
-<tr>
-<td>Mono</td>
-<td>Linux</td>
-<td>HPET/ACPI_PM</td>
-<td style="text-align: right;">100ns</td>
-<td style="text-align: right;">0.5-0.8us</td>
-<td style="text-align: right;">≈Latency</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>Here <code>Hardware Timer = NA</code> means that there is no high-precision timer in the system, i.e. <code>Stopwatch.IsHighResolution = false</code>.</li>
-<li><code>1 tick</code> is calculated based on nominal frequency (<code>1 second</code> / <code>Stopwatch.Frequency</code>).</li>
-<li><code>Resolution = ≈Latency</code> means that the actual Resolution is less than the Latency, the observed Resolution has the same order as the Latency.</li>
-</ul>
-<p>Note that it's only examples, you can get different values in different situations.
-This tables just shows that sometimes it's not easy to guess target latency and resolution, there are a lot of things which can affect these values.
+When we are using <code>Stopwatch</code>, usually we care about its latency and resolution because these values determine what we can measure with <code>Stopwatch</code> and what we can&rsquo;t.
+There are some possible configurations:</p><table><thead><tr><th>Runtime</th><th>OS</th><th>Hardware Timer</th><th align=right>1 tick</th><th align=right>Latency</th><th align=right>Resolution</th></tr></thead><tbody><tr><td>Full .NET</td><td>Windows</td><td>TSC</td><td align=right>300-400ns</td><td align=right>15-18ns</td><td align=right>300-400ns</td></tr><tr><td>Full .NET</td><td>Windows</td><td>HPET</td><td align=right>69.8ns</td><td align=right>0.5-0.8us</td><td align=right>≈Latency</td></tr><tr><td>Full .NET</td><td>Windows</td><td>NA</td><td align=right>100ns</td><td align=right>7-10ns</td><td align=right>0.5-55ms</td></tr><tr><td>Mono</td><td>Windows</td><td>TSC</td><td align=right>100ns</td><td align=right>35-45ns</td><td align=right>300-400ns</td></tr><tr><td>Mono</td><td>Windows</td><td>HPET</td><td align=right>100ns</td><td align=right>0.5-0.8us</td><td align=right>≈Latency</td></tr><tr><td>Mono</td><td>Windows</td><td>NA</td><td align=right>100ns</td><td align=right>30-40ns</td><td align=right>0.5-55ms</td></tr><tr><td>CoreCLR</td><td>Linux</td><td>TSC</td><td align=right>1ns</td><td align=right>30-35ns</td><td align=right>≈Latency</td></tr><tr><td>CoreCLR</td><td>Linux</td><td>HPET/ACPI_PM</td><td align=right>1ns</td><td align=right>0.5-0.8us</td><td align=right>≈Latency</td></tr><tr><td>Mono</td><td>Linux</td><td>TSC</td><td align=right>100ns</td><td align=right>20-25ns</td><td align=right>100ns</td></tr><tr><td>Mono</td><td>Linux</td><td>HPET/ACPI_PM</td><td align=right>100ns</td><td align=right>0.5-0.8us</td><td align=right>≈Latency</td></tr></tbody></table><ul><li>Here <code>Hardware Timer = NA</code> means that there is no high-precision timer in the system, i.e. <code>Stopwatch.IsHighResolution = false</code>.</li><li><code>1 tick</code> is calculated based on nominal frequency (<code>1 second</code> / <code>Stopwatch.Frequency</code>).</li><li><code>Resolution = ≈Latency</code> means that the actual Resolution is less than the Latency, the observed Resolution has the same order as the Latency.</li></ul><p>Note that it&rsquo;s only examples, you can get different values in different situations.
+This tables just shows that sometimes it&rsquo;s not easy to guess target latency and resolution, there are a lot of things which can affect these values.
 Anyway, you should be careful, if you want to measure time intervals.
-Especially, if you want to measure small time intervals: it's really easy to make a mistake and get wrong results.
-If you want to know more about high-resolution time measurements, there are a lot of links in the <a href="#links">next section</a>.</p>
-<p>As you can see, the topic is very hard because there are a lot of different environments in the modern world.
-If I missed something important or wrote something wrong, feel free to leave any feedback.</p>
-<h3 id="links">Links</h3>
-<ul>
-<li><strong>Best</strong>
-<ul>
-<li><a href="https://msdn.microsoft.com/library/windows/desktop/dn553408.aspx">MSDN: Acquiring high-resolution time stamps</a></li>
-<li><a href="http://www.windowstimestamp.com/description">The Windows Timestamp Project</a></li>
-<li><a href="http://oliveryang.net/2015/09/pitfalls-of-TSC-usage/">Pitfalls of TSC usage</a></li>
-</ul>
-</li>
-<li><strong>Useful software</strong>
-<ul>
-<li><a href="http://www.cpuid.com/softwares/cpu-z.html">CPU-Z</a></li>
-<li><a href="https://technet.microsoft.com/en-us/sysinternals/bb897568.aspx">ClockRes</a></li>
-<li><a href="https://technet.microsoft.com/en-us/sysinternals/cc835722">Coreinfo</a></li>
-<li><a href="http://www.thesycon.de/deu/latency_check.shtml">DPC Latency Checker</a></li>
-<li><a href="http://www.bytemedev.com/programs/harmonic-help/">Harmonic</a></li>
-<li><a href="http://www.resplendence.com/latencymon">LatencyMon</a></li>
-</ul>
-</li>
-<li><strong>MSDN</strong>
-<ul>
-<li><a href="https://msdn.microsoft.com/en-us/library/windows/hardware/ff542202%28v=vs.85%29.aspx">MSDN: BCDEdit</a></li>
-<li><a href="https://msdn.microsoft.com/library/system.datetime.utcnow.aspx">MSDN: DateTime.UtcNow</a></li>
-<li><a href="https://msdn.microsoft.com/library/system.diagnostics.stopwatch.aspx">MSDN: Stopwatch</a></li>
-<li><a href="https://msdn.microsoft.com/library/windows/desktop/ms686247.aspx">MSDN: SetThreadAffinityMask</a></li>
-<li><a href="https://msdn.microsoft.com/en-us/library/ee417693.aspx">MSDN: Game Timing and Multicore Processors</a></li>
-<li><a href="https://msdn.microsoft.com/library/windows/desktop/aa366887.aspx">MSDN: VirtualAlloc</a></li>
-<li><a href="https://msdn.microsoft.com/en-us/library/twchhe95.aspx">MSDN: __rdtsc</a></li>
-</ul>
-</li>
-<li><strong>Wiki</strong>
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/System_time">Wiki: System time</a></li>
-<li><a href="https://en.wikipedia.org/wiki/CPUID">Wiki: CPUID</a></li>
-</ul>
-</li>
-<li><strong>Intel</strong>
-<ul>
-<li><a href="http://www.intel.com/content/dam/www/public/us/en/documents/white-papers/ia-32-ia-64-benchmark-code-execution-paper.pdf">Intel: How to Benchmark Code Execution Times on Intel®IA-32 and IA-64 Instruction Set Architectures</a></li>
-<li><a href="http://www.intel.com/content/dam/www/public/us/en/documents/technical-specifications/software-developers-hpet-spec-1-0a.pdf">Intel: IA-PC HPET Specification</a></li>
-<li><a href="ftp://download.intel.com/design/processor/manuals/253668.pdf">Intel: Intel® 64 and IA-32 Architectures Software Developer’s Manual Volume 3A: System Programming Guide, Part 1</a></li>
-<li><a href="http://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-manual-325462.pdf">Intel: Intel® 64 and IA-32 Architectures Software Developer’s Manual</a></li>
-<li><a href="https://www.ccsl.carleton.ca/%7Ejamuir/rdtscpm1.pdf">Intel's original CPU TSC Counter guidance for use in game timing (1998)</a></li>
-<li><a href="https://software.intel.com/en-us/articles/power-management-states-p-states-c-states-and-package-c-states">Power Management States: P-States, C-States, and Package C-States</a></li>
-</ul>
-</li>
-<li><strong>Blog posts</strong>
-<ul>
-<li><a href="https://randomascii.wordpress.com/2013/07/08/windows-timer-resolution-megawatts-wasted/">Random ASCII: Windows Timer Resolution: Megawatts Wasted (2013)</a></li>
-<li><a href="https://randomascii.wordpress.com/2013/04/02/sleep-variation-investigated/">Random ASCII: Sleep Variation Investigated (2013)</a></li>
-<li><a href="https://randomascii.wordpress.com/2011/07/29/rdtsc-in-the-age-of-sandybridge/">Random ASCII: rdtsc in the Age of Sandybridge (2011)</a></li>
-<li><a href="https://blogs.msdn.microsoft.com/oldnewthing/20050902-00/?p=34333/#460003">The Old New Thing: Precision is not the same as accuracy (2005)</a></li>
-<li><a href="http://www.virtualdub.org/blog/pivot/entry.php?id=106">VirtualDub: Beware of QueryPerformanceCounter() (2006)</a></li>
-<li><a href="http://computerperformancebydesign.com/high-resolution-clocks-and-timers-for-performance-measurement-in-windows/">Computer Performance By Design: High Resolution Clocks and Timers for Performance Measurement in Windows (2012)</a></li>
-<li><a href="http://algo2.iti.kit.edu/wassenberg/timing/timing_pitfalls.pdf">Jan Wassenberg: Timing Pitfalls and Solutions (2007)</a></li>
-<li><a href="http://www.mathpirate.net/log/2010/03/20/temporal-mechanics-changing-the-speed-of-time-part-ii/">MathPirate: Temporal Mechanics: Changing the Speed of Time, Part II (2010)</a></li>
-<li><a href="http://www.mikemartin.co/system_guides/hardware/motherboard/disable_high_precision_event_timer_hpet">Mike Martin: Disable HPET (2015)</a></li>
-<li><a href="http://manski.net/2014/07/high-resolution-clock-in-csharp/">Manski`s blog: High Resolution Clock in C# (2014)</a></li>
-<li><a href="http://blog.codinghorror.com/keeping-time-on-the-pc/">Coding Horror: Keeping Time on the PC (2007)</a></li>
-<li><a href="http://chabster.blogspot.ru/2007/09/high-resolution-timer-time-stamp.html">Hungry Mind: High-Resolution Timer = Time Stamp Counter = RDTSC (2007, In Russian)</a></li>
-<li><a href="http://jvns.ca/blog/2016/02/20/measuring-cpu-time-with-clock-gettime/">How to measure your CPU time: clock_gettime! (2016)</a></li>
-<li><a href="http://jvns.ca/blog/2016/02/07/cpu-load-averages/">How CPU load averages work (and using them to triage webserver performance!) (2016)</a></li>
-<li><a href="http://stas-blogspot.blogspot.co.il/2012/02/what-is-behind-systemnanotime.html">Stat's blog: What is behind System.nanoTime()? (2012)</a></li>
-<li><a href="http://linuxmogeb.blogspot.co.il/2013/10/how-does-clockgettime-work.html">Linux: virtualization and tracing: How does clock_gettime work (2013)</a></li>
-<li><a href="https://aufather.wordpress.com/2010/09/08/high-performance-time-measuremen-in-linux/">Software ahoy!: High Performance Time Measurement in Linux (2010)</a></li>
-</ul>
-</li>
-<li><strong>Misc</strong>
-<ul>
-<li><a href="http://www.uefi.org/sites/default/files/resources/ACPI_6.0.pdf">Advanced Configuration and Power Interface  Specification 6.0 (April 2015)</a></li>
-<li><a href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_MRG/2/html/Realtime_Reference_Guide/chap-Timestamping.html">RedHat Documentation: Timestamping</a></li>
-<li><a href="http://www.luxford.com/high-performance-windows-timers">Luxford: High Performance Windows Timers</a></li>
-<li><a href="http://www.mmo-champion.com/threads/1215396-WinTimerTester">Mmo-champion: WinTimerTester</a></li>
-<li><a href="https://support.microsoft.com/en-us/kb/895980">support.microsoft.com: Programs that use the QueryPerformanceCounter function may perform poorly</a></li>
-<li><a href="https://support.microsoft.com/en-us/kb/821893">support.microsoft.com: The system clock may run fast when you use the ACPI power management timer</a></li>
-<li><a href="http://linux.die.net/man/2/sched_setaffinity">linux.die.net: sched_setaffinity</a></li>
-<li><a href="http://blog.ncrunch.net/post/How-to-set-a-threads-processor-affinity-in-NET.aspx">NCrunch: How to set a thread's processor affinity in .NET</a></li>
-<li><a href="http://x86.renejeschke.de/html/file_module_x86_id_278.html">x86 Instruction Set Reference: RDTSC</a></li>
-<li><a href="https://lkml.org/lkml/2005/11/4/173">TSC and Power Management Events on AMD Processors (2005)</a></li>
-<li><a href="http://lwn.net/Articles/209101/">Counting on the time stamp counter (2006)</a></li>
-<li><a href="http://bugs.java.com/bugdatabase/view_bug.do?bug_id=6313903">JDK-6313903: Thread.sleep(3) might wake up immediately on windows</a></li>
-<li><a href="https://en.wikipedia.org/wiki/NTSC">Wikipedia: NTSC</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Colorburst">Wikipedia: Colorburst</a></li>
-<li><a href="http://dl.acm.org/citation.cfm?id=2278530">3.579545 MHz Can be More Than the Color Burst (1980)</a></li>
-<li><a href="https://lwn.net/Articles/615809/">Implementing virtual system calls</a></li>
-<li><a href="https://github.com/torvalds/linux/commit/d8bb6f4c1670c8324e4135c61ef07486f7f17379">github.com/torvalds/linux: x86: tsc prevent time going backwards</a></li>
-</ul>
-</li>
-<li><strong>StackOverflow</strong>
-<ul>
-<li><a href="http://stackoverflow.com/questions/3400254/can-the-net-stopwatch-class-be-this-terrible/3400490#3400490">StackOverflow: Can the .NET Stopwatch class be THIS terrible?</a></li>
-<li><a href="http://stackoverflow.com/questions/2607263/how-precise-is-the-internal-clock-of-a-modern-pc">StackOverflow: How precise is the internal clock of a modern PC?</a></li>
-<li><a href="http://stackoverflow.com/q/7685762/184842">StackOverflow: Windows 7 timing functions - How to use GetSystemTimeAdjustment correctly?</a></li>
-<li><a href="http://stackoverflow.com/q/7987671/184842">StackOverflow: What is the acpi_pm linux clocksource used for, what hardware implements it?</a></li>
-<li><a href="http://stackoverflow.com/q/22942123/184842">StackOverflow: Is QueryPerformanceFrequency accurate when using HPET?</a></li>
-<li><a href="http://stackoverflow.com/questions/36318291/measure-precision-of-timer-e-g-stopwatch-queryperformancecounter">StackOverflow: Measure precision of timer (e.g. Stopwatch/QueryPerformanceCounter)</a></li>
-<li><a href="http://stackoverflow.com/q/23251795/184842">StackOverflow: How to calculate the frequency of CPU cores</a></li>
-<li><a href="http://stackoverflow.com/q/18343188/184842">StackOverflow: Precise Linux Timing - What Determines the Resolution of clock_gettime()?</a></li>
-</ul>
-</li>
-</ul>
-</div>
-
-<script src="/js/toc.js"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-    $('#toc').toc({
-        title: '<h2>Table of Contents</h2>',
-        noBackToTopLinks: true,
-        listType: 'ol',
-        showEffect: 'none',
-        showSpeed: '0',
-        headers: '.blog-post-toc h3, .blog-post-toc h4, .blog-post-toc h5, .blog-post-toc h6'
-    });
-});
-</script>
-
-<!-- Share -->
-
-Share:
-<a href="https://twitter.com/intent/tweet?text=Stopwatch under the hood&url=http://aakinshin.net/posts/stopwatch/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/stopwatch/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/stopwatch/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/stopwatch/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/stopwatch/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/stopwatch/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/stopwatch/&title=Stopwatch under the hood" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  You can find source code of this post on GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2016/stopwatch.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2016/stopwatch.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+Especially, if you want to measure small time intervals: it&rsquo;s really easy to make a mistake and get wrong results.
+If you want to know more about high-resolution time measurements, there are a lot of links in the <a href=#links>next section</a>.</p><p>As you can see, the topic is very hard because there are a lot of different environments in the modern world.
+If I missed something important or wrote something wrong, feel free to leave any feedback.</p><h3 id=links>Links</h3><ul><li><strong>Best</strong><ul><li><a href=https://msdn.microsoft.com/library/windows/desktop/dn553408.aspx>MSDN: Acquiring high-resolution time stamps</a></li><li><a href=http://www.windowstimestamp.com/description>The Windows Timestamp Project</a></li><li><a href=http://oliveryang.net/2015/09/pitfalls-of-TSC-usage/>Pitfalls of TSC usage</a></li></ul></li><li><strong>Useful software</strong><ul><li><a href=http://www.cpuid.com/softwares/cpu-z.html>CPU-Z</a></li><li><a href=https://technet.microsoft.com/en-us/sysinternals/bb897568.aspx>ClockRes</a></li><li><a href=https://technet.microsoft.com/en-us/sysinternals/cc835722>Coreinfo</a></li><li><a href=http://www.thesycon.de/deu/latency_check.shtml>DPC Latency Checker</a></li><li><a href=http://www.bytemedev.com/programs/harmonic-help/>Harmonic</a></li><li><a href=http://www.resplendence.com/latencymon>LatencyMon</a></li></ul></li><li><strong>MSDN</strong><ul><li><a href="https://msdn.microsoft.com/en-us/library/windows/hardware/ff542202%28v=vs.85%29.aspx">MSDN: BCDEdit</a></li><li><a href=https://msdn.microsoft.com/library/system.datetime.utcnow.aspx>MSDN: DateTime.UtcNow</a></li><li><a href=https://msdn.microsoft.com/library/system.diagnostics.stopwatch.aspx>MSDN: Stopwatch</a></li><li><a href=https://msdn.microsoft.com/library/windows/desktop/ms686247.aspx>MSDN: SetThreadAffinityMask</a></li><li><a href=https://msdn.microsoft.com/en-us/library/ee417693.aspx>MSDN: Game Timing and Multicore Processors</a></li><li><a href=https://msdn.microsoft.com/library/windows/desktop/aa366887.aspx>MSDN: VirtualAlloc</a></li><li><a href=https://msdn.microsoft.com/en-us/library/twchhe95.aspx>MSDN: __rdtsc</a></li></ul></li><li><strong>Wiki</strong><ul><li><a href=https://en.wikipedia.org/wiki/System_time>Wiki: System time</a></li><li><a href=https://en.wikipedia.org/wiki/CPUID>Wiki: CPUID</a></li></ul></li><li><strong>Intel</strong><ul><li><a href=http://www.intel.com/content/dam/www/public/us/en/documents/white-papers/ia-32-ia-64-benchmark-code-execution-paper.pdf>Intel: How to Benchmark Code Execution Times on Intel®IA-32 and IA-64 Instruction Set Architectures</a></li><li><a href=http://www.intel.com/content/dam/www/public/us/en/documents/technical-specifications/software-developers-hpet-spec-1-0a.pdf>Intel: IA-PC HPET Specification</a></li><li><a href=ftp://download.intel.com/design/processor/manuals/253668.pdf>Intel: Intel® 64 and IA-32 Architectures Software Developer’s Manual Volume 3A: System Programming Guide, Part 1</a></li><li><a href=http://www.intel.com/content/dam/www/public/us/en/documents/manuals/64-ia-32-architectures-software-developer-manual-325462.pdf>Intel: Intel® 64 and IA-32 Architectures Software Developer’s Manual</a></li><li><a href=https://www.ccsl.carleton.ca/~jamuir/rdtscpm1.pdf>Intel&rsquo;s original CPU TSC Counter guidance for use in game timing (1998)</a></li><li><a href=https://software.intel.com/en-us/articles/power-management-states-p-states-c-states-and-package-c-states>Power Management States: P-States, C-States, and Package C-States</a></li></ul></li><li><strong>Blog posts</strong><ul><li><a href=https://randomascii.wordpress.com/2013/07/08/windows-timer-resolution-megawatts-wasted/>Random ASCII: Windows Timer Resolution: Megawatts Wasted (2013)</a></li><li><a href=https://randomascii.wordpress.com/2013/04/02/sleep-variation-investigated/>Random ASCII: Sleep Variation Investigated (2013)</a></li><li><a href=https://randomascii.wordpress.com/2011/07/29/rdtsc-in-the-age-of-sandybridge/>Random ASCII: rdtsc in the Age of Sandybridge (2011)</a></li><li><a href="https://blogs.msdn.microsoft.com/oldnewthing/20050902-00/?p=34333/#460003">The Old New Thing: Precision is not the same as accuracy (2005)</a></li><li><a href="http://www.virtualdub.org/blog/pivot/entry.php?id=106">VirtualDub: Beware of QueryPerformanceCounter() (2006)</a></li><li><a href=http://computerperformancebydesign.com/high-resolution-clocks-and-timers-for-performance-measurement-in-windows/>Computer Performance By Design: High Resolution Clocks and Timers for Performance Measurement in Windows (2012)</a></li><li><a href=http://algo2.iti.kit.edu/wassenberg/timing/timing_pitfalls.pdf>Jan Wassenberg: Timing Pitfalls and Solutions (2007)</a></li><li><a href=http://www.mathpirate.net/log/2010/03/20/temporal-mechanics-changing-the-speed-of-time-part-ii/>MathPirate: Temporal Mechanics: Changing the Speed of Time, Part II (2010)</a></li><li><a href=http://www.mikemartin.co/system_guides/hardware/motherboard/disable_high_precision_event_timer_hpet>Mike Martin: Disable HPET (2015)</a></li><li><a href=http://manski.net/2014/07/high-resolution-clock-in-csharp/>Manski`s blog: High Resolution Clock in C# (2014)</a></li><li><a href=http://blog.codinghorror.com/keeping-time-on-the-pc/>Coding Horror: Keeping Time on the PC (2007)</a></li><li><a href=http://chabster.blogspot.ru/2007/09/high-resolution-timer-time-stamp.html>Hungry Mind: High-Resolution Timer = Time Stamp Counter = RDTSC (2007, In Russian)</a></li><li><a href=http://jvns.ca/blog/2016/02/20/measuring-cpu-time-with-clock-gettime/>How to measure your CPU time: clock_gettime! (2016)</a></li><li><a href=http://jvns.ca/blog/2016/02/07/cpu-load-averages/>How CPU load averages work (and using them to triage webserver performance!) (2016)</a></li><li><a href=http://stas-blogspot.blogspot.co.il/2012/02/what-is-behind-systemnanotime.html>Stat&rsquo;s blog: What is behind System.nanoTime()? (2012)</a></li><li><a href=http://linuxmogeb.blogspot.co.il/2013/10/how-does-clockgettime-work.html>Linux: virtualization and tracing: How does clock_gettime work (2013)</a></li><li><a href=https://aufather.wordpress.com/2010/09/08/high-performance-time-measuremen-in-linux/>Software ahoy!: High Performance Time Measurement in Linux (2010)</a></li></ul></li><li><strong>Misc</strong><ul><li><a href=http://www.uefi.org/sites/default/files/resources/ACPI_6.0.pdf>Advanced Configuration and Power Interface Specification 6.0 (April 2015)</a></li><li><a href=https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_MRG/2/html/Realtime_Reference_Guide/chap-Timestamping.html>RedHat Documentation: Timestamping</a></li><li><a href=http://www.luxford.com/high-performance-windows-timers>Luxford: High Performance Windows Timers</a></li><li><a href=http://www.mmo-champion.com/threads/1215396-WinTimerTester>Mmo-champion: WinTimerTester</a></li><li><a href=https://support.microsoft.com/en-us/kb/895980>support.microsoft.com: Programs that use the QueryPerformanceCounter function may perform poorly</a></li><li><a href=https://support.microsoft.com/en-us/kb/821893>support.microsoft.com: The system clock may run fast when you use the ACPI power management timer</a></li><li><a href=http://linux.die.net/man/2/sched_setaffinity>linux.die.net: sched_setaffinity</a></li><li><a href=http://blog.ncrunch.net/post/How-to-set-a-threads-processor-affinity-in-NET.aspx>NCrunch: How to set a thread&rsquo;s processor affinity in .NET</a></li><li><a href=http://x86.renejeschke.de/html/file_module_x86_id_278.html>x86 Instruction Set Reference: RDTSC</a></li><li><a href=https://lkml.org/lkml/2005/11/4/173>TSC and Power Management Events on AMD Processors (2005)</a></li><li><a href=http://lwn.net/Articles/209101/>Counting on the time stamp counter (2006)</a></li><li><a href="http://bugs.java.com/bugdatabase/view_bug.do?bug_id=6313903">JDK-6313903: Thread.sleep(3) might wake up immediately on windows</a></li><li><a href=https://en.wikipedia.org/wiki/NTSC>Wikipedia: NTSC</a></li><li><a href=https://en.wikipedia.org/wiki/Colorburst>Wikipedia: Colorburst</a></li><li><a href="http://dl.acm.org/citation.cfm?id=2278530">3.579545 MHz Can be More Than the Color Burst (1980)</a></li><li><a href=https://lwn.net/Articles/615809/>Implementing virtual system calls</a></li><li><a href=https://github.com/torvalds/linux/commit/d8bb6f4c1670c8324e4135c61ef07486f7f17379>github.com/torvalds/linux: x86: tsc prevent time going backwards</a></li></ul></li><li><strong>StackOverflow</strong><ul><li><a href=http://stackoverflow.com/questions/3400254/can-the-net-stopwatch-class-be-this-terrible/3400490#3400490>StackOverflow: Can the .NET Stopwatch class be THIS terrible?</a></li><li><a href=http://stackoverflow.com/questions/2607263/how-precise-is-the-internal-clock-of-a-modern-pc>StackOverflow: How precise is the internal clock of a modern PC?</a></li><li><a href=http://stackoverflow.com/q/7685762/184842>StackOverflow: Windows 7 timing functions - How to use GetSystemTimeAdjustment correctly?</a></li><li><a href=http://stackoverflow.com/q/7987671/184842>StackOverflow: What is the acpi_pm linux clocksource used for, what hardware implements it?</a></li><li><a href=http://stackoverflow.com/q/22942123/184842>StackOverflow: Is QueryPerformanceFrequency accurate when using HPET?</a></li><li><a href=http://stackoverflow.com/questions/36318291/measure-precision-of-timer-e-g-stopwatch-queryperformancecounter>StackOverflow: Measure precision of timer (e.g. Stopwatch/QueryPerformanceCounter)</a></li><li><a href=http://stackoverflow.com/q/23251795/184842>StackOverflow: How to calculate the frequency of CPU cores</a></li><li><a href=http://stackoverflow.com/q/18343188/184842>StackOverflow: Precise Linux Timing - What Determines the Resolution of clock_gettime()?</a></li></ul></li></ul><br><br><div class=mx-auto>Share:
+<a href="https://twitter.com/intent/tweet?text=Stopwatch%20under%20the%20hood&url=https%3a%2f%2faakinshin.net%2fposts%2fstopwatch%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fstopwatch%2f&title=Stopwatch%20under%20the%20hood" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fstopwatch%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2fstopwatch%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2fstopwatch%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fstopwatch%2f&title=Stopwatch%20under%20the%20hood" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>

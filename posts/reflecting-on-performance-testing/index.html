@@ -1,208 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <meta name="description" content="Reflecting on performance testing">
-    <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-    <meta name="keywords" content='Performance,PerformanceTesting,Rider,BenchmarkDotNet'>
-
-    <title>Reflecting on performance testing</title>
-
-    <!-- Bootstrap CSS & Highlight.js-->
-    <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <link href="/css/github-highlight.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-    <link href="/css/darcula-highlight.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-    <script src="/js/theme-before.js"></script>
-
-    <!-- DarkModeToggle -->
-    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
-
-    <!-- FontAwesome -->
-    <link href="/css/fontawesome-all.min.css" rel="stylesheet" type="text/css" media="all">
-    
-    <!-- Custom styles -->
-    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
-
-    <!-- Feeds -->
-    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-
-    <!-- Google analytics -->
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript" >
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter28700916 = new Ya.Metrika({
-                        id:28700916,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:true,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript><div><img src="https://mc.yandex.ru/watch/28700916" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-    <!-- /Yandex.Metrika counter -->
-
-    <!-- jQuery -->
-    <script src="/js/jquery-3.3.1.slim.min.js"></script>
-  </head>
-
-  <body>
-    <div class="bg-primary">
-      <div class="container bg-primary">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog" href="/posts/">Posts</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-blog-content" href="/content/">Content</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/about/">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="nav-link-about" href="/prodotnetbenchmarking/">Pro .NET Benchmarking</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">En</a>
-              <div class="dropdown-menu">
-                  <a class="dropdown-item" href='/ru/posts/reflecting-on-performance-testing/'>Ru</a>
-              </div>
-            </li>
-            <li class="nav-item"></li>
-              <dark-mode-toggle permanent="true"></dark-mode-toggle>
-            </li>
-          </ul>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter" style="color:white"></i></a></li>
-            <li class="nav-item"><a class="nav-link" href="/rss.xml"><i class="fas fa-rss" title="RSS" style="color:white"></i></a></li>
-          </ul>
-        </nav>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="blog-main">
-<div class="blog-post">
-
-<h2 class="blog-post-title" id="post-title">Reflecting on performance testing</h2>
-<span class="blog-post-meta">
-  <b>Date:</b> August 01, 2017.
-  <b>Tags:</b>
-        <a href="/tags/performance"><span class="badge badge-pill badge-info">Performance</span></a>
-        <a href="/tags/performancetesting"><span class="badge badge-pill badge-info">PerformanceTesting</span></a>
-        <a href="/tags/rider"><span class="badge badge-pill badge-info">Rider</span></a>
-        <a href="/tags/benchmarkdotnet"><span class="badge badge-pill badge-info">BenchmarkDotNet</span></a>
-</span><br /><br />
-
-<p>Performance is an important feature for many projects.
-Unfortunately, it's an all too common situation when a developer accidentally spoils the performance adding some new code.
-After a series of such incidents, people often start to think about performance regression testing.</p>
-<p>As developers, we write unit tests all the time.
-These tests check that our business logic work as designed and that new features don't break existing code.
-It looks like a good idea to write some perf tests as well, which will verify that we don't have any performance regressions.</p>
-<p>Turns out this is harder than it sounds.
-A lot of developers don't write perf tests at all.
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><title>Reflecting on performance testing | Andrey Akinshin</title><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.e78467baec0179d7ccd2ef995e0c94f25b4a63a3191a93c3547e22bdf590ef5d.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.335eb4e9ec540444708cd71dfa149c15f356cc09960c17a0e1622d39b085a98c.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-XXXXX-Y','auto');ga('send','pageview');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class=nav-item></li><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><a class=nav-link href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a></li><li class=nav-item><a class=nav-link href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title id=post-title>Reflecting on performance testing</h2><span class=blog-post-meta><i class="far fa-calendar-alt"></i><time datetime=2017-08-01>August 1, 2017</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/performance class="badge badge-info">Performance</a>
+<a href=https://aakinshin.net/tags/performancetesting class="badge badge-info">PerformanceTesting</a>
+<a href=https://aakinshin.net/tags/rider class="badge badge-info">Rider</a>
+<a href=https://aakinshin.net/tags/benchmarkdotnet class="badge badge-info">BenchmarkDotNet</a></span><br><br><p>Performance is an important feature for many projects.
+Unfortunately, it&rsquo;s an all too common situation when a developer accidentally spoils the performance adding some new code.
+After a series of such incidents, people often start to think about performance regression testing.</p><p>As developers, we write unit tests all the time.
+These tests check that our business logic work as designed and that new features don&rsquo;t break existing code.
+It looks like a good idea to write some perf tests as well, which will verify that we don&rsquo;t have any performance regressions.</p><p>Turns out this is harder than it sounds.
+A lot of developers don&rsquo;t write perf tests at all.
 Some teams write perf tests, but almost all of them use their own infrastructure for analysis
-(which is not a bad thing in general because it's usually designed for specific projects and requirements).
+(which is not a bad thing in general because it&rsquo;s usually designed for specific projects and requirements).
 There are a lot of books about test-driven development (TDD),
 but there are no books about performance-driven development (PDD).
 There are well-known libraries for unit-testing (like xUnit/NUnit/MSTest for .NET),
 but there are almost no libraries for performance regression testing.
 Yeah, of course, there are <em>some</em> libraries which you can use.
 But there are troubles with <em>well-known all recognized</em> libraries, approaches, and tools.
-Ask your colleagues about it: some of them will give you different answers, the rest of them will start Googling it.</p>
-<p>There is no common understanding of what performance testing should look like.
-This situation exists because it's really hard to develop a solution which solves <em>all problems</em> for <em>all kind of projects</em>.
-However, it doesn't mean that we shouldn't try.
-And we should try, we should share our experience and discuss best practices.</p>
-<!--more-->
-<p>Probably some of you know that I'm the maintainer of <a href="https://github.com/dotnet/BenchmarkDotNet">BenchmarkDotNet</a>
+Ask your colleagues about it: some of them will give you different answers, the rest of them will start Googling it.</p><p>There is no common understanding of what performance testing should look like.
+This situation exists because it&rsquo;s really hard to develop a solution which solves <em>all problems</em> for <em>all kind of projects</em>.
+However, it doesn&rsquo;t mean that we shouldn&rsquo;t try.
+And we should try, we should share our experience and discuss best practices.</p><p>Probably some of you know that I&rsquo;m the maintainer of <a href=https://github.com/dotnet/BenchmarkDotNet>BenchmarkDotNet</a>
 (a popular .NET library for benchmarking).
 It was designed as a library for benchmarking (especially for microbenchmarking), but not for regression testing.
 However, more and more people ask how they can use it as a part of continues integration systems.
-And it's a good idea to have a way to automatically prevent performance degradations.
-Unfortunately, it's not enough to just run code several times and collect some statistics (and other typical benchmarking stuff).
-There are a lot of additional challenges which should be solved before I can recommend this library for perf tests.</p>
-<p>At JetBrains, I'm working on <a href="https://www.jetbrains.com/rider/">Rider</a>.
-It's a cool cross-platform .NET IDE which is based on the IntelliJ platform and ReSharper.
-It's a huge product with millions of lines of code and a crazy performance space.
+And it&rsquo;s a good idea to have a way to automatically prevent performance degradations.
+Unfortunately, it&rsquo;s not enough to just run code several times and collect some statistics (and other typical benchmarking stuff).
+There are a lot of additional challenges which should be solved before I can recommend this library for perf tests.</p><p>At JetBrains, I&rsquo;m working on <a href=https://www.jetbrains.com/rider/>Rider</a>.
+It&rsquo;s a cool cross-platform .NET IDE which is based on the IntelliJ platform and ReSharper.
+It&rsquo;s a huge product with millions of lines of code and a crazy performance space.
 Rider should be super-responsive and fast on any OS — performance is one of our best features.
-It's so easy to write some code which spoils this for some people, and it's so hard to check it manually every time.
-We already have some simple performance tests, but we feel like it's not enough.
-Right now I'm working on a new workflow for regression analysis and monitoring.
+It&rsquo;s so easy to write some code which spoils this for some people, and it&rsquo;s so hard to check it manually every time.
+We already have some simple performance tests, but we feel like it&rsquo;s not enough.
+Right now I&rsquo;m working on a new workflow for regression analysis and monitoring.
 This system is not ready yet, but it already helped in finding some interesting performance anomalies.
-However, I don't want to write another tool which can be used only for one project.
-It would be nice to write a tool (and open source it) which can be easily adapted for a wide range of different projects.</p>
-<p>I write this post because I want to get some feedback.
-I'm going to briefly describe some basic problems of performance regression testing and suggest some points of discussion.
+However, I don&rsquo;t want to write another tool which can be used only for one project.
+It would be nice to write a tool (and open source it) which can be easily adapted for a wide range of different projects.</p><p>I write this post because I want to get some feedback.
+I&rsquo;m going to briefly describe some basic problems of performance regression testing and suggest some points of discussion.
 I would like to hear any kind of information about performance regression testing.
 Do you practice it?
 What kind of problems do you have?
 How you solve it?
-What kind of tools and approaches do you use?</p>
-<p>Ok, let's start a discussion with a short list of typical issues which can destroy all the fun of performance testing.</p>
-<h3 id="problems">Problems</h3>
-<p>Let's say we write a program which prints a number which somehow describes performance of our system.
-It doesn't matter whether it is a super-reliable benchmark with many repetitions or a simple &quot;let's take a few timestamps&quot; approach.
+What kind of tools and approaches do you use?</p><p>Ok, let&rsquo;s start a discussion with a short list of typical issues which can destroy all the fun of performance testing.</p><h3 id=problems>Problems</h3><p>Let&rsquo;s say we write a program which prints a number which somehow describes performance of our system.
+It doesn&rsquo;t matter whether it is a super-reliable benchmark with many repetitions or a simple &ldquo;let&rsquo;s take a few timestamps&rdquo; approach.
 The main point here is we have a program which provides a perf number (or a set of numbers), and we are completely satisfied with it.
 Is our performance test ready when we have such number?
 No!
-We even didn't start to talk about testing.</p>
-<h4 id="type-i-and-type-ii-errors">Type I and Type II errors</h4>
-<p>The main point of performance testing (and any other kind of testing) is that it should be automatic.
+We even didn&rsquo;t start to talk about testing.</p><h4 id=type-i-and-type-ii-errors>Type I and Type II errors</h4><p>The main point of performance testing (and any other kind of testing) is that it should be automatic.
 We should be automatically notified if we have any kind of performance degradation.
 The question then is: how should we define <em>a performance degradation</em>?
 At this point, many developers start to read about confidence intervals, statistics tests, p-values, and so on.
-Sometimes I hear sentences like &quot;The probability of performance degradation is 80%.&quot;
-This doesn't make any sense!
-You have a degradation, or you don't have a degradation.
+Sometimes I hear sentences like &ldquo;The probability of performance degradation is 80%.&rdquo;
+This doesn&rsquo;t make any sense!
+You have a degradation, or you don&rsquo;t have a degradation.
 Otherwise, you have problems with your definition of a degradation.
-You can't say to a developer something like &quot;you must investigate this problem with 80% probability.&quot;
+You can&rsquo;t say to a developer something like &ldquo;you must investigate this problem with 80% probability.&rdquo;
 The outcome of your checking system should be binary.
-And here we should talk about <a href="https://en.wikipedia.org/wiki/Type_I_and_type_II_errors">Type I and type II errors</a>.
-Sometimes you will be notified about problems, but there aren't any problems.
+And here we should talk about <a href=https://en.wikipedia.org/wiki/Type_I_and_type_II_errors>Type I and type II errors</a>.
+Sometimes you will be notified about problems, but there aren&rsquo;t any problems.
 When developers get a lot of such false alarms, they start to ignore it, and the whole idea stops making sense and loses value.
 Sometimes, there are some critical performance problems, but you will not be notified.
-In this case, you can miss the degradation and deploy a slow version of your software (the whole idea does not work).</p>
-<p>We should implement such checking system which minimizes both kinds of errors.
+In this case, you can miss the degradation and deploy a slow version of your software (the whole idea does not work).</p><p>We should implement such checking system which minimizes both kinds of errors.
 Very often this a project-specific and a team-specific problem.
-It's impossible to write one set of conditions which makes everyone happy.
-But we can try to create presets which help to quickly choose a good solution for your business requirements.</p>
-<h4 id="small-amount-of-data">Small amount of data</h4>
-<p>In theory, we can do as many iterations as we like.
+It&rsquo;s impossible to write one set of conditions which makes everyone happy.
+But we can try to create presets which help to quickly choose a good solution for your business requirements.</p><h4 id=small-amount-of-data>Small amount of data</h4><p>In theory, we can do as many iterations as we like.
 It allows getting a huge data sets,
 apply some statistical magic,
 calculate all possible statistical characteristics,
@@ -213,63 +75,44 @@ Some of the performance tests (especially integration tests) could take minutes 
 It would be nice to get the sample size N=1000, but sometimes our N is 3..5 or even 1.
 A single measurement (+plus some historical data),
 no information about the distribution,
-but we still have to answer: do we have a performance degradation or not?</p>
-<h4 id="tricky-distributions">Tricky distributions</h4>
-<p>Even if we have enough data about the performance distributions,
+but we still have to answer: do we have a performance degradation or not?</p><h4 id=tricky-distributions>Tricky distributions</h4><p>Even if we have enough data about the performance distributions,
 this distribution usually looks strange.
-Don't expect to see a lot of normal distributions, when you are working with performance.
-Here are typical problems which you can get:</p>
-<ul>
-<li>Huge standard deviation: the difference between sequential measurements (for the same codebase) can be huge</li>
-<li>Outliers: sometimes you get extremely high durations because of some unknown reasons
-(especially if you have many I/O or network operation; or just have another heavy processes on the same build agent).</li>
-<li>Multimodal distribution: a distribution can have several local maximums
-and you can't control which mode will be &quot;activated&quot; in each measurement</li>
-</ul>
-<p>Here is some historical data about duration of a single test from Rider:</p>
-<div class="mx-auto"><a href="/img/posts/reflecting-on-performance-testing/plot1.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/reflecting-on-performance-testing/plot1.png" /></a></div>
-<p>The blue points denote Windows, the purple denote Linux, the yellow denote MacOS.
+Don&rsquo;t expect to see a lot of normal distributions, when you are working with performance.
+Here are typical problems which you can get:</p><ul><li>Huge standard deviation: the difference between sequential measurements (for the same codebase) can be huge</li><li>Outliers: sometimes you get extremely high durations because of some unknown reasons
+(especially if you have many I/O or network operation; or just have another heavy processes on the same build agent).</li><li>Multimodal distribution: a distribution can have several local maximums
+and you can&rsquo;t control which mode will be &ldquo;activated&rdquo; in each measurement</li></ul><p>Here is some historical data about duration of a single test from Rider:</p><div class=mx-auto><a href=/posts/reflecting-on-performance-testing/img/plot1.png target=_blank><img class="mx-auto d-block img-fluid" width=800 src=/posts/reflecting-on-performance-testing/img/plot1.png></a></div><p>The blue points denote Windows, the purple denote Linux, the yellow denote MacOS.
 On the Y axis, you can see the amount of milliseconds.
 Yes, two sequential measurements can be 100 seconds and 900 seconds.
-It's a normal situation for an integration test.
-(To be honest, it's one of the worst our tests, everything is not so bad in general.)
-And yes, I know that's it's not a good performance test, I know what should be improved here, and so on.
-I don't want to discuss how it happens (it's a topic for another post), I just want to show what real performance data can look like.
+It&rsquo;s a normal situation for an integration test.
+(To be honest, it&rsquo;s one of the worst our tests, everything is not so bad in general.)
+And yes, I know that&rsquo;s it&rsquo;s not a good performance test, I know what should be improved here, and so on.
+I don&rsquo;t want to discuss how it happens (it&rsquo;s a topic for another post), I just want to show what real performance data can look like.
 What happens if we make a mistake and wrote <code>Thread.Sleep(20 * 1000)</code> somewhere?
 Nothing!
-No one will notice it (on this test at least).</p>
-<p>So, we should understand what our performance data looks like and understand what kind of checks we can apply in each situation.</p>
-<h4 id="different-hardware-and-many-environments">Different hardware and many environments</h4>
-<p>As you probably noticed on the previous image, the performance on different operating systems is different.
-The easiest thing to say here is something like &quot;Well, nothing special in this picture, .NET works well only on Windows&quot;.
-Here is another image for you:</p>
-<div class="mx-auto"><a href="/img/posts/reflecting-on-performance-testing/plot2.png" target="_blank"><img class="mx-auto d-block img-fluid" width="600" src="/img/posts/reflecting-on-performance-testing/plot2.png" /></a></div>
-<p>In this test, Linux takes around 100ms all the time, MacOS takes 100—200ms, Windows takes 1000-1200ms.
-Why? That's also a topic for another post (a hint: this test is socket-related).
+No one will notice it (on this test at least).</p><p>So, we should understand what our performance data looks like and understand what kind of checks we can apply in each situation.</p><h4 id=different-hardware-and-many-environments>Different hardware and many environments</h4><p>As you probably noticed on the previous image, the performance on different operating systems is different.
+The easiest thing to say here is something like &ldquo;Well, nothing special in this picture, .NET works well only on Windows&rdquo;.
+Here is another image for you:</p><div class=mx-auto><a href=/posts/reflecting-on-performance-testing/img/plot2.png target=_blank><img class="mx-auto d-block img-fluid" width=800 src=/posts/reflecting-on-performance-testing/img/plot2.png></a></div><p>In this test, Linux takes around 100ms all the time, MacOS takes 100—200ms, Windows takes 1000-1200ms.
+Why? That&rsquo;s also a topic for another post (a hint: this test is socket-related).
 The point here is we have different performance configurations on different tests.
-And we can't mix measurements from different operation systems (in general).
+And we can&rsquo;t mix measurements from different operation systems (in general).
 There are a lot of other parameters which can be considered.
 For example, some of the build agents have an HDD, and some of them have an SSD which definitely affects all I/O bound tests.
 Some of the build agents can have a small amount of RAM which can affect tests with massive memory traffic.
-<em>In general</em>, we can't compare absolute numbers from different machines if there are any differences in hardware configuration.
+<em>In general</em>, we can&rsquo;t compare absolute numbers from different machines if there are any differences in hardware configuration.
 Even minor differences in the CPU model can play a vital role.
-Sometimes, it's possible to analyze relative performance, but it's not always an option.</p>
-<p>It's great if you can buy several dedicated machines which will execute performance tests 24/7.
+Sometimes, it&rsquo;s possible to analyze relative performance, but it&rsquo;s not always an option.</p><p>It&rsquo;s great if you can buy several dedicated machines which will execute performance tests 24/7.
 (And if you can replace broken perf machines with machines that have exactly the same configuration.)
-However, it's another trade-off question:
+However, it&rsquo;s another trade-off question:
 how many tests do you want to run,
 how many times do you want to repeat them,
 how long does it take,
-how many performance machines can you afford?</p>
-<h4 id="microbenchmarks-vs.integration-benchmarks">Microbenchmarks vs. integration benchmarks</h4>
-<p>As I mentioned before, BenchmarkDotNet is designed for microbenchmarks.
+how many performance machines can you afford?</p><h4 id=microbenchmarks-vs-integration-benchmarks>Microbenchmarks vs. integration benchmarks</h4><p>As I mentioned before, BenchmarkDotNet is designed for microbenchmarks.
 It can measure a method even if it takes a few nanoseconds.
 It not easy, but BenchmarkDotNet protects you from even super-tiny performance deviations.
-For this purpose, it generates a separate project where it invokes the method billions of times.</p>
-<p>But here is another situation.
-Let's say we write Rider, and we want to measure how much does it take to debug a unit-test in a .NET Core project.
+For this purpose, it generates a separate project where it invokes the method billions of times.</p><p>But here is another situation.
+Let&rsquo;s say we write Rider, and we want to measure how much does it take to debug a unit-test in a .NET Core project.
 How many processes do we need?
-Let's count.
+Let&rsquo;s count.
 We need a process for the <code>IntelliJ IDEA</code> platform (aka frontend), a process for the <code>ReSharper host</code> (aka backend).
 Because of some infrastructure reasons,
 we start tests on the frontend (we write it on Kotlin and run it on JVM),
@@ -280,112 +123,56 @@ discover tests with one <code>dotnet</code> process,
 run tests with another <code>dotnet</code> process,
 and attach to it from a <code>DebuggerWorker</code> process.
 Thus, our small integration benchmark involves 7 processes.
-There now are huge amount of cases where we can't get super-precision
+There now are huge amount of cases where we can&rsquo;t get super-precision
 (because of cross-process interaction, 3rd logic, etc.),
 so standard deviation will be huge.
-The total duration is several dozens of seconds, so we can't repeat it a billion times.
+The total duration is several dozens of seconds, so we can&rsquo;t repeat it a billion times.
 Because we are limited in time and have large variance,
-we can't get a tiny confidence interval,
-and it's hard to detect a small performance regression.</p>
-<p>Another important point: if we write a tool for performance testing, we should keep in mind
-that there are too many different cases and we can't cover all of them with a single approach.
+we can&rsquo;t get a tiny confidence interval,
+and it&rsquo;s hard to detect a small performance regression.</p><p>Another important point: if we write a tool for performance testing, we should keep in mind
+that there are too many different cases and we can&rsquo;t cover all of them with a single approach.
 At a minum, we need different approaches
 for microbenchmarsk and for macrobenchmarks,
-for single methods and for complicated integrated scenarios.</p>
-<h3 id="perfect-place-for-performance-analysis">Perfect place for performance analysis</h3>
-<p>How, where, and when we should do the performance analysis?
-It's also a hard question, and it depends on the situation.
+for single methods and for complicated integrated scenarios.</p><h3 id=perfect-place-for-performance-analysis>Perfect place for performance analysis</h3><p>How, where, and when we should do the performance analysis?
+It&rsquo;s also a hard question, and it depends on the situation.
 I can share my experience in Rider.
-We have 3 places for performance analysis:</p>
-<ul>
-<li><strong>Each build.</strong>
+We have 3 places for performance analysis:</p><ul><li><strong>Each build.</strong>
 A small set of tests which are running on each build.
 <em>Pros:</em> commits with perf problems will not be merged into the master branch.
-<em>Cons:</em> We should run all the tests quickly, so we can't run a lot of them.
-We can't do many iterations, so data is small.
-Only huge degradation can be detected (like 1 second → 15 seconds, it happens).</li>
-<li><strong>Daily tests.</strong>
+<em>Cons:</em> We should run all the tests quickly, so we can&rsquo;t run a lot of them.
+We can&rsquo;t do many iterations, so data is small.
+Only huge degradation can be detected (like 1 second -> 15 seconds, it happens).</li><li><strong>Daily tests.</strong>
 A big set of tests which are running one time per day on dedicated machines.
 <em>Pros:</em> we can do a lot of iterations, we can analyze historical data, we can detect even small performance problems.
-<em>Cons:</em> we will know about a problem only <em>after</em> it's merged into master.</li>
-<li><strong>Retrospective analysis.</strong>
+<em>Cons:</em> we will know about a problem only <em>after</em> it&rsquo;s merged into master.</li><li><strong>Retrospective analysis.</strong>
 A special system which analyzes <em>all</em> collected performance data from <em>all</em> build agents.
 <em>Pros:</em> we have a huge data set, we can run a lot of cool analysis, we can detect problems which were not detected by first two options.
-<em>Cons:</em> we will not know about a problem, unless it's too late (sometimes a week after a bad commit).</li>
-</ul>
-<p>We continue to develop these ways and think about what else we can do.
-Of course, you may have own way to analyze the performance (and I will be happy to hear about it).</p>
-<h4 id="one-big-degradation-vs.many-small-degradations">One big degradation vs. many small degradations.</h4>
-<p>Ok, let's say we solved all of the previous problems.
-Let's also say that our test takes 10–15 seconds and the build is green if the total time is less than 20 seconds.
+<em>Cons:</em> we will not know about a problem, unless it&rsquo;s too late (sometimes a week after a bad commit).</li></ul><p>We continue to develop these ways and think about what else we can do.
+Of course, you may have own way to analyze the performance (and I will be happy to hear about it).</p><h4 id=one-big-degradation-vs-many-small-degradations>One big degradation vs. many small degradations.</h4><p>Ok, let&rsquo;s say we solved all of the previous problems.
+Let&rsquo;s also say that our test takes 10–15 seconds and the build is green if the total time is less than 20 seconds.
 We are interested only in huge performance degradation (5 seconds or more),
 so it should work well, and the big variance is not a problem for us anymore.
 Next, Developer1 adds a new feature which takes 1 second.
-It's a very good feature, the test takes 11–16 seconds which is fine, the build is green, everyone is happy.
+It&rsquo;s a very good feature, the test takes 11–16 seconds which is fine, the build is green, everyone is happy.
 Next, Developer2 adds another awesome feature which also takes 1 second.
-Now test takes 12–17 seconds which also is fine.</p>
-<p>After another 4 iterations, the test will take 16–21 seconds and become flaky: it will fail the build <em>sometimes</em>.
+Now test takes 12–17 seconds which also is fine.</p><p>After another 4 iterations, the test will take 16–21 seconds and become flaky: it will fail the build <em>sometimes</em>.
 After another iteration, the test will take 17–22 seconds and become more flaky.
-Developers will be angry because even a very simple typo fix can't be merged because some tests with strange names are suddenly red.</p>
-<h4 id="technical-issues-vs.management-issues">Technical issues vs. management issues</h4>
-<p>Here we meet another problem: what should we do if our super-system has detected some performance problems?
+Developers will be angry because even a very simple typo fix can&rsquo;t be merged because some tests with strange names are suddenly red.</p><h4 id=technical-issues-vs-management-issues>Technical issues vs. management issues</h4><p>Here we meet another problem: what should we do if our super-system has detected some performance problems?
 Especially if there are 10 developers, who are responsible for problems with performance.
 Especially if all the implemented features are super useful,
-you can't drop it,
-you don't know how to optimize it,
+you can&rsquo;t drop it,
+you don&rsquo;t know how to optimize it,
 but you want to keep the good level of performance.
-While you are thinking, the developers suffer because tests are flaky and it slows down the development process.</p>
-<p>One day you decided that you are ready for this trade-off and you increase the timeout.
-Then someone asks you: &quot;So, we can change timeouts in such situations, yeah?&quot;
-Next, you will get a situation where every performance problem will be solved via increased timeouts without further investigation.</p>
-<p>Even if you have a perfect performance regression tests, they can be useless, if you don't have the performance culture in your company.
+While you are thinking, the developers suffer because tests are flaky and it slows down the development process.</p><p>One day you decided that you are ready for this trade-off and you increase the timeout.
+Then someone asks you: &ldquo;So, we can change timeouts in such situations, yeah?&rdquo;
+Next, you will get a situation where every performance problem will be solved via increased timeouts without further investigation.</p><p>Even if you have a perfect performance regression tests, they can be useless, if you don&rsquo;t have the performance culture in your company.
 You should solve it somehow: find very responsible developers, assign special people for performance investigation, and so on.
-If you are going to write performance tests, you should think about such things in advance.</p>
-<h3 id="points-of-discussion">Points of discussion</h3>
-<p>I named only a few main problems, there are too many of them.
-I know how to solve some of them, but I don't know what I can do with others.
-I'm going to continue my research, implement best practices in BenchmarkDotNet, and share final results.
+If you are going to write performance tests, you should think about such things in advance.</p><h3 id=points-of-discussion>Points of discussion</h3><p>I named only a few main problems, there are too many of them.
+I know how to solve some of them, but I don&rsquo;t know what I can do with others.
+I&rsquo;m going to continue my research, implement best practices in BenchmarkDotNet, and share final results.
 I would be really happy to hear any feedback from you.
 How do you analyze performance?
 How do you avoid performance degradation?
 How do you solve management issues and find trade-offs between new features and performance?
-What kind of other problems do you have which should be solved in a good performance testing library?</p>
-
-<!-- Share -->
-
-Share:
-<a href="https://twitter.com/intent/tweet?text=Reflecting on performance testing&url=http://aakinshin.net/posts/reflecting-on-performance-testing/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><i class="fab fa-twitter fa-2x" title="Twitter"></i></a>
-<a href="https://www.reddit.com/submit?url=http://aakinshin.net/posts/reflecting-on-performance-testing/" target="_blank" title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a>
-<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/posts/reflecting-on-performance-testing/" target="_blank" title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a>
-<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/posts/reflecting-on-performance-testing/" rel="nofollow" target="_blank" title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a>
-<a href="https://plus.google.com/share?url=http://aakinshin.net/posts/reflecting-on-performance-testing/" rel="nofollow" target="_blank" title="Share on Google+"><i class="fab fab fa-google-plus-g fa-2x"></i></a>
-<a href="http://vk.com/share.php?url=http://aakinshin.net/posts/reflecting-on-performance-testing/" target="_blank" title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a>
-<a href="https://getpocket.com/save?url=http://aakinshin.net/posts/reflecting-on-performance-testing/&title=Reflecting on performance testing" target="_blank" title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a>
-<hr />
-
-<!-- GitHub -->
-<div>
-  You can find source code of this post on GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2017/reflecting-on-performance-testing.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2017/reflecting-on-performance-testing.md</a>
-</div>
-
-</div>
-</div>
-    </div>
-
-    <footer class="blog-footer">
-      <div class="container">
-        <p>&copy; 2013–2020 Andrey Akinshin | <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
-      </div>
-    </footer>
-
-    <script src="/js/theme-after.js"></script>
-    <!-- jQuery first (header), then popper, then Bootstrap JS. -->
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <!-- Other scripts -->
-    <script src="/js/highlight.pack.js"></script>
-    <script src="/js/anchor.min.js"></script>
-    <script src="/js/custom.js"></script>
-  </body>
-</html>
+What kind of other problems do you have which should be solved in a good performance testing library?</p><br><br><div class=mx-auto>Share:
+<a href="https://twitter.com/intent/tweet?text=Reflecting%20on%20performance%20testing&url=https%3a%2f%2faakinshin.net%2fposts%2freflecting-on-performance-testing%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x" title=Twitter></i></a><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2freflecting-on-performance-testing%2f&title=Reflecting%20on%20performance%20testing" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2freflecting-on-performance-testing%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2freflecting-on-performance-testing%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2freflecting-on-performance-testing%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2freflecting-on-performance-testing%2f&title=Reflecting%20on%20performance%20testing" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin | <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.ea4f51ac7f59c8e13f4df787df946eb1a447174ce2f1fc5349483de93a607ecb.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>
