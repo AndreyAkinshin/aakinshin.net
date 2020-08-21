@@ -2,9 +2,13 @@ baseURL = "https://aakinshin.net/"
 languageCode = "en-us"
 title = "Andrey Akinshin"
 
+summaryLength = 300
+buildFuture = true
+
 defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = false
 hasCJKLanguage = false
+
 [languages]
   [languages.en]
   title = "Andrey Akinshin"
@@ -13,12 +17,6 @@ hasCJKLanguage = false
   title = "Андрей Акиньшин"
   weight = 2
   contentDir = "content/ru"
-
-summaryLength = 300
-buildFuture = true
-paginate = 10
-
-copyright = "&copy;2013-2020 Andrey Akinshin"
 
 [markup]
   [markup.goldmark]
@@ -47,5 +45,3 @@ copyright = "&copy;2013-2020 Andrey Akinshin"
 
 [permalinks]
   posts = "/posts/:filename/"
-
-assetDir = "assets"

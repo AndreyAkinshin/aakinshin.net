@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-./bin/hugo-linux server
+./bin/hugo server --buildDrafts "$@"

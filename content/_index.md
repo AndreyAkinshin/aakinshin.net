@@ -1,5 +1,6 @@
 ---
 title: Home
-draft: false
+features:
+- math
 ---
 

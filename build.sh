@@ -4,7 +4,7 @@ cd _utils/DataProcessor
 dotnet run
 cd ../..
 
-./bin/hugo-linux --minify
+./bin/hugo --minify "$@"
 
 cp ./public/posts/index.xml ./public/rss.xml
 cp ./public/posts/index.xml ./public/en/rss.xml
