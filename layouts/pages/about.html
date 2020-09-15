@@ -54,6 +54,29 @@
 
 <section>
   <h2 id="publications">{{ i18n "publications" }}</h2>
+  <p>
+    {{ i18n "myErdosNumber" | safeHTML }}: <b>4</b>
+    (
+      <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/1061721">Andrey Akinshin</a>
+      →
+      <a href="https://mathscinet.ams.org/mathscinet-getitem?mr=3716100">MR3716100</a>
+      →
+      <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/185690">Yosef Yomdin</a>
+      →
+      <a href="https://mathscinet.ams.org/mathscinet-getitem?mr=2232733">MR2232733</a>
+      →
+      <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/190389">Matatyahu Rubin</a>
+      →
+      <a href="https://mathscinet.ams.org/mathscinet-getitem?mr=1786142">MR1786142</a>
+      →
+      <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/39270">Robert Bonnet</a>
+      →
+      <a href="https://mathscinet.ams.org/mathscinet-getitem?mr=373945">MR0373945</a>
+      →
+      <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/189017">Paul Erdős</a>
+    )
+  </p>
+  <br />
   {{ partial "about/items" (dict "context" . "name" "publications") }}
 </section>
 <hr />

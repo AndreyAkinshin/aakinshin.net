@@ -1,0 +1,1 @@
+Моё [Число Эрдёша](https://ru.wikipedia.org/wiki/%D0%A7%D0%B8%D1%81%D0%BB%D0%BE_%D0%AD%D1%80%D0%B4%D1%91%D1%88%D0%B0): 4 ()
