@@ -194,3 +194,23 @@ dark-mode-toggle {
   display: inline;
   margin-right: 0.7rem;
 }
+
+.block-example {
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  margin-left: 10px;
+  padding-left: 10px;
+
+  border-left: 5px solid;
+  border-color: grey;
+}
+
+body {
+  counter-reset: example;
+}
+
+.block-example-title::before {
+  counter-increment: example;
+  content: "Example " counter(example);
+}

@@ -150,7 +150,7 @@ $$
 W_{n,i} = I_{i/n} \{p(n+1)), (1-p)(n+1) \} - I_{(i-1)/n} \{ p(n+1), (1-p)(n+1) \},
 $$
 
-where $ I_x \{ a, b \} $ denotes the incomplete beta function.
+where $ I_x \{ a, b \} $ denotes the [regularized incomplete beta function](https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function).
 This formula may look scary, but it provides a more robust median estimation than the straightforward approach.
 In the above example, the Harrell-Davis estimation is 202.0452.
 

@@ -1,5 +1,5 @@
 {{ $filename := cond .IsNamedParams (.Get "src") (.Get 0) }}
-{{ $defaultWidth := 800 }}
+{{ $defaultWidth := 400 }}
 
 {{ $imageDark := $.Page.Resources.GetMatch (printf "img/%s-dark*" $filename) }}
 {{ $imageLight := $.Page.Resources.GetMatch (printf "img/%s-light*" $filename) }}

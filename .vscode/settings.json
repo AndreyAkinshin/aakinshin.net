@@ -1,3 +1,11 @@
 {
-    "workbench.colorTheme": "Kimbie Dark"
+    "workbench.colorTheme": "Kimbie Dark",
+    "cSpell.words": [
+        "Perfolizer",
+        "changepoints",
+        "imgld",
+        "quantile",
+        "quantiles",
+        "textrm"
+    ]
 }
