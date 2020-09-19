@@ -9,7 +9,8 @@ class="mx-auto d-block img-fluid"
 width='800'
 src="https://aakinshin.net/posts/nonparametric-effect-size/img/blackboard.png" />
 &lt;/a>
-&lt;/div></description></item><item><title>Yet another robust outlier detector</title><link>https://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/</link><pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/</guid><description>&lt;p>Outlier detection is an important step in data processing.
+&lt;/div>
+&lt;br /></description></item><item><title>Yet another robust outlier detector</title><link>https://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/</link><pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/</guid><description>&lt;p>Outlier detection is an important step in data processing.
 Unfortunately, if the distribution is not normal (e.g., right-skewed and heavy-tailed), it&amp;rsquo;s hard to choose
 a robust outlier detection algorithm that will not be affected by tricky distribution properties.
 During the last several years, I tried many different approaches, but I was not satisfied with their results.
@@ -63,7 +64,8 @@ class="mx-auto d-block img-fluid"
 width='800'
 src="https://aakinshin.net/posts/introducing-perfolizer/img/perfolizer.svg" />
 &lt;/a>
-&lt;/div></description></item><item><title>Distribution comparison via the shift and ratio functions</title><link>https://aakinshin.net/posts/shift-and-ratio-functions/</link><pubDate>Fri, 11 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/shift-and-ratio-functions/</guid><description>&lt;p>When we compare two distributions, it&amp;rsquo;s not always enough to detect a statistically significant difference between them.
+&lt;/div>
+&lt;br /></description></item><item><title>Distribution comparison via the shift and ratio functions</title><link>https://aakinshin.net/posts/shift-and-ratio-functions/</link><pubDate>Fri, 11 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/shift-and-ratio-functions/</guid><description>&lt;p>When we compare two distributions, it&amp;rsquo;s not always enough to detect a statistically significant difference between them.
 In many cases, we also want to evaluate the magnitude of this difference.
 Let&amp;rsquo;s look at the following image:&lt;/p>
 &lt;div class="mx-auto">
@@ -84,6 +86,7 @@ src="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare1-light.pn
 &lt;/picture>
 &lt;/a>
 &lt;/div>
+&lt;br />
 &lt;p>On the left side, we can see a timeline plot with 2000 points
 (at the middle of this plot, the distribution was significantly changed).
 On the right side, you can see density plots for the left and the right side of
@@ -109,6 +112,7 @@ src="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare2-light.pn
 &lt;/picture>
 &lt;/a>
 &lt;/div>
+&lt;br />
 &lt;p>Here we have a bimodal distribution; after the change, the left mode &amp;ldquo;moved right.&amp;rdquo;
 Now it&amp;rsquo;s much harder to evaluate the difference between distributions
 because the mean and the median values almost not changed:
@@ -132,6 +136,7 @@ src="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare3-light.pn
 &lt;/picture>
 &lt;/a>
 &lt;/div>
+&lt;br />
 &lt;p>Here we also have a bimodal distribution; after the change, both modes moved:
 the left mode &amp;ldquo;moved right&amp;rdquo; and the right mode &amp;ldquo;moved left.&amp;rdquo;
 How should we describe the difference between these distributions now?&lt;/p></description></item><item><title>Normality is a myth</title><link>https://aakinshin.net/posts/normality/</link><pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/normality/</guid><description>&lt;p>In many statistical papers, you can find the following phrase: &amp;ldquo;assuming that we have a normal distribution.&amp;rdquo;
@@ -155,6 +160,7 @@ src="https://aakinshin.net/posts/normality/img/normal-light.png">
 &lt;/picture>
 &lt;/a>
 &lt;/div>
+&lt;br />
 &lt;p>The normal distribution is a pretty user-friendly mental model when we are trying to interpret the statistical metrics
 like mean and standard deviation.
 However, it may also be an insidious and misleading model when your distribution is not normal.
@@ -186,7 +192,8 @@ width='800'
 src="https://aakinshin.net/posts/normality/img/performance-light.png">
 &lt;/picture>
 &lt;/a>
-&lt;/div></description></item><item><title>Implementation of efficient algorithm for changepoint detection: ED-PELT</title><link>https://aakinshin.net/posts/edpelt/</link><pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/edpelt/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Change_detection">Changepoint detection&lt;/a> is an important task that has a lot of applications.
+&lt;/div>
+&lt;br /></description></item><item><title>Implementation of efficient algorithm for changepoint detection: ED-PELT</title><link>https://aakinshin.net/posts/edpelt/</link><pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/edpelt/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Change_detection">Changepoint detection&lt;/a> is an important task that has a lot of applications.
 For example, I use it to detect changes in the &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a> performance test suite.
 It&amp;rsquo;s very important to detect not only performance degradations, but any kinds of performance changes
 (e.g., the variance may increase, or a unimodal distribution may be split to several modes).
@@ -209,6 +216,7 @@ src="https://aakinshin.net/posts/edpelt/img/edpelt-light.png">
 &lt;/picture>
 &lt;/a>
 &lt;/div>
+&lt;br />
 &lt;p>Unfortunately, it&amp;rsquo;s pretty hard to write a reliable and fast algorithm for changepoint detection.
 Recently, I found a cool paper (&lt;a href="https://link.springer.com/article/10.1007/s11222-016-9687-5">Haynes, K., Fearnhead, P. &amp;amp; Eckley, I.A. &amp;ldquo;A computationally efficient nonparametric approach for changepoint detection,&amp;rdquo; Stat Comput (2017) 27: 1293&lt;/a>) that describes the ED-PELT algorithm.
 It has &lt;code>O(N*log(N))&lt;/code> complexity and pretty good detection accuracy.
@@ -226,6 +234,7 @@ width='800'
 src="https://aakinshin.net/posts/nuget-package-browsing/img/perf-chart.png" />
 &lt;/a>
 &lt;/div>
+&lt;br />
 &lt;p>It looks very suspicious and increases the whole test suite duration.
 Also, our dashboard with performance degradations contains only such tests
 and some real degradations (which are introduced by the changes in our codebase) can go unnoticed.
@@ -295,7 +304,8 @@ class="mx-auto d-block img-fluid"
 width='800'
 src="https://aakinshin.net/posts/mono-gc-collects/img/plot-64.png" />
 &lt;/a>
-&lt;/div></description></item><item><title>BenchmarkDotNet v0.10.12</title><link>https://aakinshin.net/posts/bdn-v0_10_12/</link><pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/bdn-v0_10_12/</guid><description>&lt;p>BenchmarkDotNet v0.10.12 has been released! This release includes:&lt;/p>
+&lt;/div>
+&lt;br /></description></item><item><title>BenchmarkDotNet v0.10.12</title><link>https://aakinshin.net/posts/bdn-v0_10_12/</link><pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/bdn-v0_10_12/</guid><description>&lt;p>BenchmarkDotNet v0.10.12 has been released! This release includes:&lt;/p>
 &lt;ul>
 &lt;li>&lt;strong>Improved DisassemblyDiagnoser:&lt;/strong>
 BenchmarkDotNet contains an embedded disassembler so that it can print assembly code for all benchmarks;
