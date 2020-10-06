@@ -1,4 +1,31 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 29 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Weighted quantile estimators</title><link>https://aakinshin.net/posts/weighted-quantiles/</link><pubDate>Tue, 29 Sep 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/weighted-quantiles/</guid><description>&lt;p>In this post, I will show how to calculate weighted quantile estimates and how to use them in practice.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 06 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>The median absolute deviation value of the Gumbel distribution</title><link>https://aakinshin.net/posts/gumbel-mad/</link><pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/gumbel-mad/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Gumbel_distribution">Gumbel distribution&lt;/a> is not only a useful model in the &lt;a href="https://en.wikipedia.org/wiki/Extreme_value_theory">extreme value theory&lt;/a>,
+but it&amp;rsquo;s also a nice example of a slightly right-skewed distribution (skewness &lt;span class="math inline">\(\approx 1.14\)&lt;/span>).
+Here is its density plot:&lt;/p>
+&lt;div class="mx-auto">
+&lt;a href="https://aakinshin.net/posts/gumbel-mad/img/gumbel-light.svg" target="_blank">
+&lt;picture>
+&lt;source
+theme='dark'
+srcset="https://aakinshin.net/posts/gumbel-mad/img/gumbel-dark.svg"
+media="(prefers-color-scheme: dark)">
+&lt;source
+theme='light'
+srcset="https://aakinshin.net/posts/gumbel-mad/img/gumbel-light.svg"
+media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;img
+class="mx-auto d-block img-fluid"
+width='600'
+src="https://aakinshin.net/posts/gumbel-mad/img/gumbel-light.svg">
+&lt;/picture>
+&lt;/a>
+&lt;/div>
+&lt;br />
+&lt;p>In some of my statistical experiments, I like to use the Gumbel distribution as a sample generator for hypothesis checking or unit tests.
+I also prefer the &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> (MAD) over the standard deviation as a measure of dispersion because it&amp;rsquo;s more robust in the case of non-parametric distributions.
+Numerical hypothesis verification often requires the exact value of the median absolute deviation of the original distribution.
+I didn&amp;rsquo;t find this value in the reference tables, so I decided to do another exercise and derive it myself.
+In this post, you will find a short derivation and the result (spoiler: the exact value is &lt;code>0.767049251325708 * β&lt;/code>).
+The general approach of the MAD derivation is common for most distributions, so it can be easily reused.&lt;/p></description></item><item><title>Weighted quantile estimators</title><link>https://aakinshin.net/posts/weighted-quantiles/</link><pubDate>Tue, 29 Sep 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/weighted-quantiles/</guid><description>&lt;p>In this post, I will show how to calculate weighted quantile estimates and how to use them in practice.&lt;/p>
 &lt;p>Let&amp;rsquo;s start with a problem from real life.
 Imagine that you measure the total duration of a unit test executed daily on a CI server.
 Every day you get a single number that corresponds to the test duration from the latest revision for this day:&lt;/p>
