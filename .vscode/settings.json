@@ -1,15 +1,21 @@
 {
     "workbench.colorTheme": "Kimbie Dark",
     "cSpell.words": [
+        "Mathematica",
         "Perfolizer",
         "Silverman",
         "Silverman's",
         "changepoints",
         "imgld",
+        "mathcal",
         "multimodal",
+        "multimodality",
+        "oversmoothing",
         "pastable",
         "quantile",
         "quantiles",
-        "textrm"
+        "textrm",
+        "undersmoothing",
+        "unimodal"
     ]
 }

@@ -14,3 +14,7 @@ bin/
 [Dd]ebug*/
 obj/
 [Rr]elease*/
+
+# R
+.RData
+.Rhistory
