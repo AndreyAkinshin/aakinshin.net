@@ -1,4 +1,45 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 06 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>The median absolute deviation value of the Gumbel distribution</title><link>https://aakinshin.net/posts/gumbel-mad/</link><pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/gumbel-mad/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Gumbel_distribution">Gumbel distribution&lt;/a> is not only a useful model in the &lt;a href="https://en.wikipedia.org/wiki/Extreme_value_theory">extreme value theory&lt;/a>,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 13 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>The importance of kernel density estimation bandwidth</title><link>https://aakinshin.net/posts/kde-bw/</link><pubDate>Tue, 13 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kde-bw/</guid><description>&lt;p>Below you can see two kernel density estimations.
+What can you say about them?&lt;/p>
+&lt;div class="mx-auto">
+&lt;a href="https://aakinshin.net/posts/kde-bw/img/kde-riddle-light.svg" target="_blank">
+&lt;picture>
+&lt;source
+theme='dark'
+srcset="https://aakinshin.net/posts/kde-bw/img/kde-riddle-dark.svg"
+media="(prefers-color-scheme: dark)">
+&lt;source
+theme='light'
+srcset="https://aakinshin.net/posts/kde-bw/img/kde-riddle-light.svg"
+media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;img
+class="mx-auto d-block img-fluid"
+width='800'
+src="https://aakinshin.net/posts/kde-bw/img/kde-riddle-light.svg">
+&lt;/picture>
+&lt;/a>
+&lt;/div>
+&lt;br />
+&lt;p>Most likely, you thought that the first plot is based on a uniform distribution,
+and the second one is based on a multimodal distribution with four modes.
+While this is not obvious from the plots,
+both density plots are based on the same sample:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-txt" data-lang="txt">21.370, 19.435, 20.363, 20.632, 20.404, 19.893, 21.511, 19.905, 22.018, 19.93,
+31.304, 32.286, 28.611, 29.721, 29.866, 30.635, 29.715, 27.343, 27.559, 31.32,
+39.693, 38.218, 39.828, 41.214, 41.895, 39.569, 39.742, 38.236, 40.460, 39.36,
+50.455, 50.704, 51.035, 49.391, 50.504, 48.282, 49.215, 49.149, 47.585, 50.03
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>The only difference between plots is in &lt;a href="https://en.wikipedia.org/wiki/Kernel_density_estimation#Bandwidth_selection">bandwidth selection&lt;/a>!&lt;/p>
+&lt;p>Bandwidth selection is crucial when you are trying to visualize your distributions.
+Unfortunately, most people just call a regular function to build a density plot and don&amp;rsquo;t think about how the bandwidth will be chosen.
+As a result, the plot may present data in the wrong way, which may lead to incorrect conclusions.
+Let&amp;rsquo;s discuss bandwidth selection in detail and figure out how to improve the correctness of your density plots.
+In this post, we will cover the following topics:&lt;/p>
+&lt;ul>
+&lt;li>Kernel density estimation&lt;/li>
+&lt;li>How bandwidth selection affects plot smoothness&lt;/li>
+&lt;li>Which bandwidth selectors can we use&lt;/li>
+&lt;li>Which bandwidth selectors should we use&lt;/li>
+&lt;li>Insidious default bandwidth selectors in statistical packages&lt;/li>
+&lt;/ul></description></item><item><title>The median absolute deviation value of the Gumbel distribution</title><link>https://aakinshin.net/posts/gumbel-mad/</link><pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/gumbel-mad/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Gumbel_distribution">Gumbel distribution&lt;/a> is not only a useful model in the &lt;a href="https://en.wikipedia.org/wiki/Extreme_value_theory">extreme value theory&lt;/a>,
 but it&amp;rsquo;s also a nice example of a slightly right-skewed distribution (skewness &lt;span class="math inline">\(\approx 1.14\)&lt;/span>).
 Here is its density plot:&lt;/p>
 &lt;div class="mx-auto">
