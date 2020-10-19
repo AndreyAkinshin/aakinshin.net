@@ -10,14 +10,14 @@ features:
 - math
 ---
 
-Below you can see two kernel density estimations.
-What can you say about them?
+Below see two kernel density estimations.
+What could you say about them?
 
 {{< imgld kde-riddle >}}
 
-Most likely, you thought that the first plot is based on a uniform distribution,
+Most likely, you say that the first plot is based on a uniform distribution,
   and the second one is based on a multimodal distribution with four modes.
-While this is not obvious from the plots,
+Although this is not obvious from the plots,
   both density plots are based on the same sample:
 
 ```txt
@@ -67,7 +67,7 @@ To build the kernel density estimation, we should perform two simple steps:
 
 That's all.
 The sum of individual normal distributions around each sample element is our kernel density estimation.
-That's what we usually see on the density plots that are based on a sample:
+That's what we usually see in the density plots that are based on a sample:
 
 {{< imgld_medium kde-build1 >}}
 
@@ -86,7 +86,7 @@ A poorly chosen bandwidth value may lead to undesired transformations of the den
   It means that the density plot will look like a combination of individual peeks (one peek per each sample element).
 * A *huge* bandwidth leads to *oversmoothing*.  
   It means that the density plot will look like a unimodal distribution and hide all non-unimodal distribution properties
-    (e.g., if a distribution is multimodal, we will not see it on the plot).
+    (e.g., if a distribution is multimodal, we will not see it in the plot).
 
 {{< example >}}
 *Input:* $x = \{3, 4, 7\}$, $h \in \{ 0.2, 0.3, 0.4, 0.5, 1, 1.5 \}$, $K$ is the normal kernel.  
