@@ -2,6 +2,26 @@ talks:
   ######################################################################################################################
   # 2020
   ######################################################################################################################
+  - date: 2020-10-24
+    event: TechTrain 2020
+    event-type: conference
+    title_en: Seriously about performance
+    title_ru: О перформансе серьезно
+    location: Online
+    lang: ru
+    links:
+      - key: event
+        url: https://techtrain.ru/
+      - key: talk
+        url: https://techtrain.ru/2020/autumn/talks/3h5k7hlpcnakprxebpqspx/
+    co_en:
+      - Алексей Шипилёв
+      - Андрей Паньгин
+      - Алексей Федоров
+    co_ru:
+      - Aleksey Shipilëv
+      - Andrei Pangin
+      - Alexey Fyodorov
   - date: 2020-06-15
     date2: 2020-06-18
     event: DotNext 2020 Piter
