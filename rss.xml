@@ -1,4 +1,43 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 20 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Misleading histograms</title><link>https://aakinshin.net/posts/misleading-histograms/</link><pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/misleading-histograms/</guid><description>&lt;p>Below you see two histograms.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 27 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Empirical probability density function based on the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/epdf-hd/</link><pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/epdf-hd/</guid><description>&lt;p>The idea of this post was born when I was working on a presentation for my recent &lt;a href="https://dotnext.ru/en/">DotNext&lt;/a> &lt;a href="https://www.youtube.com/watch?v=gc3yVybPuaY&amp;amp;list=PL21xssNXOJNGUROqzSTOC8uZL4W2QZpvK&amp;amp;index=1">talk&lt;/a>.
+It had a &lt;a href="https://slides.aakinshin.net/dotnext-piter2020/#193">slide&lt;/a> with a density plot like this:&lt;/p>
+&lt;div class="mx-auto">
+&lt;a href="https://aakinshin.net/posts/epdf-hd/img/riddle-light.svg" target="_blank">
+&lt;picture>
+&lt;source
+theme='dark'
+srcset="https://aakinshin.net/posts/epdf-hd/img/riddle-dark.svg"
+media="(prefers-color-scheme: dark)">
+&lt;source
+theme='light'
+srcset="https://aakinshin.net/posts/epdf-hd/img/riddle-light.svg"
+media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;img
+class="mx-auto d-block img-fluid"
+width='800'
+src="https://aakinshin.net/posts/epdf-hd/img/riddle-light.svg">
+&lt;/picture>
+&lt;/a>
+&lt;/div>
+&lt;br />
+&lt;p>Here we can see a density plot based on a sample with highlighted &lt;a href="https://en.wikipedia.org/wiki/Decile">decile&lt;/a> locations that split the plot into 10 equal parts.
+Before the conference, I have been reviewed by &lt;a href="https://twitter.com/VladimirSitnikv">@VladimirSitnikv&lt;/a>.
+He raised a reasonable concern: it doesn&amp;rsquo;t look like all the density plot segments are equal and contain exactly 10% of the whole plot.
+And he was right!&lt;/p>
+&lt;p>However, I didn&amp;rsquo;t make any miscalculations.
+I generated a real sample with 61 elements.
+Next, I build a density plot with the kernel density estimation (KDE) using the Sheather &amp;amp; Jones method and the normal kernel.
+Next, I calculated decile values using the Harrell-Davis quantile estimator.
+Although both the density plot and the decile values are calculated correctly and consistent with the sample,
+they are not consistent with each other!
+Indeed, such a density plot is just an estimation of the underlying distribution.
+It has its own decile values, which are not equal to the sample decile values regardless of the used quantile estimator.
+This problem is common for different kinds of visualization that presents density and quantiles at the same time (e.g., &lt;a href="https://towardsdatascience.com/violin-plots-explained-fb1d115e023d">violin plots&lt;/a>)&lt;/p>
+&lt;p>It leads us to a question: how should we present the shape of our data together with quantile values without confusing inconsistency in the final image?
+Today I will present a good solution: we should use the empirical probability density function based on the Harrell-Davis quantile estimator!
+I know the title is a bit long, but it&amp;rsquo;s not so complicated as it sounds.
+In this post, I will show how to build such plots.
+Also I will compare them to the classic histograms and kernel density estimations.
+As a bonus, I will demonstrate how awesome these plots are for multimodality detection.&lt;/p></description></item><item><title>Misleading histograms</title><link>https://aakinshin.net/posts/misleading-histograms/</link><pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/misleading-histograms/</guid><description>&lt;p>Below you see two histograms.
 What could you say about them?&lt;/p>
 &lt;div class="mx-auto">
 &lt;a href="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-light.svg" target="_blank">
