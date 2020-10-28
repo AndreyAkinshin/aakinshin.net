@@ -1247,6 +1247,13 @@ talks:
     location_en: Institute of Computational Mathematics and Mathematical Geophysics SB RAS, Novosibirsk, Russia
     location_ru: г. Новосибирск, Институт вычислительной математики и математической геофизики СО РАН
     lang: ru
+    links:
+      - key: Video (YouTube, 1)
+        url: https://www.youtube.com/watch?v=4GD6sotE2gM
+      - key: Video (YouTube, 2)
+        url: https://www.youtube.com/watch?v=FGVhOWJ2AX0
+      - key: Video (YouTube, 3)
+        url: https://www.youtube.com/watch?v=BHX4zBRNP88
   - year: 2013
     event_en: Selected questions of mathematical analysis
     event_ru: Избранные вопросы математического анализа
