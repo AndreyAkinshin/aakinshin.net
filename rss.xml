@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 27 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Empirical probability density function based on the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/epdf-hd/</link><pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/epdf-hd/</guid><description>&lt;p>The idea of this post was born when I was working on a presentation for my recent &lt;a href="https://dotnext.ru/en/">DotNext&lt;/a> &lt;a href="https://www.youtube.com/watch?v=gc3yVybPuaY&amp;amp;list=PL21xssNXOJNGUROqzSTOC8uZL4W2QZpvK&amp;amp;index=1">talk&lt;/a>.
 It had a &lt;a href="https://slides.aakinshin.net/dotnext-piter2020/#193">slide&lt;/a> with a density plot like this:&lt;/p>
+&lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/epdf-hd/img/riddle-light.png" target="_blank">
+&lt;a href="https://aakinshin.net/posts/epdf-hd/img/riddle-light.png" target="_blank" class="imgldlink">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -17,6 +18,7 @@ width='800'
 src="https://aakinshin.net/posts/epdf-hd/img/riddle-light.png">
 &lt;/picture>
 &lt;/a>
+&lt;/div>
 &lt;/div>
 &lt;br />
 &lt;p>Here we can see a density plot based on a sample with highlighted &lt;a href="https://en.wikipedia.org/wiki/Decile">decile&lt;/a> locations that split the plot into 10 equal parts.
@@ -39,8 +41,9 @@ In this post, I will show how to build such plots.
 Also I will compare them to the classic histograms and kernel density estimations.
 As a bonus, I will demonstrate how awesome these plots are for multimodality detection.&lt;/p></description></item><item><title>Misleading histograms</title><link>https://aakinshin.net/posts/misleading-histograms/</link><pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/misleading-histograms/</guid><description>&lt;p>Below you see two histograms.
 What could you say about them?&lt;/p>
+&lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-light.svg" target="_blank">
+&lt;a href="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-light.svg" target="_blank" class="imgldlink">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -57,6 +60,7 @@ src="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-light.svg
 &lt;/picture>
 &lt;/a>
 &lt;/div>
+&lt;/div>
 &lt;br />
 &lt;p>Most likely, you say that the first histogram is based on a uniform distribution,
 and the second one is based on a multimodal distribution with four modes.
@@ -72,8 +76,9 @@ Unfortunately, this way may easily become a slippery slope.
 In the &lt;a href="https://aakinshin.net/posts/kde-bw/">previous post&lt;/a>, I have shown how density plots may deceive you when the bandwidth is poorly chosen.
 Today, we talk about histograms and why you can&amp;rsquo;t trust them in the general case.&lt;/p></description></item><item><title>The importance of kernel density estimation bandwidth</title><link>https://aakinshin.net/posts/kde-bw/</link><pubDate>Tue, 13 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kde-bw/</guid><description>&lt;p>Below see two kernel density estimations.
 What could you say about them?&lt;/p>
+&lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/kde-bw/img/kde-riddle-light.svg" target="_blank">
+&lt;a href="https://aakinshin.net/posts/kde-bw/img/kde-riddle-light.svg" target="_blank" class="imgldlink">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -89,6 +94,7 @@ width='800'
 src="https://aakinshin.net/posts/kde-bw/img/kde-riddle-light.svg">
 &lt;/picture>
 &lt;/a>
+&lt;/div>
 &lt;/div>
 &lt;br />
 &lt;p>Most likely, you say that the first plot is based on a uniform distribution,
@@ -114,8 +120,9 @@ In this post, we will cover the following topics:&lt;/p>
 &lt;/ul></description></item><item><title>The median absolute deviation value of the Gumbel distribution</title><link>https://aakinshin.net/posts/gumbel-mad/</link><pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/gumbel-mad/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Gumbel_distribution">Gumbel distribution&lt;/a> is not only a useful model in the &lt;a href="https://en.wikipedia.org/wiki/Extreme_value_theory">extreme value theory&lt;/a>,
 but it&amp;rsquo;s also a nice example of a slightly right-skewed distribution (skewness &lt;span class="math inline">\(\approx 1.14\)&lt;/span>).
 Here is its density plot:&lt;/p>
+&lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/gumbel-mad/img/gumbel-light.svg" target="_blank">
+&lt;a href="https://aakinshin.net/posts/gumbel-mad/img/gumbel-light.svg" target="_blank" class="imgldlink">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -132,6 +139,7 @@ src="https://aakinshin.net/posts/gumbel-mad/img/gumbel-light.svg">
 &lt;/picture>
 &lt;/a>
 &lt;/div>
+&lt;/div>
 &lt;br />
 &lt;p>In some of my statistical experiments, I like to use the Gumbel distribution as a sample generator for hypothesis checking or unit tests.
 I also prefer the &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> (MAD) over the standard deviation as a measure of dispersion because it&amp;rsquo;s more robust in the case of non-parametric distributions.
@@ -142,8 +150,9 @@ The general approach of the MAD derivation is common for most distributions, so 
 &lt;p>Let&amp;rsquo;s start with a problem from real life.
 Imagine that you measure the total duration of a unit test executed daily on a CI server.
 Every day you get a single number that corresponds to the test duration from the latest revision for this day:&lt;/p>
+&lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/weighted-quantiles/img/moving1-light.svg" target="_blank">
+&lt;a href="https://aakinshin.net/posts/weighted-quantiles/img/moving1-light.svg" target="_blank" class="imgldlink">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -160,6 +169,7 @@ src="https://aakinshin.net/posts/weighted-quantiles/img/moving1-light.svg">
 &lt;/picture>
 &lt;/a>
 &lt;/div>
+&lt;/div>
 &lt;br />
 &lt;p>You collect a history of such measurements for 100 days.
 Now you want to describe the &amp;ldquo;actual&amp;rdquo; distribution of the performance measurements.&lt;/p>
@@ -172,6 +182,7 @@ In this post, we learn how to calculate and apply weighted quantiles.&lt;/p></de
 When these distributions are normal, one of the most popular approaches to express the effect size is &lt;a href="https://en.wikipedia.org/wiki/Effect_size#Cohen's_d">Cohen&amp;rsquo;s d&lt;/a>.
 Unfortunately, it doesn&amp;rsquo;t work great for non-normal distributions.&lt;/p>
 &lt;p>In this post, I will show a robust Cohen&amp;rsquo;s d-consistent effect size formula for nonparametric distributions.&lt;/p>
+&lt;div class="row">
 &lt;div class="mx-auto">
 &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/img/blackboard.png" target="_blank">
 &lt;img
@@ -179,6 +190,7 @@ class="mx-auto d-block img-fluid"
 width='800'
 src="https://aakinshin.net/posts/nonparametric-effect-size/img/blackboard.png" />
 &lt;/a>
+&lt;/div>
 &lt;/div>
 &lt;br /></description></item><item><title>Yet another robust outlier detector</title><link>https://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/</link><pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/</guid><description>&lt;p>Outlier detection is an important step in data processing.
 Unfortunately, if the distribution is not normal (e.g., right-skewed and heavy-tailed), it&amp;rsquo;s hard to choose
@@ -227,6 +239,7 @@ It&amp;rsquo;s an excellent question that requires special tools.
 So, I decided to start another project that focuses specifically on performance analysis.&lt;/p>
 &lt;p>Meet &lt;a href="https://github.com/AndreyAkinshin/perfolizer">perfolizer&lt;/a> — a toolkit for performance analysis!
 The source code is available on &lt;a href="https://github.com/AndreyAkinshin/perfolizer">GitHub&lt;/a> under the MIT license.&lt;/p>
+&lt;div class="row">
 &lt;div class="mx-auto">
 &lt;a href="https://aakinshin.net/posts/introducing-perfolizer/img/perfolizer.svg" target="_blank">
 &lt;img
@@ -235,11 +248,13 @@ width='800'
 src="https://aakinshin.net/posts/introducing-perfolizer/img/perfolizer.svg" />
 &lt;/a>
 &lt;/div>
+&lt;/div>
 &lt;br /></description></item><item><title>Distribution comparison via the shift and ratio functions</title><link>https://aakinshin.net/posts/shift-and-ratio-functions/</link><pubDate>Fri, 11 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/shift-and-ratio-functions/</guid><description>&lt;p>When we compare two distributions, it&amp;rsquo;s not always enough to detect a statistically significant difference between them.
 In many cases, we also want to evaluate the magnitude of this difference.
 Let&amp;rsquo;s look at the following image:&lt;/p>
+&lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare1-light.png" target="_blank">
+&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare1-light.png" target="_blank" class="imgldlink">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -256,6 +271,7 @@ src="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare1-light.pn
 &lt;/picture>
 &lt;/a>
 &lt;/div>
+&lt;/div>
 &lt;br />
 &lt;p>On the left side, we can see a timeline plot with 2000 points
 (at the middle of this plot, the distribution was significantly changed).
@@ -264,8 +280,9 @@ the timeline plot (before and after the change).
 It&amp;rsquo;s a pretty simple case, the difference between distributions be expressed via the
 difference between mean values.&lt;/p>
 &lt;p>Now let&amp;rsquo;s look at a more tricky case:&lt;/p>
+&lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare2-light.png" target="_blank">
+&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare2-light.png" target="_blank" class="imgldlink">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -282,14 +299,16 @@ src="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare2-light.pn
 &lt;/picture>
 &lt;/a>
 &lt;/div>
+&lt;/div>
 &lt;br />
 &lt;p>Here we have a bimodal distribution; after the change, the left mode &amp;ldquo;moved right.&amp;rdquo;
 Now it&amp;rsquo;s much harder to evaluate the difference between distributions
 because the mean and the median values almost not changed:
 the right mode has the biggest impact on these metrics than the left more.&lt;/p>
 &lt;p>And here is a much more tricky case:&lt;/p>
+&lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare3-light.png" target="_blank">
+&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare3-light.png" target="_blank" class="imgldlink">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -306,14 +325,16 @@ src="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare3-light.pn
 &lt;/picture>
 &lt;/a>
 &lt;/div>
+&lt;/div>
 &lt;br />
 &lt;p>Here we also have a bimodal distribution; after the change, both modes moved:
 the left mode &amp;ldquo;moved right&amp;rdquo; and the right mode &amp;ldquo;moved left.&amp;rdquo;
 How should we describe the difference between these distributions now?&lt;/p></description></item><item><title>Normality is a myth</title><link>https://aakinshin.net/posts/normality/</link><pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/normality/</guid><description>&lt;p>In many statistical papers, you can find the following phrase: &amp;ldquo;assuming that we have a normal distribution.&amp;rdquo;
 Probably, you saw plots of the normal distribution density function in some statistics textbooks,
 it looks like this:&lt;/p>
+&lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/normality/img/normal-light.png" target="_blank">
+&lt;a href="https://aakinshin.net/posts/normality/img/normal-light.png" target="_blank" class="imgldlink">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -330,6 +351,7 @@ src="https://aakinshin.net/posts/normality/img/normal-light.png">
 &lt;/picture>
 &lt;/a>
 &lt;/div>
+&lt;/div>
 &lt;br />
 &lt;p>The normal distribution is a pretty user-friendly mental model when we are trying to interpret the statistical metrics
 like mean and standard deviation.
@@ -345,8 +367,9 @@ you should forget about normality.
 That&amp;rsquo;s how a typical performance distribution looks like
 (I built the below picture based on a real benchmark that measures the load time of assemblies
 when we open the &lt;a href="https://github.com/OrchardCMS/Orchard">Orchard&lt;/a> solution in &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a> on Linux):&lt;/p>
+&lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/normality/img/performance-light.png" target="_blank">
+&lt;a href="https://aakinshin.net/posts/normality/img/performance-light.png" target="_blank" class="imgldlink">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -363,13 +386,15 @@ src="https://aakinshin.net/posts/normality/img/performance-light.png">
 &lt;/picture>
 &lt;/a>
 &lt;/div>
+&lt;/div>
 &lt;br /></description></item><item><title>Implementation of efficient algorithm for changepoint detection: ED-PELT</title><link>https://aakinshin.net/posts/edpelt/</link><pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/edpelt/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Change_detection">Changepoint detection&lt;/a> is an important task that has a lot of applications.
 For example, I use it to detect changes in the &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a> performance test suite.
 It&amp;rsquo;s very important to detect not only performance degradations, but any kinds of performance changes
 (e.g., the variance may increase, or a unimodal distribution may be split to several modes).
 You can see examples of such changes on the following picture (we change the color when a changepoint is detected):&lt;/p>
+&lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/edpelt/img/edpelt-light.png" target="_blank">
+&lt;a href="https://aakinshin.net/posts/edpelt/img/edpelt-light.png" target="_blank" class="imgldlink">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -386,6 +411,7 @@ src="https://aakinshin.net/posts/edpelt/img/edpelt-light.png">
 &lt;/picture>
 &lt;/a>
 &lt;/div>
+&lt;/div>
 &lt;br />
 &lt;p>Unfortunately, it&amp;rsquo;s pretty hard to write a reliable and fast algorithm for changepoint detection.
 Recently, I found a cool paper (&lt;a href="https://link.springer.com/article/10.1007/s11222-016-9687-5">Haynes, K., Fearnhead, P. &amp;amp; Eckley, I.A. &amp;ldquo;A computationally efficient nonparametric approach for changepoint detection,&amp;rdquo; Stat Comput (2017) 27: 1293&lt;/a>) that describes the ED-PELT algorithm.
@@ -396,6 +422,7 @@ Also, we have an internal service which monitors the performance of these tests.
 Two days ago, I noticed that some of these tests sometimes are running for too long.
 For example, &lt;code>nuget_NuGetTest_shouldUpgradeVersionForDotNetCore&lt;/code> usually takes around &lt;code>10 sec&lt;/code>.
 However, in some cases, it takes around &lt;code>110 sec&lt;/code>, &lt;code>210 sec&lt;/code>, or &lt;code>310 sec&lt;/code>:&lt;/p>
+&lt;div class="row">
 &lt;div class="mx-auto">
 &lt;a href="https://aakinshin.net/posts/nuget-package-browsing/img/perf-chart.png" target="_blank">
 &lt;img
@@ -403,6 +430,7 @@ class="mx-auto d-block img-fluid"
 width='800'
 src="https://aakinshin.net/posts/nuget-package-browsing/img/perf-chart.png" />
 &lt;/a>
+&lt;/div>
 &lt;/div>
 &lt;br />
 &lt;p>It looks very suspicious and increases the whole test suite duration.
@@ -467,6 +495,7 @@ to get an overview of the current situation
 (if everything is terrible, I always can switch to an advanced approach).
 Today I want to share with you my favorite way to quickly get statistics
 of GC pauses in Mono and generate nice plots like this:&lt;/p>
+&lt;div class="row">
 &lt;div class="mx-auto">
 &lt;a href="https://aakinshin.net/posts/mono-gc-collects/img/plot-64.png" target="_blank">
 &lt;img
@@ -474,6 +503,7 @@ class="mx-auto d-block img-fluid"
 width='800'
 src="https://aakinshin.net/posts/mono-gc-collects/img/plot-64.png" />
 &lt;/a>
+&lt;/div>
 &lt;/div>
 &lt;br /></description></item><item><title>BenchmarkDotNet v0.10.12</title><link>https://aakinshin.net/posts/bdn-v0_10_12/</link><pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/bdn-v0_10_12/</guid><description>&lt;p>BenchmarkDotNet v0.10.12 has been released! This release includes:&lt;/p>
 &lt;ul>
