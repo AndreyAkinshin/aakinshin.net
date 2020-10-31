@@ -3,7 +3,8 @@ gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="
 gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
 (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-lg navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/pages/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>EN</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/ru/>RU</a></div></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title><a href=/posts/epdf-hd/>Empirical probability density function based on the Harrell-Davis quantile estimator</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-10-27>October 27, 2020</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/pdf/ class="badge badge-info">PDF</a>
 <a href=https://aakinshin.net/tags/epdf/ class="badge badge-info">EPDF</a>
 <a href=https://aakinshin.net/tags/harrell-davis/ class="badge badge-info">Harrell-Davis</a></span><br><br><p>The idea of this post was born when I was working on a presentation for my recent <a href=https://dotnext.ru/en/>DotNext</a> <a href="https://www.youtube.com/watch?v=gc3yVybPuaY&list=PL21xssNXOJNGUROqzSTOC8uZL4W2QZpvK&index=1">talk</a>.
@@ -26,7 +27,8 @@ In this post, I will show how to build such plots.
 Also I will compare them to the classic histograms and kernel density estimations.
 As a bonus, I will demonstrate how awesome these plots are for multimodality detection.</p><br><a href=/posts/epdf-hd/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/misleading-histograms/>Misleading histograms</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-10-20>October 20, 2020</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/multimodality/ class="badge badge-info">Multimodality</a>
 <a href=https://aakinshin.net/tags/r/ class="badge badge-info">R</a>
 <a href=https://aakinshin.net/tags/histograms/ class="badge badge-info">Histograms</a></span><br><br><p>Below you see two histograms.
@@ -43,7 +45,8 @@ Unfortunately, this way may easily become a slippery slope.
 In the <a href=https://aakinshin.net/posts/kde-bw/>previous post</a>, I have shown how density plots may deceive you when the bandwidth is poorly chosen.
 Today, we talk about histograms and why you can&rsquo;t trust them in the general case.</p><br><a href=/posts/misleading-histograms/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/kde-bw/>The importance of kernel density estimation bandwidth</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-10-13>October 13, 2020</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/density-plots/ class="badge badge-info">Density plots</a>
 <a href=https://aakinshin.net/tags/r/ class="badge badge-info">R</a>
 <a href=https://aakinshin.net/tags/bandwidth/ class="badge badge-info">bandwidth</a></span><br><br><p>Below see two kernel density estimations.
@@ -61,7 +64,8 @@ As a result, the plot may present data in the wrong way, which may lead to incor
 Let&rsquo;s discuss bandwidth selection in detail and figure out how to improve the correctness of your density plots.
 In this post, we will cover the following topics:</p><ul><li>Kernel density estimation</li><li>How bandwidth selection affects plot smoothness</li><li>Which bandwidth selectors can we use</li><li>Which bandwidth selectors should we use</li><li>Insidious default bandwidth selectors in statistical packages</li></ul><br><a href=/posts/kde-bw/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/gumbel-mad/>The median absolute deviation value of the Gumbel distribution</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-10-06>October 6, 2020</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/quantiles/ class="badge badge-info">Quantiles</a>
 <a href=https://aakinshin.net/tags/harrell-davis/ class="badge badge-info">Harrell-Davis</a>
 <a href=https://aakinshin.net/tags/r/ class="badge badge-info">R</a>
@@ -76,7 +80,8 @@ I didn&rsquo;t find this value in the reference tables, so I decided to do anoth
 In this post, you will find a short derivation and the result (spoiler: the exact value is <code>0.767049251325708 * β</code>).
 The general approach of the MAD derivation is common for most distributions, so it can be easily reused.</p><br><a href=/posts/gumbel-mad/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/weighted-quantiles/>Weighted quantile estimators</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-09-29>September 29, 2020</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/quantiles/ class="badge badge-info">Quantiles</a>
 <a href=https://aakinshin.net/tags/harrell-davis/ class="badge badge-info">Harrell-Davis</a>
 <a href=https://aakinshin.net/tags/r/ class="badge badge-info">R</a>
@@ -90,7 +95,8 @@ So, what you really want to do is to use all the measurements, but older values 
 This powerful approach can be applied to any time series regardless of the domain area.
 In this post, we learn how to calculate and apply weighted quantiles.</p><br><a href=/posts/weighted-quantiles/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/nonparametric-effect-size/>Nonparametric Cohen's d-consistent effect size</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-06-25>June 25, 2020</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/effect-size/ class="badge badge-info">Effect size</a>
 <a href=https://aakinshin.net/tags/mad/ class="badge badge-info">MAD</a>
 <a href=https://aakinshin.net/tags/harrell-davis/ class="badge badge-info">Harrell-Davis</a>
@@ -99,7 +105,8 @@ In this post, we learn how to calculate and apply weighted quantiles.</p><br><a 
 When these distributions are normal, one of the most popular approaches to express the effect size is <a href="https://en.wikipedia.org/wiki/Effect_size#Cohen's_d">Cohen&rsquo;s d</a>.
 Unfortunately, it doesn&rsquo;t work great for non-normal distributions.</p><p>In this post, I will show a robust Cohen&rsquo;s d-consistent effect size formula for nonparametric distributions.</p><div class=row><div class=mx-auto><a href=/posts/nonparametric-effect-size/img/blackboard.png target=_blank><img class="mx-auto d-block img-fluid" width=800 src=/posts/nonparametric-effect-size/img/blackboard.png></a></div></div><br><br><a href=/posts/nonparametric-effect-size/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/harrell-davis-double-mad-outlier-detector/>Yet another robust outlier detector</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-06-22>June 22, 2020</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/outliers/ class="badge badge-info">Outliers</a>
 <a href=https://aakinshin.net/tags/mad/ class="badge badge-info">MAD</a>
 <a href=https://aakinshin.net/tags/harrell-davis/ class="badge badge-info">Harrell-Davis</a>
@@ -112,7 +119,8 @@ Finally, I found an algorithm to which I have (almost) no complaints.
 It&rsquo;s based on the <em>double median absolute deviation</em> and the <em>Harrell-Davis quantile estimator</em>.
 In this post, I will show how it works and why it&rsquo;s better than some other approaches.</p><br><a href=/posts/harrell-davis-double-mad-outlier-detector/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/how-listseparator-depends-on-runtime-and-operating-system/>How ListSeparator Depends on Runtime and Operating System</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-05-20>May 20, 2020</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/dotnet/ class="badge badge-info">.NET</a>
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/dotnet/ class="badge badge-info">.NET</a>
 <a href=https://aakinshin.net/tags/cs/ class="badge badge-info">C#</a>
 <a href=https://aakinshin.net/tags/rider/ class="badge badge-info">Rider</a>
 <a href=https://aakinshin.net/tags/mono/ class="badge badge-info">Mono</a>
@@ -121,7 +129,8 @@ An interesting example that may bite us at runtime is using <code>ListSeparator<
 Let&rsquo;s start our investigation by printing <code>ListSeparator</code> for the Russian language:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=k>new</span> <span class=n>CultureInfo</span><span class=p>(</span><span class=s>&#34;ru-ru&#34;</span><span class=p>).</span><span class=n>TextInfo</span><span class=p>.</span><span class=n>ListSeparator</span><span class=p>);</span>
 </code></pre></div><p>On Windows, you will get the same result for .NET Framework, .NET Core, and Mono: the <code>ListSeparator</code> is <code>;</code> (a semicolon). You will also get a semicolon on Mono+Unix. However, on .NET Core+Unix, you will get a <a href=https://en.wikipedia.org/wiki/Non-breaking_space>non-breaking space</a>.</p><br><a href=/posts/how-listseparator-depends-on-runtime-and-operating-system/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/how-sorting-order-depends-on-runtime-and-operating-system/>How Sorting Order Depends on Runtime and Operating System</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-05-13>May 13, 2020</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/dotnet/ class="badge badge-info">.NET</a>
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/dotnet/ class="badge badge-info">.NET</a>
 <a href=https://aakinshin.net/tags/cs/ class="badge badge-info">C#</a>
 <a href=https://aakinshin.net/tags/rider/ class="badge badge-info">Rider</a>
 <a href=https://aakinshin.net/tags/mono/ class="badge badge-info">Mono</a>
@@ -130,7 +139,8 @@ jquery-1.4.1.min.js
 jquery-1.4.1-vsdoc.js
 </code></pre></div><br><a href=/posts/how-sorting-order-depends-on-runtime-and-operating-system/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/>How Socket Error Codes Depend on Runtime and Operating System</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-04-27>April 27, 2020</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i><a href=https://aakinshin.net/tags/dotnet/ class="badge badge-info">.NET</a>
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/dotnet/ class="badge badge-info">.NET</a>
 <a href=https://aakinshin.net/tags/cs/ class="badge badge-info">C#</a>
 <a href=https://aakinshin.net/tags/rider/ class="badge badge-info">Rider</a>
 <a href=https://aakinshin.net/tags/mono/ class="badge badge-info">Mono</a>
