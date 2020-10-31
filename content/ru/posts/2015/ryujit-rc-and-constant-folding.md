@@ -2,8 +2,8 @@
 title: "RyuJIT RC и свёртка констант"
 date: "2015-05-12"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - JIT
 - RyuJIT
 - ConstantFolding

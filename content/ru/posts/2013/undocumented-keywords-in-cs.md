@@ -2,8 +2,8 @@
 title: "Недокументированные ключевые слова C# или превращаем объект в тыкву"
 date: "2013-08-26"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - IL
 - Benchmarking
 aliases:

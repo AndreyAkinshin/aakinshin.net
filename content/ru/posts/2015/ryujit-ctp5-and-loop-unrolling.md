@@ -2,8 +2,8 @@
 title: "RyuJIT CTP5 и размотка циклов"
 date: "2015-03-01"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - JIT
 - RyuJIT
 - LoopUnrolling

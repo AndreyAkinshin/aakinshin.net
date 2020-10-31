@@ -2,7 +2,7 @@
 title: "Вся правда о TypeHandle в .NET"
 date: "2013-09-14"
 tags:
-- ".NET"
+- dotnet
 - CLR
 - CLI
 - TypeHandle

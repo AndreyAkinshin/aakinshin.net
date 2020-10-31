@@ -2,9 +2,9 @@
 title: "Про System.Drawing.Color и оператор =="
 date: "2014-02-21"
 tags:
-- ".NET"
+- dotnet
 - Colors
-- C#
+- cs
 - Equals
 aliases:
 - /ru/blog/dotnet/system-drawing-color-equals/

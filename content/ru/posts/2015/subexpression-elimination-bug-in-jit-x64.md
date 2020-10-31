@@ -2,8 +2,8 @@
 title: "История про баг в JIT-x64"
 date: "2015-02-27"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - JIT
 - Bugs
 aliases:

@@ -5,9 +5,9 @@ tags:
 - Algorithms
 - CacheConscious
 - BinarySearch
-- ".NET"
+- dotnet
 - Cache
-- C#
+- cs
 aliases:
 - /ru/blog/dotnet/cache-conscious-binary-search/
 - /ru/blog/post/cache-conscious-binary-search/

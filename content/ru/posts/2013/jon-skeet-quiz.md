@@ -2,8 +2,8 @@
 title: Jon Skeet's Quiz
 date: "2013-11-03"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 aliases:
 - /ru/blog/dotnet/jon-skeet-quiz/
 - /ru/blog/post/jon-skeet-quiz/

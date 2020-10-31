@@ -3,7 +3,7 @@ title: "Проблема с FPU при вызове .NET-логики из Delph
 date: "2013-08-06"
 tags:
 - Delphi
-- ".NET"
+- dotnet
 - FPU
 - COM
 aliases:

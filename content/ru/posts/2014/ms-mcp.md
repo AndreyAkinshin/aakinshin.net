@@ -3,8 +3,8 @@ title: "Получение MCP: личный опыт"
 date: "2014-07-24"
 tags:
 - Exams
-- ".NET"
-- C#
+- dotnet
+- cs
 - Microsoft
 - MCP
 aliases:

@@ -13,6 +13,7 @@ hasCJKLanguage = false
   [languages.en]
   title = "Andrey Akinshin"
   weight = 1
+  contentDir = "content/en"
   [languages.ru]
   title = "Андрей Акиньшин"
   weight = 2

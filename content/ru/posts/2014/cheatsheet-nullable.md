@@ -2,9 +2,9 @@
 title: Nullable-арифметика
 date: "2014-11-11"
 tags:
-- ".NET"
+- dotnet
 - Nullable
-- C#
+- cs
 - CheatSheet
 aliases:
 - /ru/blog/dotnet/cheatsheet-nullable/

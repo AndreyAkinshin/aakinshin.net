@@ -2,7 +2,7 @@
 title: List.ForEach в .NET 4.5
 date: "2014-11-24"
 tags:
-- ".NET"
+- dotnet
 - ".NET-4.5"
 - Loops
 - List

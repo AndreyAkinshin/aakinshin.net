@@ -1,16 +1,2 @@
 {{ $posts := (where .Site.RegularPages "Section" "posts")}}
-{{ range $posts.ByPublishDate.Reverse.GroupByDate "2006" }}
-  <h2>{{ .Key }}</h2>
-  <ul>
-    {{ range .Pages }}
-      <li>
-        <a href="{{ .Permalink }}">{{ .Title }}</a> <i>({{ partial "date-short.html" . }})</i><br />
-        {{ with .Params.tags }}
-          {{ range . }}
-          <span class="badge badge-secondary">{{ . }}</span>
-          {{ end }}
-        {{ end }}
-      </li>
-    {{ end }}
-  </ul>
-{{ end }}
+{{ partial "posts-by-years.html" $posts }}

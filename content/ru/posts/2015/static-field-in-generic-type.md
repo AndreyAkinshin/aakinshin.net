@@ -2,8 +2,8 @@
 title: "Статические поля в generic-классах"
 date: "2015-01-21"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - Generic
 - Static
 aliases:

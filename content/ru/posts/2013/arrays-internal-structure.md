@@ -2,8 +2,8 @@
 title: "Внутреннее устройство массивов в .NET"
 date: "2013-10-11"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - Arrays
 aliases:
 - /ru/blog/dotnet/arrays-internal-structure/

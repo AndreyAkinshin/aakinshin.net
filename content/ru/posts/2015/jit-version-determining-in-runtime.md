@@ -2,8 +2,8 @@
 title: "Определение версии JIT в рантайме"
 date: "2015-02-28"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - JIT
 aliases:
 - /ru/blog/dotnet/jit-version-determining-in-runtime/

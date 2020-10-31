@@ -2,8 +2,8 @@
 title: "Размотка маленьких циклов в разных версиях JIT"
 date: "2015-03-02"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - JIT
 - Bugs
 - LoopUnrolling

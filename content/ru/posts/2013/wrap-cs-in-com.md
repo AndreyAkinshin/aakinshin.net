@@ -2,8 +2,8 @@
 title: "Заворачиваем C#-класс в COM"
 date: "2013-06-03"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - COM
 aliases:
 - /ru/blog/dotnet/wrap-cs-in-com/

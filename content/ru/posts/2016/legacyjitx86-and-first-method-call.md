@@ -2,8 +2,8 @@
 title: "LegacyJIT-x86 и первый вызов метода"
 date: "2016-04-04"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - JIT
 - Benchmarks
 aliases:

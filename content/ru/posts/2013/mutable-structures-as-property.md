@@ -2,9 +2,9 @@
 title: "Использование изменяемых структур в свойствах классов"
 date: "2013-06-06"
 tags:
-- ".NET"
+- dotnet
 - Properties
-- C#
+- cs
 - Structures
 aliases:
 - /ru/blog/dotnet/mutable-structures-as-property/

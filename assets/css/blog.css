@@ -184,10 +184,12 @@ td.fast { color: #00C851; }
 td.norm { color: #FF8800; }
 
 dark-mode-toggle {
-  --dark-mode-toggle-light-icon: url(/img/icons/moon.svg);
-  --dark-mode-toggle-dark-icon: url(/img/icons/sun.svg);
+  --dark-mode-toggle-light-icon: url(/img/icons/sun.svg);
+  --dark-mode-toggle-dark-icon: url(/img/icons/moon.svg);
+  --dark-mode-toggle-icon-size: 3rem;
+  height: 36px;
+  width: 68px;
 }
-
 
 /* Icons */
 .faicon {
@@ -213,4 +215,13 @@ body {
 .block-example-title::before {
   counter-increment: example;
   content: "Example " counter(example);
+}
+
+/* Share */
+.share-block {
+  display: flex;
+  align-items: center;
+}
+.share-button {
+  padding-left: 15px;
 }

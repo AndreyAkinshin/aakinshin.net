@@ -2,8 +2,8 @@
 title: "Blittable-типы"
 date: "2015-11-26"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 aliases:
 - ru/blog/dotnet/blittable/
 - ru/blog/post/blittable/

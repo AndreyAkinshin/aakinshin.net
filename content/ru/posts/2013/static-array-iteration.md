@@ -2,8 +2,8 @@
 title: "Об итерировании статичных массивов в .NET"
 date: "2013-08-29"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - Benchmarking
 - Static
 - IL

@@ -2,8 +2,8 @@
 title: "Сравнение производительности массивов в .NET"
 date: "2013-08-31"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - Benchmarking
 - ASM
 - JIT

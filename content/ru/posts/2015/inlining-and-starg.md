@@ -2,8 +2,8 @@
 title: "История про инлайнинг под JIT-x86 и starg"
 date: "2015-02-26"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - Inlining
 aliases:
 - /ru/blog/dotnet/inlining-and-starg/

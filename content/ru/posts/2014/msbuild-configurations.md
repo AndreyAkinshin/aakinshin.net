@@ -2,7 +2,7 @@
 title: "Настраиваем конфигурации сборок в .NET"
 date: "2014-02-08"
 tags:
-- ".NET"
+- dotnet
 - MSBuild
 - Configurations
 aliases:

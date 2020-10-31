@@ -2,8 +2,8 @@
 title: "Учимся округлять в C#"
 date: "2013-09-18"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - Rounding
 - CheatSheet
 aliases:

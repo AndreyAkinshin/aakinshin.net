@@ -2,11 +2,11 @@
 title: Endianness в .NET
 date: "2014-10-29"
 tags:
-- ".NET"
+- dotnet
 - Endianness
 - ASM
 - Mono
-- C#
+- cs
 aliases:
 - /ru/blog/dotnet/endianness/
 - /ru/blog/post/endianness/

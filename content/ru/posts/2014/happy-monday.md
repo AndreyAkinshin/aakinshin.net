@@ -3,7 +3,7 @@ title: Happy Monday!
 date: "2014-08-11"
 tags:
 - Bugs
-- ".NET"
+- dotnet
 - Hate
 - PostSharp
 aliases:

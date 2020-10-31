@@ -2,8 +2,8 @@
 title: "Об экранировании URI в .NET"
 date: "2014-11-13"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - Mono
 - URI
 - Escaping

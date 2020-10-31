@@ -2,7 +2,7 @@
 title: "Эти занимательные региональные настройки"
 date: "2014-09-21"
 tags:
-- ".NET"
+- dotnet
 - CultureInfo
 - Localization
 - Globalization

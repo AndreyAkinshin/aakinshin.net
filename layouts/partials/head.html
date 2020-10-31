@@ -9,9 +9,9 @@
   {{ end }}
   <meta name="author" content='{{ i18n "andreyAkinshin" }}'>
   <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
-  {{/*  <meta name="keywords" content='@(string.Join(",", Model.Page.Tags))'>  */}}
+  <meta name="keywords" content='{{ with (.GetTerms "tags") }}{{ range $i, $e := . }}{{ if $i }}, {{ end }}{{ $e.Title }}{{ end }}{{ end }}'>
   
-  {{ $title := print .Title " | " .Site.Title }}
+  {{ $title := print .Title }}
   {{ if .IsHome }}
     {{ $title = .Site.Title }}
   {{ end }}
@@ -25,7 +25,7 @@
   {{ partial "import/js.html" "theme-before" }}
 
   <!-- DarkModeToggle -->
-  <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
+  {{ partial "import/mjs.html" "dark-mode-toggle" }}
 
   <!-- FontAwesome -->
   {{ partial "import/css.html" "fontawesome-all" }}

@@ -6,11 +6,11 @@
 <time datetime="{{ $dateTime }}">{{ partial "date-full.html" . }}</time>
 &nbsp;&nbsp;
 
-{{ with .Params.tags }}
-  <div class="faicon"><i class="fas fa-tag"></i></div>
+{{ with (.GetTerms "tags") }}
+  <i class="fas fa-tag"></i>
+  &nbsp;
   {{ range . }}
-  {{ $href := print (absURL "tags/") (urlize .) }}
-  <a href="{{ $href }}" class="badge badge-info">{{ . }}</a>
+    <a href="{{ .Permalink }}" class="badge badge-info">{{ .Title }}</a>
   {{ end }}
 {{ end }}
 

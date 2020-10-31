@@ -2,8 +2,8 @@
 title: "Visual Studio и ProjectTypeGuids.cs"
 date: "2016-02-27"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - VisualStudio
 - Hate
 aliases:

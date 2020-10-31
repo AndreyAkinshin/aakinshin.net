@@ -2,7 +2,7 @@
 title: "Неожиданное место для сборки мусора в .NET"
 date: "2013-08-08"
 tags:
-- ".NET"
+- dotnet
 - GC
 - OpenCV
 aliases:

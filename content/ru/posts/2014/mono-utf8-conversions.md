@@ -3,7 +3,7 @@ title: "Об UTF-8-преобразованиях в Mono"
 date: "2014-11-10"
 tags:
 - Encodings
-- ".NET"
+- dotnet
 - Mono
 aliases:
 - /ru/blog/dotnet/mono-utf8-conversions/

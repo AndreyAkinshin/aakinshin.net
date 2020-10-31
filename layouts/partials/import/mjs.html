@@ -1,0 +1,4 @@
+{{ $baseName := . }}
+{{ $name := printf "js/%s.mjs" $baseName }}
+{{ $js := resources.Get $name | minify | fingerprint }}
+<script type="module" src="{{ $js.Permalink }}"></script>

@@ -63,3 +63,9 @@ other = "Share"
 
 [myErdosNumber]
 other = "My <a href='https://en.wikipedia.org/wiki/Erd%C5%91s_number'>Erdős number</a>"
+
+[allPosts]
+other = "All Posts"
+
+[tags]
+other = "Tags"

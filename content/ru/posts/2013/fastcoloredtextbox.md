@@ -3,8 +3,8 @@ title: FastColoredTextBox — божественный RichTextBox для .NET
 date: "2013-07-17"
 tags:
 - WPF
-- ".NET"
-- C#
+- dotnet
+- cs
 - GUI
 - Controls
 aliases:

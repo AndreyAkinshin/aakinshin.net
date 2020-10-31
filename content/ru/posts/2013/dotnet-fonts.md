@@ -3,8 +3,8 @@ title: "Занимательное о шрифтах в .NET"
 date: "2013-06-03"
 tags:
 - fonts
-- ".NET"
-- C#
+- dotnet
+- cs
 aliases:
 - /ru/blog/dotnet/fonts/
 - /ru/blog/post/dotnet-fonts/

@@ -2,8 +2,8 @@
 title: "Сайд-эффект внутренней реализации List"
 date: "2014-11-19"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - List
 - Bugs
 aliases:

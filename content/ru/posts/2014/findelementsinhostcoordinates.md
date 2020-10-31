@@ -2,8 +2,8 @@
 title: "Странное поведение FindElementsInHostCoordinates в WinRT"
 date: "2014-04-29"
 tags:
-- ".NET"
-- C#
+- dotnet
+- cs
 - Silverlight
 - WinRT
 aliases:

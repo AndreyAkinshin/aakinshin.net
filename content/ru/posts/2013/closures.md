@@ -4,8 +4,8 @@ date: "2013-08-07"
 tags:
 - Lambda
 - Closures
-- C#
-- ".NET"
+- cs
+- dotnet
 aliases:
 - /ru/blog/dotnet/closures/
 - /ru/blog/post/closures/
