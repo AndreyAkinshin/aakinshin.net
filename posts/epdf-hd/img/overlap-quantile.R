@@ -135,4 +135,4 @@ for (i in 1:(k-1)) {
 }
 
 show(p)
-ggsave_nice("riddle", p + tm)
+ggsave_nice("riddle", p + tm, ext = "png")

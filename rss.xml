@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 27 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Empirical probability density function based on the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/epdf-hd/</link><pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/epdf-hd/</guid><description>&lt;p>The idea of this post was born when I was working on a presentation for my recent &lt;a href="https://dotnext.ru/en/">DotNext&lt;/a> &lt;a href="https://www.youtube.com/watch?v=gc3yVybPuaY&amp;amp;list=PL21xssNXOJNGUROqzSTOC8uZL4W2QZpvK&amp;amp;index=1">talk&lt;/a>.
 It had a &lt;a href="https://slides.aakinshin.net/dotnext-piter2020/#193">slide&lt;/a> with a density plot like this:&lt;/p>
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/epdf-hd/img/riddle-light.svg" target="_blank">
+&lt;a href="https://aakinshin.net/posts/epdf-hd/img/riddle-light.png" target="_blank">
 &lt;picture>
 &lt;source
 theme='dark'
-srcset="https://aakinshin.net/posts/epdf-hd/img/riddle-dark.svg"
+srcset="https://aakinshin.net/posts/epdf-hd/img/riddle-dark.png"
 media="(prefers-color-scheme: dark)">
 &lt;source
 theme='light'
-srcset="https://aakinshin.net/posts/epdf-hd/img/riddle-light.svg"
+srcset="https://aakinshin.net/posts/epdf-hd/img/riddle-light.png"
 media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
 &lt;img
 class="mx-auto d-block img-fluid"
 width='800'
-src="https://aakinshin.net/posts/epdf-hd/img/riddle-light.svg">
+src="https://aakinshin.net/posts/epdf-hd/img/riddle-light.png">
 &lt;/picture>
 &lt;/a>
 &lt;/div>
