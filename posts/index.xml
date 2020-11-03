@@ -35,7 +35,7 @@ Indeed, such a density plot is just an estimation of the underlying distribution
 It has its own decile values, which are not equal to the sample decile values regardless of the used quantile estimator.
 This problem is common for different kinds of visualization that presents density and quantiles at the same time (e.g., &lt;a href="https://towardsdatascience.com/violin-plots-explained-fb1d115e023d">violin plots&lt;/a>)&lt;/p>
 &lt;p>It leads us to a question: how should we present the shape of our data together with quantile values without confusing inconsistency in the final image?
-Today I will present a good solution: we should use the empirical probability density function based on the Harrell-Davis quantile estimator!
+Today I will present a good solution: we should use the quantile-respectful density estimation based on the Harrell-Davis quantile estimator!
 I know the title is a bit long, but it&amp;rsquo;s not so complicated as it sounds.
 In this post, I will show how to build such plots.
 Also I will compare them to the classic histograms and kernel density estimations.
