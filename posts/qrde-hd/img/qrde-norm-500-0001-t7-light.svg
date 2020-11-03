@@ -65,5 +65,5 @@
 <polyline points='44.73,80.68 47.47,80.68 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' clip-path='url(#cpMC4wMHwzODQuMDB8MjE2LjAwfDAuMDA=)' />
 <g clip-path='url(#cpMC4wMHwzODQuMDB8MjE2LjAwfDAuMDA=)'><text x='210.25' y='208.24' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='5.50px' lengthAdjust='spacingAndGlyphs'>x</text></g>
 <g clip-path='url(#cpMC4wMHwzODQuMDB8MjE2LjAwfDAuMDA=)'><text transform='translate(13.05,115.02) rotate(-90)' style='font-size: 11.00px; font-family: Liberation Sans;' textLength='5.50px' lengthAdjust='spacingAndGlyphs'>y</text></g>
-<g clip-path='url(#cpMC4wMHwzODQuMDB8MjE2LjAwfDAuMDA=)'><text x='69.19' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='287.62px' lengthAdjust='spacingAndGlyphs'>EPDF (step = 0.001), normal distribution, n = 500</text></g>
+<g clip-path='url(#cpMC4wMHwzODQuMDB8MjE2LjAwfDAuMDA=)'><text x='67.72' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='290.55px' lengthAdjust='spacingAndGlyphs'>QRDE (step = 0.001), normal distribution, n = 500</text></g>
 </svg>
