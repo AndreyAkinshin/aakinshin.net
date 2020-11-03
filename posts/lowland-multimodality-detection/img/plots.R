@@ -7,7 +7,7 @@ library(ggpubr)
 library(tidyr)
 
 cbPalette <- rep(c("#D55E00", "#56B4E9", "#009E73", "#E69F00", "#0072B2", "#CC79A7"), 5)
-ggsave_nice <- function(name, plot = last_plot(), tm = theme_bw(), dark_and_light = TRUE, ext = "svg", dpi = 300) {
+ggsave_nice <- function(name, plot = last_plot(), tm = theme_bw(), dark_and_light = TRUE, ext = "png", dpi = 300) {
   width <- 1600 / dpi
   height <- 900 / dpi
   if (dark_and_light) {
