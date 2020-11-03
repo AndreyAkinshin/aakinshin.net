@@ -1,13 +1,15 @@
 ---
-title: "Empirical probability density function based on the Harrell-Davis quantile estimator"
+title: "Quantile-respectful density estimation based on the Harrell-Davis quantile estimator"
 date: "2020-10-27"
 tags:
 - Statistics
 - PDF
-- EPDF
+- QRDE
 - Harrell-Davis
 features:
 - math
+aliases:
+- /posts/epdf-hd/
 ---
 
 The idea of this post was born when I was working on a presentation for my recent [DotNext](https://dotnext.ru/en/) [talk](https://www.youtube.com/watch?v=gc3yVybPuaY&list=PL21xssNXOJNGUROqzSTOC8uZL4W2QZpvK&index=1).
@@ -31,7 +33,7 @@ It has its own decile values, which are not equal to the sample decile values re
 This problem is common for different kinds of visualization that presents density and quantiles at the same time (e.g., [violin plots](https://towardsdatascience.com/violin-plots-explained-fb1d115e023d))
 
 It leads us to a question: how should we present the shape of our data together with quantile values without confusing inconsistency in the final image?
-Today I will present a good solution: we should use the empirical probability density function based on the Harrell-Davis quantile estimator!
+Today I will present a good solution: we should use the quantile-respectful density estimation based on the Harrell-Davis quantile estimator!
 I know the title is a bit long, but it's not so complicated as it sounds.
 In this post, I will show how to build such plots.
 Also I will compare them to the classic histograms and kernel density estimations.
@@ -84,25 +86,24 @@ In the case of the KDE-based quantiles, this value may be extremely high or even
 Most people will expect to see a value based on the existing data rather than on the KDE.
 
 Let's try the second option, where we try to build a density plot using the estimated quantile values.
-Since we are going to build it based on the original sample, it would be the *empirical probability density function*.
 
-### Empirical probability density function
+### Quantile-respectful density estimation
 
-If we google for different empirical functions,
-  it's turned out that most people use *empirical cumulative distribution function* (ECDF).
-Meanwhile, the *empirical probability density function* (EPDF) is not so popular.
-And there is a reason for it: if you build the EPDF using the Type 7 quantile estimator
-  (which is the most used option nowadays),
-  the result will not be so exciting.
-Let's see how to improve the situation using the Harrell-Davis quantile estimator.
+Let's introduce a new term: *quantile-respectful density estimation*[^1] (QRDE).
+It's a density estimation that matches the given quantile values.
+Obviously, it highly depends on the used quantile estimator.
+In this section, we compare two different variations of QRDE that are based
+  on the Type 7 quantile estimator (QRDE-T7) and
+  on the HarrellDavis quantile estimator (QRDE-HD).
 
-To build the EPDF, we have to calculate several quantile values.
+From the computational point of view, the easiest way to evaluate QRDE is to present it
+  as a [step function](https://en.wikipedia.org/wiki/Step_function) based on several quantile values.
 It's convenient to consider the minimum and the maximum values as additional quantile values
   (although it's not correct from the formal point of view).
-The easiest way to build the EPDF is to present it in a histogram-like form.
+It's also convenient to think about this step function as a *density histogram*.
 For each pair of consecutive quantiles values, we should draw a bin.
 The left and the right borders of the bin are equal to the quantile values.
-We want to make the EPDF consistent with the quantile values, so each bin's area should be equal to $1 / p$ when we work with $p$-quantiles.
+We want to make the QRDE consistent with the quantile values, so each bin's area should be equal to $1 / p$ when we work with $p$-quantiles.
 Since we know the width and the area of each bin, it's easy to calculate its height:
 
 $$
@@ -115,10 +116,10 @@ They split our distribution into 10 equal sizes.
 Thus, we should get 10 bins, the area of each bin is 0.1.
 For the above sample $x = \{ 3, 4, 7 \}$, we have the following plots:
 
-{{< imgld epdf-347 >}}
+{{< imgld qrde-347 >}}
 
 The Type 7 quantile estimator presents a nice visualization of this concept.
-The median of the sample (which equals 4 with the given estimator) splits the EPDF into two equal parts.
+The median of the sample (which equals 4 with the given estimator) splits the QRDE into two equal parts.
 Since this quantile estimator is based on linear interpolation, we have a flat area in each part.
 
 The Harrell-Davis quantile estimator gives us more smoothness.
@@ -126,43 +127,43 @@ At the start, you may be confused by the spikes at the ends of the plot.
 However, if you think about it a little bit, this phenomenon becomes pretty obvious and natural.
 Indeed, the sample's corner elements are "magic" points, where a huge portion of density arises from nowhere.
 We have zero density on one side and a high positive density on another side.
-You may also observe such spikes with the KDE-based PDF if you cut down parts before the minimum element and after the maximum element.
+You may also observe such spikes with the KDE if you cut down parts before the minimum element and after the maximum element.
 
 Now let's increase the number of elements and consider a 500-element sample from the normal distribution:
 
-{{< imgld epdf-norm-500-01 >}}
+{{< imgld qrde-norm-500-01 >}}
 
 We can recognize the bell-shape of the normal distribution, but it's pretty rough.
 Also, we do not see a significant difference between the presented quantile estimators.
 The difference becomes more obvious if we reduce the quantization step value and switch to percentiles:
 
-{{< imgld epdf-norm-500-001 >}}
+{{< imgld qrde-norm-500-001 >}}
 
-Now we can see that the Harrell-Davis gives us a smoother version of the EPDF.
-The Type7-based EPDF looks too spiky, which makes it not so useful.
+Now we can see that the Harrell-Davis gives us a smoother version of the QRDE.
+The Type7-based QRDE looks too spiky, which makes it not so useful.
 With a very small quantization step, it becomes completely useless because
   in most cases, we will observe only a few bins that have the maximum density:
 
-{{< imgld epdf-norm-500-0001-t7 >}}
+{{< imgld qrde-norm-500-0001-t7 >}}
 
-Meanwhile, the Harrell-Davis-based EPDF keeps its smooth form:
+Meanwhile, the Harrell-Davis-based QRDE keeps its smooth form:
 
-{{< imgld epdf-norm-500-0001-hd >}}
+{{< imgld qrde-norm-500-0001-hd >}}
 
-Of course, it's not as smooth as the KDE-based PDF.
+Of course, it's not as smooth as the KDE.
 We have such a wobbly plot because it describes our real data instead of oversmoothed estimation of the underlying distribution.
 If we don't know the actual distribution and we want to just explore the data in the collected sample,
-  the Harrell-Davis-based EPDF is one of the best ways to do it.
+  the Harrell-Davis-based QRDE is one of the best ways to do it.
 
 The most important fact about this plot is that it's consistent with the quantile values.
 The estimated value of median splits this plot into two equal parts,
   the estimated decile values split this plot into ten equal parts,
   and so on.
 
-### EPDF and multimodal distributions
+### QRDE and multimodal distributions
 
-The true power of the EPDF manifests itself when you start working with multimodal distributions.
-Let's check out some advantages of the EPDF against classic histograms and the KDE-based PDF.
+The true power of the QRDE manifests itself when you start working with multimodal distributions.
+Let's check out some advantages of the QRDE against classic histograms and the KDE.
 
 **It highlights multimodality without parameter tuning.**  
 
@@ -170,16 +171,16 @@ Let's check out some advantages of the EPDF against classic histograms and the K
 
 Here we have a distribution with four modes (a combination of $\mathcal{N}(0, 4)$, $\mathcal{N}(0, 8)$, $\mathcal{N}(0, 12)$, $\mathcal{N}(0, 16)$; 30 elements from each).
 For the classic histogram, we should choose the offset and the bandwidth, which may be a [problem]({{< ref misleading-histograms >}}).
-For KDE-based PDF, we should choose the bandwidth and the kernel, which also may be [problem]({{< ref kde-bw >}}).
-With Harrell-Davis-based EPDF, we don't have any parameters to tune: the plot is uniquely defined, and it almost always presents what we want to see.
+For KDE, we should choose the bandwidth and the kernel, which also may be [problem]({{< ref kde-bw >}}).
+With Harrell-Davis-based QRDE, we don't have any parameters to tune: the plot is uniquely defined, and it almost always presents what we want to see.
 
 **It highlights multimodality even if two modes are close to each other.**  
 
 {{< imgld comparison-2 >}}
 
 Here we have a bimodal distribution with background noise (1000 elements from $\mathcal{U}(0; 10)$, 100 elements from $\mathcal{N}(5, 0.1^2)$, 100 elements from $\mathcal{N}(5.5, 0.1^2)$).
-It's always impossible to see signs of multimodality on the classic histograms or the KDE-based PDF plots.
-Meanwhile, the Harrell-Davis-based EPDF solves highlights multimodality without any problems.
+It's always impossible to see signs of multimodality on the classic histograms or the KDE plots.
+Meanwhile, the Harrell-Davis-based QRDE solves highlights multimodality without any problems.
 When two modes are clearly expressed, we will always see it on such a plot regardless of the total range, the distance between modes, and the noise pattern.
 
 **It highlights multimodality even there are too many modes.**
@@ -187,14 +188,14 @@ When two modes are clearly expressed, we will always see it on such a plot regar
 {{< imgld comparison-20 >}}
 
 Here we have a multimodal distribution with 20 modes (a combination of $\mathcal{N}(4i, 1^2)$ for $i \in \{ 1..20\}$; 100 elements from each).
-It's completely impossible to detect such multimodality using the KDE-based PDF; these plots are too smooth for this problem.
+It's completely impossible to detect such multimodality using the KDE; these plots are too smooth for this problem.
 It's also impossible to distinguish such a situation from regular noise using classic histograms (another example of the bandwidth problem).
-In contrast, the Harrell-Davis-based EPDF doesn't have a limitation on the number of modes:
+In contrast, the Harrell-Davis-based QRDE doesn't have a limitation on the number of modes:
   it always able to detect all the modes while they are clearly expressed.
 
 ### Conclusion
 
-Currently, the EPDF based on the Harrell-Davis quantile estimator is my favorite way to present the collected sample's raw shape.
+Currently, the QRDE-HD quantile estimator is my favorite way to present the collected sample's raw shape.
 I want to highlight one more time two main advantages that I described in this post:
 
 * **Quantile-consistency**  
@@ -212,3 +213,10 @@ I want to highlight one more time two main advantages that I described in this p
   Harrell, F.E. and Davis, C.E., 1982. A new distribution-free quantile estimator.
   *Biometrika*, 69(3), pp.635-640.  
   https://pdfs.semanticscholar.org/1a48/9bb74293753023c5bb6bff8e41e8fe68060f.pdf
+
+[^1]: In the first version of this post, I used term "empirical probability density function."
+      After some thoughts, I decided to rename it to "quantile-respectful density estimation."
+      The new term is not so confusing
+        (the suggested function is significantly different from the [empirical function](https://en.wikipedia.org/wiki/Empirical_distribution_function))
+        and it describes the underlying concept much better.
+      [Naming is hard](http://thecodelesscode.com/case/220).

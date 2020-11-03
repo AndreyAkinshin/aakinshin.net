@@ -70,8 +70,8 @@ p <- ggplot(data.frame(x), aes(x)) +
   theme(legend.key.width = unit(0.5, "inches"))
 ggsave_nice("three-elements")
 
-# EPDF
-epdf.df <- function(x, type, step) {
+# QRDE
+qrde.df <- function(x, type, step) {
   probs <- seq(0, 1, by = step)
   if (type == "Type7")
     q <- quantile(x, probs)
@@ -91,45 +91,45 @@ epdf.df <- function(x, type, step) {
   }
   return(data.frame(x, y, type))
 }
-epdf.df2 <- function(x, step) {
-  df <- rbind(epdf.df(x, "Type7", step), epdf.df(x, "Harrell-Davis", step))
+qrde.df2 <- function(x, step) {
+  df <- rbind(qrde.df(x, "Type7", step), qrde.df(x, "Harrell-Davis", step))
   df$type <- factor(df$type, levels = c("Type7", "Harrell-Davis"))
   return(df)
 }
-draw.epdf <- function(x, step, comment, type = "") {
+draw.qrde <- function(x, step, comment, type = "") {
   if (type != "")
-    df <- epdf.df(x, type, step)
+    df <- qrde.df(x, type, step)
   else
-    df <- epdf.df2(x, step)
+    df <- qrde.df2(x, step)
   ggplot(df, aes(x, y)) +
     geom_line(col = cbPalette[2]) +
     facet_grid(cols = vars(type)) +
-    ggtitle(paste0("EPDF (step = ", step, "), ", comment)) +
+    ggtitle(paste0("QRDE (step = ", step, "), ", comment)) +
     theme(plot.title = element_text(hjust = 0.5))
 }
 
-draw.epdf(c(3, 4, 7), 0.1, "x={3,4,7}")
-ggsave_nice("epdf-347")
+draw.qrde(c(3, 4, 7), 0.1, "x={3,4,7}")
+ggsave_nice("qrde-347")
 
 set.seed(42)
 x <- rnorm(500)
-draw.epdf(x, 0.1, "normal distribution, n = 500")
-ggsave_nice("epdf-norm-500-01")
-draw.epdf(x, 0.01, "normal distribution, n = 500")
-ggsave_nice("epdf-norm-500-001")
+draw.qrde(x, 0.1, "normal distribution, n = 500")
+ggsave_nice("qrde-norm-500-01")
+draw.qrde(x, 0.01, "normal distribution, n = 500")
+ggsave_nice("qrde-norm-500-001")
 
 set.seed(44)
 x <- rnorm(500)
-draw.epdf(x, 0.001, "normal distribution, n = 500", "Type7")
-ggsave_nice("epdf-norm-500-0001-t7")
-draw.epdf(x, 0.001, "normal distribution, n = 500", "Harrell-Davis")
-ggsave_nice("epdf-norm-500-0001-hd")
+draw.qrde(x, 0.001, "normal distribution, n = 500", "Type7")
+ggsave_nice("qrde-norm-500-0001-t7")
+draw.qrde(x, 0.001, "normal distribution, n = 500", "Harrell-Davis")
+ggsave_nice("qrde-norm-500-0001-hd")
 
-# EPDF vs. Histograms vs. KDE
+# QRDE vs. Histograms vs. KDE
 draw.comparison <- function(x) {
-  df <- epdf.df(x, "Harrell-Davis", 0.001)
+  df <- qrde.df(x, "Harrell-Davis", 0.001)
   tm <- theme(plot.title = element_text(size=10))
-  p1 <- ggplot(df, aes(x, y)) + geom_line(col = cbPalette[2]) + ggtitle("EPDF (Harrell-Davis)") + tm
+  p1 <- ggplot(df, aes(x, y)) + geom_line(col = cbPalette[2]) + ggtitle("QRDE (Harrell-Davis)") + tm
   p2 <- ggplot(df, aes(x)) + geom_histogram(col = cbPalette[3], fill = cbPalette[3], bins = 30) + ggtitle("Classic histogram") + tm
   p3 <- ggplot(df, aes(x)) + geom_density(col = cbPalette[1], fill = cbPalette[1]) + xlim(extendrange(x)) + ggtitle("KDE (Silverman's rule of thumb)") + tm
   p4 <- ggplot(df, aes(x)) + geom_density(bw = "SJ", col = cbPalette[1], fill = cbPalette[1]) + xlim(extendrange(x)) + ggtitle("KDE (Sheather & Jones)") + tm
