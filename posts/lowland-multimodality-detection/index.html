@@ -43,7 +43,15 @@ It worth reading the original post, but I briefly describe the main idea.
 Basically, the mvalue is the <a href=https://en.wikipedia.org/wiki/Total_variation>total variation</a> of a histogram or a density plot normalized by the plot height.
 The modal test compares the mvalue with a predefined threshold and makes a decision about multimodality.
 The easiest way to understand the idea is to just look at some examples.</p><p>Here is a visualization of a perfect unimodal distribution:</p><div class=row><div class=mx-auto><a href=/posts/lowland-multimodality-detection/img/mvalue1-light.svg target=_blank class=imgldlink><picture>
-<source theme=dark srcset=/posts/lowland-multimodality-detection/img/mvalue1-dark.svg media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/lowland-multimodality-detection/img/mvalue1-light.svg media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/lowland-multimodality-detection/img/mvalue1-light.svg></picture></a></div></div><br><p>The mvalue equals 2 (1 for ascent + 1 for descent).
+<source theme=dark srcset=/posts/lowland-multimodality-detection/img/mvalue1-dark.svg media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/lowland-multimodality-detection/img/mvalue1-light.svg media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/lowland-multimodality-detection/img/mvalue1-light.svg></picture></a></div></div><br><p>Here we have three local extrema: the left corner point, the central peak, and the right corner point.
+For each extremum, we should calculate the density value normalized by the global maxima.
+For the left and right corner points, this value equals zero.
+For the central peak, it equals one (because it&rsquo;s the highest peak).
+The total variation is the sum of absolute differences between consecutive values.
+In this case, it equals
+(1.0 for ascent from the left corner point to the central peak) +
+(1.0 for descent from the central peak to the right corner point).
+Thus, the mvalue equals 2.
 It&rsquo;s the minimum possible value of mvalue.</p><p>Here is a visualization of a perfect bimodal distribution:</p><div class=row><div class=mx-auto><a href=/posts/lowland-multimodality-detection/img/mvalue2-light.svg target=_blank class=imgldlink><picture>
 <source theme=dark srcset=/posts/lowland-multimodality-detection/img/mvalue2-dark.svg media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/lowland-multimodality-detection/img/mvalue2-light.svg media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/lowland-multimodality-detection/img/mvalue2-light.svg></picture></a></div></div><br><p>The mvalue equals 4 (1 for ascent + 1 for descent + 1 for ascent + 1 for descent).
 It&rsquo;s the default value of the etalon bimodal distribution.</p><p>Here is a visualization of a perfect trimodal distribution:</p><div class=row><div class=mx-auto><a href=/posts/lowland-multimodality-detection/img/mvalue3-light.svg target=_blank class=imgldlink><picture>
