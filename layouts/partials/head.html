@@ -11,7 +11,7 @@
   <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
   <meta name="keywords" content='{{ with (.GetTerms "tags") }}{{ range $i, $e := . }}{{ if $i }}, {{ end }}{{ $e.Title }}{{ end }}{{ end }}'>
   
-  {{ $title := print .Title }}
+  {{ $title := print .Title " | " .Site.Title }}
   {{ if .IsHome }}
     {{ $title = .Site.Title }}
   {{ end }}
