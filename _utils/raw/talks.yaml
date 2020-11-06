@@ -177,7 +177,7 @@ talks:
     lang: en
     links:
       - key: event
-        url: https://www.ildevcon.com/
+        url: https://www.gigaspaces.com/events/intel-il-devcon-tel-aviv-june-25th-2018/
   - date: 2018-04-19
     event: Open Day JetBrains Moscow 2018
     event-type: conference
@@ -389,7 +389,7 @@ talks:
     lang: ru
     links:
       - key: event
-        url: http://dump-conf.ru/
+        url: https://dump-ekb.ru/
       - key: youtube
         url: https://www.youtube.com/watch?v=raJ-yhkH9MY
       - key: slideshare
@@ -409,7 +409,7 @@ talks:
       - key: slideshare
         url: https://www.slideshare.net/AndreyAkinshin/net-25012017
       - key: org
-        url: http://mskdotnet.org/
+        url: https://mskdotnet.timepad.ru/events/
         caption: Msk .NET Community
   ######################################################################################################################
   # 2016
@@ -473,7 +473,7 @@ talks:
       - key: youtube
         url: https://www.youtube.com/watch?v=Eb4ZgRQAaqI
       - key: org
-        url: http://spbdotnet.org
+        url: https://vk.com/spbdotnet
   - date: 2016-11-02
     event_en: Yekaterinburg .NET community meetup
     event_ru: Встреча .NET сообщества Екатеринбурга
@@ -550,7 +550,7 @@ talks:
     lang: ru
     links:
       - key: event
-        url: http://www.msdevcon.ru/2016/
+        url: https://channel9.msdn.com/Events/DevCon/DevCon-2016
       - key: youtube
         url: https://www.youtube.com/watch?v=whZm6sTiMaA
   - date: 2016-05-23
@@ -629,17 +629,14 @@ talks:
     location_en: Novosibirsk, Russia
     location_ru: г. Новосибирск
     lang: ru
-  - date: 2016-03-16 
+  - date: 2016-03-16
     date2: 2016-03-17
     event: CEE Community Open Days 2016
     event-type: conference
-    title: Project Rider 
+    title: Project Rider
     location_en: Prague, Czech Republic
     location_ru: Чехия, г. Прага
     lang: en
-    links:
-      - key: event
-        url: http://www.mvpopendays.ru/2016/index.html
   ######################################################################################################################
   # 2015
   ######################################################################################################################
@@ -671,7 +668,7 @@ talks:
     lang: ru
     links:
       - key: event
-        url: https://events.techdays.ru/Dev-Camp/2015-12/
+        url: https://channel9.msdn.com/Events/Community-Dev-Camp/Community-Dev-Camp-2015-Moscow
       - key: video
         url: https://channel9.msdn.com/Events/Community-Dev-Camp/Community-Dev-Camp-2015-Moscow/What-are-we-preparing-future-C-Sharp-7
   - date: 2015-12-11
@@ -732,7 +729,7 @@ talks:
       - key: slideshare
         url: http://www.slideshare.net/AndreyAkinshin/net-55728672
       - key: org
-        url: http://spbdotnet.org
+        url: https://vk.com/spbdotnet
   - date: 2015-10-23
     event: IT NONSTOP 2015 Spb
     event-type: conference
@@ -789,9 +786,9 @@ talks:
     lang: ru
     links:
       - key: org
-        url: http://spbdotnet.org
+        url: https://vk.com/spbdotnet
       - key: event
-        url: http://piter-united.ru/itgm/itgm.html
+        url: https://piter-united.ru/
       - key: slideshare
         url: http://www.slideshare.net/AndreyAkinshin/net-55728672
   - date: 2015-06-05
@@ -873,9 +870,7 @@ talks:
     lang: ru
     links:
       - key: event
-        url: http://dotnetconf.ru/
-      - key: talk
-        url: http://dotnetconf.ru/materialy/optimization
+        url: https://twitter.com/dotnetconf
       - key: youtube
         url: https://www.youtube.com/watch?v=fqYaXrwEkl4
   - date: 2015-04-03
@@ -1162,7 +1157,7 @@ talks:
     lang: en
     links:
       - key: event
-        url: http://www.febs-2013.org/eng/default.aspx
+        url: https://www.febs.org/document-uploads/FEBSNewsJanuary2013.pdf
   - date: 2013-05-03
     date2: 2013-05-04
     event: The Bioinformatics Research and Education Workshop (BREW 2013)
@@ -1203,10 +1198,8 @@ talks:
     location_ru: г. Москва
     lang: ru
     links:
-      - key: event_en
-        url: http://lomonosov-msu.ru/eng/lomonosov.html
-      - key: event_ru
-        url: http://lomonosov-msu.ru/rus/lomonosov.html
+      - key: event
+        url: https://lomonosov-msu.ru/rus/event/1600/
   - date: 2013-01-28
     date2: 2013-02-02
     event_en: Mathematics. Computing. Education
@@ -1287,17 +1280,17 @@ talks:
     links:
       - key: event
         url: http://math.nsc.ru/seminar/all.html
-  - year: 2013
+  - date: 2013-04-19
     event_en: Workshop in Altai State University
     event_ru: Краевой семинар по геометрии и математическому моделированию
     event-type: workshop
     event-hint_ru: Семинар
     location_en: Altai State University, Barnaul, Russia
-    location_ru: г. Барнаул, Алтайский Государственный Университет 
+    location_ru: г. Барнаул, Алтайский Государственный Университет
     lang: ru
     links:
       - key: event
-        url: http://www.uni-altai.ru/ifmo/kgmme/geom_seminar/
+        url: https://sites.google.com/site/gimmaltai/annotation/dokladaaakinsinaaltgtu
   - year: 2013
     event_en: Workshop in Polzunov Altai State Technical University
     event_ru: Расширенный семинар кафедры прикладной математики АлтГТУ

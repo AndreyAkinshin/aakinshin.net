@@ -2,7 +2,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm">
-      <img class="img-fluid" src="/img/misc/prodotnetbenchmarking-cover.png" />
+      <img class="img-fluid" src="/img/misc/prodotnetbenchmarking-cover.png" alt="Cover" />
     </div>
     <div class="col-md">
       <h3>Learn how to measure application performance and analyze the results!</h3>

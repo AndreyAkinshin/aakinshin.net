@@ -294,7 +294,7 @@ See also:
 
 BenchmarkDotNet is a cross-platform NuGet package so that you can use all the basic features on Windows, Linux, and MacOS.
 We develop BenchmarkDotNet on Windows, but it's already possible to develop it on Linux and MacOS (with some limitations).
-If you have latest [.NET Core SDK](https://www.microsoft.com/net/download/core) and [http://www.mono-project.com/download/](mon),
+If you have latest [.NET Core SDK](https://www.microsoft.com/net/download/core) and [Mono](https://www.mono-project.com/download/stable/),
   you should be able to build the solution (with unloaded F#/VB projects), run samples (for both `net46`/`netcoreapp1.1`), run unit tests (for `netcoreapp1.1` only).
 
 {{< img linux-xunit >}}

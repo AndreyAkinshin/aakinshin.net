@@ -12,10 +12,12 @@ hasCJKLanguage = false
 [languages]
   [languages.en]
   title = "Andrey Akinshin"
+  description = "Andrey Akinshin's blog"
   weight = 1
   contentDir = "content/en"
   [languages.ru]
   title = "Андрей Акиньшин"
+  description = "Блог Андрея Акиньшина"
   weight = 2
   contentDir = "content/ru"
 

@@ -1,6 +1,9 @@
 [andreyAkinshin]
 other = "Andrey Akinshin"
 
+[andreyAkinshinBlog]
+other = "Andrey Akinshin's blog"
+
 [content]
 other = "Content"
 
@@ -69,3 +72,6 @@ other = "All Posts"
 
 [tags]
 other = "Tags"
+
+[page]
+other = "Page"

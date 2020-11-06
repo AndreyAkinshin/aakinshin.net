@@ -14,7 +14,7 @@ He is
   (the most popular .NET library for benchmarking)
   and [perfolizer](https://github.com/AndreyAkinshin/perfolizer)
   (performance analysis toolkit);
-  the author of [Pro .NET Benchmarking](/prodotnetbenchmarking/)
+  the author of [Pro .NET Benchmarking]({{< ref prodotnetbenchmarking >}})
   (a book about good practices of performance measurements).
 
 Currently, Andrey is a software developer at [JetBrains](https://www.jetbrains.com/),

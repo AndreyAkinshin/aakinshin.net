@@ -216,7 +216,7 @@ public bool IsLittleEndian()
 
 ### BinaryReader/BinaryWriter
 
-Ок, с хранением чисел в памяти разобрались. А что, если нам нужно читать/писать числа в бинарном виде? .NET предлагает нам для этого классы [BinaryReader](msdn.microsoft.com/library/system.io.binaryreader.aspx) и [BinaryWriter](http://msdn.microsoft.com/library/system.io.binarywriter.aspx). Но тут нужно быть аккуратным и помнить, что согласно документации эти классы *всегда* работают с данными в Little-endian формате. Если по какой-то причине вы хотите поработать с данными в формате с заданным порядком байт, то придётся либо ручками реверсировать каждое число для Big-endian, либо использовать какую-нибудь внешнюю библиотеку (например, класс EndianBitConverter из [MiscUtil](http://www.yoda.arachsys.com/csharp/miscutil/) от Джона Скита).
+Ок, с хранением чисел в памяти разобрались. А что, если нам нужно читать/писать числа в бинарном виде? .NET предлагает нам для этого классы [BinaryReader](https://msdn.microsoft.com/library/system.io.binaryreader.aspx) и [BinaryWriter](http://msdn.microsoft.com/library/system.io.binarywriter.aspx). Но тут нужно быть аккуратным и помнить, что согласно документации эти классы *всегда* работают с данными в Little-endian формате. Если по какой-то причине вы хотите поработать с данными в формате с заданным порядком байт, то придётся либо ручками реверсировать каждое число для Big-endian, либо использовать какую-нибудь внешнюю библиотеку (например, класс EndianBitConverter из [MiscUtil](http://www.yoda.arachsys.com/csharp/miscutil/) от Джона Скита).
 
 ### Выводы
 

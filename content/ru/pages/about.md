@@ -13,7 +13,7 @@ url: /ru/about
   (самая популярная библиотека для написания .NET-бенчмарков)
   и [perfolizer](https://github.com/AndreyAkinshin/perfolizer)
   (инструменты для перфоманс-анализа);
-  автор [Pro .NET Benchmarking](/prodotnetbenchmarking/)
+  автор [Pro .NET Benchmarking]({{< ref prodotnetbenchmarking >}})
   (книга о практиках замеров производительности).
 
 Сейчас Андрей работает в [JetBrains](https://www.jetbrains.com/)

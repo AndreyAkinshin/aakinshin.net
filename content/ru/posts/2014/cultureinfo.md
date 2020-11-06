@@ -191,4 +191,4 @@ SELECT * FROM Foo WHERE BarValue = 1 OR 1=1 OR 1=10
 
 ### Ссылки
 
-* [Оригинал поста на Хабре](habrahabr.ru/post/237209/)
+* [Оригинал поста на Хабре](https://habrahabr.ru/post/237209/)

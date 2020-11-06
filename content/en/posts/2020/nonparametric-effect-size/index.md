@@ -73,7 +73,7 @@ We can do it via the [shift function](/posts/shift-and-ratio-functions/) ([[Doks
 {{< imgld compare4 >}}
 
 It shows the absolute shift for each quantile.
-The robustness of the shift function can be improved with the help of *the Harrell-Davis quantile estimator* ([[Harrell1982]](Harrell1982)).
+The robustness of the shift function can be improved with the help of *the Harrell-Davis quantile estimator* ([[Harrell1982]](#Harrell1982)).
 
 Unfortunately, the raw shift function can't be used as the effect size because it heavily depends on the distribution dispersion.
 Without it, we can't say if the shift values are large or small.

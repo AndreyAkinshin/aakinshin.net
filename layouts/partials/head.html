@@ -3,19 +3,39 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   {{ hugo.Generator }}
-  
-  {{ with .Site.Params.description }}
-  <meta name="description" content="{{ . }}">
-  {{ end }}
+
   <meta name="author" content='{{ i18n "andreyAkinshin" }}'>
   <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
   <meta name="keywords" content='{{ with (.GetTerms "tags") }}{{ range $i, $e := . }}{{ if $i }}, {{ end }}{{ $e.Title }}{{ end }}{{ end }}'>
   
   {{ $title := print .Title " | " .Site.Title }}
   {{ if .IsHome }}
-    {{ $title = .Site.Title }}
+    {{ $title = (i18n "andreyAkinshinBlog" ) }}
+    {{ if .IsNode }}
+      {{ if gt .Paginator.PageNumber 1 }}
+        {{ $title = print (i18n "andreyAkinshinBlog" ) " (" (i18n "page" ) " " .Paginator.PageNumber ")" }}
+      {{ end }}
+    {{ end }}
   {{ end }}
   <title>{{ $title }}</title>
+
+  {{ $description := "" }}
+  {{ if .IsPage }}
+    {{ if .Params.Description }}
+      {{ $description = .Params.Description }}
+    {{ else }}
+      {{ $description = .Summary | plainify }}
+    {{ end }}
+  {{ else if .Params.Description }}
+    {{ $description = .Params.Description }}
+  {{ else }}
+    {{ $description = .Site.Params.Description }}
+  {{ end }}
+  {{ $description = trim $description " " }}
+  {{if gt (len $description) 158}}
+    {{ $description = print (substr $description 0 155) "..." }}
+  {{end}}
+  <meta name="description" content="{{ $description }}">
 
   <!-- Bootstrap CSS & Highlight.js-->
   <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
