@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 03 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Lowland multimodality detection</title><link>https://aakinshin.net/posts/lowland-multimodality-detection/</link><pubDate>Tue, 03 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/lowland-multimodality-detection/</guid><description>&lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-light.png" target="_blank" class="imgldlink">
+&lt;a href="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-light.svg" target="_blank" class="imgldlink" alt="data5">
 &lt;picture>
 &lt;source
 theme='dark'
-srcset="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-dark.png"
+srcset="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-dark.svg"
 media="(prefers-color-scheme: dark)">
 &lt;source
 theme='light'
-srcset="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-light.png"
+srcset="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-light.svg"
 media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
 &lt;img
 class="mx-auto d-block img-fluid"
 width='800'
-src="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-light.png">
+src="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-light.svg">
 &lt;/picture>
 &lt;/a>
 &lt;/div>
@@ -43,7 +43,7 @@ Let me explain how it works in detail.&lt;/p></description></item><item><title>Q
 It had a &lt;a href="https://slides.aakinshin.net/dotnext-piter2020/#193">slide&lt;/a> with a density plot like this:&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/qrde-hd/img/riddle-light.png" target="_blank" class="imgldlink">
+&lt;a href="https://aakinshin.net/posts/qrde-hd/img/riddle-light.png" target="_blank" class="imgldlink" alt="riddle">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -84,7 +84,7 @@ As a bonus, I will demonstrate how awesome these plots are for multimodality det
 What could you say about them?&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-light.svg" target="_blank" class="imgldlink">
+&lt;a href="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-light.svg" target="_blank" class="imgldlink" alt="hist-riddle">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -119,7 +119,7 @@ Today, we talk about histograms and why you can&amp;rsquo;t trust them in the ge
 What could you say about them?&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/kde-bw/img/kde-riddle-light.svg" target="_blank" class="imgldlink">
+&lt;a href="https://aakinshin.net/posts/kde-bw/img/kde-riddle-light.svg" target="_blank" class="imgldlink" alt="kde-riddle">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -163,7 +163,7 @@ but it&amp;rsquo;s also a nice example of a slightly right-skewed distribution (
 Here is its density plot:&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/gumbel-mad/img/gumbel-light.svg" target="_blank" class="imgldlink">
+&lt;a href="https://aakinshin.net/posts/gumbel-mad/img/gumbel-light.svg" target="_blank" class="imgldlink" alt="gumbel">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -193,7 +193,7 @@ Imagine that you measure the total duration of a unit test executed daily on a C
 Every day you get a single number that corresponds to the test duration from the latest revision for this day:&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/weighted-quantiles/img/moving1-light.svg" target="_blank" class="imgldlink">
+&lt;a href="https://aakinshin.net/posts/weighted-quantiles/img/moving1-light.svg" target="_blank" class="imgldlink" alt="moving1">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -225,7 +225,7 @@ Unfortunately, it doesn&amp;rsquo;t work great for non-normal distributions.&lt;
 &lt;p>In this post, I will show a robust Cohen&amp;rsquo;s d-consistent effect size formula for nonparametric distributions.&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/img/blackboard.png" target="_blank">
+&lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/img/blackboard.png" target="_blank" alt="blackboard">
 &lt;img
 class="mx-auto d-block img-fluid"
 width='800'
@@ -282,7 +282,7 @@ So, I decided to start another project that focuses specifically on performance 
 The source code is available on &lt;a href="https://github.com/AndreyAkinshin/perfolizer">GitHub&lt;/a> under the MIT license.&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/introducing-perfolizer/img/perfolizer.svg" target="_blank">
+&lt;a href="https://aakinshin.net/posts/introducing-perfolizer/img/perfolizer.svg" target="_blank" alt="perfolizer">
 &lt;img
 class="mx-auto d-block img-fluid"
 width='800'
@@ -295,7 +295,7 @@ In many cases, we also want to evaluate the magnitude of this difference.
 Let&amp;rsquo;s look at the following image:&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare1-light.png" target="_blank" class="imgldlink">
+&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare1-light.png" target="_blank" class="imgldlink" alt="compare1">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -323,7 +323,7 @@ difference between mean values.&lt;/p>
 &lt;p>Now let&amp;rsquo;s look at a more tricky case:&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare2-light.png" target="_blank" class="imgldlink">
+&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare2-light.png" target="_blank" class="imgldlink" alt="compare2">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -349,7 +349,7 @@ the right mode has the biggest impact on these metrics than the left more.&lt;/p
 &lt;p>And here is a much more tricky case:&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare3-light.png" target="_blank" class="imgldlink">
+&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare3-light.png" target="_blank" class="imgldlink" alt="compare3">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -375,7 +375,7 @@ Probably, you saw plots of the normal distribution density function in some stat
 it looks like this:&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/normality/img/normal-light.png" target="_blank" class="imgldlink">
+&lt;a href="https://aakinshin.net/posts/normality/img/normal-light.png" target="_blank" class="imgldlink" alt="normal">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -410,7 +410,7 @@ That&amp;rsquo;s how a typical performance distribution looks like
 when we open the &lt;a href="https://github.com/OrchardCMS/Orchard">Orchard&lt;/a> solution in &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a> on Linux):&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/normality/img/performance-light.png" target="_blank" class="imgldlink">
+&lt;a href="https://aakinshin.net/posts/normality/img/performance-light.png" target="_blank" class="imgldlink" alt="performance">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -435,7 +435,7 @@ It&amp;rsquo;s very important to detect not only performance degradations, but a
 You can see examples of such changes on the following picture (we change the color when a changepoint is detected):&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/edpelt/img/edpelt-light.png" target="_blank" class="imgldlink">
+&lt;a href="https://aakinshin.net/posts/edpelt/img/edpelt-light.png" target="_blank" class="imgldlink" alt="edpelt">
 &lt;picture>
 &lt;source
 theme='dark'
@@ -465,7 +465,7 @@ For example, &lt;code>nuget_NuGetTest_shouldUpgradeVersionForDotNetCore&lt;/code
 However, in some cases, it takes around &lt;code>110 sec&lt;/code>, &lt;code>210 sec&lt;/code>, or &lt;code>310 sec&lt;/code>:&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/nuget-package-browsing/img/perf-chart.png" target="_blank">
+&lt;a href="https://aakinshin.net/posts/nuget-package-browsing/img/perf-chart.png" target="_blank" alt="perf-chart">
 &lt;img
 class="mx-auto d-block img-fluid"
 width='800'
@@ -500,7 +500,7 @@ You can do it with a very small code snippet like this:&lt;/p>
 &lt;/code>&lt;/pre>&lt;/div></description></item><item><title>BenchmarkDotNet v0.10.14</title><link>https://aakinshin.net/posts/bdn-v0_10_14/</link><pubDate>Mon, 09 Apr 2018 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/bdn-v0_10_14/</guid><description>&lt;p>BenchmarkDotNet v0.10.14 has been released! This release includes:&lt;/p>
 &lt;ul>
 &lt;li>&lt;strong>Per-method parameterization&lt;/strong> (&lt;a href="http://benchmarkdotnet.org/Advanced/Arguments.htm">Read more&lt;/a>)&lt;/li>
-&lt;li>&lt;strong>Console histograms and multimodal disribution detection&lt;/strong> (&lt;a href="https://aakinshin.net/blog/post/dotnet-crossruntime-disasm/">Read more&lt;/a>)&lt;/li>
+&lt;li>&lt;strong>Console histograms and multimodal disribution detection&lt;/strong> (&lt;a href="https://aakinshin.net/posts/dotnet-crossruntime-disasm/">Read more&lt;/a>)&lt;/li>
 &lt;li>&lt;strong>Many improvements for Mono disassembly support on Windows&lt;/strong> (A blog post is coming soon)&lt;/li>
 &lt;li>&lt;strong>Many bugfixes&lt;/strong>&lt;/li>
 &lt;/ul>
@@ -538,7 +538,7 @@ Today I want to share with you my favorite way to quickly get statistics
 of GC pauses in Mono and generate nice plots like this:&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/mono-gc-collects/img/plot-64.png" target="_blank">
+&lt;a href="https://aakinshin.net/posts/mono-gc-collects/img/plot-64.png" target="_blank" alt="plot-64">
 &lt;img
 class="mx-auto d-block img-fluid"
 width='800'
