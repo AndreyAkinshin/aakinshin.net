@@ -1,5 +1,5 @@
 ---
-title: "Yet another robust outlier detector"
+title: "DoubleMAD outlier detector based on the Harrell-Davis quantile estimator"
 date: "2020-06-22"
 tags:
 - Statistics
