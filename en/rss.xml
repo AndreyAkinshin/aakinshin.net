@@ -233,7 +233,7 @@ src="https://aakinshin.net/posts/nonparametric-effect-size/img/blackboard.png" /
 &lt;/a>
 &lt;/div>
 &lt;/div>
-&lt;br /></description></item><item><title>Yet another robust outlier detector</title><link>https://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/</link><pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/</guid><description>&lt;p>Outlier detection is an important step in data processing.
+&lt;br /></description></item><item><title>DoubleMAD outlier detector based on the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/</link><pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/</guid><description>&lt;p>Outlier detection is an important step in data processing.
 Unfortunately, if the distribution is not normal (e.g., right-skewed and heavy-tailed), it&amp;rsquo;s hard to choose
 a robust outlier detection algorithm that will not be affected by tricky distribution properties.
 During the last several years, I tried many different approaches, but I was not satisfied with their results.
