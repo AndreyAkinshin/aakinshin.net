@@ -87,7 +87,7 @@ In this post, we will cover the following topics:</p><ul><li>Kernel density esti
 <a href=https://aakinshin.net/tags/quantiles/ class="badge badge-info">Quantiles</a>
 <a href=https://aakinshin.net/tags/harrell-davis/ class="badge badge-info">Harrell-Davis</a>
 <a href=https://aakinshin.net/tags/r/ class="badge badge-info">R</a>
-<a href=https://aakinshin.net/tags/perfolizer/ class="badge badge-info">Perfolizer</a>
+<a href=https://aakinshin.net/tags/perfolizer/ class="badge badge-info">perfolizer</a>
 <a href=https://aakinshin.net/tags/gumbel/ class="badge badge-info">Gumbel</a></span><br><br><p>The <a href=https://en.wikipedia.org/wiki/Gumbel_distribution>Gumbel distribution</a> is not only a useful model in the <a href=https://en.wikipedia.org/wiki/Extreme_value_theory>extreme value theory</a>,
 but it&rsquo;s also a nice example of a slightly right-skewed distribution (skewness <span class="math inline">\(\approx 1.14\)</span>).
 Here is its density plot:</p><div class=row><div class=mx-auto><a href=/posts/gumbel-mad/img/gumbel-light.svg target=_blank class=imgldlink alt=gumbel><picture>
@@ -103,7 +103,7 @@ The general approach of the MAD derivation is common for most distributions, so 
 <a href=https://aakinshin.net/tags/quantiles/ class="badge badge-info">Quantiles</a>
 <a href=https://aakinshin.net/tags/harrell-davis/ class="badge badge-info">Harrell-Davis</a>
 <a href=https://aakinshin.net/tags/r/ class="badge badge-info">R</a>
-<a href=https://aakinshin.net/tags/perfolizer/ class="badge badge-info">Perfolizer</a></span><br><br><p>In this post, I will show how to calculate weighted quantile estimates and how to use them in practice.</p><p>Let&rsquo;s start with a problem from real life.
+<a href=https://aakinshin.net/tags/perfolizer/ class="badge badge-info">perfolizer</a></span><br><br><p>In this post, I will show how to calculate weighted quantile estimates and how to use them in practice.</p><p>Let&rsquo;s start with a problem from real life.
 Imagine that you measure the total duration of a unit test executed daily on a CI server.
 Every day you get a single number that corresponds to the test duration from the latest revision for this day:</p><div class=row><div class=mx-auto><a href=/posts/weighted-quantiles/img/moving1-light.svg target=_blank class=imgldlink alt=moving1><picture>
 <source theme=dark srcset=/posts/weighted-quantiles/img/moving1-dark.svg media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/weighted-quantiles/img/moving1-light.svg media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=600 src=/posts/weighted-quantiles/img/moving1-light.svg></picture></a></div></div><br><p>You collect a history of such measurements for 100 days.
@@ -119,7 +119,7 @@ In this post, we learn how to calculate and apply weighted quantiles.</p><br><a 
 <a href=https://aakinshin.net/tags/mad/ class="badge badge-info">MAD</a>
 <a href=https://aakinshin.net/tags/harrell-davis/ class="badge badge-info">Harrell-Davis</a>
 <a href=https://aakinshin.net/tags/r/ class="badge badge-info">R</a>
-<a href=https://aakinshin.net/tags/perfolizer/ class="badge badge-info">Perfolizer</a></span><br><br><p>The effect size is a common way to describe a difference between two distributions.
+<a href=https://aakinshin.net/tags/perfolizer/ class="badge badge-info">perfolizer</a></span><br><br><p>The effect size is a common way to describe a difference between two distributions.
 When these distributions are normal, one of the most popular approaches to express the effect size is <a href="https://en.wikipedia.org/wiki/Effect_size#Cohen's_d">Cohen&rsquo;s d</a>.
 Unfortunately, it doesn&rsquo;t work great for non-normal distributions.</p><p>In this post, I will show a robust Cohen&rsquo;s d-consistent effect size formula for nonparametric distributions.</p><div class=row><div class=mx-auto><a href=/posts/nonparametric-effect-size/img/blackboard.png target=_blank alt=blackboard><img class="mx-auto d-block img-fluid" width=800 src=/posts/nonparametric-effect-size/img/blackboard.png></a></div></div><br><br><a href=/posts/nonparametric-effect-size/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/harrell-davis-double-mad-outlier-detector/>DoubleMAD outlier detector based on the Harrell-Davis quantile estimator</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-06-22>June 22, 2020</time>
 &nbsp;&nbsp;
@@ -129,7 +129,7 @@ Unfortunately, it doesn&rsquo;t work great for non-normal distributions.</p><p>I
 <a href=https://aakinshin.net/tags/mad/ class="badge badge-info">MAD</a>
 <a href=https://aakinshin.net/tags/harrell-davis/ class="badge badge-info">Harrell-Davis</a>
 <a href=https://aakinshin.net/tags/r/ class="badge badge-info">R</a>
-<a href=https://aakinshin.net/tags/perfolizer/ class="badge badge-info">Perfolizer</a></span><br><br><p>Outlier detection is an important step in data processing.
+<a href=https://aakinshin.net/tags/perfolizer/ class="badge badge-info">perfolizer</a></span><br><br><p>Outlier detection is an important step in data processing.
 Unfortunately, if the distribution is not normal (e.g., right-skewed and heavy-tailed), it&rsquo;s hard to choose
 a robust outlier detection algorithm that will not be affected by tricky distribution properties.
 During the last several years, I tried many different approaches, but I was not satisfied with their results.
