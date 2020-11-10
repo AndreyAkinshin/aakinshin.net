@@ -1,4 +1,38 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 03 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Lowland multimodality detection</title><link>https://aakinshin.net/posts/lowland-multimodality-detection/</link><pubDate>Tue, 03 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/lowland-multimodality-detection/</guid><description>&lt;div class="row">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 10 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Intermodal outliers</title><link>https://aakinshin.net/posts/intermodal-outliers/</link><pubDate>Tue, 10 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/intermodal-outliers/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Outlier">Outlier&lt;/a> analysis is a typical step in distribution exploration.
+Usually, we work with the &amp;ldquo;lower outliers&amp;rdquo; (extremely low values) and the &amp;ldquo;upper outliers&amp;rdquo; (extremely high values).
+However, outliers are not always extreme values.
+In the general case, an outlier is a value that significantly differs from other values in the same sample.
+In the case of multimodal distribution, we can also consider outliers in the middle of the distribution.
+Let&amp;rsquo;s call such outliers that we found between modes the &amp;ldquo;&lt;em>intermodal outliers&lt;/em>.&amp;rdquo;&lt;/p>
+&lt;div class="row">
+&lt;div class="mx-auto">
+&lt;a href="https://aakinshin.net/posts/intermodal-outliers/img/step4-light.svg" target="_blank" class="imgldlink" alt="step4">
+&lt;picture>
+&lt;source
+theme='dark'
+srcset="https://aakinshin.net/posts/intermodal-outliers/img/step4-dark.svg"
+media="(prefers-color-scheme: dark)">
+&lt;source
+theme='light'
+srcset="https://aakinshin.net/posts/intermodal-outliers/img/step4-light.svg"
+media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;img
+class="mx-auto d-block img-fluid"
+width='800'
+src="https://aakinshin.net/posts/intermodal-outliers/img/step4-light.svg">
+&lt;/picture>
+&lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br />
+&lt;p>Look at the above density plot.
+It&amp;rsquo;s a bimodal distribution that is formed as a combination of two unimodal distributions.
+Each of the unimodal distributions may have its own lower and upper outliers.
+When we merge them, the upper outliers of the first distribution and the lower outliers of the second distribution
+stop being lower or upper outliers.
+However, if these values don&amp;rsquo;t belong to the modes, they still are a subject of interest.
+In this post, I will show you how to detect such intermodal outliers
+and how they can be used to form a better distribution description.&lt;/p></description></item><item><title>Lowland multimodality detection</title><link>https://aakinshin.net/posts/lowland-multimodality-detection/</link><pubDate>Tue, 03 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/lowland-multimodality-detection/</guid><description>&lt;div class="row">
 &lt;div class="mx-auto">
 &lt;a href="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-light.svg" target="_blank" class="imgldlink" alt="data5">
 &lt;picture>
