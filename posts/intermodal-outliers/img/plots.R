@@ -221,7 +221,6 @@ p2 <- p + xlim(20, 40) +
   geom_vline(data = data.frame(x = doubleMadFences(x[x > 20])), aes(xintercept = x), col = cbRed, linetype = "dashed")
 ggsave_nice2("step3", list(p1, p2))
 
-draw(x) + theme_bw()
 draw(x)
 ggsave_nice("step4")
 
