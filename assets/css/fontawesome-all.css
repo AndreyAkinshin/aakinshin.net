@@ -240,6 +240,10 @@
 .fa-home:before{content: "\f015";}
 .fa-tag:before {content: "\f02b"; }
 .fa-calendar-alt:before {content: "\f073"; }
+.fa-amazon:before {
+  content: "\f270"; }
+.fa-graduation-cap:before {
+  content: "\f19d"; }
  /****************/
 
 .sr-only {
