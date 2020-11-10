@@ -223,10 +223,3 @@ ggsave_nice2("step3", list(p1, p2))
 
 draw(x)
 ggsave_nice("step4")
-
-#set.seed(42)
-#n <- 100
-#x <- c(1, 7, rnorm(n, 10), 13, 19, 20, 21, 27, rnorm(n, 30), 33, 38, 39)
-#draw(x)
-#ggsave_nice("outliers2")
-
