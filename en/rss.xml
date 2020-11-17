@@ -1,4 +1,52 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 10 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Intermodal outliers</title><link>https://aakinshin.net/posts/intermodal-outliers/</link><pubDate>Tue, 10 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/intermodal-outliers/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Outlier">Outlier&lt;/a> analysis is a typical step in distribution exploration.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 17 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Plain-text summary notation for multimodal distributions</title><link>https://aakinshin.net/posts/modality-summary-notation/</link><pubDate>Tue, 17 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/modality-summary-notation/</guid><description>&lt;p>Let&amp;rsquo;s say you collected a lot of data and want to explore the underlying distributions of collected samples.
+If you have only a few distributions, the best way to do that is to look at the density plots
+(expressed via histograms, kernel density estimations, or &lt;a href="https://aakinshin.net/posts/qrde-hd/">quantile-respectful density estimations&lt;/a>).
+However, it&amp;rsquo;s not always possible.&lt;/p>
+&lt;p>Suppose you have to process dozens, hundreds, or even thousands of distributions.
+In that case,
+it may be extremely time-consuming to manually check visualizations of each distribution.
+If you analyze distributions from the command line or send notifications about suspicious samples,
+it may be impossible to embed images in the reports.
+In these cases, there is a need to present a distribution using plain text.&lt;/p>
+&lt;p>One way to do that is plain text histograms.
+Unfortunately, this kind of visualization may occupy o lot of space.
+In complicated cases, you may need 20 or 30 lines per a single distribution.&lt;/p>
+&lt;p>Another way is to present classic &lt;a href="https://en.wikipedia.org/wiki/Summary_statistics">summary statistics&lt;/a>
+like mean or median, standard deviation or median absolute deviation, quantiles, skewness, and kurtosis.
+There is another problem here:
+without experience, it&amp;rsquo;s hard to reconstruct the true distribution shape based on these values.
+Even if you are an experienced researcher, the statistical metrics may become misleading in the case of multimodal distributions.
+Multimodality is one of the most severe challenges in distribution analysis because it distorts basic summary statistics.
+It&amp;rsquo;s important to not only find such distribution but also have a way to present brief information about multimodality effects.&lt;/p>
+&lt;p>So, how can we condense the underlying distribution shape of a given sample to a short text line?
+I didn&amp;rsquo;t manage to find an approach that works fine in my cases, so I came up with my own notation.
+Most of the interpretation problems in my experiments arise from multimodality and outliers,
+so I decided to focus on these two things and specifically highlight them.
+Let&amp;rsquo;s consider this plot:&lt;/p>
+&lt;div class="row">
+&lt;div class="mx-auto">
+&lt;a href="https://aakinshin.net/posts/modality-summary-notation/img/thumbnail-light.svg" target="_blank" class="imgldlink" alt="thumbnail">
+&lt;picture>
+&lt;source
+theme='dark'
+srcset="https://aakinshin.net/posts/modality-summary-notation/img/thumbnail-dark.svg"
+media="(prefers-color-scheme: dark)">
+&lt;source
+theme='light'
+srcset="https://aakinshin.net/posts/modality-summary-notation/img/thumbnail-light.svg"
+media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;img
+class="mx-auto d-block img-fluid"
+width='800'
+src="https://aakinshin.net/posts/modality-summary-notation/img/thumbnail-light.svg">
+&lt;/picture>
+&lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br />
+&lt;p>I suggest describing it like this:&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="o">{&lt;/span>1.00, 2.00&lt;span class="o">}&lt;/span> + &lt;span class="o">[&lt;/span>7.16&lt;span class="p">;&lt;/span> 13.12&lt;span class="o">]&lt;/span>_100 + &lt;span class="o">{&lt;/span>19.00&lt;span class="o">}&lt;/span> + &lt;span class="o">[&lt;/span>27.69&lt;span class="p">;&lt;/span> 32.34&lt;span class="o">]&lt;/span>_100 + &lt;span class="o">{&lt;/span>37.00..39.00&lt;span class="o">}&lt;/span>_3
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Let me explain the suggested notation in detail.&lt;/p></description></item><item><title>Intermodal outliers</title><link>https://aakinshin.net/posts/intermodal-outliers/</link><pubDate>Tue, 10 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/intermodal-outliers/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Outlier">Outlier&lt;/a> analysis is a typical step in distribution exploration.
 Usually, we work with the &amp;ldquo;lower outliers&amp;rdquo; (extremely low values) and the &amp;ldquo;upper outliers&amp;rdquo; (extremely high values).
 However, outliers are not always extreme values.
 In the general case, an outlier is a value that significantly differs from other values in the same sample.
