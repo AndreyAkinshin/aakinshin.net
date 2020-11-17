@@ -21,9 +21,11 @@
         "pastable",
         "quantile",
         "quantiles",
+        "shortified",
         "textrm",
         "trimodal",
         "undersmoothing",
-        "unimodal"
+        "unimodal",
+        "untrustable"
     ]
 }
