@@ -1,0 +1,213 @@
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Statistics,Quantiles,Performance Telemetry"><title>P² quantile estimator: estimating the median without storing values | Andrey Akinshin</title><meta name=description content="An algorithm that allows estimating quantile values without storing values"><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.882998740b9c4c24677576b997bde5a487246e2e3bd72128a0e922eaa59db029.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.50da8736f05b35aac9691de67fe993cbe01b7d88fcf0cb682c3a8f39933fe4a3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.ae812fc71daf5160d927febda5a991cee6c361345e3f685d3736931ed7537986.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-posts href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-pdnb href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>P² quantile estimator: estimating the median without storing values</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-11-24>November 24, 2020</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<a href=https://aakinshin.net/tags/quantiles/ class="badge badge-info">Quantiles</a>
+<a href=https://aakinshin.net/tags/performance-telemetry/ class="badge badge-info">Performance Telemetry</a></span><br><br><p>Imagine that you are implementing performance telemetry in your application.
+There is an operation that is executed millions of times, and you want to get its &ldquo;average&rdquo; duration.
+It&rsquo;s not a good idea to use the arithmetic mean because the obtained value can be easily spoiled by outliers.
+It&rsquo;s much better to use the median which is one of the most robust ways to describe the average.</p><p>The straightforward median estimation approach requires storing all the values.
+In our case, it&rsquo;s a bad idea to keep all the values because it will significantly increase the memory footprint.
+Such telemetry is harmful because it may become a new bottleneck instead of monitoring the actual performance.</p><p>Another way to get the median value is to use a sequential quantile estimator
+(also known as an online quantile estimator or a streaming quantile estimator).
+This is an algorithm that allows calculating the median value (or any other quantile value)
+using a fixed amount of memory.
+Of course, it provides only an approximation of the real median value,
+but it&rsquo;s usually enough for typical telemetry use cases.</p><p>In this post, I will show one of the simplest sequential quantile estimators that is called the P² quantile estimator
+(or the Piecewise-Parabolic quantile estimator).</p><h3 id=the-p-quantile-estimator>The P² quantile estimator</h3><p>This algorithm was initially suggested in <a href=#Jain1985>[Jain1985]</a>.
+Below you can find a short overview of this approach,
+notes about typos in the original paper,
+numerical simulation,
+and a C# implementation.</p><h4 id=the-main-idea>The main idea</h4><p>Let&rsquo;s say we have a stream of observations <span class="math inline">\(\{ x_0, x_1, x_2, x_3, x_4, \ldots \}\)</span>
+and we want to estimate p-quantile.
+The suggested approach introduces five markers that correspond to the estimations of</p><ul><li><span class="math inline">\(q_0\)</span>: The minimum</li><li><span class="math inline">\(q_1\)</span>: The (p/2)-quantile</li><li><span class="math inline">\(q_2\)</span>: The p-quantile</li><li><span class="math inline">\(q_3\)</span>: The ((1+p)/2)-quantile</li><li><span class="math inline">\(q_4\)</span>: The maximum</li></ul><p>The <span class="math inline">\(q_i\)</span> values are known as the marker heights.</p><p>Also, we have to maintain the marker positions <span class="math inline">\(\{ n_0, n_1, n_2, n_3, n_4 \}\)</span>.
+These integer values describe actual marker indexes across obtained observations at the moment.</p><p>Next, we have to define the marker desired positions <span class="math inline">\(\{ n'_0, n'_1, n'_2, n'_3, n'_4 \}\)</span>.
+For the first <span class="math inline">\(n\)</span> observations, these real values are defined as follows:</p><ul><li><span class="math inline">\(n'_0 = 0\)</span></li><li><span class="math inline">\(n'_1 = (n - 1) p / 2\)</span></li><li><span class="math inline">\(n'_2 = (n - 1) p\)</span></li><li><span class="math inline">\(n'_3 = (n - 1) (1 + p) / 2\)</span></li><li><span class="math inline">\(n'_4 = (n - 1)\)</span></li></ul><p>In order to speed up the algorithm, we can precalculate increments of the desired positions which
+should be added to the current values after each new observation:</p><ul><li><span class="math inline">\(dn'_0 = 0\)</span></li><li><span class="math inline">\(dn'_1 = p / 2\)</span></li><li><span class="math inline">\(dn'_2 = (n - 1) p\)</span></li><li><span class="math inline">\(dn'_3 = (n - 1) (1 + p) / 2\)</span></li><li><span class="math inline">\(dn'_4 = (n - 1)\)</span></li></ul><p>Note that in the original paper, the authors use one-based indexing.
+I decided to adapt it to the zero-based indexing which is more convenient from the implementation point of view.</p><h4 id=initialization>Initialization</h4><p>Once we collected the first five elements, we should perform initialization logic:</p><p><span class="math display">\[\left\{
+\begin{array}{llll}
+q_0 = x_{(0)}, & n_0 = 0, & n'_0 = 0,      & dn'_0 = 0,\\
+q_1 = x_{(1)}, & n_1 = 1, & n'_1 = 2p,     & dn'_1 = p/2,\\
+q_2 = x_{(2)}, & n_2 = 2, & n'_2 = 4p,     & dn'_2 = p,\\
+q_3 = x_{(3)}, & n_3 = 3, & n'_3 = 2 + 2p, & dn'_3 = (1+p)/2,\\
+q_4 = x_{(4)}, & n_4 = 4, & n'_4 = 4,      & dn'_4 = 1.
+\end{array}
+\right.
+\]</span></p><h4 id=marker-invalidation>Marker invalidation</h4><p>For each <span class="math inline">\(x_j\)</span> for <span class="math inline">\(j \geq 5\)</span>, we should invalidate our markers.</p><p>Firstly, we should adjust extreme marker heights
+(if <span class="math inline">\(x_j < q_0\)</span>, we should update <span class="math inline">\(q_0\)</span>; if <span class="math inline">\(x_j > q_4\)</span>, we should update <span class="math inline">\(q_4\)</span>) and
+find <span class="math inline">\(k\)</span> such that <span class="math inline">\(q_k \leq x_j < q_{k+1}\)</span>
+(or <span class="math inline">\(q_k \leq x_j \leq q_{k+1}\)</span> for <span class="math inline">\(k=3\)</span>):</p><table><thead><tr><th>Condition</th><th><span class="math inline">\(q_i\)</span> update</th><th>k</th></tr></thead><tbody><tr><td><span class="math inline">\(\phantom{q_0 \leq~} x_j < q_0\)</span></td><td><span class="math inline">\(q_0 = x_j\)</span></td><td>0</td></tr><tr><td><span class="math inline">\(q_0 \leq x_j < q_1\)</span></td><td></td><td>0</td></tr><tr><td><span class="math inline">\(q_1 \leq x_j < q_2\)</span></td><td></td><td>1</td></tr><tr><td><span class="math inline">\(q_2 \leq x_j < q_3\)</span></td><td></td><td>2</td></tr><tr><td><span class="math inline">\(q_3 \leq x_j < q_4\)</span></td><td></td><td>3</td></tr><tr><td><span class="math inline">\(q_4 \leq x_j\)</span></td><td><span class="math inline">\(q_4 = x_j\)</span></td><td>3</td></tr></tbody></table><p>Secondly, we should update the marker positions and the marker desired positions:</p><p><span class="math display">\[\begin{array}{lcl}
+n_i = n_i + 1 & \textrm{for} & i = k + 1, \ldots, 4; \\
+n'_i = n'_i + dn'_i & \textrm{for} & i = 0, \ldots, 4. \\
+\end{array}
+\]</span></p><p>Finally, we should adjust non-extreme marker heights (<span class="math inline">\(q_i\)</span>) and positions (<span class="math inline">\(n_i\)</span>) for <span class="math inline">\(i \in \{ 1, 2, 3\} \)</span>
+in the following way:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>for</span> <span class=p>(</span><span class=n>i</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;=</span> <span class=m>3</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+<span class=p>{</span>
+    <span class=n>d</span> <span class=p>=</span> <span class=n>nꞌ</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span>
+    <span class=k>if</span> <span class=p>(</span><span class=n>d</span> <span class=p>&gt;=</span>  <span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&gt;</span>  <span class=m>1</span> <span class=p>||</span>
+        <span class=n>d</span> <span class=p>&lt;=</span> <span class=p>-</span><span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&lt;</span> <span class=p>-</span><span class=m>1</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=n>d</span> <span class=p>=</span> <span class=n>sign</span><span class=p>(</span><span class=n>d</span><span class=p>)</span>
+        <span class=n>qꞌ</span> <span class=p>=</span> <span class=n>Parabolic</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>d</span><span class=p>)</span>
+        <span class=k>if</span> <span class=p>(!(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>&lt;</span> <span class=n>qꞌ</span> <span class=p>&amp;&amp;</span> <span class=n>qꞌ</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]))</span>
+            <span class=n>qꞌ</span> <span class=p>=</span> <span class=n>Linear</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>d</span><span class=p>)</span>
+        <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>qꞌ</span>
+        <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+=</span> <span class=n>d</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p>The core equation of the algorithm is a piecewise-parabolic prediction (P²) formula
+that adjusts marker heights for each observation:</p><p><span class="math display">\[q'_i = q_i + \dfrac{d}{n_{i+1}-n_{i-1}} \cdot
+\Bigg(
+(n_i-n_{i-1}+d)\dfrac{q_{i+1}-q_i}{n_{i+1}-n_i} +
+(n_{i+1}-n_i-d)\dfrac{q_i-q_{i-1}}{n_i-n_{i-1}}
+\Bigg).
+\]</span></p><p>Once we calculated <span class="math inline">\(q'_i\)</span>, we should check that <span class="math inline">\(q_{i-1} < q'_i < q_{i+1}\)</span>.
+If this condition is false, we should ignore the parabolic prediction and use the linear prediction instead:</p><p><span class="math display">\[q'_i = q_i + d \dfrac{q_{i+d}-q_i}{n_{i+d}-n_{i}}.
+\]</span></p><h4 id=the-result>The result</h4><p>Once you need the requested quantile estimation value, we should just take the value of <span class="math inline">\(q_2\)</span>.</p><h4 id=typos-in-the-original-paper>Typos in the original paper</h4><p>A find a few typos in the original paper which may confuse readers who want to implement the algorithm from scratch:</p><ul><li>Page 1079, Box 1, B2:
+<code>$i = k, \ldots, 5$</code>
+should be replaced by
+<code>$i = k + 1, \ldots, 5$</code></li><li>Page 1079, Box 1, B3:
+<code>$\textbf{THEN}\; q_i \leftarrow q_i$</code>
+should be replaced by
+<code>$\textbf{THEN}\; q_i \leftarrow q'_i$</code></li></ul><h3 id=numerical-simulation>Numerical simulation</h3><p>It&rsquo;s time to check how it works.
+I decided to visualize sequential values of the following quantiles estimator:</p><ul><li><strong>The P² quantile estimator</strong><br>A sequential estimator that is described above.</li><li><strong>The Type 7 quantile estimator</strong><br>It&rsquo;s the most popular quantile estimator which is used by default in
+R, Julia, NumPy, Excel (<code>PERCENTILE</code>, <code>PERCENTILE.INC</code>), Python (<code>inclusive</code> method).
+We call it &ldquo;Type 7&rdquo; according to notation from <a href=#Hyndman1996>[Hyndman1996]</a>,
+where Rob J. Hyndman and Yanan Fan described nine quantile algorithms which are used in statistical computer packages.</li><li><strong>The Harrell-Davis quantile estimator</strong><br>It&rsquo;s my favorite option in real life for non-sequential cases because
+it&rsquo;s more robust than classic quantile estimators based on linear interpolation,
+and it provides more reliable estimations on small samples.
+This quantile estimator is described in <a href=#Harrell1982>[Harrell1982]</a>.</li><li><strong>Actual</strong><br>The true median value which is taken from the underlying distribution.</li></ul><p>Below, you can find several plots for the following distributions:</p><ul><li><strong>Normal distribution</strong> <span class="math inline">\(\mathcal{N}(0, 1)\)</span></li><li><strong>Gumbel distribution</strong> for <span class="math inline">\(\mu = 0, \beta = 1\)</span></li><li><strong>Beta distribution</strong> <span class="math inline">\(\textrm{Beta}(10, 2)\)</span></li><li><strong>Uniform distribution</strong> <span class="math inline">\(\mathcal{U}(0, 1)\)</span></li><li><strong>Bimodal distribution</strong> (mixture of <span class="math inline">\(\mathcal{N}(10, 1)\)</span> and <span class="math inline">\(\mathcal{N}(20, 1)\)</span>)</li></ul><p>Here are the results:</p><p><div class=row><div class=mx-auto><a href=/posts/p2-quantile-estimator/img/normal-light.svg target=_blank class=imgldlink alt=normal><picture>
+<source theme=dark srcset=/posts/p2-quantile-estimator/img/normal-dark.svg media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/p2-quantile-estimator/img/normal-light.svg media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/p2-quantile-estimator/img/normal-light.svg></picture></a></div></div><br><div class=row><div class=mx-auto><a href=/posts/p2-quantile-estimator/img/gumbel-light.svg target=_blank class=imgldlink alt=gumbel><picture>
+<source theme=dark srcset=/posts/p2-quantile-estimator/img/gumbel-dark.svg media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/p2-quantile-estimator/img/gumbel-light.svg media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/p2-quantile-estimator/img/gumbel-light.svg></picture></a></div></div><br><div class=row><div class=mx-auto><a href=/posts/p2-quantile-estimator/img/beta-light.svg target=_blank class=imgldlink alt=beta><picture>
+<source theme=dark srcset=/posts/p2-quantile-estimator/img/beta-dark.svg media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/p2-quantile-estimator/img/beta-light.svg media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/p2-quantile-estimator/img/beta-light.svg></picture></a></div></div><br><div class=row><div class=mx-auto><a href=/posts/p2-quantile-estimator/img/uniform-light.svg target=_blank class=imgldlink alt=uniform><picture>
+<source theme=dark srcset=/posts/p2-quantile-estimator/img/uniform-dark.svg media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/p2-quantile-estimator/img/uniform-light.svg media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/p2-quantile-estimator/img/uniform-light.svg></picture></a></div></div><br><div class=row><div class=mx-auto><a href=/posts/p2-quantile-estimator/img/bimodal-light.svg target=_blank class=imgldlink alt=bimodal><picture>
+<source theme=dark srcset=/posts/p2-quantile-estimator/img/bimodal-dark.svg media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/p2-quantile-estimator/img/bimodal-light.svg media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/p2-quantile-estimator/img/bimodal-light.svg></picture></a></div></div><br></p><p>As you can see, The P² quantile estimator produces reasonable median estimates.
+I also checked how it works on a considerable number of real data sets and
+I&rsquo;m pretty satisfied with the results.
+You can also find a discussion about accuracy and the equation for the mean squared error in the original paper.</p><h3 id=reference-implementation>Reference implementation</h3><p>Below you can find a C# implementation of the discussed algorithm.
+Also, you can use it via
+the latest nightly version (0.3.0-nightly.64+) of <a href=https://github.com/AndreyAkinshin/perfolizer>perfolizer</a>.</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>class</span> <span class=nc>P2QuantileEstimator</span>
+<span class=p>{</span>
+    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span> <span class=n>p</span><span class=p>;</span>
+    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>n</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// marker positions
+</span><span class=c1></span>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>ns</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// desired marker positions
+</span><span class=c1></span>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>dns</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span>
+    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// marker heights
+</span><span class=c1></span>    <span class=k>private</span> <span class=kt>int</span> <span class=n>count</span><span class=p>;</span>
+
+    <span class=k>public</span> <span class=n>P2QuantileEstimator</span><span class=p>(</span><span class=kt>double</span> <span class=n>p</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=n>p</span> <span class=p>=</span> <span class=n>probability</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=k>public</span> <span class=k>void</span> <span class=n>AddValue</span><span class=p>(</span><span class=kt>double</span> <span class=n>x</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>)</span>
+        <span class=p>{</span>
+            <span class=n>q</span><span class=p>[</span><span class=n>count</span><span class=p>++]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
+            <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>==</span> <span class=m>5</span><span class=p>)</span>
+            <span class=p>{</span>
+                <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>);</span>
+
+                <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+                    <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>i</span><span class=p>;</span>
+
+                <span class=n>ns</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+                <span class=n>ns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+                <span class=n>ns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=m>4</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+                <span class=n>ns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=m>2</span> <span class=p>+</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+                <span class=n>ns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=m>4</span><span class=p>;</span>
+
+                <span class=n>dns</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+                <span class=n>dns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=n>p</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+                <span class=n>dns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=n>p</span><span class=p>;</span>
+                <span class=n>dns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=p>(</span><span class=m>1</span> <span class=p>+</span> <span class=n>p</span><span class=p>)</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+                <span class=n>dns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
+            <span class=p>}</span>
+
+            <span class=k>return</span><span class=p>;</span>
+        <span class=p>}</span>
+
+        <span class=kt>int</span> <span class=n>k</span><span class=p>;</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>])</span>
+        <span class=p>{</span>
+            <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
+            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>1</span><span class=p>])</span>
+            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>])</span>
+            <span class=n>k</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
+        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>3</span><span class=p>])</span>
+            <span class=n>k</span> <span class=p>=</span> <span class=m>2</span><span class=p>;</span>
+        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>4</span><span class=p>])</span>
+            <span class=n>k</span> <span class=p>=</span> <span class=m>3</span><span class=p>;</span>
+        <span class=k>else</span>
+        <span class=p>{</span>
+            <span class=n>q</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
+            <span class=n>k</span> <span class=p>=</span> <span class=m>3</span><span class=p>;</span>
+        <span class=p>}</span>
+
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=n>k</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+            <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]++;</span>
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+            <span class=n>ns</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+=</span> <span class=n>dns</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;=</span> <span class=m>3</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+        <span class=p>{</span>
+            <span class=kt>double</span> <span class=n>d</span> <span class=p>=</span> <span class=n>ns</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+            <span class=k>if</span> <span class=p>(</span><span class=n>d</span> <span class=p>&gt;=</span> <span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&gt;</span> <span class=m>1</span> <span class=p>||</span> <span class=n>d</span> <span class=p>&lt;=</span> <span class=p>-</span><span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&lt;</span> <span class=p>-</span><span class=m>1</span><span class=p>)</span>
+            <span class=p>{</span>
+                <span class=kt>int</span> <span class=n>dInt</span> <span class=p>=</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sign</span><span class=p>(</span><span class=n>d</span><span class=p>);</span>
+                <span class=kt>double</span> <span class=n>qs</span> <span class=p>=</span> <span class=n>Parabolic</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
+                <span class=k>if</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>&lt;</span> <span class=n>qs</span> <span class=p>&amp;&amp;</span> <span class=n>qs</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>])</span>
+                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>qs</span><span class=p>;</span>
+                <span class=k>else</span>
+                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>Linear</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
+                <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+=</span> <span class=n>dInt</span><span class=p>;</span>
+            <span class=p>}</span>
+        <span class=p>}</span>
+
+        <span class=n>count</span><span class=p>++;</span>
+    <span class=p>}</span>
+    
+    <span class=k>private</span> <span class=kt>double</span> <span class=n>Parabolic</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>double</span> <span class=n>d</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>*</span> <span class=p>(</span>
+            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>+</span>
+            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span>
+        <span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=k>private</span> <span class=kt>double</span> <span class=n>Linear</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>int</span> <span class=n>d</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]);</span>
+    <span class=p>}</span>
+
+    <span class=k>public</span> <span class=kt>double</span> <span class=n>GetQuantile</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>&lt;=</span> <span class=m>5</span><span class=p>)</span>
+        <span class=p>{</span>
+            <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=n>count</span><span class=p>);</span>
+            <span class=kt>int</span> <span class=n>index</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span> <span class=n>Math</span><span class=p>.</span><span class=n>Round</span><span class=p>((</span><span class=n>count</span> <span class=p>-</span> <span class=m>1</span><span class=p>)</span> <span class=p>*</span> <span class=n>p</span><span class=p>);</span>
+            <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
+        <span class=p>}</span>
+
+        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>];</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><h3 id=conclusion>Conclusion</h3><p>The P² quantile estimator allows estimating quantile values on a stream of numbers without storing individual values.
+There are many other sequential quantile estimators, but the P² quantile estimator is one of the most simple
+from the implementation point of view.
+Meanwhile, it provides good accuracy and low overhead.
+The algorithm can be used to introduce performance telemetry in your application
+without noticeable performance or memory footprint overhead.</p><h3 id=references>References</h3><ul><li><b id=Jain1985>[Jain1985]</b><br>Jain, Raj, and Imrich Chlamtac.
+&ldquo;The P² algorithm for dynamic calculation of quantiles and histograms without storing observations.&rdquo;
+Communications of the ACM 28, no. 10 (1985): 1076-1085.</li><li><b id=Harrell1982>[Harrell1982]</b><br>Harrell, F.E. and Davis, C.E., 1982. A new distribution-free quantile estimator.
+<em>Biometrika</em>, 69(3), pp.635-640.</li><li><b id=Hyndman1996>[Hyndman1996]</b><br>Hyndman, R. J. and Fan, Y. 1996. Sample quantiles in statistical packages, <em>American Statistician</em> 50, 361–365.<br><a href=https://doi.org/10.2307/2684934>https://doi.org/10.2307/2684934</a></li></ul><br><br><div class=row><div class="mx-auto share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator%2f&title=P%c2%b2%20quantile%20estimator%3a%20estimating%20the%20median%20without%20storing%20values" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=P%c2%b2%20quantile%20estimator%3a%20estimating%20the%20median%20without%20storing%20values&url=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a></div><div class=share-button><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator%2f&title=P%c2%b2%20quantile%20estimator%3a%20estimating%20the%20median%20without%20storing%20values" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2020 Andrey Akinshin
+|
+<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub style=color:#fff></i></a><a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter style=color:#fff></i></a><a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS style=color:#fff></i></a>|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.082780cb948cc57eabbc0d80172a7a5347d5572b599938b4c9876dfd7978b424.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script><script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true,processEnvironments:true,},options:{skipHtmlTags:['script','noscript','style','textarea','pre'],ignoreHtmlClass:'tex2jax_ignore',processHtmlClass:'tex2jax_process'}};</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></body></html>
