@@ -183,6 +183,7 @@ td.slow { color: #ff4444; }
 td.fast { color: #00C851; }
 td.norm { color: #FF8800; }
 
+/* Dark mode toggle */
 dark-mode-toggle {
   --dark-mode-toggle-light-icon: url(/img/icons/sun.svg);
   --dark-mode-toggle-dark-icon: url(/img/icons/moon.svg);
@@ -196,6 +197,8 @@ dark-mode-toggle {
   display: inline;
   margin-right: 0.7rem;
 }
+
+/* Post examples */
 
 .block-example {
   margin-top: 10px;
@@ -215,6 +218,13 @@ body {
 .block-example-title::before {
   counter-increment: example;
   content: "Example " counter(example);
+}
+
+/* Post tables */
+
+.blog-post .table {
+  margin: auto;
+  width: 50% !important; 
 }
 
 /* Share */
