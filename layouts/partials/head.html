@@ -37,6 +37,15 @@
   {{end}}
   <meta name="description" content="{{ $description }}">
 
+  <meta name="twitter:site" content="@andrey_akinshin" />
+  <meta name="twitter:creator" content="@andrey_akinshin" />
+  {{ if .Params.thumbnail }}
+    {{ $filename := .Params.thumbnail }}
+    {{ $thumbnail := $.Page.Resources.GetMatch (printf "img/%s*" $filename) }}
+    <meta name="og:image" content="{{ $thumbnail.Permalink }}">
+  {{ end }}
+
+
   <!-- Bootstrap CSS & Highlight.js-->
   <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
   <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
