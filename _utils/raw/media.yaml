@@ -1,4 +1,11 @@
 media:
+  - date: 2020-11-13
+    type: podcast
+    kind: audio
+    host: RadioDotNet
+    title: "RadioDotNet-017: DotNext 2020 Moscow"
+    lang: ru
+    url: https://anchor.fm/radiodotnet/episodes/RadioDotNet-017-emdcjb
   - date: 2020-07-30
     type: interview
     kind: text
