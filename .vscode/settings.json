@@ -2,6 +2,7 @@
     "workbench.colorTheme": "Kimbie Dark",
     "cSpell.words": [
         "EPDF",
+        "Heatmap",
         "Intermodal",
         "Mathematica",
         "Nonparametrization",
@@ -12,6 +13,7 @@
         "changepoint",
         "changepoints",
         "extremum",
+        "heatmaps",
         "imgld",
         "mathcal",
         "multimodal",
@@ -27,6 +29,7 @@
         "trimodal",
         "undersmoothing",
         "unimodal",
-        "untrustable"
+        "untrustable",
+        "ventiles"
     ]
 }
