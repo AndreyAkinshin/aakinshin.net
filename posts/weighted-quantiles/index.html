@@ -71,7 +71,17 @@ On the above and below plots, we are working with PDF.</li></ul><p>Now we can vi
 Each <span class="math inline">\(W_{n,i}\)</span> corresponds to a fragment of our plot.</p><div class=block-example><b><span class=block-example-title></span></b><br><p><em>Input:</em> <span class="math inline">\(n=9\)</span>, <span class="math inline">\(p=0.25\)</span>, <span class="math inline">\(a=2.5\)</span>, <span class="math inline">\(b=7.5\)</span>.<br>In this case, we get 9 fragments of <span class="math inline">\(I_u(a,b)\)</span> (last two segments are almost invisible):</p><div class=row><div class=mx-auto><a href=/posts/weighted-quantiles/img/hd3-light.svg target=_blank class=imgldlink alt=hd3><picture>
 <source theme=dark srcset=/posts/weighted-quantiles/img/hd3-dark.svg media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/weighted-quantiles/img/hd3-light.svg media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=400 src=/posts/weighted-quantiles/img/hd3-light.svg></picture></a></div></div><br><p><span class="math inline">\(W_{n,i}\)</span> equals the area of the <span class="math inline">\(i^\textrm{th}\)</span> fragment.</p></div><p>We work with the <em>regularized</em> version of the incomplete beta function, so the sum of these fragments equals <span class="math inline">\(1\)</span>:</p><p><span class="math display">\[\sum_{i=1}^n W_{n, i} = 1.
 \]</span></p><p>Since <span class="math inline">\(q_p = \sum_{i=1}^{n} W_{n,i} \cdot x_i\)</span>, the <span class="math inline">\(W_{n, i}\)</span> coefficients define the &ldquo;contribution&rdquo; of <span class="math inline">\(x_i\)</span> to the quantile value.</p><p>Now it&rsquo;s time to convert our non-weighted quantile estimator to a weighted one.
-To do that, I suggest changing how we choose the width of the <span class="math inline">\(I_u(a,b)\)</span> fragments.
+First of all, we should introduce the concept of &ldquo;weighted count.&rdquo;
+It&rsquo;s the sum of all weights normalized by the maximum weight:</p><p><span class="math display">\[n^* = \dfrac{\sum_{i=1}^n w_i}{\max_{i=1}^{n} w_i}.
+\]</span></p><p>Thus, the weighted count of <span class="math inline">\(w = \{1, 1, 1, 0, 0 \}\)</span> and <span class="math inline">\(w = \{ 1, 1, 1 \}\)</span> is <span class="math inline">\(3\)</span> for both cases.
+This value has an influence on the values of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.
+Here are the updated equations for the weighted case:</p><p><span class="math display">\[\left\{
+\begin{array}{rccl}
+a^* = & p     & \cdot & (n^* + 1),\\
+b^* = & (1-p) & \cdot & (n^* + 1).
+\end{array}
+\right.
+\]</span></p><p>Next, I suggest changing how we choose the width of the <span class="math inline">\(I_u(a,b)\)</span> fragments.
 Currently, the endpoints of the <span class="math inline">\(i^\textrm{th}\)</span> fragment are</p><p><span class="math display">\[\left\{
 \begin{array}{rcc}
 l_i & = & \dfrac{i - 1}{n},\\
@@ -86,7 +96,7 @@ r^*_i & = & \dfrac{s_i(w)}{s_n(w)}.
 \end{array}
 \right.
 \]</span></p><p>It&rsquo;s a generalization of the non-weighted case because <span class="math inline">\(l_i = l^*_i, r_i = r^*_i\)</span> when all weights are equal (e.g., <span class="math inline">\(\forall i: w_i = 1\)</span>).
-Now we can introduce a &ldquo;weighted version&rdquo; of <span class="math inline">\(W_{n, i}\)</span>:</p><p><span class="math display">\[W^*_{n, i} = I_{r^*_i}(a, b) - I_{l^*_i}(a, b).
+Now we can introduce a &ldquo;weighted version&rdquo; of <span class="math inline">\(W_{n, i}\)</span>:</p><p><span class="math display">\[W^*_{n, i} = I_{r^*_i}(a^*, b^*) - I_{l^*_i}(a^*, b^*).
 \]</span></p><p>Here is the final formula for the weighted Harrell-Davis quantile estimator:</p><p><span class="math display">\[q^*_p = \sum_{i=1}^{n} W^*_{n,i} \cdot x_i.
 \]</span></p><div class=block-example><b><span class=block-example-title></span></b><br><p><em>Input:</em> <span class="math inline">\(x = \{ 1, 2, 3, 4, 5 \}\)</span>, <span class="math inline">\(w = \{ 1, 0, 0, 1, 1 \}\)</span>, <span class="math inline">\(p = 0.5\)</span>.</p><p>Without weights, we had the following five equal-width fragments:</p><div class=row><div class=mx-auto><a href=/posts/weighted-quantiles/img/hd4-light.svg target=_blank class=imgldlink alt=hd4><picture>
 <source theme=dark srcset=/posts/weighted-quantiles/img/hd4-dark.svg media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/weighted-quantiles/img/hd4-light.svg media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=400 src=/posts/weighted-quantiles/img/hd4-light.svg></picture></a></div></div><br><p>With weights, the second and the third fragments will be eliminated.
@@ -106,7 +116,7 @@ q^*_p = \sum_{i=1}^{n} W^*_{n,i} \cdot x_i,\\
 W^*_{n, i} = F(r^*_i) - F(l^*_i),\\
 l^*_i = s_{i-1}(w) / s_n(w), \quad r^*_i = s_i(w) / s_n(w).
 \end{gather*}
-\]</span></p><p>It can be easily transformed back to the non-weighted case if we put <span class="math inline">\(w_i = 1\)</span> for any <span class="math inline">\(i\)</span>.</p><p>In the case of the Harrell-Davis quantile estimator, we should put <span class="math inline">\(F(u) = I_u(a, b)\)</span>.</p><h3 id=weighted-type-7-quantile-estimator>Weighted Type 7 quantile estimator</h3><p>First of all, let&rsquo;s recall the <a href=https://en.wikipedia.org/wiki/Quantile#Estimating_quantiles_from_a_sample>formula</a> for the Type 7 quantile estimator in the non-weighted case.
+\]</span></p><p>It can be easily transformed back to the non-weighted case if we put <span class="math inline">\(w_i = 1\)</span> for any <span class="math inline">\(i\)</span>.</p><p>In the case of the Harrell-Davis quantile estimator, we should put <span class="math inline">\(F(u) = I_u(a^*, b^*)\)</span>.</p><h3 id=weighted-type-7-quantile-estimator>Weighted Type 7 quantile estimator</h3><p>First of all, let&rsquo;s recall the <a href=https://en.wikipedia.org/wiki/Quantile#Estimating_quantiles_from_a_sample>formula</a> for the Type 7 quantile estimator in the non-weighted case.
 In order to do that, we should calculate the real valued index <span class="math inline">\(h = p (n - 1) + 1\)</span>.
 After that, the quantile value can be calculated using the following formula:</p><p><span class="math display">\[q_p = x_{\lfloor h \rfloor} + (h - \lfloor h \rfloor) (x_{\lfloor h \rfloor + 1} - x_{\lfloor h \rfloor}).
 \]</span></p><p>To get the non-weighted case formula in the generic form, we should express it via a CDF function (let&rsquo;s call it <span class="math inline">\(F_7\)</span>).
@@ -153,6 +163,7 @@ However, the weighted approach improves our estimations in this case as well bec
   <span class=n>n</span> <span class=o>&lt;-</span> <span class=nf>length</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
   <span class=nf>if </span><span class=p>(</span><span class=nf>any</span><span class=p>(</span><span class=nf>is.na</span><span class=p>(</span><span class=n>weights</span><span class=p>)))</span>
     <span class=n>weights</span> <span class=o>&lt;-</span> <span class=nf>rep</span><span class=p>(</span><span class=m>1</span> <span class=o>/</span> <span class=n>n</span><span class=p>,</span> <span class=n>n</span><span class=p>)</span>
+  <span class=n>nw</span> <span class=o>&lt;-</span> <span class=nf>sum</span><span class=p>(</span><span class=n>weights</span><span class=p>)</span> <span class=o>/</span> <span class=nf>max</span><span class=p>(</span><span class=n>weights</span><span class=p>)</span>
 
   <span class=n>indexes</span> <span class=o>&lt;-</span> <span class=nf>order</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
   <span class=n>x</span> <span class=o>&lt;-</span> <span class=n>x[indexes]</span>
@@ -162,7 +173,7 @@ However, the weighted approach improves our estimations in this case as well bec
   <span class=n>cdf.probs</span> <span class=o>&lt;-</span> <span class=nf>cumsum</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=m>0</span><span class=p>,</span> <span class=n>weights</span><span class=p>))</span>
   
   <span class=nf>sapply</span><span class=p>(</span><span class=n>probs</span><span class=p>,</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=p>{</span>
-    <span class=n>cdf</span> <span class=o>&lt;-</span> <span class=nf>cdf.gen</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=n>p</span><span class=p>)</span>
+    <span class=n>cdf</span> <span class=o>&lt;-</span> <span class=nf>cdf.gen</span><span class=p>(</span><span class=n>nw</span><span class=p>,</span> <span class=n>p</span><span class=p>)</span>
     <span class=n>q</span> <span class=o>&lt;-</span> <span class=nf>cdf</span><span class=p>(</span><span class=n>cdf.probs</span><span class=p>)</span>
     <span class=n>w</span> <span class=o>&lt;-</span> <span class=nf>tail</span><span class=p>(</span><span class=n>q</span><span class=p>,</span> <span class=m>-1</span><span class=p>)</span> <span class=o>-</span> <span class=nf>head</span><span class=p>(</span><span class=n>q</span><span class=p>,</span> <span class=m>-1</span><span class=p>)</span>
     <span class=nf>sum</span><span class=p>(</span><span class=n>w</span> <span class=o>*</span> <span class=n>x</span><span class=p>)</span>
@@ -187,7 +198,7 @@ However, the weighted approach improves our estimations in this case as well bec
   <span class=nf>wquantile.generic</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>probs</span><span class=p>,</span> <span class=n>cdf.gen</span><span class=p>,</span> <span class=n>weights</span><span class=p>)</span>
 <span class=p>}</span>
 </code></pre></div><p>If you use C#, you can take an implementation from
-the latest nightly version (0.3.0-nightly.50+) of <a href=https://github.com/AndreyAkinshin/perfolizer>Perfolizer</a>
+the latest nightly version (0.3.0-nightly.72+) of <a href=https://github.com/AndreyAkinshin/perfolizer>Perfolizer</a>
 (you need <code>HarrellDavisQuantileEstimator</code> and <code>SimpleQuantileEstimator</code>).</p><h3 id=conclusion>Conclusion</h3><p>In this post, we derived equations for weighted quantile, including a generic CDF-based approach and specific formulas for the Harrell-Davis and Type 7 quantile estimators.
 This technique has various applications, and we showed how to apply it to estimate quantiles for a time series using exponential decay.</p><p>The suggested equations present my own view on the concept of weighted quantiles since it&rsquo;s not a popular topic, and I didn&rsquo;t manage to find any good explanations.
 If you know any papers/posts/implementations with the same or other approaches, I will appreciate if you share it with me.</p><h3 id=references>References</h3><ul><li><b id=Harrell1982>[Harrell1982]</b><br>Harrell, F.E. and Davis, C.E., 1982. A new distribution-free quantile estimator.
