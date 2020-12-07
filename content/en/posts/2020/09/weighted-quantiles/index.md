@@ -228,14 +228,14 @@ $$
 Since $q_p = \sum_{i=1}^{n} W_{n,i} \cdot x_i$, the $W_{n, i}$ coefficients define the "contribution" of $x_i$ to the quantile value.
 
 Now it's time to convert our non-weighted quantile estimator to a weighted one.
-First of all, we should introduce the concept of "weighted count."
+First of all, we should introduce the concept of "weighted sample size."
 It's the sum of all weights normalized by the maximum weight:
 
 $$
 n^* = \dfrac{\sum_{i=1}^n w_i}{\max_{i=1}^{n} w_i}.
 $$
 
-Thus, the weighted count of $w = \{1, 1, 1, 0, 0 \}$ and $w = \{ 1, 1, 1 \}$ is $3$ for both cases.
+Thus, the weighted sample size of $w = \{1, 1, 1, 0, 0 \}$ and $w = \{ 1, 1, 1 \}$ is $3$ for both cases.
 This value has an influence on the values of $a$ and $b$.
 Here are the updated equations for the weighted case:
 
