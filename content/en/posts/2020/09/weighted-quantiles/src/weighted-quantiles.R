@@ -3,6 +3,7 @@ wquantile.generic <- function(x, probs, cdf.gen, weights = NA) {
   n <- length(x)
   if (any(is.na(weights)))
     weights <- rep(1 / n, n)
+  nw <- sum(weights) / max(weights)
 
   indexes <- order(x)
   x <- x[indexes]
@@ -12,7 +13,7 @@ wquantile.generic <- function(x, probs, cdf.gen, weights = NA) {
   cdf.probs <- cumsum(c(0, weights))
   
   sapply(probs, function(p) {
-    cdf <- cdf.gen(n, p)
+    cdf <- cdf.gen(nw, p)
     q <- cdf(cdf.probs)
     w <- tail(q, -1) - head(q, -1)
     sum(w * x)

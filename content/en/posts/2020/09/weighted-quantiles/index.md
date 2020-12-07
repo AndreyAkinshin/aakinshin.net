@@ -228,7 +228,27 @@ $$
 Since $q_p = \sum_{i=1}^{n} W_{n,i} \cdot x_i$, the $W_{n, i}$ coefficients define the "contribution" of $x_i$ to the quantile value.
 
 Now it's time to convert our non-weighted quantile estimator to a weighted one.
-To do that, I suggest changing how we choose the width of the $I_u(a,b)$ fragments.
+First of all, we should introduce the concept of "weighted count."
+It's the sum of all weights normalized by the maximum weight:
+
+$$
+n^* = \dfrac{\sum_{i=1}^n w_i}{\max_{i=1}^{n} w_i}.
+$$
+
+Thus, the weighted count of $w = \{1, 1, 1, 0, 0 \}$ and $w = \{ 1, 1, 1 \}$ is $3$ for both cases.
+This value has an influence on the values of $a$ and $b$.
+Here are the updated equations for the weighted case:
+
+$$
+\left\{
+\begin{array}{rccl}
+a^* = & p     & \cdot & (n^* + 1),\\
+b^* = & (1-p) & \cdot & (n^* + 1).
+\end{array}
+\right.
+$$
+
+Next, I suggest changing how we choose the width of the $I_u(a,b)$ fragments.
 Currently, the endpoints of the $i^\textrm{th}$ fragment are
 $$
 \left\{
@@ -255,7 +275,7 @@ It's a generalization of the non-weighted case because $l_i = l^*_i, r_i = r^*_i
 Now we can introduce a "weighted version" of $W_{n, i}$:
 
 $$
-W^*_{n, i} = I_{r^*_i}(a, b) - I_{l^*_i}(a, b).
+W^*_{n, i} = I_{r^*_i}(a^*, b^*) - I_{l^*_i}(a^*, b^*).
 $$
 
 Here is the final formula for the weighted Harrell-Davis quantile estimator:
@@ -316,7 +336,7 @@ $$
 
 It can be easily transformed back to the non-weighted case if we put $w_i = 1$ for any $i$.
 
-In the case of the Harrell-Davis quantile estimator, we should put $F(u) = I_u(a, b)$.
+In the case of the Harrell-Davis quantile estimator, we should put $F(u) = I_u(a^*, b^*)$.
 
 ### Weighted Type 7 quantile estimator
 
@@ -487,7 +507,7 @@ If you use R, here are functions that you can use in your scripts:
 {{< src "weighted-quantiles.R" >}}
 
 If you use C#, you can take an implementation from
-  the latest nightly version (0.3.0-nightly.50+) of [Perfolizer](https://github.com/AndreyAkinshin/perfolizer)
+  the latest nightly version (0.3.0-nightly.72+) of [Perfolizer](https://github.com/AndreyAkinshin/perfolizer)
   (you need `HarrellDavisQuantileEstimator` and `SimpleQuantileEstimator`).
 
 ### Conclusion
