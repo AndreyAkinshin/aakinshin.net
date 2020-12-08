@@ -1,4 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 01 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Quantile absolute deviation: estimating statistical dispersion around quantiles</title><link>https://aakinshin.net/posts/qad/</link><pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qad/</guid><description>&lt;p>There are many different metrics for &lt;a href="https://en.wikipedia.org/wiki/Statistical_dispersion">statistical dispersion&lt;/a>.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 08 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Quantile confidence intervals for weighted samples</title><link>https://aakinshin.net/posts/weighted-quantiles-ci/</link><pubDate>Tue, 08 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/weighted-quantiles-ci/</guid><description>&lt;p>When you work with non-parametric distributions,
+quantile estimations are essential to get the main distribution properties.
+Once you get the estimation values, you may be interested in measuring the accuracy of these estimations.
+Without it, it&amp;rsquo;s hard to understand how trustable the obtained values are.
+One of the most popular ways to evaluate accuracy is confidence interval estimation.&lt;/p>
+&lt;p>Now imagine that you collect some measurements every day.
+Each day you get a small sample of values that is not enough to get the accurate daily quantile estimations.
+However, the full time-series over the last several weeks has a decent size.
+You suspect that past measurements should be similar to today measurements,
+but you are not 100% sure about it.
+You feel a temptation to extend the up-to-date sample by the previously collected values,
+but it may spoil the estimation (e.g., in the case of recent change points or positive/negative trends).&lt;/p>
+&lt;p>One of the possible approaches in this situation is to use &lt;em>weighted samples&lt;/em>.
+This assumes that we add past measurements to the &amp;ldquo;today sample,&amp;rdquo;
+but these values should have smaller weight.
+The older measurement we take, the smaller weight it gets.
+If you have consistent values across the last several days,
+this approach works like a charm.
+If you have any recent changes, you can detect such situations by huge confidence intervals
+due to the sample inconsistency.&lt;/p>
+&lt;p>So, how do we estimate confidence intervals around quantiles for the weighted samples?
+In one of the previous posts, I have already shown how to &lt;a href="https://aakinshin.net/posts/weighted-quantiles/">estimate quantiles on weighted samples&lt;/a>.
+In this post, I will show how to estimate quantile confidence intervals for weighted samples.&lt;/p></description></item><item><title>Quantile absolute deviation: estimating statistical dispersion around quantiles</title><link>https://aakinshin.net/posts/qad/</link><pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qad/</guid><description>&lt;p>There are many different metrics for &lt;a href="https://en.wikipedia.org/wiki/Statistical_dispersion">statistical dispersion&lt;/a>.
 The most famous one is the &lt;a href="https://en.wikipedia.org/wiki/Standard_deviation">standard deviation&lt;/a>.
 The standard deviation is the most popular way to describe the spread around the mean when
 you work with normally distributed data.
