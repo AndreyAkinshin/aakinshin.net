@@ -62,6 +62,9 @@
   <!-- Custom styles -->
   {{ partial "import/css.html" "about" }}
   {{ partial "import/css.html" "blog" }}
+  {{ if in .Params.Features "pre-ascii" }}
+    {{ partial "import/css.html" "pre-ascii" }}
+  {{ end }}
 
   <!-- Feeds -->
   {{ with (.Site.GetPage "/posts").OutputFormats.Get "rss" -}}
