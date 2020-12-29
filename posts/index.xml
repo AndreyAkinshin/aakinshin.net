@@ -1,4 +1,47 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 22 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Coverage of quantile confidence intervals</title><link>https://aakinshin.net/posts/quantile-ci-coverage/</link><pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/quantile-ci-coverage/</guid><description>&lt;p>There is a common &lt;a href="https://en.wikipedia.org/wiki/Confidence_interval#Misunderstandings">misunderstanding&lt;/a>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 29 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Fast implementation of the moving quantile based on the double heap</title><link>https://aakinshin.net/posts/moving-quantile-doubleheap/</link><pubDate>Tue, 29 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/moving-quantile-doubleheap/</guid><description>&lt;p>Imagine you have a time series.
+Let&amp;rsquo;s say, after each new observation, you want to know an &amp;ldquo;average&amp;rdquo; value across the last &lt;span class="math inline">\(L\)&lt;/span> observations.
+Such a metric is known as &lt;a href="https://en.wikipedia.org/wiki/Moving_average">a moving average&lt;/a>
+(or rolling/running average).&lt;/p>
+&lt;p>The most popular moving average example is &lt;a href="https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average">the moving mean&lt;/a>.
+It&amp;rsquo;s easy to efficiently implement this metric.
+However, it has a major drawback: it&amp;rsquo;s not robust.
+Outliers can easily spoil the moving mean and transform it into a meaningless and untrustable metric.&lt;/p>
+&lt;p>Fortunately, we have a good alternative: &lt;a href="https://en.wikipedia.org/wiki/Moving_average#Moving_median">the moving median&lt;/a>.
+Typically, it generates a stable and smooth series of values.
+In the below figure, you can see the difference between the moving mean and the moving median on noisy data.&lt;/p>
+&lt;div class="row">
+&lt;div class="mx-auto">
+&lt;a href="https://aakinshin.net/posts/moving-quantile-doubleheap/img/example-light.png" target="_blank" class="imgldlink" alt="example">
+&lt;picture>
+&lt;source
+theme='dark'
+srcset="https://aakinshin.net/posts/moving-quantile-doubleheap/img/example-dark.png"
+media="(prefers-color-scheme: dark)">
+&lt;source
+theme='light'
+srcset="https://aakinshin.net/posts/moving-quantile-doubleheap/img/example-light.png"
+media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;img
+class="mx-auto d-block img-fluid"
+width='800'
+src="https://aakinshin.net/posts/moving-quantile-doubleheap/img/example-light.png">
+&lt;/picture>
+&lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br />
+&lt;p>The moving median also has a drawback: it&amp;rsquo;s not easy to efficiently implement it.
+Today we going to discuss the Hardle-Steiger method to estimate the median
+(memory: &lt;span class="math inline">\(O(L)\)&lt;/span>, element processing complexity: &lt;span class="math inline">\(O(log(L))\)&lt;/span>, median estimating complexity: &lt;span class="math inline">\(O(1)\)&lt;/span>).
+Also, we will learn how to calculate &lt;em>the moving quantiles&lt;/em> based on this method.&lt;/p>
+&lt;p>In this post, you will find the following:&lt;/p>
+&lt;ul>
+&lt;li>An overview of the Hardle-Steiger method&lt;/li>
+&lt;li>A simple way to implement the Hardle-Steiger method&lt;/li>
+&lt;li>Moving quantiles inspired by the Hardle-Steiger method&lt;/li>
+&lt;li>How to process initial elements&lt;/li>
+&lt;li>Reference C# implementation&lt;/li>
+&lt;/ul></description></item><item><title>Coverage of quantile confidence intervals</title><link>https://aakinshin.net/posts/quantile-ci-coverage/</link><pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/quantile-ci-coverage/</guid><description>&lt;p>There is a common &lt;a href="https://en.wikipedia.org/wiki/Confidence_interval#Misunderstandings">misunderstanding&lt;/a>
 that a 95% confidence interval is an interval that covers the true parameter value with 95% probability.
 Meanwhile, the correct definition assumes that
 the true parameter value will be covered by 95% of 95% confidence intervals &lt;em>in the long run&lt;/em>.
