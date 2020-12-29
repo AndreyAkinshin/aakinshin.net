@@ -1,4 +1,4 @@
-{{ if in .Params.Features "math" }}
+{{ if or (in .Params.Features "math") (.IsHome) }}
 <script>
   window.MathJax = {
     tex: {
