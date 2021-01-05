@@ -1,4 +1,42 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 29 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Fast implementation of the moving quantile based on the double heap</title><link>https://aakinshin.net/posts/moving-quantile-doubleheap/</link><pubDate>Tue, 29 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/moving-quantile-doubleheap/</guid><description>&lt;p>Imagine you have a time series.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 05 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Case study: Accuracy of the MAD estimation using the Harrell-Davis quantile estimator (Gumbel distribution)</title><link>https://aakinshin.net/posts/cs-mad-hd-gumbel/</link><pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/cs-mad-hd-gumbel/</guid><description>&lt;p>In some of my previous posts, I used
+the &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> (MAD)
+to describe the distribution dispersion:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/">DoubleMAD outlier detector based on the Harrell-Davis quantile estimator&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/">Nonparametric Cohen&amp;rsquo;s d-consistent effect size&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/qad/">Quantile absolute deviation: estimating statistical dispersion around quantiles&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>The MAD estimation depends on the chosen median estimator:
+we may get different MAD values with different median estimators.
+To get better accuracy,
+I always encourage readers to use the Harrell-Davis quantile estimator
+instead of the classic Type 7 quantile estimator.&lt;/p>
+&lt;p>In this case study, I decided to compare these two quantile estimators using
+the &lt;a href="https://en.wikipedia.org/wiki/Gumbel_distribution">Gumbel distribution&lt;/a>
+(it&amp;rsquo;s a good model for slightly right-skewed distributions).
+According to the performed Monte Carlo simulation,
+the Harrell-Davis quantile estimator always has better accuracy:&lt;/p>
+&lt;div class="row">
+&lt;div class="mx-auto">
+&lt;a href="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-light.png" target="_blank" class="imgldlink" alt="summary">
+&lt;picture>
+&lt;source
+theme='dark'
+srcset="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-dark.png"
+media="(prefers-color-scheme: dark)">
+&lt;source
+theme='light'
+srcset="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-light.png"
+media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;img
+class="mx-auto d-block img-fluid"
+width='800'
+src="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-light.png">
+&lt;/picture>
+&lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br /></description></item><item><title>Fast implementation of the moving quantile based on the double heap</title><link>https://aakinshin.net/posts/moving-quantile-doubleheap/</link><pubDate>Tue, 29 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/moving-quantile-doubleheap/</guid><description>&lt;p>Imagine you have a time series.
 Let&amp;rsquo;s say, after each new observation, you want to know an &amp;ldquo;average&amp;rdquo; value across the last &lt;span class="math inline">\(L\)&lt;/span> observations.
 Such a metric is known as &lt;a href="https://en.wikipedia.org/wiki/Moving_average">a moving average&lt;/a>
 (or rolling/running average).&lt;/p>
