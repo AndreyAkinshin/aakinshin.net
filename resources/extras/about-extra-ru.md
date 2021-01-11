@@ -9,7 +9,8 @@
   ![](/img/icons/jetbrains.png)
   [JetBrains](https://www.jetbrains.com/)
 
-  * *10/2015–Сейчас:* Software Developer
+  * *10/2015–12/2020:* Software Developer
+  * *01/2021–Сейчас:* Performance Lead
 
   **Проекты**
   * ![](/img/icons/rider.png)

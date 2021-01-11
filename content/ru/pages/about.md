@@ -7,8 +7,8 @@ url: /ru/about
 <div class="compact">
 
 Андрей Акиньшин — программист,
-  частый [спикер](#talks) на конференциях,
-  автор [постов](#posts) и [статей](#publications).
+  автор [постов](#posts) и [статей](#publications) про математику и программирование,
+  частый [спикер](#talks) на конференциях (100+ выступлений).
 Он мейнтейнер [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)
   (самая популярная библиотека для написания .NET-бенчмарков)
   и [perfolizer](https://github.com/AndreyAkinshin/perfolizer)
@@ -16,8 +16,8 @@ url: /ru/about
   автор [Pro .NET Benchmarking]({{< ref prodotnetbenchmarking >}})
   (книга о практиках замеров производительности).
 
-Сейчас Андрей работает в [JetBrains](https://www.jetbrains.com/)
-  над проектом [Rider](https://www.jetbrains.com/rider/)
+Андрей — performance lead в
+  [JetBrains](https://www.jetbrains.com/) [Rider](https://www.jetbrains.com/rider/)
   (кроссплатформенная .NET IDE, основанная на платформе [IntelliJ](https://www.jetbrains.com/idea/) и [ReSharper](https://www.jetbrains.com/resharper/)).
 Он также
   председатель программного комитета конференции [DotNext](https://dotnext.ru/),

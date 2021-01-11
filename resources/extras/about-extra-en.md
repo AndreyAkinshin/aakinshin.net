@@ -9,7 +9,8 @@
   ![](/img/icons/jetbrains.png)
   [JetBrains](https://www.jetbrains.com/)
 
-  * *10/2015–Present:* Software Developer
+  * *10/2015–12/2020:* Software Developer
+  * *01/2021–Present:* Performance Lead
 
   **Projects**
   * ![](/img/icons/rider.png)
@@ -60,7 +61,7 @@
 <section>
   <h3 id="science">Science</h3>
 
-  *PhD in Mathematics and Computer Science*
+  *Ph.D. in Mathematics and Computer Science*
   <br /><br />
 
   ![](/img/icons/math-nsc.png)
@@ -128,8 +129,8 @@
   
   * *09/2006–06/2011:* Student, specialty <a href="http://www.altstu.ru/entrant/speciality/0026/">230105</a> “Software for Computers and Automated System”.<br />
   Honours degree, 5.0 GPA, AltSTU student of the year 2009, head of the group.
-  * *08/2011–12/2013:* PhD student, specialty: <a href="http://www.altstu.ru/media/f/051318_OOP_ispr.pdf">05.13.18</a> “Mathematical modeling, numeric methods, and software systems”.<br />
-  PhD thesis <a href="http://www.sscc.ru/Diss_sov/akinshin-synopsis.pdf">“Mathematical and numerical modeling of gene networks artificial regulatory circuits”</a><br />
+  * *08/2011–12/2013:* Ph.D. student, specialty: <a href="http://www.altstu.ru/media/f/051318_OOP_ispr.pdf">05.13.18</a> “Mathematical modeling, numeric methods, and software systems”.<br />
+  Ph.D. thesis <a href="http://www.sscc.ru/Diss_sov/akinshin-synopsis.pdf">“Mathematical and numerical modeling of gene networks artificial regulatory circuits”</a><br />
   (defended in <a href="http://www.sscc.ru/index_e.html">Institute of Computational Mathematics and Mathematical Geophysics SB RAS</a>, <a href="http://www.sscc.ru/Diss_sov/D02_2013.12.17.html">December 2013</a>).
 </section>
 
