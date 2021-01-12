@@ -1,4 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 05 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Case study: Accuracy of the MAD estimation using the Harrell-Davis quantile estimator (Gumbel distribution)</title><link>https://aakinshin.net/posts/cs-mad-hd-gumbel/</link><pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/cs-mad-hd-gumbel/</guid><description>&lt;p>In some of my previous posts, I used
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 12 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>MP² quantile estimator: estimating the moving median without storing values</title><link>https://aakinshin.net/posts/mp2-quantile-estimator/</link><pubDate>Tue, 12 Jan 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mp2-quantile-estimator/</guid><description>&lt;p>In one of the previous posts, I &lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">described&lt;/a> the P² quantile estimator.
+It allows estimating quantiles on a stream of numbers without storing them.
+Such sequential (streaming/online) quantile estimators are useful in software telemetry because
+they help to evaluate the median and other distribution quantiles without a noticeable memory footprint.&lt;/p>
+&lt;p>After the publication, I got a lot of questions about &lt;em>moving&lt;/em> sequential quantile estimators.
+Such estimators return quantile values not for the whole stream of numbers,
+but only for the recent values.
+So, I &lt;a href="https://aakinshin.net/posts/moving-quantile-doubleheap/">wrote&lt;/a> another post about
+a quantile estimator based on a double heap data structure (inspired by the Hardle-Steiger method).
+This algorithm gives you the exact value of any order statistics for the last &lt;span class="math inline">\(L\)&lt;/span> numbers
+(&lt;span class="math inline">\(L\)&lt;/span> is known as the window size).
+However, it requires &lt;span class="math inline">\(O(L)\)&lt;/span> memory, and it takes &lt;span class="math inline">\(O(log(L))\)&lt;/span> time to process each element.
+This may be acceptable in some cases.
+Unfortunately, it doesn&amp;rsquo;t allow implementing low-overhead telemetry in the case of large &lt;span class="math inline">\(L\)&lt;/span>.&lt;/p>
+&lt;p>In this post, I&amp;rsquo;m going to present a moving modification of the P² quantile estimator.
+Let&amp;rsquo;s call it MP² (moving P²).
+It requires &lt;span class="math inline">\(O(1)\)&lt;/span> memory, it takes &lt;span class="math inline">\(O(1)\)&lt;/span> to process each element,
+and it supports windows of any size.
+Of course, we have a trade-off with the estimation accuracy:
+it returns a quantile approximation instead of the exact order statistics.
+However, in most cases, the MP² estimations are pretty accurate from the practical point of view.&lt;/p>
+&lt;p>Let&amp;rsquo;s discuss MP² in detail!&lt;/p></description></item><item><title>Case study: Accuracy of the MAD estimation using the Harrell-Davis quantile estimator (Gumbel distribution)</title><link>https://aakinshin.net/posts/cs-mad-hd-gumbel/</link><pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/cs-mad-hd-gumbel/</guid><description>&lt;p>In some of my previous posts, I used
 the &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> (MAD)
 to describe the distribution dispersion:&lt;/p>
 &lt;ul>
