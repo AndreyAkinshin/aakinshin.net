@@ -143,7 +143,7 @@ public class MovingP2QuantileEstimator
     public double GetQuantile()
     {
         if (n == 0)
-            throw new IndexOutOfRangeException("There are no any values");
+            throw new IndexOutOfRangeException("There are no values");
         if (n < windowSize)
             return estimator.GetQuantile();
         
