@@ -106,8 +106,17 @@ Depending on $n$, we should do the following (assuming one-based indexing):
 
 ### Numerical simulations
 
-One of my favorite data sets for testing moving quantile estimators is a noisy sine wave pattern with high outliers.
+One of my favorite data sets for testing moving median estimators is a noisy sine wave pattern with high outliers.[^sin-wave]
 Let's try to use the MP² quantile estimator with such a data set (the source code is [here]([TODO](https://github.com/AndreyAkinshin/perfolizer/blob/b501c7fdfc06bd6f4f651e60c43dc25d36a00fa0/src/Perfolizer/Perfolizer.Tests/Mathematics/QuantileEstimators/MovingP2QuantileEstimatorTests.cs#L22))):
+
+[^sin-wave]:
+    There are to reasons to choose a noisy sine wave pattern with high outliers as a data set for simulations:
+    * One of the best advantages of the median against other measures of average is its robustness.
+      This means that noise and outliers shouldn't have a major impact on the median value.
+      Thus, it makes sense to add noise/outliers in the sample.
+    * The goal of using the *moving* median is to quickly adapt for changes in a time series.
+      Thus, it makes sense to use a mix of ascent and descent fragments in the sample.
+      The sine wave is one of the simplest function which has this property.
 
 {{< imgld simulation >}}
 
