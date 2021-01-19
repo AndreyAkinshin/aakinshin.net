@@ -1,12 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 12 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>MP² quantile estimator: estimating the moving median without storing values</title><link>https://aakinshin.net/posts/mp2-quantile-estimator/</link><pubDate>Tue, 12 Jan 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mp2-quantile-estimator/</guid><description>&lt;p>In one of the previous posts, I &lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">described&lt;/a> the P² quantile estimator.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 19 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Better moving quantile estimations using the partitioning heaps</title><link>https://aakinshin.net/posts/partitioning-heaps-quantile-estimator2/</link><pubDate>Tue, 19 Jan 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/partitioning-heaps-quantile-estimator2/</guid><description>&lt;p>In one of the previous posts, I &lt;a href="https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/">have discussed&lt;/a> the Hardle-Steiger method.
+This algorithm allows estimating &lt;a href="https://en.wikipedia.org/wiki/Moving_average#Moving_median">the moving median&lt;/a>
+using &lt;span class="math inline">\(O(L)\)&lt;/span> memory and &lt;span class="math inline">\(O(log(L))\)&lt;/span> element processing complexity (where &lt;span class="math inline">\(L\)&lt;/span> is the window size).
+Also, I have shown how to adapt this approach to estimate &lt;em>any&lt;/em> moving quantile.&lt;/p>
+&lt;p>In this post, I&amp;rsquo;m going to present further improvements.
+The Hardle-Steiger method always returns the &lt;a href="https://en.wikipedia.org/wiki/Order_statistic">order statistics&lt;/a>
+which is the &lt;span class="math inline">\(k\textrm{th}\)&lt;/span> smallest element from the sample.
+It means that the estimated quantile value always equals one of the last &lt;span class="math inline">\(L\)&lt;/span> observed numbers.
+However, many of the classic quantile estimators use two elements.
+For example, if we want to estimate the median for &lt;span class="math inline">\(x = \{4, 5, 6, 7\}\)&lt;/span>,
+some estimators return &lt;span class="math inline">\(5.5\)&lt;/span> (which is the arithmetical mean of &lt;span class="math inline">\(5\)&lt;/span> and &lt;span class="math inline">\(6\)&lt;/span>)
+instead of &lt;span class="math inline">\(5\)&lt;/span> or &lt;span class="math inline">\(6\)&lt;/span> (which are order statistics).&lt;/p>
+&lt;p>Let&amp;rsquo;s learn how to implement a moving version of such estimators using
+the partitioning heaps from the Hardle-Steiger method.&lt;/p></description></item><item><title>MP² quantile estimator: estimating the moving median without storing values</title><link>https://aakinshin.net/posts/mp2-quantile-estimator/</link><pubDate>Tue, 12 Jan 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mp2-quantile-estimator/</guid><description>&lt;p>In one of the previous posts, I &lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">described&lt;/a> the P² quantile estimator.
 It allows estimating quantiles on a stream of numbers without storing them.
 Such sequential (streaming/online) quantile estimators are useful in software telemetry because
 they help to evaluate the median and other distribution quantiles without a noticeable memory footprint.&lt;/p>
 &lt;p>After the publication, I got a lot of questions about &lt;em>moving&lt;/em> sequential quantile estimators.
 Such estimators return quantile values not for the whole stream of numbers,
 but only for the recent values.
-So, I &lt;a href="https://aakinshin.net/posts/moving-quantile-doubleheap/">wrote&lt;/a> another post about
-a quantile estimator based on a double heap data structure (inspired by the Hardle-Steiger method).
+So, I &lt;a href="https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/">wrote&lt;/a> another post about
+a quantile estimator based on a partitioning heaps (inspired by the Hardle-Steiger method).
 This algorithm gives you the exact value of any order statistics for the last &lt;span class="math inline">\(L\)&lt;/span> numbers
 (&lt;span class="math inline">\(L\)&lt;/span> is known as the window size).
 However, it requires &lt;span class="math inline">\(O(L)\)&lt;/span> memory, and it takes &lt;span class="math inline">\(O(log(L))\)&lt;/span> time to process each element.
@@ -57,7 +70,7 @@ src="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-light.png">
 &lt;/a>
 &lt;/div>
 &lt;/div>
-&lt;br /></description></item><item><title>Fast implementation of the moving quantile based on the double heap</title><link>https://aakinshin.net/posts/moving-quantile-doubleheap/</link><pubDate>Tue, 29 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/moving-quantile-doubleheap/</guid><description>&lt;p>Imagine you have a time series.
+&lt;br /></description></item><item><title>Fast implementation of the moving quantile based on the partitioning heaps</title><link>https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/</link><pubDate>Tue, 29 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/</guid><description>&lt;p>Imagine you have a time series.
 Let&amp;rsquo;s say, after each new observation, you want to know an &amp;ldquo;average&amp;rdquo; value across the last &lt;span class="math inline">\(L\)&lt;/span> observations.
 Such a metric is known as &lt;a href="https://en.wikipedia.org/wiki/Moving_average">a moving average&lt;/a>
 (or rolling/running average).&lt;/p>
@@ -70,20 +83,20 @@ Typically, it generates a stable and smooth series of values.
 In the below figure, you can see the difference between the moving mean and the moving median on noisy data.&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/moving-quantile-doubleheap/img/example-light.png" target="_blank" class="imgldlink" alt="example">
+&lt;a href="https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/img/example-light.png" target="_blank" class="imgldlink" alt="example">
 &lt;picture>
 &lt;source
 theme='dark'
-srcset="https://aakinshin.net/posts/moving-quantile-doubleheap/img/example-dark.png"
+srcset="https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/img/example-dark.png"
 media="(prefers-color-scheme: dark)">
 &lt;source
 theme='light'
-srcset="https://aakinshin.net/posts/moving-quantile-doubleheap/img/example-light.png"
+srcset="https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/img/example-light.png"
 media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
 &lt;img
 class="mx-auto d-block img-fluid"
 width='800'
-src="https://aakinshin.net/posts/moving-quantile-doubleheap/img/example-light.png">
+src="https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/img/example-light.png">
 &lt;/picture>
 &lt;/a>
 &lt;/div>

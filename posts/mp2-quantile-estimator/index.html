@@ -12,8 +12,8 @@ Such sequential (streaming/online) quantile estimators are useful in software te
 they help to evaluate the median and other distribution quantiles without a noticeable memory footprint.</p><p>After the publication, I got a lot of questions about <em>moving</em> sequential quantile estimators.
 Such estimators return quantile values not for the whole stream of numbers,
 but only for the recent values.
-So, I <a href=https://aakinshin.net/posts/moving-quantile-doubleheap/>wrote</a> another post about
-a quantile estimator based on a double heap data structure (inspired by the Hardle-Steiger method).
+So, I <a href=https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/>wrote</a> another post about
+a quantile estimator based on a partitioning heaps (inspired by the Hardle-Steiger method).
 This algorithm gives you the exact value of any order statistics for the last <span class="math inline">\(L\)</span> numbers
 (<span class="math inline">\(L\)</span> is known as the window size).
 However, it requires <span class="math inline">\(O(L)\)</span> memory, and it takes <span class="math inline">\(O(log(L))\)</span> time to process each element.
