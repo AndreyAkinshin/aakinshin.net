@@ -1,5 +1,5 @@
 ---
-title: "Fast implementation of the moving quantile based on the double heap"
+title: "Fast implementation of the moving quantile based on the partitioning heaps"
 description: "The Hardle-Steiger method to estimate the moving median and its generalization for the moving quantiles"
 date: "2020-12-29"
 tags:
@@ -8,6 +8,8 @@ tags:
 - Moving Quantile
 features:
 - math
+aliases:
+- moving-quantile-doubleheap
 ---
 
 Imagine you have a time series.
@@ -44,7 +46,7 @@ In this post, you will find the following:
 ### An overview of the Hardle-Steiger method
 
 This method is described in [[Hardle1995]](#Hardle1995).
-The core idea is based on a data structure that contains two joined [heaps]():
+The core idea is based on a data structure that contains two joined [heaps](https://en.wikipedia.org/wiki/Heap_(data_structure)):
 
 {{< img src="double-heap" width="400" >}}
 
@@ -90,7 +92,7 @@ It differs from the Turlach implementation and from the suggested approach in th
 
 We are going to keep three array with numbers:
 
-* `double[] h`: the elements of the double-heap
+* `double[] h`: the elements of the partitioning heaps
 * `int[] heapToElementIndex`: returns the original element index for the given heap element
 * `int[] elementToHeapIndex`: returns the heap index for the given element index
 
@@ -191,12 +193,12 @@ Next, we should add subsequent elements to the lower or upper heap depending on 
 
 Below you can find a full C# implementation of the moving quantile according to the above approach.
 You can also use it with
-  the latest nightly version (0.3.0-nightly.81+) of [Perfolizer](https://github.com/AndreyAkinshin/perfolizer)
-  (you need `DoubleHeapMovingQuantileEstimator`).
+  the latest nightly version (0.3.0-nightly.86+) of [Perfolizer](https://github.com/AndreyAkinshin/perfolizer)
+  (you need `PartitioningHeapsMovingQuantileEstimator`).
 
 ```cs
 /// <summary>
-/// A moving selector based on a double heap data structure.
+/// A moving selector based on a partitioning heaps.
 /// Memory: O(windowSize).
 /// Add complexity: O(log(windowSize)).
 /// GetValue complexity: O(1).
@@ -207,7 +209,7 @@ You can also use it with
 /// Series C (Applied Statistics) 44, no. 2 (1995): 258-264.
 /// </remarks>
 /// </summary>
-public class DoubleHeapMovingQuantileEstimator
+public class PartitioningHeapsMovingQuantileEstimator
 {
     private readonly int windowSize, k;
     private readonly double[] h;
@@ -217,7 +219,7 @@ public class DoubleHeapMovingQuantileEstimator
     private readonly MovingQuantileEstimatorInitStrategy initStrategy;
     private int upperHeapSize, lowerHeapSize, totalElementCount;
 
-    public DoubleHeapMovingQuantileEstimator(int windowSize, int k,
+    public PartitioningHeapsMovingQuantileEstimator(int windowSize, int k,
         MovingQuantileEstimatorInitStrategy initStrategy = MovingQuantileEstimatorInitStrategy.QuantileApproximation)
     {
         this.windowSize = windowSize;
