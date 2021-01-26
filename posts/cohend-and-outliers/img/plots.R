@@ -62,7 +62,7 @@ ggplot(df[df$metric == "cohen",], aes(value, fill = metric)) +
   facet_grid(rows = vars(n), labeller = labeller(.rows = label_both)) +
   scale_fill_manual(
     values = c(cbRed, cbGreen),
-    labels = c("Cohen's", "γ(0.5)")) +
+    labels = c("Cohen's d", "γ(0.5)")) +
   scale_x_continuous(limits = c(0, 1.5), breaks = seq(0, 1.5, by = 0.1)) +
   annotate("text", x = 1, y = 18, label = "True Value", hjust = -0.1, col = cbPink) +
   theme(legend.title=element_blank())
@@ -74,7 +74,7 @@ ggplot(df, aes(value, fill = metric)) +
   facet_grid(rows = vars(n), labeller = labeller(.rows = label_both)) +
   scale_fill_manual(
     values = c(cbRed, cbGreen),
-    labels = c("Cohen's", "γ(0.5)")) +
+    labels = c("Cohen's d", "γ(0.5)")) +
   scale_x_continuous(limits = c(0, 1.5), breaks = seq(0, 1.5, by = 0.1)) +
   annotate("text", x = 1, y = 18, label = "True Value", hjust = -0.1, col = cbPink) +
   theme(legend.title=element_blank())
