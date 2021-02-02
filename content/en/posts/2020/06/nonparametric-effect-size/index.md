@@ -3,7 +3,8 @@ title: "Nonparametric Cohen's d-consistent effect size"
 date: "2020-06-25"
 tags:
 - Statistics
-- "Effect size"
+- Effect Size
+- Gamma Effect Size
 - MAD
 - Harrell-Davis
 - R

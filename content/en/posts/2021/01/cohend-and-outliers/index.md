@@ -6,6 +6,7 @@ tags:
 - Statistics
 - Quantile
 - Effect Size
+- Gamma Effect Size
 features:
 - math
 ---
