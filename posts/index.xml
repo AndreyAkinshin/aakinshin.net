@@ -1,4 +1,14 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 26 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>A single outlier could completely distort your Cohen's d value</title><link>https://aakinshin.net/posts/cohend-and-outliers/</link><pubDate>Tue, 26 Jan 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/cohend-and-outliers/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Effect_size#Cohen's_d">Cohen&amp;rsquo;s d&lt;/a> is a popular way to estimate
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 02 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Comparing distribution quantiles using gamma effect size</title><link>https://aakinshin.net/posts/comparing-distributions-using-gamma-es/</link><pubDate>Tue, 02 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/comparing-distributions-using-gamma-es/</guid><description>&lt;p>There are several ways to describe the difference between two distributions.
+Here are a few examples:&lt;/p>
+&lt;ul>
+&lt;li>Effect sizes based on differences between means (e.g., Cohen&amp;rsquo;s d, Glass&amp;rsquo; Δ, Hedges&amp;rsquo; g)&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/">The shift and ration functions&lt;/a> that
+estimate differences between matched quantiles.&lt;/li>
+&lt;/ul>
+&lt;p>In one of the previous post, I &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/">described&lt;/a>
+the gamma effect size which is defined not for the mean but for quantiles.
+In this post, I want to share a few case studies that demonstrate
+how the suggested metric combines the advantages of the above approaches.&lt;/p></description></item><item><title>A single outlier could completely distort your Cohen's d value</title><link>https://aakinshin.net/posts/cohend-and-outliers/</link><pubDate>Tue, 26 Jan 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/cohend-and-outliers/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Effect_size#Cohen's_d">Cohen&amp;rsquo;s d&lt;/a> is a popular way to estimate
 the &lt;a href="https://en.wikipedia.org/wiki/Effect_size">effect size&lt;/a> between two samples.
 It works excellent for perfectly normal distributions.
 Usually, people think that slight deviations from normality
