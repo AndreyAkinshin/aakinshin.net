@@ -1,4 +1,30 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 02 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Comparing distribution quantiles using gamma effect size</title><link>https://aakinshin.net/posts/comparing-distributions-using-gamma-es/</link><pubDate>Tue, 02 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/comparing-distributions-using-gamma-es/</guid><description>&lt;p>There are several ways to describe the difference between two distributions.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 09 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Unbiased median absolute deviation</title><link>https://aakinshin.net/posts/unbiased-mad/</link><pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/unbiased-mad/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> (&lt;span class="math inline">\(\textrm{MAD}\)&lt;/span>)
+is a robust measure of scale.
+For distribution &lt;span class="math inline">\(X\)&lt;/span>, it can be calculated as follows:&lt;/p>
+&lt;p>&lt;span class="math display">\[\textrm{MAD} = C \cdot \textrm{median}(|X - \textrm{median}(X)|).
+\]&lt;/span>&lt;/p>
+&lt;p>This metric can be used as a robust alternative to the standard deviation.
+If we want to use the &lt;span class="math inline">\(\textrm{MAD}\)&lt;/span> as a &lt;a href="https://en.wikipedia.org/wiki/Consistent_estimator">consistent estimator&lt;/a>
+for the standard deviation under the normal distribution,
+we should set&lt;/p>
+&lt;p>&lt;span class="math display">\[C = C_{\infty} = \dfrac{1}{\Phi^{-1}(3/4)} \approx 1.4826022185056.
+\]&lt;/span>&lt;/p>
+&lt;p>where &lt;span class="math inline">\(\Phi^{-1}\)&lt;/span> is the quantile function of the standard normal distribution
+(or the inverse of the cumulative distribution function).
+If &lt;span class="math inline">\(X\)&lt;/span> is the normal distribution, we get &lt;span class="math inline">\(\textrm{MAD} = \sigma\)&lt;/span> where &lt;span class="math inline">\(\sigma\)&lt;/span> is the standard deviation.&lt;/p>
+&lt;p>Not let&amp;rsquo;s consider a sample &lt;span class="math inline">\(x = \{ x_1, x_2, \ldots x_n \}\)&lt;/span>.
+Let&amp;rsquo;s denote the median absolute deviation for a sample of size &lt;span class="math inline">\(n\)&lt;/span> as &lt;span class="math inline">\(\textrm{MAD}_n\)&lt;/span>.
+The corresponding equation looks similar to the definition of &lt;span class="math inline">\(\textrm{MAD}\)&lt;/span> for a distribution:&lt;/p>
+&lt;p>&lt;span class="math display">\[\textrm{MAD}_n = C_n \cdot \textrm{median}(|x - \textrm{median}(x)|).
+\]&lt;/span>&lt;/p>
+&lt;p>Let&amp;rsquo;s assume that &lt;span class="math inline">\(\textrm{median}\)&lt;/span> is the straightforward definition of the median
+(if &lt;span class="math inline">\(n\)&lt;/span> is odd, the median is the middle element of the sorted sample,
+if &lt;span class="math inline">\(n\)&lt;/span> is even, the median is the arithmetic average of the two middle elements of the sorted sample).
+We still can use &lt;span class="math inline">\(C_n = C_{\infty}\)&lt;/span> for extremely large sample sizes.
+However, for small &lt;span class="math inline">\(n\)&lt;/span>, &lt;span class="math inline">\(\textrm{MAD}_n\)&lt;/span> becomes a &lt;a href="https://en.wikipedia.org/wiki/Bias_of_an_estimator">biased estimator&lt;/a>.
+If we want to get an unbiased version, we should adjust the value of &lt;span class="math inline">\(C_n\)&lt;/span>.&lt;/p>
+&lt;p>In this post, we look at the possible approaches and learn the way to get the exact value of &lt;span class="math inline">\(C_n\)&lt;/span>
+that makes &lt;span class="math inline">\(\textrm{MAD}_n\)&lt;/span> unbiased estimator of the median absolute deviation for any &lt;span class="math inline">\(n\)&lt;/span>.&lt;/p></description></item><item><title>Comparing distribution quantiles using gamma effect size</title><link>https://aakinshin.net/posts/comparing-distributions-using-gamma-es/</link><pubDate>Tue, 02 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/comparing-distributions-using-gamma-es/</guid><description>&lt;p>There are several ways to describe the difference between two distributions.
 Here are a few examples:&lt;/p>
 &lt;ul>
 &lt;li>Effect sizes based on differences between means (e.g., Cohen&amp;rsquo;s d, Glass&amp;rsquo; Δ, Hedges&amp;rsquo; g)&lt;/li>
