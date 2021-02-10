@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 09 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Unbiased median absolute deviation</title><link>https://aakinshin.net/posts/unbiased-mad/</link><pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/unbiased-mad/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> (&lt;span class="math inline">\(\textrm{MAD}\)&lt;/span>)
 is a robust measure of scale.
 For distribution &lt;span class="math inline">\(X\)&lt;/span>, it can be calculated as follows:&lt;/p>
-&lt;p>&lt;span class="math display">\[\textrm{MAD} = C \cdot \textrm{median}(|X - \textrm{median}(X)|).
+&lt;p>&lt;span class="math display">\[\textrm{MAD} = C \cdot \textrm{median}(|X - \textrm{median}(X)|)
 \]&lt;/span>&lt;/p>
-&lt;p>This metric can be used as a robust alternative to the standard deviation.
+&lt;p>where &lt;span class="math inline">\(C\)&lt;/span> is a constant scale factor.
+This metric can be used as a robust alternative to the standard deviation.
 If we want to use the &lt;span class="math inline">\(\textrm{MAD}\)&lt;/span> as a &lt;a href="https://en.wikipedia.org/wiki/Consistent_estimator">consistent estimator&lt;/a>
 for the standard deviation under the normal distribution,
 we should set&lt;/p>

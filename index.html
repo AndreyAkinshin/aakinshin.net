@@ -8,8 +8,9 @@ gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/
 <a href=https://aakinshin.net/tags/quantile/ class="badge badge-info">Quantile</a>
 <a href=https://aakinshin.net/tags/mad/ class="badge badge-info">MAD</a></span><br><br><p>The <a href=https://en.wikipedia.org/wiki/Median_absolute_deviation>median absolute deviation</a> (<span class="math inline">\(\textrm{MAD}\)</span>)
 is a robust measure of scale.
-For distribution <span class="math inline">\(X\)</span>, it can be calculated as follows:</p><p><span class="math display">\[\textrm{MAD} = C \cdot \textrm{median}(|X - \textrm{median}(X)|).
-\]</span></p><p>This metric can be used as a robust alternative to the standard deviation.
+For distribution <span class="math inline">\(X\)</span>, it can be calculated as follows:</p><p><span class="math display">\[\textrm{MAD} = C \cdot \textrm{median}(|X - \textrm{median}(X)|)
+\]</span></p><p>where <span class="math inline">\(C\)</span> is a constant scale factor.
+This metric can be used as a robust alternative to the standard deviation.
 If we want to use the <span class="math inline">\(\textrm{MAD}\)</span> as a <a href=https://en.wikipedia.org/wiki/Consistent_estimator>consistent estimator</a>
 for the standard deviation under the normal distribution,
 we should set</p><p><span class="math display">\[C = C_{\infty} = \dfrac{1}{\Phi^{-1}(3/4)} \approx 1.4826022185056.
