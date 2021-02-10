@@ -325,7 +325,7 @@ Let's say you want to analyze the history of your performance values and find mo
   the form of the underlying distribution was changed.
 For this problem, you need a [change point detection](https://en.wikipedia.org/wiki/Change_detection) (CPD) algorithm.
 
-There are a lot of different CPD algorithms (e.g., you can find a good overview in ["Selective review of offline change point detection methods](https://en.wikipedia.org/wiki/Change_detection)):
+There are a lot of different CPD algorithms (e.g., you can find a good overview in ["Selective review of offline change point detection methods](https://arxiv.org/pdf/1801.00718.pdf)):
 
 {{< img cpd-overview >}}
 
