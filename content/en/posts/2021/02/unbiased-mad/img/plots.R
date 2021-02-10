@@ -28,6 +28,24 @@ ggsave_nice <- function(name, plot = last_plot(), tm = theme_bw(), dark_and_ligh
   }
 }
 
+set.seed(42)
+mad <- function(x) median(abs(x - median(x)))
+x <- replicate(100000, mad(rnorm(5)))
+ggplot(data.frame(x = x), aes(x)) +
+  geom_density(bw = "SJ") +
+  geom_vline(xintercept = mean(x), col = cbRed) +
+  geom_vline(xintercept = 1, linetype = "dashed", col = cbRed) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlim(0, 3)
+ggsave_nice("bias")
+
+ggplot(data.frame(x = x / mean(x)), aes(x)) +
+  geom_density(bw = "SJ") +
+  geom_vline(xintercept = 1, col = cbRed) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlim(0, 3)
+ggsave_nice("bias2")
+
 Park.bias <- c(
   NA, -0.163388, -0.3275897, -0.2648275, -0.178125, -0.1594213, 
   -0.1210631, -0.1131928, -0.0920658, -0.0874503, -0.0741303, -0.0711412, 

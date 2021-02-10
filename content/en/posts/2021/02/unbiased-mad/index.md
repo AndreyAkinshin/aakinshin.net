@@ -15,9 +15,10 @@ The [median absolute deviation](https://en.wikipedia.org/wiki/Median_absolute_de
 For distribution $X$, it can be calculated as follows:
 
 $$
-\textrm{MAD} = C \cdot \textrm{median}(|X - \textrm{median}(X)|).
+\textrm{MAD} = C \cdot \textrm{median}(|X - \textrm{median}(X)|)
 $$
 
+where $C$ is a constant scale factor.
 This metric can be used as a robust alternative to the standard deviation.
 If we want to use the $\textrm{MAD}$ as a [consistent estimator](https://en.wikipedia.org/wiki/Consistent_estimator)
   for the standard deviation under the normal distribution,
@@ -51,6 +52,34 @@ In this post, we look at the possible approaches and learn the way to get the ex
 
 <!--more-->
 
+### The bias
+
+Let's briefly discuss the impact of the bias on our measurements.
+To illustrate the problem, we take $100,000$ samples of size $n = 5$
+  from the standard normal distribution and
+  calculate $\textrm{MAD}_5$ for each of them using $C = 1$.
+The obtained numbers form the following distribution:
+
+{{< imgld bias >}}
+
+If we try to use $\textrm{MAD}_5$ with $C = 1$ as a standard deviation estimator,
+  it would be a *biased estimator*.
+Indeed, the standard deviation equals $1$ (the true value),
+  but the expected value of $\textrm{MAD}_5$ is about
+  $E[\textrm{MAD}_5] \approx 0.5542$.
+In order to make it unbiased, we should set $C_5 = 1 / 0.5542 \approx 1.804$.
+If we repeat the experiment with the modified scale factor, we get a modified version of our distribution:
+
+{{< imgld bias2 >}}
+
+Now $E[\textrm{MAD}_5] \approx 1$ which makes $\textrm{MAD}_5$ *unbiased estimator*.
+
+Note that $C_5 = 1.804$ differs from $C_{\infty} \approx 1.4826$ which is the proper scale factor for $n \to \infty$.
+Each sample size needs its own scale factor to make $\textrm{MAD}_n$ unbiased.
+Let's review some papers and look at different approaches to find the optimal scale factor value.
+
+### Literature overview
+
 One of the first mentions of the median absolute deviation can be found in [[Hampel1974]](#Hampel1974).
 In this paper, Frank R Hampel introduced $\textrm{MAD}$ as a robust measure of scale
   (attributed to Gauss).
@@ -58,7 +87,7 @@ I have found four papers that describe unbiased versions:
   [[Croux1992]](#Croux1992), [[Williams2011]](#Williams2011), [[Hayes2014]](#Hayes2014), and [[Park2020]](#Park2020).
 Let's briefly discuss approaches from these papers.
 
-### The Croux-Rousseeuw approach
+#### The Croux-Rousseeuw approach
 
 In [[Croux1992]](#Croux1992), Christophe Croux and Peter J. Rousseeuw
   described an unbiased version of $\textrm{MAD}$.
@@ -87,7 +116,7 @@ $$
 b_n = \dfrac{n}{n-0.8}.
 $$
 
-### The Williams approach
+#### The Williams approach
 
 In [[Williams2011]](#Williams2011), Dennis C. Williams improved this approach.
 Firstly, he provided updated $b_n$ values for small $n$:
@@ -119,7 +148,7 @@ In his paper, he applied the above equation only for Shorth
   (is the smallest interval that contains at least half of the data points),
   but this approach can also be applied for other measures of scale.
 
-### The Hayes approach
+#### The Hayes approach
 
 Next, in [[Hayes2014]](#Hayes2014), Kevin Hayes suggested another kind of prediction equation for $n \geq 9$:
 
@@ -141,7 +170,7 @@ Here are the suggested constants:
 | even |   0.7612 |   1.123 |
 
 
-### The Park-Kim-Wang approach
+#### The Park-Kim-Wang approach
 
 Finally, in [[Park2020]](#Park2020), Chanseok Park, Haewon Kim, and Min Wang aggregated all of the previous results.
 They used the following form of the main equation:
