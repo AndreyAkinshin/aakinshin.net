@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 09 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Unbiased median absolute deviation</title><link>https://aakinshin.net/posts/unbiased-mad/</link><pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/unbiased-mad/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> (&lt;span class="math inline">\(\textrm{MAD}\)&lt;/span>)
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 16 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Unbiased median absolute deviation based on the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/unbiased-mad-hd/</link><pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/unbiased-mad-hd/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> (&lt;span class="math inline">\(\textrm{MAD}\)&lt;/span>)
+is a robust measure of scale.
+In the previous post, I &lt;a href="https://aakinshin.net/posts/unbiased-mad/">showed&lt;/a>
+how to use the &lt;a href="https://en.wikipedia.org/wiki/Bias_of_an_estimator">unbiased&lt;/a>
+version of the &lt;span class="math inline">\(\textrm{MAD}\)&lt;/span> estimator
+as a robust alternative to the standard deviation.
+&amp;ldquo;Unbiasedness&amp;rdquo; means that such estimator&amp;rsquo;s expected value equals the true value of the standard deviation.
+Unfortunately, there is such thing as the &lt;a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff">bias–variance tradeoff&lt;/a>:
+when we remove the bias of the &lt;span class="math inline">\(\textrm{MAD}\)&lt;/span> estimator,
+we increase its variance and mean squared error (&lt;span class="math inline">\(\textrm{MSE}\)&lt;/span>).&lt;/p>
+&lt;p>In this post, I want to suggest a more &lt;a href="https://en.wikipedia.org/wiki/Efficiency_(statistics)">efficient&lt;/a>
+unbiased &lt;span class="math inline">\(\textrm{MAD}\)&lt;/span> estimator.
+It&amp;rsquo;s also a consistent estimator for the standard deviation, but it has smaller &lt;span class="math inline">\(\textrm{MSE}\)&lt;/span>.
+To build this estimator,
+we should replace the classic &amp;ldquo;straightforward&amp;rdquo; median estimator with the Harrell-Davis quantile estimator
+and adjust bias-correction factors.
+Let&amp;rsquo;s discuss this approach in detail.&lt;/p></description></item><item><title>Unbiased median absolute deviation</title><link>https://aakinshin.net/posts/unbiased-mad/</link><pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/unbiased-mad/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> (&lt;span class="math inline">\(\textrm{MAD}\)&lt;/span>)
 is a robust measure of scale.
 For distribution &lt;span class="math inline">\(X\)&lt;/span>, it can be calculated as follows:&lt;/p>
 &lt;p>&lt;span class="math display">\[\textrm{MAD} = C \cdot \textrm{median}(|X - \textrm{median}(X)|)
