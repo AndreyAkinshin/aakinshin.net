@@ -1,4 +1,31 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 16 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Unbiased median absolute deviation based on the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/unbiased-mad-hd/</link><pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/unbiased-mad-hd/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> (&lt;span class="math inline">\(\textrm{MAD}\)&lt;/span>)
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 23 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Misleading standard deviation</title><link>https://aakinshin.net/posts/misleading-stddev/</link><pubDate>Tue, 23 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/misleading-stddev/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Standard_deviation">standard deviation&lt;/a> may be an extremely misleading metric.
+Even minor deviations from normality could make it completely unreliable and deceiving.
+Let me demonstrate this problem using an example.&lt;/p>
+&lt;p>Below you can see three density plots of some distributions.
+Could you guess their standard deviations?&lt;/p>
+&lt;div class="row">
+&lt;div class="mx-auto">
+&lt;a href="https://aakinshin.net/posts/misleading-stddev/img/density1-light.png" target="_blank" class="imgldlink" alt="density1">
+&lt;picture>
+&lt;source
+theme='dark'
+srcset="https://aakinshin.net/posts/misleading-stddev/img/density1-dark.png"
+media="(prefers-color-scheme: dark)">
+&lt;source
+theme='light'
+srcset="https://aakinshin.net/posts/misleading-stddev/img/density1-light.png"
+media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;img
+class="mx-auto d-block img-fluid"
+width='800'
+src="https://aakinshin.net/posts/misleading-stddev/img/density1-light.png">
+&lt;/picture>
+&lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br />
+&lt;p>The correct answers are &lt;span class="math inline">\(1.0, 3.0, 11.0\)&lt;/span>.
+And here is a more challenging problem: could you match these values with the corresponding distributions?&lt;/p></description></item><item><title>Unbiased median absolute deviation based on the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/unbiased-mad-hd/</link><pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/unbiased-mad-hd/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> (&lt;span class="math inline">\(\textrm{MAD}\)&lt;/span>)
 is a robust measure of scale.
 In the previous post, I &lt;a href="https://aakinshin.net/posts/unbiased-mad/">showed&lt;/a>
 how to use the &lt;a href="https://en.wikipedia.org/wiki/Bias_of_an_estimator">unbiased&lt;/a>
@@ -219,7 +246,7 @@ In order to make such an infrastructure reliable and useful,
 it&amp;rsquo;s crucial to achieve an extremely low false-positive rate (otherwise, it&amp;rsquo;s not trustable)
 and be able to detect most of the degradations (otherwise, it&amp;rsquo;s not so useful).
 It&amp;rsquo;s not easy if you don&amp;rsquo;t know which statistical approaches should be used.
-If you try to google it, you may find dozens of thousands of papers about statistics,
+If you try to google it, you may find thousands of papers about statistics,
 but only a small portion of them really works in practice.&lt;/p>
 &lt;p>In this post, I want to share some approaches that I use for performance analysis in everyday life.
 I have been analyzing performance distributions for the last seven years,
