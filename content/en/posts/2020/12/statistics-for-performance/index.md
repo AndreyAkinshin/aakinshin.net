@@ -21,7 +21,7 @@ In order to make such an infrastructure reliable and useful,
   it's crucial to achieve an extremely low false-positive rate (otherwise, it's not trustable)
   and be able to detect most of the degradations (otherwise, it's not so useful).
 It's not easy if you don't know which statistical approaches should be used.
-If you try to google it, you may find dozens of thousands of papers about statistics,
+If you try to google it, you may find thousands of papers about statistics,
   but only a small portion of them really works in practice.
 
 In this post, I want to share some approaches that I use for performance analysis in everyday life.

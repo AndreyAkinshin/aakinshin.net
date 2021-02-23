@@ -19,6 +19,7 @@
         "Steiger",
         "Turlach",
         "Unbiasedness",
+        "Winsorizing",
         "Yanan",
         "changepoint",
         "changepoints",
@@ -41,6 +42,7 @@
         "undersmoothing",
         "unimodal",
         "untrustable",
-        "ventiles"
+        "ventiles",
+        "winsorized"
     ]
 }
