@@ -84,11 +84,11 @@ B(n;n,p) \frac{2X_{(n)}+X_{(n-1)}-X_{(n-2)}}{2}.
 \end{split}
 \]</span></p><h3 id=sv2>SV2</h3><p>The second approach assumes that the <span class="math inline">\(p^\textrm{th}\)</span> quantile is in the right endpoint of the <span class="math inline">\(i^\textrm{th}\)</span> segment:</p><p><span class="math display">\[Q'_{p,i} = X_{(i+1)}\quad \textrm{for}\;\; i=0..n-1.
 \]</span></p><p>To get the value of <span class="math inline">\(Q'_{p,n}\)</span>, we use an assumption from the <span class="math inline">\(\operatorname{SV1}_p\)</span> section:</p><p><span class="math display">\[Q'_{p,n} - Q'_{p,n-1} = Q'_{p,n-1}-Q'_{p,n-2}
-\]</span></p><p>which can be transformed to</p><p><span class="math display">\[Q'_{p,n} = \frac{2X_{(n)}+X_{(n-1)}-X_{(n-2)}}{2}.
+\]</span></p><p>which can be transformed to</p><p><span class="math display">\[Q'_{p,n} = 2Q'_{p,n-1} - Q'_{p,n-2} = 2X_{(n)} - X_{(n-1)}.
 \]</span></p><p>Using <span class="math inline">\(\operatorname{SV2}_p = \sum_{i=0}^n B(i;n,p) Q'_{p,i}\)</span>, we get:</p><p><span class="math display">\[\operatorname{SV2}_p = \sum_{i=0}^{n-1} B(i;n,p) X_{(i+1)} + (2X_{(n)} - X_{(n-1)}) B(n;n,p)
 \]</span></p><h3 id=sv3>SV3</h3><p>The third approach assumes that the <span class="math inline">\(p^\textrm{th}\)</span> quantile is in the left endpoint of the <span class="math inline">\(i^\textrm{th}\)</span> segment:</p><p><span class="math display">\[Q'_{p,i} = X_{(i)}\quad \textrm{for}\;\; i=1..n.
 \]</span></p><p>To get the value of <span class="math inline">\(Q'_{p,0}\)</span>, we use an assumption from the <span class="math inline">\(\operatorname{SV1}_p\)</span> section:</p><p><span class="math display">\[Q'_{p,0}-Q'_{p,1} = Q'_{p,1} - Q'_{p,2}
-\]</span></p><p>which can be transformed to</p><p><span class="math display">\[Q'_{p,0} = \frac{2X_{(1)}+X_{(2)}-X_{(3)}}{2}.
+\]</span></p><p>which can be transformed to</p><p><span class="math display">\[Q'_{p,0} = 2Q'_{p,1} - Q'_{p,2} = 2X_{(1)}-X_{(2)}.
 \]</span></p><p>Using <span class="math inline">\(\operatorname{SV3}_p = \sum_{i=0}^n B(i;n,p) Q'_{p,i}\)</span>, we get:</p><p><span class="math display">\[\operatorname{SV3}_p = \sum_{i=1}^n B(i;n,p) X_{(i)} + (2X_{(1)}-X_{(2)}) B(0;n,p)
 \]</span></p><h3 id=simplification>Simplification</h3><p>In my opinion, the above equations (that match the original paper) are too bulky.
 Let&rsquo;s simplify them!
