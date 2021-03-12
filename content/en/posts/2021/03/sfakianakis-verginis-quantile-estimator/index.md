@@ -180,7 +180,7 @@ $$
 which can be transformed to
 
 $$
-Q'_{p,n} = \frac{2X_{(n)}+X_{(n-1)}-X_{(n-2)}}{2}.
+Q'_{p,n} = 2Q'_{p,n-1} - Q'_{p,n-2} = 2X_{(n)} - X_{(n-1)}.
 $$
 
 Using $\operatorname{SV2}_p = \sum_{i=0}^n B(i;n,p) Q'_{p,i}$, we get:
@@ -206,7 +206,7 @@ $$
 which can be transformed to
 
 $$
-Q'_{p,0} = \frac{2X_{(1)}+X_{(2)}-X_{(3)}}{2}.
+Q'_{p,0} = 2Q'_{p,1} - Q'_{p,2} = 2X_{(1)}-X_{(2)}.
 $$
 
 Using $\operatorname{SV3}_p = \sum_{i=0}^n B(i;n,p) Q'_{p,i}$, we get:
