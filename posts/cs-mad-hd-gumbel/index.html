@@ -24,7 +24,7 @@ the Harrell-Davis quantile estimator always has better accuracy:</p><div class=r
 R, Julia, NumPy, Excel (<code>PERCENTILE</code>, <code>PERCENTILE.INC</code>), Python (<code>inclusive</code> method).
 We call it &ldquo;Type 7&rdquo; according to notation from <a href=#Hyndman1996>[Hyndman1996]</a>,
 where Rob J. Hyndman and Yanan Fan described nine quantile algorithms which are used in statistical computer packages.</li><li><strong>The Harrell-Davis quantile estimator</strong><br>It&rsquo;s my favorite option in real life because
-it&rsquo;s more robust than classic quantile estimators based on linear interpolation,
+it&rsquo;s more efficient than classic quantile estimators based on linear interpolation,
 and it provides more reliable estimations on small samples.
 This quantile estimator is described in <a href=#Harrell1982>[Harrell1982]</a>.</li></ul><p>We take random samples from the <a href=https://en.wikipedia.org/wiki/Gumbel_distribution>Gumbel distribution</a> (<span class="math inline">\(\mu = 0,\; \beta = 1\)</span>).
 The true median absolute deviation <a href=https://aakinshin.net/posts/gumbel-mad/>is known</a>: <code>0.767049251325708</code>.</p><p>Let&rsquo;s perform the following Monte Carlo simulation:</p><ul><li>Enumerate different sample sizes from 3 to 60</li><li>Perform 1000 iterations for each sample size</li><li>Generate random sample from the gumbel distribution (<span class="math inline">\(\mu = 0,\; \beta = 1\)</span>).</li><li>Estimate the median absolute deviation using two quantile estimators</li><li>Evaluate the absolute error for both estimation</li><li>Calculate the portion of cases (&ldquo;score&rdquo;) when the Harrell-Davis quantile estimator provides better MAD estimations

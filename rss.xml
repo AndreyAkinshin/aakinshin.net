@@ -1,7 +1,23 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 09 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Sfakianakis-Verginis quantile estimator</title><link>https://aakinshin.net/posts/sfakianakis-verginis-quantile-estimator/</link><pubDate>Tue, 09 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/sfakianakis-verginis-quantile-estimator/</guid><description>&lt;p>There are dozens of different ways to estimate quantiles.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 16 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Navruz-Özdemir quantile estimator</title><link>https://aakinshin.net/posts/navruz-ozdemir-quantile-estimator/</link><pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/navruz-ozdemir-quantile-estimator/</guid><description>&lt;p>The Navruz-Özdemir quantile estimator
+suggests the following equation to estimate the &lt;span class="math inline">\(p^\textrm{th}\)&lt;/span> quantile of sample &lt;span class="math inline">\(X\)&lt;/span>:&lt;/p>
+&lt;p>&lt;span class="math display">\[\begin{split}
+\operatorname{NO}_p =
+&amp; \Big( (3p-1)X_{(1)} + (2-3p)X_{(2)} - (1-p)X_{(3)} \Big) B_0 +\\
+&amp; +\sum_{i=1}^n \Big((1-p)B_{i-1}+pB_i\Big)X_{(i)} +\\
+&amp; +\Big( -pX_{(n-2)} + (3p-1)X_{(n-1)} + (2-3p)X_{(n)} \Big) B_n
+\end{split}
+\]&lt;/span>&lt;/p>
+&lt;p>where &lt;span class="math inline">\(B_i = B(i; n, p)\)&lt;/span> is probability mass function of the binomial distribution &lt;span class="math inline">\(B(n, p)\)&lt;/span>,
+&lt;span class="math inline">\(X_{(i)}\)&lt;/span> are order statistics of sample &lt;span class="math inline">\(X\)&lt;/span>.&lt;/p>
+&lt;p>In this post, I derive these equations following the paper
+&lt;a href="https://doi.org/10.1111/bmsp.12198">&amp;ldquo;A new quantile estimator with weights based on a subsampling approach&amp;rdquo;&lt;/a> (2020)
+by Gözde Navruz and A. Fırat Özdemir.
+Also, I add some additional explanations,
+simplify the final equation,
+and provide reference implementations in C# and R.&lt;/p></description></item><item><title>Sfakianakis-Verginis quantile estimator</title><link>https://aakinshin.net/posts/sfakianakis-verginis-quantile-estimator/</link><pubDate>Tue, 09 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/sfakianakis-verginis-quantile-estimator/</guid><description>&lt;p>There are dozens of different ways to estimate quantiles.
 One of these ways is to use the Sfakianakis-Verginis quantile estimator.
 To be more specific, it&amp;rsquo;s a family of three estimators.
-If we want to estimate the &lt;span class="math inline">\(p^\textrm{th}\)&lt;/span> quantile for sample &lt;span class="math inline">\(X\)&lt;/span>,
+If we want to estimate the &lt;span class="math inline">\(p^\textrm{th}\)&lt;/span> quantile of sample &lt;span class="math inline">\(X\)&lt;/span>,
 we can use one of the following equations:&lt;/p>
 &lt;p>&lt;span class="math display">\[\begin{split}
 \operatorname{SV1}_p =&amp;
@@ -12,10 +28,10 @@ we can use one of the following equations:&lt;/p>
 \operatorname{SV3}_p =&amp; \sum_{i=1}^n B_i X_{(i)} + B_0 \cdot \big(2X_{(1)}-X_{(2)}\big).
 \end{split}
 \]&lt;/span>&lt;/p>
-&lt;p>where &lt;span class="math inline">\(B_i = B(i; n, p)\)&lt;/span> is probability mass function os the binomial distribution &lt;span class="math inline">\(B(n, p)\)&lt;/span>,
-&lt;span class="math inline">\(X_{(i)}\)&lt;/span> are order statistics of the sample &lt;span class="math inline">\(X\)&lt;/span>.&lt;/p>
+&lt;p>where &lt;span class="math inline">\(B_i = B(i; n, p)\)&lt;/span> is probability mass function of the binomial distribution &lt;span class="math inline">\(B(n, p)\)&lt;/span>,
+&lt;span class="math inline">\(X_{(i)}\)&lt;/span> are order statistics of sample &lt;span class="math inline">\(X\)&lt;/span>.&lt;/p>
 &lt;p>In this post, I derive these equations following the paper
-&lt;a href="https://doi.org/10.1080/03610910701790491">&amp;ldquo;A new family of nonparametric quantile estimators&amp;rdquo;&lt;/a>
+&lt;a href="https://doi.org/10.1080/03610910701790491">&amp;ldquo;A new family of nonparametric quantile estimators&amp;rdquo;&lt;/a> (2008)
 by Michael E. Sfakianakis and Dimitris G. Verginis.
 Also, I add some additional explanations,
 reconstruct missing steps,

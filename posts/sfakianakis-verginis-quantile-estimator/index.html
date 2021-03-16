@@ -8,7 +8,7 @@ gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/
 <a href=https://aakinshin.net/tags/quantile/ class="badge badge-info">Quantile</a></span><br><br><p>There are dozens of different ways to estimate quantiles.
 One of these ways is to use the Sfakianakis-Verginis quantile estimator.
 To be more specific, it&rsquo;s a family of three estimators.
-If we want to estimate the <span class="math inline">\(p^\textrm{th}\)</span> quantile for sample <span class="math inline">\(X\)</span>,
+If we want to estimate the <span class="math inline">\(p^\textrm{th}\)</span> quantile of sample <span class="math inline">\(X\)</span>,
 we can use one of the following equations:</p><p><span class="math display">\[\begin{split}
 \operatorname{SV1}_p =&
 \frac{B_0}{2} \big( X_{(1)}+X_{(2)}-X_{(3)} \big) +
@@ -17,9 +17,9 @@ we can use one of the following equations:</p><p><span class="math display">\[\b
 \operatorname{SV2}_p =& \sum_{i=1}^{n} B_{i-1} X_{(i)} + B_n \cdot \big(2X_{(n)} - X_{(n-1)}\big),\\
 \operatorname{SV3}_p =& \sum_{i=1}^n B_i X_{(i)} + B_0 \cdot \big(2X_{(1)}-X_{(2)}\big).
 \end{split}
-\]</span></p><p>where <span class="math inline">\(B_i = B(i; n, p)\)</span> is probability mass function os the binomial distribution <span class="math inline">\(B(n, p)\)</span>,
-<span class="math inline">\(X_{(i)}\)</span> are order statistics of the sample <span class="math inline">\(X\)</span>.</p><p>In this post, I derive these equations following the paper
-<a href=https://doi.org/10.1080/03610910701790491>&ldquo;A new family of nonparametric quantile estimators&rdquo;</a>
+\]</span></p><p>where <span class="math inline">\(B_i = B(i; n, p)\)</span> is probability mass function of the binomial distribution <span class="math inline">\(B(n, p)\)</span>,
+<span class="math inline">\(X_{(i)}\)</span> are order statistics of sample <span class="math inline">\(X\)</span>.</p><p>In this post, I derive these equations following the paper
+<a href=https://doi.org/10.1080/03610910701790491>&ldquo;A new family of nonparametric quantile estimators&rdquo;</a> (2008)
 by Michael E. Sfakianakis and Dimitris G. Verginis.
 Also, I add some additional explanations,
 reconstruct missing steps,

@@ -32,9 +32,9 @@ Typically, <span class="math inline">\(C \approx 1.4826\)</span> to use <span cl
 In the scope of this post, there is no need to be consistent with other dispersion metrics,
 so you can assume that <span class="math inline">\(C = 1\)</span>.</p><p>When people use the <span class="math inline">\(\mathcal{MAD}\)</span>, they usually forget to pay attention to the quantile estimator that
 is used to calculate the median.
-Meanwhile, the quantile estimator heavily affects the robustness of the final version.
+Meanwhile, the quantile estimator heavily affects the <a href=https://en.wikipedia.org/wiki/Efficiency_(statistics)>efficiency</a> of the final version.
 For further discussion, let&rsquo;s use the Harrell-Davis quantile estimator (<a href=#Harrell1982>[Harrell1982]</a>)
-because it&rsquo;s one of the most smooth and robust options.</p><p>One of the most important properties of the <span class="math inline">\(\mathcal{MAD}\)</span> you should know:
+because it&rsquo;s one of the most smooth and efficient options.</p><p>One of the most important properties of the <span class="math inline">\(\mathcal{MAD}\)</span> you should know:
 the range <span class="math inline">\([\textrm{median}(x) - \mathcal{MAD}(x); \textrm{median}(x) + \mathcal{MAD}(x)]\)</span>
 contains 50% of the distribution:</p><div class=row><div class=mx-auto><a href=/posts/qad/img/gumbel-mad-light.png target=_blank class=imgldlink alt=gumbel-mad><picture>
 <source theme=dark srcset=/posts/qad/img/gumbel-mad-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/qad/img/gumbel-mad-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/qad/img/gumbel-mad-light.png></picture></a></div></div><br><p>For better understanding,
