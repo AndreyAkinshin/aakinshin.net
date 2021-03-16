@@ -74,7 +74,7 @@ We can do it via the [shift function](/posts/shift-and-ratio-functions/) ([[Doks
 {{< imgld compare4 >}}
 
 It shows the absolute shift for each quantile.
-The robustness of the shift function can be improved with the help of *the Harrell-Davis quantile estimator* ([[Harrell1982]](#Harrell1982)).
+The [efficiency](https://en.wikipedia.org/wiki/Efficiency_(statistics)) of the shift function can be improved with the help of *the Harrell-Davis quantile estimator* ([[Harrell1982]](#Harrell1982)).
 
 Unfortunately, the raw shift function can't be used as the effect size because it heavily depends on the distribution dispersion.
 Without it, we can't say if the shift values are large or small.
@@ -103,7 +103,7 @@ $$
 \mathcal{PMAD}_{XY} = \sqrt{\frac{(n_X - 1) \mathcal{MAD}^2_X + (n_Y - 1) \mathcal{MAD}^2_Y}{n_X + n_Y - 2}}.
 $$
 
-As usual, we can use the Harrell-Davis quantile estimator to improve the robustness of this metric.
+As usual, we can use the Harrell-Davis quantile estimator to improve the efficiency of this metric.
 
 ### A quantile-specific effect size
 
@@ -199,7 +199,7 @@ $$
 It provides the effect size for each quantile, but it can also be condensed to a range or a single number.
 It has the following advantages:
 
-* It's robust (the robustness can be improved using the Harrell-Davis quantile estimator).
+* It's robust
 * It's applicable for nonparametric distributions.
 * It's consistent with the Cohen's d for normal distributions.
 * It's not clamped, and it allows comparing large effect sizes for nonoverlapped distribution pairs.

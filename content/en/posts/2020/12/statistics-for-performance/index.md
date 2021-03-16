@@ -161,7 +161,7 @@ Based on my experience, one of the best solutions for this is the Maritz-Jarrett
 Typically, people use the [standard deviation](https://en.wikipedia.org/wiki/Standard_deviation) as a measure of the [statistical dispersion](https://en.wikipedia.org/wiki/Statistical_dispersion).
 It works great for normal distribution, but it may be very misleading in the case of non-parametric distribution.
 It's recommended to use alternative measures of dispersion such as the [median absolute deviation](https://en.wikipedia.org/wiki/Median_absolute_deviation).
-The robustness of this metric can be significantly improved with the help of the Harrell-Davis quantile estimator.
+The efficiency of this metric can be significantly improved with the help of the Harrell-Davis quantile estimator.
 
 #### Quantile absolute deviation
 

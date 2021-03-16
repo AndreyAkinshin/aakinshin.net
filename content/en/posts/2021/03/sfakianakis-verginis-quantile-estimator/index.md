@@ -12,7 +12,7 @@ features:
 There are dozens of different ways to estimate quantiles.
 One of these ways is to use the Sfakianakis-Verginis quantile estimator.
 To be more specific, it's a family of three estimators.
-If we want to estimate the $p^\textrm{th}$ quantile for sample $X$,
+If we want to estimate the $p^\textrm{th}$ quantile of sample $X$,
   we can use one of the following equations:
 
 $$
@@ -26,11 +26,11 @@ $$
 \end{split}
 $$
 
-where $B_i = B(i; n, p)$ is probability mass function os the binomial distribution $B(n, p)$,
-  $X_{(i)}$ are order statistics of the sample $X$.
+where $B_i = B(i; n, p)$ is probability mass function of the binomial distribution $B(n, p)$,
+  $X_{(i)}$ are order statistics of sample $X$.
 
 In this post, I derive these equations following the paper
-  ["A new family of nonparametric quantile estimators"](https://doi.org/10.1080/03610910701790491)
+  ["A new family of nonparametric quantile estimators"](https://doi.org/10.1080/03610910701790491) (2008)
   by Michael E. Sfakianakis and Dimitris G. Verginis.
 Also, I add some additional explanations,
   reconstruct missing steps,

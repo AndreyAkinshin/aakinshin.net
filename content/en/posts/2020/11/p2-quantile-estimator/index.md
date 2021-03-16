@@ -189,7 +189,7 @@ I decided to visualize sequential values of the following quantiles estimator:
     where Rob J. Hyndman and Yanan Fan described nine quantile algorithms which are used in statistical computer packages.
 * **The Harrell-Davis quantile estimator**  
   It's my favorite option in real life for non-sequential cases because
-    it's more robust than classic quantile estimators based on linear interpolation,
+    it's more efficient than classic quantile estimators based on linear interpolation,
     and it provides more reliable estimations on small samples.
   This quantile estimator is described in [[Harrell1982]](#Harrell1982).
 * **Actual**  

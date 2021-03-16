@@ -161,8 +161,7 @@ The first two methods are the most famous and straightforward:
 Although they are simple and easy to compute, they have limitations.
 The first one requires the data from the normal distribution.
 If you work with another kind of distribution, you will not get meaningful results using Scott's rule of thumb.
-The second rule is more robust (it gives acceptable results on skewed, heavy-tailed, and bimodal distributions),
-  but, as we can see, it doesn't work well in complicated cases.
+The second rule is more robust but, as we can see, it doesn't work well in complicated cases.
 
 Thus, in simple cases (e.g., in the case of unimodal distribution),
   you can safely use the Scott's or Silverman's rule of thumb (the Silverman's rule is recommended because it's more robust)

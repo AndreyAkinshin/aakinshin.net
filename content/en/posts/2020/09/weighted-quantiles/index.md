@@ -117,7 +117,7 @@ In this post, we consider two estimator kinds:
     where Rob J. Hyndman and Yanan Fan described nine quantile algorithms which are used in statistical computer packages.
 * **The Harrell-Davis quantile estimator**  
   It's my favorite option in real life because
-    it's more robust than classic quantile estimators based on linear interpolation,
+    it's more efficient than classic quantile estimators based on linear interpolation,
     and it provides more reliable estimations on small samples.
   This quantile estimator is described in [[Harrell1982]](#Harrell1982).
 
@@ -488,7 +488,7 @@ To do that, we have to apply the following procedure after each day:
 
 * Assign weights $w_i$ to existing measurements $x_i$ according to the exponential decay law.
 * Sort the pairs $(x_i, w_i)$ by the measurement values $x_i$ because our equations require a sorted sample.
-* Apply the Harrell-Davis quantile estimator (because it's the most robust estimator) to get the median estimation ($q_{0.5}$).
+* Apply the Harrell-Davis quantile estimator (because it's an efficient estimator) to get the median estimation ($q_{0.5}$).
 
 Here is an illustration of how it works in practice (for this example, $t_{1/2} = 5$).
 

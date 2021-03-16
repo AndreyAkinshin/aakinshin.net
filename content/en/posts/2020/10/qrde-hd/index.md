@@ -54,7 +54,7 @@ Let's also calculate the median and the $95^{\textrm{th}}$ percentile using thre
     where Rob J. Hyndman and Yanan Fan described nine quantile algorithms which are used in statistical computer packages.
 * **The Harrell-Davis quantile estimator**  
   A quantile estimator that is described in [[Harrell1982]](#Harrell1982).
-  It's more robust, and it provides more reliable estimations.
+  It's more efficient, and it provides more reliable estimations.
 * **KDE-based quantile estimator**  
   Quantile values that are obtained from the kernel density estimation instead of the original sample.
 
