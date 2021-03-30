@@ -13,7 +13,7 @@ However, this estimator may provide lower efficiency in some special cases.
 In this post, we will conduct a set of simulations that show the actual efficiency numbers.
 We compare different distributions (symmetric and right-skewed, heavy-tailed and light-tailed),
 quantiles, and sample sizes.</p><h3 id=simulation-design>Simulation design</h3><p>The relative efficiency value depends on five parameters:</p><ul><li>Target quantile estimator</li><li>Baseline quantile estimator</li><li>Estimated quantile <span class="math inline">\(p\)</span></li><li>Sample size <span class="math inline">\(n\)</span></li><li>Distribution</li></ul><p>Our target quantile estimator is the Harrell-Davis quantile estimator or HDQE (<a href=#Harrell1982>[Harrell1982]</a>).</p><p><span class="math display">\[Q_{HD}(p) = \sum_{i=1}^{n} W_{i} \cdot x_{(i)}, \quad
-W_{n,i} = I_{i/n}(a, b) - I_{(i-1)/n}(a, b), \quad
+W_{i} = I_{i/n}(a, b) - I_{(i-1)/n}(a, b), \quad
 a = p(n+1),\; b = (1-p)(n+1)
 \]</span></p><p>where
 <span class="math inline">\(I_t(a, b)\)</span> denotes the <a href=https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function>regularized incomplete beta function</a>,
