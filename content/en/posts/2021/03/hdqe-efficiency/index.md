@@ -34,7 +34,7 @@ Our target quantile estimator is the Harrell-Davis quantile estimator or HDQE ([
 
 $$
 Q_{HD}(p) = \sum_{i=1}^{n} W_{i} \cdot x_{(i)}, \quad
-W_{n,i} = I_{i/n}(a, b) - I_{(i-1)/n}(a, b), \quad
+W_{i} = I_{i/n}(a, b) - I_{(i-1)/n}(a, b), \quad
 a = p(n+1),\; b = (1-p)(n+1)
 $$
 

@@ -1,5 +1,5 @@
 ---
-title: "Winsorized modifications of the Harrell-Davis quantile estimator"
+title: "Winsorized modification of the Harrell-Davis quantile estimator"
 description: "A modified version of the Harrell-Davis quantile estimator with better robustness"
 date: "2021-03-02"
 tags:
@@ -72,13 +72,13 @@ Here is the estimation for $p^\textrm{th}$ quantile:
 
 $$
 q_p = \sum_{i=1}^{n} W_{i} \cdot x_{(i)}, \quad
-W_{n,i} = I_{i/n}(a, b) - I_{(i-1)/n}(a, b), \quad
+W_{i} = I_{i/n}(a, b) - I_{(i-1)/n}(a, b), \quad
 a = p(n+1),\; b = (1-p)(n+1)
 $$
 
 where
   $I_t(a, b)$ denotes the [regularized incomplete beta function](https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function),
-  $x_{(i)}$ is the $i^\textrm{th}$ [order statistics](https://en.wikipedia.org/wiki/Order_statistic).
+  $x_{(i)}$ is the $i^\textrm{th}$ [order statistic](https://en.wikipedia.org/wiki/Order_statistic).
 This estimator has higher efficiency than the sample median.
 It means that it has a smaller variance and smaller mean squared error.
 
