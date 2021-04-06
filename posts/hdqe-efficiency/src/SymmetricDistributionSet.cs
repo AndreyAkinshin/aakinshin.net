@@ -18,7 +18,7 @@ namespace HarrellDavisEfficiency
                 new ReferenceDistribution("Beta(2,2)", "Beta distribution with a=b=2", new BetaDistribution(2, 2)),
                 new ReferenceDistribution("Beta(3,3)", "Beta distribution with a=b=3", new BetaDistribution(3, 3)),
                 new ReferenceDistribution("Beta(4,4)", "Beta distribution with a=b=4", new BetaDistribution(4, 4)),
-                new ReferenceDistribution("Beta(5,5)", "Beta distribution with a=b=4", new BetaDistribution(5, 5)),
+                new ReferenceDistribution("Beta(5,5)", "Beta distribution with a=b=5", new BetaDistribution(5, 5)),
                 new ReferenceDistribution("U(0,1)", "Uniform distribution on [0;1]", new UniformDistribution(0, 1)),
                 new ReferenceDistribution("N(0,1)", "Normal with mu=0, sigma=1", new NormalDistribution()),
                 new ReferenceDistribution("DE(0,1)", "Laplace (double exponential) with mu=0, b=1", new LaplaceDistribution(0, 1)),

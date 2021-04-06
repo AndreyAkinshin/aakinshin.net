@@ -1,4 +1,31 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 30 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Trimmed modification of the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/trimmed-hdqe/</link><pubDate>Tue, 30 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/trimmed-hdqe/</guid><description>&lt;p>In one of &lt;a href="https://aakinshin.net/posts/winsorized-hdqe/">the previous posts&lt;/a>, I discussed winsorized Harrell-Davis quantile estimator.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 06 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Efficiency of the winsorized and trimmed Harrell-Davis quantile estimators</title><link>https://aakinshin.net/posts/wthdqe-efficiency/</link><pubDate>Tue, 06 Apr 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/wthdqe-efficiency/</guid><description>&lt;p>In previous posts, I suggested two modifications of the Harrell-Davis quantile estimator:
+&lt;a href="https://aakinshin.net/posts/winsorized-hdqe/">winsorized&lt;/a> and &lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">trimmed&lt;/a>.
+Both modifications have a higher level of robustness in comparison to the original estimator.
+Also, I &lt;a href="https://aakinshin.net/posts/hdqe-efficiency/">discussed&lt;/a> the &lt;a href="https://en.wikipedia.org/wiki/Efficiency_(statistics)">efficiency&lt;/a>
+of the Harrell-Davis quantile estimator.
+In this post, I&amp;rsquo;m going to continue numerical simulation and estimate the efficiency of
+the winsorized and trimmed modifications.&lt;/p>
+&lt;div class="row">
+&lt;div class="mx-auto">
+&lt;a href="https://aakinshin.net/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-light.png" target="_blank" class="imgldlink" alt="LightAndHeavy_N10_Efficiency">
+&lt;picture>
+&lt;source
+theme='dark'
+srcset="https://aakinshin.net/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-dark.png"
+media="(prefers-color-scheme: dark)">
+&lt;source
+theme='light'
+srcset="https://aakinshin.net/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-light.png"
+media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;img
+class="mx-auto d-block img-fluid"
+width='800'
+src="https://aakinshin.net/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-light.png">
+&lt;/picture>
+&lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br /></description></item><item><title>Trimmed modification of the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/trimmed-hdqe/</link><pubDate>Tue, 30 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/trimmed-hdqe/</guid><description>&lt;p>In one of &lt;a href="https://aakinshin.net/posts/winsorized-hdqe/">the previous posts&lt;/a>, I discussed winsorized Harrell-Davis quantile estimator.
 This estimator is more robust than the classic Harrell-Davis quantile estimator.
 In this post, I want to suggest another modification that may be better for some corner cases:
 the &lt;em>trimmed&lt;/em> Harrell-Davis quantile estimator.&lt;/p></description></item><item><title>Efficiency of the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/hdqe-efficiency/</link><pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/hdqe-efficiency/</guid><description>&lt;p>One of the most essential properties of a quantile estimator is
