@@ -436,6 +436,7 @@ In future blog posts, I will show other approaches that estimate the moving quan
 ### References
 
 * <b id="Hardle1995">[Hardle1995]</b>  
-  Hardle, W., and William Steiger. "Algorithm AS 296: Optimal median smoothing." Journal of the Royal Statistical Society. Series C (Applied Statistics) 44, no. 2 (1995): 258-264.
+  Hardle, W., and William Steiger. "Algorithm AS 296: Optimal median smoothing." Journal of the Royal Statistical Society. Series C (Applied Statistics) 44, no. 2 (1995): 258-264.  
+  https://doi.org/10.2307/2986349
 * [StackOverflow: Rolling median algorithm in C](https://stackoverflow.com/q/1309263/184842)
 * [StackOverflow: Rolling median in C - Turlach implementation](https://stackoverflow.com/q/5527437/184842)
