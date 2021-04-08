@@ -1,4 +1,11 @@
 media:
+  - date: 2021-04-08
+    type: podcast
+    kind: audio
+    host: RadioDotNet
+    title: "RadioDotNet-026: DotNext 2021 Piter"
+    lang: ru
+    url: https://anchor.fm/radiodotnet/episodes/DotNext-2021-Piter-eueko5
   - date: 2020-11-13
     type: podcast
     kind: audio
