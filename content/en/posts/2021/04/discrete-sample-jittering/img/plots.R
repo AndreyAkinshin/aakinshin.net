@@ -50,8 +50,8 @@ draw.jittering <- function(x, scale = 1.5) {
   dfc$r <- sum(dfc$cnt) - dfc$l - dfc$cnt
   noise <- unlist(
     apply(dfc, 1,
-          function(u) get.noise0(u["cnt"], u["l"], u["r"])))
-  x2 <- x + noise * scale
+          function(u) get.noise(u["cnt"], u["l"], u["r"])))
+  x2 <- sort(x) + noise * scale
   
   p1 <- ggplot(data.frame(x), aes(x)) +
     geom_density(bw = "SJ", col = cbRed) +

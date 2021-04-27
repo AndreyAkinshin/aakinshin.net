@@ -6,6 +6,7 @@ tags:
 - Density plots
 - R
 - bandwidth
+- KDE
 features:
 - math
 ---
