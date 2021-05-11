@@ -21,3 +21,6 @@ obj/
 # R
 .RData
 .Rhistory
+
+# Misc
+.DS_Store
