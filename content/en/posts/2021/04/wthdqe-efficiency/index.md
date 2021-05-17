@@ -86,7 +86,7 @@ I decided to choose 4 light-tailed distributions and 4 heavy-tailed distribution
 | Cauchy(0,1)       | Cauchy distribution with location=0, scale=1                                            |
 | Pareto(1, 0.5)    | Pareto distribution with xm=1, alpha=0.5                                                |
 | LogNormal(0,3^2)  | Log-normal distribution with mu=0, sigma=3                                              |
-| Exp(1) + OUtliers | 95% of exponential distribution with rate=1 and 5% of uniform distribution on [0;10000] |
+| Exp(1) + Outliers | 95% of exponential distribution with rate=1 and 5% of uniform distribution on [0;10000] |
 
 Here are the probability density functions of these distributions:
 
