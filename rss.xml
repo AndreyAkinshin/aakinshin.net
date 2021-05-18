@@ -1,4 +1,31 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 11 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Dispersion exponential smoothing</title><link>https://aakinshin.net/posts/dispersion-exponential-smoothing/</link><pubDate>Tue, 11 May 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/dispersion-exponential-smoothing/</guid><description>&lt;p>In this &lt;a href="https://aakinshin.net/posts/quantile-exponential-smoothing/">previous post&lt;/a>,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 18 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Comparing the efficiency of the Harrell-Davis, Sfakianakis-Verginis, and Navruz-Özdemir quantile estimators</title><link>https://aakinshin.net/posts/hd-sv-no-efficiency/</link><pubDate>Tue, 18 May 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/hd-sv-no-efficiency/</guid><description>&lt;p>In the previous posts, I discussed the statistical efficiency of different quantile estimators
+(&lt;a href="https://aakinshin.net/posts/hdqe-efficiency/">Efficiency of the Harrell-Davis quantile estimator&lt;/a> and
+&lt;a href="https://aakinshin.net/posts/wthdqe-efficiency/">Efficiency of the winsorized and trimmed Harrell-Davis quantile estimators&lt;/a>).&lt;/p>
+&lt;p>In this post, I continue this research and compare the efficiency of
+the Harrell-Davis quantile estimator,
+the &lt;a href="https://aakinshin.net/posts/sfakianakis-verginis-quantile-estimator/">Sfakianakis-Verginis quantile estimators&lt;/a>, and
+the &lt;a href="https://aakinshin.net/posts/navruz-ozdemir-quantile-estimator/">Navruz-Özdemir quantile estimator&lt;/a>.&lt;/p>
+&lt;div class="row">
+&lt;div class="mx-auto">
+&lt;a href="https://aakinshin.net/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-light.png" target="_blank" class="imgldlink" alt="LightAndHeavy_N10_Efficiency">
+&lt;picture>
+&lt;source
+theme='dark'
+srcset="https://aakinshin.net/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-dark.png"
+media="(prefers-color-scheme: dark)">
+&lt;source
+theme='light'
+srcset="https://aakinshin.net/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-light.png"
+media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;img
+class="mx-auto d-block img-fluid"
+width='800'
+src="https://aakinshin.net/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-light.png">
+&lt;/picture>
+&lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br /></description></item><item><title>Dispersion exponential smoothing</title><link>https://aakinshin.net/posts/dispersion-exponential-smoothing/</link><pubDate>Tue, 11 May 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/dispersion-exponential-smoothing/</guid><description>&lt;p>In this &lt;a href="https://aakinshin.net/posts/quantile-exponential-smoothing/">previous post&lt;/a>,
 I showed how to apply exponential smoothing to quantiles
 using the &lt;a href="https://aakinshin.net/posts/weighted-quantiles/">weighted Harrell-Davis quantile estimator&lt;/a>.
 This technique allows getting smooth and stable moving median estimations.
