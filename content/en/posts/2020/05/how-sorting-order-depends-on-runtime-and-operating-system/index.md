@@ -44,9 +44,9 @@ We took a simple set of characters <code>.-'!a</code> and built all possible two
 
 ```cs
 var chars = ".-'!a".ToCharArray();
-var strings = new List&lt;string&gt;();
-for (int i = 0; i &lt; chars.Length; i++)
-    for (int j = 0; j &lt; chars.Length; j++)
+var strings = new List<string>();
+for (int i = 0; i < chars.Length; i++)
+    for (int j = 0; j < chars.Length; j++)
         strings.Add(chars[i].ToString() + chars[j]);
 ```
 
@@ -69,7 +69,7 @@ In the <a href="https://blog.jetbrains.com/dotnet/2020/04/27/socket-error-codes-
 <h2><strong>More tricky cases</strong></h2>
 Sorting order can be pretty tricky, even if you are only working within one environment. A great example of unexpected behavior can be found in this StackOverflow <a href="https://stackoverflow.com/q/2244480/184842">question</a>, where developers discuss the following code snippet:
 
-```txt
+```cs
 "+".CompareTo("-")
 Returns: 1
 
