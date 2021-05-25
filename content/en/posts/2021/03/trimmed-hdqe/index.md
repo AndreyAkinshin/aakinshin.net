@@ -6,7 +6,7 @@ tags:
 - Statistics
 - Quantile
 - Trimming
-- Harrell-Davis
+- Harrell-Davis quantile estimator
 features:
 - math
 ---

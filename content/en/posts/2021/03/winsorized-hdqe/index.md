@@ -6,7 +6,7 @@ tags:
 - Statistics
 - Quantile
 - Winsorizing
-- Harrell-Davis
+- Harrell-Davis quantile estimator
 features:
 - math
 ---

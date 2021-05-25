@@ -9,7 +9,7 @@ tags:
 - MAD
 - Quantile Absolute Deviation
 - Dispersion
-- Harrell-Davis
+- Harrell-Davis quantile estimator
 features:
 - math
 ---

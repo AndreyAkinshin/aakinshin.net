@@ -6,7 +6,7 @@ tags:
 - Effect Size
 - Gamma Effect Size
 - MAD
-- Harrell-Davis
+- Harrell-Davis quantile estimator
 - R
 - Perfolizer
 features:

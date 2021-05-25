@@ -5,7 +5,7 @@ date: 2021-04-06
 tags:
 - Statistics
 - Quantile
-- Efficiency
+- Statistical efficiency
 features:
 - math
 ---

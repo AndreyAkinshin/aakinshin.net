@@ -6,7 +6,7 @@ tags:
 - Statistics
 - Multimodality
 - QRDE
-- Harrell-Davis
+- Harrell-Davis quantile estimator
 features:
 - math
 ---

@@ -5,7 +5,7 @@ tags:
 - Statistics
 - PDF
 - QRDE
-- Harrell-Davis
+- Harrell-Davis quantile estimator
 features:
 - math
 aliases:

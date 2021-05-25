@@ -6,7 +6,7 @@ tags:
 - Statistics
 - Quantile
 - MAD
-- Harrell-Davis
+- Harrell-Davis quantile estimator
 features:
 - math
 ---

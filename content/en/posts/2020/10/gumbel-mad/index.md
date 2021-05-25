@@ -4,7 +4,7 @@ date: "2020-10-06"
 tags:
 - Statistics
 - Quantiles
-- Harrell-Davis
+- Harrell-Davis quantile estimator
 - R
 - Perfolizer
 - Gumbel
