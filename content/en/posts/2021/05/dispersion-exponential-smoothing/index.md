@@ -29,7 +29,7 @@ First of all, we should assign exponential weights $w$ to the given timer series
   in the following way:
 
 $$
-w_t = e^{\lambda (n-t)}
+w_t = e^{-\lambda (n-t)}
 $$
 
 where $\lambda$ is the decay constant which can be expressed using the half-life value $t_{1/2}$:

@@ -130,7 +130,7 @@ If we want to assign weights $w$ for observations $\{ x_1, \ldots, x_n \}$,
   we can use the following equation:
 
 $$
-w_t = e^{\lambda (n-t)}
+w_t = e^{-\lambda (n-t)}
 $$
 
 where $\lambda$ is the decay constant.
