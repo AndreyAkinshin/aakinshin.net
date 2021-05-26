@@ -17,7 +17,7 @@ This technique allows getting smooth and stable moving median estimations.
 In this post, I&rsquo;m going to discuss how to use the same approach
 to estimate moving dispersion.</p><h3 id=quantiles>Quantiles</h3><p>Let&rsquo;s briefly recall the idea of quantile exponential smoothing.
 First of all, we should assign exponential weights <span class="math inline">\(w\)</span> to the given timer series <span class="math inline">\(\{ x_1, \ldots, x_n \}\)</span>
-in the following way:</p><p><span class="math display">\[w_t = e^{\lambda (n-t)}
+in the following way:</p><p><span class="math display">\[w_t = e^{-\lambda (n-t)}
 \]</span></p><p>where <span class="math inline">\(\lambda\)</span> is the decay constant which can be expressed using the half-life value <span class="math inline">\(t_{1/2}\)</span>:</p><p><span class="math display">\[\lambda = \frac{\ln(2)}{t_{1/2}}.
 \]</span></p><p>Next, we should define the weighted Harrell-Davis quantile estimation <span class="math inline">\(q^*_p\)</span> of the <span class="math inline">\(p^\textrm{th}\)</span> quantile:</p><p><span class="math display">\[q^*_p = \sum_{i=1}^{n} W^*_{i} \cdot x_i,\quad
 W^*_{i} = I_{r^*_i}(a^*, b^*) - I_{l^*_i}(a^*, b^*),

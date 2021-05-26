@@ -76,7 +76,7 @@ the <a href=https://aakinshin.net/posts/winsorized-hdqe/>winsorized</a> and <a h
 of the Harrell-Davis quantile estimator
 (the corresponding efficiency overview can be found <a href=https://aakinshin.net/posts/wthdqe-efficiency/>here</a>).</p><p>The easiest way to assign exponential weights to our observations is exponential decay.
 If we want to assign weights <span class="math inline">\(w\)</span> for observations <span class="math inline">\(\{ x_1, \ldots, x_n \}\)</span>,
-we can use the following equation:</p><p><span class="math display">\[w_t = e^{\lambda (n-t)}
+we can use the following equation:</p><p><span class="math display">\[w_t = e^{-\lambda (n-t)}
 \]</span></p><p>where <span class="math inline">\(\lambda\)</span> is the decay constant.
 In order to set the <span class="math inline">\(\lambda\)</span> value, we can express it via the half-life value <span class="math inline">\(t_{1/2}\)</span>:</p><p><span class="math display">\[\lambda = \frac{\ln(2)}{t_{1/2}}.
 \]</span></p><p>The half-life gives us a nice property of the weight function: <span class="math inline">\(w_{i-t_{1/2}} = 0.5 w_i\)</span>.
