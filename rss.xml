@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 25 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Improving the efficiency of the Harrell-Davis quantile estimator for special cases using custom winsorizing and trimming strategies</title><link>https://aakinshin.net/posts/customized-wthdqe/</link><pubDate>Tue, 25 May 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/customized-wthdqe/</guid><description>&lt;p>Let&amp;rsquo;s say we want to
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 01 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Robust alternative to statistical efficiency</title><link>https://aakinshin.net/posts/robust-statistical-efficiency/</link><pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/robust-statistical-efficiency/</guid><description>&lt;p>Statistical efficiency is a common measure of the quality of an estimator.
+Typically, it&amp;rsquo;s expressed via the mean square error (&lt;span class="math inline">\(\operatorname{MSE}\)&lt;/span>).
+For the given estimator &lt;span class="math inline">\(T\)&lt;/span> and the true parameter value &lt;span class="math inline">\(\theta\)&lt;/span>,
+the &lt;span class="math inline">\(\operatorname{MSE}\)&lt;/span> can be expressed as follows:&lt;/p>
+&lt;p>&lt;span class="math display">\[\operatorname{MSE}(T) = \operatorname{E}[(T-\theta)^2]
+\]&lt;/span>&lt;/p>
+&lt;p>In numerical simulations, the &lt;span class="math inline">\(\operatorname{MSE}\)&lt;/span> can&amp;rsquo;t be used as a robust metric
+because its breakdown point is zero
+(a corruption of a single measurement leads to a corrupted result).
+Typically, it&amp;rsquo;s not a problem for light-tailed distributions.
+Unfortunately, in the heavy-tailed case,
+the &lt;span class="math inline">\(\operatorname{MSE}\)&lt;/span> becomes an unreliable and unreproducible metric
+because it can be easily spoiled by a single outlier.&lt;/p>
+&lt;p>I suggest an alternative way to compare statistical estimators.
+Instead of using non-robust &lt;span class="math inline">\(\operatorname{MSE}\)&lt;/span>,
+we can use robust quantile estimations of the absolute error distribution.
+In this post, I want to share numerical simulations
+that show a problem of irreproducible &lt;span class="math inline">\(\operatorname{MSE}\)&lt;/span> values
+and how they can be replaced by reproducible quantile values.&lt;/p></description></item><item><title>Improving the efficiency of the Harrell-Davis quantile estimator for special cases using custom winsorizing and trimming strategies</title><link>https://aakinshin.net/posts/customized-wthdqe/</link><pubDate>Tue, 25 May 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/customized-wthdqe/</guid><description>&lt;p>Let&amp;rsquo;s say we want to
 &lt;strong>estimate the median&lt;/strong>
 based on a &lt;strong>small sample&lt;/strong> (3 &lt;span class="math inline">\(\leq n \leq 7\)&lt;/span>)
 from a &lt;strong>right-skewed heavy-tailed distribution&lt;/strong>
