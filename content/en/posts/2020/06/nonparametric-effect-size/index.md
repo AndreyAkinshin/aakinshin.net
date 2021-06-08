@@ -13,6 +13,8 @@ features:
 - math
 ---
 
+**Update: the second part of this post is available [here]({{< ref nonparametric-effect-size2 >}}).**
+
 The effect size is a common way to describe a difference between two distributions.
 When these distributions are normal, one of the most popular approaches to express the effect size is [Cohen's d](https://en.wikipedia.org/wiki/Effect_size#Cohen's_d).
 Unfortunately, it doesn't work great for non-normal distributions.
@@ -209,6 +211,11 @@ I use this approach to compare distributions of software performance measurement
 For my use cases, it works well and provides a good measure of the effect size.
 I hope it can be useful in many other applications.
 If you decide to try it, I will be happy to hear feedback about your experience.
+
+### Further reading
+
+There is a [second part of this post]({{< ref nonparametric-effect-size2 >}})
+  that shows possible customizations of the suggested approach.
 
 ### References
 
