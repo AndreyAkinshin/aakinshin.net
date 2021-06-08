@@ -1,4 +1,31 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 01 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Robust alternative to statistical efficiency</title><link>https://aakinshin.net/posts/robust-statistical-efficiency/</link><pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/robust-statistical-efficiency/</guid><description>&lt;p>Statistical efficiency is a common measure of the quality of an estimator.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 08 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Customization of the nonparametric Cohen's d-consistent effect size</title><link>https://aakinshin.net/posts/nonparametric-effect-size2/</link><pubDate>Tue, 08 Jun 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/nonparametric-effect-size2/</guid><description>&lt;p>One year ago, I publish a post called &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/">Nonparametric Cohen&amp;#39;s d-consistent effect size&lt;/a>.
+During this year, I got a lot of internal and external feedback from
+my own statistical experiments and
+&lt;a href="https://twitter.com/ViljamiSairanen/status/1400457118340108293">people&lt;/a>
+&lt;a href="https://sherbold.github.io/autorank/autorank/">who&lt;/a>
+&lt;a href="https://github.com/Ramon-Diaz/Thesis-Project/blob/85df6b11050c7e05c4394d873585f701a7e3f32e/_util.py#L100">tried&lt;/a>
+to use the suggested approach.
+It seems that the nonparametric version of Cohen&amp;rsquo;s d works much better with real-life not-so-normal data.
+While the classic Cohen&amp;rsquo;s d based on
+the non-robust arithmetic mean and
+the &lt;a href="https://aakinshin.net/posts/misleading-stddev/">non-robust standard deviation&lt;/a>
+can be easily &lt;a href="https://aakinshin.net/posts/cohend-and-outliers/">corrupted by a single outlier&lt;/a>,
+my approach is much more resistant to unexpected extreme values.
+Also, it allows exploring
+&lt;a href="https://aakinshin.net/posts/comparing-distributions-using-gamma-es/">the difference between specific quantiles of considered samples&lt;/a>,
+which can be useful in the non-parametric case.&lt;/p>
+&lt;p>However, I wasn&amp;rsquo;t satisfied with the results of all of my experiments.
+While I still like the basic idea
+(replace the mean with the median; replace the standard deviation with the median absolute deviation),
+it turned out that the final results heavily depend on the used quantile estimator.
+To be more specific, the original Harrell-Davis quantile estimator is not always optimal;
+in most cases, it&amp;rsquo;s better to replace it with its &lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">trimmed&lt;/a> modification.
+However, the particular choice of the quantile estimators depends on the situation.
+Also, the consistency constant for the median absolute deviation
+should be adjusted according to the current sample size and the used quantile estimator.
+Of course, it also can be replaced by other dispersion estimators
+that can be used as consistent estimators of the standard deviation.&lt;/p>
+&lt;p>In this post, I want to get a brief overview of possible customizations of the suggested metrics.&lt;/p></description></item><item><title>Robust alternative to statistical efficiency</title><link>https://aakinshin.net/posts/robust-statistical-efficiency/</link><pubDate>Tue, 01 Jun 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/robust-statistical-efficiency/</guid><description>&lt;p>Statistical efficiency is a common measure of the quality of an estimator.
 Typically, it&amp;rsquo;s expressed via the mean square error (&lt;span class="math inline">\(\operatorname{MSE}\)&lt;/span>).
 For the given estimator &lt;span class="math inline">\(T\)&lt;/span> and the true parameter value &lt;span class="math inline">\(\theta\)&lt;/span>,
 the &lt;span class="math inline">\(\operatorname{MSE}\)&lt;/span> can be expressed as follows:&lt;/p>
@@ -910,7 +937,8 @@ Also, you can&amp;rsquo;t build a distribution based on the last N measurements 
 So, what you really want to do is to use all the measurements, but older values should have a lower impact on the final distribution form.&lt;/p>
 &lt;p>Such a problem can be solved using the weighted quantiles!
 This powerful approach can be applied to any time series regardless of the domain area.
-In this post, we learn how to calculate and apply weighted quantiles.&lt;/p></description></item><item><title>Nonparametric Cohen's d-consistent effect size</title><link>https://aakinshin.net/posts/nonparametric-effect-size/</link><pubDate>Thu, 25 Jun 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/nonparametric-effect-size/</guid><description>&lt;p>The effect size is a common way to describe a difference between two distributions.
+In this post, we learn how to calculate and apply weighted quantiles.&lt;/p></description></item><item><title>Nonparametric Cohen's d-consistent effect size</title><link>https://aakinshin.net/posts/nonparametric-effect-size/</link><pubDate>Thu, 25 Jun 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/nonparametric-effect-size/</guid><description>&lt;p>&lt;strong>Update: the second part of this post is available &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size2/">here&lt;/a>.&lt;/strong>&lt;/p>
+&lt;p>The effect size is a common way to describe a difference between two distributions.
 When these distributions are normal, one of the most popular approaches to express the effect size is &lt;a href="https://en.wikipedia.org/wiki/Effect_size#Cohen's_d">Cohen&amp;rsquo;s d&lt;/a>.
 Unfortunately, it doesn&amp;rsquo;t work great for non-normal distributions.&lt;/p>
 &lt;p>In this post, I will show a robust Cohen&amp;rsquo;s d-consistent effect size formula for nonparametric distributions.&lt;/p>
