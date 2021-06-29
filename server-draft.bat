@@ -1,0 +1,1 @@
+.\bin\hugo.exe server %*
