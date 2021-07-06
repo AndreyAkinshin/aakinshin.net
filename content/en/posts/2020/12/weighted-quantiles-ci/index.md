@@ -10,6 +10,9 @@ features:
 - math
 ---
 
+**Update 2021-07-06:
+  the approach was updated using the [Kish's effective sample size]({{< ref kish-ess-weighted-quantiles >}}).**
+
 When you work with non-parametric distributions,
   quantile estimations are essential to get the main distribution properties.
 Once you get the estimation values, you may be interested in measuring the accuracy of these estimations.
@@ -124,10 +127,10 @@ $$
 
 To adopt the Maritz-Jarrett method to the weighted samples,
   we can use [the same trick]({{< ref weighted-quantiles >}}) we used for the Harrell-Davis quantile estimator (see [[Harrell1982]](#Harrell1982)).
-First, we should replace the sample size by the weighted sample size:
+First, we should replace the sample size by the weighted sample size using the [Kish's effective sample size]({{< ref kish-ess-weighted-quantiles >}}):
 
 $$
-n^* = \dfrac{\sum_{i=1}^n w_i}{\max_{i=1}^{n} w_i}.
+n^* = \frac{\Big( \sum_{i=1}^n w_i \Big)^2}{\sum_{i=1}^n w_i^2 }.
 $$
 
 Next, we should redefine $a$ and $b$ as follows:

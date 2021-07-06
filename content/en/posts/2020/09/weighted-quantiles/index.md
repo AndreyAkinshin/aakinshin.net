@@ -11,6 +11,9 @@ features:
 - math
 ---
 
+**Update 2021-07-06:
+  the approach was updated using the [Kish's effective sample size]({{< ref kish-ess-weighted-quantiles >}}).**
+
 In this post, I will show how to calculate weighted quantile estimates and how to use them in practice.
 
 Let's start with a problem from real life.
@@ -229,10 +232,10 @@ Since $q_p = \sum_{i=1}^{n} W_{n,i} \cdot x_i$, the $W_{n, i}$ coefficients defi
 
 Now it's time to convert our non-weighted quantile estimator to a weighted one.
 First of all, we should introduce the concept of "weighted sample size."
-It's the sum of all weights normalized by the maximum weight:
+We are going to use the [Kish's effective sample size]({{< ref kish-ess-weighted-quantiles >}}):
 
 $$
-n^* = \dfrac{\sum_{i=1}^n w_i}{\max_{i=1}^{n} w_i}.
+n^* = \frac{\Big( \sum_{i=1}^n w_i \Big)^2}{\sum_{i=1}^n w_i^2 }.
 $$
 
 Thus, the weighted sample size of $w = \{1, 1, 1, 0, 0 \}$ and $w = \{ 1, 1, 1 \}$ is $3$ for both cases.

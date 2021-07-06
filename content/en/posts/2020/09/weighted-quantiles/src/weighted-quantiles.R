@@ -3,7 +3,7 @@ wquantile.generic <- function(x, probs, cdf.gen, weights = NA) {
   n <- length(x)
   if (any(is.na(weights)))
     weights <- rep(1 / n, n)
-  nw <- sum(weights) / max(weights)
+  nw <- sum(weights)^2 / sum(weights^2) # Kish's effective sample size
 
   indexes <- order(x)
   x <- x[indexes]

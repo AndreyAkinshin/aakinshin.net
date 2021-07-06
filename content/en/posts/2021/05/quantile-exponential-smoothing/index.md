@@ -182,7 +182,7 @@ b^* = & (1-p) & \cdot & (n^* + 1),
 $$
 
 $$
-n^* = \dfrac{\sum_{i=1}^n w_i}{\max_{i=1}^{n} w_i}
+n^* = \frac{\Big( \sum_{i=1}^n w_i \Big)^2}{\sum_{i=1}^n w_i^2 }
 $$
 
 where $I_t(a, b)$ is the [regularized incomplete beta function](https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function).
