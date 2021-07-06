@@ -101,7 +101,7 @@ a^* = & p     & \cdot & (n^* + 1),\\
 b^* = & (1-p) & \cdot & (n^* + 1),
 \end{array}
 \right.
-\]</span></p><p><span class="math display">\[n^* = \dfrac{\sum_{i=1}^n w_i}{\max_{i=1}^{n} w_i}
+\]</span></p><p><span class="math display">\[n^* = \frac{\Big( \sum_{i=1}^n w_i \Big)^2}{\sum_{i=1}^n w_i^2 }
 \]</span></p><p>where <span class="math inline">\(I_t(a, b)\)</span> is the <a href=https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function>regularized incomplete beta function</a>.</p><p>The corresponding confidence interval can also be estimated using the
 <a href=https://aakinshin.net/posts/weighted-quantiles-ci/>modification of the Maritz-Jarrett method for weighted samples</a>.</p><p>Now let&rsquo;s try to apply the above equation to our data set using <span class="math inline">\(\textrm{half-life} = 10\)</span>:</p><div class=row><div class=mx-auto><a href=/posts/quantile-exponential-smoothing/img/median10-light.png target=_blank class=imgldlink alt=median10><picture>
 <source theme=dark srcset=/posts/quantile-exponential-smoothing/img/median10-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/quantile-exponential-smoothing/img/median10-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/quantile-exponential-smoothing/img/median10-light.png></picture></a></div></div><br><p>Increasing the half-life value gives more smooth but less adaptive line:</p><div class=row><div class=mx-auto><a href=/posts/quantile-exponential-smoothing/img/median200-light.png target=_blank class=imgldlink alt=median200><picture>

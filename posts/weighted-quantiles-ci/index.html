@@ -6,7 +6,8 @@ gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/
 <i class="fas fa-tag"></i>&nbsp;
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/quantile/ class="badge badge-info">Quantile</a>
-<a href=https://aakinshin.net/tags/confidence-interval/ class="badge badge-info">Confidence Interval</a></span><br><br><p>When you work with non-parametric distributions,
+<a href=https://aakinshin.net/tags/confidence-interval/ class="badge badge-info">Confidence Interval</a></span><br><br><p><strong>Update 2021-07-06:
+the approach was updated using the <a href=https://aakinshin.net/posts/kish-ess-weighted-quantiles/>Kish&rsquo;s effective sample size</a>.</strong></p><p>When you work with non-parametric distributions,
 quantile estimations are essential to get the main distribution properties.
 Once you get the estimation values, you may be interested in measuring the accuracy of these estimations.
 Without it, it&rsquo;s hard to understand how trustable the obtained values are.
@@ -58,7 +59,7 @@ the mean of the square of <span class="math inline">\(X\)</span> and the square 
 \end{align}
 \]</span></p><h3 id=the-weighted-version-of-the-maritz-jarrett-method>The weighted version of the Maritz-Jarrett method</h3><p>To adopt the Maritz-Jarrett method to the weighted samples,
 we can use <a href=https://aakinshin.net/posts/weighted-quantiles/>the same trick</a> we used for the Harrell-Davis quantile estimator (see <a href=#Harrell1982>[Harrell1982]</a>).
-First, we should replace the sample size by the weighted sample size:</p><p><span class="math display">\[n^* = \dfrac{\sum_{i=1}^n w_i}{\max_{i=1}^{n} w_i}.
+First, we should replace the sample size by the weighted sample size using the <a href=https://aakinshin.net/posts/kish-ess-weighted-quantiles/>Kish&rsquo;s effective sample size</a>:</p><p><span class="math display">\[n^* = \frac{\Big( \sum_{i=1}^n w_i \Big)^2}{\sum_{i=1}^n w_i^2 }.
 \]</span></p><p>Next, we should redefine <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> as follows:</p><p><span class="math display">\[\left\{
 \begin{array}{rccl}
 a^* = & p     & \cdot & (n^* + 1),\\
@@ -89,7 +90,7 @@ instead of the original sample size <span class="math inline">\(n\)</span> to de
   <span class=n>x</span> <span class=o>&lt;-</span> <span class=n>x[indexes]</span>
   <span class=n>weights</span> <span class=o>&lt;-</span> <span class=n>weights[indexes]</span>
 
-  <span class=n>nw</span> <span class=o>&lt;-</span> <span class=nf>sum</span><span class=p>(</span><span class=n>weights</span><span class=p>)</span> <span class=o>/</span> <span class=nf>max</span><span class=p>(</span><span class=n>weights</span><span class=p>)</span>
+  <span class=n>nw</span> <span class=o>&lt;-</span> <span class=nf>sum</span><span class=p>(</span><span class=n>weights</span><span class=p>)</span><span class=n>^2</span> <span class=o>/</span> <span class=nf>sum</span><span class=p>(</span><span class=n>weights^2</span><span class=p>)</span> <span class=c1># Kish&#39;s effective sample size</span>
   <span class=n>a</span> <span class=o>&lt;-</span> <span class=n>p</span> <span class=o>*</span> <span class=p>(</span><span class=n>nw</span> <span class=o>+</span> <span class=m>1</span><span class=p>)</span>
   <span class=n>b</span> <span class=o>&lt;-</span> <span class=p>(</span><span class=m>1</span> <span class=o>-</span> <span class=n>p</span><span class=p>)</span> <span class=o>*</span> <span class=p>(</span><span class=n>nw</span> <span class=o>+</span> <span class=m>1</span><span class=p>)</span>
   

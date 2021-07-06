@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 29 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Partial binning compression of performance series</title><link>https://aakinshin.net/posts/partial-binning-compression/</link><pubDate>Tue, 29 Jun 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/partial-binning-compression/</guid><description>&lt;p>Let&amp;rsquo;s start with a problem from real life.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 06 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Using Kish's effective sample size with weighted quantiles</title><link>https://aakinshin.net/posts/kish-ess-weighted-quantiles/</link><pubDate>Tue, 06 Jul 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kish-ess-weighted-quantiles/</guid><description>&lt;p>In my previous posts, I described how to calculate
+&lt;a href="https://aakinshin.net/posts/weighted-quantiles/">weighted quantiles&lt;/a> and
+their &lt;a href="https://aakinshin.net/posts/weighted-quantiles-ci/">confidence intervals&lt;/a>
+using the Harrell-Davis quantile estimator.
+This powerful technique allows applying
+&lt;a href="https://aakinshin.net/posts/quantile-exponential-smoothing/">quantile exponential smoothing&lt;/a> and
+&lt;a href="https://aakinshin.net/posts/dispersion-exponential-smoothing/">dispersion exponential smoothing&lt;/a> for
+time series in order to get its moving properties.&lt;/p>
+&lt;p>When we work with weighted samples, we need a way to calculate the
+&lt;a href="https://en.wikipedia.org/wiki/Effective_sample_size">effective samples size&lt;/a>.
+Previously, I used the sum of all weights normalized by the maximum weight.
+In most cases, it worked OK.&lt;/p>
+&lt;p>Recently, &lt;a href="https://www.soz.unibe.ch/about_us/people/prof_dr_jann_ben/index_eng.html">Ben Jann&lt;/a> pointed out
+that it would be better to use the Kish&amp;rsquo;s formula to calculate the effective sample size.
+In this post, you find the formula and a few numerical simulations that illustrate the actual impact of
+the underlying sample size formula.&lt;/p></description></item><item><title>Partial binning compression of performance series</title><link>https://aakinshin.net/posts/partial-binning-compression/</link><pubDate>Tue, 29 Jun 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/partial-binning-compression/</guid><description>&lt;p>Let&amp;rsquo;s start with a problem from real life.
 Imagine we have thousands of application components that should be initialized.
 We care about the total initialization time of the whole application,
 so we want to automatically track the slowest components using a continuous integration (CI) system.
@@ -592,7 +607,9 @@ in your statistical toolbox.
 I would not say that all of them are must have to know,
 but they can definitely help you to improve the reliability of your statistical checks
 in different problems of performance analysis.
-Consider the below list as a letter to a younger version of myself with a brief list of topics that are good to learn.&lt;/p></description></item><item><title>Quantile confidence intervals for weighted samples</title><link>https://aakinshin.net/posts/weighted-quantiles-ci/</link><pubDate>Tue, 08 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/weighted-quantiles-ci/</guid><description>&lt;p>When you work with non-parametric distributions,
+Consider the below list as a letter to a younger version of myself with a brief list of topics that are good to learn.&lt;/p></description></item><item><title>Quantile confidence intervals for weighted samples</title><link>https://aakinshin.net/posts/weighted-quantiles-ci/</link><pubDate>Tue, 08 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/weighted-quantiles-ci/</guid><description>&lt;p>&lt;strong>Update 2021-07-06:
+the approach was updated using the &lt;a href="https://aakinshin.net/posts/kish-ess-weighted-quantiles/">Kish&amp;rsquo;s effective sample size&lt;/a>.&lt;/strong>&lt;/p>
+&lt;p>When you work with non-parametric distributions,
 quantile estimations are essential to get the main distribution properties.
 Once you get the estimation values, you may be interested in measuring the accuracy of these estimations.
 Without it, it&amp;rsquo;s hard to understand how trustable the obtained values are.
@@ -938,7 +955,9 @@ I also prefer the &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_devi
 Numerical hypothesis verification often requires the exact value of the median absolute deviation of the original distribution.
 I didn&amp;rsquo;t find this value in the reference tables, so I decided to do another exercise and derive it myself.
 In this post, you will find a short derivation and the result (spoiler: the exact value is &lt;code>0.767049251325708 * β&lt;/code>).
-The general approach of the MAD derivation is common for most distributions, so it can be easily reused.&lt;/p></description></item><item><title>Weighted quantile estimators</title><link>https://aakinshin.net/posts/weighted-quantiles/</link><pubDate>Tue, 29 Sep 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/weighted-quantiles/</guid><description>&lt;p>In this post, I will show how to calculate weighted quantile estimates and how to use them in practice.&lt;/p>
+The general approach of the MAD derivation is common for most distributions, so it can be easily reused.&lt;/p></description></item><item><title>Weighted quantile estimators</title><link>https://aakinshin.net/posts/weighted-quantiles/</link><pubDate>Tue, 29 Sep 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/weighted-quantiles/</guid><description>&lt;p>&lt;strong>Update 2021-07-06:
+the approach was updated using the &lt;a href="https://aakinshin.net/posts/kish-ess-weighted-quantiles/">Kish&amp;rsquo;s effective sample size&lt;/a>.&lt;/strong>&lt;/p>
+&lt;p>In this post, I will show how to calculate weighted quantile estimates and how to use them in practice.&lt;/p>
 &lt;p>Let&amp;rsquo;s start with a problem from real life.
 Imagine that you measure the total duration of a unit test executed daily on a CI server.
 Every day you get a single number that corresponds to the test duration from the latest revision for this day:&lt;/p>

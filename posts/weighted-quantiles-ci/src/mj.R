@@ -6,7 +6,7 @@ mj <- function(x, weights, p, alpha) {
   x <- x[indexes]
   weights <- weights[indexes]
 
-  nw <- sum(weights) / max(weights)
+  nw <- sum(weights)^2 / sum(weights^2) # Kish's effective sample size
   a <- p * (nw + 1)
   b <- (1 - p) * (nw + 1)
   

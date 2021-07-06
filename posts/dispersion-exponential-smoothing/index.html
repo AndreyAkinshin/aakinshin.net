@@ -34,7 +34,7 @@ a^* = & p     & \cdot & (n^* + 1),\\
 b^* = & (1-p) & \cdot & (n^* + 1),
 \end{array}
 \right.
-\]</span></p><p><span class="math display">\[n^* = \dfrac{\sum_{i=1}^n w_i}{\max_{i=1}^{n} w_i}
+\]</span></p><p><span class="math display">\[n^* = \frac{\Big( \sum_{i=1}^n w_i \Big)^2}{\sum_{i=1}^n w_i^2 }
 \]</span></p><p>where <span class="math inline">\(I_t(a, b)\)</span> is the
 <a href=https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function>regularized incomplete beta function</a>.</p><p>The same approach can be used with the weighted version of the classic Hyndman-Fan Type 7 quantile estimator
 (details can be found <a href=https://aakinshin.net/posts/weighted-quantiles/>here</a>).</p><h3 id=dispersion>Dispersion</h3><p>Once we have a weighted quantile estimator, we can estimate moving measures of dispersion that are based
