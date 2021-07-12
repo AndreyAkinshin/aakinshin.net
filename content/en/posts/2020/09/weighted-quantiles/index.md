@@ -451,13 +451,58 @@ $W^*_{5,5} = F_7(r_5) - F_7(l_5) = F_7(1.00) - F_7(0.75) = 1.00 - 1.00 = 0.00,$
 $q^*_{0.25} = W^*_{5,1}x_1 + W^*_{5,2}x_2 + W^*_{5,3}x_3 + W^*_{5,4}x_4 + W^*_{5,5}x_5 = 0.25x_1 + 0.75x_3 = 0.25 + 2.25 = 2.5.$
 {{< /example >}}
 
-### Weighted quantiles in action
+### Weighted Type 4-9 quantile estimators
+
+Although the Type 7 is one of the most popular quantile estimators nowadays,
+  the above approach can be applied to any of Type 4-9 estimators.
+All of them are based on the same interpolation formula:
+
+$$
+q_p = x_{\lfloor h \rfloor} + (h - \lfloor h \rfloor) (x_{\lfloor h \rfloor + 1} - x_{\lfloor h \rfloor}).
+$$
+
+The only difference between them is how we choose the $h$ value:
+
+| Type | h               |
+| :--- | :-------------- |
+| 4    | $np$            |
+| 5    | $np+1/2$        |
+| 6    | $(n+1)p$        |
+| 7    | $(n-1)p+1$      |
+| 8    | $(n+1/3)p+1/3$  |
+| 9    | $(n+1/4)/p+3/8$ |
+
+An important note: if the obtained $h$ value is less than $1$ or larger than $n$,
+  it should be clamped to the $[1;n]$ interval.
+Once we get the $h$ value, we can use the same PDF/CDF functions that we used for the Type 7 quantile estimator:
+
+$$
+F_k(u) = \left\{
+\begin{array}{lcrcllr}
+0      & \textrm{for} &         &      & u  & <    & (h-1)/n, \\
+un-h+1 & \textrm{for} & (h-1)/n & \leq & u  & \leq & h/n, \\
+1      & \textrm{for} & h/n     & <    & u. &      &
+\end{array}
+\right.
+$$
+
+$$
+f_k(u) = F'_k(u) = \left\{
+\begin{array}{lcrcllr}
+0      & \textrm{for} &         &      & u  & <    & (h-1)/n, \\
+n      & \textrm{for} & (h-1)/n & \leq & u  & \leq & h/n, \\
+0      & \textrm{for} & h/n     & <    & u. &      &
+\end{array}
+\right.
+$$
+
+
+### Weighted quantiles in action (exponential smoothing)
 
 Let's go back to the original problem with performance measurements and quantile evaluations.
 We already know how to calculate the weighted quantiles.
 All we need now is the weight values.
-For problems like this, it's pretty convenient to use the [exponential decay](https://en.wikipedia.org/wiki/Exponential_decay) law
-  (this approach is inspired by the [radioactive decay](https://en.wikipedia.org/wiki/Radioactive_decay)):
+For problems like this, it's pretty convenient to use the [exponential decay](https://en.wikipedia.org/wiki/Exponential_decay) law:
 
 $$
 \omega(t) = 2^{-t/t_{1/2}}
@@ -498,7 +543,10 @@ Here is an illustration of how it works in practice (for this example, $t_{1/2} 
 {{< imgld_small moving2 >}}
 
 Of course, we can apply this procedure not only to the median, but to any other quantile and get a daily estimation of the "actual" distribution.
-It may be "spoiled" after change point, but it will be "recovered" after a several days.
+It may be "spoiled" after change point, but it will be "recovered" after several days.
+This technique is known as the [quantile exponential smoothing]({{< ref quantile-exponential-smoothing >}}).
+The same idea can be also applied to different measures of dispersion,
+  so we can use the [dispersion exponential smoothing]({{< ref dispersion-exponential-smoothing >}}).
 
 This approach can be improved with the help of change point detection (e.g., using [EdPelt]({{< ref "edpelt" >}}) or [RqqPelt](https://github.com/AndreyAkinshin/perfolizer#changepoint-detection)): we can just drop the values before the last change point.
 However, the weighted approach improves our estimations in this case as well because some change points may not be correctly detected, or measurements may change slowly without explicit change points.
@@ -510,7 +558,7 @@ If you use R, here are functions that you can use in your scripts:
 {{< src "weighted-quantiles.R" >}}
 
 If you use C#, you can take an implementation from
-  the latest nightly version (0.3.0-nightly.72+) of [Perfolizer](https://github.com/AndreyAkinshin/perfolizer)
+  the latest nightly version (0.3.0-nightly.96+) of [Perfolizer](https://github.com/AndreyAkinshin/perfolizer)
   (you need `HarrellDavisQuantileEstimator` and `SimpleQuantileEstimator`).
 
 ### Conclusion
