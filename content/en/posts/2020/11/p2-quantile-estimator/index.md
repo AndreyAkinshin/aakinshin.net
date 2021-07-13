@@ -232,7 +232,7 @@ public class P2QuantileEstimator
     private readonly double[] q = new double[5]; // marker heights
     private int count;
 
-    public P2QuantileEstimator(double p)
+    public P2QuantileEstimator(double probability)
     {
         p = probability;
     }
