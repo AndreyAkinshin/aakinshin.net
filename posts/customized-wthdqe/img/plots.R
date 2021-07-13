@@ -30,7 +30,7 @@ ggsave_nice <- function(name, plot = last_plot(), tm = theme_bw(), dark_and_ligh
 }
 
 alpha <- 0.95
-iterations.total <- 100000
+iterations.total <- 10000
 options(digits = 5)
 
 hdg <- function(f) function(x, probs) sapply(probs, function(p) {
@@ -69,6 +69,7 @@ check <- function(title, n, rdist, qdist, qest) {
   data.frame(estimator = title, x = values)
 }
 checku <- function(title, n, rdist, qdist) {
+  true.median <- qdist(0.5)
   df <- rbind(
     check("hf7", n, rdist, qdist, function(x, p) hf7(x, p)),
     check("hd", n, rdist, qdist, function(x, p) hd(x, p)),
@@ -85,10 +86,10 @@ checku <- function(title, n, rdist, qdist) {
   ggsave_nice(paste0(title, n), p)
   show(p)
   df0 <- df %>%
-    mutate(e = abs(x - 2)) %>%
+    mutate(e = abs(x - true.median)) %>%
     group_by(estimator) %>%
     summarise(
-      bias = mean(e),
+      bias = mean(x - true.median),
       mse = sum(e^2) / iterations.total,
       p25 = hdquantile(e, 0.25),
       p50 = hdquantile(e, 0.50),
