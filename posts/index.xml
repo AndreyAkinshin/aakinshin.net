@@ -1,4 +1,35 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 13 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Estimating quantile confidence intervals: Maritz-Jarrett vs. jackknife</title><link>https://aakinshin.net/posts/maritz-jarrett-vs-jackknife/</link><pubDate>Tue, 13 Jul 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/maritz-jarrett-vs-jackknife/</guid><description>&lt;p>When it comes to estimating quantiles of the given sample,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 20 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Optimal threshold of the trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/thdqe-threshold/</link><pubDate>Tue, 20 Jul 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-threshold/</guid><description>&lt;p>The traditional quantile estimators (which are based on 1 or 2 order statistics) have great robustness.
+However, the statistical efficiency of these estimators is not so great.
+The Harrell-Davis quantile estimator has much better efficiency (at least in the light-tailed case),
+but it&amp;rsquo;s not robust (because it calculates a weighted sum of all sample values).
+I already wrote a &lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">post about trimmed Harrell-Davis quantile estimator&lt;/a>:
+this approach suggest dropping some of the low-weight sample values to improve robustness
+(keeping good statistical efficiency).
+I also perform a numerical simulations that &lt;a href="https://aakinshin.net/posts/wthdqe-efficiency/">compare efficiency&lt;/a>
+of the original Harrell-Davis quantile estimator against its trimmed and winsorized modifications.
+It&amp;rsquo;s time to discuss how to choose the optimal trimming threshold
+and how it affects the estimator efficiency.&lt;/p>
+&lt;div class="row">
+&lt;div class="mx-auto">
+&lt;a href="https://aakinshin.net/posts/thdqe-threshold/img/LightAndHeavy__N40_Efficiency-light.png" target="_blank" class="imgldlink" alt="LightAndHeavy__N40_Efficiency">
+&lt;picture>
+&lt;source
+theme='dark'
+srcset="https://aakinshin.net/posts/thdqe-threshold/img/LightAndHeavy__N40_Efficiency-dark.png"
+media="(prefers-color-scheme: dark)">
+&lt;source
+theme='light'
+srcset="https://aakinshin.net/posts/thdqe-threshold/img/LightAndHeavy__N40_Efficiency-light.png"
+media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;img
+class="mx-auto d-block img-fluid"
+width='800'
+src="https://aakinshin.net/posts/thdqe-threshold/img/LightAndHeavy__N40_Efficiency-light.png">
+&lt;/picture>
+&lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br /></description></item><item><title>Estimating quantile confidence intervals: Maritz-Jarrett vs. jackknife</title><link>https://aakinshin.net/posts/maritz-jarrett-vs-jackknife/</link><pubDate>Tue, 13 Jul 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/maritz-jarrett-vs-jackknife/</guid><description>&lt;p>When it comes to estimating quantiles of the given sample,
 my estimator of choice is the Harrell-Davis quantile estimator
 (to be more specific, its &lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">trimmed version&lt;/a>).
 If I need to get a confidence interval for the obtained quantiles,
