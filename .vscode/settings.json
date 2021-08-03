@@ -2,6 +2,8 @@
     "workbench.colorTheme": "Kimbie Dark",
     "editor.rulers": [120],
     "cSpell.words": [
+        "Alexandrescu",
+        "Customizability",
         "EPDF",
         "F",
         "Fırat",
@@ -52,6 +54,7 @@
         "rat",
         "runtimes",
         "shortified",
+        "tailness",
         "textrm",
         "trimodal",
         "undersmoothing",
