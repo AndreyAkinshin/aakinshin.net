@@ -1,0 +1,101 @@
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Statistics,Quantile Estimators"><title>Quantile estimators based on k order statistics, Part 1: Motivation | Andrey Akinshin</title><meta name=description content="It&amp;rsquo;s not easy to choose a good quantile estimator. In my previous posts, I considered several groups of quantile estimators:
+ Quantile estimators bas..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.882998740b9c4c24677576b997bde5a487246e2e3bd72128a0e922eaa59db029.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.50da8736f05b35aac9691de67fe993cbe01b7d88fcf0cb682c3a8f39933fe4a3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.ae812fc71daf5160d927febda5a991cee6c361345e3f685d3736931ed7537986.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-posts href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-pdnb href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Quantile estimators based on k order statistics, Part 1: Motivation</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-08-03>August 3, 2021</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<a href=https://aakinshin.net/tags/quantile-estimators/ class="badge badge-info">Quantile Estimators</a></span><br><br><p>It&rsquo;s not easy to choose a good quantile estimator.
+In my previous posts, I considered several groups of quantile estimators:</p><ul><li>Quantile estimators based 1 or 2 order statistics (Hyndman-Fan Type1-9)</li><li>Quantile estimators based on all order statistics
+(the Harrell-Davis quantile estimator,
+the <a href=https://aakinshin.net/posts/sfakianakis-verginis-quantile-estimator/>Sfakianakis-Verginis quantile estimator</a>, and
+the <a href=https://aakinshin.net/posts/navruz-ozdemir-quantile-estimator/>Navruz-Özdemir quantile estimator</a>)</li><li>Quantile estimators based on a variable number of order statistics
+(the <a href=https://aakinshin.net/posts/trimmed-hdqe/>trimmed</a> and <a href=https://aakinshin.net/posts/winsorized-hdqe/>winsorized</a> modifications
+of the Harrell-Davis quantile estimator)</li></ul><p>Unfortunately, all of these estimators have significant drawbacks
+(e.g., poor statistical efficiency or poor robustness).
+In this post, I want to discuss all of the advantages and disadvantages of each approach
+and suggest another family of quantile estimators that are based on k order statistics.</p><h3 id=properties-of-quantile-estimators>Properties of quantile estimators</h3><p>First of all, we should define the properties of quantile estimators that are important in practice.</p><ul><li><strong>Statistical efficiency</strong><br>This metric is one of the most important because the main task of a quantile estimator is to provide
+quantile estimators that are closed to the true quantile values.
+<em>Note that the classic definition of statistical efficiency</em>
+<em>doesn&rsquo;t always provide a reliable measure of an estimator.</em>
+<em>Since it&rsquo;s based on the mean square error (MSE), it&rsquo;s not robust, and it could be easily corrupted in the case</em>
+<em>of heavy-tailed distributions.</em>
+<em>As an alternative, we could consider</em>
+<em><a href=https://aakinshin.net/posts/robust-statistical-efficiency/>the whole distribution of absolute estimation errors</a>.</em>
+<em>This approach is not so convenient as the classic one because we have to operate</em>
+<em>with a function instead of a single number.</em>
+<em>Nevertheless, this function provides much more stable values that are mostly not so sensitive to outliers.</em></li><li><strong>Robustness</strong><br>Heavy-tailness is a frequent property of real-life distributions.
+With such a property, we could expect to have extreme outliers that could corrupt the estimations.
+With a low breakdown point, even a few outliers may distort estimations for all required quantiles
+and significantly reduce the statistical efficiency.
+That&rsquo;s why it&rsquo;s so important to have robust estimators.</li><li><strong>Customizability of the trade-off between efficiency and robustness</strong><br>Unfortunately, it&rsquo;s impossible to get the maximum statistical efficiency in the light-tailed case
+(which means that we should use more order statistics)
+and get a low breakdown point that protects us against outliers in the heavy-tailed case
+(which means that we should use fewer order statistics)
+at the same time.
+We always have to deal with a trade-off between statistical efficiency and robustness.
+It&rsquo;s important to have the ability to customize this trade-off.
+If we could control the breakdown point,
+we would adjust the estimator settings using the a priori knowledge about distribution properties.</li><li><strong>Computational efficiency</strong><br>In practice, it&rsquo;s important to estimate quantiles fast.
+A slow quantile estimator could easily become a bottleneck of software that analyzes your data.
+If we need a single order statistics, we could get it using O(n) algorithmic complexity
+(e.g., using the <a href=http://erdani.com/research/sea2017.pdf>Fast Deterministic Selection</a> by Andrei Alexandrescu).
+If we need more order statistics, we may need O(n*log(n)) complexity to sort the whole sample.
+Don&rsquo;t forget that complexity is not the only measure of performance; the computational constant is also important.
+For example, the Harrell-Davis quantile estimator involves getting values of the Beta function,
+which is not a fast operation.</li></ul><p>Now let&rsquo;s discuss different groups of quantile estimators according to the above properties.</p><h3 id=quantile-estimators-based-on-1-or-2-order-statistics>Quantile estimators based on 1 or 2 order statistics</h3><p>In this group, we have &ldquo;traditional&rdquo; quantile estimators which
+peak a single element from a sample (Hyndman-Fan Type1-3)
+or calculate a linear interpolation of two subsequent order statistics (Hyndman-Fan Type4-9).</p><ul><li><strong>Statistical efficiency</strong><br>In simple cases, quantile estimators from the Hyndman-Fan classification provide &ldquo;good enough&rdquo; efficiency.
+However, it&rsquo;s not always optimal since these estimators use at most two sample elements and ignore the rest.
+The efficiency could be noticeably improved if we take the other sample elements into account.</li><li><strong>Robustness</strong><br>The asymptotical breakdown point of the <span class="math inline">\(p^\textrm{th}\)</span> quantile is min(p, 1-p).
+Thus, these estimators are robust.</li><li><strong>Customizability of the trade-off between efficiency and robustness</strong><br>It&rsquo;s impossible to change the trade-off.</li><li><strong>Computational efficiency</strong><br>These estimators are fast because a single order statistic could be obtained using O(n) algorithmic complexity
+using the <a href=http://erdani.com/research/sea2017.pdf>Fast Deterministic Selection</a> by Andrei Alexandrescu.</li></ul><h3 id=quantile-estimators-based-on-all-order-statistics>Quantile estimators based on all order statistics</h3><p>In this group, we have
+the Harrell-Davis quantile estimator,
+the <a href=https://aakinshin.net/posts/sfakianakis-verginis-quantile-estimator/>Sfakianakis-Verginis quantile estimator</a>, and
+the <a href=https://aakinshin.net/posts/navruz-ozdemir-quantile-estimator/>Navruz-Özdemir quantile estimator</a>.
+All of them estimate a quantile as a weighted sum of <em>all</em> order statistics.
+This means that it&rsquo;s not a good idea to use them with samples from heavy-tailed distribution:
+a single extreme outlier could corrupt estimated values of all quantiles.</p><ul><li><strong>Statistical efficiency / Robustness</strong><br>These estimators typically have a decent statistical efficiency with samples from light-tailed distributions.
+Unfortunately, the breakdown point is zero for all of the estimators because
+the estimation involves all sample elements with non-zero weights.
+Thus, these estimators are not robust, which means extremely low statistical efficiency for samples
+from heavy-tailed distributions.</li><li><strong>Customizability of the trade-off between efficiency and robustness</strong><br>It&rsquo;s impossible to change the trade-off.</li><li><strong>Computational efficiency</strong><br>These estimators are pretty slow.
+In addition to the O(n*log(n)) sorting complexity,
+we have to perform O(n) summation (that involves heavy calculations of the Beta or Binomial function).</li></ul><h3 id=quantile-estimators-based-on-a-variable-number-of-order-statistics>Quantile estimators based on a variable number of order statistics</h3><p>In this group, we have
+the <a href=https://aakinshin.net/posts/trimmed-hdqe/>trimmed</a> and <a href=https://aakinshin.net/posts/winsorized-hdqe/>winsorized</a> modifications
+of the Harrell-Davis quantile estimator (THD and WHD).
+The idea behind them is simple: we should drop all the order statistics with small weight coefficients.
+In the case of light-tailed distributions, these terms don&rsquo;t have a noticeable impact on the result.
+In the case of heavy-tailed distributions, these terms could corrupt the result
+regardless of how small the corresponding weight coefficient is.</p><ul><li><strong>Statistical efficiency / Robustness / Customizability</strong><br>The trade-off between statistical efficiency and robustness could be customized using the trimming percentage.
+In special cases, the above estimators could become
+the classic Harrell-Davis quantile estimator (the trimming percentage is zero) or
+a traditional quantile estimator (the trimming percentage is one).
+Unfortunately, it&rsquo;s easy to achieve the required robustness because the breakdown point depends not only
+on the trimming percentage but also on the required quantile position.</li><li><strong>Computational efficiency</strong><br>These quantile estimators are much faster than the classic Harrell-Davis quantile estimator
+because they require only several values of the Beta function (instead of O(n) values).</li></ul><p>While these estimators is a good step forward in terms of customizability,
+they have an <strong>important drawback: the quantile function is not continuous</strong>.
+This introduces some troubles with:</p><ul><li>Statistical efficiency around the discontinuities</li><li>Building the <a href=https://aakinshin.net/posts/qrde-hd/>quantile-respectful density function (QRDE)</a></li><li>Using it in QRDE-based algorithms like the
+<a href=https://aakinshin.net/posts/lowland-multimodality-detection/>lowland multimodality detector</a>.</li></ul><p>Thus, it would be nice to have another customizable quantile estimator without the above drawbacks.</p><h3 id=quantile-estimators-based-on-k-order-statistics>Quantile estimators based on k order statistics</h3><p>One of the main problems of the winsorized and trimmed modifications of the Harrell-Davis quantile estimator
+is the lack of ability to directly customize the breakdown point.
+This issue could be resolved using an approach that always uses k order statistics around the required quantile.
+Let&rsquo;s briefly discuss the properties of such an estimator.</p><ul><li><strong>Statistical efficiency / Robustness / Customizability</strong><br>Using the known k value, we could easily get the asymptotical breakdown point: <span class="math inline">\(\max(\min(p, 1-p) - k/2n), 0)\)</span>.
+The higher k we use, the higher efficiency (in the light-tailed case) we have
+(because we use more data from the sample).
+The smaller k we use, the higher robustness we have
+(because several corrupted measurements typically will not be able to spoil the estimation).
+By setting k=n, we can get the Harrell-Davis quantile estimator.
+By setting k=1 or k=2, we can get the traditional quantile estimators from the Hyndman-Fan classification.</li><li><strong>Computational efficiency</strong><br>The performance of the suggested approach is similar to the previous section:
+using the sorted data, we have to perform O(k) operations.</li></ul><p>Thus, quantile estimators based on k order statistics could be a bridge between
+the traditional quantile estimators and the Harrell-Davis quantile estimators.
+However, with a proper weight function, we could avoid the disadvantages of the THD/WHD and
+obtain a continuous and smooth quantile function (more about it in the next post).</p><h3 id=conclusion>Conclusion</h3><p>In the scope of this post, we discussed only an idea of a quantile estimator based on k order statistics.
+It looks like it could resolve issues related to other popular quantile estimators listed above.
+In the next post, we will continue exploring the possibilities of using this approach.
+We will discuss the weight function that allows transforming k order statistics to a single estimation number.
+As usual, we will also perform Monte-Carlo simulations
+that evaluate the actual statistical efficiency of the suggested estimators.</p><br><br><div class=row><div class="mx-auto share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fkosqe1%2f&title=Quantile%20estimators%20based%20on%20k%20order%20statistics%2c%20Part%201%3a%20Motivation" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Quantile%20estimators%20based%20on%20k%20order%20statistics%2c%20Part%201%3a%20Motivation&url=https%3a%2f%2faakinshin.net%2fposts%2fkosqe1%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fkosqe1%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2fkosqe1%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a></div><div class=share-button><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2fkosqe1%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fkosqe1%2f&title=Quantile%20estimators%20based%20on%20k%20order%20statistics%2c%20Part%201%3a%20Motivation" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2021 Andrey Akinshin
+|
+<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a><a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a><a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.082780cb948cc57eabbc0d80172a7a5347d5572b599938b4c9876dfd7978b424.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script><script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true,processEnvironments:true,},options:{skipHtmlTags:['script','noscript','style','textarea','pre'],ignoreHtmlClass:'tex2jax_ignore',processHtmlClass:'tex2jax_process'}};</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></body></html>

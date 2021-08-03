@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 27 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Avoiding over-trimming with the trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/thdqe-overtrimming/</link><pubDate>Tue, 27 Jul 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-overtrimming/</guid><description>&lt;p>Previously, I already discussed the
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 03 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Quantile estimators based on k order statistics, Part 1: Motivation</title><link>https://aakinshin.net/posts/kosqe1/</link><pubDate>Tue, 03 Aug 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe1/</guid><description>&lt;p>It&amp;rsquo;s not easy to choose a good quantile estimator.
+In my previous posts, I considered several groups of quantile estimators:&lt;/p>
+&lt;ul>
+&lt;li>Quantile estimators based 1 or 2 order statistics (Hyndman-Fan Type1-9)&lt;/li>
+&lt;li>Quantile estimators based on all order statistics
+(the Harrell-Davis quantile estimator,
+the &lt;a href="https://aakinshin.net/posts/sfakianakis-verginis-quantile-estimator/">Sfakianakis-Verginis quantile estimator&lt;/a>, and
+the &lt;a href="https://aakinshin.net/posts/navruz-ozdemir-quantile-estimator/">Navruz-Özdemir quantile estimator&lt;/a>)&lt;/li>
+&lt;li>Quantile estimators based on a variable number of order statistics
+(the &lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">trimmed&lt;/a> and &lt;a href="https://aakinshin.net/posts/winsorized-hdqe/">winsorized&lt;/a> modifications
+of the Harrell-Davis quantile estimator)&lt;/li>
+&lt;/ul>
+&lt;p>Unfortunately, all of these estimators have significant drawbacks
+(e.g., poor statistical efficiency or poor robustness).
+In this post, I want to discuss all of the advantages and disadvantages of each approach
+and suggest another family of quantile estimators that are based on k order statistics.&lt;/p></description></item><item><title>Avoiding over-trimming with the trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/thdqe-overtrimming/</link><pubDate>Tue, 27 Jul 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-overtrimming/</guid><description>&lt;p>Previously, I already discussed the
 &lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">trimmed modification of the Harrell-Davis quantile estimator&lt;/a> several times.
 I performed several numerical simulations that compare the statistical efficiency of this estimator
 with the efficiency of the &lt;a href="https://aakinshin.net/posts/wthdqe-efficiency/">classic Harrell-Davis quantile estimator&lt;/a> (HDQE)
