@@ -89,7 +89,7 @@ Sample1: [0;1]ms, [0;1]ms, [0;1]ms, [0;1]ms, [0;1]ms,  15ms,  16ms,  16ms,  15ms
 Sample2: [0;1]ms, [0;1]ms, [0;1]ms, [0;1]ms, [0;1]ms, 218ms, 225ms, 219ms, 224ms, 221ms
 ```
 
-The proportion between two modes is the sample for both samples,
+The proportion between two modes is the same for both samples,
   but the second sample has higher non-binned values.
 Thus, we can assume that the first sample is probably faster.
 
