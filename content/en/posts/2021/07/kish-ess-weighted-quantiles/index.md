@@ -66,7 +66,7 @@ Here we can notice that the Kish's formula is more resistant to outliers
 
 I have performed a series of additional experiments, and
   all of them have shown that the Kish's formula provides better results.
-Of crouse, it worth to carefully measure the [statistical efficiency]({{< ref robust-statistical-efficiency >}})
+Of course, it worth to carefully measure the [statistical efficiency]({{< ref robust-statistical-efficiency >}})
   of both options.
 However, based on the first impression, the Kish's effective sample size is my new approach of choice.
 Thanks again to Ben Jann for the valuable hint!
