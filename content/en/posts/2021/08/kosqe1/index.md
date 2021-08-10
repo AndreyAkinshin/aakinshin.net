@@ -4,6 +4,7 @@ date: 2021-08-03
 tags:
 - Statistics
 - Quantile Estimators
+- Quantile estimators based on k order statistics
 features:
 - math
 ---
