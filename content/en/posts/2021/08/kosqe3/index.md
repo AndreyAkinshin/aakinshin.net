@@ -18,9 +18,13 @@ Now it's time to experiment with the Beta function as a primary way to aggregate
 
 <!--more-->
 
+All posts from this series:
+
+{{< tag-list "Quantile estimators based on k order statistics" >}}
+
 ### The approach
 
-The general idea is the same that was used in the [previous post]({{< ref kosqe3 >}}).
+The general idea is the same that was used in the [previous post]({{< ref kosqe2 >}}).
 We express the estimation of the $p^\textrm{th}$ quantile as follows:
 
 $$

@@ -59,6 +59,10 @@ So, let's briefly look at the results of this not-so-useful approach.
 
 <!--more-->
 
+All posts from this series:
+
+{{< tag-list "Quantile estimators based on k order statistics" >}}
+
 ### The approach
 
 To make the generalization of the traditional quantile estimators,

@@ -28,6 +28,10 @@ In this post, I want to discuss all of the advantages and disadvantages of each 
 
 <!--more-->
 
+All posts from this series:
+
+{{< tag-list "Quantile estimators based on k order statistics" >}}
+
 ### Properties of quantile estimators
 
 First of all, we should define the properties of quantile estimators that are important in practice.

@@ -1,0 +1,8 @@
+{{ $tag := .Get 0 }}
+{{ $posts := .Site.RegularPages.RelatedTo (keyVals "tags" $tag) }}
+
+<ul>
+{{ range $posts.ByPublishDate }}
+  <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+{{ end }}
+</ul>
