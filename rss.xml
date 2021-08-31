@@ -1,4 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 24 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Quantile estimators based on k order statistics, Part 4: Adopting trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/kosqe4/</link><pubDate>Tue, 24 Aug 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe4/</guid><description>&lt;p>In the previous posts, I discussed various aspects of
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 31 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Quantile estimators based on k order statistics, Part 5: Improving trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/kosqe5/</link><pubDate>Tue, 31 Aug 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe5/</guid><description>&lt;p>During the last several months,
+I have been experimenting with different variations of the trimmed Harrell-Davis quantile estimator.
+&lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">My original idea&lt;/a>
+of using the highest density interval based on the fixed area percentage (e.g., HDI 95% or HDI 99%)
+led to a set of problems with &lt;a href="https://aakinshin.net/posts/thdqe-overtrimming/">overtrimming&lt;/a>.
+I tried to solve them with &lt;a href="https://aakinshin.net/posts/customized-wthdqe/">manually customized&lt;/a> trimming strategy,
+but this approach turned out to be too inconvenient;
+it was too hard to come up with &lt;a href="https://aakinshin.net/posts/thdqe-threshold/">optimal thresholds&lt;/a>.
+One of the main problems was about the suboptimal number of elements
+that we actually aggregate to obtain the quantile estimation.
+So, I decided to try an &lt;a href="https://aakinshin.net/posts/kosqe1/">approach that involves exactly k order statistics&lt;/a>.
+The idea was so promising,
+but numerical simulations &lt;a href="https://aakinshin.net/posts/kosqe4/">haven&amp;rsquo;t shown&lt;/a> the appropriate efficiency level.&lt;/p>
+&lt;p>This bothered me the whole week.
+It sounded so reasonable to trim the Harrell-Davis quantile estimator using exactly k order statistics.
+Why didn&amp;rsquo;t this work as expected?
+Finally, I have found a fatal flaw in &lt;a href="https://aakinshin.net/posts/kosqe4/">my previous approach&lt;/a>:
+while it was a good idea to fix the size of the trimming window,
+I mistakenly chose its location following the equation from the Hyndman-Fan Type 7 quantile estimator!&lt;/p>
+&lt;p>In this post, we fix this problem and try another modification of the trimmed Harrell-Davis quantile estimator based on
+k order statistics &lt;strong>and&lt;/strong> highest density intervals at the same time.&lt;/p></description></item><item><title>Quantile estimators based on k order statistics, Part 4: Adopting trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/kosqe4/</link><pubDate>Tue, 24 Aug 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe4/</guid><description>&lt;p>In the previous posts, I discussed various aspects of
 &lt;a href="https://aakinshin.net/posts/kosqe1/">quantile estimators based on k order statistics&lt;/a>.
 I already tried a few weight functions that aggregate the sample values to the quantile estimators
 (see posts about &lt;a href="https://aakinshin.net/posts/kosqe2/">an extension of the Hyndman-Fan Type 7 equation&lt;/a> and
