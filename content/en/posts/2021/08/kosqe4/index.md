@@ -92,7 +92,7 @@ Briefly speaking, we evaluate the classic MSE-based relative statistical efficie
   using the classic Hyndman-Fan Type 7 quantile estimator as the baseline.
 
 The considered estimator based on k order statistics is denoted as "KOS-THDk".
-The estimator from the [previous post]({{< ref kosqe3 >}}) based on the adjusted beta function is denoted as "KOS-THDk".
+The estimator from the [previous post]({{< ref kosqe3 >}}) based on the adjusted beta function is denoted as "KOS-Bk".
 
 Here are some of the statistical efficiency plots:
 
@@ -106,11 +106,7 @@ Here are some of the statistical efficiency plots:
 
 ### Conclusion
 
-It sounds reasonable to use the trimmed modifications of the Harrell-Davis quantile estimator with the trimming strategy
-  based on k order statistics.
-Unlike the originally proposed approach with the trimming strategy based on the highest density interval,
-  the updated version of THD doesn't become degenerated in the corner cases
-  (the problem of [over-trimming]({{< ref thdqe-overtrimming>}})).
-Also, it provides more direct control of the estimator breakdown point, which is also a nice feature.
-
-In the next post, I will try to come up with further improvements of the suggested estimator.
+The above plots are not so impressive:
+  the suggested estimator has poor statistical efficiency.
+In the [next post]({{< ref kosqe5 >}}),
+  we will try to make a few adjustments in order to solve this problem.
