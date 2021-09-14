@@ -89,46 +89,6 @@ $$
 
 However, we are going to change the location of this window
   so as to get the highest density interval (HDI) of the Beta distribution.
-Here we have three possible situations.
-In the first case, the HDI is attached to the left border ($L_k = 0$):
-
-{{< imgld hdi-l >}}
-
-In the second case, the HDI is attached to the right border ($R_k = 1$):
-
-{{< imgld hdi-r >}}
-
-In the third case, the HDI is in the middle of the Beta function:
-
-{{< imgld hdi-c >}}
-
-The third case is the most interesting one because it requires additional calculations
-  in order to get the window location.
-It's easy to see, that in this case, the PDF values on the borders of the interval should equal:
-
-$$
-\operatorname{PDF}(L_k) = \operatorname{PDF}(R_k).
-$$
-
-The PDF function for the Beta distribution is well-known:
-
-$$
-\operatorname{PDF}(x) = \dfrac{x^{\alpha - 1} (1-x)^{\beta - 1}}{\operatorname{B}(\alpha, \beta)}.
-$$
-
-Thus, we have to solve the following equation:
-
-$$
-L_k^{\alpha - 1} (1-L_k)^{\beta - 1} = R_k^{\alpha - 1} (1-R_k)^{\beta - 1}
-$$
-
-Since $R_k = L_k + (k-1) / n$, we have:
-
-$$
-L_k^{\alpha - 1} (1-L_k)^{\beta - 1} = (L_k + (k-1)/n)^{\alpha - 1} (1-(L_k + (k - 1) / n))^{\beta - 1}.
-$$
-
-The solution of this equation could be found numerically using binary search.
 
 ### Numerical simulations
 
