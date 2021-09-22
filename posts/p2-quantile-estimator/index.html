@@ -189,6 +189,8 @@ the latest nightly version (0.3.0-nightly.64+) of <a href=https://github.com/And
 
     <span class=k>public</span> <span class=kt>double</span> <span class=n>GetQuantile</span><span class=p>()</span>
     <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>==</span> <span class=m>0</span><span class=p>)</span>
+            <span class=k>throw</span> <span class=k>new</span> <span class=n>InvalidOperationException</span><span class=p>(</span><span class=s>&#34;Sequence contains no elements&#34;</span><span class=p>);</span>
         <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>&lt;=</span> <span class=m>5</span><span class=p>)</span>
         <span class=p>{</span>
             <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=n>count</span><span class=p>);</span>
