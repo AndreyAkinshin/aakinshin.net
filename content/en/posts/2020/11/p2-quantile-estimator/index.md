@@ -323,6 +323,8 @@ public class P2QuantileEstimator
 
     public double GetQuantile()
     {
+        if (count == 0)
+            throw new InvalidOperationException("Sequence contains no elements");
         if (count <= 5)
         {
             Array.Sort(q, 0, count);
