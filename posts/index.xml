@@ -1,4 +1,32 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 28 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Beta distribution highest density interval of the given width</title><link>https://aakinshin.net/posts/beta-hdi/</link><pubDate>Tue, 28 Sep 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/beta-hdi/</guid><description>&lt;p>In one of &lt;a href="https://aakinshin.net/posts/kosqe5/">the previous posts&lt;/a>, I discussed the idea of the trimmed Harrell-Davis quantile estimator
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 05 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Optimal window of the trimmed Harrell-Davis quantile estimator, Part 1: Problems with the rectangular window</title><link>https://aakinshin.net/posts/thdqe-ow1/</link><pubDate>Tue, 05 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-ow1/</guid><description>&lt;p>In the previous post, we have obtained a nice version of the trimmed Harrell-Davis quantile estimator
+which provides an opportunity to get a nice trade-off between robustness and statistical efficiency
+of quantile estimations.
+Unfortunately, it has a severe drawback.
+If we build a &lt;a href="https://aakinshin.net/posts/qrde-hd/">quantile-respectful density estimation&lt;/a> based on the suggested estimator,
+we won&amp;rsquo;t get a smooth density function as in the case of the classic Harrell-Davis quantile estimator:&lt;/p>
+&lt;div class="row">
+&lt;div class="mx-auto">
+&lt;a href="https://aakinshin.net/posts/thdqe-ow1/img/qrde-light.png" target="_blank" class="imgldlink" alt="qrde">
+&lt;picture>
+&lt;source
+theme='dark'
+srcset="https://aakinshin.net/posts/thdqe-ow1/img/qrde-dark.png"
+media="(prefers-color-scheme: dark)">
+&lt;source
+theme='light'
+srcset="https://aakinshin.net/posts/thdqe-ow1/img/qrde-light.png"
+media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;img
+class="mx-auto d-block img-fluid"
+width='800'
+src="https://aakinshin.net/posts/thdqe-ow1/img/qrde-light.png">
+&lt;/picture>
+&lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br />
+&lt;p>In this blog post series, we are going to find a way to improve the trimmed Harrell-Davis quantile estimator
+so that it gives a smooth density function and keeps its advantages in terms of robustness and statistical efficiency.&lt;/p></description></item><item><title>Beta distribution highest density interval of the given width</title><link>https://aakinshin.net/posts/beta-hdi/</link><pubDate>Tue, 28 Sep 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/beta-hdi/</guid><description>&lt;p>In one of &lt;a href="https://aakinshin.net/posts/kosqe5/">the previous posts&lt;/a>, I discussed the idea of the trimmed Harrell-Davis quantile estimator
 based on the highest density interval of the given width.
 Since the Harrell-Davis quantile estimator uses the Beta distribution,
 we should be able to find the beta distribution highest density interval of the given width.
