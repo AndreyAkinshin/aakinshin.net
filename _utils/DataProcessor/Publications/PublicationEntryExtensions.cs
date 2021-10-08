@@ -246,13 +246,15 @@ namespace DataProcessor.Publications
                             title = "Springer";
                         else if (url.Contains("www.packtpub.com"))
                             title = "PacktPub";
+                        else if (url.Contains("arxiv"))
+                            title = "arXiv";
                         else if (url.Contains("conf.nsc.ru") || url.Contains("uni-bielefeld.de") ||
                                  url.Contains("cmb.molgen.mpg.de") || url.Contains("sites.google.com"))
                             title = Resolve(lang, "Conference site", "Сайт конференции");
                         else if (url.Contains("authorea"))
                             title = url.Substring(url.IndexOf("authorea.com", StringComparison.Ordinal))
                                 .TrimEnd('/');
-                        else if (url.Contains("scholar.google.ru"))
+                        else if (url.Contains("scholar.google."))
                             title = "Google Scholar";
                         builder.AppendLine("  [[item.link]]");
                         builder.AppendLine($"  Label = \"{title}\"");

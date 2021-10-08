@@ -21,19 +21,19 @@ namespace DataProcessor.OpenSource
                     var href = "https://github.com/" + repo.Url;
                     var caption = GetHtmlCaption(repo);
                     var hrefCommit = href + "/commits?author=AndreyAkinshin";
-                    var html = caption + "<br /><i>" + repo.Title + "</i>";
+                    var html = $"<a href='{href}'>{caption}</a> (<a href='{hrefCommit}'>commits</a>)<br /><i>{repo.Title}</i>";
 
                     builder.AppendLine("[[item]]");
                     builder.AppendLine($"Group = \"{repoGroup.Role}\"");
                     builder.AppendLine($"Html = \"{html}\"");
 
-                    builder.AppendLine("  [[item.link]]");
-                    builder.AppendLine("  Label = \"GitHub\"");
-                    builder.AppendLine($"  Url = \"{href}\"");
-                    
-                    builder.AppendLine("  [[item.link]]");
-                    builder.AppendLine("  Label = \"Commits\"");
-                    builder.AppendLine($"  Url = \"{hrefCommit}\"");
+                    // builder.AppendLine("  [[item.link]]");
+                    // builder.AppendLine("  Label = \"GitHub\"");
+                    // builder.AppendLine($"  Url = \"{href}\"");
+                    //
+                    // builder.AppendLine("  [[item.link]]");
+                    // builder.AppendLine("  Label = \"Commits\"");
+                    // builder.AppendLine($"  Url = \"{hrefCommit}\"");
 
                     builder.AppendLine();
                 }

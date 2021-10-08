@@ -13,7 +13,9 @@ talks:
       - key: event
         url: https://techtrain.ru/
       - key: talk
-        url: https://techtrain.ru/2020/autumn/talks/3h5k7hlpcnakprxebpqspx/
+        url: https://2020autumn.techtrain.ru/2020/autumn/talks/3h5k7hlpcnakprxebpqspx/
+      - key: youtube
+        url: https://www.youtube.com/watch?v=_4Vg810XHQg
     co_en:
       - Алексей Шипилёв
       - Андрей Паньгин
