@@ -1,0 +1,220 @@
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Statistics,Research: Building trimmed Harrell-Davis quantile estimator"><title>Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width | Andrey Akinshin</title><meta name=description content="This post aggregates research from several blog posts that I published during this year. It presents an overview of the Trimmed Harrell-Davis quantile esti..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.882998740b9c4c24677576b997bde5a487246e2e3bd72128a0e922eaa59db029.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.50da8736f05b35aac9691de67fe993cbe01b7d88fcf0cb682c3a8f39933fe4a3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.ae812fc71daf5160d927febda5a991cee6c361345e3f685d3736931ed7537986.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-posts href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-pdnb href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-10-19>October 19, 2021</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<a href=https://aakinshin.net/tags/research-thdqe/ class="badge badge-info">Research: Building trimmed Harrell-Davis quantile estimator</a></span><br><br><p><em>This post aggregates research from <a href=https://aakinshin.net/tags/research-thdqe/>several blog posts</a> that I published during this year.
+It presents an overview of
+the Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width.</em></p><p>Traditional quantile estimators that are based on one or two order statistics is a common way to estimate
+distribution quantiles based on the given samples.
+These estimators are robust, but their statistical efficiency is not always good enough.
+A more efficient alternative is the Harrell-Davis quantile estimator which uses
+a weighted sum of all order statistics.
+Whereas this approach provides more accurate estimations for the light-tailed distributions, it&rsquo;s not robust.
+To be able to customize the trade-off between statistical efficiency and robustness,
+we could consider <em>a trimmed modification of the Harrell-Davis quantile estimator</em>.
+In this approach, we discard order statistics with low weights according to
+the highest density interval of the Beta distribution.</p><h3 id=introduction>Introduction</h3><p>We consider a problem of quantile estimation for the given sample.
+Let <span class="math inline">\(x\)</span> be a sample with <span class="math inline">\(n\)</span> elements: <span class="math inline">\(x = \{ x_1, x_2, \ldots, x_n \}\)</span>.
+We assume that all sample elements are sorted (<span class="math inline">\(x_1 \leq x_2 \leq \ldots \leq x_n\)</span>) so that
+we could treat the <span class="math inline">\(i^\textrm{th}\)</span> element <span class="math inline">\(x_i\)</span> as the <span class="math inline">\(i^\textrm{th}\)</span> order statistic <span class="math inline">\(x_{(i)}\)</span>.
+Based on the given sample, we want to build an estimation of th <span class="math inline">\(p^\textrm{th}\)</span> quantile <span class="math inline">\(Q(p)\)</span>.</p><p>The traditional way to do this is to use a single order statistic
+or a linear combination of two subsequent order statistics.
+This approach could be implemented in various ways.
+A classification of the most popular implementations could be found in <a href=#Hyndman1996>[Hyndman1996]</a>.
+In this paper, Rob J. Hyndman and Yanan Fan describe nine types of traditional quantile estimators
+which are used in statistical computer packages.
+The most popular approach in this taxonomy is Type 7 which is used by default in R, Julia, NumPy, and Excel:</p><p><span class="math display">\[Q_{\operatorname{HF7}}(p) = x_{\lfloor h \rfloor}+(h-\lfloor h \rfloor)(x_{\lfloor h \rfloor+1})-x_{\lfloor h \rfloor},
+\quad h = (n-1)p+1.
+\]</span></p><p>Traditional quantile estimators have simple implementations and a good robustness level.
+However, their statistical efficiency is not always good enough:
+the obtained estimations could noticeably differ from the true distribution quantile values.
+The gap between the estimated and true values could be decreased by increasing the number of used order statistics.
+In <a href=#Harrell1982>[Harrell1982]</a>, Frank E. Harrell and C. E. Davis suggest estimating quantiles using
+a weighted sum of all order statistics:</p><p><span class="math display">\[Q_{\operatorname{HD}}(p) = \sum_{i=1}^{n} W_{\operatorname{HD},i} \cdot x_i,\quad
+W_{\operatorname{HD},i} = I_{i/n}(\alpha, \beta) - I_{(i-1)/n}(\alpha, \beta),
+\]</span></p><p>where <span class="math inline">\(I_x(\alpha, \beta)\)</span> is the regularized incomplete beta function,
+<span class="math inline">\(\alpha = (n+1)p\)</span>, <span class="math inline">\(\;\beta = (n+1)(1-p)\)</span>.
+To get a better understanding of this approach,
+we could look at the probability density function of the Beta distribution <span class="math inline">\(\operatorname{Beta}(\alpha, \beta)\)</span>.
+If we split the <span class="math inline">\([0;1]\)</span> interval into <span class="math inline">\(n\)</span> segments of equal width,
+we can define <span class="math inline">\(W_{\operatorname{HD},i}\)</span> as the area under curve in the <span class="math inline">\(i^\textrm{th}\)</span> segment.
+Since <span class="math inline">\(I_x(\alpha, \beta)\)</span> is the cumulative distribution function of <span class="math inline">\(\operatorname{Beta}(\alpha, \beta)\)</span>,
+we can express <span class="math inline">\(W_{\operatorname{HD},i}\)</span> as <span class="math inline">\(I_{i/n}(\alpha, \beta) - I_{(i-1)/n}(\alpha, \beta)\)</span>.</p><div class=row><div class=mx-auto><a href=/posts/thdqe-hdi/img/beta-light.png target=_blank class=imgldlink alt=beta><picture>
+<source theme=dark srcset=/posts/thdqe-hdi/img/beta-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/thdqe-hdi/img/beta-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/thdqe-hdi/img/beta-light.png></picture></a></div></div><br><p>The Harrell-Davis quantile estimator shows decent statistical efficiency in the case of light-tailed distributions:
+its estimations are much more precise than estimations of the traditional quantile estimators.
+However, the improved efficiency has a price: <span class="math inline">\(Q_{\operatorname{HD}}\)</span> is not robust.
+Since the estimation is a weighted sum of all order statistics with positive weights,
+a single corrupted element may spoil all the quantile estimations, including the median.
+It may become a severe drawback in the case of heavy-tailed distribution in which
+it&rsquo;s a typical situation when we have a few extremely large outliers.
+In such cases, we use the median instead of the mean as a measure of central tendency
+because of its robustness.
+Indeed, if we estimate the median using the traditional quantile estimators like <span class="math inline">\(Q_{\operatorname{HF7}}\)</span>,
+its asymptotical breakdown point is 0.5.
+Unfortunately, if we switch to <span class="math inline">\(Q_{\operatorname{HD}}\)</span>, the breakdown point becomes zero
+so that we completely lose the median robustness.</p><p>Another severe drawback of <span class="math inline">\(Q_{\operatorname{HD}}\)</span> is its computational complexity.
+If we have a sorted array of numbers,
+a traditional quantile estimation could be computed using <span class="math inline">\(O(1)\)</span> simple operations.
+If we estimate the quantiles using <span class="math inline">\(Q_{\operatorname{HD}}\)</span>, we need <span class="math inline">\(O(n)\)</span> operations.
+Moreover, these operations involve computation of <span class="math inline">\(I_{i/n}(\alpha, \beta)\)</span> values
+which are pretty expensive from the computational point of view.
+If we want to estimate millions of quantile estimations,
+<span class="math inline">\(Q_{\operatorname{HD}}\)</span> may have a noticeable impact on the application performance.</p><p>Neither <span class="math inline">\(Q_{\operatorname{HF7}}\)</span> nor <span class="math inline">\(Q_{\operatorname{HD}}\)</span> fit all kinds of problem.
+<span class="math inline">\(Q_{\operatorname{HF7}}\)</span> is simple, robust, and computationally fast,
+but its statistical efficiency doesn&rsquo;t always satisfy the business requirements.
+<span class="math inline">\(Q_{\operatorname{HD}}\)</span> could provide better statistical efficiency,
+but it&rsquo;s computationally slow and not robust.</p><p>To get a reasonable trade-off between <span class="math inline">\(Q_{\operatorname{HF7}}\)</span> and <span class="math inline">\(Q_{\operatorname{HD}}\)</span>,
+we consider a trimmed modification of the Harrell-Davis quantile estimator.
+The core idea is simple:
+we take the classic Harrell-Davis quantile estimator,
+find the highest density interval of the underlying Beta distribution,
+discard all the order statistics outside the interval,
+and calculate a weighted sum of the order statistics within the interval.
+The obtained quantile estimation is more robust than <span class="math inline">\(Q_{\operatorname{HD}}\)</span> (because it doesn&rsquo;t use extreme values)
+and typically more statistically efficient than <span class="math inline">\(Q_{\operatorname{HF7}}\)</span>
+(because it uses more than only two order statistics).
+Let&rsquo;s discuss this approach in detail.</p><h3 id=the-trimmed-harrell-davis-quantile-estimator>The Trimmed Harrell-Davis quantile estimator</h3><p>The estimators based on one or two order statistics are not efficient enough because they use too few sample elements.
+The estimators based on all order statistics are not robust enough because they use too many sample elements.
+It looks reasonable to consider a quantile estimator based on a variable number of order statistics.
+This number should be large enough to ensure decent statistical efficiency
+but not too large to exclude possible extreme outliers.</p><p>A robust alternative to the mean is the trimmed mean.
+The idea behind it is simple: we should discard some sample elements at both ends
+and use only the middle order statistics.
+With this approach, we can customize the trade-off between robustness and statistical efficiency
+by controlling the number of the discarded elements.
+If we apply the same idea to <span class="math inline">\(Q_{\operatorname{HD}}\)</span>,
+we can build a trimmed modification of the Harrell-Davis quantile estimator.
+Let&rsquo;s denote it as <span class="math inline">\(Q_{\operatorname{THD}}\)</span>.</p><p>In the case of the trimmed mean, we typically discard the same number of elements on each side.
+We can&rsquo;t do the same for the <span class="math inline">\(Q_{\operatorname{THD}}\)</span>
+because the array of order statistic weights <span class="math inline">\(\{ W_{\operatorname{HD},i} \}\)</span> is asymmetric.
+It looks reasonable to drop the elements with the lowest weights and keep the elements with the highest weights.
+Since the weights are assigned according to the Beta distribution,
+the range of order statistics with the highest weight concentration could be found
+using the Beta distribution highest density interval.
+Thus, once we fix the proportion of dropped/kept elements,
+we should find the highest density interval of the given width.
+Let&rsquo;s denote the interval as <span class="math inline">\([L;R]\)</span> where <span class="math inline">\(R-L=D\)</span>.
+Thus, the order statistics weights for <span class="math inline">\(Q_{\operatorname{THD}}\)</span> should be defined
+using a part of the Beta distribution within this interval.
+It gives us the truncated Beta distribution <span class="math inline">\(\operatorname{TBeta}(\alpha, \beta, L, R)\)</span>:</p><div class=row><div class=mx-auto><a href=/posts/thdqe-hdi/img/tbeta-light.png target=_blank class=imgldlink alt=tbeta><picture>
+<source theme=dark srcset=/posts/thdqe-hdi/img/tbeta-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/thdqe-hdi/img/tbeta-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/thdqe-hdi/img/tbeta-light.png></picture></a></div></div><br><p>We know the CDF for <span class="math inline">\(\operatorname{Beta}(\alpha, \beta)\)</span> which is used in <span class="math inline">\(Q_{\operatorname{HD}}\)</span>:
+<span class="math inline">\(F_{\operatorname{HD}}(x) = I_x(\alpha, \beta)\)</span>.
+For <span class="math inline">\(Q_{\operatorname{THD}}\)</span>,
+we need the CDF for <span class="math inline">\(\operatorname{TBeta}(\alpha, \beta, L, R)\)</span> which could be easily found:</p><p><span class="math display">\[F_{\operatorname{THD}}(x) = \begin{cases}
+0 & \textrm{for }\, x < L,\\
+\big( F_{\operatorname{HD}}(x) - F_{\operatorname{HD}}(L) \big) /
+\big( F_{\operatorname{HD}}(R) - F_{\operatorname{HD}}(L) \big)
+& \textrm{for }\, L < x < R,\\
+1 & \textrm{for }\, R < x.
+\end{cases}
+\]</span></p><p>The final <span class="math inline">\(Q_{\operatorname{THD}}\)</span> equation has the same form as <span class="math inline">\(Q_{\operatorname{HD}}\)</span>:</p><p><span class="math display">\[Q_{\operatorname{THD}} = \sum_{i=1}^{n} W_{\operatorname{THD},i} \cdot x_i, \quad
+W_{\operatorname{THD},i} = F_{\operatorname{THD}}(i / n) - F_{\operatorname{THD}}((i - 1) / n).
+\]</span></p><p>There is only one thing left to do:
+we should choose an appropriate width <span class="math inline">\(D\)</span> of the Beta distribution highest density interval.
+In practical application, this value should be chosen based on the given problem:
+researchers should carefully analyze business requirements,
+describe desired robustness level via setting the breakdown point,
+and come up with a <span class="math inline">\(D\)</span> value that satisfies the initial requirements.</p><p>However, if we have absolutely no information about the problem, the underlying distribution,
+and the robustness requirements, we can use the following rule of thumb which gives the starting point:
+<span class="math inline">\(D=1/\sqrt{n}\)</span>.
+We denote <span class="math inline">\(Q_{\operatorname{THD}}\)</span> with such a <span class="math inline">\(D\)</span> value as <span class="math inline">\(Q_{\operatorname{THD-SQRT}}\)</span>.
+In most cases, it gives an acceptable trade-off between the statistical efficiency and the robustness level.
+Also, <span class="math inline">\(Q_{\operatorname{THD-SQRT}}\)</span> has a practically reasonable computational complexity:
+<span class="math inline">\(O(\sqrt{n})\)</span> instead of <span class="math inline">\(O(n)\)</span> for <span class="math inline">\(Q_{\operatorname{HD}}\)</span>.
+For example, if <span class="math inline">\(n=10000\)</span>, we have to process only 100 sample elements and calculate 101 values of <span class="math inline">\(I_x(\alpha, \beta)\)</span>.</p><p><strong>An example</strong>
+Let&rsquo;s say we have the following sample:</p><p><span class="math display">\[x = \{ -0.565, -0.106, -0.095, 0.363, 0.404, 0.633, 1.371, 1.512, 2.018, 100000 \}.
+\]</span></p><p>Nine elements were randomly taken from the normal distribution <span class="math inline">\(\mathcal{N}(0, 1)\)</span>.
+The last element <span class="math inline">\(x_{10}\)</span> is an outlier.
+The weight coefficient for <span class="math inline">\(Q_{\operatorname{HD}}\)</span> an <span class="math inline">\(Q_{\operatorname{THD-SQRT}}\)</span>
+are presented in the following table:</p><table><thead><tr><th align=right><span class="math inline">\(i\)</span></th><th align=right><span class="math inline">\(x_i\)</span></th><th align=right><span class="math inline">\(W_{\operatorname{HD},i}\)</span></th><th align=right><span class="math inline">\(W_{\operatorname{THD-SQRT},i}\)</span></th></tr></thead><tbody><tr><td align=right>1</td><td align=right>-0.565</td><td align=right>0.0005</td><td align=right>0</td></tr><tr><td align=right>2</td><td align=right>-0.106</td><td align=right>0.0146</td><td align=right>0</td></tr><tr><td align=right>3</td><td align=right>-0.095</td><td align=right>0.0727</td><td align=right>0</td></tr><tr><td align=right>4</td><td align=right>0.363</td><td align=right>0.1684</td><td align=right>0.1554</td></tr><tr><td align=right>5</td><td align=right>0.404</td><td align=right>0.2438</td><td align=right>0.3446</td></tr><tr><td align=right>6</td><td align=right>0.633</td><td align=right>0.2438</td><td align=right>0.3446</td></tr><tr><td align=right>7</td><td align=right>1.371</td><td align=right>0.1684</td><td align=right>0.1554</td></tr><tr><td align=right>8</td><td align=right>1.512</td><td align=right>0.0727</td><td align=right>0</td></tr><tr><td align=right>9</td><td align=right>2.018</td><td align=right>0.0146</td><td align=right>0</td></tr><tr><td align=right>10</td><td align=right>100000.000</td><td align=right>0.0005</td><td align=right>0</td></tr></tbody></table><p>And here are the quantile estimations:</p><p><span class="math display">\[Q_{\operatorname{HD}}(0.5) \approx 51.9169, \quad Q_{\operatorname{THD}}(0.5) \approx 0.6268.
+\]</span></p><p>As we can see, the <span class="math inline">\(Q_{\operatorname{HD}}\)</span> is heavily affected by the outlier <span class="math inline">\(x_{10}\)</span>.
+Meanwhile, <span class="math inline">\(Q_{\operatorname{THD}}\)</span> gives a reasonable median estimation
+because it uses a weighted sum of four middle order statistics.</p><h3 id=beta-distribution-highest-density-interval-of-the-given-width>Beta distribution highest density interval of the given width</h3><p>In order to build the truncated Beta distribution for <span class="math inline">\(Q_{\operatorname{THD}}\)</span>,
+we have to find the <span class="math inline">\(\operatorname{Beta}(\alpha, \beta)\)</span> highest density interval of the required width <span class="math inline">\(D\)</span>.
+Thus, for the given <span class="math inline">\(\alpha, \beta, D\)</span>, we should provide an interval <span class="math inline">\([L;R]\)</span>:</p><p><span class="math display">\[\operatorname{BetaHDI}(\alpha, \beta, D) = [L; R]
+\]</span></p><p>Let&rsquo;s briefly discuss how to do this.
+First of all, we should calculate the mode <span class="math inline">\(M\)</span> of <span class="math inline">\(\operatorname{Beta}(\alpha, \beta)\)</span>:</p><p><span class="math display">\[M = \operatorname{Mode}_{\alpha, \beta} =
+\begin{cases}
+0 & \textrm{for }\, \alpha \leq 1,\, \beta > 1, & \textit{(Border case)} \\
+  \frac{\alpha - 1}{\alpha + \beta - 2} & \textrm{for }\, \alpha > 1,\, \beta > 1, & \textit{(Middle case)} \\
+  1    & \textrm{for }\, \alpha > 1,\, \beta \leq 1, & \textit{(Border case)} \\
+  \{0, 1 \} & \textrm{for }\, \alpha < 1,\, \beta < 1, & \textit{(Degenerate case)} \\
+  \textrm{any value in } (0, 1) & \textrm{for }\, \alpha = 1,\, \beta = 1. & \textit{(Degenerate case)}
+\end{cases}
+\]</span></p><div class=row><div class=mx-auto><a href=/posts/thdqe-hdi/img/hdi-light.png target=_blank class=imgldlink alt=hdi><picture>
+<source theme=dark srcset=/posts/thdqe-hdi/img/hdi-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/thdqe-hdi/img/hdi-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/thdqe-hdi/img/hdi-light.png></picture></a></div></div><br><p>The actual value of <span class="math inline">\(\operatorname{BetaHDI}(\alpha, \beta, D)\)</span> depends on the specific case from the above list
+which defines the mode location.
+Four of these cases are easy to handle:</p><ul><li>Degenerate case <span class="math inline">\(\alpha < 1, \beta < 1\)</span>:
+Since <span class="math inline">\(\alpha + \beta = n + 1 \geq 2\)</span>, this case is impossible.</li><li>Degenerate case <span class="math inline">\(\alpha = 1, \beta = 1\)</span>:
+There is only one way to get such a situation: <span class="math inline">\(n = 1, p = 0.5\)</span>.
+Since there is only a single element in the sample, it doesn&rsquo;t matter how we choose the interval.</li><li>Left border case <span class="math inline">\(\alpha \leq 1, \, \beta > 1\)</span>:
+The mode equals zero, so the interval should be &ldquo;attached to the left border&rdquo;:
+<span class="math inline">\(\operatorname{BetaHDI}(\alpha, \beta, D) = [0; D]\)</span>.</li><li>Right border case <span class="math inline">\(\alpha > 1, \, \beta \leq 1\)</span>:
+The mode equals one, so the interval should be &ldquo;attached to the right border&rdquo;:
+<span class="math inline">\(\operatorname{BetaHDI}(\alpha, \beta, D) = [1 - D; 1]\)</span></li></ul><p>The fifth case is the middle case (<span class="math inline">\(\alpha > 1,\, \beta > 1\)</span>),
+the HDI should be inside <span class="math inline">\((0;1)\)</span>.
+Since the density function of the beta distribution is a unimodal function, it consists of two segments:
+a monotonically increased segment <span class="math inline">\([0, M]\)</span> and
+a monotonically decreased segment <span class="math inline">\([M, 1]\)</span>.
+The HDI <span class="math inline">\([L;R]\)</span> should contain the mode, so</p><p><span class="math display">\[L \in [0; M], \quad
+R \in [M; 1].
+\]</span></p><p>Since <span class="math inline">\(R - L = D\)</span>, we could also conclude that</p><p><span class="math display">\[L = R - D \in [M - D; 1 - D], \quad
+R = L + D \in [D; M + D].
+\]</span></p><p>Thus,</p><p><span class="math display">\[L \in [\max(0, M - D);\; \min(M, 1 - D)], \quad
+R \in [\max(D, M);\; \min(1, M + D)].
+\]</span></p><p>The density function of the Beta distribution is also known:</p><p><span class="math display">\[f(x) = \dfrac{x^{\alpha - 1} (1 - x)^{\beta - 1}}{\textrm{B}(\alpha, \beta)}, \quad
+\textrm{B}(\alpha, \beta) = \dfrac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}.
+\]</span></p><p>It&rsquo;s easy to see that for the highest density interval <span class="math inline">\([L; R]\)</span>, the following condition is true:</p><p><span class="math display">\[f(L) = f(R)
+\]</span></p><p>The left border <span class="math inline">\(L\)</span> of this interval could be found as a solution of the following equation:</p><p><span class="math display">\[f(x) = f(x + D), \quad \textrm{where }\, x \in [\max(0, M - D);\; \min(M, 1 - D)].
+\]</span></p><p>The left side of the equation is monotonically increasing, the right side is monotonically decreasing.
+The equation has exactly one solution which could be easily found numerically using the binary search algorithm.</p><h4 id=reference-implementation>Reference implementation</h4><p>Here is an R implementation of the suggested estimator:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=n>getBetaHdi</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>width</span><span class=p>)</span> <span class=p>{</span>
+  <span class=n>eps</span> <span class=o>&lt;-</span> <span class=m>1e-9</span>
+  <span class=nf>if </span><span class=p>(</span><span class=n>a</span> <span class=o>&lt;</span> <span class=m>1</span> <span class=o>+</span> <span class=n>eps</span> <span class=o>&amp;</span> <span class=n>b</span> <span class=o>&lt;</span> <span class=m>1</span> <span class=o>+</span> <span class=n>eps</span><span class=p>)</span> <span class=c1># Degenerate case</span>
+    <span class=nf>return</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=kc>NA</span><span class=p>,</span> <span class=kc>NA</span><span class=p>))</span>
+  <span class=nf>if </span><span class=p>(</span><span class=n>a</span> <span class=o>&lt;</span> <span class=m>1</span> <span class=o>+</span> <span class=n>eps</span> <span class=o>&amp;</span> <span class=n>b</span> <span class=o>&gt;</span> <span class=m>1</span><span class=p>)</span> <span class=c1># Left border case</span>
+    <span class=nf>return</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=m>0</span><span class=p>,</span> <span class=n>width</span><span class=p>))</span>
+  <span class=nf>if </span><span class=p>(</span><span class=n>a</span> <span class=o>&gt;</span> <span class=m>1</span> <span class=o>&amp;</span> <span class=n>b</span> <span class=o>&lt;</span> <span class=m>1</span> <span class=o>+</span> <span class=n>eps</span><span class=p>)</span> <span class=c1># Right border case</span>
+    <span class=nf>return</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=m>1</span> <span class=o>-</span> <span class=n>width</span><span class=p>,</span> <span class=m>1</span><span class=p>))</span>
+  <span class=nf>if </span><span class=p>(</span><span class=n>width</span> <span class=o>&gt;</span> <span class=m>1</span> <span class=o>-</span> <span class=n>eps</span><span class=p>)</span>
+    <span class=nf>return</span><span class=p>(</span><span class=m>0</span><span class=p>,</span> <span class=m>1</span><span class=p>)</span>
+  
+  <span class=c1># Middle case</span>
+  <span class=n>mode</span> <span class=o>&lt;-</span> <span class=p>(</span><span class=n>a</span> <span class=o>-</span> <span class=m>1</span><span class=p>)</span> <span class=o>/</span> <span class=p>(</span><span class=n>a</span> <span class=o>+</span> <span class=n>b</span> <span class=o>-</span> <span class=m>2</span><span class=p>)</span>
+  <span class=n>pdf</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=nf>dbeta</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>)</span>
+  
+  <span class=n>l</span> <span class=o>&lt;-</span> <span class=nf>uniroot</span><span class=p>(</span>
+    <span class=n>f</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=nf>pdf</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=o>-</span> <span class=nf>pdf</span><span class=p>(</span><span class=n>x</span> <span class=o>+</span> <span class=n>width</span><span class=p>),</span>
+    <span class=n>lower</span> <span class=o>=</span> <span class=nf>max</span><span class=p>(</span><span class=m>0</span><span class=p>,</span> <span class=n>mode</span> <span class=o>-</span> <span class=n>width</span><span class=p>),</span>
+    <span class=n>upper</span> <span class=o>=</span> <span class=nf>min</span><span class=p>(</span><span class=n>mode</span><span class=p>,</span> <span class=m>1</span> <span class=o>-</span> <span class=n>width</span><span class=p>),</span>
+    <span class=n>tol</span> <span class=o>=</span> <span class=m>1e-9</span>
+  <span class=p>)</span><span class=o>$</span><span class=n>root</span>
+  <span class=n>r</span> <span class=o>&lt;-</span> <span class=n>l</span> <span class=o>+</span> <span class=n>width</span>
+  <span class=nf>return</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=n>l</span><span class=p>,</span> <span class=n>r</span><span class=p>))</span>
+<span class=p>}</span>
+
+<span class=n>thdquantile</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>probs</span><span class=p>,</span> <span class=n>width</span> <span class=o>=</span> <span class=m>1</span> <span class=o>/</span> <span class=nf>sqrt</span><span class=p>(</span><span class=n>length</span><span class=p>))</span> <span class=nf>sapply</span><span class=p>(</span><span class=n>probs</span><span class=p>,</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=p>{</span>
+  <span class=n>x</span> <span class=o>&lt;-</span> <span class=nf>sort</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+  <span class=n>n</span> <span class=o>&lt;-</span> <span class=nf>length</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+  <span class=n>a</span> <span class=o>&lt;-</span> <span class=p>(</span><span class=n>n</span> <span class=o>+</span> <span class=m>1</span><span class=p>)</span> <span class=o>*</span> <span class=n>p</span>
+  <span class=n>b</span> <span class=o>&lt;-</span> <span class=p>(</span><span class=n>n</span> <span class=o>+</span> <span class=m>1</span><span class=p>)</span> <span class=o>*</span> <span class=p>(</span><span class=m>1</span> <span class=o>-</span> <span class=n>p</span><span class=p>)</span>
+  <span class=n>hdi</span> <span class=o>&lt;-</span> <span class=nf>getBetaHdi</span><span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>width</span><span class=p>)</span>
+  <span class=n>hdiCdf</span> <span class=o>&lt;-</span> <span class=nf>pbeta</span><span class=p>(</span><span class=n>hdi</span><span class=p>,</span> <span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>)</span>
+  <span class=n>cdf</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>xs</span><span class=p>)</span> <span class=nf>sapply</span><span class=p>(</span><span class=n>xs</span><span class=p>,</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>)</span> <span class=p>{</span>
+    <span class=nf>if </span><span class=p>(</span><span class=n>x</span> <span class=o>&lt;=</span> <span class=n>hdi[1]</span><span class=p>)</span>
+      <span class=nf>return</span><span class=p>(</span><span class=m>0</span><span class=p>)</span>
+    <span class=nf>if </span><span class=p>(</span><span class=n>x</span> <span class=o>&gt;=</span> <span class=n>hdi[2]</span><span class=p>)</span>
+      <span class=nf>return</span><span class=p>(</span><span class=m>1</span><span class=p>)</span>
+    <span class=nf>return</span><span class=p>((</span><span class=nf>pbeta</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>)</span> <span class=o>-</span> <span class=n>hdiCdf[1]</span><span class=p>)</span> <span class=o>/</span> <span class=p>(</span><span class=n>hdiCdf[2]</span> <span class=o>-</span> <span class=n>hdiCdf[1]</span><span class=p>))</span>
+  <span class=p>})</span>
+  <span class=n>cdfs</span> <span class=o>&lt;-</span> <span class=nf>cdf</span><span class=p>(</span><span class=m>0</span><span class=o>:</span><span class=n>n</span><span class=o>/</span><span class=n>n</span><span class=p>)</span>
+  <span class=n>W</span> <span class=o>&lt;-</span> <span class=nf>tail</span><span class=p>(</span><span class=n>cdfs</span><span class=p>,</span> <span class=m>-1</span><span class=p>)</span> <span class=o>-</span> <span class=nf>head</span><span class=p>(</span><span class=n>cdfs</span><span class=p>,</span> <span class=m>-1</span><span class=p>)</span>
+  <span class=nf>sum</span><span class=p>(</span><span class=n>x</span> <span class=o>*</span> <span class=n>W</span><span class=p>)</span>
+<span class=p>})</span>
+</code></pre></div><p>A C# implementation could be found in <a href=https://github.com/AndreyAkinshin/perfolizer>perfolizer</a> 0.3.0-nightly.105+.</p><h3 id=references>References</h3><ul><li><b id=Hyndman1996>[Hyndman1996]</b><br>Hyndman, R. J. and Fan, Y. 1996. Sample quantiles in statistical packages, <em>American Statistician</em> 50, 361–365.<br><a href=https://doi.org/10.2307/2684934>https://doi.org/10.2307/2684934</a></li><li><b id=Harrell1982>[Harrell1982]</b><br>Harrell, F.E. and Davis, C.E., 1982. A new distribution-free quantile estimator.
+<em>Biometrika</em>, 69(3), pp.635-640.<br><a href=https://doi.org/10.2307/2335999>https://doi.org/10.2307/2335999</a></li></ul><br><br><div class=row><div class="mx-auto share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fthdqe-hdi%2f&title=Trimmed%20Harrell-Davis%20quantile%20estimator%20based%20on%20the%20highest%20density%20interval%20of%20the%20given%20width" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Trimmed%20Harrell-Davis%20quantile%20estimator%20based%20on%20the%20highest%20density%20interval%20of%20the%20given%20width&url=https%3a%2f%2faakinshin.net%2fposts%2fthdqe-hdi%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fthdqe-hdi%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2fthdqe-hdi%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a></div><div class=share-button><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2fthdqe-hdi%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fthdqe-hdi%2f&title=Trimmed%20Harrell-Davis%20quantile%20estimator%20based%20on%20the%20highest%20density%20interval%20of%20the%20given%20width" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013–2021 Andrey Akinshin
+|
+<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a><a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a><a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.082780cb948cc57eabbc0d80172a7a5347d5572b599938b4c9876dfd7978b424.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script><script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true,processEnvironments:true,},options:{skipHtmlTags:['script','noscript','style','textarea','pre'],ignoreHtmlClass:'tex2jax_ignore',processHtmlClass:'tex2jax_process'}};</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></body></html>
