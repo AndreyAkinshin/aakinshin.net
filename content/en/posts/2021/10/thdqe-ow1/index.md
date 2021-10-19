@@ -4,6 +4,7 @@ date: 2021-10-05
 tags:
 - Statistics
 - Optimal window of the trimmed Harrell-Davis quantile estimator
+- research-thdqe
 features:
 - math
 ---

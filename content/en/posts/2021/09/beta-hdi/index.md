@@ -4,6 +4,7 @@ date: 2021-09-28
 thumbnail: hdi_s10_w10_ps25-light
 tags:
 - Statistics
+- research-thdqe
 features:
 - math
 ---

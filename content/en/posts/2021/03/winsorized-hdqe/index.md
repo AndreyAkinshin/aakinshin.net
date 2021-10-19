@@ -7,6 +7,7 @@ tags:
 - Quantile
 - Winsorizing
 - Harrell-Davis quantile estimator
+- research-thdqe
 features:
 - math
 ---

@@ -8,6 +8,7 @@ tags:
 - Winsorizing
 - Trimming
 - Small samples
+- research-thdqe
 features:
 - math
 ---

@@ -6,6 +6,7 @@ tags:
 - Statistics
 - Quantile
 - Statistical efficiency
+- research-thdqe
 features:
 - math
 ---

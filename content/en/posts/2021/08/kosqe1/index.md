@@ -5,6 +5,7 @@ tags:
 - Statistics
 - Quantile Estimators
 - Quantile estimators based on k order statistics
+- research-thdqe
 features:
 - math
 ---

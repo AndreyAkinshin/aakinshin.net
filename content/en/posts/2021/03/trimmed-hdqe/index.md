@@ -7,6 +7,7 @@ tags:
 - Quantile
 - Trimming
 - Harrell-Davis quantile estimator
+- research-thdqe
 features:
 - math
 ---
