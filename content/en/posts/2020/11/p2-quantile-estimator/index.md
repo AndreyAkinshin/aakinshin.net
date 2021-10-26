@@ -10,6 +10,9 @@ features:
 - math
 ---
 
+**Update: the discussed paper contains a
+  [flaw that may lead to incorrect calculations]({{< ref p2-quantile-estimator-rounding-issue >}}).**
+
 Imagine that you are implementing performance telemetry in your application.
 There is an operation that is executed millions of times, and you want to get its "average" duration.
 It's not a good idea to use the arithmetic mean because the obtained value can be easily spoiled by outliers.
@@ -70,9 +73,9 @@ In order to speed up the algorithm, we can precalculate increments of the desire
 
 * $dn'_0 = 0$
 * $dn'_1 = p / 2$
-* $dn'_2 = (n - 1) p$
-* $dn'_3 = (n - 1) (1 + p) / 2$
-* $dn'_4 = (n - 1)$
+* $dn'_2 = p$
+* $dn'_3 = (1 + p) / 2$
+* $dn'_4 = 1$
 
 Note that in the original paper, the authors use one-based indexing.
 I decided to adapt it to the zero-based indexing which is more convenient from the implementation point of view.
@@ -221,6 +224,8 @@ You can also find a discussion about accuracy and the equation for the mean squa
 Below you can find a C# implementation of the discussed algorithm.
 Also, you can use it via
   the latest nightly version (0.3.0-nightly.64+) of [perfolizer](https://github.com/AndreyAkinshin/perfolizer).
+
+**Update: an updated implementation is available [here]({{< ref p2-quantile-estimator-rounding-issue >}}).**
 
 ```cs
 public class P2QuantileEstimator
