@@ -1,4 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 19 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width</title><link>https://aakinshin.net/posts/thdqe-hdi/</link><pubDate>Tue, 19 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-hdi/</guid><description>&lt;p>&lt;em>This post aggregates research from &lt;a href="https://aakinshin.net/tags/research-thdqe/">several blog posts&lt;/a> that I published during this year.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 26 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>P² quantile estimator rounding issue</title><link>https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/</link><pubDate>Tue, 26 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/</guid><description>&lt;p>The P² quantile estimator is a sequential estimator that uses &lt;span class="math inline">\(O(1)\)&lt;/span> memory.
+Thus, for the given sequence of numbers, it allows estimating quantiles without storing values.
+I already wrote &lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">a blog post&lt;/a> about this approach and
+&lt;a href="https://github.com/AndreyAkinshin/perfolizer/commit/9e9ff80a4d097fe4c0814ca51c7fbe942763e308">added&lt;/a>
+its implementation in &lt;a href="https://github.com/AndreyAkinshin/perfolizer">perfolizer&lt;/a>.
+Recently, I got a &lt;a href="https://github.com/AndreyAkinshin/perfolizer/issues/8">bug report&lt;/a>
+that revealed a flaw of the &lt;a href="https://doi.org/10.1145/4372.4378">original paper&lt;/a>.
+In this post, I&amp;rsquo;m going to briefly discuss this issue and the corresponding fix.&lt;/p></description></item><item><title>Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width</title><link>https://aakinshin.net/posts/thdqe-hdi/</link><pubDate>Tue, 19 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-hdi/</guid><description>&lt;p>&lt;em>This post aggregates research from &lt;a href="https://aakinshin.net/tags/research-thdqe/">several blog posts&lt;/a> that I published during this year.
 It presents an overview of
 the Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width.&lt;/em>&lt;/p>
 &lt;p>Traditional quantile estimators that are based on one or two order statistics is a common way to estimate
@@ -959,7 +966,9 @@ src="https://aakinshin.net/posts/qad/img/modal5-light.png">
 &lt;/a>
 &lt;/div>
 &lt;/div>
-&lt;br /></description></item><item><title>P² quantile estimator: estimating the median without storing values</title><link>https://aakinshin.net/posts/p2-quantile-estimator/</link><pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator/</guid><description>&lt;p>Imagine that you are implementing performance telemetry in your application.
+&lt;br /></description></item><item><title>P² quantile estimator: estimating the median without storing values</title><link>https://aakinshin.net/posts/p2-quantile-estimator/</link><pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator/</guid><description>&lt;p>&lt;strong>Update: the discussed paper contains a
+&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/">flaw that may lead to incorrect calculations&lt;/a>.&lt;/strong>&lt;/p>
+&lt;p>Imagine that you are implementing performance telemetry in your application.
 There is an operation that is executed millions of times, and you want to get its &amp;ldquo;average&amp;rdquo; duration.
 It&amp;rsquo;s not a good idea to use the arithmetic mean because the obtained value can be easily spoiled by outliers.
 It&amp;rsquo;s much better to use the median which is one of the most robust ways to describe the average.&lt;/p>
