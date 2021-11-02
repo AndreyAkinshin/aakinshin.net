@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 26 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>P² quantile estimator rounding issue</title><link>https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/</link><pubDate>Tue, 26 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/</guid><description>&lt;p>The P² quantile estimator is a sequential estimator that uses &lt;span class="math inline">\(O(1)\)&lt;/span> memory.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 02 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Greenwald-Khanna quantile estimator</title><link>https://aakinshin.net/posts/greenwald-khanna-quantile-estimator/</link><pubDate>Tue, 02 Nov 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/greenwald-khanna-quantile-estimator/</guid><description>&lt;p>The Greenwald-Khanna quantile estimator is a classic sequential quantile estimator
+which has the following features:&lt;/p>
+&lt;ul>
+&lt;li>It allows estimating quantiles with respect to the given precision &lt;span class="math inline">\(\epsilon\)&lt;/span>.&lt;/li>
+&lt;li>It requires &lt;span class="math inline">\(O(\frac{1}{\epsilon} log(\epsilon N))\)&lt;/span> memory in the worst case.&lt;/li>
+&lt;li>It doesn&amp;rsquo;t require knowledge of the total number of elements in the sequence
+and the positions of the requested quantiles.&lt;/li>
+&lt;/ul>
+&lt;p>In this post,
+I briefly explain the basic idea of the underlying data structure,
+and share a copy-pastable C# implementation.
+At the end of the post, I discuss some important implementation decisions
+that are unclear from the original paper,
+but heavily affect the estimator accuracy.&lt;/p></description></item><item><title>P² quantile estimator rounding issue</title><link>https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/</link><pubDate>Tue, 26 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/</guid><description>&lt;p>The P² quantile estimator is a sequential estimator that uses &lt;span class="math inline">\(O(1)\)&lt;/span> memory.
 Thus, for the given sequence of numbers, it allows estimating quantiles without storing values.
 I already wrote &lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">a blog post&lt;/a> about this approach and
 &lt;a href="https://github.com/AndreyAkinshin/perfolizer/commit/9e9ff80a4d097fe4c0814ca51c7fbe942763e308">added&lt;/a>
