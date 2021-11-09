@@ -1,4 +1,39 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 02 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Greenwald-Khanna quantile estimator</title><link>https://aakinshin.net/posts/greenwald-khanna-quantile-estimator/</link><pubDate>Tue, 02 Nov 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/greenwald-khanna-quantile-estimator/</guid><description>&lt;p>The Greenwald-Khanna quantile estimator is a classic sequential quantile estimator
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 09 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Misleading skewness</title><link>https://aakinshin.net/posts/misleading-skewness/</link><pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/misleading-skewness/</guid><description>&lt;p>Skewness is a commonly used measure of the asymmetry of the probability distributions.
+A typical skewness interpretation comes down to an image like this:&lt;/p>
+&lt;div class="row">
+&lt;div class="mx-auto">
+&lt;a href="https://aakinshin.net/posts/misleading-skewness/img/skew_intro-light.png" target="_blank" class="imgldlink" alt="skew_intro">
+&lt;picture>
+&lt;source
+theme='dark'
+srcset="https://aakinshin.net/posts/misleading-skewness/img/skew_intro-dark.png"
+media="(prefers-color-scheme: dark)">
+&lt;source
+theme='light'
+srcset="https://aakinshin.net/posts/misleading-skewness/img/skew_intro-light.png"
+media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;img
+class="mx-auto d-block img-fluid"
+width='800'
+src="https://aakinshin.net/posts/misleading-skewness/img/skew_intro-light.png">
+&lt;/picture>
+&lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br />
+&lt;p>It looks extremely simple: using the skewness sign,
+we get an idea of the distribution form and the arrangement of the mean and the median.
+Unfortunately, it doesn&amp;rsquo;t always work as expected.
+Skewness estimation could be a highly misleading metric
+(even more misleading than the &lt;a href="https://aakinshin.net/posts/misleading-stddev/">standard deviation&lt;/a>).
+In this post, I discuss four sources of its misleadingness:&lt;/p>
+&lt;ul>
+&lt;li>&amp;ldquo;Skewness&amp;rdquo; is a generic term; it has multiple definitions.
+When a skewness value is presented, you can&amp;rsquo;t always guess the underlying equation without additional details.&lt;/li>
+&lt;li>Skewness is &amp;ldquo;designed&amp;rdquo; for unimodal distributions; it&amp;rsquo;s meaningless in the case of multimodality.&lt;/li>
+&lt;li>Most default skewness definitions are not robust: a single outlier could completely distort the skewness value.&lt;/li>
+&lt;li>We can&amp;rsquo;t make conclusions about the locations of the mean and the median based on the skewness sign.&lt;/li>
+&lt;/ul></description></item><item><title>Greenwald-Khanna quantile estimator</title><link>https://aakinshin.net/posts/greenwald-khanna-quantile-estimator/</link><pubDate>Tue, 02 Nov 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/greenwald-khanna-quantile-estimator/</guid><description>&lt;p>The Greenwald-Khanna quantile estimator is a classic sequential quantile estimator
 which has the following features:&lt;/p>
 &lt;ul>
 &lt;li>It allows estimating quantiles with respect to the given precision &lt;span class="math inline">\(\epsilon\)&lt;/span>.&lt;/li>
