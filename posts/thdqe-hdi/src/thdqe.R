@@ -7,7 +7,7 @@ getBetaHdi <- function(a, b, width) {
   if (a > 1 & b < 1 + eps) # Right border case
     return(c(1 - width, 1))
   if (width > 1 - eps)
-    return(0, 1)
+    return(c(0, 1))
   
   # Middle case
   mode <- (a - 1) / (a + b - 2)
@@ -23,21 +23,23 @@ getBetaHdi <- function(a, b, width) {
   return(c(l, r))
 }
 
-thdquantile <- function(x, probs, width = 1 / sqrt(length)) sapply(probs, function(p) {
-  x <- sort(x)
+thdquantile <- function(x, probs, width = 1 / sqrt(length(x))) sapply(probs, function(p) {
   n <- length(x)
+  if (n == 0) return(NA)
+  if (n == 1) return(x)
+  x <- sort(x)
   a <- (n + 1) * p
   b <- (n + 1) * (1 - p)
   hdi <- getBetaHdi(a, b, width)
   hdiCdf <- pbeta(hdi, a, b)
-  cdf <- function(xs) sapply(xs, function(x) {
-    if (x <= hdi[1])
-      return(0)
-    if (x >= hdi[2])
-      return(1)
-    return((pbeta(x, a, b) - hdiCdf[1]) / (hdiCdf[2] - hdiCdf[1]))
-  })
-  cdfs <- cdf(0:n/n)
+  cdf <- function(xs) {
+    xs[xs <= hdi[1]] <- hdi[1]
+    xs[xs >= hdi[2]] <- hdi[2]
+    (pbeta(xs, a, b) - hdiCdf[1]) / (hdiCdf[2] - hdiCdf[1])
+  }
+  iL <- floor(hdi[1] * n)
+  iR <- ceiling(hdi[2] * n)
+  cdfs <- cdf(iL:iR/n)
   W <- tail(cdfs, -1) - head(cdfs, -1)
-  sum(x * W)
+  sum(x[(iL+1):iR] * W)
 })
