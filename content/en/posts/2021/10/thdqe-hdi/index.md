@@ -21,7 +21,7 @@ Whereas this approach provides more accurate estimations for the light-tailed di
 To be able to customize the trade-off between statistical efficiency and robustness,
   we could consider *a trimmed modification of the Harrell-Davis quantile estimator*.
 In this approach, we discard order statistics with low weights according to
-  the highest density interval of the Beta distribution.
+  the highest density interval of the beta distribution.
 
 <!--more-->
 
@@ -31,7 +31,7 @@ We consider a problem of quantile estimation for the given sample.
 Let $x$ be a sample with $n$ elements: $x = \{ x_1, x_2, \ldots, x_n \}$.
 We assume that all sample elements are sorted ($x_1 \leq x_2 \leq \ldots \leq x_n$) so that
   we could treat the $i^\textrm{th}$ element $x_i$ as the $i^\textrm{th}$ order statistic $x_{(i)}$.
-Based on the given sample, we want to build an estimation of th $p^\textrm{th}$ quantile $Q(p)$.
+Based on the given sample, we want to build an estimation of the $p^\textrm{th}$ quantile $Q(p)$.
 
 The traditional way to do this is to use a single order statistic
   or a linear combination of two subsequent order statistics.
@@ -61,7 +61,7 @@ $$
 where $I_x(\alpha, \beta)$ is the regularized incomplete beta function,
   $\alpha = (n+1)p$, $\;\beta = (n+1)(1-p)$.
 To get a better understanding of this approach,
-  we could look at the probability density function of the Beta distribution $\operatorname{Beta}(\alpha, \beta)$.
+  we could look at the probability density function of the beta distribution $\operatorname{Beta}(\alpha, \beta)$.
 If we split the $[0;1]$ interval into $n$ segments of equal width,
   we can define $W_{\operatorname{HD},i}$ as the area under curve in the $i^\textrm{th}$ segment.
 Since $I_x(\alpha, \beta)$ is the cumulative distribution function of $\operatorname{Beta}(\alpha, \beta)$,
@@ -74,7 +74,7 @@ The Harrell-Davis quantile estimator shows decent statistical efficiency in the 
 However, the improved efficiency has a price: $Q_{\operatorname{HD}}$ is not robust.
 Since the estimation is a weighted sum of all order statistics with positive weights,
   a single corrupted element may spoil all the quantile estimations, including the median.
-It may become a severe drawback in the case of heavy-tailed distribution in which
+It may become a severe drawback in the case of heavy-tailed distributions in which
   it's a typical situation when we have a few extremely large outliers.
 In such cases, we use the median instead of the mean as a measure of central tendency
   because of its robustness.
@@ -87,7 +87,7 @@ Another severe drawback of $Q_{\operatorname{HD}}$ is its computational complexi
 If we have a sorted array of numbers,
   a traditional quantile estimation could be computed using $O(1)$ simple operations.
 If we estimate the quantiles using $Q_{\operatorname{HD}}$, we need $O(n)$ operations.
-Moreover, these operations involve computation of $I_{i/n}(\alpha, \beta)$ values
+Moreover, these operations involve computation of $I_x(\alpha, \beta)$ values
   which are pretty expensive from the computational point of view.
 If we want to estimate millions of quantile estimations,
   $Q_{\operatorname{HD}}$ may have a noticeable impact on the application performance.
@@ -102,7 +102,7 @@ To get a reasonable trade-off between $Q_{\operatorname{HF7}}$ and $Q_{\operator
   we consider a trimmed modification of the Harrell-Davis quantile estimator.
 The core idea is simple:
   we take the classic Harrell-Davis quantile estimator,
-  find the highest density interval of the underlying Beta distribution,
+  find the highest density interval of the underlying beta distribution,
   discard all the order statistics outside the interval,
   and calculate a weighted sum of the order statistics within the interval.
 The obtained quantile estimation is more robust than $Q_{\operatorname{HD}}$ (because it doesn't use extreme values)
@@ -110,7 +110,7 @@ The obtained quantile estimation is more robust than $Q_{\operatorname{HD}}$ (be
   (because it uses more than only two order statistics).
 Let's discuss this approach in detail.
 
-### The Trimmed Harrell-Davis quantile estimator
+### The trimmed Harrell-Davis quantile estimator
 
 The estimators based on one or two order statistics are not efficient enough because they use too few sample elements.
 The estimators based on all order statistics are not robust enough because they use too many sample elements.
@@ -128,18 +128,18 @@ If we apply the same idea to $Q_{\operatorname{HD}}$,
 Let's denote it as $Q_{\operatorname{THD}}$.
 
 In the case of the trimmed mean, we typically discard the same number of elements on each side.
-We can't do the same for the $Q_{\operatorname{THD}}$
+We can't do the same for $Q_{\operatorname{THD}}$
   because the array of order statistic weights $\{ W_{\operatorname{HD},i} \}$ is asymmetric.
 It looks reasonable to drop the elements with the lowest weights and keep the elements with the highest weights.
-Since the weights are assigned according to the Beta distribution,
+Since the weights are assigned according to the beta distribution,
   the range of order statistics with the highest weight concentration could be found
-  using the Beta distribution highest density interval.
+  using the beta distribution highest density interval.
 Thus, once we fix the proportion of dropped/kept elements,
   we should find the highest density interval of the given width.
 Let's denote the interval as $[L;R]$ where $R-L=D$.
 Thus, the order statistics weights for $Q_{\operatorname{THD}}$ should be defined
-  using a part of the Beta distribution within this interval.
-It gives us the truncated Beta distribution $\operatorname{TBeta}(\alpha, \beta, L, R)$:
+  using a part of the beta distribution within this interval.
+It gives us the truncated beta distribution $\operatorname{TBeta}(\alpha, \beta, L, R)$:
 
 {{< imgld tbeta >}}
 
@@ -166,7 +166,7 @@ W_{\operatorname{THD},i} = F_{\operatorname{THD}}(i / n) - F_{\operatorname{THD}
 $$
 
 There is only one thing left to do:
-  we should choose an appropriate width $D$ of the Beta distribution highest density interval.
+  we should choose an appropriate width $D$ of the beta distribution highest density interval.
 In practical application, this value should be chosen based on the given problem:
   researchers should carefully analyze business requirements,
   describe desired robustness level via setting the breakdown point,
@@ -188,7 +188,7 @@ $$
 x = \{ -0.565, -0.106, -0.095, 0.363, 0.404, 0.633, 1.371, 1.512, 2.018, 100000 \}.
 $$
 
-Nine elements were randomly taken from the normal distribution $\mathcal{N}(0, 1)$.
+Nine elements were randomly taken from the standard normal distribution $\mathcal{N}(0, 1)$.
 The last element $x_{10}$ is an outlier.
 The weight coefficient for $Q_{\operatorname{HD}}$ an $Q_{\operatorname{THD-SQRT}}$
   are presented in the following table:
@@ -206,19 +206,19 @@ The weight coefficient for $Q_{\operatorname{HD}}$ an $Q_{\operatorname{THD-SQRT
 |   9 |      2.018 |                    0.0146 |                          0      |
 |  10 | 100000.000 |                    0.0005 |                          0      |
 
-And here are the quantile estimations:
+Here are the corresponding quantile estimations:
 
 $$
 Q_{\operatorname{HD}}(0.5) \approx 51.9169, \quad Q_{\operatorname{THD}}(0.5) \approx 0.6268.
 $$
 
-As we can see, the $Q_{\operatorname{HD}}$ is heavily affected by the outlier $x_{10}$.
+As we can see, $Q_{\operatorname{HD}}$ is heavily affected by the outlier $x_{10}$.
 Meanwhile, $Q_{\operatorname{THD}}$ gives a reasonable median estimation
   because it uses a weighted sum of four middle order statistics.
 
 ### Beta distribution highest density interval of the given width
 
-In order to build the truncated Beta distribution for $Q_{\operatorname{THD}}$,
+In order to build the truncated beta distribution for $Q_{\operatorname{THD}}$,
   we have to find the $\operatorname{Beta}(\alpha, \beta)$ highest density interval of the required width $D$.
 Thus, for the given $\alpha, \beta, D$, we should provide an interval $[L;R]$:
 
@@ -281,10 +281,10 @@ Thus,
 
 $$
 L \in [\max(0, M - D);\; \min(M, 1 - D)], \quad
-R \in [\max(D, M);\; \min(1, M + D)].
+R \in [\max(M, D);\; \min(1, M + D)].
 $$
 
-The density function of the Beta distribution is also known:
+The density function of the beta distribution is also known:
 
 $$
 f(x) = \dfrac{x^{\alpha - 1} (1 - x)^{\beta - 1}}{\textrm{B}(\alpha, \beta)}, \quad
@@ -300,7 +300,7 @@ $$
 The left border $L$ of this interval could be found as a solution of the following equation:
 
 $$
-f(x) = f(x + D), \quad \textrm{where }\, x \in [\max(0, M - D);\; \min(M, 1 - D)].
+f(t) = f(t + D), \quad \textrm{where }\, t \in [\max(0, M - D);\; \min(M, 1 - D)].
 $$
 
 The left side of the equation is monotonically increasing, the right side is monotonically decreasing.
