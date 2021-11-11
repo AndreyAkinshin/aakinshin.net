@@ -12,7 +12,7 @@ features:
 It presents an overview of
   the Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width.*
 
-Traditional quantile estimators that are based on one or two order statistics is a common way to estimate
+Traditional quantile estimators that are based on one or two order statistics are a common way to estimate
   distribution quantiles based on the given samples.
 These estimators are robust, but their statistical efficiency is not always good enough.
 A more efficient alternative is the Harrell-Davis quantile estimator which uses
@@ -137,7 +137,7 @@ Since the weights are assigned according to the beta distribution,
 Thus, once we fix the proportion of dropped/kept elements,
   we should find the highest density interval of the given width.
 Let's denote the interval as $[L;R]$ where $R-L=D$.
-Thus, the order statistics weights for $Q_{\operatorname{THD}}$ should be defined
+The order statistics weights for $Q_{\operatorname{THD}}$ should be defined
   using a part of the beta distribution within this interval.
 It gives us the truncated beta distribution $\operatorname{TBeta}(\alpha, \beta, L, R)$:
 
@@ -168,7 +168,7 @@ $$
 There is only one thing left to do:
   we should choose an appropriate width $D$ of the beta distribution highest density interval.
 In practical application, this value should be chosen based on the given problem:
-  researchers should carefully analyze business requirements,
+  researchers should *carefully* analyze business requirements,
   describe desired robustness level via setting the breakdown point,
   and come up with a $D$ value that satisfies the initial requirements.
 
@@ -185,7 +185,7 @@ For example, if $n=10000$, we have to process only 100 sample elements and calcu
 Let's say we have the following sample:
 
 $$
-x = \{ -0.565, -0.106, -0.095, 0.363, 0.404, 0.633, 1.371, 1.512, 2.018, 100000 \}.
+x = \{ -0.565, -0.106, -0.095, 0.363, 0.404, 0.633, 1.371, 1.512, 2.018, 100\,000 \}.
 $$
 
 Nine elements were randomly taken from the standard normal distribution $\mathcal{N}(0, 1)$.
@@ -223,7 +223,7 @@ In order to build the truncated beta distribution for $Q_{\operatorname{THD}}$,
 Thus, for the given $\alpha, \beta, D$, we should provide an interval $[L;R]$:
 
 $$
-\operatorname{BetaHDI}(\alpha, \beta, D) = [L; R]
+\operatorname{BetaHDI}(\alpha, \beta, D) = [L; R].
 $$
 
 Let's briefly discuss how to do this.
@@ -294,7 +294,7 @@ $$
 It's easy to see that for the highest density interval $[L; R]$, the following condition is true:
 
 $$
-f(L) = f(R)
+f(L) = f(R).
 $$
 
 The left border $L$ of this interval could be found as a solution of the following equation:
@@ -314,10 +314,10 @@ Let's perform a few numerical simulations and see how $Q_{\operatorname{THD}}$ w
 
 Let's explore the distribution of estimation errors of
   $Q_{\operatorname{HF7}}$, $Q_{\operatorname{HD}}$, and $Q_{\operatorname{THD-SQRT}}$.
-We consider a Contaminated normal distribution which is a mixture of two normal distributions:
+We consider a contaminated normal distribution which is a mixture of two normal distributions:
   $(1 - \varepsilon)\mathcal{N}(0, \sigma^2) + \varepsilon\mathcal{N}(0, c\sigma^2)$.
 For our simulation, we use $\varepsilon = 0.01,\; \sigma = 1,\; c = 1\,000\,000$.
-We generate $10\,000$ samples with 7 elements randomly taken from the considered distribution.
+We generate $10\,000$ samples of size 7 randomly taken from the considered distribution.
 For each sample, we estimate the median using
   $Q_{\operatorname{HF7}}$, $Q_{\operatorname{HD}}$, and $Q_{\operatorname{THD-SQRT}}$.
 Thus, we have $10\,000$ of median estimations for each estimator.
@@ -353,9 +353,9 @@ For the $p^\textrm{th}$ quantile, the classic relative efficiency can be calcula
   as the ratio of the estimator mean squared errors ($\operatorname{MSE}$):
 
 $$
-\textrm{Efficiency}(p) =
+\operatorname{Efficiency}(p) =
 \dfrac{\operatorname{MSE}(Q_{HF7}, p)}{\operatorname{MSE}(Q_{\textrm{Target}}, p)} =
-\dfrac{\operatorname{E}[(Q_{HF7}(p) - \theta(p))^2]}{\operatorname{E}[(Q_{\textrm{Target}}(p) - \theta(p))^2]}
+\dfrac{\operatorname{E}[(Q_{HF7}(p) - \theta(p))^2]}{\operatorname{E}[(Q_{\textrm{Target}}(p) - \theta(p))^2]},
 $$
 
 where $\theta(p)$ is the true quantile value.
@@ -369,7 +369,7 @@ We conduct this simulation according to the following scheme:
   For each estimator, we calculate the arithmetic average of $(Q(p) - \theta(p))^2$.
 * $\operatorname{MSE}$ is not a robust metric, so we wouldn't get reproducible output in such an experiment.
   To achieve more stable results, we repeat the previous step 101 times and take the median across
-    $(Q(p) - \theta(p))^2$ values for each estimator.
+    $\operatorname{E}[(Q(p) - \theta(p))^2]$ values for each estimator.
   This median is our estimation of $\operatorname{MSE}(Q, p)$.
 * We evaluate the relative efficiency of $Q_{\operatorname{HD}}$ and $Q_{\operatorname{THD-SQRT}}$
     against $Q_{\operatorname{HF7}}$.
@@ -386,9 +386,9 @@ However, in the case of heavy-tailed distributions,
 
 #### Conclusion
 
-There is no a perfect quantile estimator that fits all kind of problems.
+There is no perfect quantile estimator that fits all kinds of problems.
 The choice of a specific estimator has to be made
-  based on knowledge about the domain area and the properties of the target distributions.
+  based on the knowledge of the domain area and the properties of the target distributions.
 $Q_{\operatorname{HD}}$ is a good alternative to $Q_{\operatorname{HF7}}$ in the light-tailed distributions
   because it has higher statistical efficiency.
 However, if extreme outliers may appear, estimations of $Q_{\operatorname{HD}}$ could be heavily corrupted.
@@ -398,6 +398,8 @@ In most cases, $Q_{\operatorname{THD}}$ has better efficiency than $Q_{\operator
   and it's also more resistant to outliers than $Q_{\operatorname{HD}}$.
 By customizing the width $D$ of the highest density interval, we could set the desired breakdown point
   according to the research goals.
+Also, $Q_{\operatorname{THD}}$ has better computational efficiency than $Q_{\operatorname{HD}}$
+  which makes it a faster option in practical applications.
 
 #### Reference implementation
 
