@@ -153,7 +153,7 @@ F_{\operatorname{THD}}(x) = \begin{cases}
 0 & \textrm{for }\, x < L,\\
 \big( F_{\operatorname{HD}}(x) - F_{\operatorname{HD}}(L) \big) /
 \big( F_{\operatorname{HD}}(R) - F_{\operatorname{HD}}(L) \big)
-  & \textrm{for }\, L < x < R,\\
+  & \textrm{for }\, L \leq x \leq R,\\
 1 & \textrm{for }\, R < x.
 \end{cases}
 $$
@@ -232,11 +232,10 @@ First of all, we should calculate the mode $M$ of $\operatorname{Beta}(\alpha, \
 $$
 M = \operatorname{Mode}_{\alpha, \beta} =
 \begin{cases}
-  0                                     & \textrm{for }\, \alpha \leq 1,\, \beta > 1, & \textit{(Border case)} \\
-  \frac{\alpha - 1}{\alpha + \beta - 2} & \textrm{for }\, \alpha > 1,\, \beta > 1,    & \textit{(Middle case)} \\
-  1                                     & \textrm{for }\, \alpha > 1,\, \beta \leq 1, & \textit{(Border case)} \\
-  \{0, 1 \}                             & \textrm{for }\, \alpha < 1,\, \beta < 1,    & \textit{(Degenerate case)} \\
-  \textrm{any value in } (0, 1)         & \textrm{for }\, \alpha = 1,\, \beta = 1.    & \textit{(Degenerate case)}
+  \{0, 1 \} \textrm{ or any value in } (0, 1) & \textrm{for }\, \alpha \leq 1,\, \beta \leq 1, & \textit{(Degenerate case)}
+  0                                           & \textrm{for }\, \alpha \leq 1,\, \beta > 1,    & \textit{(Left border case)} \\
+  1                                           & \textrm{for }\, \alpha > 1,\, \beta \leq 1,    & \textit{(Right border case)} \\
+  \frac{\alpha - 1}{\alpha + \beta - 2}       & \textrm{for }\, \alpha > 1,\, \beta > 1.       & \textit{(Middle case)} \\
 \end{cases}
 $$
 
@@ -244,13 +243,11 @@ $$
 
 The actual value of $\operatorname{BetaHDI}(\alpha, \beta, D)$ depends on the specific case from the above list
   which defines the mode location.
-Four of these cases are easy to handle:
+Three of these cases are easy to handle:
 
-* Degenerate case $\alpha < 1, \beta < 1$:
-  Since $\alpha + \beta = n + 1 \geq 2$, this case is impossible.
-* Degenerate case $\alpha = 1, \beta = 1$:
+* Degenerate case $\alpha \leq 1, \beta \leq 1$:
   There is only one way to get such a situation: $n = 1, p = 0.5$.
-  Since there is only a single element in the sample, it doesn't matter how we choose the interval.
+  Since such a sample contains a single element, it doesn't matter how we choose the interval.
 * Left border case $\alpha \leq 1, \, \beta > 1$:
   The mode equals zero, so the interval should be "attached to the left border":
   $\operatorname{BetaHDI}(\alpha, \beta, D) = [0; D]$.
@@ -258,11 +255,11 @@ Four of these cases are easy to handle:
   The mode equals one, so the interval should be "attached to the right border":
   $\operatorname{BetaHDI}(\alpha, \beta, D) = [1 - D; 1]$
 
-The fifth case is the middle case ($\alpha > 1,\, \beta > 1$),
+The fourth case is the middle case ($\alpha > 1,\, \beta > 1$),
   the HDI should be inside $(0;1)$.
 Since the density function of the beta distribution is a unimodal function, it consists of two segments:
-  a monotonically increased segment $[0, M]$ and
-  a monotonically decreased segment $[M, 1]$.
+  a monotonically increasing segment $[0, M]$ and
+  a monotonically decreasing segment $[M, 1]$.
 The HDI $[L;R]$ should contain the mode, so
 
 $$
