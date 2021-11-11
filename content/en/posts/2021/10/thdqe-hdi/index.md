@@ -306,6 +306,99 @@ $$
 The left side of the equation is monotonically increasing, the right side is monotonically decreasing.
 The equation has exactly one solution which could be easily found numerically using the binary search algorithm.
 
+#### Simulation study
+
+Let's perform a few numerical simulations and see how $Q_{\operatorname{THD}}$ works in action.
+
+#### Simulation 1
+
+Let's explore the distribution of estimation errors of
+  $Q_{\operatorname{HF7}}$, $Q_{\operatorname{HD}}$, and $Q_{\operatorname{THD-SQRT}}$.
+We consider a Contaminated normal distribution which is a mixture of two normal distributions:
+  $(1 - \varepsilon)\mathcal{N}(0, \sigma^2) + \varepsilon\mathcal{N}(0, c\sigma^2)$.
+For our simulation, we use $\varepsilon = 0.01,\; \sigma = 1,\; c = 1\,000\,000$.
+We generate $10\,000$ samples with 7 elements randomly taken from the considered distribution.
+For each sample, we estimate the median using
+  $Q_{\operatorname{HF7}}$, $Q_{\operatorname{HD}}$, and $Q_{\operatorname{THD-SQRT}}$.
+Thus, we have $10\,000$ of median estimations for each estimator.
+Next, we evaluate lower and higher percentiles for each group of estimations.
+The results are presented in the following table:
+
+|  quantile|        HF7|          HD|   THD-SQRT|
+|---------:|----------:|-----------:|----------:|
+|      0.00| -1.6921648| -87.6286082| -1.6041220|
+|      0.01| -1.1054591|  -9.8771723| -1.0261234|
+|      0.02| -0.9832125|  -5.2690083| -0.9067884|
+|      0.03| -0.9037046|  -1.7742334| -0.8298706|
+|      0.04| -0.8346268|  -0.9921591| -0.7586603|
+|      0.05| -0.7773634|  -0.8599139| -0.7141364|
+|      0.95|  0.7740584|   0.8062170|  0.7060375|
+|      0.96|  0.8172518|   0.8964743|  0.7540437|
+|      0.97|  0.8789283|   1.1240294|  0.8052421|
+|      0.98|  0.9518048|   4.3675475|  0.8824462|
+|      0.99|  1.0806293|  10.4132583|  0.9900912|
+|      1.00|  2.0596785| 140.5802861|  1.7060750|
+
+As we can see, approximately 2\% of all $Q_{\operatorname{HD}}$ results exceed 10 by their absolute values
+  (while the true median value is zero).
+Meanwhile, the maximum absolute value of the $Q_{\operatorname{THD-SQRT}}$ median estimations is approximately $1.7$.
+Thus, $Q_{\operatorname{THD-SQRT}}$ is much more resistant to outliers than $Q_{\operatorname{HD}}$.
+
+#### Simulation 2
+
+Let's compare the statistical efficiency of $Q_{\operatorname{HD}}$ and $Q_{\operatorname{THD}}$.
+We evaluate the relative efficiency of these estimators against $Q_{\operatorname{HF7}}$
+  which is a conventional baseline in such experiments.
+For the $p^\textrm{th}$ quantile, the classic relative efficiency can be calculated
+  as the ratio of the estimator mean squared errors ($\operatorname{MSE}$):
+
+$$
+\textrm{Efficiency}(p) =
+\dfrac{\operatorname{MSE}(Q_{HF7}, p)}{\operatorname{MSE}(Q_{\textrm{Target}}, p)} =
+\dfrac{\operatorname{E}[(Q_{HF7}(p) - \theta(p))^2]}{\operatorname{E}[(Q_{\textrm{Target}}(p) - \theta(p))^2]}
+$$
+
+where $\theta(p)$ is the true quantile value.
+We conduct this simulation according to the following scheme:
+
+* We consider a bunch of different symmetric and asymmetric, light-tailed and heavy-tailed distributions.
+* We enumerate all the percentile values $p$ from 0.01 to 0.99.
+* For each distribution, we generate 200 random samples of the given size.
+  For each sample, we estimate the $p^\textrm{th}$ percentile using
+    $Q_{\operatorname{HF7}}$, $Q_{\operatorname{HD}}$, and $Q_{\operatorname{THD-SQRT}}$.
+  For each estimator, we calculate the arithmetic average of $(Q(p) - \theta(p))^2$.
+* $\operatorname{MSE}$ is not a robust metric, so we wouldn't get reproducible output in such an experiment.
+  To achieve more stable results, we repeat the previous step 101 times and take the median across
+    $(Q(p) - \theta(p))^2$ values for each estimator.
+  This median is our estimation of $\operatorname{MSE}(Q, p)$.
+* We evaluate the relative efficiency of $Q_{\operatorname{HD}}$ and $Q_{\operatorname{THD-SQRT}}$
+    against $Q_{\operatorname{HF7}}$.
+
+Here are the results of this simulation for $n=5$:
+
+{{< imgld efficiency5 >}}
+
+As we can see, $Q_{\operatorname{THD-SQRT}}$ is not so efficient as $Q_{\operatorname{HD}}$
+  in the case of light-tailed distributions.
+However, in the case of heavy-tailed distributions,
+  $Q_{\operatorname{THD-SQRT}}$ has better efficiency than $Q_{\operatorname{HD}}$
+  because estimations of $Q_{\operatorname{HD}}$ are corrupted by outliers.
+
+#### Conclusion
+
+There is no a perfect quantile estimator that fits all kind of problems.
+The choice of a specific estimator has to be made
+  based on knowledge about the domain area and the properties of the target distributions.
+$Q_{\operatorname{HD}}$ is a good alternative to $Q_{\operatorname{HF7}}$ in the light-tailed distributions
+  because it has higher statistical efficiency.
+However, if extreme outliers may appear, estimations of $Q_{\operatorname{HD}}$ could be heavily corrupted.
+$Q_{\operatorname{THD}}$ could be used as
+  a reasonable trade-off between $Q_{\operatorname{HF7}}$ and $Q_{\operatorname{HD}}$.
+In most cases, $Q_{\operatorname{THD}}$ has better efficiency than $Q_{\operatorname{HF7}}$
+  and it's also more resistant to outliers than $Q_{\operatorname{HD}}$.
+By customizing the width $D$ of the highest density interval, we could set the desired breakdown point
+  according to the research goals.
+
 #### Reference implementation
 
 Here is an R implementation of the suggested estimator:

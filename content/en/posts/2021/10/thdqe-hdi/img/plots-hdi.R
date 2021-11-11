@@ -64,7 +64,7 @@ draw.hdi <- function(sum = 10, width = 0.3, ps = c(0.05, 0.5, 0.95)) {
   )
   df$comment <- factor(df$comment, levels = unique(df$comment))
   p <- ggplot(df, aes(x, y)) +
-    geom_area(data = df[df$inside,], aes(x, y), fill = cbRed, alpha = 0.4) +
+    geom_area(data = df[df$inside,], aes(x, y), fill = cbGrey, alpha = 0.4) +
     geom_line(data = df[df$visible,], aes(x, y)) +
     facet_wrap(vars(comment)) +
     labs(
