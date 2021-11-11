@@ -107,7 +107,7 @@ we need the CDF for <span class="math inline">\(\operatorname{TBeta}(\alpha, \be
 0 & \textrm{for }\, x < L,\\
 \big( F_{\operatorname{HD}}(x) - F_{\operatorname{HD}}(L) \big) /
 \big( F_{\operatorname{HD}}(R) - F_{\operatorname{HD}}(L) \big)
-& \textrm{for }\, L < x < R,\\
+& \textrm{for }\, L \leq x \leq R,\\
 1 & \textrm{for }\, R < x.
 \end{cases}
 \]</span></p><p>The final <span class="math inline">\(Q_{\operatorname{THD}}\)</span> equation has the same form as <span class="math inline">\(Q_{\operatorname{HD}}\)</span>:</p><p><span class="math display">\[Q_{\operatorname{THD}} = \sum_{i=1}^{n} W_{\operatorname{THD},i} \cdot x_i, \quad
@@ -138,27 +138,25 @@ Thus, for the given <span class="math inline">\(\alpha, \beta, D\)</span>, we sh
 \]</span></p><p>Let&rsquo;s briefly discuss how to do this.
 First of all, we should calculate the mode <span class="math inline">\(M\)</span> of <span class="math inline">\(\operatorname{Beta}(\alpha, \beta)\)</span>:</p><p><span class="math display">\[M = \operatorname{Mode}_{\alpha, \beta} =
 \begin{cases}
-0 & \textrm{for }\, \alpha \leq 1,\, \beta > 1, & \textit{(Border case)} \\
-  \frac{\alpha - 1}{\alpha + \beta - 2} & \textrm{for }\, \alpha > 1,\, \beta > 1, & \textit{(Middle case)} \\
-  1    & \textrm{for }\, \alpha > 1,\, \beta \leq 1, & \textit{(Border case)} \\
-  \{0, 1 \} & \textrm{for }\, \alpha < 1,\, \beta < 1, & \textit{(Degenerate case)} \\
-  \textrm{any value in } (0, 1) & \textrm{for }\, \alpha = 1,\, \beta = 1. & \textit{(Degenerate case)}
+\{0, 1 \} \textrm{ or any value in } (0, 1) & \textrm{for }\, \alpha \leq 1,\, \beta \leq 1, & \textit{(Degenerate case)}
+  0   & \textrm{for }\, \alpha \leq 1,\, \beta > 1, & \textit{(Left border case)} \\
+  1 & \textrm{for }\, \alpha > 1,\, \beta \leq 1, & \textit{(Right border case)} \\
+ \frac{\alpha - 1}{\alpha + \beta - 2} & \textrm{for }\, \alpha > 1,\, \beta > 1. & \textit{(Middle case)} \\
 \end{cases}
 \]</span></p><div class=row><div class=mx-auto><a href=/posts/thdqe-hdi/img/hdi-light.png target=_blank class=imgldlink alt=hdi><picture>
 <source theme=dark srcset=/posts/thdqe-hdi/img/hdi-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/thdqe-hdi/img/hdi-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/thdqe-hdi/img/hdi-light.png></picture></a></div></div><br><p>The actual value of <span class="math inline">\(\operatorname{BetaHDI}(\alpha, \beta, D)\)</span> depends on the specific case from the above list
 which defines the mode location.
-Four of these cases are easy to handle:</p><ul><li>Degenerate case <span class="math inline">\(\alpha < 1, \beta < 1\)</span>:
-Since <span class="math inline">\(\alpha + \beta = n + 1 \geq 2\)</span>, this case is impossible.</li><li>Degenerate case <span class="math inline">\(\alpha = 1, \beta = 1\)</span>:
+Three of these cases are easy to handle:</p><ul><li>Degenerate case <span class="math inline">\(\alpha \leq 1, \beta \leq 1\)</span>:
 There is only one way to get such a situation: <span class="math inline">\(n = 1, p = 0.5\)</span>.
-Since there is only a single element in the sample, it doesn&rsquo;t matter how we choose the interval.</li><li>Left border case <span class="math inline">\(\alpha \leq 1, \, \beta > 1\)</span>:
+Since such a sample contains a single element, it doesn&rsquo;t matter how we choose the interval.</li><li>Left border case <span class="math inline">\(\alpha \leq 1, \, \beta > 1\)</span>:
 The mode equals zero, so the interval should be &ldquo;attached to the left border&rdquo;:
 <span class="math inline">\(\operatorname{BetaHDI}(\alpha, \beta, D) = [0; D]\)</span>.</li><li>Right border case <span class="math inline">\(\alpha > 1, \, \beta \leq 1\)</span>:
 The mode equals one, so the interval should be &ldquo;attached to the right border&rdquo;:
-<span class="math inline">\(\operatorname{BetaHDI}(\alpha, \beta, D) = [1 - D; 1]\)</span></li></ul><p>The fifth case is the middle case (<span class="math inline">\(\alpha > 1,\, \beta > 1\)</span>),
+<span class="math inline">\(\operatorname{BetaHDI}(\alpha, \beta, D) = [1 - D; 1]\)</span></li></ul><p>The fourth case is the middle case (<span class="math inline">\(\alpha > 1,\, \beta > 1\)</span>),
 the HDI should be inside <span class="math inline">\((0;1)\)</span>.
 Since the density function of the beta distribution is a unimodal function, it consists of two segments:
-a monotonically increased segment <span class="math inline">\([0, M]\)</span> and
-a monotonically decreased segment <span class="math inline">\([M, 1]\)</span>.
+a monotonically increasing segment <span class="math inline">\([0, M]\)</span> and
+a monotonically decreasing segment <span class="math inline">\([M, 1]\)</span>.
 The HDI <span class="math inline">\([L;R]\)</span> should contain the mode, so</p><p><span class="math display">\[L \in [0; M], \quad
 R \in [M; 1].
 \]</span></p><p>Since <span class="math inline">\(R - L = D\)</span>, we could also conclude that</p><p><span class="math display">\[L = R - D \in [M - D; 1 - D], \quad
