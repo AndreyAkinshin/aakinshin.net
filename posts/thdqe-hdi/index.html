@@ -7,7 +7,7 @@ gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research-thdqe/ class="badge badge-info">Research: Building trimmed Harrell-Davis quantile estimator</a></span><br><br><p><em>This post aggregates research from <a href=https://aakinshin.net/tags/research-thdqe/>several blog posts</a> that I published during this year.
 It presents an overview of
-the Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width.</em></p><p>Traditional quantile estimators that are based on one or two order statistics is a common way to estimate
+the Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width.</em></p><p>Traditional quantile estimators that are based on one or two order statistics are a common way to estimate
 distribution quantiles based on the given samples.
 These estimators are robust, but their statistical efficiency is not always good enough.
 A more efficient alternative is the Harrell-Davis quantile estimator which uses
@@ -97,7 +97,7 @@ using the beta distribution highest density interval.
 Thus, once we fix the proportion of dropped/kept elements,
 we should find the highest density interval of the given width.
 Let&rsquo;s denote the interval as <span class="math inline">\([L;R]\)</span> where <span class="math inline">\(R-L=D\)</span>.
-Thus, the order statistics weights for <span class="math inline">\(Q_{\operatorname{THD}}\)</span> should be defined
+The order statistics weights for <span class="math inline">\(Q_{\operatorname{THD}}\)</span> should be defined
 using a part of the beta distribution within this interval.
 It gives us the truncated beta distribution <span class="math inline">\(\operatorname{TBeta}(\alpha, \beta, L, R)\)</span>:</p><div class=row><div class=mx-auto><a href=/posts/thdqe-hdi/img/tbeta-light.png target=_blank class=imgldlink alt=tbeta><picture>
 <source theme=dark srcset=/posts/thdqe-hdi/img/tbeta-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/thdqe-hdi/img/tbeta-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/thdqe-hdi/img/tbeta-light.png></picture></a></div></div><br><p>We know the CDF for <span class="math inline">\(\operatorname{Beta}(\alpha, \beta)\)</span> which is used in <span class="math inline">\(Q_{\operatorname{HD}}\)</span>:
@@ -115,7 +115,7 @@ W_{\operatorname{THD},i} = F_{\operatorname{THD}}(i / n) - F_{\operatorname{THD}
 \]</span></p><p>There is only one thing left to do:
 we should choose an appropriate width <span class="math inline">\(D\)</span> of the beta distribution highest density interval.
 In practical application, this value should be chosen based on the given problem:
-researchers should carefully analyze business requirements,
+researchers should <em>carefully</em> analyze business requirements,
 describe desired robustness level via setting the breakdown point,
 and come up with a <span class="math inline">\(D\)</span> value that satisfies the initial requirements.</p><p>However, if we have absolutely no information about the problem, the underlying distribution,
 and the robustness requirements, we can use the following rule of thumb which gives the starting point:
@@ -125,7 +125,7 @@ In most cases, it gives an acceptable trade-off between the statistical efficien
 Also, <span class="math inline">\(Q_{\operatorname{THD-SQRT}}\)</span> has a practically reasonable computational complexity:
 <span class="math inline">\(O(\sqrt{n})\)</span> instead of <span class="math inline">\(O(n)\)</span> for <span class="math inline">\(Q_{\operatorname{HD}}\)</span>.
 For example, if <span class="math inline">\(n=10000\)</span>, we have to process only 100 sample elements and calculate 101 values of <span class="math inline">\(I_x(\alpha, \beta)\)</span>.</p><p><strong>An example</strong>
-Let&rsquo;s say we have the following sample:</p><p><span class="math display">\[x = \{ -0.565, -0.106, -0.095, 0.363, 0.404, 0.633, 1.371, 1.512, 2.018, 100000 \}.
+Let&rsquo;s say we have the following sample:</p><p><span class="math display">\[x = \{ -0.565, -0.106, -0.095, 0.363, 0.404, 0.633, 1.371, 1.512, 2.018, 100\,000 \}.
 \]</span></p><p>Nine elements were randomly taken from the standard normal distribution <span class="math inline">\(\mathcal{N}(0, 1)\)</span>.
 The last element <span class="math inline">\(x_{10}\)</span> is an outlier.
 The weight coefficient for <span class="math inline">\(Q_{\operatorname{HD}}\)</span> an <span class="math inline">\(Q_{\operatorname{THD-SQRT}}\)</span>
@@ -134,7 +134,7 @@ are presented in the following table:</p><table><thead><tr><th align=right><span
 Meanwhile, <span class="math inline">\(Q_{\operatorname{THD}}\)</span> gives a reasonable median estimation
 because it uses a weighted sum of four middle order statistics.</p><h3 id=beta-distribution-highest-density-interval-of-the-given-width>Beta distribution highest density interval of the given width</h3><p>In order to build the truncated beta distribution for <span class="math inline">\(Q_{\operatorname{THD}}\)</span>,
 we have to find the <span class="math inline">\(\operatorname{Beta}(\alpha, \beta)\)</span> highest density interval of the required width <span class="math inline">\(D\)</span>.
-Thus, for the given <span class="math inline">\(\alpha, \beta, D\)</span>, we should provide an interval <span class="math inline">\([L;R]\)</span>:</p><p><span class="math display">\[\operatorname{BetaHDI}(\alpha, \beta, D) = [L; R]
+Thus, for the given <span class="math inline">\(\alpha, \beta, D\)</span>, we should provide an interval <span class="math inline">\([L;R]\)</span>:</p><p><span class="math display">\[\operatorname{BetaHDI}(\alpha, \beta, D) = [L; R].
 \]</span></p><p>Let&rsquo;s briefly discuss how to do this.
 First of all, we should calculate the mode <span class="math inline">\(M\)</span> of <span class="math inline">\(\operatorname{Beta}(\alpha, \beta)\)</span>:</p><p><span class="math display">\[M = \operatorname{Mode}_{\alpha, \beta} =
 \begin{cases}
@@ -167,15 +167,15 @@ R = L + D \in [D; M + D].
 R \in [\max(M, D);\; \min(1, M + D)].
 \]</span></p><p>The density function of the beta distribution is also known:</p><p><span class="math display">\[f(x) = \dfrac{x^{\alpha - 1} (1 - x)^{\beta - 1}}{\textrm{B}(\alpha, \beta)}, \quad
 \textrm{B}(\alpha, \beta) = \dfrac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}.
-\]</span></p><p>It&rsquo;s easy to see that for the highest density interval <span class="math inline">\([L; R]\)</span>, the following condition is true:</p><p><span class="math display">\[f(L) = f(R)
+\]</span></p><p>It&rsquo;s easy to see that for the highest density interval <span class="math inline">\([L; R]\)</span>, the following condition is true:</p><p><span class="math display">\[f(L) = f(R).
 \]</span></p><p>The left border <span class="math inline">\(L\)</span> of this interval could be found as a solution of the following equation:</p><p><span class="math display">\[f(t) = f(t + D), \quad \textrm{where }\, t \in [\max(0, M - D);\; \min(M, 1 - D)].
 \]</span></p><p>The left side of the equation is monotonically increasing, the right side is monotonically decreasing.
 The equation has exactly one solution which could be easily found numerically using the binary search algorithm.</p><h4 id=simulation-study>Simulation study</h4><p>Let&rsquo;s perform a few numerical simulations and see how <span class="math inline">\(Q_{\operatorname{THD}}\)</span> works in action.</p><h4 id=simulation-1>Simulation 1</h4><p>Let&rsquo;s explore the distribution of estimation errors of
 <span class="math inline">\(Q_{\operatorname{HF7}}\)</span>, <span class="math inline">\(Q_{\operatorname{HD}}\)</span>, and <span class="math inline">\(Q_{\operatorname{THD-SQRT}}\)</span>.
-We consider a Contaminated normal distribution which is a mixture of two normal distributions:
+We consider a contaminated normal distribution which is a mixture of two normal distributions:
 <span class="math inline">\((1 - \varepsilon)\mathcal{N}(0, \sigma^2) + \varepsilon\mathcal{N}(0, c\sigma^2)\)</span>.
 For our simulation, we use <span class="math inline">\(\varepsilon = 0.01,\; \sigma = 1,\; c = 1\,000\,000\)</span>.
-We generate <span class="math inline">\(10\,000\)</span> samples with 7 elements randomly taken from the considered distribution.
+We generate <span class="math inline">\(10\,000\)</span> samples of size 7 randomly taken from the considered distribution.
 For each sample, we estimate the median using
 <span class="math inline">\(Q_{\operatorname{HF7}}\)</span>, <span class="math inline">\(Q_{\operatorname{HD}}\)</span>, and <span class="math inline">\(Q_{\operatorname{THD-SQRT}}\)</span>.
 Thus, we have <span class="math inline">\(10\,000\)</span> of median estimations for each estimator.
@@ -187,25 +187,25 @@ Thus, <span class="math inline">\(Q_{\operatorname{THD-SQRT}}\)</span> is much m
 We evaluate the relative efficiency of these estimators against <span class="math inline">\(Q_{\operatorname{HF7}}\)</span>
 which is a conventional baseline in such experiments.
 For the <span class="math inline">\(p^\textrm{th}\)</span> quantile, the classic relative efficiency can be calculated
-as the ratio of the estimator mean squared errors (<span class="math inline">\(\operatorname{MSE}\)</span>):</p><p><span class="math display">\[\textrm{Efficiency}(p) =
+as the ratio of the estimator mean squared errors (<span class="math inline">\(\operatorname{MSE}\)</span>):</p><p><span class="math display">\[\operatorname{Efficiency}(p) =
 \dfrac{\operatorname{MSE}(Q_{HF7}, p)}{\operatorname{MSE}(Q_{\textrm{Target}}, p)} =
-\dfrac{\operatorname{E}[(Q_{HF7}(p) - \theta(p))^2]}{\operatorname{E}[(Q_{\textrm{Target}}(p) - \theta(p))^2]}
+\dfrac{\operatorname{E}[(Q_{HF7}(p) - \theta(p))^2]}{\operatorname{E}[(Q_{\textrm{Target}}(p) - \theta(p))^2]},
 \]</span></p><p>where <span class="math inline">\(\theta(p)\)</span> is the true quantile value.
 We conduct this simulation according to the following scheme:</p><ul><li>We consider a bunch of different symmetric and asymmetric, light-tailed and heavy-tailed distributions.</li><li>We enumerate all the percentile values <span class="math inline">\(p\)</span> from 0.01 to 0.99.</li><li>For each distribution, we generate 200 random samples of the given size.
 For each sample, we estimate the <span class="math inline">\(p^\textrm{th}\)</span> percentile using
 <span class="math inline">\(Q_{\operatorname{HF7}}\)</span>, <span class="math inline">\(Q_{\operatorname{HD}}\)</span>, and <span class="math inline">\(Q_{\operatorname{THD-SQRT}}\)</span>.
 For each estimator, we calculate the arithmetic average of <span class="math inline">\((Q(p) - \theta(p))^2\)</span>.</li><li><span class="math inline">\(\operatorname{MSE}\)</span> is not a robust metric, so we wouldn&rsquo;t get reproducible output in such an experiment.
 To achieve more stable results, we repeat the previous step 101 times and take the median across
-<span class="math inline">\((Q(p) - \theta(p))^2\)</span> values for each estimator.
+<span class="math inline">\(\operatorname{E}[(Q(p) - \theta(p))^2]\)</span> values for each estimator.
 This median is our estimation of <span class="math inline">\(\operatorname{MSE}(Q, p)\)</span>.</li><li>We evaluate the relative efficiency of <span class="math inline">\(Q_{\operatorname{HD}}\)</span> and <span class="math inline">\(Q_{\operatorname{THD-SQRT}}\)</span>
 against <span class="math inline">\(Q_{\operatorname{HF7}}\)</span>.</li></ul><p>Here are the results of this simulation for <span class="math inline">\(n=5\)</span>:</p><div class=row><div class=mx-auto><a href=/posts/thdqe-hdi/img/efficiency5-light.png target=_blank class=imgldlink alt=efficiency5><picture>
 <source theme=dark srcset=/posts/thdqe-hdi/img/efficiency5-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/thdqe-hdi/img/efficiency5-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/thdqe-hdi/img/efficiency5-light.png></picture></a></div></div><br><p>As we can see, <span class="math inline">\(Q_{\operatorname{THD-SQRT}}\)</span> is not so efficient as <span class="math inline">\(Q_{\operatorname{HD}}\)</span>
 in the case of light-tailed distributions.
 However, in the case of heavy-tailed distributions,
 <span class="math inline">\(Q_{\operatorname{THD-SQRT}}\)</span> has better efficiency than <span class="math inline">\(Q_{\operatorname{HD}}\)</span>
-because estimations of <span class="math inline">\(Q_{\operatorname{HD}}\)</span> are corrupted by outliers.</p><h4 id=conclusion>Conclusion</h4><p>There is no a perfect quantile estimator that fits all kind of problems.
+because estimations of <span class="math inline">\(Q_{\operatorname{HD}}\)</span> are corrupted by outliers.</p><h4 id=conclusion>Conclusion</h4><p>There is no perfect quantile estimator that fits all kinds of problems.
 The choice of a specific estimator has to be made
-based on knowledge about the domain area and the properties of the target distributions.
+based on the knowledge of the domain area and the properties of the target distributions.
 <span class="math inline">\(Q_{\operatorname{HD}}\)</span> is a good alternative to <span class="math inline">\(Q_{\operatorname{HF7}}\)</span> in the light-tailed distributions
 because it has higher statistical efficiency.
 However, if extreme outliers may appear, estimations of <span class="math inline">\(Q_{\operatorname{HD}}\)</span> could be heavily corrupted.
@@ -214,7 +214,9 @@ a reasonable trade-off between <span class="math inline">\(Q_{\operatorname{HF7}
 In most cases, <span class="math inline">\(Q_{\operatorname{THD}}\)</span> has better efficiency than <span class="math inline">\(Q_{\operatorname{HF7}}\)</span>
 and it&rsquo;s also more resistant to outliers than <span class="math inline">\(Q_{\operatorname{HD}}\)</span>.
 By customizing the width <span class="math inline">\(D\)</span> of the highest density interval, we could set the desired breakdown point
-according to the research goals.</p><h4 id=reference-implementation>Reference implementation</h4><p>Here is an R implementation of the suggested estimator:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=n>getBetaHdi</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>width</span><span class=p>)</span> <span class=p>{</span>
+according to the research goals.
+Also, <span class="math inline">\(Q_{\operatorname{THD}}\)</span> has better computational efficiency than <span class="math inline">\(Q_{\operatorname{HD}}\)</span>
+which makes it a faster option in practical applications.</p><h4 id=reference-implementation>Reference implementation</h4><p>Here is an R implementation of the suggested estimator:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=n>getBetaHdi</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>,</span> <span class=n>width</span><span class=p>)</span> <span class=p>{</span>
   <span class=n>eps</span> <span class=o>&lt;-</span> <span class=m>1e-9</span>
   <span class=nf>if </span><span class=p>(</span><span class=n>a</span> <span class=o>&lt;</span> <span class=m>1</span> <span class=o>+</span> <span class=n>eps</span> <span class=o>&amp;</span> <span class=n>b</span> <span class=o>&lt;</span> <span class=m>1</span> <span class=o>+</span> <span class=n>eps</span><span class=p>)</span> <span class=c1># Degenerate case</span>
     <span class=nf>return</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=kc>NA</span><span class=p>,</span> <span class=kc>NA</span><span class=p>))</span>

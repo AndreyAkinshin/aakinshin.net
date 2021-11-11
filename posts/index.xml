@@ -56,7 +56,7 @@ that revealed a flaw of the &lt;a href="https://doi.org/10.1145/4372.4378">origi
 In this post, I&amp;rsquo;m going to briefly discuss this issue and the corresponding fix.&lt;/p></description></item><item><title>Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width</title><link>https://aakinshin.net/posts/thdqe-hdi/</link><pubDate>Tue, 19 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-hdi/</guid><description>&lt;p>&lt;em>This post aggregates research from &lt;a href="https://aakinshin.net/tags/research-thdqe/">several blog posts&lt;/a> that I published during this year.
 It presents an overview of
 the Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width.&lt;/em>&lt;/p>
-&lt;p>Traditional quantile estimators that are based on one or two order statistics is a common way to estimate
+&lt;p>Traditional quantile estimators that are based on one or two order statistics are a common way to estimate
 distribution quantiles based on the given samples.
 These estimators are robust, but their statistical efficiency is not always good enough.
 A more efficient alternative is the Harrell-Davis quantile estimator which uses
