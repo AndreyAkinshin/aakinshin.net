@@ -24,6 +24,8 @@ namespace DataProcessor.Publications
         public static string GetBookTitle(this PublicationEntry entry) => entry.GetProperty("booktitle");
         public static string GetIsbn(this PublicationEntry entry) => entry.GetProperty("isbn");
         public static string GetDoi(this PublicationEntry entry) => entry.GetProperty("doi");
+        public static string GetArchivePrefix(this PublicationEntry entry) => entry.GetProperty("archivePrefix");
+        public static string GetEPrint(this PublicationEntry entry) => entry.GetProperty("eprint");
 
         public static PublicationLanguage GetLanguage(this PublicationEntry entry) =>
             entry.GetProperty("language").StartsWith("ru") ? PublicationLanguage.Russian : PublicationLanguage.English;
@@ -58,6 +60,8 @@ namespace DataProcessor.Publications
             builder.Append(entry.GetTitle());
             builder.Append(Resolve(lang, "”", "»"));
             builder.Append("</span>");
+            if (entry.GetYear() != 0)
+                builder.Append(" (" + entry.GetYear() + ")");
             builder.Append(" //");
             if (entry.GetBookTitle() != "")
                 builder.Append(" " + entry.GetBookTitle() + ".");
@@ -78,7 +82,12 @@ namespace DataProcessor.Publications
             if (entry.GetPages() != "")
                 builder.Append($" {Resolve(lang, "Pp", "Стр")}.&nbsp;" + entry.GetPages() + ".");
             if (entry.GetDoi() != "")
-                builder.Append($" DOI:&nbsp;{entry.GetDoi()}");
+                builder.Append($" DOI:&nbsp;<a href='https://doi.org/{entry.GetDoi()}'>{entry.GetDoi()}</a>");
+            if (entry.GetArchivePrefix().ToLowerInvariant() == "arxiv" && entry.GetEPrint() != "")
+                builder.Append($" <a href='https://arxiv.org/abs/{entry.GetEPrint()}'>arXiv:{entry.GetEPrint()}</a>");
+            
+            if (builder.ToString().EndsWith("//"))
+                builder.Remove(builder.Length - 2, 2);
             var urls = entry.GetUrls();
             bool isVak = entry.GetKeywords().Contains("Vak");
             if (urls.Any() || isVak)
