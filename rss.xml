@@ -1,18 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 30 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Non-normal median sampling distribution</title><link>https://aakinshin.net/posts/non-normal-median-distribution/</link><pubDate>Tue, 30 Nov 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/non-normal-median-distribution/</guid><description>&lt;p>Let&amp;rsquo;s consider the classic sample median.
-If a sample is sorted and the number of sample elements is odd, the median is the middle element.
-In the case of an even number of sample elements, the median is an arithmetic average of the two middle elements.&lt;/p>
-&lt;p>Now let&amp;rsquo;s say we randomly take many samples from the same distribution and calculate the median for each of them.
-Next, we build a sampling distribution based on these median values.
-There is a well-known fact that this distribution is asymptotically normal with mean &lt;span class="math inline">\(M\)&lt;/span> and variance &lt;span class="math inline">\(1/(4nf^2(M))\)&lt;/span>,
-where &lt;span class="math inline">\(n\)&lt;/span> is the number of elements in samples,
-&lt;span class="math inline">\(f\)&lt;/span> is the probability density function of the original distribution,
-and &lt;span class="math inline">\(M\)&lt;/span> is the true median of the original distribution.&lt;/p>
-&lt;p>Unfortunately, if we try to build such sampling distributions in practice,
-we may see that they are not always normal.
-There are some corner cases that prevent us from using the normal model in general.
-If you implement general routines that analyze the median behavior,
-you should keep such cases in mind.
-In this post, we briefly talk about some of these cases.&lt;/p></description></item><item><title>Misleading kurtosis</title><link>https://aakinshin.net/posts/misleading-kurtosis/</link><pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/misleading-kurtosis/</guid><description>&lt;p>I already discussed misleadingness of such metrics like
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 16 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Misleading kurtosis</title><link>https://aakinshin.net/posts/misleading-kurtosis/</link><pubDate>Tue, 16 Nov 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/misleading-kurtosis/</guid><description>&lt;p>I already discussed misleadingness of such metrics like
 &lt;a href="https://aakinshin.net/posts/misleading-stddev/">standard deviation&lt;/a> and &lt;a href="https://aakinshin.net/posts/misleading-skewness/">skewness&lt;/a>.
 It&amp;rsquo;s time to discuss misleadingness of the measure of tailedness: kurtosis
 (which, sometimes, could be incorrectly interpreted as a measure of peakedness).
@@ -2163,4 +2149,18 @@ There is another problem: some developers are not that good as they think. I oft
 &lt;span class="k">return&lt;/span> &lt;span class="n">a&lt;/span> &lt;span class="p">+&lt;/span> &lt;span class="n">b&lt;/span>&lt;span class="p">;&lt;/span>
 &lt;span class="p">}&lt;/span>
 &lt;span class="p">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>Let’s create a &lt;a href="http://ru.wikipedia.org/wiki/Component_Object_Model">COM&lt;/a> interface for this class to make it possible to use its functionality in other areas. At the end we will see how this class is used in Delphi environment.&lt;/p></description></item></channel></rss>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Let’s create a &lt;a href="http://ru.wikipedia.org/wiki/Component_Object_Model">COM&lt;/a> interface for this class to make it possible to use its functionality in other areas. At the end we will see how this class is used in Delphi environment.&lt;/p></description></item><item><title>Non-normal median sampling distribution</title><link>https://aakinshin.net/posts/non-normal-median-distribution/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/non-normal-median-distribution/</guid><description>&lt;p>Let&amp;rsquo;s consider the classic sample median.
+If a sample is sorted and the number of sample elements is odd, the median is the middle element.
+In the case of an even number of sample elements, the median is an arithmetic average of the two middle elements.&lt;/p>
+&lt;p>Now let&amp;rsquo;s say we randomly take many samples from the same distribution and calculate the median for each of them.
+Next, we build a sampling distribution based on these median values.
+There is a well-known fact that this distribution is asymptotically normal with mean &lt;span class="math inline">\(M\)&lt;/span> and variance &lt;span class="math inline">\(1/(4nf^2(M))\)&lt;/span>,
+where &lt;span class="math inline">\(n\)&lt;/span> is the number of elements in samples,
+&lt;span class="math inline">\(f\)&lt;/span> is the probability density function of the original distribution,
+and &lt;span class="math inline">\(M\)&lt;/span> is the true median of the original distribution.&lt;/p>
+&lt;p>Unfortunately, if we try to build such sampling distributions in practice,
+we may see that they are not always normal.
+There are some corner cases that prevent us from using the normal model in general.
+If you implement general routines that analyze the median behavior,
+you should keep such cases in mind.
+In this post, we briefly talk about some of these cases.&lt;/p></description></item></channel></rss>
