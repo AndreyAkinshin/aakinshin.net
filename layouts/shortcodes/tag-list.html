@@ -3,6 +3,6 @@
 
 <ul>
 {{ range $posts.ByPublishDate }}
-  <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+  <li><a href="{{ .Permalink }}">{{ .Title }}</a>  <i>({{- partial "date-full.html" . -}})</i></li>
 {{ end }}
 </ul>

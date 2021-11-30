@@ -10,7 +10,9 @@ features:
 
 *This post aggregates research from [several blog posts]({{< reftag research-thdqe >}}) that I published during this year.
 It presents an overview of
-  the Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width.*
+  the Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width.
+A [corresponding preprint]({{< ref preprint-thdqe >}}) is available on arXiv:
+  [arXiv:2111.11776 [stat.ME]](https://arxiv.org/abs/2111.11776).*
 
 Traditional quantile estimators that are based on one or two order statistics are a common way to estimate
   distribution quantiles based on the given samples.
@@ -371,9 +373,11 @@ We conduct this simulation according to the following scheme:
 * We evaluate the relative efficiency of $Q_{\operatorname{HD}}$ and $Q_{\operatorname{THD-SQRT}}$
     against $Q_{\operatorname{HF7}}$.
 
-Here are the results of this simulation for $n=5$:
+Here are the results of this simulation for $n=\{5, 10, 20\}$:
 
 {{< imgld efficiency5 >}}
+{{< imgld efficiency10 >}}
+{{< imgld efficiency20 >}}
 
 As we can see, $Q_{\operatorname{THD-SQRT}}$ is not so efficient as $Q_{\operatorname{HD}}$
   in the case of light-tailed distributions.

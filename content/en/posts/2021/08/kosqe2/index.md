@@ -10,6 +10,10 @@ features:
 - math
 ---
 
+**Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
+  A [preprint with final results]({{< ref preprint-thdqe >}}) is available on arXiv:
+  [arXiv:2111.11776 [stat.ME]](https://arxiv.org/abs/2111.11776).**
+
 In the [previous post]({{< ref kosqe1 >}}),
   I described the idea of using quantile estimators based on k order statistics.
 Potentially, such estimators could be more robust than estimators based on all samples elements (like

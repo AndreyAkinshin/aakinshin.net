@@ -13,6 +13,10 @@ features:
 - math
 ---
 
+**Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
+  A [preprint with final results]({{< ref preprint-thdqe >}}) is available on arXiv:
+  [arXiv:2111.11776 [stat.ME]](https://arxiv.org/abs/2111.11776).**
+
 Let's say we want to
   **estimate the median**
   based on a **small sample** (3 $\leq n \leq 7$)

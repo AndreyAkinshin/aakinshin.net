@@ -10,6 +10,10 @@ features:
 - math
 ---
 
+**Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
+  A [preprint with final results]({{< ref preprint-thdqe >}}) is available on arXiv:
+  [arXiv:2111.11776 [stat.ME]](https://arxiv.org/abs/2111.11776).**
+
 In the previous two posts, I discussed the idea of quantile estimators based on k order statistics.
 A already covered the [motivation behind this idea]({{< ref kosqe1 >}})
   and the statistical efficiency of such estimators using the [extended Hyndman-Fan equations]({{< ref kosqe2 >}})

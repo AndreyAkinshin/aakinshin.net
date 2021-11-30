@@ -12,6 +12,10 @@ features:
 - math
 ---
 
+**Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
+  A [preprint with final results]({{< ref preprint-thdqe >}}) is available on arXiv:
+  [arXiv:2111.11776 [stat.ME]](https://arxiv.org/abs/2111.11776).**
+
 The Harrell-Davis quantile estimator is one of my favorite quantile estimators
   because of its [efficiency](https://en.wikipedia.org/wiki/Efficiency_(statistics)).
 It has a small mean square error which allows getting accurate estimations.

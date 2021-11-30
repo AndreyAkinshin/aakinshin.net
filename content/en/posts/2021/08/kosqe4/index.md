@@ -10,6 +10,10 @@ features:
 - math
 ---
 
+**Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
+  A [preprint with final results]({{< ref preprint-thdqe >}}) is available on arXiv:
+  [arXiv:2111.11776 [stat.ME]](https://arxiv.org/abs/2111.11776).**
+
 In the previous posts, I discussed various aspects of
   [quantile estimators based on k order statistics]({{< ref kosqe1 >}}).
 I already tried a few weight functions that aggregate the sample values to the quantile estimators
