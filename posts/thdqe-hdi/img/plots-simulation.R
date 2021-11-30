@@ -70,7 +70,7 @@ simulation1 <- function() {
   rownames(df) <- c()
   print(kable(df, col.names = c("quantile", "HF7", "HD", "THD-SQRT")))
 }
-simulation1()
+#simulation1()
 
 # Simulation 2
 simulation2 <- function() {
@@ -129,7 +129,7 @@ simulation2 <- function() {
     d.cauchy, d.pareto1_05, d.pareto1_2, d.lnorm0_1, d.lnorm0_2,
     d.lnorm0_3, d.weibull1_03, d.weibull1_05, d.frechet1, d.frechet3
     )
-  ns <- c(5) # c(3, 5, 10, 20, 40)
+  ns <- c(10, 20) # c(3, 5, 10, 20, 40)
   ps <- seq(0.01, 0.99, by = 0.01)
   input <- expand.grid(d = ds, n = ns, p = ps)
   efficienyThreshold <- 3
@@ -176,6 +176,6 @@ simulation2 <- function() {
   }
   for (n in ns)
     draw(n)
-  end.time - start.time
+  print(end.time - start.time)
 }
 simulation2()
