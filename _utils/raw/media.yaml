@@ -1,4 +1,11 @@
 media:
+  - date: 2021-12-05
+    type: podcast
+    kind: audio
+    host: Easyperf Twitter Spaces
+    title: "TwitterSpaces with Andrey Akinshin"
+    lang: en
+    url: https://www.youtube.com/watch?v=osfbZejc3i0
   - date: 2021-04-08
     type: podcast
     kind: audio
