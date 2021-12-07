@@ -65,10 +65,10 @@
   <br /><br />
 
   ![](/img/icons/math-nsc.png)
-  [Институт математики им С. Л. Соболева СО РАН](http://www.math.nsc.ru/), [Лаборатория обратных задач математической физики](http://a-server.math.nsc.ru/IM/lbrt.asp?CodLB=59) (Новосибирск)<br />
+  [Институт математики им С. Л. Соболева СО РАН](http://www.math.nsc.ru/), Лаборатория обратных задач математической физики (Новосибирск)<br />
 
   * *08/2012–06/2014:* Инженер
-  * *07/2014–12/2016:* [Научный сотрудник](http://a-server.math.nsc.ru/IM/sotrudl.asp?CodID=1573)
+  * *07/2014–12/2016:* Научный сотрудник
 
   **Научные интересы:** математическая биология, генные сети, диф. уравнения с запаздывающим аргументом, теория бифуркаций.<br />
   **Избранные стипендии и гранты**
@@ -128,7 +128,7 @@
   <a href="http://www.altstu.ru/">Алтайский Государственный Технический Университет им И. И. Ползунова</a>,<a href="http://www.altstu.ru/structure/faculty/fit/">Факультет информационных технологий</a> (Барнаул)<br />
   
   * *09/2006–06/2011:* Студент по специальности <a href="http://www.altstu.ru/entrant/speciality/0026/">230105</a> «Программное обеспечение вычислительной техники и автоматизированных систем». Красный диплом, средний балл 5.0, студент года АлтГТУ 2009, староста группы.
-  * *08/2011–12/2013:* Аспирант по специальности <a href="http://www.altstu.ru/media/f/051318_OOP_ispr.pdf">05.13.18</a> «Математическое моделирование, численные методы и комплексы программ». Диссертация <a href="http://www.sscc.ru/Diss_sov/akinshin-synopsis.pdf">«Математическое и численное моделирование искусственных регуляторных контуров генных сетей»</a> (защита в <a href="http://www.sscc.ru/">ИВМиМГ СО РАН</a>, <a href="http://www.sscc.ru/Diss_sov/D02_2013.12.17.html">декабрь 2013</a>).
+  * *08/2011–12/2013:* Аспирант по специальности <a href="https://vak.gov.by/node/1080">05.13.18</a> «Математическое моделирование, численные методы и комплексы программ». Диссертация <a href="https://dlib.rsl.ru/01005540613">«Математическое и численное моделирование искусственных регуляторных контуров генных сетей»</a> (защита в <a href="https://icmmg.nsc.ru/">ИВМиМГ СО РАН</a>, декабрь 2013).
 </section>
 
 <hr />
@@ -147,11 +147,11 @@
   <br /><br />
 
   **Microsoft**
-  * <a href="https://www.microsoft.com/learning/en-us/microsoft-certified-professional.aspx">Microsoft Certified Professional (MCP)</a>: <a href="/data/certificates/mcp.pdf">сертификат</a>
+  * Microsoft Certified Professional (MCP): <a href="/data/certificates/mcp.pdf">сертификат</a>
   * <a href="https://www.microsoft.com/learning/en-us/exam-70-483.aspx">Programming in C# Specialist (70-483)</a>: <a href="/data/certificates/ms-70-483.pdf">сертификат</a>
   <br /><br />
   
-  <b><a href="https://www.coursera.org/specialization/jhudatascience/1">Coursera: The Data Science Specialization</a></b>: <a href="https://www.coursera.org/account/accomplishments/specialization/44Y2uInkEe">сертификат (верифицируемый)</a><br />
+  <b><a href="https://www.coursera.org/specialization/jhudatascience/1">Coursera: The Data Science Specialization</a></b><br />
   1. <a href="https://www.coursera.org/course/datascitoolbox">The Data Scientist’s Toolbox</a>: <a href="https://www.coursera.org/records/DjNvsvmPV9xCbVp8">сертификат (верифицируемый)</a>
   2. <a href="https://www.coursera.org/course/rprog">R Programming</a>: <a href="https://www.coursera.org/records/HYm8MNbAKs4VF2n6">сертификат (верифицируемый)</a>
   3. <a href="https://www.coursera.org/course/getdata">Getting and Cleaning Data</a>: <a href="https://www.coursera.org/records/mdbQY6K5KGT2YLnu">сертификат (верифицируемый)</a>

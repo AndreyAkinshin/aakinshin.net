@@ -24,7 +24,7 @@ url: /ru/about
   [бывший Microsoft .NET MVP](https://mvp.microsoft.com/en-us/PublicProfile/5001348),
   серебрянный медалист [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest).
 
-Андрей имеет степень [к.ф.-м.н.](http://www.sscc.ru/Diss_sov/akinshin-synopsis.pdf),
+Андрей имеет степень [к.ф.-м.н.](https://dlib.rsl.ru/01005540613),
   занимается научным проектом в [Институте математики СО РАН](http://www.math.nsc.ru/)
   в сфере математической биологии и теории бифуркаций.
 Раньше работал постдоком в [Институте Вейцмана](http://www.weizmann.ac.il/).
