@@ -6,6 +6,14 @@ media:
     title: "TwitterSpaces with Andrey Akinshin"
     lang: en
     url: https://www.youtube.com/watch?v=osfbZejc3i0
+  - date: 2021-10-21
+    type: interview
+    kind: video
+    host: DotNext
+    title_ru: "Интервью с Андреем Акиньшиным (DotNext 2021 Moscow)"
+    title_en: "Interview with Andrey Akinshin (DotNext 2021 Moscow)"
+    lang: ru
+    url: https://www.youtube.com/watch?v=e71JcFnqTXY
   - date: 2021-04-08
     type: podcast
     kind: audio
