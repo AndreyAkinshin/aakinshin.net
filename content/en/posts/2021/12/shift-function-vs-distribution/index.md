@@ -21,7 +21,7 @@ In this post, we briefly consider examples of both approaches.
 
 ### Equal normal distributions
 
-Let's start with a simple case when both $X$ and $Y$ and the standard normal distributions:
+Let's start with a simple case when both $X$ and $Y$ are the standard normal distributions:
   $X=Y=\mathcal{N}(0,1)$.
 Since distributions are equal, they have equal quantile functions: $Q_X=Q_Y$.
 Thus $Q_Y(p)-Q_X(p)$ is zero for all $p$ values.
@@ -77,7 +77,7 @@ In this case, we could get the same insight from both plots: the difference betw
 If we build such plots based on small samples, they could provide similar ranges because of the noise.
 However, we should keep in mind that this trick doesn't work in the general case.
 
-### Unimodal distributions
+### Uniform distributions
 
 Lastly, let's build both plots for two uniform distributions:
   $X=\mathcal{U}(-1,1)$, $Y=\mathcal{U}(0,1)$.
