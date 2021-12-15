@@ -1,5 +1,5 @@
 ---
-title: Ratio function vs. shift distribution
+title: Ratio function vs. ratio distribution
 date: 2021-12-14
 tags:
 - Statistics
