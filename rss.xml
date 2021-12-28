@@ -1,4 +1,50 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 21 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Matching quantile sets using likelihood based on the binomial coefficients</title><link>https://aakinshin.net/posts/binomial-quantile-likelihood/</link><pubDate>Tue, 21 Dec 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/binomial-quantile-likelihood/</guid><description>&lt;p>Let&amp;rsquo;s say we have a distribution &lt;span class="math inline">\(X\)&lt;/span> that is given by its &lt;span class="math inline">\(s\)&lt;/span>-quantile values:&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 28 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Misleading geometric mean</title><link>https://aakinshin.net/posts/misleading-geometric-mean/</link><pubDate>Tue, 28 Dec 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/misleading-geometric-mean/</guid><description>&lt;p>There are multiple ways to compute the &amp;ldquo;average&amp;rdquo; value of an array of numbers.
+One of such ways is the &lt;em>geometric mean&lt;/em>.
+For a sample &lt;span class="math inline">\(x = \{ x_1, x_2, \ldots, x_n \}\)&lt;/span>, the geometric means is defined as follows:&lt;/p>
+&lt;p>&lt;span class="math display">\[\operatorname{GM}(x) = \sqrt[n]{x_1 x_2 \ldots x_n}
+\]&lt;/span>&lt;/p>
+&lt;p>This approach is widely recommended for some specific tasks.
+Let&amp;rsquo;s say we want to compare the performance of two machines &lt;span class="math inline">\(M_x\)&lt;/span> and &lt;span class="math inline">\(M_y\)&lt;/span>.
+In order to do this, we design a set of benchmarks &lt;span class="math inline">\(b = \{b_1, b_2, \ldots, b_n \}\)&lt;/span>
+and obtain two sets of measurements
+&lt;span class="math inline">\(x = \{ x_1, x_2, \ldots, x_n \}\)&lt;/span> and &lt;span class="math inline">\(y = \{ y_1, y_2, \ldots, y_n \}\)&lt;/span>.
+Once we have these two samples, we may have a desire to express the difference
+between two machines as a single number and get a conclusion like
+&amp;ldquo;Machine &lt;span class="math inline">\(M_y\)&lt;/span> works two times faster than &lt;span class="math inline">\(M_x\)&lt;/span>.&amp;rdquo;
+I think that this approach is flawed because such a difference couldn&amp;rsquo;t be expressed as a single number:
+the result heavily depends on the workloads that we analyze.
+For example, imagine that &lt;span class="math inline">\(M_x\)&lt;/span> is a machine with HDD and fast CPU, &lt;span class="math inline">\(M_y\)&lt;/span> is a machine with SSD and slow CPU.
+In this case, &lt;span class="math inline">\(M_x\)&lt;/span> could be faster on CPU-bound workloads while &lt;span class="math inline">\(M_y\)&lt;/span> could be faster on disk-bound workloads.
+I really like this summary from
+&lt;a href="https://www.eecs.umich.edu/techreports/cse/95/CSE-TR-231-95.pdf">&amp;ldquo;Notes on Calculating Computer Performance&amp;rdquo;&lt;/a>
+by Bruce Jacob and Trevor Mudge (in the same paper, the authors criticize the approach with the geometric mean):&lt;/p>
+&lt;blockquote>
+&lt;p>Performance is therefore not a single number, but really a collection of implications.
+It is nothing more or less than the measure of
+how much time &lt;em>we&lt;/em> save running &lt;em>our&lt;/em> tests on the machines in question.
+If someone else has similar needs to ours, our performance numbers will be useful to them.
+However, two people with different sets of criteria will likely walk away
+with two completely different performance numbers for the same machine.&lt;/p>
+&lt;/blockquote>
+&lt;p>However, some other authors (e.g., &lt;a href="https://doi.org/10.1145/5666.5673">&amp;ldquo;How not to lie with statistics: the correct way to summarize benchmark results&amp;rdquo;&lt;/a>)
+actually recommend using the geometric mean to get such a number
+that describes the performance ratio of &lt;span class="math inline">\(M_x\)&lt;/span> and &lt;span class="math inline">\(M_y\)&lt;/span>.
+I have to admit that the geometric mean &lt;em>could&lt;/em> provide a reasonable result in &lt;em>some simple cases&lt;/em>.
+Indeed, on normalized numbers, it works much better than the arithmetic mean
+(that provides meaningless result) because of its nice &lt;a href="https://en.wikipedia.org/wiki/Geometric_mean#Application_to_normalized_values">property&lt;/a>:
+&lt;span class="math inline">\(\operatorname{GM}(x_i/y_i) = \operatorname{GM}(x_i) / \operatorname{GM}(y_i)\)&lt;/span>.
+However, it doesn&amp;rsquo;t work properly in the general case.
+Firstly, the desire to express the difference between two machines is vicious:
+the result heavily depends on the chosen workloads.
+Secondly, the performance of a single benchmark &lt;span class="math inline">\(b_i\)&lt;/span> couldn&amp;rsquo;t be described as a single number &lt;span class="math inline">\(x_i\)&lt;/span>:
+we should consider the whole performance distributions.
+In order to describe the difference between two distributions,
+we could consider the &lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/">shift and ration functions&lt;/a>
+(that work much better than the &lt;a href="https://aakinshin.net/posts/shift-function-vs-distribution/">shift&lt;/a> and
+&lt;a href="https://aakinshin.net/posts/ratio-function-vs-distribution/">ratio&lt;/a> distributions).&lt;/p>
+&lt;p>Even if you consider a pretty homogenous set of benchmarks and all the distributions are pretty narrow,
+the geometric mean has severe drawbacks that you should keep in mind.
+In this post, I briefly cover some of these drawbacks and highlight problems that you may have if you use this metric.&lt;/p></description></item><item><title>Matching quantile sets using likelihood based on the binomial coefficients</title><link>https://aakinshin.net/posts/binomial-quantile-likelihood/</link><pubDate>Tue, 21 Dec 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/binomial-quantile-likelihood/</guid><description>&lt;p>Let&amp;rsquo;s say we have a distribution &lt;span class="math inline">\(X\)&lt;/span> that is given by its &lt;span class="math inline">\(s\)&lt;/span>-quantile values:&lt;/p>
 &lt;p>&lt;span class="math display">\[q_{X_1} = Q_X(p_1),\; q_{X_2} = Q_X(p_2),\; \ldots,\; q_{X_{s-1}} = Q_X(p_{s-1})
 \]&lt;/span>&lt;/p>
 &lt;p>where &lt;span class="math inline">\(Q_X\)&lt;/span> is the quantile function of &lt;span class="math inline">\(X\)&lt;/span>, &lt;span class="math inline">\(p_j = j / s\)&lt;/span>.&lt;/p>
