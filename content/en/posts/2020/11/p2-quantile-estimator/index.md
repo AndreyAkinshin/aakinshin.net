@@ -6,12 +6,14 @@ tags:
 - Statistics
 - Quantiles
 - Performance Telemetry
+- research-p2qe
 features:
 - math
 ---
 
 **Update: the discussed paper contains a
-  [flaw that may lead to incorrect calculations]({{< ref p2-quantile-estimator-rounding-issue >}}).**
+  [flaw that may lead to incorrect calculations]({{< ref p2-quantile-estimator-rounding-issue >}}).
+Also, the [initialization strategy could be improved]({{< ref p2-quantile-estimator-initialization >}}).**
 
 Imagine that you are implementing performance telemetry in your application.
 There is an operation that is executed millions of times, and you want to get its "average" duration.

@@ -6,6 +6,7 @@ tags:
 - Statistics
 - Quantile
 - Moving Quantile
+- research-p2qe
 features:
 - math
 ---

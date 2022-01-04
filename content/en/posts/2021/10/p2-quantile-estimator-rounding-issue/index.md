@@ -3,9 +3,12 @@ title: P² quantile estimator rounding issue
 date: 2021-10-26
 tags:
 - Statistics
+- research-p2qe
 features:
 - math
 ---
+
+**Update: The [initialization strategy could be improved]({{< ref p2-quantile-estimator-initialization >}}).**
 
 The P² quantile estimator is a sequential estimator that uses $O(1)$ memory.
 Thus, for the given sequence of numbers, it allows estimating quantiles without storing values.
