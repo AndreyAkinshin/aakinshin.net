@@ -1,4 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 28 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Misleading geometric mean</title><link>https://aakinshin.net/posts/misleading-geometric-mean/</link><pubDate>Tue, 28 Dec 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/misleading-geometric-mean/</guid><description>&lt;p>There are multiple ways to compute the &amp;ldquo;average&amp;rdquo; value of an array of numbers.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 04 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>P² quantile estimator initialization strategy</title><link>https://aakinshin.net/posts/p2-quantile-estimator-initialization/</link><pubDate>Tue, 04 Jan 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-initialization/</guid><description>&lt;p>The P² quantile estimator is a sequential estimator that uses &lt;span class="math inline">\(O(1)\)&lt;/span> memory.
+Thus, for the given sequence of numbers, it allows estimating quantiles without storing values.
+I have already written a few blog posts about it:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">P² quantile estimator: estimating the median without storing values&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/">P² quantile estimator rounding issue&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>I tried this estimator in various contexts, and it shows pretty decent results.
+However, recently I stumbled on a corner case:
+if we want to estimate extreme quantile (&lt;span class="math inline">\(p &lt; 0.1\)&lt;/span> or &lt;span class="math inline">\(p > 0.9\)&lt;/span>),
+this estimator provides inaccurate results on small number streams (&lt;span class="math inline">\(n &lt; 10\)&lt;/span>).
+While it looks like a minor issue, it would be nice to fix it.
+In this post, we briefly discuss choosing a better initialization strategy to workaround this problem.&lt;/p></description></item><item><title>Misleading geometric mean</title><link>https://aakinshin.net/posts/misleading-geometric-mean/</link><pubDate>Tue, 28 Dec 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/misleading-geometric-mean/</guid><description>&lt;p>There are multiple ways to compute the &amp;ldquo;average&amp;rdquo; value of an array of numbers.
 One of such ways is the &lt;em>geometric mean&lt;/em>.
 For a sample &lt;span class="math inline">\(x = \{ x_1, x_2, \ldots, x_n \}\)&lt;/span>, the geometric means is defined as follows:&lt;/p>
 &lt;p>&lt;span class="math display">\[\operatorname{GM}(x) = \sqrt[n]{x_1 x_2 \ldots x_n}
@@ -181,7 +193,8 @@ I briefly explain the basic idea of the underlying data structure,
 and share a copy-pastable C# implementation.
 At the end of the post, I discuss some important implementation decisions
 that are unclear from the original paper,
-but heavily affect the estimator accuracy.&lt;/p></description></item><item><title>P² quantile estimator rounding issue</title><link>https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/</link><pubDate>Tue, 26 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/</guid><description>&lt;p>The P² quantile estimator is a sequential estimator that uses &lt;span class="math inline">\(O(1)\)&lt;/span> memory.
+but heavily affect the estimator accuracy.&lt;/p></description></item><item><title>P² quantile estimator rounding issue</title><link>https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/</link><pubDate>Tue, 26 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/</guid><description>&lt;p>&lt;strong>Update: The &lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-initialization/">initialization strategy could be improved&lt;/a>.&lt;/strong>&lt;/p>
+&lt;p>The P² quantile estimator is a sequential estimator that uses &lt;span class="math inline">\(O(1)\)&lt;/span> memory.
 Thus, for the given sequence of numbers, it allows estimating quantiles without storing values.
 I already wrote &lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">a blog post&lt;/a> about this approach and
 &lt;a href="https://github.com/AndreyAkinshin/perfolizer/commit/9e9ff80a4d097fe4c0814ca51c7fbe942763e308">added&lt;/a>
@@ -1203,7 +1216,8 @@ src="https://aakinshin.net/posts/qad/img/modal5-light.png">
 &lt;/div>
 &lt;/div>
 &lt;br /></description></item><item><title>P² quantile estimator: estimating the median without storing values</title><link>https://aakinshin.net/posts/p2-quantile-estimator/</link><pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator/</guid><description>&lt;p>&lt;strong>Update: the discussed paper contains a
-&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/">flaw that may lead to incorrect calculations&lt;/a>.&lt;/strong>&lt;/p>
+&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/">flaw that may lead to incorrect calculations&lt;/a>.
+Also, the &lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-initialization/">initialization strategy could be improved&lt;/a>.&lt;/strong>&lt;/p>
 &lt;p>Imagine that you are implementing performance telemetry in your application.
 There is an operation that is executed millions of times, and you want to get its &amp;ldquo;average&amp;rdquo; duration.
 It&amp;rsquo;s not a good idea to use the arithmetic mean because the obtained value can be easily spoiled by outliers.

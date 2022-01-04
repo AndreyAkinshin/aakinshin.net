@@ -1,0 +1,290 @@
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Statistics,Research: P² quantile estimator"><title>P² quantile estimator initialization strategy | Andrey Akinshin</title><meta name=description content="The P² quantile estimator is a sequential estimator that uses \(O(1)\) memory. Thus, for the given sequence of numbers, it allows estimating quantiles with..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.882998740b9c4c24677576b997bde5a487246e2e3bd72128a0e922eaa59db029.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.50da8736f05b35aac9691de67fe993cbe01b7d88fcf0cb682c3a8f39933fe4a3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.ae812fc71daf5160d927febda5a991cee6c361345e3f685d3736931ed7537986.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-posts href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-pdnb href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>P² quantile estimator initialization strategy</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2022-01-04>January 4, 2022</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<a href=https://aakinshin.net/tags/research-p2qe/ class="badge badge-info">Research: P² quantile estimator</a></span><br><br><p>The P² quantile estimator is a sequential estimator that uses <span class="math inline">\(O(1)\)</span> memory.
+Thus, for the given sequence of numbers, it allows estimating quantiles without storing values.
+I have already written a few blog posts about it:</p><ul><li><a href=https://aakinshin.net/posts/p2-quantile-estimator/>P² quantile estimator: estimating the median without storing values</a></li><li><a href=https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/>P² quantile estimator rounding issue</a></li></ul><p>I tried this estimator in various contexts, and it shows pretty decent results.
+However, recently I stumbled on a corner case:
+if we want to estimate extreme quantile (<span class="math inline">\(p < 0.1\)</span> or <span class="math inline">\(p > 0.9\)</span>),
+this estimator provides inaccurate results on small number streams (<span class="math inline">\(n < 10\)</span>).
+While it looks like a minor issue, it would be nice to fix it.
+In this post, we briefly discuss choosing a better initialization strategy to workaround this problem.</p><h3 id=the-problem>The problem</h3><p>I assume that you have already read the <a href=https://aakinshin.net/posts/p2-quantile-estimator/>original post</a>
+and understand the approach behind P² quantile estimator.
+Once we observed the first five elements, the original paper <a href=#Jain1985>[Jain1985]</a> suggests
+using the following initial values:</p><p><span class="math display">\[\left\{
+\begin{array}{lll}
+n'_0 = 0, & n_0 = 0, & q_0 = x_{(0)},\\
+n'_1 = 2p, & n_1 = 1, & q_1 = x_{(1)},\\
+n'_2 = 4p, & n_2 = 2, & q_2 = x_{(2)},\\
+n'_3 = 2 + 2p, & n_3 = 3, & q_3 = x_{(3)},\\
+n'_4 = 4, & n_4 = 4, & q_4 = x_{(4)}.
+\end{array}
+\right.
+\]</span></p><p>Thus, the initial value of <span class="math inline">\(q_2\)</span> (which holds our current estimation of the target quantile)
+is the sample median of the first five elements.
+It&rsquo;s a good estimation for <span class="math inline">\(p=0.5\)</span>.
+Unfortunately, in the extreme cases (<span class="math inline">\(p < 0.1\)</span> or <span class="math inline">\(p > 0.9\)</span>) such an estimation is not accurate.
+This inaccuracy is not noticeable after processing a huge number of stream elements (e.g., <span class="math inline">\(n > 100\)</span>),
+but it leads to confusing results on small samples (<span class="math inline">\(n < 10\)</span>).</p><h3 id=the-solution>The solution</h3><p>Since we know the desired marker positions <span class="math inline">\(n'_i\)</span>, let&rsquo;s choose our initial marker parameters
+according to these positions:</p><p><span class="math display">\[\left\{
+\begin{array}{lll}
+n'_0 = 0, & n_0 = \lfloor n'_0 \rceil, & q_0 = x_{(n_0)},\\
+n'_1 = 2p, & n_1 = \lfloor n'_1 \rceil, & q_1 = x_{(n_1)},\\
+n'_2 = 4p, & n_2 = \lfloor n'_2 \rceil, & q_2 = x_{(n_2)},\\
+n'_3 = 2 + 2p, & n_3 = \lfloor n'_3 \rceil, & q_3 = x_{(n_3)},\\
+n'_4 = 4, & n_4 = \lfloor n'_4 \rceil, & q_4 = x_{(n_4)},
+\end{array}
+\right.
+\]</span></p><p>where <span class="math inline">\(\lfloor n'_i \rceil\)</span> is the rounding operator.</p><h3 id=new-reference-implementation>New Reference Implementation</h3><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>class</span> <span class=nc>P2QuantileEstimator</span>
+<span class=p>{</span>
+    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span> <span class=n>p</span><span class=p>;</span>
+    <span class=k>private</span> <span class=k>readonly</span> <span class=n>InitializationStrategy</span> <span class=n>strategy</span><span class=p>;</span>
+    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>n</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=m>5</span><span class=p>];</span>
+    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>ns</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span>
+    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span>
+
+    <span class=k>public</span> <span class=kt>int</span> <span class=n>Count</span> <span class=p>{</span> <span class=k>get</span><span class=p>;</span> <span class=k>private</span> <span class=k>set</span><span class=p>;</span> <span class=p>}</span>
+
+    <span class=k>public</span> <span class=k>enum</span> <span class=n>InitializationStrategy</span>
+    <span class=p>{</span>
+        <span class=n>Classic</span><span class=p>,</span>
+        <span class=n>Adaptive</span>
+    <span class=p>}</span>
+
+    <span class=k>public</span> <span class=n>P2QuantileEstimator</span><span class=p>(</span><span class=kt>double</span> <span class=n>probability</span><span class=p>,</span> <span class=n>InitializationStrategy</span> <span class=n>strategy</span> <span class=p>=</span> <span class=n>InitializationStrategy</span><span class=p>.</span><span class=n>Classic</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=n>p</span> <span class=p>=</span> <span class=n>probability</span><span class=p>;</span>
+        <span class=k>this</span><span class=p>.</span><span class=n>strategy</span> <span class=p>=</span> <span class=n>strategy</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=k>public</span> <span class=k>void</span> <span class=n>Add</span><span class=p>(</span><span class=kt>double</span> <span class=k>value</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>Count</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>)</span>
+        <span class=p>{</span>
+            <span class=n>q</span><span class=p>[</span><span class=n>Count</span><span class=p>++]</span> <span class=p>=</span> <span class=k>value</span><span class=p>;</span>
+            <span class=k>if</span> <span class=p>(</span><span class=n>Count</span> <span class=p>==</span> <span class=m>5</span><span class=p>)</span>
+            <span class=p>{</span>
+                <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>);</span>
+
+                <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+                    <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>i</span><span class=p>;</span>
+
+                <span class=k>if</span> <span class=p>(</span><span class=n>strategy</span> <span class=p>==</span> <span class=n>InitializationStrategy</span><span class=p>.</span><span class=n>Adaptive</span><span class=p>)</span>
+                <span class=p>{</span>
+                    <span class=n>Array</span><span class=p>.</span><span class=n>Copy</span><span class=p>(</span><span class=n>q</span><span class=p>,</span> <span class=n>ns</span><span class=p>,</span> <span class=m>5</span><span class=p>);</span>
+                    <span class=n>n</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Round</span><span class=p>(</span><span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>);</span>
+                    <span class=n>n</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Round</span><span class=p>(</span><span class=m>4</span> <span class=p>*</span> <span class=n>p</span><span class=p>);</span>
+                    <span class=n>n</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Round</span><span class=p>(</span><span class=m>2</span> <span class=p>+</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>);</span>
+                    <span class=n>q</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=n>ns</span><span class=p>[</span><span class=n>n</span><span class=p>[</span><span class=m>1</span><span class=p>]];</span>
+                    <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=n>ns</span><span class=p>[</span><span class=n>n</span><span class=p>[</span><span class=m>2</span><span class=p>]];</span>
+                    <span class=n>q</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=n>ns</span><span class=p>[</span><span class=n>n</span><span class=p>[</span><span class=m>3</span><span class=p>]];</span>
+                <span class=p>}</span>
+
+                <span class=n>ns</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+                <span class=n>ns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+                <span class=n>ns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=m>4</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+                <span class=n>ns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=m>2</span> <span class=p>+</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+                <span class=n>ns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=m>4</span><span class=p>;</span>
+            <span class=p>}</span>
+
+            <span class=k>return</span><span class=p>;</span>
+        <span class=p>}</span>
+
+        <span class=kt>int</span> <span class=n>k</span><span class=p>;</span>
+        <span class=k>if</span> <span class=p>(</span><span class=k>value</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>])</span>
+        <span class=p>{</span>
+            <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=k>value</span><span class=p>;</span>
+            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=k>value</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>1</span><span class=p>])</span>
+            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=k>value</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>])</span>
+            <span class=n>k</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
+        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=k>value</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>3</span><span class=p>])</span>
+            <span class=n>k</span> <span class=p>=</span> <span class=m>2</span><span class=p>;</span>
+        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=k>value</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>4</span><span class=p>])</span>
+            <span class=n>k</span> <span class=p>=</span> <span class=m>3</span><span class=p>;</span>
+        <span class=k>else</span>
+        <span class=p>{</span>
+            <span class=n>q</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=k>value</span><span class=p>;</span>
+            <span class=n>k</span> <span class=p>=</span> <span class=m>3</span><span class=p>;</span>
+        <span class=p>}</span>
+
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=n>k</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+            <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]++;</span>
+        <span class=n>ns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=n>Count</span> <span class=p>*</span> <span class=n>p</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+        <span class=n>ns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=n>Count</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+        <span class=n>ns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=n>Count</span> <span class=p>*</span> <span class=p>(</span><span class=m>1</span> <span class=p>+</span> <span class=n>p</span><span class=p>)</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+        <span class=n>ns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=n>Count</span><span class=p>;</span>
+
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;=</span> <span class=m>3</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+        <span class=p>{</span>
+            <span class=kt>double</span> <span class=n>d</span> <span class=p>=</span> <span class=n>ns</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+            <span class=k>if</span> <span class=p>(</span><span class=n>d</span> <span class=p>&gt;=</span> <span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&gt;</span> <span class=m>1</span> <span class=p>||</span> <span class=n>d</span> <span class=p>&lt;=</span> <span class=p>-</span><span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&lt;</span> <span class=p>-</span><span class=m>1</span><span class=p>)</span>
+            <span class=p>{</span>
+                <span class=kt>int</span> <span class=n>dInt</span> <span class=p>=</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sign</span><span class=p>(</span><span class=n>d</span><span class=p>);</span>
+                <span class=kt>double</span> <span class=n>qs</span> <span class=p>=</span> <span class=n>Parabolic</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
+                <span class=k>if</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>&lt;</span> <span class=n>qs</span> <span class=p>&amp;&amp;</span> <span class=n>qs</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>])</span>
+                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>qs</span><span class=p>;</span>
+                <span class=k>else</span>
+                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>Linear</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
+                <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+=</span> <span class=n>dInt</span><span class=p>;</span>
+            <span class=p>}</span>
+        <span class=p>}</span>
+
+        <span class=n>Count</span><span class=p>++;</span>
+    <span class=p>}</span>
+
+    <span class=k>private</span> <span class=kt>double</span> <span class=n>Parabolic</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>double</span> <span class=n>d</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>*</span> <span class=p>(</span>
+            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>+</span>
+            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span>
+        <span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=k>private</span> <span class=kt>double</span> <span class=n>Linear</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>int</span> <span class=n>d</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]);</span>
+    <span class=p>}</span>
+
+    <span class=k>public</span> <span class=kt>double</span> <span class=n>GetQuantile</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>Count</span> <span class=p>==</span> <span class=m>0</span><span class=p>)</span>
+            <span class=k>throw</span> <span class=k>new</span> <span class=n>InvalidOperationException</span><span class=p>(</span><span class=s>&#34;Sequence contains no elements&#34;</span><span class=p>);</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>Count</span> <span class=p>&lt;=</span> <span class=m>5</span><span class=p>)</span>
+        <span class=p>{</span>
+            <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=n>Count</span><span class=p>);</span>
+            <span class=kt>int</span> <span class=n>index</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Round</span><span class=p>((</span><span class=n>Count</span> <span class=p>-</span> <span class=m>1</span><span class=p>)</span> <span class=p>*</span> <span class=n>p</span><span class=p>);</span>
+            <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
+        <span class=p>}</span>
+
+        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>];</span>
+    <span class=p>}</span>
+
+    <span class=k>public</span> <span class=k>void</span> <span class=n>Clear</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=n>Count</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><h3 id=simulation-study>Simulation study</h3><p>Now let&rsquo;s perform the following experiment.
+We enumerate different distributions (the standard uniform, the standard normal, the Gumbel),
+different sample sizes (6, 7, 8),
+and different quantile probabilities (0.05, 0.1, 0.2, 0.8, 0.9, 0.95).
+For each combination of the input parameters, we perform 10000 simulations of the sample experiment:
+generate a random sample of the given size from the given distribution
+and estimate the given quantile using the classic initialization strategy and
+the new adaptive initialization strategy.
+As a baseline, we use the traditional Hyndman-Fan Type 7 quantile estimator.
+The initialization strategy that gives a better estimation (compared to the baseline)
+is the &ldquo;winner&rdquo; of the corresponding experiment.
+For each combination of the input parameters, we calculate the percentage of wins for each strategy.
+Here is the source code of this simulation:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>var</span> <span class=n>random</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Random</span><span class=p>(</span><span class=m>1729</span><span class=p>);</span>
+
+<span class=kt>var</span> <span class=n>distributions</span> <span class=p>=</span> <span class=k>new</span> <span class=n>IContinuousDistribution</span><span class=p>[]</span>
+<span class=p>{</span>
+    <span class=k>new</span> <span class=n>UniformDistribution</span><span class=p>(</span><span class=m>0</span><span class=p>,</span> <span class=m>1</span><span class=p>),</span>
+    <span class=k>new</span> <span class=n>NormalDistribution</span><span class=p>(</span><span class=m>0</span><span class=p>,</span> <span class=m>1</span><span class=p>),</span>
+    <span class=k>new</span> <span class=n>GumbelDistribution</span><span class=p>()</span>
+<span class=p>};</span>
+
+<span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;                 Classic Adaptive&#34;</span><span class=p>);</span>
+<span class=k>foreach</span> <span class=p>(</span><span class=kt>int</span> <span class=n>n</span> <span class=k>in</span> <span class=k>new</span><span class=p>[]</span> <span class=p>{</span> <span class=m>6</span><span class=p>,</span> <span class=m>7</span><span class=p>,</span> <span class=m>8</span> <span class=p>})</span>
+<span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>probability</span> <span class=k>in</span> <span class=k>new</span> <span class=n>Probability</span><span class=p>[]</span> <span class=p>{</span> <span class=m>0.05</span><span class=p>,</span> <span class=m>0.1</span><span class=p>,</span> <span class=m>0.2</span><span class=p>,</span> <span class=m>0.8</span><span class=p>,</span> <span class=m>0.9</span><span class=p>,</span> <span class=m>0.95</span> <span class=p>})</span>
+<span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>distribution</span> <span class=k>in</span> <span class=n>distributions</span><span class=p>)</span>
+<span class=p>{</span>
+    <span class=kt>var</span> <span class=n>randomGenerator</span> <span class=p>=</span> <span class=n>distribution</span><span class=p>.</span><span class=n>Random</span><span class=p>(</span><span class=n>random</span><span class=p>);</span>
+    <span class=k>const</span> <span class=kt>int</span> <span class=n>totalIterations</span> <span class=p>=</span> <span class=m>10</span><span class=n>_000</span><span class=p>;</span>
+    <span class=kt>int</span> <span class=n>classicIsWinner</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>iteration</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>iteration</span> <span class=p>&lt;</span> <span class=n>totalIterations</span><span class=p>;</span> <span class=n>iteration</span><span class=p>++)</span>
+    <span class=p>{</span>
+        <span class=kt>var</span> <span class=n>p2ClassicEstimator</span> <span class=p>=</span> <span class=k>new</span> <span class=n>P2QuantileEstimator</span><span class=p>(</span><span class=n>probability</span><span class=p>,</span> <span class=n>P2QuantileEstimator</span><span class=p>.</span><span class=n>InitializationStrategy</span><span class=p>.</span><span class=n>Classic</span><span class=p>);</span>
+        <span class=kt>var</span> <span class=n>p2AdaptiveEstimator</span> <span class=p>=</span> <span class=k>new</span> <span class=n>P2QuantileEstimator</span><span class=p>(</span><span class=n>probability</span><span class=p>,</span> <span class=n>P2QuantileEstimator</span><span class=p>.</span><span class=n>InitializationStrategy</span><span class=p>.</span><span class=n>Adaptive</span><span class=p>);</span>
+        <span class=kt>var</span> <span class=n>values</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=kt>double</span><span class=p>&gt;();</span>
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>n</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+        <span class=p>{</span>
+            <span class=kt>double</span> <span class=n>x</span> <span class=p>=</span> <span class=n>randomGenerator</span><span class=p>.</span><span class=n>Next</span><span class=p>();</span>
+            <span class=n>values</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>x</span><span class=p>);</span>
+            <span class=n>p2ClassicEstimator</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>x</span><span class=p>);</span>
+            <span class=n>p2AdaptiveEstimator</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>x</span><span class=p>);</span>
+        <span class=p>}</span>
+
+        <span class=kt>double</span> <span class=n>simpleEstimation</span> <span class=p>=</span> <span class=n>SimpleQuantileEstimator</span><span class=p>.</span><span class=n>Instance</span><span class=p>.</span><span class=n>GetQuantile</span><span class=p>(</span><span class=n>values</span><span class=p>,</span> <span class=n>probability</span><span class=p>);</span>
+        <span class=kt>double</span> <span class=n>p2ClassicEstimation</span> <span class=p>=</span> <span class=n>p2ClassicEstimator</span><span class=p>.</span><span class=n>GetQuantile</span><span class=p>();</span>
+        <span class=kt>double</span> <span class=n>p2AdaptiveEstimation</span> <span class=p>=</span> <span class=n>p2AdaptiveEstimator</span><span class=p>.</span><span class=n>GetQuantile</span><span class=p>();</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>Math</span><span class=p>.</span><span class=n>Abs</span><span class=p>(</span><span class=n>p2ClassicEstimation</span> <span class=p>-</span> <span class=n>simpleEstimation</span><span class=p>)</span> <span class=p>&lt;</span> <span class=n>Math</span><span class=p>.</span><span class=n>Abs</span><span class=p>(</span><span class=n>p2AdaptiveEstimation</span> <span class=p>-</span> <span class=n>simpleEstimation</span><span class=p>))</span>
+            <span class=n>classicIsWinner</span><span class=p>++;</span>
+    <span class=p>}</span>
+
+    <span class=kt>int</span> <span class=n>adaptiveIsWinner</span> <span class=p>=</span> <span class=n>totalIterations</span> <span class=p>-</span> <span class=n>classicIsWinner</span><span class=p>;</span>
+    
+    <span class=kt>string</span> <span class=n>title</span> <span class=p>=</span>  <span class=n>distribution</span><span class=p>.</span><span class=n>GetType</span><span class=p>().</span><span class=n>Name</span><span class=p>.</span><span class=n>Replace</span><span class=p>(</span><span class=s>&#34;Distribution&#34;</span><span class=p>,</span> <span class=s>&#34;&#34;</span><span class=p>).</span><span class=n>PadRight</span><span class=p>(</span><span class=m>7</span><span class=p>)</span> <span class=p>+</span> <span class=s>&#34; &#34;</span> <span class=p>+</span> 
+                    <span class=s>&#34;P&#34;</span> <span class=p>+</span> <span class=p>(</span><span class=n>probability</span> <span class=p>*</span> <span class=m>100</span><span class=p>).</span><span class=n>ToString</span><span class=p>().</span><span class=n>PadRight</span><span class=p>(</span><span class=m>2</span><span class=p>)</span> <span class=p>+</span> <span class=s>&#34; &#34;</span> <span class=p>+</span> 
+                    <span class=s>&#34;N&#34;</span> <span class=p>+</span> <span class=n>n</span><span class=p>;</span>
+    <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>$&#34;{title,-15}: {classicIsWinner / 100.0,6:N2}% {(adaptiveIsWinner / 100.0),6:N2}%&#34;</span><span class=p>);</span>
+<span class=p>}</span>
+</code></pre></div><p>And here are the results:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>                 Classic Adaptive
+Uniform P5  N6 :   1.31%  98.69%
+Normal  P5  N6 :   1.86%  98.14%
+Gumbel  P5  N6 :   1.63%  98.37%
+Uniform P10 N6 :   2.61%  97.39%
+Normal  P10 N6 :   3.60%  96.40%
+Gumbel  P10 N6 :   3.27%  96.73%
+Uniform P20 N6 :  12.05%  87.95%
+Normal  P20 N6 :  14.20%  85.80%
+Gumbel  P20 N6 :  13.16%  86.84%
+Uniform P80 N6 :   0.96%  99.04%
+Normal  P80 N6 :   1.45%  98.55%
+Gumbel  P80 N6 :   2.58%  97.42%
+Uniform P90 N6 :   0.00% 100.00%
+Normal  P90 N6 :   0.00% 100.00%
+Gumbel  P90 N6 :   0.00% 100.00%
+Uniform P95 N6 :   0.00% 100.00%
+Normal  P95 N6 :   0.00% 100.00%
+Gumbel  P95 N6 :   0.00% 100.00%
+Uniform P5  N7 :   4.38%  95.62%
+Normal  P5  N7 :   5.48%  94.52%
+Gumbel  P5  N7 :   5.34%  94.66%
+Uniform P10 N7 :  16.04%  83.96%
+Normal  P10 N7 :  21.63%  78.37%
+Gumbel  P10 N7 :  18.08%  81.92%
+Uniform P20 N7 :  24.15%  75.85%
+Normal  P20 N7 :  27.10%  72.90%
+Gumbel  P20 N7 :  26.10%  73.90%
+Uniform P80 N7 :  10.73%  89.27%
+Normal  P80 N7 :  13.36%  86.64%
+Gumbel  P80 N7 :  13.17%  86.83%
+Uniform P90 N7 :  10.07%  89.93%
+Normal  P90 N7 :  14.74%  85.26%
+Gumbel  P90 N7 :  17.34%  82.66%
+Uniform P95 N7 :   1.26%  98.74%
+Normal  P95 N7 :   1.58%  98.42%
+Gumbel  P95 N7 :   1.89%  98.11%
+Uniform P5  N8 :   7.54%  92.46%
+Normal  P5  N8 :   9.58%  90.42%
+Gumbel  P5  N8 :   8.44%  91.56%
+Uniform P10 N8 :  23.83%  76.17%
+Normal  P10 N8 :  32.72%  67.28%
+Gumbel  P10 N8 :  28.00%  72.00%
+Uniform P20 N8 :  35.11%  64.89%
+Normal  P20 N8 :  39.02%  60.98%
+Gumbel  P20 N8 :  37.02%  62.98%
+Uniform P80 N8 :  24.83%  75.17%
+Normal  P80 N8 :  28.79%  71.21%
+Gumbel  P80 N8 :  29.60%  70.40%
+Uniform P90 N8 :  18.42%  81.58%
+Normal  P90 N8 :  24.63%  75.37%
+Gumbel  P90 N8 :  28.92%  71.08%
+Uniform P95 N8 :   4.25%  95.75%
+Normal  P95 N8 :   4.98%  95.02%
+Gumbel  P95 N8 :   5.51%  94.49%
+</code></pre></div><p>As we can see, the new &ldquo;adaptive&rdquo; strategy shows much better results than the classic one.</p><h3 id=references>References</h3><ul><li><b id=Jain1985>[Jain1985]</b><br>Jain, Raj, and Imrich Chlamtac.
+&ldquo;The P² algorithm for dynamic calculation of quantiles and histograms without storing observations.&rdquo;
+Communications of the ACM 28, no. 10 (1985): 1076-1085.<br><a href=https://doi.org/10.1145/4372.4378>https://doi.org/10.1145/4372.4378</a></li></ul><br><br><div class=row><div class="mx-auto share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator-initialization%2f&title=P%c2%b2%20quantile%20estimator%20initialization%20strategy" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=P%c2%b2%20quantile%20estimator%20initialization%20strategy&url=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator-initialization%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator-initialization%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator-initialization%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a></div><div class=share-button><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator-initialization%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator-initialization%2f&title=P%c2%b2%20quantile%20estimator%20initialization%20strategy" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
+|
+<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a><a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a><a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.082780cb948cc57eabbc0d80172a7a5347d5572b599938b4c9876dfd7978b424.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script><script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true,processEnvironments:true,},options:{skipHtmlTags:['script','noscript','style','textarea','pre'],ignoreHtmlClass:'tex2jax_ignore',processHtmlClass:'tex2jax_process'}};</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></body></html>
