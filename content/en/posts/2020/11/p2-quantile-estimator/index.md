@@ -11,9 +11,7 @@ features:
 - math
 ---
 
-**Update: the discussed paper contains a
-  [flaw that may lead to incorrect calculations]({{< ref p2-quantile-estimator-rounding-issue >}}).
-Also, the [initialization strategy could be improved]({{< ref p2-quantile-estimator-initialization >}}).**
+**Update: the estimator accuracy could be improved using a bunch of [patches]({{< ref research-p2qe >}}).**
 
 Imagine that you are implementing performance telemetry in your application.
 There is an operation that is executed millions of times, and you want to get its "average" duration.

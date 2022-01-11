@@ -8,7 +8,7 @@ features:
 - math
 ---
 
-**Update: The [initialization strategy could be improved]({{< ref p2-quantile-estimator-initialization >}}).**
+**Update: the estimator accuracy could be improved using a bunch of [patches]({{< ref research-p2qe >}}).**
 
 The P² quantile estimator is a sequential estimator that uses $O(1)$ memory.
 Thus, for the given sequence of numbers, it allows estimating quantiles without storing values.
