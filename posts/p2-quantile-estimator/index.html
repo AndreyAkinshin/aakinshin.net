@@ -7,9 +7,7 @@ gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/quantiles/ class="badge badge-info">Quantiles</a>
 <a href=https://aakinshin.net/tags/performance-telemetry/ class="badge badge-info">Performance Telemetry</a>
-<a href=https://aakinshin.net/tags/research-p2qe/ class="badge badge-info">Research: P² quantile estimator</a></span><br><br><p><strong>Update: the discussed paper contains a
-<a href=https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/>flaw that may lead to incorrect calculations</a>.
-Also, the <a href=https://aakinshin.net/posts/p2-quantile-estimator-initialization/>initialization strategy could be improved</a>.</strong></p><p>Imagine that you are implementing performance telemetry in your application.
+<a href=https://aakinshin.net/tags/research-p2qe/ class="badge badge-info">Research: P² quantile estimator</a></span><br><br><p><strong>Update: the estimator accuracy could be improved using a bunch of <a href=https://aakinshin.net/tags/research-p2qe/>patches</a>.</strong></p><p>Imagine that you are implementing performance telemetry in your application.
 There is an operation that is executed millions of times, and you want to get its &ldquo;average&rdquo; duration.
 It&rsquo;s not a good idea to use the arithmetic mean because the obtained value can be easily spoiled by outliers.
 It&rsquo;s much better to use the median which is one of the most robust ways to describe the average.</p><p>The straightforward median estimation approach requires storing all the values.
