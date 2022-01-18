@@ -1,0 +1,196 @@
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Statistics"><title>Extended P² quantile estimator | Andrey Akinshin</title><meta name=description content="I already covered the P² quantile estimator and its possible implementation improvements in several blog posts. This sequential estimator uses \(O(1)\) mem..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.882998740b9c4c24677576b997bde5a487246e2e3bd72128a0e922eaa59db029.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.50da8736f05b35aac9691de67fe993cbe01b7d88fcf0cb682c3a8f39933fe4a3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.ae812fc71daf5160d927febda5a991cee6c361345e3f685d3736931ed7537986.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-posts href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-pdnb href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Extended P² quantile estimator</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2022-01-18>January 18, 2022</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a></span><br><br><p>I already covered <em>the P² quantile estimator</em> and its possible implementation improvements
+in <a href=https://aakinshin.net/tags/research-p2qe/>several blog posts</a>.
+This sequential estimator uses <span class="math inline">\(O(1)\)</span> memory and allows estimating a single predefined quantile.
+Now it&rsquo;s time to discuss <em>the extended P² quantile estimator</em> that allows estimating multiple predefined quantiles.
+This extended version was suggested in the paper
+<a href=https://doi.org/10.1177/003754978704900405>&ldquo;Simultaneous estimation of several percentiles&rdquo;</a>.
+In this post, we briefly discuss the approach from this paper and how we can improve its implementation.</p><h3 id=the-extended-p-quantile-estimator>The extended P² quantile estimator</h3><p>The <a href=https://aakinshin.net/posts/p2-quantile-estimator/>P² quantile estimator</a> (see <a href=#Jain1985>[Jain1985]</a>)
+that estimates the <span class="math inline">\(p^\textrm{th}\)</span> quantile suggest maintaining a list of five markers:</p><ul><li><span class="math inline">\(q_0\)</span>: The minimum</li><li><span class="math inline">\(q_1\)</span>: The (p/2)-quantile</li><li><span class="math inline">\(q_2\)</span>: The p-quantile</li><li><span class="math inline">\(q_3\)</span>: The ((1+p)/2)-quantile</li><li><span class="math inline">\(q_4\)</span>: The maximum</li></ul><p>The <span class="math inline">\(q_i\)</span> values are known as the marker heights.</p><p>Also, we have to maintain the marker positions <span class="math inline">\(\{ n_0, n_1, n_2, n_3, n_4 \}\)</span>.
+These integer values describe actual marker indexes across obtained observations at the moment.</p><p>Next, we have to define the marker desired positions <span class="math inline">\(\{ n'_0, n'_1, n'_2, n'_3, n'_4 \}\)</span>.
+For the first <span class="math inline">\(n\)</span> observations, these real values are defined as follows:</p><ul><li><span class="math inline">\(n'_0 = 0\)</span></li><li><span class="math inline">\(n'_1 = (n - 1) p / 2\)</span></li><li><span class="math inline">\(n'_2 = (n - 1) p\)</span></li><li><span class="math inline">\(n'_3 = (n - 1) (1 + p) / 2\)</span></li><li><span class="math inline">\(n'_4 = (n - 1)\)</span></li></ul><p>The paper suggests simple logic that invalidates all of these values on each new observation.</p><p>Now let&rsquo;s consider the extended P² quantile estimator (see <a href=#Raatikainen1987>[Raatikainen1987]</a>)
+that estimates <span class="math inline">\(m\)</span> quantile values <span class="math inline">\(p_0, p_1, \ldots, p_{n-1}\)</span>.
+In order to do it, we need <span class="math inline">\(2m+3\)</span> markers: <span class="math inline">\(m+2\)</span> principle markers and <span class="math inline">\(m+1\)</span> middle markers.
+These markers are defined as follows:</p><ul><li><span class="math inline">\(q_0\)</span>: The minimum <em>(principle marker)</em></li><li><span class="math inline">\(q_1\)</span>: The <span class="math inline">\((p_0/2)\)</span>-quantile <em>(middle marker)</em></li><li><span class="math inline">\(q_2\)</span>: The <span class="math inline">\((p_0)\)</span>-quantile <em>(principle marker)</em></li><li><span class="math inline">\(q_3\)</span>: The <span class="math inline">\(((p_0+p_1)/2)\)</span>-quantile <em>(middle marker)</em></li><li><span class="math inline">\(\ldots\)</span></li><li><span class="math inline">\(q_{2m-1}\)</span>: The <span class="math inline">\(((p_{n-2}+p_{n-1})/2)\)</span>-quantile <em>(middle marker)</em></li><li><span class="math inline">\(q_{2m}\)</span>: The <span class="math inline">\((p_{n-1})\)</span>-quantile <em>(principle marker)</em></li><li><span class="math inline">\(q_{2m+1}\)</span>: The <span class="math inline">\(((p_{n-1}+1)/2)\)</span>-quantile <em>(middle marker)</em></li><li><span class="math inline">\(q_{2m+2}\)</span>: The maximum <em>(principle marker)</em></li></ul><p>The marker desired locations are defined correspondingly.</p><p>The marker invalidation logic matches the
+<a href=https://aakinshin.net/posts/p2-quantile-estimator/>original scheme of the P² quantile estimator</a>.</p><h3 id=initialization-strategy>Initialization strategy</h3><p>Now let&rsquo;s discuss the initialization strategy.
+The paper <a href=#Raatikainen1987>[Raatikainen1987]</a> has the following paragraph:</p><blockquote><p>The initialization of the algorithm requires <span class="math inline">\(2m+3\)</span> observations.
+These observations are sorted and used as the initial heights of the markers, <span class="math inline">\(q_i=x_{(i)}\)</span>.
+The actual positions initialize to <span class="math inline">\(n_i=i\)</span>.
+This initialization is the simplest one.
+More sophisticated initializations are possible, but not used in this study.
+For example, the first <span class="math inline">\(n'\)</span> observations are generated and sorted.
+The actual positions initialize to <span class="math inline">\(n_i=[d_i]\)</span>, where <span class="math inline">\(d_i\)</span> is the desired position of the marker <span class="math inline">\(i\)</span>.
+Then it must be checked that the actual positions are strictly increasing.
+If not, some adjustments must be made.
+The heights then initialize to <span class="math inline">\(q_i=x(n_i)\)</span>.</p></blockquote><p>I already <a href=https://aakinshin.net/posts/p2-quantile-estimator-initialization/>covered</a> the initialization strategy importance.
+My approach matches the <span class="math inline">\(n_i=[d_i]\)</span> strategy suggested in the second part of the above quote.
+Numerical simulations show that it works much better than the simplest one with <span class="math inline">\(n_i=i\)</span>
+(especially on small streams and extreme quantiles).</p><h3 id=marker-adjustments>Marker adjustments</h3><p>The marker adjustment order also affects the estimator accuracy.
+I have already shown it in the <a href=https://aakinshin.net/posts/p2-quantile-estimator-adjusting-order/>previous blog post</a>.
+The suggested approach could be easily generalized for the extended P² quantile estimator.</p><p>In the adjustment stage, we should update markers <span class="math inline">\(q_1, q_2, \ldots, q_{2m+1}\)</span> (assuming zero-based indexing).
+The desired marker locations <span class="math inline">\(n'_1, n'_2, \ldots, n'_{2m+1}\)</span> are known.
+On each step, we consider a list of markers <span class="math inline">\(q_l, \ldots, q_r\)</span> that are not adjusted yet
+(for the first step, <span class="math inline">\(l=1\)</span>, <span class="math inline">\(r=2m+1\)</span>).
+In order to choose the next mark to update, we should compare <span class="math inline">\(|n'_l/n-0.5|\)</span> and <span class="math inline">\(|n'_r/n-0.5|\)</span>.
+If the first expression is less than or equal to the right expression, we should adjust <span class="math inline">\(q_l\)</span>.
+Otherwise, we should adjust <span class="math inline">\(q_r\)</span>.
+For details, see the reference implementation.</p><h3 id=reference-implementation>Reference implementation</h3><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>class</span> <span class=nc>ExtendedP2QuantileEstimator</span>
+<span class=p>{</span>
+    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>probabilities</span><span class=p>;</span>
+    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>int</span> <span class=n>m</span><span class=p>,</span> <span class=n>markerCount</span><span class=p>;</span>
+    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>n</span><span class=p>;</span>
+    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>ns</span><span class=p>;</span>
+    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>q</span><span class=p>;</span>
+
+    <span class=k>public</span> <span class=kt>int</span> <span class=n>Count</span> <span class=p>{</span> <span class=k>get</span><span class=p>;</span> <span class=k>private</span> <span class=k>set</span><span class=p>;</span> <span class=p>}</span>
+
+    <span class=k>public</span> <span class=n>ExtendedP2QuantileEstimator</span><span class=p>(</span><span class=k>params</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>probabilities</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>this</span><span class=p>.</span><span class=n>probabilities</span> <span class=p>=</span> <span class=n>probabilities</span><span class=p>;</span>
+        <span class=n>m</span> <span class=p>=</span> <span class=n>probabilities</span><span class=p>.</span><span class=n>Length</span><span class=p>;</span>
+        <span class=n>markerCount</span> <span class=p>=</span> <span class=m>2</span> <span class=p>*</span> <span class=n>m</span> <span class=p>+</span> <span class=m>3</span><span class=p>;</span>
+        <span class=n>n</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>markerCount</span><span class=p>];</span>
+        <span class=n>ns</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=n>markerCount</span><span class=p>];</span>
+        <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=n>markerCount</span><span class=p>];</span>
+    <span class=p>}</span>
+
+    <span class=k>private</span> <span class=k>void</span> <span class=n>UpdateNs</span><span class=p>(</span><span class=kt>int</span> <span class=n>maxIndex</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=c1>// Principal markers
+</span><span class=c1></span>        <span class=n>ns</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>m</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+            <span class=n>ns</span><span class=p>[</span><span class=n>i</span> <span class=p>*</span> <span class=m>2</span> <span class=p>+</span> <span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=n>maxIndex</span> <span class=p>*</span> <span class=n>probabilities</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+        <span class=n>ns</span><span class=p>[</span><span class=n>markerCount</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=n>maxIndex</span><span class=p>;</span>
+
+        <span class=c1>// Middle markers
+</span><span class=c1></span>        <span class=n>ns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=n>maxIndex</span> <span class=p>*</span> <span class=n>probabilities</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>m</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+            <span class=n>ns</span><span class=p>[</span><span class=m>2</span> <span class=p>*</span> <span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=n>maxIndex</span> <span class=p>*</span> <span class=p>(</span><span class=n>probabilities</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>+</span> <span class=n>probabilities</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+        <span class=n>ns</span><span class=p>[</span><span class=n>markerCount</span> <span class=p>-</span> <span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=n>maxIndex</span> <span class=p>*</span> <span class=p>(</span><span class=m>1</span> <span class=p>+</span> <span class=n>probabilities</span><span class=p>[</span><span class=n>m</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+    <span class=p>}</span>
+
+    <span class=k>public</span> <span class=k>void</span> <span class=n>Add</span><span class=p>(</span><span class=kt>double</span> <span class=k>value</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>Count</span> <span class=p>&lt;</span> <span class=n>markerCount</span><span class=p>)</span>
+        <span class=p>{</span>
+            <span class=n>q</span><span class=p>[</span><span class=n>Count</span><span class=p>++]</span> <span class=p>=</span> <span class=k>value</span><span class=p>;</span>
+            <span class=k>if</span> <span class=p>(</span><span class=n>Count</span> <span class=p>==</span> <span class=n>markerCount</span><span class=p>)</span>
+            <span class=p>{</span>
+                <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>);</span>
+
+                <span class=n>UpdateNs</span><span class=p>(</span><span class=n>markerCount</span> <span class=p>-</span> <span class=m>1</span><span class=p>);</span>
+                <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>markerCount</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+                    <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Round</span><span class=p>(</span><span class=n>ns</span><span class=p>[</span><span class=n>i</span><span class=p>]);</span>
+
+                <span class=n>Array</span><span class=p>.</span><span class=n>Copy</span><span class=p>(</span><span class=n>q</span><span class=p>,</span> <span class=n>ns</span><span class=p>,</span> <span class=n>markerCount</span><span class=p>);</span>
+                <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>markerCount</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>ns</span><span class=p>[</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]];</span>
+                <span class=n>UpdateNs</span><span class=p>(</span><span class=n>markerCount</span> <span class=p>-</span> <span class=m>1</span><span class=p>);</span>
+            <span class=p>}</span>
+
+            <span class=k>return</span><span class=p>;</span>
+        <span class=p>}</span>
+
+        <span class=kt>int</span> <span class=n>k</span> <span class=p>=</span> <span class=p>-</span><span class=m>1</span><span class=p>;</span>
+        <span class=k>if</span> <span class=p>(</span><span class=k>value</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>])</span>
+        <span class=p>{</span>
+            <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=k>value</span><span class=p>;</span>
+            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+        <span class=p>}</span>
+        <span class=k>else</span>
+        <span class=p>{</span>
+            <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>markerCount</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+                <span class=k>if</span> <span class=p>(</span><span class=k>value</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span>
+                <span class=p>{</span>
+                    <span class=n>k</span> <span class=p>=</span> <span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>;</span>
+                    <span class=k>break</span><span class=p>;</span>
+                <span class=p>}</span>
+
+            <span class=k>if</span> <span class=p>(</span><span class=n>k</span> <span class=p>==</span> <span class=p>-</span><span class=m>1</span><span class=p>)</span>
+            <span class=p>{</span>
+                <span class=n>q</span><span class=p>[</span><span class=n>markerCount</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=k>value</span><span class=p>;</span>
+                <span class=n>k</span> <span class=p>=</span> <span class=n>markerCount</span> <span class=p>-</span> <span class=m>2</span><span class=p>;</span>
+            <span class=p>}</span>
+        <span class=p>}</span>
+
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=n>k</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>markerCount</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+            <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]++;</span>
+        <span class=n>UpdateNs</span><span class=p>(</span><span class=n>Count</span><span class=p>);</span>
+
+        <span class=kt>int</span> <span class=n>leftI</span> <span class=p>=</span> <span class=m>1</span><span class=p>,</span> <span class=n>rightI</span> <span class=p>=</span> <span class=n>markerCount</span> <span class=p>-</span> <span class=m>2</span><span class=p>;</span>
+        <span class=k>while</span> <span class=p>(</span><span class=n>leftI</span> <span class=p>&lt;=</span> <span class=n>rightI</span><span class=p>)</span>
+        <span class=p>{</span>
+            <span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
+            <span class=k>if</span> <span class=p>(</span><span class=n>Math</span><span class=p>.</span><span class=n>Abs</span><span class=p>(</span><span class=n>ns</span><span class=p>[</span><span class=n>leftI</span><span class=p>]</span> <span class=p>/</span> <span class=n>Count</span> <span class=p>-</span> <span class=m>0.5</span><span class=p>)</span> <span class=p>&lt;=</span> <span class=n>Math</span><span class=p>.</span><span class=n>Abs</span><span class=p>(</span><span class=n>ns</span><span class=p>[</span><span class=n>rightI</span><span class=p>]</span> <span class=p>/</span> <span class=n>Count</span> <span class=p>-</span> <span class=m>0.5</span><span class=p>))</span>
+                <span class=n>i</span> <span class=p>=</span> <span class=n>leftI</span><span class=p>++;</span>
+            <span class=k>else</span>
+                <span class=n>i</span> <span class=p>=</span> <span class=n>rightI</span><span class=p>--;</span>
+            <span class=n>Adjust</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+        <span class=p>}</span>
+
+        <span class=n>Count</span><span class=p>++;</span>
+    <span class=p>}</span>
+
+    <span class=k>private</span> <span class=k>void</span> <span class=n>Adjust</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=kt>double</span> <span class=n>d</span> <span class=p>=</span> <span class=n>ns</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>d</span> <span class=p>&gt;=</span> <span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&gt;</span> <span class=m>1</span> <span class=p>||</span> <span class=n>d</span> <span class=p>&lt;=</span> <span class=p>-</span><span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&lt;</span> <span class=p>-</span><span class=m>1</span><span class=p>)</span>
+        <span class=p>{</span>
+            <span class=kt>int</span> <span class=n>dInt</span> <span class=p>=</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sign</span><span class=p>(</span><span class=n>d</span><span class=p>);</span>
+            <span class=kt>double</span> <span class=n>qs</span> <span class=p>=</span> <span class=n>Parabolic</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
+            <span class=k>if</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>&lt;</span> <span class=n>qs</span> <span class=p>&amp;&amp;</span> <span class=n>qs</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>])</span>
+                <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>qs</span><span class=p>;</span>
+            <span class=k>else</span>
+                <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>Linear</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
+            <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+=</span> <span class=n>dInt</span><span class=p>;</span>
+        <span class=p>}</span>
+    <span class=p>}</span>
+
+    <span class=k>private</span> <span class=kt>double</span> <span class=n>Parabolic</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>double</span> <span class=n>d</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>*</span> <span class=p>(</span>
+            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>+</span>
+            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span>
+        <span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=k>private</span> <span class=kt>double</span> <span class=n>Linear</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>int</span> <span class=n>d</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]);</span>
+    <span class=p>}</span>
+
+    <span class=k>public</span> <span class=kt>double</span> <span class=n>GetQuantile</span><span class=p>(</span><span class=kt>double</span> <span class=n>p</span><span class=p>)</span>
+    <span class=p>{</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>Count</span> <span class=p>==</span> <span class=m>0</span><span class=p>)</span>
+            <span class=k>throw</span> <span class=k>new</span> <span class=n>InvalidOperationException</span><span class=p>(</span><span class=s>&#34;Sequence contains no elements&#34;</span><span class=p>);</span>
+        <span class=k>if</span> <span class=p>(</span><span class=n>Count</span> <span class=p>&lt;=</span> <span class=n>markerCount</span><span class=p>)</span>
+        <span class=p>{</span>
+            <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=n>Count</span><span class=p>);</span>
+            <span class=kt>int</span> <span class=n>index</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Round</span><span class=p>((</span><span class=n>Count</span> <span class=p>-</span> <span class=m>1</span><span class=p>)</span> <span class=p>*</span> <span class=n>p</span><span class=p>);</span>
+            <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
+        <span class=p>}</span>
+
+        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>m</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+            <span class=k>if</span> <span class=p>(</span><span class=n>probabilities</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>==</span> <span class=n>p</span><span class=p>)</span>
+                <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span> <span class=p>*</span> <span class=n>i</span> <span class=p>+</span> <span class=m>2</span><span class=p>];</span>
+
+        <span class=k>throw</span> <span class=k>new</span> <span class=n>InvalidOperationException</span><span class=p>(</span><span class=s>$&#34;Target quantile ({p}) wasn&#39;t requested in the constructor&#34;</span><span class=p>);</span>
+    <span class=p>}</span>
+
+    <span class=k>public</span> <span class=k>void</span> <span class=n>Clear</span><span class=p>()</span>
+    <span class=p>{</span>
+        <span class=n>Count</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+    <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><h3 id=references>References</h3><ul><li><b id=Jain1985>[Jain1985]</b><br>Jain, Raj, and Imrich Chlamtac.
+&ldquo;The P² algorithm for dynamic calculation of quantiles and histograms without storing observations.&rdquo;
+Communications of the ACM 28, no. 10 (1985): 1076-1085.<br><a href=https://doi.org/10.1145/4372.4378>https://doi.org/10.1145/4372.4378</a></li><li><b id=Raatikainen1987>[Raatikainen1987]</b><br>Raatikainen, Kimmo EE. &ldquo;Simultaneous estimation of several percentiles.&rdquo;
+Simulation 49, no. 4 (1987): 159-163.<br><a href=https://doi.org/10.1177/003754978704900405>https://doi.org/10.1177/003754978704900405</a></li></ul><br><br><div class=row><div class="mx-auto share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fex-p2-quantile-estimator%2f&title=Extended%20P%c2%b2%20quantile%20estimator" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Extended%20P%c2%b2%20quantile%20estimator&url=https%3a%2f%2faakinshin.net%2fposts%2fex-p2-quantile-estimator%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fex-p2-quantile-estimator%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://facebook.com/sharer.php?u=https%3a%2f%2faakinshin.net%2fposts%2fex-p2-quantile-estimator%2f" rel=nofollow target=_blank title="Share on Facebook"><i class="fab fa-facebook fa-2x"></i></a></div><div class=share-button><a href="http://vk.com/share.php?url=https%3a%2f%2faakinshin.net%2fposts%2fex-p2-quantile-estimator%2f" target=_blank title="Share on VKontakte"><i class="fab fa-vk fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fex-p2-quantile-estimator%2f&title=Extended%20P%c2%b2%20quantile%20estimator" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
+|
+<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a><a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a><a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.082780cb948cc57eabbc0d80172a7a5347d5572b599938b4c9876dfd7978b424.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script><script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true,processEnvironments:true,},options:{skipHtmlTags:['script','noscript','style','textarea','pre'],ignoreHtmlClass:'tex2jax_ignore',processHtmlClass:'tex2jax_process'}};</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></body></html>
