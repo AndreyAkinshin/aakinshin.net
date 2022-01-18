@@ -3,6 +3,7 @@ title: Extended P² quantile estimator
 date: 2022-01-18
 tags:
 - Statistics
+- research-p2qe
 features:
 - math
 ---
