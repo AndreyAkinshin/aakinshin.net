@@ -6,6 +6,7 @@ tags:
 - Statistics
 - Quantile
 - MAD
+- research-unbiased-mad
 features:
 - math
 ---
@@ -55,7 +56,7 @@ In this post, we look at the possible approaches and learn the way to get the ex
 ### The bias
 
 Let's briefly discuss the impact of the bias on our measurements.
-To illustrate the problem, we take $100,000$ samples of size $n = 5$
+To illustrate the problem, we take $100\,000$ samples of size $n = 5$
   from the standard normal distribution and
   calculate $\textrm{MAD}_5$ for each of them using $C = 1$.
 The obtained numbers form the following distribution:
@@ -144,8 +145,8 @@ $$
 b_n \cong 1 + cn^{-d}.
 $$
 
-In his paper, he applied the above equation only for Shorth
-  (is the smallest interval that contains at least half of the data points),
+In his paper, he applied the above equation only for *Shorth*
+  (which is the smallest interval that contains at least half of the data points),
   but this approach can also be applied for other measures of scale.
 
 #### The Hayes approach
@@ -195,7 +196,7 @@ $$
 Both approaches produce almost identical results, so it doesn't actually matter which one to use.
 
 For $2 \leq n \leq 100$, they suggested to use predefined constants:
-  (the below values are calculated based on Table A2 from [[Park2020]](#Park2020)):
+  (the below values are based on Table A2 from [[Park2020]](#Park2020)):
 
 |    n |    $C_n$ |    n |    $C_n$ |
 | ---: | -------: | ---: | -------: |
