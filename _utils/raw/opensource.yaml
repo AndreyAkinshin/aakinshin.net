@@ -51,8 +51,6 @@ github:
         title: Various code analysis tools for C#
       - url: finagle/finch
         title: Scala combinator library for building Finagle HTTP services
-      - url: knorthfield/remote-include
-        title: A remote include plugin for Jekyll
       - url: GitbookIO/gitbook
         title:  Modern documentation format and toolchain using Git and Markdown
       - url: overthecs/overthecs.github.io
