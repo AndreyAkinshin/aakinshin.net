@@ -7,7 +7,7 @@ tags:
 - Statistics
 - Quantiles
 - MAD
-- Quantile Absolute Deviation
+- research-qad
 - Dispersion
 - Harrell-Davis quantile estimator
 features:
