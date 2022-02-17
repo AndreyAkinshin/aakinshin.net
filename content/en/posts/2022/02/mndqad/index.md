@@ -56,12 +56,28 @@ $$
 
 Let $k$ be the number of $x_i$ that equals exactly the median $Q(x, 0.5)$.
 If $k>n/2$, we have $\operatorname{MAD}(x) = 0$.
-For example, if $x = \{ 0, 0, 0, 0, 0, 1, 2, 3, 4 \}$, we have the following quantile function:
+For example, let's consider the following sample:
 
-{{< imgld plot1 >}}
+$$
+x = \{ 1, 1, 1, 1, 1, 1, 1, 2, 3, 5, 8 \}.
+$$
 
-Regardless of $x_6, x_7, x_8, x_9$ values, $\operatorname{MAD}(x)$ will be zero
-  while $k>n/2$ of the sample elements are the same.
+The median value is $Q(x, 0.5) = 1$.
+And here is the list of absolute deviations:
+
+$$
+|x-Q(x, 0.5)| = \{ 0, 0, 0, 0, 0, 0, 0, 1, 2, 4, 7 \}.
+$$
+
+It's easy to see that the median absolute deviation is zero:
+
+$$
+\operatorname{MAD}(x) = \operatorname{QAD}(x, 0.5, 0.5) = 0.
+$$
+
+
+Regardless of the $x_7, x_8, x_9, x_{10}, x_{11}$ values, $\operatorname{MAD}(x)$ will be still zero
+  (while $k>n/2$ of the sample elements are the same).
 
 ### Zero and non-zero quantile absolute deviation
 
@@ -82,6 +98,8 @@ $$
 \end{cases}
 $$
 
+In simple words, $q_0$ is the maximum value that gives us zero $\operatorname{QAD}$.
+
 If sample $x$ contains exactly $k$ numbers that equal the median $Q(x, 0.5)$ and $n > 0$,
   it's easy to see that
 
@@ -89,22 +107,30 @@ $$
 q_0 = \frac{\max(k - 1, 0)}{n - 1}.
 $$
 
-Thus, if $k > n /2$, we have $q_0 > 0.5$ so that $\operatorname{MAD}(x) = \operatorname{QAD}(x, 0.5, 0.5) = 0$.
+Thus, if $k > n /2$, we have $q_0 \geq 0.5$ so that $\operatorname{MAD}(x) = \operatorname{QAD}(x, 0.5, 0.5) = 0$.
 
 ### Middle non-degenerate quantile absolute deviation
 
 Zero $\operatorname{MAD}$ values could bring some problems if we use it as a denominator.
 It would be nice to have a robust measure of dispersion that never equals zero for samples with a non-zero range.
 
-I think we can use $\operatorname{QAD}(x, 0.5, (q_0+1)/2)$ which we denote as
-  *the middle non-degenerate quantile absolute deviation*.
-Basically, we peek the midpoint between $q_0$ (the biggest quantile that provides zero $\operatorname{QAD}$)
-  and $1$ (the maximum $\operatorname{QAD}$ value).
+Let's consider the midpoint between $q_0$ (the biggest quantile that provides zero $\operatorname{QAD}$)
+  and $1$ (provides the maximum $\operatorname{QAD}$ value):
+
+$$
+q_m = \frac{q_0 + 1}{2}.
+$$
+
+I suggest using $\operatorname{QAD}(x, 0.5, q_m)$ as a better measure of the statistical dispersion.
+Let's call it *the middle non-degenerate quantile absolute deviation*.
+
+{{< imgld plot1 >}}
 
 If a sample doesn't contain tied elements, this metric is consistent with $\operatorname{MAD}$.
 Indeed, for $q_0=0$, we have
 
 $$
+\operatorname{QAD}(x, 0.5, q_m) = 
 \operatorname{QAD}(x, 0.5, (q_0+1)/2) = 
 \operatorname{QAD}(x, 0.5, 0.5) =
 \operatorname{MAD}(x).
@@ -112,6 +138,6 @@ $$
 
 With the help of [consistency constants]({{< ref unbiased-mad >}}), we can also build a consistent estimator
   for the standard deviation under the normal distribution.
-
-Meanwhile, if a sample range is non-zero ($\max(x)-\min(x) > 0$),
-  the middle non-degenerate quantile absolute deviation $\operatorname{QAD}(x, 0.5, (q_0+1)/2)$ is also non-zero.
+Meanwhile, if a distribution is non-normal,
+  $\operatorname{QAD}(x, 0.5, q_m)$ always gives non-zero values
+  for samples with non-zero range ($\max(x)-\min(x) > 0$).
