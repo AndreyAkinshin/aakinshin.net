@@ -4,7 +4,7 @@ date: "2020-06-25"
 tags:
 - Statistics
 - Effect Size
-- Gamma Effect Size
+- research-gamma-es
 - MAD
 - Harrell-Davis quantile estimator
 - R

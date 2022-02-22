@@ -4,7 +4,7 @@ date: 2021-06-22
 tags:
 - Statistics
 - Effect Size
-- Gamma Effect Size
+- research-gamma-es
 - MAD
 features:
 - math
