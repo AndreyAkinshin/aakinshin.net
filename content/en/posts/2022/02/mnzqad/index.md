@@ -1,11 +1,13 @@
 ---
-title: Middle non-degenerate quantile absolute deviation
+title: Middle non-zero quantile absolute deviation
 date: 2022-02-15
 tags:
 - Statistics
 - research-qad
 features:
 - math
+aliases:
+- mndqad
 ---
 
 Median absolute deviation ($\operatorname{MAD}$) around the median is a popular robust measure of statistical dispersion.
@@ -109,7 +111,7 @@ $$
 
 Thus, if $k > n /2$, we have $q_0 \geq 0.5$ so that $\operatorname{MAD}(x) = \operatorname{QAD}(x, 0.5, 0.5) = 0$.
 
-### Middle non-degenerate quantile absolute deviation
+### Middle non-zero quantile absolute deviation around median
 
 Zero $\operatorname{MAD}$ values could bring some problems if we use it as a denominator.
 It would be nice to have a robust measure of dispersion that never equals zero for samples with a non-zero range.
@@ -122,7 +124,11 @@ q_m = \frac{q_0 + 1}{2}.
 $$
 
 I suggest using $\operatorname{QAD}(x, 0.5, q_m)$ as a better measure of the statistical dispersion.
-Let's call it *the middle non-degenerate quantile absolute deviation*.
+Let's call it *the middle non-zero quantile absolute deviation*:
+
+$$
+\operatorname{MNZQAD(x, 0.5)} = \operatorname{QAD(x, 0.5, q_m)}.
+$$
 
 {{< imgld plot1 >}}
 
@@ -130,8 +136,8 @@ If a sample doesn't contain tied elements, this metric is consistent with $\oper
 Indeed, for $q_0=0$, we have
 
 $$
-\operatorname{QAD}(x, 0.5, q_m) = 
-\operatorname{QAD}(x, 0.5, (q_0+1)/2) = 
+\operatorname{QAD}(x, 0.5, q_m) =
+\operatorname{QAD}(x, 0.5, (q_0+1)/2) =
 \operatorname{QAD}(x, 0.5, 0.5) =
 \operatorname{MAD}(x).
 $$
@@ -141,3 +147,26 @@ With the help of [consistency constants]({{< ref unbiased-mad >}}), we can also 
 Meanwhile, if a distribution is non-normal,
   $\operatorname{QAD}(x, 0.5, q_m)$ always gives non-zero values
   for samples with non-zero range ($\max(x)-\min(x) > 0$).
+
+### Middle non-zero quantile absolute deviation around quantile
+
+We can also generalize $\operatorname{MNZQAD}$ and calculate this statistic for any quantile:
+
+$$
+\operatorname{MNZQAD(x, p)} = \operatorname{QAD(x, p, q_m)},
+$$
+
+$$
+q_m = \frac{q_0 + 1}{2}, \quad
+q_0 = \frac{\max(k - 1, 0)}{n - 1}, \quad
+k = \sum_{i=1}^n \mathbf{1}_{Q(x, p)}(x_i),
+$$
+
+where $\mathbf{1}$ is the indicator function:
+
+$$
+\mathbf{1}_U(u) = \begin{cases}
+1 & \textrm{if}\quad  u = U,\\
+0 & \textrm{if}\quad  u \neq U.
+\end{cases}
+$$
