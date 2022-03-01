@@ -1,4 +1,67 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 22 Feb 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Gamma effect size powered by the middle non-zero quantile absolute deviation</title><link>https://aakinshin.net/posts/gamma-es-mnzqad/</link><pubDate>Tue, 22 Feb 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/gamma-es-mnzqad/</guid><description>&lt;p>In &lt;a href="https://aakinshin.net/tags/research-gamma-es/">previous posts&lt;/a>, I covered the concept of the gamma effect size.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 01 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Probability of observing outliers using Tukey's fences</title><link>https://aakinshin.net/posts/tukey-outlier-probability/</link><pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/tukey-outlier-probability/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Outlier#Tukey's_fences">Tukey&amp;rsquo;s fences&lt;/a> is one of the most popular
+simple outlier detectors for one-dimensional number arrays.
+This approach assumes that for a given sample, we calculate first and third quartiles (&lt;span class="math inline">\(Q_1\)&lt;/span> and &lt;span class="math inline">\(Q_3\)&lt;/span>),
+and mark all the sample elements outside the interval&lt;/p>
+&lt;p>&lt;span class="math display">\[[Q_1 - k (Q_3 - Q_1),\, Q_3 + k (Q_3 - Q_1)]
+\]&lt;/span>&lt;/p>
+&lt;p>as outliers.
+Typical recommendation for &lt;span class="math inline">\(k\)&lt;/span> is &lt;span class="math inline">\(1.5\)&lt;/span> for &amp;ldquo;regular&amp;rdquo; outliers and &lt;span class="math inline">\(3.0\)&lt;/span> for &amp;ldquo;far outliers&amp;rdquo;.
+Here is a box plot example for a sample taken from the standard normal distributions (sample size is &lt;span class="math inline">\(1000\)&lt;/span>):&lt;/p>
+&lt;div class="row">
+&lt;div class="mx-auto">
+&lt;a href="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot1-light.png" target="_blank" class="imgldlink" alt="boxplot1">
+&lt;picture>
+&lt;source
+theme='dark'
+srcset="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot1-dark.png"
+media="(prefers-color-scheme: dark)">
+&lt;source
+theme='light'
+srcset="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot1-light.png"
+media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;img
+class="mx-auto d-block img-fluid"
+width='800'
+src="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot1-light.png">
+&lt;/picture>
+&lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br />
+&lt;p>As we can see, 11 elements were marked as outliers (shown as dots).
+Is it an expected result or not?
+The answer depends on your goals.
+There is no single definition of an outlier.
+In fact, the chosen outlier detector provides a unique outlier definition.&lt;/p>
+&lt;p>In my applications, I typically consider outliers as rare events that should be investigated.
+When I detect too many outliers, all such reports become useless noise.
+For example, on the above image, I wouldn&amp;rsquo;t treat any of the sample elements as outliers.
+However, If we add &lt;span class="math inline">\(10.0\)&lt;/span> to this sample, this element is an obvious outlier (which will be the only one):&lt;/p>
+&lt;div class="row">
+&lt;div class="mx-auto">
+&lt;a href="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot2-light.png" target="_blank" class="imgldlink" alt="boxplot2">
+&lt;picture>
+&lt;source
+theme='dark'
+srcset="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot2-dark.png"
+media="(prefers-color-scheme: dark)">
+&lt;source
+theme='light'
+srcset="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot2-light.png"
+media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;img
+class="mx-auto d-block img-fluid"
+width='800'
+src="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot2-light.png">
+&lt;/picture>
+&lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br />
+&lt;p>Thus, an important property of an outlier detector is the &amp;ldquo;false positive rate&amp;rdquo;:
+the percentage of samples with detected outliers which I wouldn&amp;rsquo;t treat as outliers.
+In this post, I perform numerical simulations that show the probability of observing outliers
+using Tukey&amp;rsquo;s fences with different &lt;span class="math inline">\(k\)&lt;/span> values.&lt;/p></description></item><item><title>Gamma effect size powered by the middle non-zero quantile absolute deviation</title><link>https://aakinshin.net/posts/gamma-es-mnzqad/</link><pubDate>Tue, 22 Feb 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/gamma-es-mnzqad/</guid><description>&lt;p>In &lt;a href="https://aakinshin.net/tags/research-gamma-es/">previous posts&lt;/a>, I covered the concept of the gamma effect size.
 It&amp;rsquo;s a nonparametric effect size which is consistent with Cohen&amp;rsquo;s d under the normal distribution.
 However, the original definition has drawbacks: this statistic becomes zero
 if half of the sample elements are equal to each other.
