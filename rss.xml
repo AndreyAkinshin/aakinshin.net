@@ -1,4 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 01 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Probability of observing outliers using Tukey's fences</title><link>https://aakinshin.net/posts/tukey-outlier-probability/</link><pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/tukey-outlier-probability/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Outlier#Tukey's_fences">Tukey&amp;rsquo;s fences&lt;/a> is one of the most popular
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 08 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Asymmetric decile-based outlier detector</title><link>https://aakinshin.net/posts/asymmetric-decile-outliers/</link><pubDate>Tue, 08 Mar 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/asymmetric-decile-outliers/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/tukey-outlier-probability/">previous post&lt;/a>, I covered some problems with the outlier detector
+based on Tukey fences.
+Mainly, I discussed the probability of observing outliers using Tukey&amp;rsquo;s fences
+with different factors under different distributions.
+However, it&amp;rsquo;s not the only problem with this approach.&lt;/p>
+&lt;p>Since Tukey&amp;rsquo;s fences are based on quartiles,
+under multimodal distributions, we could get a situation
+when 50% of all sample elements are marked as outliers.
+Also, Tukey&amp;rsquo;s fences are designed for symmetric distributions,
+so we could get strange results with asymmetric distributions.&lt;/p>
+&lt;p>In this post, I want to suggest an asymmetric outlier detector based on deciles
+which mitigates this problem.&lt;/p></description></item><item><title>Probability of observing outliers using Tukey's fences</title><link>https://aakinshin.net/posts/tukey-outlier-probability/</link><pubDate>Tue, 01 Mar 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/tukey-outlier-probability/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Outlier#Tukey's_fences">Tukey&amp;rsquo;s fences&lt;/a> is one of the most popular
 simple outlier detectors for one-dimensional number arrays.
 This approach assumes that for a given sample, we calculate first and third quartiles (&lt;span class="math inline">\(Q_1\)&lt;/span> and &lt;span class="math inline">\(Q_3\)&lt;/span>),
 and mark all the sample elements outside the interval&lt;/p>
