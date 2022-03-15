@@ -3,6 +3,7 @@ title: Probability of observing outliers using Tukey's fences
 date: 2022-03-01
 tags:
 - Statistics
+- Outliers
 features:
 - math
 ---
@@ -56,7 +57,7 @@ Let's conduct the following numerical simulation:
 * For each sample, detect outliers using the considered $k$ values.
 * Evaluate the percentage of samples that contain at least one outlier.
 
-There are the results:
+Here are the results:
 
 {{< imgld normal >}}
 {{< imgld gumbel >}}

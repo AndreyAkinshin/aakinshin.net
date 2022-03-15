@@ -1,10 +1,13 @@
 ---
-title: Asymmetric decile-based outlier detector
+title: Asymmetric decile-based outlier detector, Part 1
 date: 2022-03-08
 tags:
 - Statistics
+- Outliers
 features:
 - math
+aliases:
+- asymmetric-decile-outliers
 ---
 
 In the [previous post]({{< ref tukey-outlier-probability >}}), I covered some problems with the outlier detector
@@ -45,11 +48,11 @@ With this improvement, only 20% of the sample elements could be marked as outlie
 The second improvement makes this interval asymmetric:
 
 $$
-[Q_{0.1} - k_l (Q_{0.5} - Q_{0.1}),\, Q_{0.9} + k_r (Q_{0.9} - Q_{0.5})]
+[Q_{0.1} - k (Q_{0.5} - Q_{0.1}),\, Q_{0.9} + k (Q_{0.9} - Q_{0.5})]
 $$
 
 The new interval is much more adaptive to asymmetric distributions.
 
-In the next blog post, I will provide some examples that show the difference
+In the [next blog post]({{< ref asymmetric-decile-outliers2 >}}), I will provide some examples that show the difference
   between the classic Tukey's fences and the suggested asymmetric decile-based outlier detector.
-I will also provide some guidance about proper default values for $k_l$ and $k_r$.
+I will also provide some guidance about proper default value for $k$.
