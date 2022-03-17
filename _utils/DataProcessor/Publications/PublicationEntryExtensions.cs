@@ -9,7 +9,7 @@ namespace DataProcessor.Publications
     internal static class PublicationEntryExtensions
     {
         public static string GetProperty(this PublicationEntry entry, string name) =>
-            entry.Properties.ContainsKey(name) ? entry.Properties[name] : "";
+            entry.Properties.ContainsKey(name.ToLowerInvariant()) ? entry.Properties[name.ToLowerInvariant()] : "";
 
         public static int GetYear(this PublicationEntry entry) => int.Parse(entry.GetProperty("year"));
         public static string GetTitle(this PublicationEntry entry) => entry.GetProperty("title");

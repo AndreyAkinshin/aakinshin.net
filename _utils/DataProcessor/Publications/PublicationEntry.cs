@@ -37,10 +37,10 @@ namespace DataProcessor.Publications
                 var equalIndex = line.IndexOf("=", StringComparison.Ordinal);
                 if (equalIndex == -1)
                     continue;
-                var propertyName = line.Substring(0, equalIndex).Trim();
-                var properyValue = line.Substring(equalIndex + 1).Trim(' ', '{', '}', ',').Replace("{\\_}", "_")
+                var propertyName = line.Substring(0, equalIndex).Trim().ToLowerInvariant();
+                var propertyValue = line.Substring(equalIndex + 1).Trim(' ', '{', '}', ',').Replace("{\\_}", "_")
                     .Replace("{\\%}", "%").Replace("{\\&}", "&");
-                properties[propertyName] = properyValue;
+                properties[propertyName] = propertyValue;
             }
         }
 
