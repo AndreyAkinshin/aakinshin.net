@@ -8,11 +8,11 @@ features:
 - math
 ---
 
-*This post aggregates research from [several blog posts]({{< reftag research-thdqe >}}) that I published during this year.
+**This post aggregates research from [several blog posts]({{< reftag research-thdqe >}}) that I published during this year.
 It presents an overview of
   the Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width.
-A [corresponding preprint]({{< ref preprint-thdqe >}}) is available on arXiv:
-  [arXiv:2111.11776 [stat.ME]](https://arxiv.org/abs/2111.11776).*
+The [corresponding paper with final results]({{< ref pub-thdqe >}}) is available in *Communications in Statistics - Simulation and Computation* (DOI: [10.1080/03610918.2022.2050396](https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396)).
+A preprint is available on arXiv: [arXiv:2111.11776 [stat.ME]](https://arxiv.org/abs/2111.11776).**
 
 Traditional quantile estimators that are based on one or two order statistics are a common way to estimate
   distribution quantiles based on the given samples.

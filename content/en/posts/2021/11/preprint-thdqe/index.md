@@ -7,6 +7,8 @@ features:
 - math
 ---
 
+**Update: the [final paper]({{< ref pub-thdqe >}}) was published in *Communications in Statistics - Simulation and Computation* (DOI: [10.1080/03610918.2022.2050396](https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396)).**
+
 Since the beginning of this year, I have been working on building a quantile estimator
   that provides an optimal trade-off between statistical efficiency and robustness.
 Finally, I have built such an estimator.

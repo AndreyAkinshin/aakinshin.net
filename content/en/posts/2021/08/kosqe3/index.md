@@ -11,8 +11,8 @@ features:
 ---
 
 **Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-  A [preprint with final results]({{< ref preprint-thdqe >}}) is available on arXiv:
-  [arXiv:2111.11776 [stat.ME]](https://arxiv.org/abs/2111.11776).**
+  A [paper with final results]({{< ref pub-thdqe >}}) is available in *Communications in Statistics - Simulation and Computation* (DOI: [10.1080/03610918.2022.2050396](https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396)).
+  A preprint is available on arXiv: [arXiv:2111.11776 [stat.ME]](https://arxiv.org/abs/2111.11776).**
 
 In the previous two posts, I discussed the idea of quantile estimators based on k order statistics.
 A already covered the [motivation behind this idea]({{< ref kosqe1 >}})
