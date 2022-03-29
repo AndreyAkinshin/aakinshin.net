@@ -1,21 +1,8 @@
 <section>
   <h3 id="enterprise">Enterprise programming</h3>
 
-  <i>Software Developer at JetBrains, [ex Microsoft .NET MVP (2015–2019)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)</i><br />
-  **Favorite languages:** C\#, Kotlin, R<br />
+  **Favorite languages:** C\#, Kotlin, R, LaTeX<br />
   **Specialization:** performance, benchmarking, algorithms, mathematics
-  <br /><br />
-
-  ![](/img/icons/jetbrains.png)
-  [JetBrains](https://www.jetbrains.com/)
-
-  * *10/2015–12/2020:* Software Developer
-  * *01/2021–Present:* Performance Lead
-
-  **Projects**
-  * ![](/img/icons/rider.png)
-    [Rider](https://www.jetbrains.com/rider/):
-    A cross-platform .NET IDE based on the IntelliJ platform and ReSharper
   <br /><br />
 
   ![](/img/icons/perpetuum.png)
@@ -55,6 +42,21 @@
     [UI Controls for Windows 8](http://www.perpetuumsoft.com/Windows8-UI-Controls.aspx):
     A set of UI controls that will help develop true Windows Store application faster<br />
     *Main developer (architecture design, API, XAML-layout, demo project, documentation, etc.)*
+  <br /><br />
+
+  ![](/img/icons/jetbrains.png)
+  [JetBrains](https://www.jetbrains.com/)
+
+  * *10/2015–12/2020:* Software Developer
+  * *01/2021–03/2022:* Performance Lead
+
+  **Projects**
+  * ![](/img/icons/rider.png)
+    [Rider](https://www.jetbrains.com/rider/):
+    A cross-platform .NET IDE based on the IntelliJ platform and ReSharper<br />
+    *Maintainer of the NuGet and Unit Testing subsystems*<br />
+    *Author of a performance testing framework and a performance monitoring service*
+
 </section>
 
 <hr />
@@ -136,7 +138,14 @@
 
 <hr />
 <section>
-  <h3 id="certificates">Certificates</h3>
+  <h3 id="certificates">Certificates and Awards</h3>
+
+  **[Microsoft MVP (Most Valuable Professional)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)**
+  * 2015
+  * 2016
+  * 2017
+  * 2018-2019
+  <br /><br />
 
   **Russian state registration certificates of Computer Programs**
   * ![](/img/icons/ministry.png)

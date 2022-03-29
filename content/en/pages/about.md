@@ -17,7 +17,7 @@ He is
   the author of [Pro .NET Benchmarking]({{< ref prodotnetbenchmarking >}})
   (a book about good practices of performance measurements).
 
-Currently, Andrey is the performance lead in
+Andrey is a former performance lead in
   [JetBrains](https://www.jetbrains.com/) [Rider](https://www.jetbrains.com/rider/)
   (a cross-platform .NET IDE based on the [IntelliJ](https://www.jetbrains.com/idea/) platform and [ReSharper](https://www.jetbrains.com/resharper/)).
 He is also
@@ -26,7 +26,8 @@ He is also
   a silver medalist of [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest).
 
 Andrey is a Ph.D. in computer science.
-He is involved in a research project at the [Sobolev Institute of Mathematics SB RAS](http://math.nsc.ru/english.html)
+His current primary research area is mathematical statistics.
+Andrey is involved in a research project at the [Sobolev Institute of Mathematics SB RAS](http://math.nsc.ru/english.html)
   related to mathematical biology and bifurcation theory.
 Previously, he worked as a postdoctoral research fellow at the [Weizmann Institute of Science](http://www.weizmann.ac.il/).
 

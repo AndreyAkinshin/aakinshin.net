@@ -16,7 +16,7 @@ url: /ru/about
   автор [Pro .NET Benchmarking]({{< ref prodotnetbenchmarking >}})
   (книга о практиках замеров производительности).
 
-Андрей — performance lead в
+Андрей — бывший performance lead в
   [JetBrains](https://www.jetbrains.com/) [Rider](https://www.jetbrains.com/rider/)
   (кроссплатформенная .NET IDE, основанная на платформе [IntelliJ](https://www.jetbrains.com/idea/) и [ReSharper](https://www.jetbrains.com/resharper/)).
 Он также
@@ -24,8 +24,9 @@ url: /ru/about
   [бывший Microsoft .NET MVP](https://mvp.microsoft.com/en-us/PublicProfile/5001348),
   серебрянный медалист [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest).
 
-Андрей имеет степень [к.ф.-м.н.](https://dlib.rsl.ru/01005540613),
-  занимается научным проектом в [Институте математики СО РАН](http://www.math.nsc.ru/)
+Андрей имеет степень [к.ф.-м.н.](https://dlib.rsl.ru/01005540613).
+Его текущая область научных интересов — математическая статистика.
+Андрей также занимается научным проектом в [Институте математики СО РАН](http://www.math.nsc.ru/)
   в сфере математической биологии и теории бифуркаций.
 Раньше работал постдоком в [Институте Вейцмана](http://www.weizmann.ac.il/).
 

@@ -1,4 +1,20 @@
 media:
+  - date: 2022-02-24
+    kind: text
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "Книга «Профессиональный бенчмарк: искусство измерения производительности»"
+    title_en: "A book 'A professional benchmark: the art of performance measurements'"
+    lang: ru
+    url: https://habr.com/ru/company/piter/blog/598175/
+  - date: 2022-01-19
+    kind: text
+    host_en: Habrahabr
+    host_ru: Хабрахабр
+    title_ru: "Подводные камни бенчмаркинга в .NET: фрагмент книги Андрея Акиньшина"
+    title_en: "Benchmarking pitfalls in .NET: a fragment of a Andrey Akinshin's book"
+    lang: ru
+    url: https://habr.com/ru/company/jugru/blog/599927/
   - date: 2021-12-05
     type: podcast
     kind: audio

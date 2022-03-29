@@ -1,21 +1,8 @@
 <section>
   <h3 id="enterprise">Программирование</h3>
 
-  <i>Программист в компании JetBrains, [бывший Microsoft .NET MVP (2015–2019)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)</i><br />
-  **Любимые языки:** C\#, Kotlin, R<br />
+  **Любимые языки:** C\#, Kotlin, R, LaTeX<br />
   **Специализация:** производительность, бенчмаркинг, алгоритмы, математика
-  <br /><br />
-
-  ![](/img/icons/jetbrains.png)
-  [JetBrains](https://www.jetbrains.com/)
-
-  * *10/2015–12/2020:* Software Developer
-  * *01/2021–Сейчас:* Performance Lead
-
-  **Проекты**
-  * ![](/img/icons/rider.png)
-    [Rider](https://www.jetbrains.com/rider/):
-    Кроссплатформенная .NET IDE
   <br /><br />
 
   ![](/img/icons/perpetuum.png)
@@ -55,6 +42,20 @@
     [UI Controls for Windows 8](http://www.perpetuumsoft.com/Windows8-UI-Controls.aspx):
     Набор многофункциональных контролов под Windows 8<br />
     *Главный разработчик (проектирование архитектуры, API, XAML-вёрстка, демо-проект, документация и т. д.)*
+  <br /><br />
+
+  ![](/img/icons/jetbrains.png)
+  [JetBrains](https://www.jetbrains.com/)
+
+  * *10/2015–12/2020:* Software Developer
+  * *01/2021–03/2022:* Performance Lead
+
+  **Проекты**
+  * ![](/img/icons/rider.png)
+    [Rider](https://www.jetbrains.com/rider/):
+    Кроссплатформенная .NET IDE на базе IntelliJ platform и ReSharper<br />
+    *Мейнтейнер подсистем NuGet и Unit Testing*<br />
+    *Автор фреймворка для тестов на производительность и сервиса мониторинга производительности*
 </section>
 
 <hr />
@@ -133,7 +134,14 @@
 
 <hr />
 <section>
-  <h3 id="certificates">Сертификаты</h3>
+  <h3 id="certificates">Сертификаты и награды</h3>
+
+  **[Microsoft MVP (Most Valuable Professional)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)**
+  * 2015
+  * 2016
+  * 2017
+  * 2018-2019
+  <br /><br />
 
   **Свидетельства о регистрации программ для ЭВМ**
   * ![](/img/icons/ministry.png)
