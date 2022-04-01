@@ -14,7 +14,7 @@ save <- function(name, plot = last_plot(), tm = theme()) {
 }
 
 save2 <- function(name, p1, p2) {
-  ggsave(paste0(tolower(name), "-light.svg"), 
+  ggsave(paste0(tolower(name), "-light.svg"),
          grid.arrange(p1 + theme_gray(), p2 + theme_gray(), nrow = 1), width = 10, height = 6)
   ggsave(paste0(tolower(name), "-dark.svg"),
          grid.arrange(p1 + dark_theme_gray(), p2 + dark_theme_gray(), nrow = 1), width = 10, height = 6)
@@ -42,7 +42,7 @@ buildHd <- function(name, n, p, points = c()) {
   tm <- theme(axis.title.y = element_blank(),
               axis.text.y  = element_blank(),
               axis.ticks.y = element_blank())
-  
+
   pl <- ggplot()
   if (length(points) > 1)
     for (i in 1:(length(points) - 1))
@@ -75,22 +75,22 @@ buildType7 <- function(name, n, p, points = c()) {
     yp <- c(0, y, 0)
     geom_polygon(data = data.frame(x = xp, y = yp), mapping = aes(x, y), fill = fill, alpha = 0.5, col = NA)
   }
-  
+
   pdf <- ggplot() +
     geom_line(data = data.frame(x = x, y = f(x)), mapping = aes(x, y)) +
-    scale_x_continuous(breaks = seq(0, 1, by = 0.2)) + 
+    scale_x_continuous(breaks = seq(0, 1, by = 0.2)) +
     ggtitle("PDF")
   cdf <- ggplot() +
     geom_line(data = data.frame(x = x, y = F(x)), mapping = aes(x, y)) +
     scale_x_continuous(breaks = seq(0, 1, by = 0.2)) +
     ggtitle("CDF")
-  
+
   if (length(points) > 1)
     for (i in 1:(length(points) - 1)) {
       pdf <- pdf + area(points[i], points[i + 1], f, cbPalette[i])
       cdf <- cdf + area(points[i], points[i + 1], F, cbPalette[i])
     }
-  
+
   save2(paste0("type7-", name), pdf, cdf)
 }
 
@@ -119,7 +119,7 @@ buildHd("2", 9, 0.25, c(0, 0.25))
 buildHd("3", 9, 0.25, (0:9)/9)
 buildHd("4", 5, 0.5, (0:5)/5)
 buildHd("5", 5, 0.5, (0:3)/3)
-buildHd("6", 5, 0.5, c(0, 0.4, 0.8, 0.85, 0.90, 1))
+buildHd("6", 2.985075, 0.5, c(0, 0.4, 0.8, 0.85, 0.90, 1))
 
 buildType7("1", 5, 0.25)
 buildType7("2", 5, 0.25, c(0.2, 0.4))

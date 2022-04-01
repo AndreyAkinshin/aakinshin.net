@@ -304,13 +304,15 @@ It means that now we have three equal fragments (for $x_1$, $x_4$, $x_5$):
 {{< example >}}
 *Input:* $x = \{ 1, 2, 3, 4, 5 \}$, $w = \{ 0.4, 0.4, 0.05, 0.05, 0.1 \}$, $p = 0.5$.  
 The values of $x$ and $p$ match the previous example, so we have the same plot for $I_u(a, b)$.
-However, the new value of $w$ defines another fragmentation:
+However, the new value of $w$ defines another Kish’s effective sample size
+  ($n^*\approx 2.985$; $a=b\approx 1.493$)
+  and introduces another fragmentation:
 
 {{< imgld_small hd6 >}}
 
 As we can see, $x_1$ and $x_2$ have a major impact on the median value because they have high weights: $w_1 = w_2 = 0.4$.
 Meanwhile, $x_3$, $x_4$, and $x_5$ have a minor impact because they have low weights: $w_3 = 0.05$, $w_4 = 0.05$, $w_5 = 0.1$.
-The weighted median value $q^*_{0.5}$ is $\approx 1.7756$.
+The weighted median value $q^*_{0.5}$ is $\approx 1.8416$.
 
 {{< /example >}}
 
