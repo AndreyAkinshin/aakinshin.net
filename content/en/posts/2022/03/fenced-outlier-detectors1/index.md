@@ -1,10 +1,12 @@
 ---
-title: Fence-based outlier detectors
+title: Fence-based outlier detectors, Part 1
 date: 2022-03-29
 tags:
 - Statistics
 features:
 - math
+aliases:
+- fenced-outlier-detectors
 ---
 
 In previous posts, I discussed properties of [Tukey's fences]({{< ref tukey-outlier-probability>}})
