@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 05 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Fence-based outlier detectors, Part 2</title><link>https://aakinshin.net/posts/fenced-outlier-detectors2/</link><pubDate>Tue, 05 Apr 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/fenced-outlier-detectors2/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/fenced-outlier-detectors1/">previous post&lt;/a>,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 12 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Minimum meaningful statistical level for the Mann–Whitney U test</title><link>https://aakinshin.net/posts/mann-whitney-min-stat-level/</link><pubDate>Tue, 12 Apr 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mann-whitney-min-stat-level/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test">Mann–Whitney U test&lt;/a> is one of the most popular
+nonparametric null hypothesis significance tests.
+However, like any statistical test, it has limitations.
+We should always carefully match them with our business requirements.
+In this post, we discuss how to properly choose the statistical level for the Mann–Whitney U test on small samples.&lt;/p>
+&lt;p>Let&amp;rsquo;s say we want to compare two samples &lt;span class="math inline">\(x = \{ x_1, x_2, \ldots, x_n \}\)&lt;/span> and &lt;span class="math inline">\(y = \{ y_1, y_2, \ldots, y_m \}\)&lt;/span>
+using the one-sided Mann–Whitney U test.
+Sometimes, we don&amp;rsquo;t have an opportunity to gather enough data and we have to work with small samples.
+Imagine that the size of both samples is six: &lt;span class="math inline">\(n=m=6\)&lt;/span>.
+We want to set the statistical level &lt;span class="math inline">\(\alpha\)&lt;/span> to &lt;span class="math inline">\(0.001\)&lt;/span> (because we really don&amp;rsquo;t want to get false-positive results).
+Is it a valid requirement?
+In fact, the minimum p-value we can observe with &lt;span class="math inline">\(n=m=6\)&lt;/span> is &lt;span class="math inline">\(\approx 0.001082\)&lt;/span>.
+Thus, with &lt;span class="math inline">\(\alpha = 0.001\)&lt;/span>, it&amp;rsquo;s impossible to get a positive result.
+Meanwhile, everything is correct from the technical point of view:
+since we can&amp;rsquo;t get any positive results, the false positive rate is exactly zero which is less than &lt;span class="math inline">\(0.001\)&lt;/span>.
+However, it&amp;rsquo;s definitely not something that we want: with this setup the test becomes useless because
+it always provides negative results regardless of the input data.&lt;/p>
+&lt;p>This brings an important question: what is the minimum meaningful statistical level
+that we can require for the one-sided Mann–Whitney U test knowing the sample sizes?&lt;/p></description></item><item><title>Fence-based outlier detectors, Part 2</title><link>https://aakinshin.net/posts/fenced-outlier-detectors2/</link><pubDate>Tue, 05 Apr 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/fenced-outlier-detectors2/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/fenced-outlier-detectors1/">previous post&lt;/a>,
 I discussed different fence-based outlier detectors.
 In this post, I show some examples of these detectors with different parameters.&lt;/p></description></item><item><title>Fence-based outlier detectors, Part 1</title><link>https://aakinshin.net/posts/fenced-outlier-detectors1/</link><pubDate>Tue, 29 Mar 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/fenced-outlier-detectors1/</guid><description>&lt;p>In previous posts, I discussed properties of &lt;a href="https://aakinshin.net/posts/tukey-outlier-probability/">Tukey&amp;rsquo;s fences&lt;/a>
 and asymmetric decile-based outlier detector
