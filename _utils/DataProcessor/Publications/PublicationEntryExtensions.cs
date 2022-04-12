@@ -51,10 +51,10 @@ namespace DataProcessor.Publications
 
         public static string ToHtml(this PublicationEntry entry)
         {
-            var lang = entry.GetLanguage();
+            var lang = entry.OutputLanguage;
             var builder = new StringBuilder();
             builder.Append(entry.GetAuthors().ToHtml());
-            builder.Append(" ");
+            builder.Append(' ');
             builder.Append($"<span title=\"{entry.GetAbstract()}\">");
             builder.Append(Resolve(lang, "“", "«"));
             builder.Append(entry.GetTitle());
@@ -88,6 +88,7 @@ namespace DataProcessor.Publications
             
             if (builder.ToString().EndsWith("//"))
                 builder.Remove(builder.Length - 2, 2);
+
             var urls = entry.GetUrls();
             bool isVak = entry.GetKeywords().Contains("Vak");
             if (urls.Any() || isVak)
@@ -220,8 +221,29 @@ namespace DataProcessor.Publications
                     builder.AppendLine("  [[item.badge]]");
                     builder.AppendLine($"  Label = \"{entry.Type.ToLabel(culture)}\"");
 
+                    bool isWoS = entry.GetKeywords().Contains("WoS");
+                    if (isWoS)
+                    {
+                        builder.AppendLine("  [[item.badge]]");
+                        builder.AppendLine($"  Label = \"Web of Science\"");
+                    }
+                    
+                    bool isSpringer = entry.GetKeywords().Contains("Springer");
+                    if (isSpringer)
+                    {
+                        builder.AppendLine("  [[item.badge]]");
+                        builder.AppendLine($"  Label = \"Springer\"");
+                    }
+                    
+                    bool isScopus = entry.GetKeywords().Contains("Scopus");
+                    if (isScopus)
+                    {
+                        builder.AppendLine("  [[item.badge]]");
+                        builder.AppendLine($"  Label = \"Scopus\"");
+                    }
+
                     bool isVak = entry.GetKeywords().Contains("Vak");
-                    if (isVak)
+                    if (isVak || isWoS || isSpringer || isScopus)
                     {
                         builder.AppendLine("  [[item.badge]]");
                         var label = lang == PublicationLanguage.Russian ? "ВАК" : "VAK";
@@ -251,12 +273,16 @@ namespace DataProcessor.Publications
                             title = Resolve(lang, "RSCI", "РИНЦ");
                         else if (url.Contains("mathnet.ru"))
                             title = "MathNet";
-                        else if (url.Contains("link.springer.com"))
-                            title = "Springer";
                         else if (url.Contains("www.packtpub.com"))
                             title = "PacktPub";
+                        else if (url.Contains("apress"))
+                            title = "Apress";
+                        else if (url.Contains("springer"))
+                            title = "Springer";
                         else if (url.Contains("arxiv"))
                             title = "arXiv";
+                        else if (url.Contains("publons"))
+                            title = "Publons";
                         else if (url.Contains("conf.nsc.ru") || url.Contains("uni-bielefeld.de") ||
                                  url.Contains("cmb.molgen.mpg.de") || url.Contains("sites.google.com"))
                             title = Resolve(lang, "Conference site", "Сайт конференции");

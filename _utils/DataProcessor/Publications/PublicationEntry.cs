@@ -9,16 +9,18 @@ namespace DataProcessor.Publications
     {
         public PublicationEntryType Type { get; }
         public string Key { get; }
+        public PublicationLanguage OutputLanguage { get; }
         public Dictionary<string, string> Properties { get; }
 
-        public PublicationEntry(PublicationEntryType type, string key, Dictionary<string, string> properties)
+        public PublicationEntry(PublicationEntryType type, string key, PublicationLanguage outputLanguage, Dictionary<string, string> properties)
         {
             Type = type;
             Key = key;
+            OutputLanguage = outputLanguage;
             Properties = properties;
         }
 
-        public static PublicationEntry Read(StreamReader reader)
+        public static PublicationEntry Read(PublicationLanguage outputLanguage, StreamReader reader)
         {
             if (reader.Peek() == -1)
                 return null;
@@ -33,7 +35,7 @@ namespace DataProcessor.Publications
             {
                 var line = reader.ReadLine();
                 if (string.IsNullOrWhiteSpace(line) || line == "}")
-                    return new PublicationEntry(type, key, properties);
+                    return new PublicationEntry(type, key, outputLanguage, properties);
                 var equalIndex = line.IndexOf("=", StringComparison.Ordinal);
                 if (equalIndex == -1)
                     continue;
@@ -44,14 +46,14 @@ namespace DataProcessor.Publications
             }
         }
 
-        public static List<PublicationEntry> ReadAll(string fileName)
+        public static List<PublicationEntry> ReadAll(PublicationLanguage outputLanguage, string fileName)
         {
             var entries = new List<PublicationEntry>();
             using (var reader = new StreamReader(Path.Combine(DirectoryDetector.GetDataRawDirectory(), fileName)))
             {
                 while (true)
                 {
-                    var entry = Read(reader);
+                    var entry = Read(outputLanguage, reader);
                     if (entry != null)
                         entries.Add(entry);
                     else
@@ -62,11 +64,11 @@ namespace DataProcessor.Publications
             return entries;
         }
 
-        public static List<PublicationEntry> ReadAll(params string[] fileNames)
+        public static List<PublicationEntry> ReadAll(PublicationLanguage outputLanguage, params string[] fileNames)
         {
             var entries = new List<PublicationEntry>();
             foreach (var fileName in fileNames)
-                entries.AddRange(ReadAll(fileName));
+                entries.AddRange(ReadAll(outputLanguage, fileName));
             return entries;
         }
     }
