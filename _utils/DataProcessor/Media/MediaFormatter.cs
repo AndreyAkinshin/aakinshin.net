@@ -32,7 +32,9 @@ namespace DataProcessor.Media
             if (item.Title != "")
             {
                 builder.Append("  ");
+                builder.Append($"<a href='{item.Url}'>");
                 builder.Append(item.Title);
+                builder.Append("</a>");
                 builder.AppendLine("<br />");
             }
 
@@ -75,17 +77,17 @@ namespace DataProcessor.Media
             return type;
         }
 
-        public string GetUrlTitle(MediaItem item, string culture)
+        public string GetKindTitle(MediaItem item, string culture)
         {
             if (culture.StartsWith("ru"))
                 switch (item.Kind)
                 {
                     case "text":
-                        return "Читать";
+                        return "Текст";
                     case "video":
-                        return "Смотреть";
+                        return item.Url.Contains("youtube", StringComparison.OrdinalIgnoreCase) ? "Видео (YouTube)" : "Видео";
                     case "audio":
-                        return "Слушать";
+                        return "Аудио";
                     default:
                         throw new Exception($"Unknown kind: {item.Kind}");
                 }
@@ -94,11 +96,11 @@ namespace DataProcessor.Media
                 switch (item.Kind)
                 {
                     case "text":
-                        return "Read";
+                        return "Text";
                     case "video":
-                        return "Watch";
+                        return item.Url.Contains("youtube", StringComparison.OrdinalIgnoreCase) ? "Video (YouTube)" : "Video";
                     case "audio":
-                        return "Listen";
+                        return "Audio";
                     default:
                         throw new Exception($"Unknown kind: {item.Kind}");
                 }
@@ -124,13 +126,6 @@ namespace DataProcessor.Media
                     builder.AppendLine($"Html = \"{Util.Escape(ToHtmlMain(item))}\"");
                     builder.AppendLine($"Index = {counter--}");
 
-                    if (!string.IsNullOrEmpty(item.Url))
-                    {
-                        builder.AppendLine("  [[item.link]]");
-                        builder.AppendLine($"  Label = \"{GetUrlTitle(item, culture)}\"");
-                        builder.AppendLine($"  Url = \"{item.Url}\"");
-                    }
-
                     if (!string.IsNullOrEmpty(item.Lang))
                     {
                         builder.AppendLine("  [[item.badge]]");
@@ -141,6 +136,12 @@ namespace DataProcessor.Media
                     {
                         builder.AppendLine("  [[item.badge]]");
                         builder.AppendLine($"  Label = \"{GetTypeLabel(item.Type, culture)}\"");
+                    }
+
+                    if (!string.IsNullOrEmpty(item.Kind))
+                    {
+                        builder.AppendLine("  [[item.badge]]");
+                        builder.AppendLine($"  Label = \"{GetKindTitle(item, culture)}\"");
                     }
 
                     builder.AppendLine();

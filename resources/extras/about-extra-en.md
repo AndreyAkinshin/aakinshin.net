@@ -143,7 +143,7 @@
   **[Microsoft MVP (Most Valuable Professional)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)**
   * 2015
   * 2016
-  * 2017
+  * 2017-2018
   * 2018-2019
   <br /><br />
 
