@@ -1,1 +1,1 @@
-.\bin\hugo.exe server --buildDrafts %*
+.\bin\hugo.exe server %*
