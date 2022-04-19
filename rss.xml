@@ -1,4 +1,14 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 12 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Minimum meaningful statistical level for the Mann–Whitney U test</title><link>https://aakinshin.net/posts/mann-whitney-min-stat-level/</link><pubDate>Tue, 12 Apr 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mann-whitney-min-stat-level/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test">Mann–Whitney U test&lt;/a> is one of the most popular
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 19 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Weighted trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/wthdqe/</link><pubDate>Tue, 19 Apr 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/wthdqe/</guid><description>&lt;p>In this post, I combine ideas from two of my previous posts:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://aakinshin.net/posts/pub-thdqe/">Trimmed Harrell-Davis quantile estimator&lt;/a>:
+quantile estimator that provides an optimal trade-off between statistical efficiency and robustness&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/weighted-quantiles/">Weighted quantile estimators&lt;/a>:
+a general scheme that allows building weighted quantile estimators.
+Could be used for &lt;a href="https://aakinshin.net/posts/quantile-exponential-smoothing/">quantile exponential smoothing&lt;/a>
+and &lt;a href="https://aakinshin.net/posts/dispersion-exponential-smoothing/">dispersion exponential smoothing&lt;/a>.&lt;/li>
+&lt;/ul>
+&lt;p>Thus, we are going to build a weighted version of the trimmed Harrell-Davis quantile estimator based on the highest
+density interval of the given width.&lt;/p></description></item><item><title>Minimum meaningful statistical level for the Mann–Whitney U test</title><link>https://aakinshin.net/posts/mann-whitney-min-stat-level/</link><pubDate>Tue, 12 Apr 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mann-whitney-min-stat-level/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test">Mann–Whitney U test&lt;/a> is one of the most popular
 nonparametric null hypothesis significance tests.
 However, like any statistical test, it has limitations.
 We should always carefully match them with our business requirements.
