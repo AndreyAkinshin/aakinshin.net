@@ -9,8 +9,8 @@ features:
 
 Since the beginning of previous year, I have been working on building a quantile estimator
   that provides an optimal trade-off between statistical efficiency and robustness.
-At the end of year, I [published]({{< ref preprint-thdqe >}}) the corresponding preprint
-  where I present a description of such an estimator:
+At the end of the year, I [published]({{< ref preprint-thdqe >}}) the corresponding preprint
+  where I presented a description of such an estimator:
   [arXiv:2111.11776 [stat.ME]](https://arxiv.org/abs/2111.11776).
 The paper source code is available on GitHub:
   [AndreyAkinshin/paper-thdqe](https://github.com/AndreyAkinshin/paper-thdqe).
