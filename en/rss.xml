@@ -33,7 +33,7 @@ and asymmetric decile-based outlier detector
 (&lt;a href="https://aakinshin.net/posts/asymmetric-decile-outliers1/">Part 1&lt;/a>, &lt;a href="https://aakinshin.net/posts/asymmetric-decile-outliers2/">Part 2&lt;/a>).
 In this post, I discuss the generalization of fence-based outlier detectors.&lt;/p></description></item><item><title>Publication announcement: 'Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width'</title><link>https://aakinshin.net/posts/pub-thdqe/</link><pubDate>Tue, 22 Mar 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/pub-thdqe/</guid><description>&lt;p>Since the beginning of previous year, I have been working on building a quantile estimator
 that provides an optimal trade-off between statistical efficiency and robustness.
-At the end of year, I &lt;a href="https://aakinshin.net/posts/preprint-thdqe/">published&lt;/a> the corresponding preprint
+At the end of the year, I &lt;a href="https://aakinshin.net/posts/preprint-thdqe/">published&lt;/a> the corresponding preprint
 where I present a description of such an estimator:
 &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.
 The paper source code is available on GitHub:
