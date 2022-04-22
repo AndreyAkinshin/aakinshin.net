@@ -1142,7 +1142,7 @@ we should set&lt;/p>
 &lt;p>where &lt;span class="math inline">\(\Phi^{-1}\)&lt;/span> is the quantile function of the standard normal distribution
 (or the inverse of the cumulative distribution function).
 If &lt;span class="math inline">\(X\)&lt;/span> is the normal distribution, we get &lt;span class="math inline">\(\textrm{MAD} = \sigma\)&lt;/span> where &lt;span class="math inline">\(\sigma\)&lt;/span> is the standard deviation.&lt;/p>
-&lt;p>Not let&amp;rsquo;s consider a sample &lt;span class="math inline">\(x = \{ x_1, x_2, \ldots x_n \}\)&lt;/span>.
+&lt;p>Now let&amp;rsquo;s consider a sample &lt;span class="math inline">\(x = \{ x_1, x_2, \ldots x_n \}\)&lt;/span>.
 Let&amp;rsquo;s denote the median absolute deviation for a sample of size &lt;span class="math inline">\(n\)&lt;/span> as &lt;span class="math inline">\(\textrm{MAD}_n\)&lt;/span>.
 The corresponding equation looks similar to the definition of &lt;span class="math inline">\(\textrm{MAD}\)&lt;/span> for a distribution:&lt;/p>
 &lt;p>&lt;span class="math display">\[\textrm{MAD}_n = C_n \cdot \textrm{median}(|x - \textrm{median}(x)|).
