@@ -33,7 +33,7 @@ where $\Phi^{-1}$ is the quantile function of the standard normal distribution
   (or the inverse of the cumulative distribution function).
 If $X$ is the normal distribution, we get $\textrm{MAD} = \sigma$ where $\sigma$ is the standard deviation.
 
-Not let's consider a sample $x = \{ x_1, x_2, \ldots x_n \}$.
+Now let's consider a sample $x = \{ x_1, x_2, \ldots x_n \}$.
 Let's denote the median absolute deviation for a sample of size $n$ as $\textrm{MAD}_n$.
 The corresponding equation looks similar to the definition of $\textrm{MAD}$ for a distribution:
 
