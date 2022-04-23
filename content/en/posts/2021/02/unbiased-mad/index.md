@@ -180,7 +180,7 @@ $$
 C_n = \dfrac{1}{\Phi^{-1}(3/4) \cdot (1+A_n)}
 $$
 
-For $n > 100$, they suggested to approaches.
+For $n > 100$, they suggested two approaches.
 The first one is based on [[Hayes2014]](#Hayes2014) (the same equation for both odd and even $n$ values):
 
 $$
