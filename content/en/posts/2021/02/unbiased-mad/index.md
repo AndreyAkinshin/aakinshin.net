@@ -145,9 +145,9 @@ $$
 b_n \cong 1 + cn^{-d}.
 $$
 
-In his paper, he applied the above equation only for *Shorth*
+In his paper, he applied the above equation only to *Shorth*
   (which is the smallest interval that contains at least half of the data points),
-  but this approach can also be applied for other measures of scale.
+  but this approach can also be applied to other measures of scale.
 
 #### The Hayes approach
 
