@@ -6,6 +6,8 @@ tags:
 - Statistics
 features:
 - math
+aliases:
+- hodgeslehmann-efficiency1
 ---
 
 In this post, we evaluate the relative statistical efficiency of the Hodges-Lehmann median estimator
@@ -60,7 +62,7 @@ As we can see, for $n\geq 6$, all three versions of the Hodges-Lehmann median es
   outperform the Harrell-Davis quantile estimator in terms of relative statistical efficiency
   under the normal distribution.
 
-In the future post, we perform more simulations study to get a better understanding of the properties
+In the [next post]({{< ref hodges-lehmann-efficiency2 >}}), we perform more simulations study to get a better understanding of the properties
   of the Hodges-Lehmann median estimator.
 
 ### References
