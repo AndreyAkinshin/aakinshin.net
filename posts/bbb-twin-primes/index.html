@@ -1,0 +1,100 @@
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Mathematics,BusyBeaverology"><title>Beeping Busy Beavers and twin prime conjecture | Andrey Akinshin</title><meta name=description content="In this post, I use Beeping Busy Beavers to show that twin prime conjecture could be proven or disproven."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.882998740b9c4c24677576b997bde5a487246e2e3bd72128a0e922eaa59db029.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.50da8736f05b35aac9691de67fe993cbe01b7d88fcf0cb682c3a8f39933fe4a3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.ae812fc71daf5160d927febda5a991cee6c361345e3f685d3736931ed7537986.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-posts href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-pdnb href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Beeping Busy Beavers and twin prime conjecture</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2022-06-01>June 1, 2022</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
+<a href=https://aakinshin.net/tags/busybeaverology/ class="badge badge-info">BusyBeaverology</a></span><br><br><p>In this post, I use Beeping Busy Beavers to show that twin prime conjecture could be proven or disproven.</p><h3 id=busy-beavers>Busy Beavers</h3><p>Let&rsquo;s consider a Turing machine <span class="math inline">\(T(n)\)</span> with a two-symbols alphabet, a 2-way infinite tape, and <span class="math inline">\(n\)</span> states.
+There are two types of such machines: machines that halt after a finite number of steps
+and machines that never halts (assuming all machines start on all-0 input tape).
+Among all <span class="math inline">\(T(n)\)</span> that halts, let&rsquo;s select the one that runs the longest.
+Such a machine is known as a <em>Busy Beaver</em> (introduced by Tibor Radó in 1962).
+The number of steps that the Busy Beaver performs before halting is known as the <em>Busy Beaver number</em>
+and it&rsquo;s typically denoted as <span class="math inline">\(\operatorname{BB}(n)\)</span>.
+This function grows astronomically fast and it could be proven to be uncomputable.
+However, we have some manually gathered information about several first Busy Beaver numbers:</p><table><thead><tr><th align=right>n</th><th align=right>BB(n)</th></tr></thead><tbody><tr><td align=right>1</td><td align=right>1</td></tr><tr><td align=right>2</td><td align=right>6</td></tr><tr><td align=right>3</td><td align=right>21</td></tr><tr><td align=right>4</td><td align=right>107</td></tr><tr><td align=right>5</td><td align=right><span class="math inline">\(\geq 47\,176\,870\)</span></td></tr><tr><td align=right>6</td><td align=right><span class="math inline">\(>7.4 \cdot 10^{36\,534}\)</span></td></tr><tr><td align=right>7</td><td align=right><span class="math inline">\(>10^{10^{10^{10^{18\,705\,352}}}}\)</span></td></tr></tbody></table><p><em>A remark: in May 2022, a set of new estimations for <span class="math inline">\(BB(6)\)</span> was discovered,
+see <a href=https://groups.google.com/g/busy-beaver-discuss>Busy Beaver Discuss</a> for details.</em></p><p>Busy Beavers have interesting applications.
+For example, let&rsquo;s consider <a href=https://en.wikipedia.org/wiki/Goldbach%27s_conjecture>Goldbach’s Conjecture</a>:
+&ldquo;Every even natural number greater than two is the sum of two prime numbers&rdquo;
+(e.g., 8=5+3).
+This conjecture was introduced in 1742, and it&rsquo;s still unresolved.
+Dozens of famous mathematicians tried to solve it without success.
+If we recall
+the <a href=https://en.wikipedia.org/wiki/G%C3%B6del%27s_incompleteness_theorems>Gödel&rsquo;s incompleteness theorems</a>,
+we may think that there is a chance that Goldbach’s Conjecture couldn&rsquo;t be proven or disproven.
+This though could be quite disturbing.
+Fortunately, Busy Beavers rush to the rescue.
+Let&rsquo;s build such a Turing machine that enumerates all the even numbers greater than two,
+check if an enumerated number is a sum of two primes,
+and halts if a counterexample for Goldbach’s Conjecture is found.
+There is <a href=https://gist.github.com/anonymous/a64213f391339236c2fe31f8749a0df6>such a machine that uses only 27 states</a>.
+Now let&rsquo;s run this machine awhile and see if it halts.
+If the number of performed steps exceeds <span class="math inline">\(\operatorname{BB}(27)\)</span>,
+it would mean that Goldbach’s Conjecture is true
+(because if it&rsquo;s false, the machine would have halted earlier).
+If it halts within less than <span class="math inline">\(\operatorname{BB}(27)\)</span> steps,
+it discovers a counterexample for Goldbach’s Conjecture.
+Although this approach is highly impractical (<span class="math inline">\(\operatorname{BB}(27)\)</span> is astronomically large),
+it allows us to prove that it&rsquo;s possible to prove to disprove Goldbach’s Conjecture.
+This approach could be applied to other conjectures like
+consistency of <a href=https://en.wikipedia.org/wiki/Zermelo%E2%80%93Fraenkel_set_theory>Zermelo–Fraenkel set theory</a>
+(<a href=https://github.com/sorear/metamath-turing-machines/blob/master/zf2.nql>here</a> a 748-state machine is proposed) or
+the <a href=https://en.wikipedia.org/wiki/Riemann_hypothesis>Riemann Hypothesis</a>
+(<a href=https://github.com/sorear/metamath-turing-machines/blob/master/riemann-matiyasevich-aaronson.nql>here</a>
+a 744-state machine is proposed).</p><p>If you want to learn more about Busy Beavers, I highly recommend the following resources:</p><ul><li><a href=https://www.scottaaronson.com/papers/bb.pdf>The Busy Beaver Frontier</a> by Scott Aaronson (2020)</li><li><a href=https://webusers.imj-prg.fr/~pascal.michel/ha.html>Historical survey of Busy Beavers</a> by Pascal Michel</li><li><a href=https://webusers.imj-prg.fr/~pascal.michel/bbc.html>The Busy Beaver Competitions</a> by Pascal Michel</li><li><a href=https://groups.google.com/g/busy-beaver-discuss>Busy Beaver Discussions on Google Groups</a></li><li><a href=https://bbchallenge.org/>The Busy Beaver Challenge</a></li></ul><h3 id=beeping-busy-beavers>Beeping Busy Beavers</h3><p>In <a href=https://www.scottaaronson.com/papers/bb.pdf>The Busy Beaver Frontier</a>,
+Scott Aaronson introduced a concept of a Beeping Busy Beaver.
+He suggested that we can denote one of the Turing machine states as a &ldquo;beeping state&rdquo;
+(whenever a machine reaches this state, it beeps without halting).
+Among all the machines <span class="math inline">\(T(n)\)</span> that beep a finite number of times,
+let&rsquo;s choose the one that runs the longest until the final beep is reached.
+Such a machine is known as a <em>Beeping Busy Beaver</em>.
+The number of steps that should be taken until the final beep happens is known as a
+<em>Beeping Busy Beaver number</em> as denoted as <span class="math inline">\(\operatorname{BBB}(n)\)</span>.
+<span class="math inline">\(\operatorname{BBB}(n)\)</span> is more uncomputable than <span class="math inline">\(\operatorname{BB}(n)\)</span>
+and it grows much faster.
+Here are estimations for several first values:</p><table><thead><tr><th align=right>n</th><th align=right>BB(n)</th></tr></thead><tbody><tr><td align=right>1</td><td align=right>1</td></tr><tr><td align=right>2</td><td align=right>6</td></tr><tr><td align=right>3</td><td align=right><span class="math inline">\(\geq 55\)</span></td></tr><tr><td align=right>4</td><td align=right><span class="math inline">\(\geq 32\,779\,478\)</span></td></tr><tr><td align=right>5</td><td align=right><span class="math inline">\(\geq 10^{10^{286\,574}}\)</span></td></tr></tbody></table><p>If you want to learn more about Beeping Busy Beavers, I highly recommend the following resources:</p><ul><li><a href=https://nickdrozd.github.io/>Nick Drozd&rsquo;s blog</a></li><li><a href=https://www.sligocki.com/>Shawn Ligocki&rsquo;s blog</a></li><li><a href=https://groups.google.com/g/busy-beaver-discuss>Busy Beaver Discussions on Google Groups</a></li></ul><h3 id=beeping-busy-beavers-and-the-twin-prime-conjecture>Beeping Busy Beavers and the twin prime conjecture</h3><p>The classic Busy Beavers works great for conjectures
+that could be disproved using a counterexample among a countable number of objects
+like Goldbach’s Conjecture.
+For such conjectures, we can always build a Turing machine that enumerates all the objects
+and halts once a counterexample is found.
+It provides a way to show that a conjecture could be proven or disproven.
+However, this approach doesn&rsquo;t work for conjectures that state
+that there is an infinite number of objects with a given computable property among a countable set.</p><p>A classic example of such a conjecture is the twin prime conjecture.
+It states that there are infinitely many twin primes
+which are pairs of prime numbers with a difference between them that equals two
+(e.g., <span class="math inline">\((5, 7)\)</span> or <span class="math inline">\((11, 13)\)</span>).
+Recently, I came up with an idea of how to apply Beeping Busy Beavers for such problems.</p><p>Let&rsquo;s consider a Turing machine that enumerates all the natural numbers <span class="math inline">\(x\)</span>
+and check if <span class="math inline">\((x, x+2)\)</span> is a twin prime pair.
+Once such a pair is found, the machine beeps.
+It never halts: it runs forever and enumerates all possible natural numbers.
+Obviously, such a machine could be easily built.
+Let&rsquo;s denote it as <span class="math inline">\(T_1\)</span>.
+We also denote the number of <span class="math inline">\(T_1\)</span> states as <span class="math inline">\(n_1\)</span>.</p><p>Now let&rsquo;s start this machine, make a cup of tea, and wait until <span class="math inline">\(T_1\)</span> is performed <span class="math inline">\(\operatorname{BBB}(n_1)\)</span> steps.
+We assume that at this moment, we enumerated <span class="math inline">\(m_1\)</span> natural numbers.
+If the twin prime conjecture is false, <span class="math inline">\(T_1\)</span> should beep a finite number of times;
+the last beep should happen before the step number <span class="math inline">\(\operatorname{BBB}(n_1)\)</span> is reached.
+If we continue executing this machine after <span class="math inline">\(\operatorname{BBB}(n_1)\)</span> steps and observe at least one beep,
+it would mean that it beeps forever and the twin prime conjecture is true.
+Thus, we showed that if there is a single twin prime pair greater than <span class="math inline">\(m_1\)</span>,
+there is an infinite number of twin prime pairs.
+Again, this approach is quite impractical because the universe would probably collapse
+before we perform <span class="math inline">\(\operatorname{BBB}(n_1)\)</span> steps,
+but it gives us an idea of the upper bound for the largest twin prime pair assuming
+that twin prime conjecture is false.</p><p>Next, we build another Turing machine <span class="math inline">\(T_2\)</span> with <span class="math inline">\(n_2\)</span> states
+that enumerates all the natural numbers <span class="math inline">\(x\)</span> starting from <span class="math inline">\(m_1\)</span>
+and halts if <span class="math inline">\((x, x+2)\)</span> is a twin prime pair.
+Let&rsquo;s make another cup of tea, run <span class="math inline">\(T_2\)</span> and wait for <span class="math inline">\(\operatorname{BB}(n_2)\)</span> steps.
+If <span class="math inline">\(T_2\)</span> halts at some moment, it would mean that we discovered a twin prime pair that is greater than <span class="math inline">\(m_1\)</span>
+and twin prime conjecture is true.
+If <span class="math inline">\(T_2\)</span> doesn&rsquo;t halt within <span class="math inline">\(\operatorname{BB}(n_2)\)</span> steps, it would mean that it never halts.
+In other words, there are no twin prime pairs greater than <span class="math inline">\(m_1\)</span> and
+the twin prime conjecture is false.</p><p>Thus, we showed that there is a way to prove or disprove twin prime conjecture using Beeping Busy Beavers
+and <span class="math inline">\(\operatorname{BBB}(n_1)+\operatorname{BB}(n_2)\)</span> simulation steps.
+Although, I really hope that there is a faster way to do it.</p><h3 id=discussion>Discussion</h3><p>I&rsquo;m not sure that the presented result is novel, but I failed to find it anywhere on the Internet.
+If you know of any papers that describe a similar idea, please let me know.
+Any feedback is welcome!</p><p>The described approach could be also applied to any conjecture that states that
+there is an infinite number of objects with a given computable property among a countable set.</p><br><br><div class=row><div class="mx-auto share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fbbb-twin-primes%2f&title=Beeping%20Busy%20Beavers%20and%20twin%20prime%20conjecture" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Beeping%20Busy%20Beavers%20and%20twin%20prime%20conjecture&url=https%3a%2f%2faakinshin.net%2fposts%2fbbb-twin-primes%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fbbb-twin-primes%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fbbb-twin-primes%2f&title=Beeping%20Busy%20Beavers%20and%20twin%20prime%20conjecture" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
+|
+<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a><a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a><a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.082780cb948cc57eabbc0d80172a7a5347d5572b599938b4c9876dfd7978b424.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script><script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true,processEnvironments:true,},options:{skipHtmlTags:['script','noscript','style','textarea','pre'],ignoreHtmlClass:'tex2jax_ignore',processHtmlClass:'tex2jax_process'}};</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></body></html>
