@@ -235,3 +235,8 @@ body {
 .share-button {
   padding-left: 15px;
 }
+
+/* Misc */
+.d-none{
+  display:none;
+}
