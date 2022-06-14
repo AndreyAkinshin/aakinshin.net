@@ -1,4 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 07 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Gastwirth's location estimator</title><link>https://aakinshin.net/posts/gastwirth/</link><pubDate>Tue, 07 Jun 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/gastwirth/</guid><description>&lt;p>Let &lt;span class="math inline">\(x = \{ x_1, x_2, \ldots, x_n \}\)&lt;/span> be a random sample.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 14 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Folded medians</title><link>https://aakinshin.net/posts/folded-medians/</link><pubDate>Tue, 14 Jun 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/folded-medians/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/gastwirth/">previous post&lt;/a>, we discussed the Gastwirth&amp;rsquo;s location estimator.
+In this post, we continue playing with different location estimators.
+To be more specific, we consider an approach called &lt;em>folded medians&lt;/em>.
+Let &lt;span class="math inline">\(x = \{ x_1, x_2, \ldots, x_n \}\)&lt;/span> be a random sample with order statistics
+&lt;span class="math inline">\(\{ x_{(1)}, x_{(2)}, \ldots, x_{(n)} \}\)&lt;/span>.
+We build a folded sample using the following form:&lt;/p>
+&lt;p>&lt;span class="math display">\[\Bigg\{ \frac{x_{(1)}+x_{(n)}}{2}, \frac{x_{(2)}+x_{(n-1)}}{2}, \ldots, \Bigg\}.
+\]&lt;/span>&lt;/p>
+&lt;p>If &lt;span class="math inline">\(n\)&lt;/span> is odd, the middle sample element is folded with itself.
+The folding operation could be applied several times.
+Once folding is conducted, the median of the final folded sample is the folded median.
+A single folding operation gives us the Bickel-Hodges estimator.&lt;/p>
+&lt;p>In this post, we briefly check how this metric behaves in the case of the Normal and Cauchy distributions.&lt;/p></description></item><item><title>Gastwirth's location estimator</title><link>https://aakinshin.net/posts/gastwirth/</link><pubDate>Tue, 07 Jun 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/gastwirth/</guid><description>&lt;p>Let &lt;span class="math inline">\(x = \{ x_1, x_2, \ldots, x_n \}\)&lt;/span> be a random sample.
 The Gastwirth&amp;rsquo;s location estimator is defined as follows:&lt;/p>
 &lt;p>&lt;span class="math display">\[0.3 \cdot Q_{⅓}(x) + 0.4 \cdot Q_{½}(x) + 0.3 \cdot Q_{⅔}(x),
 \]&lt;/span>&lt;/p>
