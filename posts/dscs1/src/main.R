@@ -101,7 +101,7 @@ draw.speed <- function(traj) {
     labs(x = "Re(e2)", y = "Im(e2)")
 }
 draw.3d <- function(traj) {
-  traj3d <- traj[,c("time", "e1", "e2", "e3", "name")]
+  traj3d <- traj[traj$time > simParams$startThreshold,c("time", "e1", "e2", "e3", "name")]
   traj3d[,2:4] <- round(traj3d[,2:4], 3) # Compressing
   plot_ly(
     traj3d, x = ~e1, y = ~e2, z = ~e3,
