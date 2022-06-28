@@ -170,3 +170,5 @@ $$
 0 & \textrm{if}\quad  u \neq U.
 \end{cases}
 $$
+
+Further notes about the suggested approach could be found [here]({{< ref mnzqad2 >}}).
