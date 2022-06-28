@@ -1,4 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 21 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>The expected number of takes from a discrete distribution before observing the given element</title><link>https://aakinshin.net/posts/expected-discrete-takes/</link><pubDate>Tue, 21 Jun 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/expected-discrete-takes/</guid><description>&lt;p>Let&amp;rsquo;s consider a discrete distribution &lt;span class="math inline">\(X\)&lt;/span> defined by its probability mass function &lt;span class="math inline">\(p_X(x)\)&lt;/span>.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 28 Jun 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Middle non-zero quantile absolute deviation, Part 2</title><link>https://aakinshin.net/posts/mnzqad2/</link><pubDate>Tue, 28 Jun 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mnzqad2/</guid><description>&lt;p>In one of the previous posts, I &lt;a href="https://aakinshin.net/posts/mnzqad/">described&lt;/a> the idea of the
+middle non-zero quantile absolute deviation.
+It&amp;rsquo;s defined as follows:&lt;/p>
+&lt;p>&lt;span class="math display">\[\operatorname{MNZQAD}(x, p) = \operatorname{QAD}(x, p, q_m),
+\]&lt;/span>&lt;/p>
+&lt;p>&lt;span class="math display">\[q_m = \frac{q_0 + 1}{2}, \quad
+q_0 = \frac{\max(k - 1, 0)}{n - 1}, \quad
+k = \sum_{i=1}^n \mathbf{1}_{Q(x, p)}(x_i),
+\]&lt;/span>&lt;/p>
+&lt;p>where &lt;span class="math inline">\(\mathbf{1}\)&lt;/span> is the indicator function&lt;/p>
+&lt;p>&lt;span class="math display">\[\mathbf{1}_U(u) = \begin{cases}
+1 &amp; \textrm{if}\quad u = U,\\
+0 &amp; \textrm{if}\quad u \neq U,
+\end{cases}
+\]&lt;/span>&lt;/p>
+&lt;p>and &lt;span class="math inline">\(\operatorname{QAD}\)&lt;/span> is the &lt;a href="https://aakinshin.net/posts/qad/">quantile absolute deviation&lt;/a>&lt;/p>
+&lt;p>&lt;span class="math display">\[\operatorname{QAD}(x, p, q) = Q(|x - Q(x, p)|, q).
+\]&lt;/span>&lt;/p>
+&lt;p>The &lt;span class="math inline">\(\operatorname{MNZQAD}\)&lt;/span> approach tries to work around a problem with tied values.
+While it works well in the generic case, there are some corner cases
+where the suggested metric behaves poorly.
+In this post, we discuss this problem and how to solve it.&lt;/p></description></item><item><title>The expected number of takes from a discrete distribution before observing the given element</title><link>https://aakinshin.net/posts/expected-discrete-takes/</link><pubDate>Tue, 21 Jun 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/expected-discrete-takes/</guid><description>&lt;p>Let&amp;rsquo;s consider a discrete distribution &lt;span class="math inline">\(X\)&lt;/span> defined by its probability mass function &lt;span class="math inline">\(p_X(x)\)&lt;/span>.
 We randomly take elements from &lt;span class="math inline">\(X\)&lt;/span> until we observe the given element &lt;span class="math inline">\(x_0\)&lt;/span>.
 What&amp;rsquo;s the expected number of takes in this process?&lt;/p>
 &lt;p>This classic statistical problem could be solved in various ways.
