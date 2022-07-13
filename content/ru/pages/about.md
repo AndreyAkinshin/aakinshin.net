@@ -16,10 +16,10 @@ url: /ru/about
   автор [Pro .NET Benchmarking]({{< ref prodotnetbenchmarking >}})
   (книга о практиках замеров производительности).
 
-Андрей — бывший performance lead в
+Андрей — математик в [Huawei Research](https://www.huawei.com/en/corporate-information/research-development).
+Он также бывший performance lead в
   [JetBrains](https://www.jetbrains.com/) [Rider](https://www.jetbrains.com/rider/)
-  (кроссплатформенная .NET IDE, основанная на платформе [IntelliJ](https://www.jetbrains.com/idea/) и [ReSharper](https://www.jetbrains.com/resharper/)).
-Он также
+  (кроссплатформенная .NET IDE, основанная на платформе [IntelliJ](https://www.jetbrains.com/idea/) и [ReSharper](https://www.jetbrains.com/resharper/)),
   председатель программного комитета конференции [DotNext](https://dotnext.ru/),
   [бывший Microsoft .NET MVP](https://mvp.microsoft.com/en-us/PublicProfile/5001348),
   серебрянный медалист [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest).

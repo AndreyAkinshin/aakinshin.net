@@ -56,6 +56,12 @@
     Кроссплатформенная .NET IDE на базе IntelliJ platform и ReSharper<br />
     *Мейнтейнер подсистем NuGet и Unit Testing*<br />
     *Автор фреймворка для тестов на производительность и сервиса мониторинга производительности*
+  <br /><br />
+
+  ![](/img/icons/huawei.png)
+  [Huawei Research](https://www.huawei.com/en/corporate-information/research-development)
+
+  * *06/2022-Сейчас:* математик
 </section>
 
 <hr />

@@ -56,6 +56,12 @@
     A cross-platform .NET IDE based on the IntelliJ platform and ReSharper<br />
     *Maintainer of the NuGet and Unit Testing subsystems*<br />
     *Author of a performance testing framework and a performance monitoring service*
+  <br /><br />
+
+  ![](/img/icons/huawei.png)
+  [Huawei Research](https://www.huawei.com/en/corporate-information/research-development)
+
+  * *06/2022–Present:* Mathematician
 
 </section>
 

@@ -1,4 +1,13 @@
 media:
+  - date: 2022-06-27
+    type: interview
+    kind: video
+    host: DotNext
+    title_ru: "Интервью с Андреем Акиньшиным (DotNext 2022 Spring)"
+    title_en: "Interview with Andrey Akinshin (DotNext 2022 Spring)"
+    lang: ru
+    url_en: https://dotnext.ru/en/talks/0e686bfe7e794ac89d972faaa5bdf0e8/
+    url_ru: https://dotnext.ru/talks/0e686bfe7e794ac89d972faaa5bdf0e8/
   - date: 2022-02-24
     kind: text
     host_en: Habrahabr
