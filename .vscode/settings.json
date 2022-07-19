@@ -82,5 +82,6 @@
         "zde",
         "zdemir",
         "Özdemir"
-    ]
+    ],
+    "r.lsp.promptToInstall": false
 }
