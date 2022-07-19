@@ -1,0 +1,108 @@
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Statistics"><title>Challenges of change point detection for CI performance data | Andrey Akinshin</title><meta name=description content="Change point detection is a popular task in various disciplines. There are many algorithms that solve this problem. For example, in Selective review of off..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.882998740b9c4c24677576b997bde5a487246e2e3bd72128a0e922eaa59db029.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.50da8736f05b35aac9691de67fe993cbe01b7d88fcf0cb682c3a8f39933fe4a3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.b7c11be17efd31d4852ff062694551596a7625c992103c0605c98f85d6569f11.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-posts href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-pdnb href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Challenges of change point detection for CI performance data</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2022-07-19>July 19, 2022</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a></span><br><br><p><a href=https://en.wikipedia.org/wiki/Change_detection>Change point detection</a> is a popular task in various disciplines.
+There are many algorithms that solve this problem.
+For example,
+in <a href=https://arxiv.org/abs/1801.00718v3>Selective review of offline change point detection methods (2020)</a>,
+the authors presented a classification of different approaches and discussed 35 algorithms.
+However, not all the algorithms fit all the situations.</p><p>In this post, we consider the problem of change point detection in time series based on
+software performance measurements obtained from a continuous integration (CI) server.
+Examples of data sources are CI builds, unit tests, benchmarks, performance tests, and so on.
+We would like to automatically find performance degradations in such time series.
+Unfortunately, most of the available algorithms do not provide a decent solution for this problem.
+In this post, I discuss some challenges that arise when we are looking for change points in CI performance data.</p><h3 id=basic-requirements>Basic requirements</h3><p>We start with a list of basic requirements we have for performance change point detection.</p><ul><li><strong>Unknown number of change points</strong><br>Many change point detectors require the exact number of expected change points in advance.
+We do not know this number, so we need a detector that does not need this information.</li><li><strong>Computational efficiency</strong><br>When we work with a huge enterprise project, we may want to analyze millions of long-lasting time series on daily basis.
+In this case, the detector&rsquo;s computational efficiency is quite important.
+Even <span class="math inline">\(O(N^2)\)</span> could become a non-acceptable bottleneck.
+Therefore, we would like to have something around <span class="math inline">\(O(N \log N)\)</span>.
+However, the exact requirements depend on the amount of data we want to analyze.</li><li><strong>Nonparametric distributions</strong><br>Some change point detectors require normally-distributed data so that
+they could track the changes in the mean or the standard deviation.
+In the world of performance measurements, there are too many non-normal distributions
+which we would like to support as well.</li><li><strong>Multimodal distribution support</strong><br>Some of the performance distributions are multimodal.
+A change could be defined by a shift of a single mode.
+We would like to support such scenarios.</li><li><strong>Heavy-tail distribution support</strong><br>Some of the performance distributions are heavy-tailed.
+It means that we could expect some extreme outliers.
+A performance change point detector should be robust so that its reliability is not affected by extreme values.</li><li><strong>Stability/consistency/persistency</strong><br>Let&rsquo;s say we analyzed a series of performance measurements, found some change points and sent corresponding alerts.
+Next, we extended the data sample with new freshly gathered measurements and repeated the analysis.
+What if the previous results don&rsquo;t match the current ones?
+E.g., some change points may appear, disappear, or displace.
+Should we send new alerts about freshly discovered two-week-old changes?
+Such inconsistencies may bring a lot of problems and false-positive alerts.
+A well-behaved performance change point detector shouldn&rsquo;t change the previously detected points,
+the results of different runs should be consistent with each other.</li></ul><p>Next, we discuss some advanced challenges that should be properly solved.</p><h3 id=change-point-classification>Change point classification</h3><p>There are various types of changes.
+When we start looking for change points, typically we expected to find
+accelerations (performance becomes better) or
+degradations (performance becomes worse).
+Unfortunately, in real life, not all the changes could be unambiguously classified as accelerations or degradations.
+Let&rsquo;s look at the following picture:</p><div class=row><div class=mx-auto><a href=/posts/cpd-perf-challenges/img/classification-light.png target=_blank class=imgldlink alt=classification><picture>
+<source theme=dark srcset=/posts/cpd-perf-challenges/img/classification-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/cpd-perf-challenges/img/classification-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/cpd-perf-challenges/img/classification-light.png></picture></a></div></div><br><p>On the third plot, a unimodal distribution is split into two modes.
+It means that one part of a distribution accelerated and the other one degraded.
+It&rsquo;s a common effect in the performance world that could appear due to various reasons
+like trade-off changes (e.g., changes in a caching strategy) or
+multithreading nondeterminism (e.g., unintentional race conditions).</p><p>We should learn how to classify different types of changes properly
+and we should specify formal alert criteria.
+What kind of changes do we want to be aware of?</p><h3 id=ranking>Ranking</h3><p>Not all the change points are equally important.
+If we automatically discover hundreds or thousands of changes,
+we don&rsquo;t always have the physical ability to review all of them.
+Therefore, we need some ranking strategy so that we could present only the most important and critical changes.
+In addition to external business requirements,
+we may consider introducing two following properties of each change point:</p><ul><li><em>Detection confidence:</em> how sure we are that we correctly find this particular change point?</li><li><em>Change magnitude:</em> what is the size of the change? (Could be expressed using absolute/relative units or effect size.)</li></ul><p>Let&rsquo;s consider a few examples.
+Here is the first one:</p><div class=row><div class=mx-auto><a href=/posts/cpd-perf-challenges/img/ranking1-light.png target=_blank class=imgldlink alt=ranking1><picture>
+<source theme=dark srcset=/posts/cpd-perf-challenges/img/ranking1-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/cpd-perf-challenges/img/ranking1-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/cpd-perf-challenges/img/ranking1-light.png></picture></a></div></div><br><p>Here we are quite confident that we correctly found a change point in the middle of the chart.
+However, the change magnitude is not so high.
+It could be a practically insignificant degradation that could be safely ignored.</p><p>Here is another example:</p><div class=row><div class=mx-auto><a href=/posts/cpd-perf-challenges/img/ranking2-light.png target=_blank class=imgldlink alt=ranking2><picture>
+<source theme=dark srcset=/posts/cpd-perf-challenges/img/ranking2-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/cpd-perf-challenges/img/ranking2-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/cpd-perf-challenges/img/ranking2-light.png></picture></a></div></div><br><p>Here we have five outliers in the middle of the plot.
+It could be an actual change in the values of higher distribution percentiles
+that should be marked with two change points.
+However, it could be just a random deviation that could be safely ignored.
+While the change magnitude is high, we are not sure that this is an actual change that should be detected.</p><h3 id=metadata-support>Metadata support</h3><p>Sometimes, it&rsquo;s possible to get some valuable insights from the metadata of raw performance measurements.
+Let&rsquo;s consider the following plot:</p><div class=row><div class=mx-auto><a href=/posts/cpd-perf-challenges/img/metadata-light.png target=_blank class=imgldlink alt=metadata><picture>
+<source theme=dark srcset=/posts/cpd-perf-challenges/img/metadata-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/cpd-perf-challenges/img/metadata-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/cpd-perf-challenges/img/metadata-light.png></picture></a></div></div><br><p>This plot combine the measurements from the main branch and all the other feature branches.
+Typically, we have a small number of measurements in the main branch which is not always enough
+to reliably detect change points.
+We could extend the data set with measurements from the feature branches in order to obtain more reliable conclusions.
+Unfortunately, this trick reduces the detection accuracy.
+Indeed, once a change happened in the main branch, some feature branches based on the obsolete commits
+may produce &ldquo;old-style&rdquo; measurements.
+It leads to a situation where we can say that we have an obvious change here,
+but we can&rsquo;t reliably detect its exact location.
+Using additional metadata with branch names allows getting better results
+in terms of detection confidence and location accuracy.</p><h3 id=matching-multiple-time-series>Matching multiple time series</h3><p>Now imagine that we try to find change points in multiple data series (e.g., in different unit tests):</p><div class=row><div class=mx-auto><a href=/posts/cpd-perf-challenges/img/matching-light.png target=_blank class=imgldlink alt=matching><picture>
+<source theme=dark srcset=/posts/cpd-perf-challenges/img/matching-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/cpd-perf-challenges/img/matching-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/cpd-perf-challenges/img/matching-light.png></picture></a></div></div><br><p>In some tests, we don&rsquo;t discover any changes.
+In other tests, we discover changes, but we are not sure about their locations,
+so it&rsquo;s hard to detect the exact commit that produced these changes.
+A good alert message based on such data should include possible culprit commits and the list of the affected tests.
+This task could be considered as multivariate change point detection with partially missing data
+(some test runs may fail and we have to exclude the corresponding measurements from the analysis).</p><h3 id=distance-between-change-points>Distance between change points</h3><p>Let&rsquo;s consider another timeline plot:</p><div class=row><div class=mx-auto><a href=/posts/cpd-perf-challenges/img/distance1-light.png target=_blank class=imgldlink alt=distance1><picture>
+<source theme=dark srcset=/posts/cpd-perf-challenges/img/distance1-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/cpd-perf-challenges/img/distance1-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/cpd-perf-challenges/img/distance1-light.png></picture></a></div></div><br><p>Do we have a change point here?
+We can&rsquo;t reliably claim this because the data set is quite small.
+Such a picture could be obtained by chance.
+When we analyze thousands of time series, there is a high probability of obtaining small &ldquo;pseudo-clusters&rdquo;
+without any actual changes in the source code.</p><p>A typical solution for such kind of problem is to introduce a requirement for minimum cluster size
+(or for the minimum distance between change points).
+Usually, I require 20-30 measurements between change points to keep the false-positive rate low.</p><p>Now let&rsquo;s consider another timeline plot:</p><div class=row><div class=mx-auto><a href=/posts/cpd-perf-challenges/img/distance2-light.png target=_blank class=imgldlink alt=distance2><picture>
+<source theme=dark srcset=/posts/cpd-perf-challenges/img/distance2-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/cpd-perf-challenges/img/distance2-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/cpd-perf-challenges/img/distance2-light.png></picture></a></div></div><br><p>Obviously, we have a series of degradations here.
+However, all the obtained clusters are too small (only five data points in each cluster).
+With a requirement on the distance between change points,
+we will not be able to mark all the suspicious places as change points.
+Moreover, some of them may be pseudo-changes that were obtained by chance from the same sources.
+It&rsquo;s also impossible to rank these suspicious change point candidates, all of them look almost the same.</p><p>Meanwhile, we have an obvious problem here.
+This problem should be definitely reported.
+But how should we choose the location of change points to report?
+We could pick random ones according to the requirement on the distance between change points,
+but how do we guarantee the persistence of the results?
+If we pick different partitions each time, it would lead to a huge number of alters (a situation that we want to avoid).</p><h3 id=conclusion>Conclusion</h3><p>Change point detection is a difficult problem in any context.
+Additional task specifications from the domain area may make this problem even more difficult.
+Partial solutions may be useless if they produce too many false-positive alerts.
+How to choose a proper algorithm that satisfies all the requirements at the same time?
+It&rsquo;s an excellent question.
+Unfortunately, I don&rsquo;t have a silver bullet that fits any context and works without problems.
+However, I have some approaches that could be &ldquo;good enough&rdquo; under special circumstances.
+In future posts, I will speculate about some of the possible solutions.</p><br><br><div class=row><div class="mx-auto share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fcpd-perf-challenges%2f&title=Challenges%20of%20change%20point%20detection%20for%20CI%20performance%20data" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Challenges%20of%20change%20point%20detection%20for%20CI%20performance%20data&url=https%3a%2f%2faakinshin.net%2fposts%2fcpd-perf-challenges%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fcpd-perf-challenges%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fcpd-perf-challenges%2f&title=Challenges%20of%20change%20point%20detection%20for%20CI%20performance%20data" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
+|
+<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a><a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a><a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.082780cb948cc57eabbc0d80172a7a5347d5572b599938b4c9876dfd7978b424.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script><script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true,processEnvironments:true,},options:{skipHtmlTags:['script','noscript','style','textarea','pre'],ignoreHtmlClass:'tex2jax_ignore',processHtmlClass:'tex2jax_process'}};</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></body></html>

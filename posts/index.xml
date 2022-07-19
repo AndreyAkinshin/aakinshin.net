@@ -1,4 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 17 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Dynamical System Case Study 2 (Piecewise linear LLL-system)</title><link>https://aakinshin.net/posts/dscs2/</link><pubDate>Sun, 17 Jul 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/dscs2/</guid><description>&lt;p>We consider the following dynamical system:&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 19 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Challenges of change point detection for CI performance data</title><link>https://aakinshin.net/posts/cpd-perf-challenges/</link><pubDate>Tue, 19 Jul 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/cpd-perf-challenges/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Change_detection">Change point detection&lt;/a> is a popular task in various disciplines.
+There are many algorithms that solve this problem.
+For example,
+in &lt;a href="https://arxiv.org/abs/1801.00718v3">Selective review of offline change point detection methods (2020)&lt;/a>,
+the authors presented a classification of different approaches and discussed 35 algorithms.
+However, not all the algorithms fit all the situations.&lt;/p>
+&lt;p>In this post, we consider the problem of change point detection in time series based on
+software performance measurements obtained from a continuous integration (CI) server.
+Examples of data sources are CI builds, unit tests, benchmarks, performance tests, and so on.
+We would like to automatically find performance degradations in such time series.
+Unfortunately, most of the available algorithms do not provide a decent solution for this problem.
+In this post, I discuss some challenges that arise when we are looking for change points in CI performance data.&lt;/p></description></item><item><title>Dynamical System Case Study 2 (Piecewise linear LLL-system)</title><link>https://aakinshin.net/posts/dscs2/</link><pubDate>Sun, 17 Jul 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/dscs2/</guid><description>&lt;p>We consider the following dynamical system:&lt;/p>
 &lt;p>&lt;span class="math display">\[\begin{cases}
 \dot{x}_1 = L(a_1, k_1, x_3) - k_1 x_1,\\
 \dot{x}_2 = L(a_2, k_2, x_1) - k_2 x_2,\\
