@@ -1,4 +1,30 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 19 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Challenges of change point detection in CI performance data</title><link>https://aakinshin.net/posts/cpd-perf-challenges/</link><pubDate>Tue, 19 Jul 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/cpd-perf-challenges/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Change_detection">Change point detection&lt;/a> is a popular task in various disciplines.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 26 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Preprint announcement: 'Finite-sample bias-correction factors for the median absolute deviation based on the Harrell-Davis quantile estimator and its trimmed modification'</title><link>https://aakinshin.net/posts/preprint-mad-factors/</link><pubDate>Tue, 26 Jul 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/preprint-mad-factors/</guid><description>&lt;p>I have just published a preprint of a paper
+&amp;lsquo;Finite-sample bias-correction factors for the median absolute deviation based on the Harrell-Davis quantile estimator and its trimmed modification&amp;rsquo;.
+It&amp;rsquo;s based on a series of my &lt;a href="https://aakinshin.net/tags/research-unbiased-mad/">research notes&lt;/a>
+that I have been writing since February 2021.&lt;/p>
+&lt;p>The paper preprint is available on arXiv:
+&lt;a href="https://arxiv.org/abs/2207.12005">arXiv:2207.12005 [stat.ME]&lt;/a>.
+The paper source code is available on GitHub:
+&lt;a href="https://github.com/AndreyAkinshin/paper-mad-factors">AndreyAkinshin/paper-mad-factors&lt;/a>.
+You can cite it as follows:&lt;/p>
+&lt;ul>
+&lt;li>Andrey Akinshin (2022)
+&amp;ldquo;Finite-sample bias-correction factors for the median absolute deviation based on the Harrell-Davis quantile estimator and its trimmed modification,&amp;rdquo;
+&lt;a href="https://arxiv.org/abs/2207.12005">arXiv:2207.12005&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Abstract:&lt;/p>
+&lt;blockquote>
+&lt;p>The median absolute deviation is a widely used robust measure of statistical dispersion.
+Using a scale constant, we can use it as an asymptotically consistent estimator for the standard deviation under normality.
+For finite samples, the scale constant should be corrected in order to obtain an unbiased estimator.
+The bias-correction factor depends on the sample size and the median estimator.
+When we use the traditional sample median, the factor values are well known,
+but this approach does not provide optimal statistical efficiency.
+In this paper, we present the bias-correction factors for the median absolute deviation
+based on the Harrell-Davis quantile estimator and its trimmed modification
+which allow us to achieve better statistical efficiency of the standard deviation estimations.
+The obtained estimators are especially useful for samples with a small number of elements.&lt;/p>
+&lt;/blockquote></description></item><item><title>Challenges of change point detection in CI performance data</title><link>https://aakinshin.net/posts/cpd-perf-challenges/</link><pubDate>Tue, 19 Jul 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/cpd-perf-challenges/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Change_detection">Change point detection&lt;/a> is a popular task in various disciplines.
 There are many algorithms that solve this problem.
 For example,
 in &lt;a href="https://arxiv.org/abs/1801.00718v3">Selective review of offline change point detection methods (2020)&lt;/a>,
