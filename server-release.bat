@@ -1,1 +1,1 @@
-.\bin\hugo.exe server %*
+.\bin\hugo.exe server --port 1313 --liveReloadPort 1313 %*

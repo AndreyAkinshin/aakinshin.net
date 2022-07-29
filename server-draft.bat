@@ -1,1 +1,1 @@
-.\bin\hugo.exe server --buildDrafts %*
+.\bin\hugo.exe server --buildDrafts --port 1313 --liveReloadPort 1313 %*
