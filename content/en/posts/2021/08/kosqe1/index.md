@@ -54,7 +54,7 @@ First of all, we should define the properties of quantile estimators that are im
     *with a function instead of a single number.*
   *Nevertheless, this function provides much more stable values that are mostly not so sensitive to outliers.*
 * **Robustness**  
-  Heavy-tailness is a frequent property of real-life distributions.
+  Heavy-tailedness is a frequent property of real-life distributions.
   With such a property, we could expect to have extreme outliers that could corrupt the estimations.
   With a low breakdown point, even a few outliers may distort estimations for all required quantiles
     and significantly reduce the statistical efficiency.

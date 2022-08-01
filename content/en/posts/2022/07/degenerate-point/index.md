@@ -3,6 +3,7 @@ title: Degenerate point of dispersion estimators
 date: 2022-07-12
 tags:
 - Statistics
+- research-qad
 features:
 - math
 ---
@@ -42,7 +43,7 @@ Thus, $\operatorname{MAD}$ is one of the most robust measures of statistical dis
 Unfortunately, it has some issues with tied values.
 For example, let's consider the the [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution)
   $\operatorname{Pois}(\lambda)$.
-It's probability mass function is defined as $p(k)=\lambda^k e^{-\lambda} / k!$.
+Its probability mass function is defined as $p(k)=\lambda^k e^{-\lambda} / k!$.
 It's easy to see that when $\lambda < \lambda_0 = -\ln(0.5) \approx 0.6931$,
   $p(0) > 0.5$ (more than half of the distribution gives zero elements).
 In this case, the median absolute deviation becomes zero.
