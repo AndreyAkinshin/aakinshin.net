@@ -26,7 +26,7 @@ it&rsquo;s extremely resistant to outliers.
 Unfortunately, it has some issues with tied values.
 For example, let&rsquo;s consider the the <a href=https://en.wikipedia.org/wiki/Poisson_distribution>Poisson distribution</a>
 <span class="math inline">\(\operatorname{Pois}(\lambda)\)</span>.
-It&rsquo;s probability mass function is defined as <span class="math inline">\(p(k)=\lambda^k e^{-\lambda} / k!\)</span>.
+Its probability mass function is defined as <span class="math inline">\(p(k)=\lambda^k e^{-\lambda} / k!\)</span>.
 It&rsquo;s easy to see that when <span class="math inline">\(\lambda < \lambda_0 = -\ln(0.5) \approx 0.6931\)</span>,
 <span class="math inline">\(p(0) > 0.5\)</span> (more than half of the distribution gives zero elements).
 In this case, the median absolute deviation becomes zero.
