@@ -13,9 +13,9 @@ talks:
       - key: event
         url: http://dotnext.ru/
       - key: talk_en
-        url: https://dotnext.ru/en/talks/425c64248c894c18a814d2c1c0620390/
+        url: https://2022spring.dotnext.ru/en/talks/425c64248c894c18a814d2c1c0620390/
       - key: talk_ru
-        url: https://dotnext.ru/talks/425c64248c894c18a814d2c1c0620390/
+        url: https://2022spring.dotnext.ru/talks/425c64248c894c18a814d2c1c0620390/
       - key: youtube
         url: https://www.youtube.com/watch?v=BqqYmvq0m8k
       - key: photos
