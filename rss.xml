@@ -1213,7 +1213,10 @@ A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">
 &lt;p>In one of &lt;a href="https://aakinshin.net/posts/winsorized-hdqe/">the previous posts&lt;/a>, I discussed winsorized Harrell-Davis quantile estimator.
 This estimator is more robust than the classic Harrell-Davis quantile estimator.
 In this post, I want to suggest another modification that may be better for some corner cases:
-the &lt;em>trimmed&lt;/em> Harrell-Davis quantile estimator.&lt;/p></description></item><item><title>Efficiency of the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/hdqe-efficiency/</link><pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/hdqe-efficiency/</guid><description>&lt;p>One of the most essential properties of a quantile estimator is
+the &lt;em>trimmed&lt;/em> Harrell-Davis quantile estimator.&lt;/p></description></item><item><title>Efficiency of the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/hdqe-efficiency/</link><pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/hdqe-efficiency/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
+A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
+A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
+&lt;p>One of the most essential properties of a quantile estimator is
 its &lt;a href="https://en.wikipedia.org/wiki/Efficiency_(statistics)">efficiency&lt;/a>.
 In simple words, the efficiency describes the estimator accuracy.
 The Harrell-Davis quantile estimator is a good option to achieve higher efficiency.
