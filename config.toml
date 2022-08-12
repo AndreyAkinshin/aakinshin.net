@@ -9,6 +9,8 @@ defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = false
 hasCJKLanguage = false
 
+[params]
+  publicBaseURL = "https://aakinshin.net"
 [languages]
   [languages.en]
   title = "Andrey Akinshin"
