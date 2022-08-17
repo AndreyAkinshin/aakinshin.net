@@ -154,7 +154,7 @@ While this empirical rule is applicable to many unimodal continuous light-tailed
 
 Let us consider the Fréchet distribution with shape equals $1$, scale equals $1$, location equals $0$.
 It is a commonly used example of heavy-tailed distribution.
-Its true median value is $M \approx 0.9$ and
+Its true median value is $M \approx 1.44$ and
   the true median absolute deviation values is $\operatorname{MAD} \approx 0.9$.
 Its density plot is presented in the below figure:
 
