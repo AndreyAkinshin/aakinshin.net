@@ -1,4 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 25 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Quantile absolute deviation of the Uniform distribution</title><link>https://aakinshin.net/posts/qad-uniform/</link><pubDate>Thu, 25 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qad-uniform/</guid><description>&lt;p>In this post,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 26 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Quantile absolute deviation of the Exponential distribution</title><link>https://aakinshin.net/posts/qad-exp/</link><pubDate>Fri, 26 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qad-exp/</guid><description>&lt;p>In this post,
+we derive the exact equation for the quantile absolute deviation around the median of the Exponential distribution.&lt;/p>
+&lt;div class="row">
+&lt;div class="mx-auto">
+&lt;a href="https://aakinshin.net/posts/qad-exp/img/qad-light.png" target="_blank" class="imgldlink" alt="qad">
+&lt;picture>
+&lt;source
+theme='dark'
+srcset="https://aakinshin.net/posts/qad-exp/img/qad-dark.png"
+media="(prefers-color-scheme: dark)">
+&lt;source
+theme='light'
+srcset="https://aakinshin.net/posts/qad-exp/img/qad-light.png"
+media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;img
+class="mx-auto d-block img-fluid"
+width='800'
+src="https://aakinshin.net/posts/qad-exp/img/qad-light.png">
+&lt;/picture>
+&lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br /></description></item><item><title>Quantile absolute deviation of the Uniform distribution</title><link>https://aakinshin.net/posts/qad-uniform/</link><pubDate>Thu, 25 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qad-uniform/</guid><description>&lt;p>In this post,
 we derive the exact equation for the quantile absolute deviation around the median of the Uniform distribution.&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
