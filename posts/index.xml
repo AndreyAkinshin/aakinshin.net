@@ -1,4 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 29 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Quantile absolute deviation of the Pareto distribution</title><link>https://aakinshin.net/posts/qad-pareto/</link><pubDate>Mon, 29 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qad-pareto/</guid><description>&lt;p>In this post,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 30 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Optimal quantile absolute deviation</title><link>https://aakinshin.net/posts/oqad/</link><pubDate>Tue, 30 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/oqad/</guid><description>&lt;p>We consider the quantile absolute deviation around the median defined as follows:&lt;/p>
+&lt;p>&lt;span class="math display">\[\newcommand{\E}{\mathbb{E}}
+\newcommand{\PR}{\mathbb{P}}
+\newcommand{\Q}{\operatorname{Q}}
+\newcommand{\OQAD}{\operatorname{OQAD}}
+\newcommand{\QAD}{\operatorname{QAD}}
+\newcommand{\median}{\operatorname{median}}
+\newcommand{\Exp}{\operatorname{Exp}}
+\newcommand{\SD}{\operatorname{SD}}
+\newcommand{\V}{\mathbb{V}}
+\QAD(X, p) = K_p \Q(|X - \median(X)|, p),
+\]&lt;/span>&lt;/p>
+&lt;p>where &lt;span class="math inline">\(\Q\)&lt;/span> is a quantile estimator,
+and &lt;span class="math inline">\(K_p\)&lt;/span> is a scale constant which we use to make &lt;span class="math inline">\(\QAD(X, p)\)&lt;/span> an asymptotically consistent estimator
+for the standard deviation under the normal distribution.&lt;/p>
+&lt;p>In this post, we get the exact values of the &lt;span class="math inline">\(K_p\)&lt;/span> values,
+derive the corresponding equation for the asymptotic Gaussian efficiency of &lt;span class="math inline">\(\QAD(X, p)\)&lt;/span>,
+and find the point in which &lt;span class="math inline">\(\QAD(X, p)\)&lt;/span> achieves the highest Gaussian efficiency.&lt;/p></description></item><item><title>Quantile absolute deviation of the Pareto distribution</title><link>https://aakinshin.net/posts/qad-pareto/</link><pubDate>Mon, 29 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qad-pareto/</guid><description>&lt;p>In this post,
 we derive the exact equation for the quantile absolute deviation around the median of the Pareto(1,1) distribution.&lt;/p>
 &lt;div class="row">
 &lt;div class="mx-auto">
