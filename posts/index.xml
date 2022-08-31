@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 30 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Optimal quantile absolute deviation</title><link>https://aakinshin.net/posts/oqad/</link><pubDate>Tue, 30 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/oqad/</guid><description>&lt;p>We consider the quantile absolute deviation around the median defined as follows:&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 31 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Standard trimmed Harrell-Davis median estimator</title><link>https://aakinshin.net/posts/sthdme/</link><pubDate>Wed, 31 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/sthdme/</guid><description>&lt;p>In &lt;a href="https://aakinshin.net/posts/sqad/">one of the previous posts&lt;/a>, I suggested a new measure of dispersion called
+&lt;em>the standard quantile absolute deviation around the median&lt;/em> (&lt;span class="math inline">\(\operatorname{SQAD}\)&lt;/span>) which can be used as an alternative
+to the median absolute deviation (&lt;span class="math inline">\(\operatorname{MAD}\)&lt;/span>) as a consistent estimator for the standard deviation under normality.
+The Gaussian efficiency of &lt;span class="math inline">\(\operatorname{SQAD}\)&lt;/span> is &lt;span class="math inline">\(54\%\)&lt;/span> (comparing to &lt;span class="math inline">\(37\%\)&lt;/span> for MAD),
+and its breakdown point is &lt;span class="math inline">\(32\%\)&lt;/span> (comparing to &lt;span class="math inline">\(50\%\)&lt;/span> for MAD).
+&lt;span class="math inline">\(\operatorname{SQAD}\)&lt;/span> is a symmetric dispersion measure around the median:
+the interval &lt;span class="math inline">\([\operatorname{Median} - \operatorname{SQAD}; \operatorname{Median} + \operatorname{SQAD}]\)&lt;/span>
+covers &lt;span class="math inline">\(68\%\)&lt;/span> of the distribution.
+In the case of the normal distribution, this corresponds to the interval &lt;span class="math inline">\([\mu - \sigma; \mu + \sigma]\)&lt;/span>.&lt;/p>
+&lt;p>If we use &lt;span class="math inline">\(\operatorname{SQAD}\)&lt;/span>, we accept the breakdown point of &lt;span class="math inline">\(32\%\)&lt;/span>.
+This makes the sample median a non-optimal choice for the median estimator.
+Indeed, the sample median has high robustness (the breakdown point is &lt;span class="math inline">\(50\%\)&lt;/span>),
+but relatively poor Gaussian efficiency.
+If we use &lt;span class="math inline">\(\operatorname{SQAD}\)&lt;/span>, it doesn&amp;rsquo;t make sense to require a breakdown point of more than &lt;span class="math inline">\(32\%\)&lt;/span>.
+Therefore, we could trade the median robustness for efficiency
+and come up with a complementary measure of the median for &lt;span class="math inline">\(\operatorname{SQAD}\)&lt;/span>.&lt;/p>
+&lt;p>In this post, we introduce the standard trimmed Harrell-Davis median estimator which shares
+the breakdown point with &lt;span class="math inline">\(\operatorname{SQAD}\)&lt;/span> and provides better finite-sample efficiency comparing
+to the sample median.&lt;/p></description></item><item><title>Optimal quantile absolute deviation</title><link>https://aakinshin.net/posts/oqad/</link><pubDate>Tue, 30 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/oqad/</guid><description>&lt;p>We consider the quantile absolute deviation around the median defined as follows:&lt;/p>
 &lt;p>&lt;span class="math display">\[\newcommand{\E}{\mathbb{E}}
 \newcommand{\PR}{\mathbb{P}}
 \newcommand{\Q}{\operatorname{Q}}
