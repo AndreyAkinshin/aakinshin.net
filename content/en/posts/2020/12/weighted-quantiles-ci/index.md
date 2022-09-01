@@ -3,7 +3,9 @@ title: "Quantile confidence intervals for weighted samples"
 description: "How to modify the Maritz-Jarrett method to estimate confidence intervals around given quantiles on weighted samples"
 date: "2020-12-08"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - Confidence Interval
 features:

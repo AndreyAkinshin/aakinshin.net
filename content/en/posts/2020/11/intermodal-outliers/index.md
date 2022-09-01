@@ -3,7 +3,9 @@ title: "Intermodal outliers"
 description: "In this post, we cover outliers that appear between modes of multimodal distributions"
 date: "2020-11-10"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Multimodality
 - QRDE
 - Harrell-Davis quantile estimator

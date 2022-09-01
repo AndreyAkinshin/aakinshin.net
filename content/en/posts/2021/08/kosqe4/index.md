@@ -2,7 +2,9 @@
 title: "Quantile estimators based on k order statistics, Part 4: Adopting trimmed Harrell-Davis quantile estimator"
 date: 2021-08-24
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile Estimators
 - Quantile estimators based on k order statistics
 - research-thdqe

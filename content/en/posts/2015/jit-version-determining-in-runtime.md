@@ -2,6 +2,7 @@
 title: "JIT version determining in runtime"
 date: "2015-02-28"
 tags:
+- programming
 - dotnet
 - cs
 - JIT

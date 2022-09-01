@@ -2,7 +2,9 @@
 title: "Optimal window of the trimmed Harrell-Davis quantile estimator, Part 1: Problems with the rectangular window"
 date: 2021-10-05
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Optimal window of the trimmed Harrell-Davis quantile estimator
 - research-thdqe
 features:

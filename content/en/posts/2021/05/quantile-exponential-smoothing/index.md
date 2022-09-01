@@ -2,7 +2,9 @@
 title: Quantile exponential smoothing
 date: 2021-05-04
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - Harrell-Davis quantile estimator
 - Exponential smoothing

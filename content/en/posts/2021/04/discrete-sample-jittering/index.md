@@ -3,7 +3,9 @@ title: How to build a smooth density estimation for a discrete sample using jitt
 description: A simple technique that removes ties from samples without noticeable changes in density
 date: 2021-04-20
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Density estimation
 - Discrete distributions
 - Ties

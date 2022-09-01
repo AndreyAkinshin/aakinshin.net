@@ -2,8 +2,8 @@
 title: "Preprint announcement: 'Quantile absolute deviation'"
 date: 2022-09-01
 tags:
-- 
-- Statistics
+- mathematics
+- statistics
 - paper-announcement
 - research-qad
 features:

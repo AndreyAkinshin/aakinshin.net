@@ -3,7 +3,9 @@ title: Optimal threshold of the trimmed Harrell-Davis quantile estimator
 thumbnail: LightAndHeavy__N40_Efficiency-light
 date: 2021-07-20
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - Statistical efficiency
 - research-thdqe

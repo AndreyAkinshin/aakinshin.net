@@ -3,7 +3,9 @@ title: Kernel density estimation and discrete values
 description: "A discussion about kernel density estimation problems for distributions with discrete features"
 date: 2021-04-13
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Density estimation
 - Discrete distribution
 - Ties

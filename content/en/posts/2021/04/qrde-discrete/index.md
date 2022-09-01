@@ -3,7 +3,9 @@ title: Improving quantile-respectful density estimation for discrete distributio
 description: "A discussion about quantile-respectful density estimation problems for distributions with discrete features"
 date: 2021-04-27
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - QRDE
 - Density estimation

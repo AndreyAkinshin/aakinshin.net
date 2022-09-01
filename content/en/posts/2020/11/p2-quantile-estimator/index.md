@@ -3,7 +3,9 @@ title: "P² quantile estimator: estimating the median without storing values"
 description: "An algorithm that allows estimating quantile values without storing values"
 date: "2020-11-24"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantiles
 - Performance Telemetry
 - research-p2qe

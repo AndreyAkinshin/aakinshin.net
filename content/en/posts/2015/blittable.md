@@ -2,6 +2,7 @@
 title: "Blittable types"
 date: "2015-11-26"
 tags:
+- programming
 - dotnet
 - cs
 - Internals

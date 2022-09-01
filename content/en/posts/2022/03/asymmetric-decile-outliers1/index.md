@@ -2,8 +2,10 @@
 title: Asymmetric decile-based outlier detector, Part 1
 date: 2022-03-08
 tags:
-- Statistics
-- Outliers
+- mathematics
+- statistics
+- research
+- outlier-detection
 features:
 - math
 aliases:

@@ -3,7 +3,9 @@ title: "Unbiased median absolute deviation"
 description: "The finite-sample bias-correction factors for the median absolute deviation which make it a consistent estimator for the standard deviation"
 date: "2021-02-09"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - MAD
 - research-unbiased-mad

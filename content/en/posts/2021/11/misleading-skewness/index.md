@@ -2,7 +2,8 @@
 title: Misleading skewness
 date: 2021-11-09
 tags:
-- Statistics
+- mathematics
+- statistics
 features:
 - math
 ---

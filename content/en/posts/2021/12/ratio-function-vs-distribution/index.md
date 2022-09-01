@@ -2,7 +2,9 @@
 title: Ratio function vs. ratio distribution
 date: 2021-12-14
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 features:
 - math
 ---

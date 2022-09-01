@@ -3,7 +3,9 @@ title: "Coverage of quantile confidence intervals"
 description: "How the coverage percentage of quantile confidence intervals depends on the distribution, sample size, and the quantile position"
 date: "2020-12-22"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - Coverage
 - Confidence Interval

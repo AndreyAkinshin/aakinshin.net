@@ -2,7 +2,8 @@
 title: Misleading kurtosis
 date: 2021-11-16
 tags:
-- Statistics
+- mathematics
+- statistics
 features:
 - math
 ---

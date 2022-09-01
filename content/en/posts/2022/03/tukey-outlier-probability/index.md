@@ -2,8 +2,10 @@
 title: Probability of observing outliers using Tukey's fences
 date: 2022-03-01
 tags:
-- Statistics
-- Outliers
+- mathematics
+- statistics
+- research
+- outlier-detection
 features:
 - math
 ---

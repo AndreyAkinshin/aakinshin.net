@@ -2,6 +2,7 @@
 title: "Setting up build configuration in .NET"
 date: "2014-02-08"
 tags:
+- programming
 - dotnet
 - MSBuild
 - Configurations

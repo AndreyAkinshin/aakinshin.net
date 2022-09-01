@@ -2,7 +2,9 @@
 title: "Quantile-respectful density estimation based on the Harrell-Davis quantile estimator"
 date: "2020-10-27"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - PDF
 - QRDE
 - Harrell-Davis quantile estimator

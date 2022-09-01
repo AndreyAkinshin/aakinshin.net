@@ -3,7 +3,9 @@ title: "Estimating quantile confidence intervals: Maritz-Jarrett vs. jackknife"
 date: 2021-07-13
 thumbnail: coverage-p50-a95-light
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - Confidence Interval
 - Coverage

@@ -2,6 +2,7 @@
 title: "To Refactor Or Not To Refactor?"
 date: "2014-07-19"
 tags:
+- programming
 - PerfectCode
 - Refactoring
 aliases:

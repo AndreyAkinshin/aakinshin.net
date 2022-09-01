@@ -3,7 +3,9 @@ title: Efficiency of the winsorized and trimmed Harrell-Davis quantile estimator
 description: "A set of simulation studies that calculate the efficiency of the winsorized and trimmed Harrell-Davis quantile estimator for different distributions"
 date: 2021-04-06
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - Statistical efficiency
 - research-thdqe

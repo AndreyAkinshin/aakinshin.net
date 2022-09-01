@@ -2,11 +2,12 @@
 title: "Weighted quantile estimators"
 date: "2020-09-29"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
+- research-wqe
 - Quantiles
 - Harrell-Davis quantile estimator
-- R
-- Perfolizer
 features:
 - math
 ---

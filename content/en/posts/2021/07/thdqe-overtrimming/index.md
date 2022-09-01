@@ -3,7 +3,9 @@ title: Avoiding over-trimming with the trimmed Harrell-Davis quantile estimator
 thumbnail: LightAndHeavy__N05_Efficiency-light
 date: 2021-07-27
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - Statistical efficiency
 - research-thdqe

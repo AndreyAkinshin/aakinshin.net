@@ -2,11 +2,9 @@
 title: "Implementation of efficient algorithm for changepoint detection: ED-PELT"
 date: "2019-10-07"
 tags:
-- dotnet
-- cs
-- "ED-PELT"
-- Statistics
-- ChangePoints
+- mathematics
+- statistics
+- cpd
 ---
 
 [Changepoint detection](https://en.wikipedia.org/wiki/Change_detection) is an important task that has a lot of applications.

@@ -2,6 +2,7 @@
 title: "Introducing perfolizer"
 date: "2020-03-04"
 tags:
+- programming
 - performance
 - perfolizer
 ---

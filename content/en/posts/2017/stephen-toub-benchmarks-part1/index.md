@@ -2,6 +2,7 @@
 title: "Measuring Performance Improvements in .NET Core with BenchmarkDotNet (Part 1)"
 date: "2017-06-09"
 tags:
+- programming
 - dotnet
 - cs
 - BenchmarkDotNet

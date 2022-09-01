@@ -3,7 +3,9 @@ title: "Comparing distribution quantiles using gamma effect size"
 description: "Two case studies which show how to compare distributions using the gamma effect size"
 date: "2021-02-02"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - Effect Size
 - research-gamma-es

@@ -2,6 +2,7 @@
 title: About UTF-8 conversions in Mono
 date: "2014-11-10"
 tags:
+- programming
 - Encodings
 - dotnet
 - Mono

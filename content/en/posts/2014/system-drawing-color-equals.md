@@ -2,6 +2,7 @@
 title: "About System.Drawing.Color and operator =="
 date: "2014-02-21"
 tags:
+- programming
 - dotnet
 - Colors
 - cs

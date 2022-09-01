@@ -2,7 +2,9 @@
 title: "Quantile estimators based on k order statistics, Part 6: Continuous trimmed Harrell-Davis quantile estimator"
 date: 2021-09-07
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile Estimators
 - Quantile estimators based on k order statistics
 - research-thdqe

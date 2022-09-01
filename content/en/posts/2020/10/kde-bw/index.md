@@ -2,9 +2,10 @@
 title: "The importance of kernel density estimation bandwidth"
 date: "2020-10-13"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Density plots
-- R
 - bandwidth
 - KDE
 features:

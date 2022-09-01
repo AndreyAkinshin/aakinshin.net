@@ -2,9 +2,10 @@
 title: "Preprint announcement: 'Finite-sample bias-correction factors for the median absolute deviation based on the Harrell-Davis quantile estimator and its trimmed modification'"
 date: 2022-07-26
 tags:
-- Statistics
-- research-unbiased-mad
+- mathematics
+- statistics
 - paper-announcement
+- research-unbiased-mad
 features:
 - math
 ---

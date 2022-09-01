@@ -3,7 +3,9 @@ title: "A single outlier could completely distort your Cohen's d value"
 description: "Comparison of classic Cohen's d and its non-parametric alternative on distributions with high outliers"
 date: "2021-01-26"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - Effect Size
 - research-gamma-es

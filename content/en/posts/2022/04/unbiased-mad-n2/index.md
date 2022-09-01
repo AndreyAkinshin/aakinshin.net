@@ -2,7 +2,9 @@
 title: Unbiased median absolute deviation for n=2
 date: 2022-04-26
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-unbiased-mad
 features:
 - math

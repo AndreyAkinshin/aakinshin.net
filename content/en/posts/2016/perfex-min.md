@@ -2,6 +2,7 @@
 title: "Performance exercise: Minimum"
 date: "2016-12-20"
 tags:
+- programming
 - dotnet
 - PerformanceExercise
 - Benchmarking

@@ -2,6 +2,8 @@
 title: "Performance exercise: Division"
 date: "2016-12-26"
 tags:
+- programming
+- case-study
 - dotnet
 - PerformanceExercise
 - Benchmarking

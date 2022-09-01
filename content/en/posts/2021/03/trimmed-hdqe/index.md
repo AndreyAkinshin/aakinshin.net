@@ -3,7 +3,9 @@ title: "Trimmed modification of the Harrell-Davis quantile estimator"
 description: "A modified version of the Harrell-Davis quantile estimator with better robustness"
 date: "2021-03-30"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - Trimming
 - Harrell-Davis quantile estimator

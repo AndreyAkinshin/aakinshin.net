@@ -2,6 +2,7 @@
 title: "Why is NuGet search in Rider so fast?"
 date: "2017-02-08"
 tags:
+- programming
 - dotnet
 - Rider
 - NuGet

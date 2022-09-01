@@ -3,7 +3,9 @@ title: Statistical efficiency of the Hodges-Lehmann median estimator, Part 1
 thumbnail: eff-dark
 date: 2022-05-17
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 features:
 - math
 aliases:

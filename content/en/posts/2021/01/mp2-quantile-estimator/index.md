@@ -3,7 +3,9 @@ title: "MP² quantile estimator: estimating the moving median without storing va
 description: "An algorithm that allows estimating moving quantile values without storing values"
 date: "2021-01-12"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - Moving Quantile
 - research-p2qe

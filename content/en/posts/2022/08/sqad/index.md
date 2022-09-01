@@ -2,7 +2,9 @@
 title: Standard quantile absolute deviation
 date: 2022-08-23
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-qad
 features:
 - math

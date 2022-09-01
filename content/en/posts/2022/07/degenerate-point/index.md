@@ -2,7 +2,9 @@
 title: Degenerate point of dispersion estimators
 date: 2022-07-12
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-qad
 features:
 - math

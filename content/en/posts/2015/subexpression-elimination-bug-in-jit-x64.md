@@ -2,6 +2,7 @@
 title: "A bug story about JIT-x64"
 date: "2015-02-27"
 tags:
+- programming
 - dotnet
 - cs
 - JIT

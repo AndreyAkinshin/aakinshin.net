@@ -2,6 +2,7 @@
 title: Stopwatch under the hood
 date: "2016-09-09"
 tags:
+- programming
 - dotnet
 - Hardware
 - Timers

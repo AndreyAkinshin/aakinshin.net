@@ -2,7 +2,9 @@
 title: "Optimal window of the trimmed Harrell-Davis quantile estimator, Part 2: Trying Planck-taper window"
 date: 2021-10-12
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Optimal window of the trimmed Harrell-Davis quantile estimator
 - research-thdqe
 features:

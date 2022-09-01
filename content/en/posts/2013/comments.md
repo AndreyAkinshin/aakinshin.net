@@ -2,6 +2,7 @@
 title: "To Add Comments or Not to Add?"
 date: "2013-08-28"
 tags:
+- programming
 - PerfectCode
 aliases:
 - /en/blog/dev/comments/

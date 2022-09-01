@@ -3,7 +3,9 @@ title: Folded medians
 date: 2022-06-14
 thumbnail: normal-50-dark
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 features:
 - math
 ---

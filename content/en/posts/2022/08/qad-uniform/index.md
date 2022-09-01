@@ -3,7 +3,9 @@ title: Quantile absolute deviation of the Uniform distribution
 date: 2022-08-25
 thumbnail: qad-dark
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-qad
 features:
 - math

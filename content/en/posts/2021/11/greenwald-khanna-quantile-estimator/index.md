@@ -2,7 +2,8 @@
 title: Greenwald-Khanna quantile estimator
 date: 2021-11-02
 tags:
-- Statistics
+- mathematics
+- statistics
 features:
 - math
 ---

@@ -2,7 +2,9 @@
 title: Caveats of using the median absolute deviation
 date: 2022-08-02
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-qad
 features:
 - math

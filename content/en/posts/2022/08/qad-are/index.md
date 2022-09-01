@@ -2,7 +2,9 @@
 title: Asymptotic Gaussian efficiency of the quantile absolute deviation
 date: 2022-08-16
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-qad
 features:
 - math

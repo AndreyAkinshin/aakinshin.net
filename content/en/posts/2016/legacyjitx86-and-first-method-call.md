@@ -2,6 +2,7 @@
 title: "LegacyJIT-x86 and first method call"
 date: "2016-04-04"
 tags:
+- programming
 - dotnet
 - cs
 - JIT

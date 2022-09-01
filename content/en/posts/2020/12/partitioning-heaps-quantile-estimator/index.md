@@ -3,7 +3,9 @@ title: "Fast implementation of the moving quantile based on the partitioning hea
 description: "The Hardle-Steiger method to estimate the moving median and its generalization for the moving quantiles"
 date: "2020-12-29"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - Moving Quantile
 features:

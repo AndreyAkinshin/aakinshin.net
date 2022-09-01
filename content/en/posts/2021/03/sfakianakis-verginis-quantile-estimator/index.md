@@ -3,7 +3,9 @@ title: "Sfakianakis-Verginis quantile estimator"
 description: "A brief description of the Sfakianakis-Verginis quantile estimator"
 date: "2021-03-09"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 features:
 - math

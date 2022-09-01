@@ -3,7 +3,9 @@ title: Median absolute deviation vs. Shamos estimator
 thumbnail: cauchy-10-light
 date: 2022-02-01
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 features:
 - math
 ---

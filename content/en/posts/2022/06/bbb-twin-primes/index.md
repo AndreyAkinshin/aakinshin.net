@@ -2,7 +2,7 @@
 title: Beeping Busy Beavers and twin prime conjecture
 date: 2022-06-01
 tags:
-- Mathematics
+- mathematics
 - BusyBeaverology
 features:
 - math

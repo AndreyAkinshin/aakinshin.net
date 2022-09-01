@@ -2,7 +2,9 @@
 title: P² quantile estimator initialization strategy
 date: 2022-01-04
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-p2qe
 features:
 - math

@@ -2,6 +2,7 @@
 title: "Unexpected area to collect garbage in .NET"
 date: "2013-08-08"
 tags:
+- programming
 - dotnet
 - GC
 - OpenCV

@@ -2,7 +2,9 @@
 title: The expected number of takes from a discrete distribution before observing the given element
 date: 2022-06-21
 tags:
-- Statistics
+- mathematics
+- statistics
+- case-study
 features:
 - math
 ---

@@ -2,7 +2,9 @@
 title: Challenges of change point detection in CI performance data
 date: 2022-07-19
 tags:
-- Statistics
+- mathematics
+- statistics
+- cpd
 features:
 - math
 ---

@@ -3,7 +3,9 @@ title: "Misleading standard deviation"
 description: "A short case study that shows how misleading the standard deviation might be"
 date: "2021-02-23"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Standard Deviation
 features:
 - math

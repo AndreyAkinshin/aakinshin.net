@@ -3,7 +3,9 @@ title: Quantile absolute deviation of the Exponential distribution
 date: 2022-08-26
 thumbnail: qad-dark
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-qad
 features:
 - math

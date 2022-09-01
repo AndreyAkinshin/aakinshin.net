@@ -2,7 +2,9 @@
 title: "Quantile estimators based on k order statistics, Part 2: Extending Hyndman-Fan equations"
 date: 2021-08-10
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile Estimators
 - Quantile estimators based on k order statistics
 - research-thdqe

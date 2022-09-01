@@ -2,7 +2,9 @@
 title: Using Kish's effective sample size with weighted quantiles
 date: 2021-07-06
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantiles
 features:
 - math

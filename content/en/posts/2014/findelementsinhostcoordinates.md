@@ -2,6 +2,7 @@
 title: "Strange behavior of FindElementsInHostCoordinates in WinRT"
 date: "2014-04-29"
 tags:
+- programming
 - dotnet
 - cs
 - Silverlight

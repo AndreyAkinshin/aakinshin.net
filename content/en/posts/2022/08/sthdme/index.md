@@ -2,7 +2,9 @@
 title: Standard trimmed Harrell-Davis median estimator
 date: 2022-08-31
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-qad
 features:
 - math

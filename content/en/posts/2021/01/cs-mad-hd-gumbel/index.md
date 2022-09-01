@@ -2,7 +2,9 @@
 title: "Case study: Accuracy of the MAD estimation using the Harrell-Davis quantile estimator (Gumbel distribution)"
 date: "2021-01-05"
 tags:
-- Statistics
+- mathematics
+- statistics
+- case-study
 - Quantile
 - MAD
 - Harrell-Davis quantile estimator

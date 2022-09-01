@@ -2,6 +2,7 @@
 title: "NuGet2 and a DirectorySeparatorChar bug"
 date: "2017-02-06"
 tags:
+- programming
 - dotnet
 - Rider
 - Bugs

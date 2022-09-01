@@ -2,11 +2,11 @@
 title: "The median absolute deviation value of the Gumbel distribution"
 date: "2020-10-06"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantiles
 - Harrell-Davis quantile estimator
-- R
-- Perfolizer
 - Gumbel
 features:
 - math

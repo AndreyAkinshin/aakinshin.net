@@ -2,11 +2,10 @@
 title: "Normality is a myth"
 date: "2019-10-09"
 tags:
-- Statistics
+- mathematics
+- statistics
 - Normality
 - "Central Limit Theorem"
-- Performance
-- R
 ---
 
 In many statistical papers, you can find the following phrase: "assuming that we have a normal distribution."

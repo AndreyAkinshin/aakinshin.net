@@ -2,6 +2,7 @@
 title: "Analyzing distribution of Mono GC collections"
 date: "2018-02-20"
 tags:
+- programming
 - dotnet
 - cs
 - R

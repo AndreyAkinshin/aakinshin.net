@@ -2,6 +2,7 @@
 title: "Unobviousness in use of C# closures"
 date: "2013-08-07"
 tags:
+- programming
 - Lambda
 - Closures
 - cs

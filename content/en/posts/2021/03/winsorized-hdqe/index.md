@@ -3,7 +3,9 @@ title: "Winsorized modification of the Harrell-Davis quantile estimator"
 description: "A modified version of the Harrell-Davis quantile estimator with better robustness"
 date: "2021-03-02"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - Winsorizing
 - Harrell-Davis quantile estimator

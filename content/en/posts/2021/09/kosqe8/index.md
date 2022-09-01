@@ -2,7 +2,9 @@
 title: "Quantile estimators based on k order statistics, Part 8: Winsorized Harrell-Davis quantile estimator"
 date: 2021-09-21
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile Estimators
 - Quantile estimators based on k order statistics
 - research-thdqe

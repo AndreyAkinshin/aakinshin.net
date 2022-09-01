@@ -3,7 +3,8 @@ title: "Statistical approaches for performance analysis"
 description: "A brief overview of statistical approaches that can be useful for performance analysis"
 date: "2020-12-15"
 tags:
-- Statistics
+- mathematics
+- statistics
 - Performance analysis
 ---
 

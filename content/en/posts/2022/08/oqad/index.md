@@ -2,7 +2,9 @@
 title: Optimal quantile absolute deviation
 date: 2022-08-30
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-qad
 features:
 - math

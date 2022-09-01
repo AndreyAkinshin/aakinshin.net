@@ -2,7 +2,9 @@
 title: "Nonparametric Cohen's d-consistent effect size"
 date: "2020-06-25"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Effect Size
 - research-gamma-es
 - MAD

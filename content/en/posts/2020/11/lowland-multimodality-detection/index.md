@@ -3,7 +3,9 @@ title: "Lowland multimodality detection"
 description: "I came up with a new algorithm for multimodality detection. On my data sets, it works much better than all the other approaches I tried."
 date: "2020-11-03"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Multimodality
 - QRDE
 - Harrell-Davis quantile estimator

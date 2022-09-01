@@ -2,6 +2,7 @@
 title: "A story about JIT-x86 inlining and starg"
 date: "2015-02-26"
 tags:
+- programming
 - dotnet
 - cs
 - Inlining

@@ -2,7 +2,9 @@
 title: Calculating gamma effect size for samples with zero median absolute deviation
 date: 2021-06-22
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Effect Size
 - research-gamma-es
 - MAD

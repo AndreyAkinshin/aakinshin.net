@@ -2,7 +2,9 @@
 title: Finite-sample efficiency of the Rousseeuw-Croux estimators
 date: 2022-08-09
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Rousseeuw-Croux
 features:
 - math

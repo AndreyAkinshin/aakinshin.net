@@ -2,8 +2,10 @@
 title: Dynamical System Case Study 2 (Piecewise linear LLL-system)
 date: 2022-07-17
 tags:
-- Mathematics
-- Dynamical Systems
+- mathematics
+- dynamical-systems
+- research
+- case-study
 features:
 - math
 ---

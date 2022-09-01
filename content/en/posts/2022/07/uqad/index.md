@@ -2,7 +2,9 @@
 title: Untied quantile absolute deviation
 date: 2022-07-05
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-qad
 features:
 - math

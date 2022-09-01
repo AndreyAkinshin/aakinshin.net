@@ -2,6 +2,7 @@
 title: "Perfect code and real projects"
 date: "2013-08-28"
 tags:
+- programming
 - PerfectCode
 aliases:
 - /en/blog/dev/perfect-code-and-real-projects/

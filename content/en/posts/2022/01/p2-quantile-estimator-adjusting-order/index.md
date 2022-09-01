@@ -2,7 +2,9 @@
 title: P² quantile estimator marker adjusting order
 date: 2022-01-11
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-p2qe
 features:
 - math

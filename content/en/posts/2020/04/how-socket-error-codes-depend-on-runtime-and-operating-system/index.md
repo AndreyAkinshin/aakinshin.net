@@ -2,6 +2,7 @@
 title: "How Socket Error Codes Depend on Runtime and Operating System"
 date: "2020-04-27"
 tags:
+- programming
 - dotnet
 - cs
 - Rider

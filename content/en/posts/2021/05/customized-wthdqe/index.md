@@ -2,7 +2,9 @@
 title: Improving the efficiency of the Harrell-Davis quantile estimator for special cases using custom winsorizing and trimming strategies
 date: 2021-05-25
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Statistical efficiency
 - Harrell-Davis quantile estimator
 - Winsorizing

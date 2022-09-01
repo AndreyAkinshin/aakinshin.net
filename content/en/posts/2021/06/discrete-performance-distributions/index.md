@@ -2,7 +2,9 @@
 title: Discrete performance distributions
 date: 2021-06-15
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 features:
 - math
 ---

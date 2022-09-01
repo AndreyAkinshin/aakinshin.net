@@ -2,7 +2,8 @@
 title: Non-normal median sampling distribution
 date: 2021-11-23
 tags:
-- Statistics
+- mathematics
+- statistics
 features:
 - math
 ---

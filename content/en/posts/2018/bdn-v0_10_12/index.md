@@ -2,6 +2,7 @@
 title: "BenchmarkDotNet v0.10.12"
 date: "2018-01-15"
 tags:
+- programming
 - dotnet
 - cs
 - BenchmarkDotNet

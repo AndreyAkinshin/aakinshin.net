@@ -3,7 +3,9 @@ title: "Unbiased median absolute deviation based on the Harrell-Davis quantile e
 description: "The finite-sample bias-correction factors for the median absolute deviation which make it a consistent estimator for the standard deviation (improved version based on the Harrell-Davis quantile estimator)"
 date: "2021-02-16"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - MAD
 - Harrell-Davis quantile estimator

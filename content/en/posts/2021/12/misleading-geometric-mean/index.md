@@ -2,7 +2,8 @@
 title: Misleading geometric mean
 date: 2021-12-28
 tags:
-- Statistics
+- mathematics
+- statistics
 features:
 - math
 ---

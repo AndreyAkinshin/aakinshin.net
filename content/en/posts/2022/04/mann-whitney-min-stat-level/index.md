@@ -2,7 +2,9 @@
 title: Minimum meaningful statistical level for the Mann–Whitney U test
 date: 2022-04-12
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 features:
 - math
 ---

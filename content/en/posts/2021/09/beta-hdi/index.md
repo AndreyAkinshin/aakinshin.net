@@ -3,7 +3,9 @@ title: Beta distribution highest density interval of the given width
 date: 2021-09-28
 thumbnail: hdi_s10_w10_ps25-light
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-thdqe
 features:
 - math

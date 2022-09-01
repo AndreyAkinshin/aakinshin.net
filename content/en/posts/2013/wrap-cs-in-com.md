@@ -2,6 +2,7 @@
 title: "Wrapping C# class for use in COM"
 date: "2013-06-03"
 tags:
+- programming
 - dotnet
 - cs
 - COM

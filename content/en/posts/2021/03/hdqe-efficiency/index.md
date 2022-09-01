@@ -3,7 +3,9 @@ title: Efficiency of the Harrell-Davis quantile estimator
 description: "A set of simulation studies that calculate the efficiency of the Harrell-Davis quantile estimator for different distributions"
 date: 2021-03-23
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - Statistical efficiency
 - research-thdqe

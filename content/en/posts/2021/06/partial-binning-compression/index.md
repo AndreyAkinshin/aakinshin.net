@@ -3,7 +3,9 @@ title: Partial binning compression of performance series
 date: 2021-06-29
 thumbnail: density-light
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Partial binning
 features:
 - math

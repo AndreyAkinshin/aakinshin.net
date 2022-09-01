@@ -2,6 +2,7 @@
 title: Jon Skeet's Quiz
 date: "2013-11-03"
 tags:
+- programming
 - dotnet
 - cs
 aliases:

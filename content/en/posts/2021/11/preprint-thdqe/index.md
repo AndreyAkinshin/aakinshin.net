@@ -2,8 +2,10 @@
 title: "Preprint announcement: 'Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width'"
 date: 2021-11-30
 tags:
-- Statistics
+- mathematics
+- statistics
 - paper-announcement
+- research-thdqe
 features:
 - math
 ---

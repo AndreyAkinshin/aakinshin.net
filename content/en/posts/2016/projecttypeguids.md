@@ -2,6 +2,7 @@
 title: "Visual Studio and ProjectTypeGuids.cs"
 date: "2016-02-27"
 tags:
+- programming
 - dotnet
 - cs
 - VisualStudio

@@ -3,7 +3,9 @@ title: Quantile absolute deviation of the Normal distribution
 date: 2022-08-24
 thumbnail: qad-dark
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-qad
 features:
 - math

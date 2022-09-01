@@ -3,7 +3,9 @@ title: Unbiased median absolute deviation based on the trimmed Harrell-Davis qua
 thumbnail: factors-light
 date: 2022-02-08
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-unbiased-mad
 features:
 - math

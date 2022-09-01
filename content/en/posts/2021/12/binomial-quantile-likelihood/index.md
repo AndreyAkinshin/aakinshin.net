@@ -2,7 +2,8 @@
 title: Matching quantile sets using likelihood based on the binomial coefficients
 date: 2021-12-21
 tags:
-- Statistics
+- mathematics
+- statistics
 features:
 - math
 ---

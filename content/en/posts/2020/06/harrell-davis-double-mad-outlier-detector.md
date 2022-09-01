@@ -2,12 +2,14 @@
 title: "DoubleMAD outlier detector based on the Harrell-Davis quantile estimator"
 date: "2020-06-22"
 tags:
+- mathematics
+- statistics
+- research
+- outlier-detection
 - Statistics
 - Outliers
 - MAD
 - Harrell-Davis
-- R
-- Perfolizer
 features:
 - math
 ---

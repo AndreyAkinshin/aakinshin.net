@@ -2,7 +2,9 @@
 title: Hodges-Lehmann-Sen shift and shift confidence interval estimators
 date: 2022-05-31
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 features:
 - math
 ---

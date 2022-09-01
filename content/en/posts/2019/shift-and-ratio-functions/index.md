@@ -2,7 +2,9 @@
 title: "Distribution comparison via the shift and ratio functions"
 date: "2019-10-11"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 ---
 
 When we compare two distributions, it's not always enough to detect a statistically significant difference between them.

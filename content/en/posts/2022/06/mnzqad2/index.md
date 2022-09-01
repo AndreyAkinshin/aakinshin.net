@@ -2,7 +2,9 @@
 title: Middle non-zero quantile absolute deviation, Part 2
 date: 2022-06-28
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-qad
 features:
 - math

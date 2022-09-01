@@ -2,7 +2,9 @@
 title: "Quantile estimators based on k order statistics, Part 3: Playing with the Beta function"
 date: 2021-08-17
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile Estimators
 - Quantile estimators based on k order statistics
 - research-thdqe

@@ -2,6 +2,7 @@
 title: "A story about slow NuGet package browsing"
 date: "2018-05-08"
 tags:
+- programming
 - NuGet
 - Rider
 ---

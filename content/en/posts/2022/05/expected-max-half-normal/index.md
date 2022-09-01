@@ -2,7 +2,9 @@
 title: Expected value of the maximum of two standard half-normal distributions
 date: 2022-05-10
 tags:
-- Statistics
+- mathematics
+- statistics
+- case-study
 features:
 - math
 ---

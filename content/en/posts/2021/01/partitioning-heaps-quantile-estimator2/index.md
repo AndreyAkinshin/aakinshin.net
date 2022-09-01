@@ -3,7 +3,9 @@ title: "Better moving quantile estimations using the partitioning heaps"
 description: "Improvements of the Hardle-Steiger method that allows estimating moving quantiles using linear interpolation"
 date: "2021-01-19"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - Moving Quantile
 features:

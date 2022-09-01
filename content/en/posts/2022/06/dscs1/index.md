@@ -3,8 +3,9 @@ title: Dynamical System Case Study 1 (symmetric 3d system)
 thumbnail: sim3-color-dark
 date: 2022-06-05
 tags:
-- Mathematics
-- Dynamical Systems
+- mathematics
+- dynamical-systems
+- case-study
 features:
 - math
 ---

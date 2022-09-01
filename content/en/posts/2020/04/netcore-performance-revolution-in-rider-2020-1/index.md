@@ -2,6 +2,7 @@
 title: ".NET Core performance revolution in Rider 2020.1"
 date: "2020-04-14"
 tags:
+- programming
 - dotnet
 - cs
 - Rider

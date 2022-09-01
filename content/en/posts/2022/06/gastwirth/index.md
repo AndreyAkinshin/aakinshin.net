@@ -3,7 +3,9 @@ title: Gastwirth's location estimator
 date: 2022-06-07
 thumbnail: estimators-dark
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 features:
 - math
 ---

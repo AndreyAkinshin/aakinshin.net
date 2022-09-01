@@ -3,7 +3,9 @@ title: Comparing the efficiency of the Harrell-Davis, Sfakianakis-Verginis, and 
 description: "A set of simulation studies that calculate the efficiency of the Harrell-Davis, Sfakianakis-Verginis, and Navruz-Özdemir quantile estimators for different distributions"
 date: 2021-05-18
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 - Statistical efficiency
 features:

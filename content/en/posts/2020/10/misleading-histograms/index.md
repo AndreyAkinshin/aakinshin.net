@@ -2,9 +2,10 @@
 title: "Misleading histograms"
 date: "2020-10-20"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Multimodality
-- R
 - Histograms
 features:
 - math

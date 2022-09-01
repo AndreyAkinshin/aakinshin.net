@@ -2,7 +2,9 @@
 title: "Quantile estimators based on k order statistics, Part 1: Motivation"
 date: 2021-08-03
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile Estimators
 - Quantile estimators based on k order statistics
 - research-thdqe

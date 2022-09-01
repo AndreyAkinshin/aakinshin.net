@@ -2,7 +2,10 @@
 title: Weighted trimmed Harrell-Davis quantile estimator
 date: 2022-04-19
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
+- research-wqe
 features:
 - math
 ---

@@ -2,6 +2,7 @@
 title: "InvalidDataException in Process.GetProcesses"
 date: "2017-02-10"
 tags:
+- programming
 - dotnet
 - Rider
 - Bugs

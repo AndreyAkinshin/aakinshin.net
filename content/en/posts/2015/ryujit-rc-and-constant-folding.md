@@ -2,6 +2,7 @@
 title: "RyuJIT RC and constant folding"
 date: "2015-05-12"
 tags:
+- programming
 - dotnet
 - cs
 - JIT

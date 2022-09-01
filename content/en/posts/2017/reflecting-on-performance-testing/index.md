@@ -2,6 +2,8 @@
 title: "Reflecting on performance testing"
 date: "2017-08-01"
 tags:
+- mathematics
+- statistics
 - Performance
 - PerformanceTesting
 - Rider

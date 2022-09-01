@@ -2,7 +2,10 @@
 title: Fence-based outlier detectors, Part 2
 date: 2022-04-05
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
+- outlier-detection
 features:
 - math
 ---

@@ -3,7 +3,9 @@ title: "Navruz-Özdemir quantile estimator"
 description: "A brief description of the Navruz-Özdemir quantile estimator"
 date: "2021-03-16"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantile
 features:
 - math

@@ -2,7 +2,9 @@
 title: Gamma effect size powered by the middle non-zero quantile absolute deviation
 date: 2022-02-22
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-gamma-es
 - research-qad
 features:

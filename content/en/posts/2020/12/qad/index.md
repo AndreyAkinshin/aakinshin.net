@@ -4,7 +4,9 @@ description: "Quantile absolute deviation allows estimating statistical dispersi
 thumbnail: modal5-light
 date: "2020-12-01"
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Quantiles
 - MAD
 - research-qad

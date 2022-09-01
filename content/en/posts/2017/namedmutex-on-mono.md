@@ -2,6 +2,7 @@
 title: "A bug story about named mutex on Mono"
 date: "2017-02-13"
 tags:
+- programming
 - dotnet
 - Rider
 - Bugs

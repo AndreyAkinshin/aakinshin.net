@@ -2,7 +2,9 @@
 title: Robust alternative to statistical efficiency
 date: 2021-06-01
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - Statistical efficiency
 features:
 - math

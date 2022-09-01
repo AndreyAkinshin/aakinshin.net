@@ -2,7 +2,9 @@
 title: P² quantile estimator rounding issue
 date: 2021-10-26
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-p2qe
 features:
 - math
