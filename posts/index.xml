@@ -1,4 +1,34 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 31 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Standard trimmed Harrell-Davis median estimator</title><link>https://aakinshin.net/posts/sthdme/</link><pubDate>Wed, 31 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/sthdme/</guid><description>&lt;p>In &lt;a href="https://aakinshin.net/posts/sqad/">one of the previous posts&lt;/a>, I suggested a new measure of dispersion called
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 01 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Preprint announcement: 'Quantile absolute deviation'</title><link>https://aakinshin.net/posts/preprint-qad/</link><pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/preprint-qad/</guid><description>&lt;p>I have just published a preprint of a paper &amp;lsquo;Quantile absolute deviation&amp;rsquo;.
+It&amp;rsquo;s based on a series of my &lt;a href="https://aakinshin.net/tags/research-qad/">research notes&lt;/a>
+that I have been writing since December 2020.&lt;/p>
+&lt;p>The paper preprint is available on arXiv:
+&lt;a href="https://arxiv.org/abs/2208.13459">arXiv:2208.13459 [stat.ME]&lt;/a>.
+The paper source code is available on GitHub:
+&lt;a href="https://github.com/AndreyAkinshin/paper-qad">AndreyAkinshin/paper-qad&lt;/a>.
+You can cite it as follows:&lt;/p>
+&lt;ul>
+&lt;li>Andrey Akinshin (2022)
+&amp;ldquo;Quantile absolute deviation&amp;rdquo;
+&lt;a href="https://arxiv.org/abs/2208.13459">arXiv:2208.13459&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Abstract:&lt;/p>
+&lt;blockquote>
+&lt;p>The median absolute deviation (MAD) is a popular robust measure of statistical dispersion.
+However, when it is applied to non-parametric distributions (especially multimodal, discrete, or heavy-tailed),
+lots of statistical inference issues arise.
+Even when it is applied to distributions with slight deviations from normality and these issues are not actual,
+the Gaussian efficiency of the MAD is only 37% which is not always enough.&lt;/p>
+&lt;p>In this paper, we introduce the &lt;em>quantile absolute deviation&lt;/em> (QAD) as a generalization of the MAD.
+This measure of dispersion provides a flexible approach to analyzing properties of non-parametric distributions.
+It also allows controlling the trade-off between robustness and statistical efficiency.
+We use the trimmed Harrell-Davis median estimator based on the highest density interval of the given width
+as a complimentary median estimator that gives
+increased finite-sample Gaussian efficiency compared to the sample median
+and a breakdown point matched to the QAD.&lt;/p>
+&lt;p>As a rule of thumb, we suggest using two new measures of dispersion
+called the &lt;em>standard QAD&lt;/em> and the &lt;em>optimal QAD&lt;/em>.
+They give 54% and 65% of Gaussian efficiency having breakdown points of 32% and 14% respectively.&lt;/p>
+&lt;/blockquote></description></item><item><title>Standard trimmed Harrell-Davis median estimator</title><link>https://aakinshin.net/posts/sthdme/</link><pubDate>Wed, 31 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/sthdme/</guid><description>&lt;p>In &lt;a href="https://aakinshin.net/posts/sqad/">one of the previous posts&lt;/a>, I suggested a new measure of dispersion called
 &lt;em>the standard quantile absolute deviation around the median&lt;/em> (&lt;span class="math inline">\(\operatorname{SQAD}\)&lt;/span>) which can be used as an alternative
 to the median absolute deviation (&lt;span class="math inline">\(\operatorname{MAD}\)&lt;/span>) as a consistent estimator for the standard deviation under normality.
 The Gaussian efficiency of &lt;span class="math inline">\(\operatorname{SQAD}\)&lt;/span> is &lt;span class="math inline">\(54\%\)&lt;/span> (comparing to &lt;span class="math inline">\(37\%\)&lt;/span> for MAD),
@@ -709,12 +739,7 @@ I already wrote &lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">
 its implementation in &lt;a href="https://github.com/AndreyAkinshin/perfolizer">perfolizer&lt;/a>.
 Recently, I got a &lt;a href="https://github.com/AndreyAkinshin/perfolizer/issues/8">bug report&lt;/a>
 that revealed a flaw of the &lt;a href="https://doi.org/10.1145/4372.4378">original paper&lt;/a>.
-In this post, I&amp;rsquo;m going to briefly discuss this issue and the corresponding fix.&lt;/p></description></item><item><title>Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width</title><link>https://aakinshin.net/posts/thdqe-hdi/</link><pubDate>Tue, 19 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-hdi/</guid><description>&lt;p>&lt;strong>This post aggregates research from &lt;a href="https://aakinshin.net/tags/research-thdqe/">several blog posts&lt;/a> that I published during this year.
-It presents an overview of
-the Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width.
-The &lt;a href="https://aakinshin.net/posts/pub-thdqe/">corresponding paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>Traditional quantile estimators that are based on one or two order statistics are a common way to estimate
+In this post, I&amp;rsquo;m going to briefly discuss this issue and the corresponding fix.&lt;/p></description></item><item><title>Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width</title><link>https://aakinshin.net/posts/thdqe-hdi/</link><pubDate>Tue, 19 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-hdi/</guid><description>&lt;p>Traditional quantile estimators that are based on one or two order statistics are a common way to estimate
 distribution quantiles based on the given samples.
 These estimators are robust, but their statistical efficiency is not always good enough.
 A more efficient alternative is the Harrell-Davis quantile estimator which uses
@@ -723,10 +748,7 @@ Whereas this approach provides more accurate estimations for the light-tailed di
 To be able to customize the trade-off between statistical efficiency and robustness,
 we could consider &lt;em>a trimmed modification of the Harrell-Davis quantile estimator&lt;/em>.
 In this approach, we discard order statistics with low weights according to
-the highest density interval of the beta distribution.&lt;/p></description></item><item><title>Optimal window of the trimmed Harrell-Davis quantile estimator, Part 2: Trying Planck-taper window</title><link>https://aakinshin.net/posts/thdqe-ow2/</link><pubDate>Tue, 12 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-ow2/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>In the &lt;a href="https://aakinshin.net/posts/thdqe-ow1/">previous post&lt;/a>,
+the highest density interval of the beta distribution.&lt;/p></description></item><item><title>Optimal window of the trimmed Harrell-Davis quantile estimator, Part 2: Trying Planck-taper window</title><link>https://aakinshin.net/posts/thdqe-ow2/</link><pubDate>Tue, 12 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-ow2/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/thdqe-ow1/">previous post&lt;/a>,
 I discussed the problem of non-smooth quantile-respectful density estimation (QRDE)
 which is generated by the trimmed Harrell-Davis quantile estimator
 based on the highest density interval of the given width.
@@ -753,10 +775,7 @@ src="https://aakinshin.net/posts/thdqe-ow2/img/qrde-light.png">
 &lt;/a>
 &lt;/div>
 &lt;/div>
-&lt;br /></description></item><item><title>Optimal window of the trimmed Harrell-Davis quantile estimator, Part 1: Problems with the rectangular window</title><link>https://aakinshin.net/posts/thdqe-ow1/</link><pubDate>Tue, 05 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-ow1/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>In the previous post, we have obtained a nice version of the trimmed Harrell-Davis quantile estimator
+&lt;br /></description></item><item><title>Optimal window of the trimmed Harrell-Davis quantile estimator, Part 1: Problems with the rectangular window</title><link>https://aakinshin.net/posts/thdqe-ow1/</link><pubDate>Tue, 05 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-ow1/</guid><description>&lt;p>In the previous post, we have obtained a nice version of the trimmed Harrell-Davis quantile estimator
 which provides an opportunity to get a nice trade-off between robustness and statistical efficiency
 of quantile estimations.
 Unfortunately, it has a severe drawback.
@@ -784,25 +803,16 @@ src="https://aakinshin.net/posts/thdqe-ow1/img/qrde-light.png">
 &lt;/div>
 &lt;br />
 &lt;p>In this blog post series, we are going to find a way to improve the trimmed Harrell-Davis quantile estimator
-so that it gives a smooth density function and keeps its advantages in terms of robustness and statistical efficiency.&lt;/p></description></item><item><title>Beta distribution highest density interval of the given width</title><link>https://aakinshin.net/posts/beta-hdi/</link><pubDate>Tue, 28 Sep 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/beta-hdi/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>In one of &lt;a href="https://aakinshin.net/posts/kosqe5/">the previous posts&lt;/a>, I discussed the idea of the trimmed Harrell-Davis quantile estimator
+so that it gives a smooth density function and keeps its advantages in terms of robustness and statistical efficiency.&lt;/p></description></item><item><title>Beta distribution highest density interval of the given width</title><link>https://aakinshin.net/posts/beta-hdi/</link><pubDate>Tue, 28 Sep 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/beta-hdi/</guid><description>&lt;p>In one of &lt;a href="https://aakinshin.net/posts/kosqe5/">the previous posts&lt;/a>, I discussed the idea of the trimmed Harrell-Davis quantile estimator
 based on the highest density interval of the given width.
 Since the Harrell-Davis quantile estimator uses the Beta distribution,
 we should be able to find the beta distribution highest density interval of the given width.
-In this post, I will show how to do this.&lt;/p></description></item><item><title>Quantile estimators based on k order statistics, Part 8: Winsorized Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/kosqe8/</link><pubDate>Tue, 21 Sep 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe8/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>In the &lt;a href="https://aakinshin.net/posts/kosqe7/">previous post&lt;/a>, we have discussed
+In this post, I will show how to do this.&lt;/p></description></item><item><title>Quantile estimators based on k order statistics, Part 8: Winsorized Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/kosqe8/</link><pubDate>Tue, 21 Sep 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe8/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/kosqe7/">previous post&lt;/a>, we have discussed
 the trimmed modification of the Harrell-Davis quantile estimator
 based on the highest density interval of size &lt;span class="math inline">\(\sqrt{n}/n\)&lt;/span>.
 This quantile estimator showed a decent level of statistical efficiency.
 However, the research wouldn&amp;rsquo;t be complete without comparison with the winsorized modification.
-Let&amp;rsquo;s fix it!&lt;/p></description></item><item><title>Quantile estimators based on k order statistics, Part 7: Optimal threshold for the trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/kosqe7/</link><pubDate>Tue, 14 Sep 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe7/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>In the &lt;a href="https://aakinshin.net/posts/kosqe6/">previous post&lt;/a>, we have obtained a nice quantile estimator.
+Let&amp;rsquo;s fix it!&lt;/p></description></item><item><title>Quantile estimators based on k order statistics, Part 7: Optimal threshold for the trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/kosqe7/</link><pubDate>Tue, 14 Sep 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe7/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/kosqe6/">previous post&lt;/a>, we have obtained a nice quantile estimator.
 To be specific, we considered a trimmed modification of the Harrell-Davis quantile estimator
 based on the highest density interval of the given size.
 The interval size is a parameter that controls the trade-off between statistical efficiency and robustness.
@@ -813,10 +823,7 @@ when we have neither estimator breakdown point requirements nor prior knowledge 
 We should build the new estimator based on &lt;span class="math inline">\(\sqrt{n}/n\)&lt;/span> order statistics.
 In this post, I&amp;rsquo;m going to briefly explain the idea behind the suggested estimator and
 share some numerical simulations that compare the proposed estimator
-and the classic Harrell-Davis quantile estimator.&lt;/p></description></item><item><title>Quantile estimators based on k order statistics, Part 6: Continuous trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/kosqe6/</link><pubDate>Tue, 07 Sep 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe6/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>In my &lt;a href="https://aakinshin.net/posts/kosqe5/">previous post&lt;/a>,
+and the classic Harrell-Davis quantile estimator.&lt;/p></description></item><item><title>Quantile estimators based on k order statistics, Part 6: Continuous trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/kosqe6/</link><pubDate>Tue, 07 Sep 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe6/</guid><description>&lt;p>In my &lt;a href="https://aakinshin.net/posts/kosqe5/">previous post&lt;/a>,
 I tried the idea of using the trimmed modification of the Harrell-Davis quantile estimator
 based on the highest density interval of the given width.
 The width was defined so that it covers exactly k order statistics (the width equals &lt;span class="math inline">\((k-1)/n\)&lt;/span>).
@@ -825,10 +832,7 @@ While &amp;ldquo;k order statistics&amp;rdquo; is a good mental model that descr
 it doesn&amp;rsquo;t actually require an integer k.
 In fact, we can use any real number as the trimming percentage.&lt;/p>
 &lt;p>In this post, we are going to perform numerical simulations that check the statistical efficiency
-of the trimmed Harrell-Davis quantile estimator with different trimming percentages.&lt;/p></description></item><item><title>Quantile estimators based on k order statistics, Part 5: Improving trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/kosqe5/</link><pubDate>Tue, 31 Aug 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe5/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>During the last several months,
+of the trimmed Harrell-Davis quantile estimator with different trimming percentages.&lt;/p></description></item><item><title>Quantile estimators based on k order statistics, Part 5: Improving trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/kosqe5/</link><pubDate>Tue, 31 Aug 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe5/</guid><description>&lt;p>During the last several months,
 I have been experimenting with different variations of the trimmed Harrell-Davis quantile estimator.
 &lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">My original idea&lt;/a>
 of using the highest density interval based on the fixed area percentage (e.g., HDI 95% or HDI 99%)
@@ -848,27 +852,18 @@ Finally, I have found a fatal flaw in &lt;a href="https://aakinshin.net/posts/ko
 while it was a good idea to fix the size of the trimming window,
 I mistakenly chose its location following the equation from the Hyndman-Fan Type 7 quantile estimator!&lt;/p>
 &lt;p>In this post, we fix this problem and try another modification of the trimmed Harrell-Davis quantile estimator based on
-k order statistics &lt;strong>and&lt;/strong> highest density intervals at the same time.&lt;/p></description></item><item><title>Quantile estimators based on k order statistics, Part 4: Adopting trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/kosqe4/</link><pubDate>Tue, 24 Aug 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe4/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>In the previous posts, I discussed various aspects of
+k order statistics &lt;strong>and&lt;/strong> highest density intervals at the same time.&lt;/p></description></item><item><title>Quantile estimators based on k order statistics, Part 4: Adopting trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/kosqe4/</link><pubDate>Tue, 24 Aug 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe4/</guid><description>&lt;p>In the previous posts, I discussed various aspects of
 &lt;a href="https://aakinshin.net/posts/kosqe1/">quantile estimators based on k order statistics&lt;/a>.
 I already tried a few weight functions that aggregate the sample values to the quantile estimators
 (see posts about &lt;a href="https://aakinshin.net/posts/kosqe2/">an extension of the Hyndman-Fan Type 7 equation&lt;/a> and
 about &lt;a href="https://aakinshin.net/posts/kosqe3/">adjusted regularized incomplete beta function&lt;/a>).
 In this post, I continue my experiments and try to adopt the
-&lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">trimmed modifications of the Harrell-Davis quantile estimator&lt;/a> to this approach.&lt;/p></description></item><item><title>Quantile estimators based on k order statistics, Part 3: Playing with the Beta function</title><link>https://aakinshin.net/posts/kosqe3/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe3/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>In the previous two posts, I discussed the idea of quantile estimators based on k order statistics.
+&lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">trimmed modifications of the Harrell-Davis quantile estimator&lt;/a> to this approach.&lt;/p></description></item><item><title>Quantile estimators based on k order statistics, Part 3: Playing with the Beta function</title><link>https://aakinshin.net/posts/kosqe3/</link><pubDate>Tue, 17 Aug 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe3/</guid><description>&lt;p>In the previous two posts, I discussed the idea of quantile estimators based on k order statistics.
 A already covered the &lt;a href="https://aakinshin.net/posts/kosqe1/">motivation behind this idea&lt;/a>
 and the statistical efficiency of such estimators using the &lt;a href="https://aakinshin.net/posts/kosqe2/">extended Hyndman-Fan equations&lt;/a>
 as a weight function.
 Now it&amp;rsquo;s time to experiment with the Beta function as a primary way to aggregate k order statistics
-into a single quantile estimation!&lt;/p></description></item><item><title>Quantile estimators based on k order statistics, Part 2: Extending Hyndman-Fan equations</title><link>https://aakinshin.net/posts/kosqe2/</link><pubDate>Tue, 10 Aug 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe2/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>In the &lt;a href="https://aakinshin.net/posts/kosqe1/">previous post&lt;/a>,
+into a single quantile estimation!&lt;/p></description></item><item><title>Quantile estimators based on k order statistics, Part 2: Extending Hyndman-Fan equations</title><link>https://aakinshin.net/posts/kosqe2/</link><pubDate>Tue, 10 Aug 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe2/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/kosqe1/">previous post&lt;/a>,
 I described the idea of using quantile estimators based on k order statistics.
 Potentially, such estimators could be more robust than estimators based on all samples elements (like
 Harrell-Davis,
@@ -931,10 +926,7 @@ src="https://aakinshin.net/posts/kosqe2/img/LightAndHeavy__N15_Efficiency-light.
 &lt;/a>
 &lt;/div>
 &lt;/div>
-&lt;br /></description></item><item><title>Quantile estimators based on k order statistics, Part 1: Motivation</title><link>https://aakinshin.net/posts/kosqe1/</link><pubDate>Tue, 03 Aug 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe1/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>It&amp;rsquo;s not easy to choose a good quantile estimator.
+&lt;br /></description></item><item><title>Quantile estimators based on k order statistics, Part 1: Motivation</title><link>https://aakinshin.net/posts/kosqe1/</link><pubDate>Tue, 03 Aug 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe1/</guid><description>&lt;p>It&amp;rsquo;s not easy to choose a good quantile estimator.
 In my previous posts, I considered several groups of quantile estimators:&lt;/p>
 &lt;ul>
 &lt;li>Quantile estimators based 1 or 2 order statistics (Hyndman-Fan Type1-9)&lt;/li>
@@ -949,10 +941,7 @@ of the Harrell-Davis quantile estimator)&lt;/li>
 &lt;p>Unfortunately, all of these estimators have significant drawbacks
 (e.g., poor statistical efficiency or poor robustness).
 In this post, I want to discuss all of the advantages and disadvantages of each approach
-and suggest another family of quantile estimators that are based on k order statistics.&lt;/p></description></item><item><title>Avoiding over-trimming with the trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/thdqe-overtrimming/</link><pubDate>Tue, 27 Jul 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-overtrimming/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>Previously, I already discussed the
+and suggest another family of quantile estimators that are based on k order statistics.&lt;/p></description></item><item><title>Avoiding over-trimming with the trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/thdqe-overtrimming/</link><pubDate>Tue, 27 Jul 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-overtrimming/</guid><description>&lt;p>Previously, I already discussed the
 &lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">trimmed modification of the Harrell-Davis quantile estimator&lt;/a> several times.
 I performed several numerical simulations that compare the statistical efficiency of this estimator
 with the efficiency of the &lt;a href="https://aakinshin.net/posts/wthdqe-efficiency/">classic Harrell-Davis quantile estimator&lt;/a> (HDQE)
@@ -995,10 +984,7 @@ src="https://aakinshin.net/posts/thdqe-overtrimming/img/LightAndHeavy__N05_Effic
 &lt;/a>
 &lt;/div>
 &lt;/div>
-&lt;br /></description></item><item><title>Optimal threshold of the trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/thdqe-threshold/</link><pubDate>Tue, 20 Jul 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-threshold/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>The traditional quantile estimators (which are based on 1 or 2 order statistics) have great robustness.
+&lt;br /></description></item><item><title>Optimal threshold of the trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/thdqe-threshold/</link><pubDate>Tue, 20 Jul 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-threshold/</guid><description>&lt;p>The traditional quantile estimators (which are based on 1 or 2 order statistics) have great robustness.
 However, the statistical efficiency of these estimators is not so great.
 The Harrell-Davis quantile estimator has much better efficiency (at least in the light-tailed case),
 but it&amp;rsquo;s not robust (because it calculates a weighted sum of all sample values).
@@ -1132,10 +1118,7 @@ Instead of using non-robust &lt;span class="math inline">\(\operatorname{MSE}\)&
 we can use robust quantile estimations of the absolute error distribution.
 In this post, I want to share numerical simulations
 that show a problem of irreproducible &lt;span class="math inline">\(\operatorname{MSE}\)&lt;/span> values
-and how they can be replaced by reproducible quantile values.&lt;/p></description></item><item><title>Improving the efficiency of the Harrell-Davis quantile estimator for special cases using custom winsorizing and trimming strategies</title><link>https://aakinshin.net/posts/customized-wthdqe/</link><pubDate>Tue, 25 May 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/customized-wthdqe/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>Let&amp;rsquo;s say we want to
+and how they can be replaced by reproducible quantile values.&lt;/p></description></item><item><title>Improving the efficiency of the Harrell-Davis quantile estimator for special cases using custom winsorizing and trimming strategies</title><link>https://aakinshin.net/posts/customized-wthdqe/</link><pubDate>Tue, 25 May 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/customized-wthdqe/</guid><description>&lt;p>Let&amp;rsquo;s say we want to
 &lt;strong>estimate the median&lt;/strong>
 based on a &lt;strong>small sample&lt;/strong> (3 &lt;span class="math inline">\(\leq n \leq 7\)&lt;/span>)
 from a &lt;strong>right-skewed heavy-tailed distribution&lt;/strong>
@@ -1312,10 +1295,7 @@ either a discrete distribution or a mixture of discrete and continuous distribut
 A KDE for such a sample may significantly differ from the actual PDF.
 Thus, this technique may mislead us instead of providing insights about the true underlying distribution.&lt;/p>
 &lt;p>In this post, we discuss the usage of PDF and PMF with continuous and discrete distributions.
-Also, we look at examples of corrupted density estimation plots for distributions with discrete features.&lt;/p></description></item><item><title>Efficiency of the winsorized and trimmed Harrell-Davis quantile estimators</title><link>https://aakinshin.net/posts/wthdqe-efficiency/</link><pubDate>Tue, 06 Apr 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/wthdqe-efficiency/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>In previous posts, I suggested two modifications of the Harrell-Davis quantile estimator:
+Also, we look at examples of corrupted density estimation plots for distributions with discrete features.&lt;/p></description></item><item><title>Efficiency of the winsorized and trimmed Harrell-Davis quantile estimators</title><link>https://aakinshin.net/posts/wthdqe-efficiency/</link><pubDate>Tue, 06 Apr 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/wthdqe-efficiency/</guid><description>&lt;p>In previous posts, I suggested two modifications of the Harrell-Davis quantile estimator:
 &lt;a href="https://aakinshin.net/posts/winsorized-hdqe/">winsorized&lt;/a> and &lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">trimmed&lt;/a>.
 Both modifications have a higher level of robustness in comparison to the original estimator.
 Also, I &lt;a href="https://aakinshin.net/posts/hdqe-efficiency/">discussed&lt;/a> the &lt;a href="https://en.wikipedia.org/wiki/Efficiency_(statistics)">efficiency&lt;/a>
@@ -1342,16 +1322,10 @@ src="https://aakinshin.net/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficie
 &lt;/a>
 &lt;/div>
 &lt;/div>
-&lt;br /></description></item><item><title>Trimmed modification of the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/trimmed-hdqe/</link><pubDate>Tue, 30 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/trimmed-hdqe/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>In one of &lt;a href="https://aakinshin.net/posts/winsorized-hdqe/">the previous posts&lt;/a>, I discussed winsorized Harrell-Davis quantile estimator.
+&lt;br /></description></item><item><title>Trimmed modification of the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/trimmed-hdqe/</link><pubDate>Tue, 30 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/trimmed-hdqe/</guid><description>&lt;p>In one of &lt;a href="https://aakinshin.net/posts/winsorized-hdqe/">the previous posts&lt;/a>, I discussed winsorized Harrell-Davis quantile estimator.
 This estimator is more robust than the classic Harrell-Davis quantile estimator.
 In this post, I want to suggest another modification that may be better for some corner cases:
-the &lt;em>trimmed&lt;/em> Harrell-Davis quantile estimator.&lt;/p></description></item><item><title>Efficiency of the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/hdqe-efficiency/</link><pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/hdqe-efficiency/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>One of the most essential properties of a quantile estimator is
+the &lt;em>trimmed&lt;/em> Harrell-Davis quantile estimator.&lt;/p></description></item><item><title>Efficiency of the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/hdqe-efficiency/</link><pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/hdqe-efficiency/</guid><description>&lt;p>One of the most essential properties of a quantile estimator is
 its &lt;a href="https://en.wikipedia.org/wiki/Efficiency_(statistics)">efficiency&lt;/a>.
 In simple words, the efficiency describes the estimator accuracy.
 The Harrell-Davis quantile estimator is a good option to achieve higher efficiency.
@@ -1396,10 +1370,7 @@ by Michael E. Sfakianakis and Dimitris G. Verginis.
 Also, I add some additional explanations,
 reconstruct missing steps,
 simplify the final equations,
-and provide reference implementations in C# and R.&lt;/p></description></item><item><title>Winsorized modification of the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/winsorized-hdqe/</link><pubDate>Tue, 02 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/winsorized-hdqe/</guid><description>&lt;p>&lt;strong>Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-A &lt;a href="https://aakinshin.net/posts/pub-thdqe/">paper with final results&lt;/a> is available in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).
-A preprint is available on arXiv: &lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.&lt;/strong>&lt;/p>
-&lt;p>The Harrell-Davis quantile estimator is one of my favorite quantile estimators
+and provide reference implementations in C# and R.&lt;/p></description></item><item><title>Winsorized modification of the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/winsorized-hdqe/</link><pubDate>Tue, 02 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/winsorized-hdqe/</guid><description>&lt;p>The Harrell-Davis quantile estimator is one of my favorite quantile estimators
 because of its &lt;a href="https://en.wikipedia.org/wiki/Efficiency_(statistics)">efficiency&lt;/a>.
 It has a small mean square error which allows getting accurate estimations.
 However, it has a severe drawback: it&amp;rsquo;s not robust.

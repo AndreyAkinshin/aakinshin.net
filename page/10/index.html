@@ -1,10 +1,41 @@
 <!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content><title>Andrey Akinshin's blog (Page 10)</title><meta name=description content="Andrey Akinshin's blog"><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.882998740b9c4c24677576b997bde5a487246e2e3bd72128a0e922eaa59db029.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.50da8736f05b35aac9691de67fe993cbe01b7d88fcf0cb682c3a8f39933fe4a3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.b7c11be17efd31d4852ff062694551596a7625c992103c0605c98f85d6569f11.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
 gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
 gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-posts href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class=nav-item><a class=nav-link id=nav-link-pdnb href=https://aakinshin.net/prodotnetbenchmarking/>Pro .NET Benchmarking</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>EN</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/ru/>RU</a></div></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title><a href=/posts/comparing-distributions-using-gamma-es/>Comparing distribution quantiles using gamma effect size</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-02-02>February 2, 2021</time>
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>Posts</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/posts/>All Posts</a>
+<a class=dropdown-item href=https://aakinshin.net/tags/statistics/>Posts about Statistics</a>
+<a class=dropdown-item href=https://aakinshin.net/tags/>All Tags</a></div></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>EN</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/ru/>RU</a></div></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title><a href=/posts/unbiased-mad/>Unbiased median absolute deviation</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-02-09>February 9, 2021</time>
 &nbsp;&nbsp;
 <i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
+<a href=https://aakinshin.net/tags/quantile/ class="badge badge-info">Quantile</a>
+<a href=https://aakinshin.net/tags/mad/ class="badge badge-info">MAD</a>
+<a href=https://aakinshin.net/tags/research-unbiased-mad/ class="badge badge-info">Research: Unbiased median absolute deviation</a></span><br><br><p>The <a href=https://en.wikipedia.org/wiki/Median_absolute_deviation>median absolute deviation</a> (<span class="math inline">\(\textrm{MAD}\)</span>)
+is a robust measure of scale.
+For distribution <span class="math inline">\(X\)</span>, it can be calculated as follows:</p><p><span class="math display">\[\textrm{MAD} = C \cdot \textrm{median}(|X - \textrm{median}(X)|)
+\]</span></p><p>where <span class="math inline">\(C\)</span> is a constant scale factor.
+This metric can be used as a robust alternative to the standard deviation.
+If we want to use the <span class="math inline">\(\textrm{MAD}\)</span> as a <a href=https://en.wikipedia.org/wiki/Consistent_estimator>consistent estimator</a>
+for the standard deviation under the normal distribution,
+we should set</p><p><span class="math display">\[C = C_{\infty} = \dfrac{1}{\Phi^{-1}(3/4)} \approx 1.4826022185056.
+\]</span></p><p>where <span class="math inline">\(\Phi^{-1}\)</span> is the quantile function of the standard normal distribution
+(or the inverse of the cumulative distribution function).
+If <span class="math inline">\(X\)</span> is the normal distribution, we get <span class="math inline">\(\textrm{MAD} = \sigma\)</span> where <span class="math inline">\(\sigma\)</span> is the standard deviation.</p><p>Now let&rsquo;s consider a sample <span class="math inline">\(x = \{ x_1, x_2, \ldots x_n \}\)</span>.
+Let&rsquo;s denote the median absolute deviation for a sample of size <span class="math inline">\(n\)</span> as <span class="math inline">\(\textrm{MAD}_n\)</span>.
+The corresponding equation looks similar to the definition of <span class="math inline">\(\textrm{MAD}\)</span> for a distribution:</p><p><span class="math display">\[\textrm{MAD}_n = C_n \cdot \textrm{median}(|x - \textrm{median}(x)|).
+\]</span></p><p>Let&rsquo;s assume that <span class="math inline">\(\textrm{median}\)</span> is the straightforward definition of the median
+(if <span class="math inline">\(n\)</span> is odd, the median is the middle element of the sorted sample,
+if <span class="math inline">\(n\)</span> is even, the median is the arithmetic average of the two middle elements of the sorted sample).
+We still can use <span class="math inline">\(C_n = C_{\infty}\)</span> for extremely large sample sizes.
+However, for small <span class="math inline">\(n\)</span>, <span class="math inline">\(\textrm{MAD}_n\)</span> becomes a <a href=https://en.wikipedia.org/wiki/Bias_of_an_estimator>biased estimator</a>.
+If we want to get an unbiased version, we should adjust the value of <span class="math inline">\(C_n\)</span>.</p><p>In this post, we look at the possible approaches and learn the way to get the exact value of <span class="math inline">\(C_n\)</span>
+that makes <span class="math inline">\(\textrm{MAD}_n\)</span> unbiased estimator of the median absolute deviation for any <span class="math inline">\(n\)</span>.</p><br><a href=/posts/unbiased-mad/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/comparing-distributions-using-gamma-es/>Comparing distribution quantiles using gamma effect size</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-02-02>February 2, 2021</time>
+&nbsp;&nbsp;
+<i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
+<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
 <a href=https://aakinshin.net/tags/quantile/ class="badge badge-info">Quantile</a>
 <a href=https://aakinshin.net/tags/effect-size/ class="badge badge-info">Effect Size</a>
 <a href=https://aakinshin.net/tags/research-gamma-es/ class="badge badge-info">Research: Gamma Effect Size</a></span><br><br><p>There are several ways to describe the difference between two distributions.
@@ -15,7 +46,9 @@ In this post, I want to share a few case studies that demonstrate
 how the suggested metric combines the advantages of the above approaches.</p><br><a href=/posts/comparing-distributions-using-gamma-es/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/cohend-and-outliers/>A single outlier could completely distort your Cohen's d value</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-01-26>January 26, 2021</time>
 &nbsp;&nbsp;
 <i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
 <a href=https://aakinshin.net/tags/quantile/ class="badge badge-info">Quantile</a>
 <a href=https://aakinshin.net/tags/effect-size/ class="badge badge-info">Effect Size</a>
 <a href=https://aakinshin.net/tags/research-gamma-es/ class="badge badge-info">Research: Gamma Effect Size</a></span><br><br><p><a href="https://en.wikipedia.org/wiki/Effect_size#Cohen's_d">Cohen&rsquo;s d</a> is a popular way to estimate
@@ -27,7 +60,9 @@ Unfortunately, it&rsquo;s not always true.
 In fact, a single outlier value can completely distort the result even in large samples.</p><p>In this post, I will present some illustrations for this problem and will show how to fix it.</p><br><a href=/posts/cohend-and-outliers/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/partitioning-heaps-quantile-estimator2/>Better moving quantile estimations using the partitioning heaps</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-01-19>January 19, 2021</time>
 &nbsp;&nbsp;
 <i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
 <a href=https://aakinshin.net/tags/quantile/ class="badge badge-info">Quantile</a>
 <a href=https://aakinshin.net/tags/moving-quantile/ class="badge badge-info">Moving Quantile</a></span><br><br><p>In one of the previous posts, I <a href=https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/>have discussed</a> the Hardle-Steiger method.
 This algorithm allows estimating <a href=https://en.wikipedia.org/wiki/Moving_average#Moving_median>the moving median</a>
@@ -43,7 +78,9 @@ instead of <span class="math inline">\(5\)</span> or <span class="math inline">\
 the partitioning heaps from the Hardle-Steiger method.</p><br><a href=/posts/partitioning-heaps-quantile-estimator2/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/mp2-quantile-estimator/>MP² quantile estimator: estimating the moving median without storing values</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-01-12>January 12, 2021</time>
 &nbsp;&nbsp;
 <i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
 <a href=https://aakinshin.net/tags/quantile/ class="badge badge-info">Quantile</a>
 <a href=https://aakinshin.net/tags/moving-quantile/ class="badge badge-info">Moving Quantile</a>
 <a href=https://aakinshin.net/tags/research-p2qe/ class="badge badge-info">Research: P² quantile estimator</a></span><br><br><p>In one of the previous posts, I <a href=https://aakinshin.net/posts/p2-quantile-estimator/>described</a> the P² quantile estimator.
@@ -67,7 +104,9 @@ it returns a quantile approximation instead of the exact order statistics.
 However, in most cases, the MP² estimations are pretty accurate from the practical point of view.</p><p>Let&rsquo;s discuss MP² in detail!</p><br><a href=/posts/mp2-quantile-estimator/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/cs-mad-hd-gumbel/>Case study: Accuracy of the MAD estimation using the Harrell-Davis quantile estimator (Gumbel distribution)</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-01-05>January 5, 2021</time>
 &nbsp;&nbsp;
 <i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<a href=https://aakinshin.net/tags/case-study/ class="badge badge-info">Case study</a>
 <a href=https://aakinshin.net/tags/quantile/ class="badge badge-info">Quantile</a>
 <a href=https://aakinshin.net/tags/mad/ class="badge badge-info">MAD</a>
 <a href=https://aakinshin.net/tags/harrell-davis-quantile-estimator/ class="badge badge-info">Harrell-Davis quantile estimator</a></span><br><br><p>In some of my previous posts, I used
@@ -84,7 +123,9 @@ the Harrell-Davis quantile estimator always has better accuracy:</p><div class=r
 <source theme=dark srcset=/posts/cs-mad-hd-gumbel/img/summary-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/cs-mad-hd-gumbel/img/summary-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/cs-mad-hd-gumbel/img/summary-light.png></picture></a></div></div><br><br><a href=/posts/cs-mad-hd-gumbel/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/partitioning-heaps-quantile-estimator/>Fast implementation of the moving quantile based on the partitioning heaps</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-12-29>December 29, 2020</time>
 &nbsp;&nbsp;
 <i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
 <a href=https://aakinshin.net/tags/quantile/ class="badge badge-info">Quantile</a>
 <a href=https://aakinshin.net/tags/moving-quantile/ class="badge badge-info">Moving Quantile</a></span><br><br><p>Imagine you have a time series.
 Let&rsquo;s say, after each new observation, you want to know an &ldquo;average&rdquo; value across the last <span class="math inline">\(L\)</span> observations.
@@ -101,7 +142,9 @@ Today we going to discuss the Hardle-Steiger method to estimate the median
 Also, we will learn how to calculate <em>the moving quantiles</em> based on this method.</p><p>In this post, you will find the following:</p><ul><li>An overview of the Hardle-Steiger method</li><li>A simple way to implement the Hardle-Steiger method</li><li>Moving quantiles inspired by the Hardle-Steiger method</li><li>How to process initial elements</li><li>Reference C# implementation</li></ul><br><a href=/posts/partitioning-heaps-quantile-estimator/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/quantile-ci-coverage/>Coverage of quantile confidence intervals</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-12-22>December 22, 2020</time>
 &nbsp;&nbsp;
 <i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
 <a href=https://aakinshin.net/tags/quantile/ class="badge badge-info">Quantile</a>
 <a href=https://aakinshin.net/tags/coverage/ class="badge badge-info">Coverage</a>
 <a href=https://aakinshin.net/tags/confidence-interval/ class="badge badge-info">Confidence Interval</a></span><br><br><p>There is a common <a href=https://en.wikipedia.org/wiki/Confidence_interval#Misunderstandings>misunderstanding</a>
@@ -131,6 +174,7 @@ It&rsquo;s time to verify the reliability of this approach.
 In this post, I&rsquo;m going to show some Monte-Carlo simulations that evaluate the coverage percentage in different situations.</p><br><a href=/posts/quantile-ci-coverage/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/statistics-for-performance/>Statistical approaches for performance analysis</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-12-15>December 15, 2020</time>
 &nbsp;&nbsp;
 <i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/performance-analysis/ class="badge badge-info">Performance analysis</a></span><br><br><p>Software performance is a complex discipline that requires knowledge in different areas
 from benchmarking to the internals of modern runtimes, operating systems, and hardware.
@@ -155,7 +199,9 @@ in different problems of performance analysis.
 Consider the below list as a letter to a younger version of myself with a brief list of topics that are good to learn.</p><br><a href=/posts/statistics-for-performance/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/weighted-quantiles-ci/>Quantile confidence intervals for weighted samples</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-12-08>December 8, 2020</time>
 &nbsp;&nbsp;
 <i class="fas fa-tag"></i>&nbsp;
+<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
+<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
 <a href=https://aakinshin.net/tags/quantile/ class="badge badge-info">Quantile</a>
 <a href=https://aakinshin.net/tags/confidence-interval/ class="badge badge-info">Confidence Interval</a></span><br><br><p><strong>Update 2021-07-06:
 the approach was updated using the <a href=https://aakinshin.net/posts/kish-ess-weighted-quantiles/>Kish&rsquo;s effective sample size</a>.</strong></p><p>When you work with non-parametric distributions,
@@ -177,32 +223,7 @@ this approach works like a charm.
 If you have any recent changes, you can detect such situations by huge confidence intervals
 due to the sample inconsistency.</p><p>So, how do we estimate confidence intervals around quantiles for the weighted samples?
 In one of the previous posts, I have already shown how to <a href=https://aakinshin.net/posts/weighted-quantiles/>estimate quantiles on weighted samples</a>.
-In this post, I will show how to estimate quantile confidence intervals for weighted samples.</p><br><a href=/posts/weighted-quantiles-ci/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/qad/>Quantile absolute deviation: estimating statistical dispersion around quantiles</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2020-12-01>December 1, 2020</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>&nbsp;
-<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
-<a href=https://aakinshin.net/tags/quantiles/ class="badge badge-info">Quantiles</a>
-<a href=https://aakinshin.net/tags/mad/ class="badge badge-info">MAD</a>
-<a href=https://aakinshin.net/tags/research-qad/ class="badge badge-info">Research: Quantile absolute deviation</a>
-<a href=https://aakinshin.net/tags/dispersion/ class="badge badge-info">Dispersion</a>
-<a href=https://aakinshin.net/tags/harrell-davis-quantile-estimator/ class="badge badge-info">Harrell-Davis quantile estimator</a></span><br><br><p>There are many different metrics for <a href=https://en.wikipedia.org/wiki/Statistical_dispersion>statistical dispersion</a>.
-The most famous one is the <a href=https://en.wikipedia.org/wiki/Standard_deviation>standard deviation</a>.
-The standard deviation is the most popular way to describe the spread around the mean when
-you work with normally distributed data.
-However, if you work with non-normal distributions, this metric may be misleading.</p><p>In the world of non-parametric distributions,
-the most common measure of <a href=https://en.wikipedia.org/wiki/Central_tendency>central tendency</a> is the median.
-For the median, you can describe dispersion using the
-<a href=https://en.wikipedia.org/wiki/Median_absolute_deviation>median absolute deviation around the median</a> (MAD).
-It works great if the median is the only <a href=https://en.wikipedia.org/wiki/Summary_statistics>summary statistic</a> that you care about.
-However, if you work with multimodal distributions
-(they can be detected using the <a href=https://aakinshin.net/posts/lowland-multimodality-detection/>lowland multimodality detector</a>),
-you may be interested in other quantiles as well.
-So, it makes sense to learn how to describe dispersion around the given quantile.
-Which metric should we choose?</p><p>Recently, I came up with a great solution to this problem.
-We can generalize the median absolute deviation into the quantile absolute deviation (QAD) around the given quantile based on the Harrell-Davis quantile estimator.
-I will show how to calculate it, how to interpret it, and how to get insights about distribution properties
-from images like this one:</p><div class=row><div class=mx-auto><a href=/posts/qad/img/modal5-light.png target=_blank class=imgldlink alt=modal5><picture>
-<source theme=dark srcset=/posts/qad/img/modal5-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/qad/img/modal5-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/qad/img/modal5-light.png></picture></a></div></div><br><br><a href=/posts/qad/>Read more</a><br><br><hr></div></div><div class=paginator><ul class=pagination><li class=page-item><a href=/ class=page-link aria-label=First><span aria-hidden=true>&#171;&#171;</span></a></li><li class=page-item><a href=/page/9/ class=page-link aria-label=Previous><span aria-hidden=true>&#171;</span></a></li><li class=page-item><a class=page-link href=/>1</a></li><li class=page-item><a class=page-link href=/page/2/>2</a></li><li class=page-item><a class=page-link href=/page/3/>3</a></li><li class="page-item disabled"><span aria-hidden=true>&nbsp;&mldr;&nbsp;</span></li><li class=page-item><a class=page-link href=/page/9/>9</a></li><li class="page-item active"><a class=page-link href=/page/10/>10</a></li><li class=page-item><a class=page-link href=/page/11/>11</a></li><li class="page-item disabled"><span aria-hidden=true>&nbsp;&mldr;&nbsp;</span></li><li class=page-item><a class=page-link href=/page/17/>17</a></li><li class=page-item><a href=/page/11/ class=page-link aria-label=Next><span aria-hidden=true>&#187;</span></a></li><li class=page-item><a href=/page/17/ class=page-link aria-label=Last><span aria-hidden=true>&#187;&#187;</span></a></li></ul></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
+In this post, I will show how to estimate quantile confidence intervals for weighted samples.</p><br><a href=/posts/weighted-quantiles-ci/>Read more</a><br><br><hr></div></div><div class=paginator><ul class=pagination><li class=page-item><a href=/ class=page-link aria-label=First><span aria-hidden=true>&#171;&#171;</span></a></li><li class=page-item><a href=/page/9/ class=page-link aria-label=Previous><span aria-hidden=true>&#171;</span></a></li><li class=page-item><a class=page-link href=/>1</a></li><li class=page-item><a class=page-link href=/page/2/>2</a></li><li class=page-item><a class=page-link href=/page/3/>3</a></li><li class="page-item disabled"><span aria-hidden=true>&nbsp;&mldr;&nbsp;</span></li><li class=page-item><a class=page-link href=/page/9/>9</a></li><li class="page-item active"><a class=page-link href=/page/10/>10</a></li><li class=page-item><a class=page-link href=/page/11/>11</a></li><li class="page-item disabled"><span aria-hidden=true>&nbsp;&mldr;&nbsp;</span></li><li class=page-item><a class=page-link href=/page/17/>17</a></li><li class=page-item><a href=/page/11/ class=page-link aria-label=Next><span aria-hidden=true>&#187;</span></a></li><li class=page-item><a href=/page/17/ class=page-link aria-label=Last><span aria-hidden=true>&#187;&#187;</span></a></li></ul></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
 |
 <a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a><a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a><a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>|
 <a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.082780cb948cc57eabbc0d80172a7a5347d5572b599938b4c9876dfd7978b424.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script><script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true,processEnvironments:true,},options:{skipHtmlTags:['script','noscript','style','textarea','pre'],ignoreHtmlClass:'tex2jax_ignore',processHtmlClass:'tex2jax_process'}};</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></body></html>
