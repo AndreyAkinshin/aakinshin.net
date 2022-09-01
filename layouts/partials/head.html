@@ -47,10 +47,11 @@
 
 
   <!-- Bootstrap CSS & Highlight.js-->
-  <link href="/css/lumen-bootstrap.min.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-  <link href="/css/slate-bootstrap.min.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
-  <link href="/css/syntax-light.css" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-  <link href="/css/syntax-dark.css" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
+   {{ $bootstrapLightCss := (resources.Get "sass/bootstrap-light.scss") | resources.ToCSS | minify }}
+   {{ $bootstrapDarkCss := (resources.Get "sass/bootstrap-dark.scss") | resources.ToCSS | minify }}
+
+  <link href="{{ $bootstrapLightCss.Permalink }}" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+  <link href="{{ $bootstrapDarkCss.Permalink }}" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
   {{ partial "import/js.html" "theme-before" }}
 
   <!-- DarkModeToggle -->

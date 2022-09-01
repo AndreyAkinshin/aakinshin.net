@@ -9,6 +9,10 @@
   margin-bottom: 0rem;
 }
 
+#about ol {
+  margin-left:10px;
+}
+
 #about img {
   height: 18px;
 }

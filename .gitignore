@@ -24,3 +24,5 @@ obj/
 
 # Misc
 .DS_Store
+.hugo_build.lock
+resources/_gen

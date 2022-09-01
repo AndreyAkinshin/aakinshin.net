@@ -6,30 +6,30 @@
           <a class="nav-link" id="nav-link-blog" href="{{ .Site.Home.Permalink }}"><i class="fas fa-home" title="Home" style="color:white"></i></a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ i18n "posts" }}</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href='{{ (.Site.GetPage "/posts").Permalink }}'>{{ i18n "allPosts" }}</a>
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ i18n "blog" }}</a>
+          <ul class="dropdown-menu bg-primary">
+            <li><a class="dropdown-item" href='{{ (.Site.GetPage "/posts").Permalink }}'>{{ i18n "allPosts" }}</a></li>
             {{ if eq .Site.Language.Lang "en" }}
-              <a class="dropdown-item" href='{{ (.Site.GetPage "/tags/statistics").Permalink }}'>{{ i18n "postsStatistics" }}</a>
+            <li><a class="dropdown-item" href='{{ (.Site.GetPage "/tags/statistics").Permalink }}'>{{ i18n "postsStatistics" }}</a></li>
             {{ end }}
-            <a class="dropdown-item" href='{{ (.Site.GetPage "/tags").Permalink }}'>{{ i18n "allTags" }}</a>
-          </div>
+            <li></li><a class="dropdown-item" href='{{ (.Site.GetPage "/tags").Permalink }}'>{{ i18n "allTags" }}</a></li>
+          </ul>
         </li>
         <li class="nav-item">
           <a class="nav-link" id="nav-link-about" href='{{ (.Site.GetPage "/pages/about.md").Permalink }}'>{{ i18n "about" }}</a>
         </li>
         {{ if .IsTranslated }}
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ upper .Site.Language.Lang }} </a>
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ upper .Site.Language.Lang }} </a>
             {{ range .Translations }}
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href='{{ .Permalink }}'>{{ upper .Lang }}</a>
-              </div>
+              <ul class="dropdown-menu bg-primary">
+                <li></li><a class="dropdown-item" href='{{ .Permalink }}'>{{ upper .Lang }}</a></li>
+              </ul>
             {{ end }}
           </li>
         {{ end }}
       </ul>
-      <ul class="navbar-nav ml-auto">
+      <ul class="navbar-nav ms-auto">
         <li class="nav-item">
             <dark-mode-toggle permanent="true"></dark-mode-toggle>
         </li>

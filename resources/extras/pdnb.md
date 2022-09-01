@@ -23,20 +23,20 @@
         <li>Analyze performance measurements</li>
       </ul>
       <div class="text-center">
-        <a class="btn btn-primary" href="https://www.apress.com/us/book/9781484249406">Apress</a>
-        <a class="btn btn-primary" href="https://www.amazon.com/gp/product/1484249402/">Amazon US</a>
-        <a class="btn btn-primary" href="https://www.amazon.ca/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402">Amazon CA</a>
-        <a class="btn btn-primary" href="https://www.amazon.co.uk/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402">Amazon UK</a>
-        <a class="btn btn-primary" href="https://www.amazon.de/dp/1484249402/">Amazon DE</a>
-        <a class="btn btn-primary" href="https://www.amazon.fr/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/">Amazon FR</a>
-        <a class="btn btn-primary" href="https://www.amazon.es/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/">Amazon ES</a>
-        <a class="btn btn-primary" href="https://www.amazon.co.jp/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/">Amazon JP</a>
-        <a class="btn btn-primary" href="https://www.springer.com/gp/book/9781484249406">Springer</a>
-        <a class="btn btn-primary" href="https://books.google.ru/books?id=IXCfDwAAQBAJ">Google Books</a>
-        <a class="btn btn-primary" href="https://www.oreilly.com/library/view/pro-net-benchmarking/9781484249413/">O’Reilly</a>
-        <a class="btn btn-primary" href="https://www.goodreads.com/book/show/45159905-pro-net-benchmarking">GoodReads</a>
-        <a class="btn btn-primary" href="https://www.researchgate.net/publication/334047447_Pro_NET_Benchmarking_The_Art_of_Performance_Measurement">ResearchGate</a>
-        <a class="btn btn-primary" href="https://github.com/Apress/pro-.net-benchmarking">GitHub (Examples)</a>
+        <a class="btn btn-info" href="https://www.apress.com/us/book/9781484249406">Apress</a>
+        <a class="btn btn-info" href="https://www.amazon.com/gp/product/1484249402/">Amazon US</a>
+        <a class="btn btn-info" href="https://www.amazon.ca/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402">Amazon CA</a>
+        <a class="btn btn-info" href="https://www.amazon.co.uk/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402">Amazon UK</a>
+        <a class="btn btn-info" href="https://www.amazon.de/dp/1484249402/">Amazon DE</a>
+        <a class="btn btn-info" href="https://www.amazon.fr/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/">Amazon FR</a>
+        <a class="btn btn-info" href="https://www.amazon.es/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/">Amazon ES</a>
+        <a class="btn btn-info" href="https://www.amazon.co.jp/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/">Amazon JP</a>
+        <a class="btn btn-info" href="https://www.springer.com/gp/book/9781484249406">Springer</a>
+        <a class="btn btn-info" href="https://books.google.ru/books?id=IXCfDwAAQBAJ">Google Books</a>
+        <a class="btn btn-info" href="https://www.oreilly.com/library/view/pro-net-benchmarking/9781484249413/">O’Reilly</a>
+        <a class="btn btn-info" href="https://www.goodreads.com/book/show/45159905-pro-net-benchmarking">GoodReads</a>
+        <a class="btn btn-info" href="https://www.researchgate.net/publication/334047447_Pro_NET_Benchmarking_The_Art_of_Performance_Measurement">ResearchGate</a>
+        <a class="btn btn-info" href="https://github.com/Apress/pro-.net-benchmarking">GitHub (Examples)</a>
       </div>
     </div>
   </div>

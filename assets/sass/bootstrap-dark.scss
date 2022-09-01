@@ -1,3 +1,98 @@
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #999 !default;
+$gray-600: #7a8288 !default;
+$gray-700: #52575c !default;
+$gray-800: #3a3f44 !default;
+$gray-900: #272b30 !default;
+$black:    #000 !default;
+
+$blue:    #007bff !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #e83e8c !default;
+$red:     #ee5f5b !default;
+$orange:  #fd7e14 !default;
+$yellow:  #f89406 !default;
+$green:   #62c462 !default;
+$teal:    #20c997 !default;
+$cyan:    #5bc0de !default;
+
+$primary:       $gray-800 !default;
+$secondary:     $gray-600 !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $gray-200 !default;
+$dark:          $gray-900 !default;
+
+$min-contrast-ratio:   1.95 !default;
+
+$body-bg:                   $gray-900 !default;
+$body-color:                #aaa !default;
+
+$link-color:                $white !default;
+
+// Pagination
+$pagination-color:                  $white !default;
+$pagination-bg:                     transparent !default;
+$pagination-border-color:           rgba($black, .6) !default;
+$pagination-hover-color:            $white !default;
+$pagination-hover-bg:               transparent !default;
+$pagination-hover-border-color:     rgba($black, .6) !default;
+$pagination-active-bg:              transparent !default;
+$pagination-active-border-color:    rgba($black, .6) !default;
+$pagination-disabled-bg:            transparent !default;
+$pagination-disabled-border-color:  rgba($black, .6) !default;
+
+@import "../scss/bootstrap";
+@import "bootstrap-common";
+
+/* Custom */
+blockquote {
+  background: #404040;
+  border-left: 10px solid #555;
+}
+.badge-info {
+  background-color: #3f8499;
+}
+.badge-secondary {
+  background-color: $gray-600;
+}
+.navbar a {
+  color: $white;
+}
+
+.alert {
+  color: $white;
+  border: none;
+
+  a,
+  .alert-link {
+    color: $white;
+    text-decoration: underline;
+  }
+
+  @each $color, $value in $theme-colors {
+    &-#{$color} {
+      background-color: $value;
+    }
+  }
+
+  &-light {
+    &,
+    a:not(.btn),
+    .alert-link {
+      color: $body-bg;
+    }
+  }
+}
+
+/* Chroma */
 /* Background */ .chroma { color: #f8f8f2; background-color: #272822 }
 /* Other */ .chroma .x {  }
 /* Error */ .chroma .err { color: #960050; background-color: #1e0010 }

@@ -81,3 +81,6 @@ other = "Tags"
 
 [page]
 other = "Page"
+
+[blog]
+other = "Blog"
