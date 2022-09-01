@@ -1,0 +1,4 @@
+---
+title: Mathematics
+type: topic
+---

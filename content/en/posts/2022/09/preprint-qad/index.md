@@ -2,7 +2,9 @@
 title: "Preprint announcement: 'Quantile absolute deviation'"
 date: 2022-09-01
 tags:
+- 
 - Statistics
+- paper-announcement
 - research-qad
 features:
 - math
@@ -46,7 +48,7 @@ Abstract:
 
 ### Relevant blog posts
 
-Here is the full list of relevant blog posts:
+Here is the full list of the relevant blog posts:
 
 {{< tag-list research-qad >}}
 

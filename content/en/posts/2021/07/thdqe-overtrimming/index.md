@@ -11,10 +11,6 @@ features:
 - math
 ---
 
-**Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-  A [paper with final results]({{< ref pub-thdqe >}}) is available in *Communications in Statistics - Simulation and Computation* (DOI: [10.1080/03610918.2022.2050396](https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396)).
-  A preprint is available on arXiv: [arXiv:2111.11776 [stat.ME]](https://arxiv.org/abs/2111.11776).**
-
 Previously, I already discussed the
   [trimmed modification of the Harrell-Davis quantile estimator]({{< ref trimmed-hdqe>}}) several times.
 I performed several numerical simulations that compare the statistical efficiency of this estimator

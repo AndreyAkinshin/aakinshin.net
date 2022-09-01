@@ -3,6 +3,7 @@ title: "Preprint announcement: 'Trimmed Harrell-Davis quantile estimator based o
 date: 2021-11-30
 tags:
 - Statistics
+- paper-announcement
 features:
 - math
 ---

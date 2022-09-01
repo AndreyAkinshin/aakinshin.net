@@ -11,10 +11,6 @@ features:
 - math
 ---
 
-**Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
-  A [paper with final results]({{< ref pub-thdqe >}}) is available in *Communications in Statistics - Simulation and Computation* (DOI: [10.1080/03610918.2022.2050396](https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396)).
-  A preprint is available on arXiv: [arXiv:2111.11776 [stat.ME]](https://arxiv.org/abs/2111.11776).**
-
 The traditional quantile estimators (which are based on 1 or 2 order statistics) have great robustness.
 However, the statistical efficiency of these estimators is not so great.
 The Harrell-Davis quantile estimator has much better efficiency (at least in the light-tailed case),

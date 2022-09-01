@@ -6,7 +6,6 @@
 {{ $text.Set "value" "```bib\n" }}
 
 {{ range $posts }}
-  {{/*  <li><a href="{{ .Permalink }}">{{ .Title }}</a> <i>({{- partial "date-short.html" . -}})</i></li>  */}}
   {{ $text.Add "value" (printf "@misc{akinshin.post.%s,\n" .File.ContentBaseName) }}
   {{ $text.Add "value" "  author = {Andrey Akinshin},\n" }}
   {{ $text.Add "value" (printf "  title = {%s},\n" .Title) }}

@@ -3,6 +3,7 @@ title: "Publication announcement: 'Trimmed Harrell-Davis quantile estimator base
 date: 2022-03-22
 tags:
 - Statistics
+- paper-announcement
 features:
 - math
 ---

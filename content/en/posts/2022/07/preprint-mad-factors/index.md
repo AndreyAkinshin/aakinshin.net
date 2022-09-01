@@ -4,6 +4,7 @@ date: 2022-07-26
 tags:
 - Statistics
 - research-unbiased-mad
+- paper-announcement
 features:
 - math
 ---
