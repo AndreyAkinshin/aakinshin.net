@@ -240,3 +240,10 @@ body {
 .d-none{
   display:none;
 }
+
+code.has-jax {
+  -webkit-font-smoothing: antialiased;
+  background: inherit !important;
+  border: none !important;
+  font-size: 100%;
+}
