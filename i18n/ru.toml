@@ -70,6 +70,9 @@ other = "Моё <a href='https://ru.wikipedia.org/wiki/%D0%A7%D0%B8%D1%81%D0%BB%
 [allPosts]
 other = "Все Посты"
 
+[allTags]
+other = "Все Теги"
+
 [tags]
 other = "Теги"
 

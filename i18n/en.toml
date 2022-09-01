@@ -70,6 +70,12 @@ other = "My <a href='https://en.wikipedia.org/wiki/Erd%C5%91s_number'>Erdős num
 [allPosts]
 other = "All Posts"
 
+[postsStatistics]
+other = "Posts about Statistics"
+
+[allTags]
+other = "All Tags"
+
 [tags]
 other = "Tags"
 

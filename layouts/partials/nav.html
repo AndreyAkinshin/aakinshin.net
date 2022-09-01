@@ -5,14 +5,18 @@
         <li class="nav-item">
           <a class="nav-link" id="nav-link-blog" href="{{ .Site.Home.Permalink }}"><i class="fas fa-home" title="Home" style="color:white"></i></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" id="nav-link-posts" href='{{ (.Site.GetPage "/posts").Permalink }}'>{{ i18n "posts" }}</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ i18n "posts" }}</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href='{{ (.Site.GetPage "/posts").Permalink }}'>{{ i18n "allPosts" }}</a>
+            {{ if eq .Site.Language.Lang "en" }}
+              <a class="dropdown-item" href='{{ (.Site.GetPage "/tags/statistics").Permalink }}'>{{ i18n "postsStatistics" }}</a>
+            {{ end }}
+            <a class="dropdown-item" href='{{ (.Site.GetPage "/tags").Permalink }}'>{{ i18n "allTags" }}</a>
+          </div>
         </li>
         <li class="nav-item">
           <a class="nav-link" id="nav-link-about" href='{{ (.Site.GetPage "/pages/about.md").Permalink }}'>{{ i18n "about" }}</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="nav-link-pdnb" href='{{ (.Site.GetPage "prodotnetbenchmarking").Permalink }}'>Pro .NET Benchmarking</a>
         </li>
         {{ if .IsTranslated }}
           <li class="nav-item dropdown">

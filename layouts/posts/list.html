@@ -2,48 +2,6 @@
 
 {{ partial "english-post-message.html" . }}
 
-<ul class="nav nav-tabs">
-  <li class="nav-item">
-      <a href="#all" class="nav-link active" data-toggle="tab">{{ i18n "allPosts" }}</a>
-  </li>
-  {{ range .Site.Taxonomies.tags }}
-    {{ if eq .Page.Params.featured true }}
-      <li class="nav-item">
-        <a href="#{{ .Page.Data.Term }}" class="nav-link" data-toggle="tab">{{ .Page.Title }}</a>
-      </li>
-    {{ end }}
-  {{ end }}
-  <li class="nav-item">
-      <a href="#tags" class="nav-link" data-toggle="tab">{{ i18n "tags" }}</a>
-  </li>
-</ul>
-
-
-<div class="tab-content">
-  <div class="tab-pane fade show active" id="all">
-    <br />
-    {{ partial "posts-by-years.html" .Pages }}
-  </div>
-  {{ $site := .Site}}
-  {{ range .Site.Taxonomies.tags }}
-    {{ if eq .Page.Params.featured true }}
-    <div class="tab-pane fade" id="{{ .Page.Data.Term }}">
-      <br />
-      {{ partial "posts-by-years.html" .Pages }}
-    </div>
-    {{ end }}
-  {{ end }}
-  <div class="tab-pane fade" id="tags">
-    <br />
-    <ul>
-      {{ range .Site.Taxonomies.tags.ByCount }}
-        <li>
-          <a href="{{ .Page.Permalink }}">{{ .Page.Title }}</a>
-          ({{ .Count }})
-        </li>
-      {{ end }}
-    </ul>
-  </div>
-</div>
+{{ partial "posts-by-years.html" .Pages }}
 
 {{ end }}
