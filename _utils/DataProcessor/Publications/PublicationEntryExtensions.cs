@@ -30,10 +30,17 @@ namespace DataProcessor.Publications
         public static PublicationLanguage GetLanguage(this PublicationEntry entry) =>
             entry.GetProperty("language").StartsWith("ru") ? PublicationLanguage.Russian : PublicationLanguage.English;
 
-        public static string[] GetUrls(this PublicationEntry entry) =>
-            entry.GetProperty("url").Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+        public static string[] GetUrls(this PublicationEntry entry)
+        {
+            var urls = new List<string>();
+            foreach (var (key, value) in entry.Properties)
+                if (key.ToLowerInvariant().StartsWith("url") || key.ToLowerInvariant().StartsWith("custom-url"))
+                    urls.AddRange(value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
 
-        public static string[] GetKeywords(this PublicationEntry entry) => entry.GetProperty("keywords")
+            return urls.ToArray();
+        }
+
+        public static string[] GetTags(this PublicationEntry entry) => entry.GetProperty("custom-tags")
             .Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
         public static PublicationEntryAuthor[] GetAuthors(this PublicationEntry entry) =>
@@ -90,7 +97,7 @@ namespace DataProcessor.Publications
                 builder.Remove(builder.Length - 2, 2);
 
             var urls = entry.GetUrls();
-            bool isVak = entry.GetKeywords().Contains("Vak");
+            bool isVak = entry.GetTags().Contains("Vak");
             if (urls.Any() || isVak)
             {
                 // builder.Append(" //");
@@ -221,28 +228,36 @@ namespace DataProcessor.Publications
                     builder.AppendLine("  [[item.badge]]");
                     builder.AppendLine($"  Label = \"{entry.Type.ToLabel(culture)}\"");
 
-                    bool isWoS = entry.GetKeywords().Contains("WoS");
+                    bool isWoS = entry.GetTags().Contains("WoS");
                     if (isWoS)
                     {
                         builder.AppendLine("  [[item.badge]]");
                         builder.AppendLine($"  Label = \"Web of Science\"");
                     }
                     
-                    bool isSpringer = entry.GetKeywords().Contains("Springer");
+                    bool isSpringer = entry.GetTags().Contains("Springer");
                     if (isSpringer)
                     {
                         builder.AppendLine("  [[item.badge]]");
                         builder.AppendLine($"  Label = \"Springer\"");
                     }
                     
-                    bool isScopus = entry.GetKeywords().Contains("Scopus");
+                    bool isScopus = entry.GetTags().Contains("Scopus");
                     if (isScopus)
                     {
                         builder.AppendLine("  [[item.badge]]");
                         builder.AppendLine($"  Label = \"Scopus\"");
                     }
 
-                    bool isVak = entry.GetKeywords().Contains("Vak");
+                    bool isPreprint = entry.GetTags().Contains("Preprint");
+                    if (isPreprint)
+                    {
+                        builder.AppendLine("  [[item.badge]]");
+                        var label = lang == PublicationLanguage.Russian ? "Препринт" : "Preprint";
+                        builder.AppendLine($"  Label = \"{label}\"");
+                    }
+
+                    bool isVak = entry.GetTags().Contains("Vak");
                     if (isVak || isWoS || isSpringer || isScopus)
                     {
                         builder.AppendLine("  [[item.badge]]");
@@ -262,7 +277,7 @@ namespace DataProcessor.Publications
                     {
                         var title = Resolve(lang, "Link", "Ссылка");
                         if (url.EndsWith(".pdf"))
-                            title = "Pdf";
+                            title = "<i class='fas fa-file-pdf'></i> PDF";
                         else if (url.Contains("ieeexplore.ieee.org"))
                             title = "IEEE";
                         else if (url.Contains("apps.webofknowledge.com"))
@@ -280,9 +295,11 @@ namespace DataProcessor.Publications
                         else if (url.Contains("springer"))
                             title = "Springer";
                         else if (url.Contains("arxiv"))
-                            title = "arXiv";
+                            title = "<i class='fas fa-file-pdf'></i> arXiv (PDF)";
                         else if (url.Contains("publons"))
                             title = "Publons";
+                        else if (url.Contains("github"))
+                            title = "<i class='fab fa-github' title='GitHub'></i> GitHub";
                         else if (url.Contains("conf.nsc.ru") || url.Contains("uni-bielefeld.de") ||
                                  url.Contains("cmb.molgen.mpg.de") || url.Contains("sites.google.com"))
                             title = Resolve(lang, "Conference site", "Сайт конференции");

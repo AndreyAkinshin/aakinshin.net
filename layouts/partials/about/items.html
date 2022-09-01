@@ -26,10 +26,10 @@
     <br />
     {{ if or (isset . "link") (isset . "badge") }}
       {{ range .badge }}
-        <span class="badge badge-secondary">{{ .Label }}</span>
+        <span class="badge badge-secondary">{{ .Label | safeHTML }}</span>
       {{ end }}
       {{ range .link }}
-        <a href="{{ .Url }}" class="badge badge-info">{{ .Label }}</a>
+        <a href="{{ .Url }}" class="badge badge-info">{{ .Label | safeHTML }}</a>
       {{ end }}
     {{ end }}
   </li>
