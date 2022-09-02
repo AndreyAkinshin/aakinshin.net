@@ -1,12 +1,12 @@
-<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Mathematics,Statistics"><title>Greenwald-Khanna quantile estimator | Andrey Akinshin</title><meta name=description content="The Greenwald-Khanna quantile estimator is a classic sequential quantile estimator which has the following features:
- It allows estimating quantiles with r..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.882998740b9c4c24677576b997bde5a487246e2e3bd72128a0e922eaa59db029.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.50da8736f05b35aac9691de67fe993cbe01b7d88fcf0cb682c3a8f39933fe4a3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.b7c11be17efd31d4852ff062694551596a7625c992103c0605c98f85d6569f11.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>Posts</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/posts/>All Posts</a>
-<a class=dropdown-item href=https://aakinshin.net/tags/statistics/>Posts about Statistics</a>
-<a class=dropdown-item href=https://aakinshin.net/tags/>All Tags</a></div></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Greenwald-Khanna quantile estimator</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-11-02>November 2, 2021</time>
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Mathematics,Statistics"><title>Greenwald-Khanna quantile estimator | Andrey Akinshin</title><meta name=description content="The Greenwald-Khanna quantile estimator is a classic sequential quantile estimator which has the following features:
+It allows estimating quantiles with re..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=https://aakinshin.net/sass/bootstrap-light.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=https://aakinshin.net/sass/bootstrap-dark.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.d7f6578e23ad3f0c33c589f9bcb34f995b45121f1f3ce888869c86b26826c845.js></script>
+<script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.9e68d431432744c07a43381a8a833ffe0921cc0e006d84ad97f0b0d43c5cd82d.mjs></script>
+<link href=https://aakinshin.net/css/fontawesome-all.min.178e95bba6ea2e9a90838cd646658f4bf6667a6ceaa057cb587bf7e6eb8412d3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.7e186db80d8c431d196b3e0718afb0636b82a269a8c92521c11a55267a24fc27.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ZVB6MXSX32")</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-41419012-5")</script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[o]=e[o]||function(){(e[o].a=e[o].a||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym"),ym(28700916,"init",{clickmap:!0,trackLinks:!0,accurateTrackBounce:!0})</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href=# role=button data-bs-toggle=dropdown aria-expanded=false>Blog</a><ul class="dropdown-menu bg-primary"><li><a class=dropdown-item href=https://aakinshin.net/posts/>All Posts</a></li><li><a class=dropdown-item href=https://aakinshin.net/tags/statistics/>Posts about Statistics</a></li><li></li><a class=dropdown-item href=https://aakinshin.net/tags/>All Tags</a></li></ul></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ms-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Greenwald-Khanna quantile estimator</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-11-02>November 2, 2021</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i>&nbsp;
+<i class="fas fa-tag"></i>
+&nbsp;
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a></span><br><br><p>The Greenwald-Khanna quantile estimator is a classic sequential quantile estimator
 which has the following features:</p><ul><li>It allows estimating quantiles with respect to the given precision <span class="math inline">\(\epsilon\)</span>.</li><li>It requires <span class="math inline">\(O(\frac{1}{\epsilon} log(\epsilon N))\)</span> memory in the worst case.</li><li>It doesn&rsquo;t require knowledge of the total number of elements in the sequence
@@ -29,12 +29,12 @@ because each <code>Add</code> operation would require too many modifications.
 That&rsquo;s why actually we keep a list of tuples <span class="math inline">\(t_i = (v_i, g_i, \Delta_i)\)</span>,
 where <span class="math inline">\(g_i\)</span> and <span class="math inline">\(\Delta_i\)</span> should be interpreted as follows:</p><p><span class="math display">\[g_i = r_{\min}(v_i) - r_{\min}(v_{i-1}), \quad
 \Delta_i = r_{\max}(v_i) - r_{\min}(v_i).
-\]</span></p><p>The equations could also be described using the following scheme:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>rmax(v[0]) ←------→ rmax(v[1]) ←------→ rmax(v[2]) ←--...
-   ↑                   ↑                   ↑
-   | delta[0]          | delta[1]          | delta[2]
-   ↓         g[1]      ↓         g[2]      ↓         g[3]
-rmin(v[0]) ←------→ rmin(v[1]) ←------→ rmin(v[2]) ←--...
-</code></pre></div><p>Such a representation makes the <code>Add</code> operation simple and fast.
+\]</span></p><p>The equations could also be described using the following scheme:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>rmax(v[0]) ←------→ rmax(v[1]) ←------→ rmax(v[2]) ←--...
+</span></span><span class=line><span class=cl>   ↑                   ↑                   ↑
+</span></span><span class=line><span class=cl>   | delta[0]          | delta[1]          | delta[2]
+</span></span><span class=line><span class=cl>   ↓         g[1]      ↓         g[2]      ↓         g[3]
+</span></span><span class=line><span class=cl>rmin(v[0]) ←------→ rmin(v[1]) ←------→ rmin(v[2]) ←--...
+</span></span></code></pre></div><p>Such a representation makes the <code>Add</code> operation simple and fast.
 This operation just inserts a new tuple in a proper place.
 Since <span class="math inline">\(\{v_i\}\)</span> is sorted,
 we could find position for the new element using binary search (it requires <span class="math inline">\(O(log(s))\)</span>) operations).
@@ -55,103 +55,103 @@ If we want to merge tuples <span class="math inline">\(t_i\)</span> and <span cl
 with the following values:</p><p><span class="math display">\[v_* = v_{i+1},\quad g_* = g_i + g_{i+1},\quad \Delta_* = \Delta_{i + 1}.
 \]</span></p><p>To get additional details about the Greenwald-Khanna quantile estimator,
 read the original paper <a href=#Greenwald2001>[Greenwald2001]</a>.</p><h3 id=reference-copy-pastable-implementation>Reference copy-pastable implementation</h3><p>Based on the suggested description, I came up with the following implementation
-(it&rsquo;s also available in <a href=https://github.com/AndreyAkinshin/perfolizer>perfolizer</a> 0.3.0-nightly.107+):</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>class</span> <span class=nc>GreenwaldKhannaQuantileEstimator</span>
-<span class=p>{</span>
-    <span class=k>private</span> <span class=k>class</span> <span class=nc>Tuple</span>
-    <span class=p>{</span>
-        <span class=k>public</span> <span class=k>static</span> <span class=k>readonly</span> <span class=n>IComparer</span><span class=p>&lt;</span><span class=n>Tuple</span><span class=p>&gt;</span> <span class=n>Comparer</span> <span class=p>=</span>
-            <span class=n>Comparer</span><span class=p>&lt;</span><span class=n>Tuple</span><span class=p>&gt;.</span><span class=n>Create</span><span class=p>((</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=n>a</span><span class=p>.</span><span class=n>Value</span><span class=p>.</span><span class=n>CompareTo</span><span class=p>(</span><span class=n>b</span><span class=p>.</span><span class=n>Value</span><span class=p>));</span>
-
-        <span class=k>public</span> <span class=kt>double</span> <span class=n>Value</span> <span class=p>{</span> <span class=k>get</span><span class=p>;</span> <span class=k>set</span><span class=p>;</span> <span class=p>}</span> <span class=c1>// Observation v[i]
-</span><span class=c1></span>        <span class=k>public</span> <span class=kt>int</span> <span class=n>Gap</span> <span class=p>{</span> <span class=k>get</span><span class=p>;</span> <span class=k>set</span><span class=p>;</span> <span class=p>}</span> <span class=c1>// g[i] = rMin(v[i]) - rMin(v[i - 1])
-</span><span class=c1></span>        <span class=k>public</span> <span class=kt>int</span> <span class=n>Delta</span> <span class=p>{</span> <span class=k>get</span><span class=p>;</span> <span class=k>set</span><span class=p>;</span> <span class=p>}</span> <span class=c1>// delta[i] = rMax(v[i]) - rMin(v[i])
-</span><span class=c1></span>    <span class=p>}</span>
-
-    <span class=k>private</span> <span class=k>readonly</span> <span class=n>List</span><span class=p>&lt;</span><span class=n>Tuple</span><span class=p>&gt;</span> <span class=n>tuples</span> <span class=p>=</span> <span class=k>new</span><span class=p>();</span>
-    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>int</span> <span class=n>compressingInterval</span><span class=p>;</span>
-    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span> <span class=n>epsilon</span><span class=p>;</span>
-    <span class=k>private</span> <span class=kt>int</span> <span class=n>n</span><span class=p>;</span>
-
-    <span class=k>public</span> <span class=n>GreenwaldKhannaQuantileEstimator</span><span class=p>(</span><span class=kt>double</span> <span class=n>epsilon</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=k>this</span><span class=p>.</span><span class=n>epsilon</span> <span class=p>=</span> <span class=n>epsilon</span><span class=p>;</span>
-        <span class=n>compressingInterval</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Floor</span><span class=p>(</span><span class=m>1.0</span> <span class=p>/</span> <span class=p>(</span><span class=m>2.0</span> <span class=p>*</span> <span class=k>this</span><span class=p>.</span><span class=n>epsilon</span><span class=p>));</span>
-    <span class=p>}</span>
-
-    <span class=k>public</span> <span class=k>void</span> <span class=n>Add</span><span class=p>(</span><span class=kt>double</span> <span class=n>v</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=kt>var</span> <span class=n>t</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Tuple</span> <span class=p>{</span> <span class=n>Value</span> <span class=p>=</span> <span class=n>v</span><span class=p>,</span> <span class=n>Gap</span> <span class=p>=</span> <span class=m>1</span><span class=p>,</span> <span class=n>Delta</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Floor</span><span class=p>(</span><span class=m>2.0</span> <span class=p>*</span> <span class=n>epsilon</span> <span class=p>*</span> <span class=n>n</span><span class=p>)</span> <span class=p>};</span>
-        <span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=n>GetInsertIndex</span><span class=p>(</span><span class=n>t</span><span class=p>);</span>
-        <span class=k>if</span> <span class=p>(</span><span class=n>i</span> <span class=p>==</span> <span class=m>0</span> <span class=p>||</span> <span class=n>i</span> <span class=p>==</span> <span class=n>tuples</span><span class=p>.</span><span class=n>Count</span><span class=p>)</span>
-            <span class=n>t</span><span class=p>.</span><span class=n>Delta</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
-
-        <span class=n>tuples</span><span class=p>.</span><span class=n>Insert</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>t</span><span class=p>);</span>
-        <span class=n>n</span><span class=p>++;</span>
-
-        <span class=k>if</span> <span class=p>(</span><span class=n>n</span> <span class=p>%</span> <span class=n>compressingInterval</span> <span class=p>==</span> <span class=m>0</span><span class=p>)</span>
-            <span class=n>Compress</span><span class=p>();</span>
-    <span class=p>}</span>
-
-    <span class=k>private</span> <span class=kt>int</span> <span class=n>GetInsertIndex</span><span class=p>(</span><span class=n>Tuple</span> <span class=n>v</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=kt>int</span> <span class=n>index</span> <span class=p>=</span> <span class=n>tuples</span><span class=p>.</span><span class=n>BinarySearch</span><span class=p>(</span><span class=n>v</span><span class=p>,</span> <span class=n>Tuple</span><span class=p>.</span><span class=n>Comparer</span><span class=p>);</span>
-        <span class=k>return</span> <span class=n>index</span> <span class=p>&gt;=</span> <span class=m>0</span> <span class=p>?</span> <span class=n>index</span> <span class=p>:</span> <span class=p>~</span><span class=n>index</span><span class=p>;</span>
-    <span class=p>}</span>
-
-    <span class=k>public</span> <span class=kt>double</span> <span class=n>GetQuantile</span><span class=p>(</span><span class=kt>double</span> <span class=n>p</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=k>if</span> <span class=p>(</span><span class=n>tuples</span><span class=p>.</span><span class=n>Count</span> <span class=p>==</span> <span class=m>0</span><span class=p>)</span>
-            <span class=k>throw</span> <span class=k>new</span> <span class=n>InvalidOperationException</span><span class=p>(</span><span class=s>&#34;Sequence contains no elements&#34;</span><span class=p>);</span>
-
-        <span class=kt>double</span> <span class=n>rank</span> <span class=p>=</span> <span class=n>p</span> <span class=p>*</span> <span class=p>(</span><span class=n>n</span> <span class=p>-</span> <span class=m>1</span><span class=p>)</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span>
-        <span class=kt>int</span> <span class=n>margin</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Ceiling</span><span class=p>(</span><span class=n>epsilon</span> <span class=p>*</span> <span class=n>n</span><span class=p>);</span>
-
-        <span class=kt>int</span> <span class=n>bestIndex</span> <span class=p>=</span> <span class=p>-</span><span class=m>1</span><span class=p>;</span>
-        <span class=kt>double</span> <span class=n>bestDist</span> <span class=p>=</span> <span class=kt>double</span><span class=p>.</span><span class=n>MaxValue</span><span class=p>;</span>
-        <span class=kt>int</span> <span class=n>rMin</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
-        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>tuples</span><span class=p>.</span><span class=n>Count</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-        <span class=p>{</span>
-            <span class=kt>var</span> <span class=n>t</span> <span class=p>=</span> <span class=n>tuples</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
-            <span class=n>rMin</span> <span class=p>+=</span> <span class=n>t</span><span class=p>.</span><span class=n>Gap</span><span class=p>;</span>
-            <span class=kt>int</span> <span class=n>rMax</span> <span class=p>=</span> <span class=n>rMin</span> <span class=p>+</span> <span class=n>t</span><span class=p>.</span><span class=n>Delta</span><span class=p>;</span>
-            <span class=k>if</span> <span class=p>(</span><span class=n>rank</span> <span class=p>-</span> <span class=n>margin</span> <span class=p>&lt;=</span> <span class=n>rMin</span> <span class=p>&amp;&amp;</span> <span class=n>rMax</span> <span class=p>&lt;=</span> <span class=n>rank</span> <span class=p>+</span> <span class=n>margin</span><span class=p>)</span>
-            <span class=p>{</span>
-                <span class=kt>double</span> <span class=n>currentDist</span> <span class=p>=</span> <span class=n>Math</span><span class=p>.</span><span class=n>Abs</span><span class=p>(</span><span class=n>rank</span> <span class=p>-</span> <span class=p>(</span><span class=n>rMin</span> <span class=p>+</span> <span class=n>rMax</span><span class=p>)</span> <span class=p>/</span> <span class=m>2.0</span><span class=p>);</span>
-                <span class=k>if</span> <span class=p>(</span><span class=n>currentDist</span> <span class=p>&lt;</span> <span class=n>bestDist</span><span class=p>)</span>
-                <span class=p>{</span>
-                    <span class=n>bestDist</span> <span class=p>=</span> <span class=n>currentDist</span><span class=p>;</span>
-                    <span class=n>bestIndex</span> <span class=p>=</span> <span class=n>i</span><span class=p>;</span>
-                <span class=p>}</span>
-            <span class=p>}</span>
-        <span class=p>}</span>
-        <span class=k>if</span> <span class=p>(</span><span class=n>bestIndex</span> <span class=p>==</span> <span class=p>-</span><span class=m>1</span><span class=p>)</span>
-            <span class=k>throw</span> <span class=k>new</span> <span class=n>InvalidOperationException</span><span class=p>(</span><span class=s>&#34;Failed to find the requested quantile&#34;</span><span class=p>);</span>
-
-        <span class=k>return</span> <span class=n>tuples</span><span class=p>[</span><span class=n>bestIndex</span><span class=p>].</span><span class=n>Value</span><span class=p>;</span>
-    <span class=p>}</span>
-
-    <span class=k>public</span> <span class=k>void</span> <span class=n>Compress</span><span class=p>()</span>
-    <span class=p>{</span>
-        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=n>tuples</span><span class=p>.</span><span class=n>Count</span> <span class=p>-</span> <span class=m>2</span><span class=p>;</span> <span class=n>i</span> <span class=p>&gt;=</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span><span class=p>--)</span>
-            <span class=k>while</span> <span class=p>(</span><span class=n>i</span> <span class=p>&lt;</span> <span class=n>tuples</span><span class=p>.</span><span class=n>Count</span> <span class=p>-</span> <span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>DeleteIfNeeded</span><span class=p>(</span><span class=n>i</span><span class=p>))</span>
-            <span class=p>{</span>
-            <span class=p>}</span>
-    <span class=p>}</span>
-
-    <span class=k>private</span> <span class=kt>bool</span> <span class=n>DeleteIfNeeded</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=n>Tuple</span> <span class=n>t1</span> <span class=p>=</span> <span class=n>tuples</span><span class=p>[</span><span class=n>i</span><span class=p>],</span> <span class=n>t2</span> <span class=p>=</span> <span class=n>tuples</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>];</span>
-        <span class=kt>int</span> <span class=n>threshold</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Floor</span><span class=p>(</span><span class=m>2.0</span> <span class=p>*</span> <span class=n>epsilon</span> <span class=p>*</span> <span class=n>n</span><span class=p>);</span>
-        <span class=k>if</span> <span class=p>(</span><span class=n>t1</span><span class=p>.</span><span class=n>Delta</span> <span class=p>&gt;=</span> <span class=n>t2</span><span class=p>.</span><span class=n>Delta</span> <span class=p>&amp;&amp;</span> <span class=n>t1</span><span class=p>.</span><span class=n>Gap</span> <span class=p>+</span> <span class=n>t2</span><span class=p>.</span><span class=n>Gap</span> <span class=p>+</span> <span class=n>t2</span><span class=p>.</span><span class=n>Delta</span> <span class=p>&lt;</span> <span class=n>threshold</span><span class=p>)</span>
-        <span class=p>{</span>
-            <span class=n>tuples</span><span class=p>.</span><span class=n>RemoveAt</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
-            <span class=n>t2</span><span class=p>.</span><span class=n>Gap</span> <span class=p>+=</span> <span class=n>t1</span><span class=p>.</span><span class=n>Gap</span><span class=p>;</span>
-            <span class=k>return</span> <span class=k>true</span><span class=p>;</span>
-        <span class=p>}</span>
-        <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><h3 id=implementation-notes>Implementation Notes</h3><h4 id=getquantilep-the-expected-rank-value><code>GetQuantile(p)</code>: the expected rank value</h4><p>The paper suggests (see §2.2.1) that if we want to estimate <span class="math inline">\(p^\textrm{quantile}\)</span>,
+(it&rsquo;s also available in <a href=https://github.com/AndreyAkinshin/perfolizer>perfolizer</a> 0.3.0-nightly.107+):</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>GreenwaldKhannaQuantileEstimator</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>class</span> <span class=nc>Tuple</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>public</span> <span class=k>static</span> <span class=k>readonly</span> <span class=n>IComparer</span><span class=p>&lt;</span><span class=n>Tuple</span><span class=p>&gt;</span> <span class=n>Comparer</span> <span class=p>=</span>
+</span></span><span class=line><span class=cl>            <span class=n>Comparer</span><span class=p>&lt;</span><span class=n>Tuple</span><span class=p>&gt;.</span><span class=n>Create</span><span class=p>((</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=n>a</span><span class=p>.</span><span class=n>Value</span><span class=p>.</span><span class=n>CompareTo</span><span class=p>(</span><span class=n>b</span><span class=p>.</span><span class=n>Value</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>public</span> <span class=kt>double</span> <span class=n>Value</span> <span class=p>{</span> <span class=k>get</span><span class=p>;</span> <span class=k>set</span><span class=p>;</span> <span class=p>}</span> <span class=c1>// Observation v[i]</span>
+</span></span><span class=line><span class=cl>        <span class=k>public</span> <span class=kt>int</span> <span class=n>Gap</span> <span class=p>{</span> <span class=k>get</span><span class=p>;</span> <span class=k>set</span><span class=p>;</span> <span class=p>}</span> <span class=c1>// g[i] = rMin(v[i]) - rMin(v[i - 1])</span>
+</span></span><span class=line><span class=cl>        <span class=k>public</span> <span class=kt>int</span> <span class=n>Delta</span> <span class=p>{</span> <span class=k>get</span><span class=p>;</span> <span class=k>set</span><span class=p>;</span> <span class=p>}</span> <span class=c1>// delta[i] = rMax(v[i]) - rMin(v[i])</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>readonly</span> <span class=n>List</span><span class=p>&lt;</span><span class=n>Tuple</span><span class=p>&gt;</span> <span class=n>tuples</span> <span class=p>=</span> <span class=k>new</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>int</span> <span class=n>compressingInterval</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span> <span class=n>epsilon</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=kt>int</span> <span class=n>n</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=n>GreenwaldKhannaQuantileEstimator</span><span class=p>(</span><span class=kt>double</span> <span class=n>epsilon</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>this</span><span class=p>.</span><span class=n>epsilon</span> <span class=p>=</span> <span class=n>epsilon</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>compressingInterval</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Floor</span><span class=p>(</span><span class=m>1.0</span> <span class=p>/</span> <span class=p>(</span><span class=m>2.0</span> <span class=p>*</span> <span class=k>this</span><span class=p>.</span><span class=n>epsilon</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>void</span> <span class=n>Add</span><span class=p>(</span><span class=kt>double</span> <span class=n>v</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kt>var</span> <span class=n>t</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Tuple</span> <span class=p>{</span> <span class=n>Value</span> <span class=p>=</span> <span class=n>v</span><span class=p>,</span> <span class=n>Gap</span> <span class=p>=</span> <span class=m>1</span><span class=p>,</span> <span class=n>Delta</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Floor</span><span class=p>(</span><span class=m>2.0</span> <span class=p>*</span> <span class=n>epsilon</span> <span class=p>*</span> <span class=n>n</span><span class=p>)</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=n>GetInsertIndex</span><span class=p>(</span><span class=n>t</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>i</span> <span class=p>==</span> <span class=m>0</span> <span class=p>||</span> <span class=n>i</span> <span class=p>==</span> <span class=n>tuples</span><span class=p>.</span><span class=n>Count</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>t</span><span class=p>.</span><span class=n>Delta</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>tuples</span><span class=p>.</span><span class=n>Insert</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>t</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>n</span><span class=p>++;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>n</span> <span class=p>%</span> <span class=n>compressingInterval</span> <span class=p>==</span> <span class=m>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=n>Compress</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=kt>int</span> <span class=n>GetInsertIndex</span><span class=p>(</span><span class=n>Tuple</span> <span class=n>v</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>index</span> <span class=p>=</span> <span class=n>tuples</span><span class=p>.</span><span class=n>BinarySearch</span><span class=p>(</span><span class=n>v</span><span class=p>,</span> <span class=n>Tuple</span><span class=p>.</span><span class=n>Comparer</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>index</span> <span class=p>&gt;=</span> <span class=m>0</span> <span class=p>?</span> <span class=n>index</span> <span class=p>:</span> <span class=p>~</span><span class=n>index</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=kt>double</span> <span class=n>GetQuantile</span><span class=p>(</span><span class=kt>double</span> <span class=n>p</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>tuples</span><span class=p>.</span><span class=n>Count</span> <span class=p>==</span> <span class=m>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=k>new</span> <span class=n>InvalidOperationException</span><span class=p>(</span><span class=s>&#34;Sequence contains no elements&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kt>double</span> <span class=n>rank</span> <span class=p>=</span> <span class=n>p</span> <span class=p>*</span> <span class=p>(</span><span class=n>n</span> <span class=p>-</span> <span class=m>1</span><span class=p>)</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>margin</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Ceiling</span><span class=p>(</span><span class=n>epsilon</span> <span class=p>*</span> <span class=n>n</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>bestIndex</span> <span class=p>=</span> <span class=p>-</span><span class=m>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=kt>double</span> <span class=n>bestDist</span> <span class=p>=</span> <span class=kt>double</span><span class=p>.</span><span class=n>MaxValue</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>rMin</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>tuples</span><span class=p>.</span><span class=n>Count</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kt>var</span> <span class=n>t</span> <span class=p>=</span> <span class=n>tuples</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>            <span class=n>rMin</span> <span class=p>+=</span> <span class=n>t</span><span class=p>.</span><span class=n>Gap</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=kt>int</span> <span class=n>rMax</span> <span class=p>=</span> <span class=n>rMin</span> <span class=p>+</span> <span class=n>t</span><span class=p>.</span><span class=n>Delta</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>rank</span> <span class=p>-</span> <span class=n>margin</span> <span class=p>&lt;=</span> <span class=n>rMin</span> <span class=p>&amp;&amp;</span> <span class=n>rMax</span> <span class=p>&lt;=</span> <span class=n>rank</span> <span class=p>+</span> <span class=n>margin</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=kt>double</span> <span class=n>currentDist</span> <span class=p>=</span> <span class=n>Math</span><span class=p>.</span><span class=n>Abs</span><span class=p>(</span><span class=n>rank</span> <span class=p>-</span> <span class=p>(</span><span class=n>rMin</span> <span class=p>+</span> <span class=n>rMax</span><span class=p>)</span> <span class=p>/</span> <span class=m>2.0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=k>if</span> <span class=p>(</span><span class=n>currentDist</span> <span class=p>&lt;</span> <span class=n>bestDist</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=p>{</span>
+</span></span><span class=line><span class=cl>                    <span class=n>bestDist</span> <span class=p>=</span> <span class=n>currentDist</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                    <span class=n>bestIndex</span> <span class=p>=</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>bestIndex</span> <span class=p>==</span> <span class=p>-</span><span class=m>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=k>new</span> <span class=n>InvalidOperationException</span><span class=p>(</span><span class=s>&#34;Failed to find the requested quantile&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>tuples</span><span class=p>[</span><span class=n>bestIndex</span><span class=p>].</span><span class=n>Value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>void</span> <span class=n>Compress</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=n>tuples</span><span class=p>.</span><span class=n>Count</span> <span class=p>-</span> <span class=m>2</span><span class=p>;</span> <span class=n>i</span> <span class=p>&gt;=</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span><span class=p>--)</span>
+</span></span><span class=line><span class=cl>            <span class=k>while</span> <span class=p>(</span><span class=n>i</span> <span class=p>&lt;</span> <span class=n>tuples</span><span class=p>.</span><span class=n>Count</span> <span class=p>-</span> <span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>DeleteIfNeeded</span><span class=p>(</span><span class=n>i</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=kt>bool</span> <span class=n>DeleteIfNeeded</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>Tuple</span> <span class=n>t1</span> <span class=p>=</span> <span class=n>tuples</span><span class=p>[</span><span class=n>i</span><span class=p>],</span> <span class=n>t2</span> <span class=p>=</span> <span class=n>tuples</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>threshold</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Floor</span><span class=p>(</span><span class=m>2.0</span> <span class=p>*</span> <span class=n>epsilon</span> <span class=p>*</span> <span class=n>n</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>t1</span><span class=p>.</span><span class=n>Delta</span> <span class=p>&gt;=</span> <span class=n>t2</span><span class=p>.</span><span class=n>Delta</span> <span class=p>&amp;&amp;</span> <span class=n>t1</span><span class=p>.</span><span class=n>Gap</span> <span class=p>+</span> <span class=n>t2</span><span class=p>.</span><span class=n>Gap</span> <span class=p>+</span> <span class=n>t2</span><span class=p>.</span><span class=n>Delta</span> <span class=p>&lt;</span> <span class=n>threshold</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>tuples</span><span class=p>.</span><span class=n>RemoveAt</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=n>t2</span><span class=p>.</span><span class=n>Gap</span> <span class=p>+=</span> <span class=n>t1</span><span class=p>.</span><span class=n>Gap</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=k>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h3 id=implementation-notes>Implementation Notes</h3><h4 id=getquantilep-the-expected-rank-value><code>GetQuantile(p)</code>: the expected rank value</h4><p>The paper suggests (see §2.2.1) that if we want to estimate <span class="math inline">\(p^\textrm{quantile}\)</span>,
 we should find an element with rank <span class="math inline">\(\lceil np \rceil\)</span>.
 Since the paper uses 1-based indexing, we get a problem for <span class="math inline">\(p=0\)</span>.
 Also, <span class="math inline">\(\lceil np \rceil\)</span> provides a non-uniform mapping from the real quantile position value to the integer rank.
@@ -165,31 +165,39 @@ I suggest relaxing these conditions and using <span class="math inline">\(\lceil
 However, we should choose a single one to determine the result.
 If we choose the first one or the last one, the corresponding quantile estimation may be inaccurate
 (while it technically may satisfy the estimator precision requirements).
-I suggesting choosing such a tuple <span class="math inline">\(t_i\)</span> so that it minimize the value of <span class="math inline">\(|r - (r_\min(v_i) + r_\max(v_i))/2|\)</span>.</p><h4 id=improving-compress-routine>Improving <code>Compress</code> routine</h4><p>The paper suggests (see §2.2.1, Figure 2) the following compress routine:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>COMPRESS()
-  for i from s-2 to 0 do
-    if ((BAND(Δ[i], 2ϵn) ≤ BAND(Δ[i+1], 2ϵn)) &amp;&amp;
-        g[i]+g[i+1]+Δ[i+1] &lt; 2ϵn) then
-          DELETE all descendants of t[i] and the tuple t[i] itself
-    end
-  end
-end
-</code></pre></div><p>I suggest making the following adjustments:</p><ul><li>Replacing the lower bound of the loop by <span class="math inline">\(1\)</span>.
+I suggesting choosing such a tuple <span class="math inline">\(t_i\)</span> so that it minimize the value of <span class="math inline">\(|r - (r_\min(v_i) + r_\max(v_i))/2|\)</span>.</p><h4 id=improving-compress-routine>Improving <code>Compress</code> routine</h4><p>The paper suggests (see §2.2.1, Figure 2) the following compress routine:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>COMPRESS()
+</span></span><span class=line><span class=cl>  for i from s-2 to 0 do
+</span></span><span class=line><span class=cl>    if ((BAND(Δ[i], 2ϵn) ≤ BAND(Δ[i+1], 2ϵn)) &amp;&amp;
+</span></span><span class=line><span class=cl>        g[i]+g[i+1]+Δ[i+1] &lt; 2ϵn) then
+</span></span><span class=line><span class=cl>          DELETE all descendants of t[i] and the tuple t[i] itself
+</span></span><span class=line><span class=cl>    end
+</span></span><span class=line><span class=cl>  end
+</span></span><span class=line><span class=cl>end
+</span></span></code></pre></div><p>I suggest making the following adjustments:</p><ul><li>Replacing the lower bound of the loop by <span class="math inline">\(1\)</span>.
 It allows keeping the actual value of the observed minimum
 so that it provides more accurate estimations of lower quantiles.</li><li>The band representation from §2.1 may help to understand the logic behind the suggested data structure.
 However, in my opinion, it&rsquo;s not required for the implementation.
 The condition <code>(BAND(Δ[i], 2ϵn) ≤ BAND(Δ[i+1], 2ϵn)</code> could be easily replaced by <code>Δ[i] ≥ Δ[i+1]</code>.</li><li>The tree representation from §2.1 also looks like an over-complication in the context of implementation.
 Instead of <code>DELETE all descendants of t[i] and the tuple t[i] itself</code> we could just say
-<code>MERGE t[i] and t[i+1] while they are mergeable</code>.</li></ul><p>Thus, the above pseudo-code could be rewritten as follows:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>COMPRESS()
-  for i from s-2 to 1 do
-    while (i ≤ s-2 &amp;&amp;
-           Δ[i] ≥ Δ[i+1] &amp;&amp;
-           g[i]+g[i+1]+Δ[i+1] &lt; 2ϵn) do
-             MERGE(t[i], t[i+1])
-    end
-  end
-end
-</code></pre></div><h3 id=references>References</h3><ul><li><b id=Greenwald2001>[Greenwald2001]</b><br>Greenwald, Michael, and Sanjeev Khanna. &ldquo;Space-efficient online computation of quantile summaries.&rdquo;
-ACM SIGMOD Record 30, no. 2 (2001): 58-66.<br><a href=https://doi.org/10.1145/375663.375670>https://doi.org/10.1145/375663.375670</a></li></ul><br><br><div class=row><div class="mx-auto share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fgreenwald-khanna-quantile-estimator%2f&title=Greenwald-Khanna%20quantile%20estimator" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Greenwald-Khanna%20quantile%20estimator&url=https%3a%2f%2faakinshin.net%2fposts%2fgreenwald-khanna-quantile-estimator%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fgreenwald-khanna-quantile-estimator%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fgreenwald-khanna-quantile-estimator%2f&title=Greenwald-Khanna%20quantile%20estimator" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
+<code>MERGE t[i] and t[i+1] while they are mergeable</code>.</li></ul><p>Thus, the above pseudo-code could be rewritten as follows:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>COMPRESS()
+</span></span><span class=line><span class=cl>  for i from s-2 to 1 do
+</span></span><span class=line><span class=cl>    while (i ≤ s-2 &amp;&amp;
+</span></span><span class=line><span class=cl>           Δ[i] ≥ Δ[i+1] &amp;&amp;
+</span></span><span class=line><span class=cl>           g[i]+g[i+1]+Δ[i+1] &lt; 2ϵn) do
+</span></span><span class=line><span class=cl>             MERGE(t[i], t[i+1])
+</span></span><span class=line><span class=cl>    end
+</span></span><span class=line><span class=cl>  end
+</span></span><span class=line><span class=cl>end
+</span></span></code></pre></div><h3 id=references>References</h3><ul><li><b id=Greenwald2001>[Greenwald2001]</b><br>Greenwald, Michael, and Sanjeev Khanna. &ldquo;Space-efficient online computation of quantile summaries.&rdquo;
+ACM SIGMOD Record 30, no. 2 (2001): 58-66.<br><a href=https://doi.org/10.1145/375663.375670>https://doi.org/10.1145/375663.375670</a></li></ul><br><br><div class=row><div class="justify-content-center share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fgreenwald-khanna-quantile-estimator%2f&title=Greenwald-Khanna%20quantile%20estimator" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Greenwald-Khanna%20quantile%20estimator&url=https%3a%2f%2faakinshin.net%2fposts%2fgreenwald-khanna-quantile-estimator%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fgreenwald-khanna-quantile-estimator%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fgreenwald-khanna-quantile-estimator%2f&title=Greenwald-Khanna%20quantile%20estimator" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
 |
-<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a><a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a><a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>|
-<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.082780cb948cc57eabbc0d80172a7a5347d5572b599938b4c9876dfd7978b424.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script><script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true,processEnvironments:true,},options:{skipHtmlTags:['script','noscript','style','textarea','pre'],ignoreHtmlClass:'tex2jax_ignore',processHtmlClass:'tex2jax_process'}};</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></body></html>
+<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a>
+<a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a>
+<a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>
+|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.c26550621ac13c2221d7f6f5e6fe862345d3919723c50d730893e3e4856ecf35.js></script>
+<script src=/js/bootstrap.bundle.min.js></script>
+<script src=/js/anchor.min.js></script>
+<script src=https://aakinshin.net/js/custom.min.f6e5d13fe39f305056cc743ee4cb8d117c1aba26176e58c82c79a480d02fe4b7.js></script>
+<script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></body></html>

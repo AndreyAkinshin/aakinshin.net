@@ -1,183 +1,190 @@
-<!doctype html><html lang=ru class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Андрей Акиньшин"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Lambda,Closures,C#,.NET"><title>Неочевидности в использовании C#-замыканий | Андрей Акиньшин</title><meta name=description content="Язык C# даёт нам возможность пользоваться замыканиями — мощным механизмом, который позволяет анонимным методам и лямбдам захватывать свободные переменные в..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.882998740b9c4c24677576b997bde5a487246e2e3bd72128a0e922eaa59db029.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.50da8736f05b35aac9691de67fe993cbe01b7d88fcf0cb682c3a8f39933fe4a3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.b7c11be17efd31d4852ff062694551596a7625c992103c0605c98f85d6569f11.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/ru/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>Посты</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/ru/posts/>Все Посты</a>
-<a class=dropdown-item href=https://aakinshin.net/ru/tags/>Все Теги</a></div></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/ru/about/>Об авторе</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>RU</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/posts/closures/>EN</a></div></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Неочевидности в использовании C#-замыканий</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2013-08-07>7 августа 2013</time>
+<!doctype html><html lang=ru class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Андрей Акиньшин"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Lambda,Closures,C#,.NET"><title>Неочевидности в использовании C#-замыканий | Андрей Акиньшин</title><meta name=description content="Язык C# даёт нам возможность пользоваться замыканиями — мощным механизмом, который позволяет анонимным методам и лямбдам захватывать свободные переменные в..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=https://aakinshin.net/sass/bootstrap-light.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=https://aakinshin.net/sass/bootstrap-dark.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.d7f6578e23ad3f0c33c589f9bcb34f995b45121f1f3ce888869c86b26826c845.js></script>
+<script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.9e68d431432744c07a43381a8a833ffe0921cc0e006d84ad97f0b0d43c5cd82d.mjs></script>
+<link href=https://aakinshin.net/css/fontawesome-all.min.178e95bba6ea2e9a90838cd646658f4bf6667a6ceaa057cb587bf7e6eb8412d3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.7e186db80d8c431d196b3e0718afb0636b82a269a8c92521c11a55267a24fc27.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/ru/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ZVB6MXSX32")</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-41419012-5")</script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[o]=e[o]||function(){(e[o].a=e[o].a||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym"),ym(28700916,"init",{clickmap:!0,trackLinks:!0,accurateTrackBounce:!0})</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/ru/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href=# role=button data-bs-toggle=dropdown aria-expanded=false>Блог</a><ul class="dropdown-menu bg-primary"><li><a class=dropdown-item href=https://aakinshin.net/ru/posts/>Все Посты</a></li><li></li><a class=dropdown-item href=https://aakinshin.net/ru/tags/>Все Теги</a></li></ul></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/ru/about/>Об авторе</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href=# role=button data-bs-toggle=dropdown aria-expanded=false>RU</a><ul class="dropdown-menu bg-primary"><li></li><a class=dropdown-item href=https://aakinshin.net/posts/closures/>EN</a></li></ul></li></ul><ul class="navbar-nav ms-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Неочевидности в использовании C#-замыканий</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2013-08-07>7 августа 2013</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i>&nbsp;
+<i class="fas fa-tag"></i>
+&nbsp;
 <a href=https://aakinshin.net/ru/tags/lambda/ class="badge badge-info">Lambda</a>
 <a href=https://aakinshin.net/ru/tags/closures/ class="badge badge-info">Closures</a>
 <a href=https://aakinshin.net/ru/tags/cs/ class="badge badge-info">C#</a>
-<a href=https://aakinshin.net/ru/tags/dotnet/ class="badge badge-info">.NET</a></span><br><br><p>Язык C# даёт нам возможность пользоваться замыканиями — мощным механизмом, который позволяет анонимным методам и лямбдам захватывать свободные переменные в своём лексическом контексте. И в .NET-мире многие программисты очень любят использовать замыкания, но немногие понимают, как они действительно работают. Начнём с простого примера:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
-<span class=p>{</span>
-  <span class=kt>int</span> <span class=n>e</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
-  <span class=n>Foo</span><span class=p>(</span><span class=n>x</span> <span class=p>=&gt;</span> <span class=n>x</span> <span class=p>+</span> <span class=n>e</span><span class=p>);</span>
-<span class=p>}</span>
-</code></pre></div><p>Ничего сложного тут не происходит: мы просто «захватили» локальную переменную <code>e</code> в лямбду, которая передаётся в некоторый метод <code>Foo</code>. Посмотрим, во что компилятор развернёт такую конструкцию:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
-<span class=p>{</span>
-  <span class=n>DisplayClass</span> <span class=n>c</span> <span class=p>=</span> <span class=k>new</span> <span class=n>DisplayClass</span><span class=p>();</span>
-  <span class=n>c</span><span class=p>.</span><span class=n>e</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>  
-  <span class=n>Foo</span><span class=p>(</span><span class=n>c</span><span class=p>.</span><span class=n>Action</span><span class=p>);</span>
-<span class=p>}</span>
-<span class=k>private</span> <span class=k>sealed</span> <span class=k>class</span> <span class=nc>DisplayClass</span>
-<span class=p>{</span>
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>e</span><span class=p>;</span>
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>Action</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>)</span>
-  <span class=p>{</span>
-    <span class=k>return</span> <span class=n>x</span> <span class=p>+</span> <span class=n>e</span><span class=p>;</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><p>Как видно из примера, для нашего замыкания создаётся дополнительный класс, который содержит захватываемую переменную и целевой метод. Это знание поможет нам осознать поведение замыканий в различных ситуациях.</p><h3 id=цикл-for>Цикл for</h3><p>Наверное, это самый классический пример, который приводят все:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
-<span class=p>{</span>
-  <span class=kt>var</span> <span class=n>actions</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=n>Action</span><span class=p>&gt;();</span>
-  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>3</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-    <span class=n>actions</span><span class=p>.</span><span class=n>Add</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>i</span><span class=p>));</span>
-  <span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>action</span> <span class=k>in</span> <span class=n>actions</span><span class=p>)</span>
-    <span class=n>action</span><span class=p>();</span>
-<span class=p>}</span>
-</code></pre></div><p>В этом примере сделана типичная ошибка. Начинающие программисты думаю, что этот код выведет <code>"0 1 2"</code>, но на самом деле он выведет <code>"3 3 3"</code>. Такое странное поведение легко понять, если взглянуть на развёрнутую версию этого метода:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
-<span class=p>{</span>
-  <span class=kt>var</span> <span class=n>actions</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=n>Action</span><span class=p>&gt;();</span>
-  <span class=n>DisplayClass</span> <span class=n>c</span> <span class=p>=</span> <span class=k>new</span> <span class=n>DisplayClass</span><span class=p>();</span>
-  <span class=k>for</span> <span class=p>(</span><span class=n>c</span><span class=p>.</span><span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>c</span><span class=p>.</span><span class=n>i</span> <span class=p>&lt;</span> <span class=m>3</span><span class=p>;</span> <span class=n>c</span><span class=p>.</span><span class=n>i</span><span class=p>++)</span>
-    <span class=n>list</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>c</span><span class=p>.</span><span class=n>Action</span><span class=p>);</span>
-  <span class=k>foreach</span> <span class=p>(</span><span class=n>Action</span> <span class=n>action</span> <span class=k>in</span> <span class=n>list</span><span class=p>)</span>
-    <span class=n>action</span><span class=p>();</span>
-<span class=p>}</span>
-
-<span class=k>private</span> <span class=k>sealed</span> <span class=k>class</span> <span class=nc>DisplayClass</span>
-<span class=p>{</span>
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
-
-  <span class=k>public</span> <span class=k>void</span> <span class=n>Action</span><span class=p>()</span>
-  <span class=p>{</span>
-    <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><p>В таком случае часто говорят, что переменная замыкается по ссылке, а не по значению. Эту особенность замыканий многие осуждают, как непонятную, хотя она является достаточно логичной для тех, кто хорошо представляет, что скрыто под капотом замыканий. Эту тему очень подробно обсуждает Эрик Липперт в постах <a href=http://blogs.msdn.com/b/ruericlippert/archive/2009/11/12/9983705.aspx>О вреде замыканий на переменных цикла</a> и <a href=http://blogs.msdn.com/b/ruericlippert/archive/2009/11/16/9984832.aspx>Замыкания на переменных цикла. Часть 2</a>.</p><h3 id=цикл-foreach>Цикл foreach</h3><p>Посмотрим более интересный пример:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
-<span class=p>{</span>
-  <span class=kt>var</span> <span class=n>actions</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=n>Action</span><span class=p>&gt;();</span>
-  <span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>i</span> <span class=k>in</span> <span class=n>Enumerable</span><span class=p>.</span><span class=n>Range</span><span class=p>(</span><span class=m>0</span><span class=p>,</span> <span class=m>3</span><span class=p>))</span>
-    <span class=n>actions</span><span class=p>.</span><span class=n>Add</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>i</span><span class=p>));</span>
-  <span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>action</span> <span class=k>in</span> <span class=n>actions</span><span class=p>)</span>
-    <span class=n>action</span><span class=p>();</span>
-<span class=p>}</span>
-</code></pre></div><p>Что выведет это код? Увы, однозначного ответа на этот вопрос нету. Дело в том, что в ранних версиях C# поведение foreach было подобно поведению for: переменная цикла создавалась один раз и захватывалась во всех лямбдах. А в C# 5.0 это поведение поменяли (<a href=http://blogs.msdn.com/b/ericlippert/archive/2009/11/12/closing-over-the-loop-variable-considered-harmful.aspx>тут</a> Эрик Липперт признаётся, что Microsoft всё-таки сделали breaking change). Теперь этот код выводит <code>"0 1 2"</code>
-. Заметьте, что это особенность именно языка, а не платформы. Если вы работаете из VisualStuido 2012 и меняете TargetFramework на 3.5, то ничего не поменяется, а вот из VisualStudio 2010 вы сможете пронаблюдать старое поведение. На Stackoverflow Джон Скит <a href=http://stackoverflow.com/questions/16264289/captured-closure-loop-variable-in-c-sharp-5-0>объясняет</a> почему было решено сделать различное поведение для <code>for</code> и <code>foreach</code>. Взглянем на новый вариант развёрнутой версии кода:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
-<span class=p>{</span>
-  <span class=kt>var</span> <span class=n>actions</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=n>Action</span><span class=p>&gt;();</span>
-  <span class=k>foreach</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=k>in</span> <span class=n>Enumerable</span><span class=p>.</span><span class=n>Range</span><span class=p>(</span><span class=m>0</span><span class=p>,</span> <span class=m>3</span><span class=p>))</span>
-  <span class=p>{</span>
-    <span class=n>DisplayClass</span> <span class=n>c</span> <span class=p>=</span> <span class=k>new</span> <span class=n>DisplayClass</span><span class=p>();</span>
-    <span class=err>с</span><span class=p>.</span><span class=n>i</span> <span class=p>=</span> <span class=n>i</span><span class=p>;</span>    
-    <span class=n>list</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>c1</span><span class=p>.</span><span class=n>Action</span><span class=p>);</span>
-  <span class=p>}</span>
-  <span class=k>foreach</span> <span class=p>(</span><span class=n>Action</span> <span class=n>action</span> <span class=k>in</span> <span class=n>list</span><span class=p>)</span>
-    <span class=n>action</span><span class=p>();</span>
-<span class=p>}</span>
-
-<span class=k>private</span> <span class=k>sealed</span> <span class=k>class</span> <span class=nc>DisplayClass</span>
-<span class=p>{</span>
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
-
-  <span class=k>public</span> <span class=k>void</span> <span class=n>Action</span><span class=p>()</span>
-  <span class=p>{</span>
-    <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><p>Легко можно заметить разницу: в C# 5.0 на каждую итерацию цикла <code>foreach</code> мы имеем новый экземпляр сгенерированного класса, обеспечивающего логику замыкания. На Хабре можно <a href=http://habrahabr.ru/post/141270/>почитать</a> поподробнее про замыкания в новой версии C#.</p><h3 id=замыкание-нескольких-переменных>Замыкание нескольких переменных</h3><p>Рассмотрим ситуацию в которой у нас есть несколько переменных, которые замыкаются в различных переменных:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
-<span class=p>{</span>
-  <span class=kt>int</span> <span class=n>x</span> <span class=p>=</span> <span class=m>1</span><span class=p>,</span> <span class=n>y</span> <span class=p>=</span> <span class=m>2</span><span class=p>;</span>
-  <span class=n>Foo</span><span class=p>(</span><span class=n>u</span> <span class=p>=&gt;</span> <span class=n>u</span> <span class=p>+</span> <span class=n>x</span><span class=p>,</span> <span class=n>u</span> <span class=p>=&gt;</span> <span class=n>u</span> <span class=p>+</span> <span class=n>y</span><span class=p>);</span>
-<span class=p>}</span>
-</code></pre></div><p>Можно подумать, что в этом случае у нас сгенерируется два дополнительных класса, каждый из которых будет отвечать за единственную переменную. Но на самом деле будет только один сгенерированный класс:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
-<span class=p>{</span>
-  <span class=n>DisplayClass</span> <span class=err>с</span> <span class=p>=</span> <span class=k>new</span> <span class=n>DisplayClass</span><span class=p>();</span>
-  <span class=err>с</span><span class=p>.</span><span class=n>x</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
-  <span class=err>с</span><span class=p>.</span><span class=n>y</span> <span class=p>=</span> <span class=m>2</span><span class=p>;</span>
-  <span class=n>Foo</span><span class=p>(</span><span class=err>с</span><span class=p>.</span><span class=n>ActionX</span><span class=p>,</span> <span class=n>c</span><span class=p>.</span><span class=n>ActionY</span><span class=p>);</span>
-<span class=p>}</span>
-
-<span class=k>private</span> <span class=k>sealed</span> <span class=k>class</span> <span class=nc>DisplayClass</span>
-<span class=p>{</span>
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>x</span><span class=p>;</span>
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>y</span><span class=p>;</span>
-
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>ActionX</span><span class=p>(</span><span class=kt>int</span> <span class=n>u</span><span class=p>)</span>
-  <span class=p>{</span>
-    <span class=k>return</span> <span class=n>u</span> <span class=p>+</span> <span class=n>x</span><span class=p>;</span>
-  <span class=p>}</span>
-
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>ActionY</span><span class=p>(</span><span class=kt>int</span> <span class=n>u</span><span class=p>)</span>
-  <span class=p>{</span>
-    <span class=k>return</span> <span class=n>u</span> <span class=p>+</span> <span class=n>y</span><span class=p>;</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><p>Таким образом, лямбды оказываются «связаны»: сборщик мусора доберётся до них только после того, как не останется ссылок ни на одну из них. Представьте ситуацию, в которой первая лямбда используется при инициализации долгоживущего объекта, а вторая — по окончанию работы с ним. И пусть таких объектов будет много. В этом случае инициализирующие лямбды будут болтаться в памяти очень долго, хотя никто их больше никогда не будет вызывать.</p><h3 id=scope>Scope</h3><p>Есть ещё одна особенность работы замыканий, о которой полезно знать. Рассмотрим пример:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>(</span><span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>list</span><span class=p>)</span>
-<span class=p>{</span>
-  <span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>element</span> <span class=k>in</span> <span class=n>list</span><span class=p>)</span>
-  <span class=p>{</span>
-    <span class=kt>var</span> <span class=n>e</span> <span class=p>=</span> <span class=n>element</span><span class=p>;</span>
-    <span class=k>if</span> <span class=p>(</span><span class=n>Condition</span><span class=p>(</span><span class=n>e</span><span class=p>))</span>
-      <span class=n>Foo</span><span class=p>(</span><span class=n>x</span> <span class=p>=&gt;</span> <span class=n>x</span> <span class=p>+</span> <span class=n>e</span><span class=p>);</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><p>А теперь вопрос: в каком месте будет создан объект замыкания? Не смотря на то, что лямбда создаётся внутри <code>if</code>-а, объект будет создаваться в том же <code>scope</code>
--е, что и захватываемая переменная:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>(</span><span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>list</span><span class=p>)</span>
-<span class=p>{</span>
-  <span class=k>foreach</span> <span class=p>(</span><span class=kt>int</span> <span class=n>element</span> <span class=k>in</span> <span class=n>list</span><span class=p>)</span>
-  <span class=p>{</span>
-    <span class=n>DisplayClass</span> <span class=n>c</span> <span class=p>=</span> <span class=k>new</span> <span class=n>DisplayClass</span><span class=p>();</span>
-    <span class=n>c</span><span class=p>.</span><span class=n>e</span> <span class=p>=</span> <span class=n>element</span><span class=p>;</span>
-    <span class=k>if</span> <span class=p>(</span><span class=n>Condition</span><span class=p>(</span><span class=n>c</span><span class=p>.</span><span class=n>e</span><span class=p>))</span>
-      <span class=n>Foo</span><span class=p>(</span><span class=n>c</span><span class=p>.</span><span class=n>Action</span><span class=p>);</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-
-<span class=k>private</span> <span class=k>sealed</span> <span class=k>class</span> <span class=nc>DisplayClass</span>
-<span class=p>{</span>
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>e</span><span class=p>;</span>
-
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>Action</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>)</span>
-  <span class=p>{</span>
-    <span class=k>return</span> <span class=n>x</span> <span class=p>+</span> <span class=n>e</span><span class=p>;</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><p>Такая особенность может иметь значение в случае, если <code>list</code> очень большой, а условие <code>Condition(e)</code> выполняется весьма редко. Ведь будет происходить бесполезное создание экземпляров класса <code>DisplayClass</code> , что негативно скажется на памяти и производительности. Мы можем исправить эту ситуацию:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>(</span><span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>list</span><span class=p>)</span>
-<span class=p>{</span>
-  <span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>element</span> <span class=k>in</span> <span class=n>list</span><span class=p>)</span>
-    <span class=k>if</span> <span class=p>(</span><span class=n>Condition</span><span class=p>(</span><span class=n>element</span><span class=p>))</span>
-    <span class=p>{</span>
-      <span class=kt>var</span> <span class=n>e</span> <span class=p>=</span> <span class=n>element</span><span class=p>;</span>
-      <span class=n>Foo</span><span class=p>(</span><span class=n>x</span> <span class=p>=&gt;</span> <span class=n>x</span> <span class=p>+</span> <span class=n>e</span><span class=p>);</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><p>Данный метод будет разворачиваться более оптимально, ведь теперь конструктор <code>DisplayClass</code> будет вызываться только тогда, когда он действительно нужен:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>(</span><span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>list</span><span class=p>)</span>
-<span class=p>{</span>
-  <span class=k>foreach</span> <span class=p>(</span><span class=kt>int</span> <span class=n>element</span> <span class=k>in</span> <span class=n>list</span><span class=p>)</span>
-    <span class=k>if</span> <span class=p>(</span><span class=n>Condition</span><span class=p>(</span><span class=n>element</span><span class=p>))</span>
-    <span class=p>{</span>
-      <span class=n>DisplayClass</span> <span class=n>c</span> <span class=p>=</span> <span class=k>new</span> <span class=n>DisplayClass</span><span class=p>();</span>
-      <span class=n>c</span><span class=p>.</span><span class=n>e</span> <span class=p>=</span> <span class=n>element</span><span class=p>;</span>
-      <span class=n>Foo</span><span class=p>(</span><span class=n>c</span><span class=p>.</span><span class=n>Action</span><span class=p>);</span>
-    <span class=p>}</span>  
-<span class=p>}</span>
-
-<span class=k>private</span> <span class=k>sealed</span> <span class=k>class</span> <span class=nc>DisplayClass</span>
-<span class=p>{</span>
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>e</span><span class=p>;</span>
- 
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>Action</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>)</span>
-  <span class=p>{</span>
-    <span class=k>return</span> <span class=n>x</span> <span class=p>+</span> <span class=n>e</span><span class=p>;</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><h3 id=задачи>Задачи</h3><p>На приведённую тему есть три задачки в
+<a href=https://aakinshin.net/ru/tags/dotnet/ class="badge badge-info">.NET</a></span><br><br><p>Язык C# даёт нам возможность пользоваться замыканиями — мощным механизмом, который позволяет анонимным методам и лямбдам захватывать свободные переменные в своём лексическом контексте. И в .NET-мире многие программисты очень любят использовать замыкания, но немногие понимают, как они действительно работают. Начнём с простого примера:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kt>int</span> <span class=n>e</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=n>Foo</span><span class=p>(</span><span class=n>x</span> <span class=p>=&gt;</span> <span class=n>x</span> <span class=p>+</span> <span class=n>e</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Ничего сложного тут не происходит: мы просто «захватили» локальную переменную <code>e</code> в лямбду, которая передаётся в некоторый метод <code>Foo</code>. Посмотрим, во что компилятор развернёт такую конструкцию:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=n>DisplayClass</span> <span class=n>c</span> <span class=p>=</span> <span class=k>new</span> <span class=n>DisplayClass</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=n>c</span><span class=p>.</span><span class=n>e</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>  
+</span></span><span class=line><span class=cl>  <span class=n>Foo</span><span class=p>(</span><span class=n>c</span><span class=p>.</span><span class=n>Action</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=k>private</span> <span class=k>sealed</span> <span class=k>class</span> <span class=nc>DisplayClass</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>e</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>Action</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>x</span> <span class=p>+</span> <span class=n>e</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Как видно из примера, для нашего замыкания создаётся дополнительный класс, который содержит захватываемую переменную и целевой метод. Это знание поможет нам осознать поведение замыканий в различных ситуациях.</p><h3 id=цикл-for>Цикл for</h3><p>Наверное, это самый классический пример, который приводят все:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kt>var</span> <span class=n>actions</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=n>Action</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>3</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>    <span class=n>actions</span><span class=p>.</span><span class=n>Add</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>i</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>  <span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>action</span> <span class=k>in</span> <span class=n>actions</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>action</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>В этом примере сделана типичная ошибка. Начинающие программисты думаю, что этот код выведет <code>"0 1 2"</code>, но на самом деле он выведет <code>"3 3 3"</code>. Такое странное поведение легко понять, если взглянуть на развёрнутую версию этого метода:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kt>var</span> <span class=n>actions</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=n>Action</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl>  <span class=n>DisplayClass</span> <span class=n>c</span> <span class=p>=</span> <span class=k>new</span> <span class=n>DisplayClass</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=n>c</span><span class=p>.</span><span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>c</span><span class=p>.</span><span class=n>i</span> <span class=p>&lt;</span> <span class=m>3</span><span class=p>;</span> <span class=n>c</span><span class=p>.</span><span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>    <span class=n>list</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>c</span><span class=p>.</span><span class=n>Action</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=k>foreach</span> <span class=p>(</span><span class=n>Action</span> <span class=n>action</span> <span class=k>in</span> <span class=n>list</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>action</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>private</span> <span class=k>sealed</span> <span class=k>class</span> <span class=nc>DisplayClass</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=k>void</span> <span class=n>Action</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>В таком случае часто говорят, что переменная замыкается по ссылке, а не по значению. Эту особенность замыканий многие осуждают, как непонятную, хотя она является достаточно логичной для тех, кто хорошо представляет, что скрыто под капотом замыканий. Эту тему очень подробно обсуждает Эрик Липперт в постах <a href=http://blogs.msdn.com/b/ruericlippert/archive/2009/11/12/9983705.aspx>О вреде замыканий на переменных цикла</a> и <a href=http://blogs.msdn.com/b/ruericlippert/archive/2009/11/16/9984832.aspx>Замыкания на переменных цикла. Часть 2</a>.</p><h3 id=цикл-foreach>Цикл foreach</h3><p>Посмотрим более интересный пример:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kt>var</span> <span class=n>actions</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=n>Action</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl>  <span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>i</span> <span class=k>in</span> <span class=n>Enumerable</span><span class=p>.</span><span class=n>Range</span><span class=p>(</span><span class=m>0</span><span class=p>,</span> <span class=m>3</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=n>actions</span><span class=p>.</span><span class=n>Add</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>i</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>  <span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>action</span> <span class=k>in</span> <span class=n>actions</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>action</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Что выведет это код? Увы, однозначного ответа на этот вопрос нету. Дело в том, что в ранних версиях C# поведение foreach было подобно поведению for: переменная цикла создавалась один раз и захватывалась во всех лямбдах. А в C# 5.0 это поведение поменяли (<a href=http://blogs.msdn.com/b/ericlippert/archive/2009/11/12/closing-over-the-loop-variable-considered-harmful.aspx>тут</a> Эрик Липперт признаётся, что Microsoft всё-таки сделали breaking change). Теперь этот код выводит <code>"0 1 2"</code>
+. Заметьте, что это особенность именно языка, а не платформы. Если вы работаете из VisualStuido 2012 и меняете TargetFramework на 3.5, то ничего не поменяется, а вот из VisualStudio 2010 вы сможете пронаблюдать старое поведение. На Stackoverflow Джон Скит <a href=http://stackoverflow.com/questions/16264289/captured-closure-loop-variable-in-c-sharp-5-0>объясняет</a> почему было решено сделать различное поведение для <code>for</code> и <code>foreach</code>. Взглянем на новый вариант развёрнутой версии кода:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kt>var</span> <span class=n>actions</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=n>Action</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl>  <span class=k>foreach</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=k>in</span> <span class=n>Enumerable</span><span class=p>.</span><span class=n>Range</span><span class=p>(</span><span class=m>0</span><span class=p>,</span> <span class=m>3</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>DisplayClass</span> <span class=n>c</span> <span class=p>=</span> <span class=k>new</span> <span class=n>DisplayClass</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=err>с</span><span class=p>.</span><span class=n>i</span> <span class=p>=</span> <span class=n>i</span><span class=p>;</span>    
+</span></span><span class=line><span class=cl>    <span class=n>list</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>c1</span><span class=p>.</span><span class=n>Action</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=k>foreach</span> <span class=p>(</span><span class=n>Action</span> <span class=n>action</span> <span class=k>in</span> <span class=n>list</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>action</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>private</span> <span class=k>sealed</span> <span class=k>class</span> <span class=nc>DisplayClass</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=k>void</span> <span class=n>Action</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Легко можно заметить разницу: в C# 5.0 на каждую итерацию цикла <code>foreach</code> мы имеем новый экземпляр сгенерированного класса, обеспечивающего логику замыкания. На Хабре можно <a href=http://habrahabr.ru/post/141270/>почитать</a> поподробнее про замыкания в новой версии C#.</p><h3 id=замыкание-нескольких-переменных>Замыкание нескольких переменных</h3><p>Рассмотрим ситуацию в которой у нас есть несколько переменных, которые замыкаются в различных переменных:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kt>int</span> <span class=n>x</span> <span class=p>=</span> <span class=m>1</span><span class=p>,</span> <span class=n>y</span> <span class=p>=</span> <span class=m>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=n>Foo</span><span class=p>(</span><span class=n>u</span> <span class=p>=&gt;</span> <span class=n>u</span> <span class=p>+</span> <span class=n>x</span><span class=p>,</span> <span class=n>u</span> <span class=p>=&gt;</span> <span class=n>u</span> <span class=p>+</span> <span class=n>y</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Можно подумать, что в этом случае у нас сгенерируется два дополнительных класса, каждый из которых будет отвечать за единственную переменную. Но на самом деле будет только один сгенерированный класс:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=n>DisplayClass</span> <span class=err>с</span> <span class=p>=</span> <span class=k>new</span> <span class=n>DisplayClass</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=err>с</span><span class=p>.</span><span class=n>x</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=err>с</span><span class=p>.</span><span class=n>y</span> <span class=p>=</span> <span class=m>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=n>Foo</span><span class=p>(</span><span class=err>с</span><span class=p>.</span><span class=n>ActionX</span><span class=p>,</span> <span class=n>c</span><span class=p>.</span><span class=n>ActionY</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>private</span> <span class=k>sealed</span> <span class=k>class</span> <span class=nc>DisplayClass</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>y</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>ActionX</span><span class=p>(</span><span class=kt>int</span> <span class=n>u</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>u</span> <span class=p>+</span> <span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>ActionY</span><span class=p>(</span><span class=kt>int</span> <span class=n>u</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>u</span> <span class=p>+</span> <span class=n>y</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Таким образом, лямбды оказываются «связаны»: сборщик мусора доберётся до них только после того, как не останется ссылок ни на одну из них. Представьте ситуацию, в которой первая лямбда используется при инициализации долгоживущего объекта, а вторая — по окончанию работы с ним. И пусть таких объектов будет много. В этом случае инициализирующие лямбды будут болтаться в памяти очень долго, хотя никто их больше никогда не будет вызывать.</p><h3 id=scope>Scope</h3><p>Есть ещё одна особенность работы замыканий, о которой полезно знать. Рассмотрим пример:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>(</span><span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>list</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>element</span> <span class=k>in</span> <span class=n>list</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>var</span> <span class=n>e</span> <span class=p>=</span> <span class=n>element</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>Condition</span><span class=p>(</span><span class=n>e</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>      <span class=n>Foo</span><span class=p>(</span><span class=n>x</span> <span class=p>=&gt;</span> <span class=n>x</span> <span class=p>+</span> <span class=n>e</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>А теперь вопрос: в каком месте будет создан объект замыкания? Не смотря на то, что лямбда создаётся внутри <code>if</code>-а, объект будет создаваться в том же <code>scope</code>
+-е, что и захватываемая переменная:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>(</span><span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>list</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>foreach</span> <span class=p>(</span><span class=kt>int</span> <span class=n>element</span> <span class=k>in</span> <span class=n>list</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>DisplayClass</span> <span class=n>c</span> <span class=p>=</span> <span class=k>new</span> <span class=n>DisplayClass</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>c</span><span class=p>.</span><span class=n>e</span> <span class=p>=</span> <span class=n>element</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>Condition</span><span class=p>(</span><span class=n>c</span><span class=p>.</span><span class=n>e</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>      <span class=n>Foo</span><span class=p>(</span><span class=n>c</span><span class=p>.</span><span class=n>Action</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>private</span> <span class=k>sealed</span> <span class=k>class</span> <span class=nc>DisplayClass</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>e</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>Action</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>x</span> <span class=p>+</span> <span class=n>e</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Такая особенность может иметь значение в случае, если <code>list</code> очень большой, а условие <code>Condition(e)</code> выполняется весьма редко. Ведь будет происходить бесполезное создание экземпляров класса <code>DisplayClass</code> , что негативно скажется на памяти и производительности. Мы можем исправить эту ситуацию:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>(</span><span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>list</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>foreach</span> <span class=p>(</span><span class=kt>var</span> <span class=n>element</span> <span class=k>in</span> <span class=n>list</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>Condition</span><span class=p>(</span><span class=n>element</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=kt>var</span> <span class=n>e</span> <span class=p>=</span> <span class=n>element</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>      <span class=n>Foo</span><span class=p>(</span><span class=n>x</span> <span class=p>=&gt;</span> <span class=n>x</span> <span class=p>+</span> <span class=n>e</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Данный метод будет разворачиваться более оптимально, ведь теперь конструктор <code>DisplayClass</code> будет вызываться только тогда, когда он действительно нужен:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>(</span><span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>list</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>foreach</span> <span class=p>(</span><span class=kt>int</span> <span class=n>element</span> <span class=k>in</span> <span class=n>list</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>Condition</span><span class=p>(</span><span class=n>element</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=n>DisplayClass</span> <span class=n>c</span> <span class=p>=</span> <span class=k>new</span> <span class=n>DisplayClass</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>      <span class=n>c</span><span class=p>.</span><span class=n>e</span> <span class=p>=</span> <span class=n>element</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>      <span class=n>Foo</span><span class=p>(</span><span class=n>c</span><span class=p>.</span><span class=n>Action</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>  
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>private</span> <span class=k>sealed</span> <span class=k>class</span> <span class=nc>DisplayClass</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>e</span><span class=p>;</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>Action</span><span class=p>(</span><span class=kt>int</span> <span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>x</span> <span class=p>+</span> <span class=n>e</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h3 id=задачи>Задачи</h3><p>На приведённую тему есть три задачки в
 <a href=http://problembook.net>ProblemBook.NET</a>:
 <a href=http://problembook.net/content/ru/Linq/ClosureAndForeach-P.html>ClosureAndForeach</a>,
 <a href=http://problembook.net/content/ru/Linq/ClosureAndFor-P.html>ClosureAndFor</a>,
 <a href=http://problembook.net/content/ru/Linq/ClosureAndVariable-P.html>ClosureAndVariable</a>.</p><hr><p>Для дизассемблирования удобно пользоваться утилитой <a href=http://www.jetbrains.com/decompiler/>dotPeek</a> от <a href=http://www.jetbrains.com/>JetBrains</a>
-с включённой опцией <code>Show compiler-generated code</code>. Приведённый в статье код немного причёсан по сравнению с дизассемблированной версией для повышения читаемости.</p><br><br><div class=row><div class="mx-auto share-block"><div class=share-title>Поделиться:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fclosures%2f&title=%d0%9d%d0%b5%d0%be%d1%87%d0%b5%d0%b2%d0%b8%d0%b4%d0%bd%d0%be%d1%81%d1%82%d0%b8%20%d0%b2%20%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d1%8c%d0%b7%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b8%20C%23-%d0%b7%d0%b0%d0%bc%d1%8b%d0%ba%d0%b0%d0%bd%d0%b8%d0%b9" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=%d0%9d%d0%b5%d0%be%d1%87%d0%b5%d0%b2%d0%b8%d0%b4%d0%bd%d0%be%d1%81%d1%82%d0%b8%20%d0%b2%20%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d1%8c%d0%b7%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b8%20C%23-%d0%b7%d0%b0%d0%bc%d1%8b%d0%ba%d0%b0%d0%bd%d0%b8%d0%b9&url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fclosures%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fclosures%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fclosures%2f&title=%d0%9d%d0%b5%d0%be%d1%87%d0%b5%d0%b2%d0%b8%d0%b4%d0%bd%d0%be%d1%81%d1%82%d0%b8%20%d0%b2%20%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d1%8c%d0%b7%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b8%20C%23-%d0%b7%d0%b0%d0%bc%d1%8b%d0%ba%d0%b0%d0%bd%d0%b8%d0%b9" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Андрей Акиньшин
+с включённой опцией <code>Show compiler-generated code</code>. Приведённый в статье код немного причёсан по сравнению с дизассемблированной версией для повышения читаемости.</p><br><br><div class=row><div class="justify-content-center share-block"><div class=share-title>Поделиться:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fclosures%2f&title=%d0%9d%d0%b5%d0%be%d1%87%d0%b5%d0%b2%d0%b8%d0%b4%d0%bd%d0%be%d1%81%d1%82%d0%b8%20%d0%b2%20%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d1%8c%d0%b7%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b8%20C%23-%d0%b7%d0%b0%d0%bc%d1%8b%d0%ba%d0%b0%d0%bd%d0%b8%d0%b9" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=%d0%9d%d0%b5%d0%be%d1%87%d0%b5%d0%b2%d0%b8%d0%b4%d0%bd%d0%be%d1%81%d1%82%d0%b8%20%d0%b2%20%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d1%8c%d0%b7%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b8%20C%23-%d0%b7%d0%b0%d0%bc%d1%8b%d0%ba%d0%b0%d0%bd%d0%b8%d0%b9&url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fclosures%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fru%2fposts%2fclosures%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fru%2fposts%2fclosures%2f&title=%d0%9d%d0%b5%d0%be%d1%87%d0%b5%d0%b2%d0%b8%d0%b4%d0%bd%d0%be%d1%81%d1%82%d0%b8%20%d0%b2%20%d0%b8%d1%81%d0%bf%d0%be%d0%bb%d1%8c%d0%b7%d0%be%d0%b2%d0%b0%d0%bd%d0%b8%d0%b8%20C%23-%d0%b7%d0%b0%d0%bc%d1%8b%d0%ba%d0%b0%d0%bd%d0%b8%d0%b9" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Андрей Акиньшин
 |
-<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a><a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a><a href=https://aakinshin.net/ru/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>|
-<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.082780cb948cc57eabbc0d80172a7a5347d5572b599938b4c9876dfd7978b424.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>
+<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a>
+<a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a>
+<a href=https://aakinshin.net/ru/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>
+|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.c26550621ac13c2221d7f6f5e6fe862345d3919723c50d730893e3e4856ecf35.js></script>
+<script src=/js/bootstrap.bundle.min.js></script>
+<script src=/js/anchor.min.js></script>
+<script src=https://aakinshin.net/js/custom.min.f6e5d13fe39f305056cc743ee4cb8d117c1aba26176e58c82c79a480d02fe4b7.js></script></body></html>

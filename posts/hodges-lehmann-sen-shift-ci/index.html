@@ -1,11 +1,11 @@
-<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Mathematics,Statistics,Research"><title>Hodges-Lehmann-Sen shift and shift confidence interval estimators | Andrey Akinshin</title><meta name=description content="In the previous two posts (1, 2), I discussed the Hodges-Lehmann median estimator. The suggested idea of getting median estimations based on a cartesian pr..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.882998740b9c4c24677576b997bde5a487246e2e3bd72128a0e922eaa59db029.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.50da8736f05b35aac9691de67fe993cbe01b7d88fcf0cb682c3a8f39933fe4a3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.b7c11be17efd31d4852ff062694551596a7625c992103c0605c98f85d6569f11.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>Posts</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/posts/>All Posts</a>
-<a class=dropdown-item href=https://aakinshin.net/tags/statistics/>Posts about Statistics</a>
-<a class=dropdown-item href=https://aakinshin.net/tags/>All Tags</a></div></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Hodges-Lehmann-Sen shift and shift confidence interval estimators</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2022-05-31>May 31, 2022</time>
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Mathematics,Statistics,Research"><title>Hodges-Lehmann-Sen shift and shift confidence interval estimators | Andrey Akinshin</title><meta name=description content="In the previous two posts (1, 2), I discussed the Hodges-Lehmann median estimator. The suggested idea of getting median estimations based on a cartesian pr..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=https://aakinshin.net/sass/bootstrap-light.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=https://aakinshin.net/sass/bootstrap-dark.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.d7f6578e23ad3f0c33c589f9bcb34f995b45121f1f3ce888869c86b26826c845.js></script>
+<script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.9e68d431432744c07a43381a8a833ffe0921cc0e006d84ad97f0b0d43c5cd82d.mjs></script>
+<link href=https://aakinshin.net/css/fontawesome-all.min.178e95bba6ea2e9a90838cd646658f4bf6667a6ceaa057cb587bf7e6eb8412d3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.7e186db80d8c431d196b3e0718afb0636b82a269a8c92521c11a55267a24fc27.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ZVB6MXSX32")</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-41419012-5")</script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[o]=e[o]||function(){(e[o].a=e[o].a||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym"),ym(28700916,"init",{clickmap:!0,trackLinks:!0,accurateTrackBounce:!0})</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href=# role=button data-bs-toggle=dropdown aria-expanded=false>Blog</a><ul class="dropdown-menu bg-primary"><li><a class=dropdown-item href=https://aakinshin.net/posts/>All Posts</a></li><li><a class=dropdown-item href=https://aakinshin.net/tags/statistics/>Posts about Statistics</a></li><li></li><a class=dropdown-item href=https://aakinshin.net/tags/>All Tags</a></li></ul></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ms-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Hodges-Lehmann-Sen shift and shift confidence interval estimators</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2022-05-31>May 31, 2022</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i>&nbsp;
+<i class="fas fa-tag"></i>
+&nbsp;
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a></span><br><br><p>In the previous two posts
@@ -32,276 +32,284 @@ Next, we define the required confidence interval with confidence level <span cla
 \Big].
 \]</span></p><h3 id=simulation-study>Simulation Study</h3><p>Now it&rsquo;s time to check the above equations.
 Let&rsquo;s enumerate different distributions, sample sizes, confidence levels,
-and check the actual coverage percentage in each situation.</p><p>Here is the source code of this simulation:</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=nf>library</span><span class=p>(</span><span class=n>evd</span><span class=p>)</span>
-<span class=nf>library</span><span class=p>(</span><span class=n>EnvStats</span><span class=p>)</span>
-<span class=nf>library</span><span class=p>(</span><span class=n>stringr</span><span class=p>)</span>
-
-<span class=n>d.unif</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Uniform(a=0, b=1)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=n>runif</span><span class=p>,</span> <span class=n>q</span> <span class=o>=</span> <span class=n>qunif</span><span class=p>)</span>
-<span class=n>d.tri_0_2_1</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Triangular(a=0, b=2, c=1)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rtri</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>1</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qtri</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>1</span><span class=p>))</span>
-<span class=n>d.tri_0_2_02</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Triangular(a=0, b=2, c=0.2)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rtri</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>0.2</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qtri</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>0.2</span><span class=p>))</span>
-<span class=n>d.beta2_4</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Beta(a=2, b=4)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rbeta</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>4</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qbeta</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>4</span><span class=p>))</span>
-<span class=n>d.beta2_10</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Beta(a=2, b=10)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rbeta</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>10</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qbeta</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>10</span><span class=p>))</span>
-
-<span class=n>d.norm</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Normal(m=0, sd=1)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=n>rnorm</span><span class=p>,</span> <span class=n>q</span> <span class=o>=</span> <span class=n>qnorm</span><span class=p>)</span>
-<span class=n>d.weibull1_2</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Weibull(scale=1, shape=2)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rweibull</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>2</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qweibull</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>2</span><span class=p>))</span>
-<span class=n>d.student3</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Student(df=3)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rt</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>3</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qt</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>3</span><span class=p>))</span>
-<span class=n>d.gumbel</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Gumbel(loc=0, scale=1)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=n>rgumbel</span><span class=p>,</span> <span class=n>q</span> <span class=o>=</span> <span class=n>qgumbel</span><span class=p>)</span>
-<span class=n>d.exp</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Exp(rate=1)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=n>rexp</span><span class=p>,</span> <span class=n>q</span> <span class=o>=</span> <span class=n>qexp</span><span class=p>)</span>
-
-<span class=n>d.cauchy</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Cauchy(x0=0, gamma=1)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=n>rcauchy</span><span class=p>,</span> <span class=n>q</span> <span class=o>=</span> <span class=n>qcauchy</span><span class=p>)</span>
-<span class=n>d.pareto1_05</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Pareto(loc=1, shape=0.5)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rpareto</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>1</span><span class=p>,</span> <span class=m>0.5</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qpareto</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>1</span><span class=p>,</span> <span class=m>0.5</span><span class=p>))</span>
-<span class=n>d.pareto1_2</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Pareto(loc=1, shape=2)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rpareto</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>1</span><span class=p>,</span> <span class=m>2</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qpareto</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>1</span><span class=p>,</span> <span class=m>2</span><span class=p>))</span>
-<span class=n>d.lnorm0_1</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;LogNormal(mlog=0, sdlog=1)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rlnorm</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>1</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qlnorm</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>1</span><span class=p>))</span>
-<span class=n>d.lnorm0_2</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;LogNormal(mlog=0, sdlog=2)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rlnorm</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>2</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qlnorm</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>2</span><span class=p>))</span>
-
-<span class=n>d.lnorm0_3</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;LogNormal(mlog=0, sdlog=3)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rlnorm</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>3</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qlnorm</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>3</span><span class=p>))</span>
-<span class=n>d.weibull1_03</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Weibull(shape=0.3)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rweibull</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>0.3</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qweibull</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>0.3</span><span class=p>))</span>
-<span class=n>d.weibull1_05</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Weibull(shape=0.5)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rweibull</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>0.5</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qweibull</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>0.5</span><span class=p>))</span>
-<span class=n>d.frechet1</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Frechet(shape=1)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rfrechet</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=n>shape</span> <span class=o>=</span> <span class=m>1</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qfrechet</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=n>shape</span> <span class=o>=</span> <span class=m>1</span><span class=p>))</span>
-<span class=n>d.frechet3</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Frechet(shape=3)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rfrechet</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=n>shape</span> <span class=o>=</span> <span class=m>3</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qfrechet</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=n>shape</span> <span class=o>=</span> <span class=m>3</span><span class=p>))</span>
-
-<span class=n>ds</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span>
-  <span class=n>d.unif</span><span class=p>,</span> <span class=n>d.tri_0_2_1</span><span class=p>,</span> <span class=n>d.tri_0_2_02</span><span class=p>,</span> <span class=n>d.beta2_4</span><span class=p>,</span> <span class=n>d.beta2_10</span><span class=p>,</span>
-  <span class=n>d.norm</span><span class=p>,</span> <span class=n>d.weibull1_2</span><span class=p>,</span> <span class=n>d.student3</span><span class=p>,</span> <span class=n>d.gumbel</span><span class=p>,</span> <span class=n>d.exp</span><span class=p>,</span>
-  <span class=n>d.cauchy</span><span class=p>,</span> <span class=n>d.pareto1_05</span><span class=p>,</span> <span class=n>d.pareto1_2</span><span class=p>,</span> <span class=n>d.lnorm0_1</span><span class=p>,</span> <span class=n>d.lnorm0_2</span><span class=p>,</span>
-  <span class=n>d.lnorm0_3</span><span class=p>,</span> <span class=n>d.weibull1_03</span><span class=p>,</span> <span class=n>d.weibull1_05</span><span class=p>,</span> <span class=n>d.frechet1</span><span class=p>,</span> <span class=n>d.frechet3</span>
-<span class=p>)</span>
-
-<span class=n>hls</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>,</span> <span class=n>alpha</span> <span class=o>=</span> <span class=m>0.95</span><span class=p>)</span> <span class=p>{</span>
-  <span class=n>df</span> <span class=o>&lt;-</span> <span class=nf>expand.grid</span><span class=p>(</span><span class=n>x</span> <span class=o>=</span> <span class=n>x</span><span class=p>,</span> <span class=n>y</span> <span class=o>=</span> <span class=n>y</span><span class=p>)</span>
-  <span class=n>d</span> <span class=o>&lt;-</span> <span class=nf>sort</span><span class=p>(</span><span class=n>df</span><span class=o>$</span><span class=n>y</span> <span class=o>-</span> <span class=n>df</span><span class=o>$</span><span class=n>x</span><span class=p>)</span>
-  <span class=n>shift</span> <span class=o>&lt;-</span> <span class=nf>mean</span><span class=p>(</span><span class=n>d</span><span class=p>)</span>
-  <span class=n>n</span> <span class=o>&lt;-</span> <span class=nf>length</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
-  <span class=n>m</span> <span class=o>&lt;-</span> <span class=nf>length</span><span class=p>(</span><span class=n>y</span><span class=p>)</span>
-  <span class=n>A</span> <span class=o>&lt;-</span> <span class=n>n</span> <span class=o>*</span> <span class=n>m</span> <span class=o>/</span> <span class=m>2</span> <span class=o>-</span> <span class=m>0.5</span>
-  <span class=n>z</span> <span class=o>&lt;-</span> <span class=nf>qnorm</span><span class=p>((</span><span class=m>1</span> <span class=o>+</span> <span class=n>alpha</span><span class=p>)</span> <span class=o>/</span> <span class=m>2</span><span class=p>)</span>
-  <span class=n>B</span> <span class=o>&lt;-</span> <span class=n>z</span> <span class=o>*</span> <span class=nf>sqrt</span><span class=p>(</span><span class=n>n</span> <span class=o>*</span> <span class=n>m</span> <span class=o>*</span> <span class=p>(</span><span class=n>n</span> <span class=o>+</span> <span class=n>m</span> <span class=o>+</span> <span class=m>1</span><span class=p>)</span> <span class=o>/</span> <span class=m>12</span><span class=p>)</span>
-  <span class=n>l</span> <span class=o>&lt;-</span> <span class=nf>max</span><span class=p>(</span><span class=nf>round</span><span class=p>(</span><span class=n>A</span> <span class=o>-</span> <span class=n>B</span><span class=p>),</span> <span class=m>1</span><span class=p>)</span>
-  <span class=n>r</span> <span class=o>&lt;-</span> <span class=nf>min</span><span class=p>(</span><span class=nf>round</span><span class=p>(</span><span class=n>A</span> <span class=o>+</span> <span class=n>B</span><span class=p>),</span> <span class=nf>length</span><span class=p>(</span><span class=n>d</span><span class=p>))</span>
-  <span class=nf>list</span><span class=p>(</span><span class=n>shift</span> <span class=o>=</span> <span class=n>shift</span><span class=p>,</span> <span class=n>l</span> <span class=o>=</span> <span class=n>d[l]</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=n>d[r]</span><span class=p>)</span>
-<span class=p>}</span>
-<span class=n>coverage</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>rdist</span><span class=p>,</span> <span class=n>n</span><span class=p>,</span> <span class=n>true.shift</span><span class=p>,</span> <span class=n>alpha</span> <span class=o>=</span> <span class=m>0.95</span><span class=p>,</span> <span class=n>iterations</span> <span class=o>=</span> <span class=m>10000</span><span class=p>)</span> <span class=p>{</span>
-  <span class=n>cover.cnt</span> <span class=o>&lt;-</span> <span class=m>0</span>
-  <span class=nf>for </span><span class=p>(</span><span class=n>iter</span> <span class=n>in</span> <span class=m>1</span><span class=o>:</span><span class=n>iterations</span><span class=p>)</span> <span class=p>{</span>
-    <span class=n>est</span> <span class=o>&lt;-</span> <span class=nf>hls</span><span class=p>(</span><span class=nf>rdist</span><span class=p>(</span><span class=m>10</span><span class=p>),</span> <span class=nf>rdist</span><span class=p>(</span><span class=m>10</span><span class=p>)</span> <span class=o>+</span> <span class=n>true.shift</span><span class=p>,</span> <span class=n>alpha</span><span class=p>)</span>
-    <span class=nf>if </span><span class=p>(</span><span class=n>est</span><span class=o>$</span><span class=n>l</span> <span class=o>&lt;</span> <span class=n>true.shift</span> <span class=o>&amp;&amp;</span> <span class=n>true.shift</span> <span class=o>&lt;</span> <span class=n>est</span><span class=o>$</span><span class=n>r</span><span class=p>)</span>
-      <span class=n>cover.cnt</span> <span class=o>&lt;-</span> <span class=n>cover.cnt</span> <span class=o>+</span> <span class=m>1</span>
-  <span class=p>}</span>
-  <span class=n>cover.cnt</span> <span class=o>/</span> <span class=n>iterations</span>
-<span class=p>}</span>
-
-<span class=nf>for </span><span class=p>(</span><span class=n>n</span> <span class=n>in</span> <span class=nf>c</span><span class=p>(</span><span class=m>5</span><span class=p>,</span> <span class=m>10</span><span class=p>,</span> <span class=m>50</span><span class=p>))</span>
-  <span class=nf>for </span><span class=p>(</span><span class=n>alpha</span> <span class=n>in</span> <span class=nf>c</span><span class=p>(</span><span class=m>0.90</span><span class=p>,</span> <span class=m>0.95</span><span class=p>,</span> <span class=m>0.99</span><span class=p>))</span> <span class=p>{</span>
-    <span class=nf>cat</span><span class=p>(</span><span class=nf>paste0</span><span class=p>(</span><span class=s>&#34;*** n = &#34;</span><span class=p>,</span> <span class=n>n</span><span class=p>,</span> <span class=s>&#34;, alpha = &#34;</span><span class=p>,</span> <span class=n>alpha</span> <span class=o>*</span> <span class=m>100</span><span class=p>,</span> <span class=s>&#34;% ***\n&#34;</span><span class=p>))</span>
-    <span class=nf>for </span><span class=p>(</span><span class=n>d</span> <span class=n>in</span> <span class=n>ds</span><span class=p>)</span> <span class=p>{</span>
-      <span class=n>c</span> <span class=o>&lt;-</span> <span class=nf>coverage</span><span class=p>(</span><span class=n>d</span><span class=o>$</span><span class=n>r</span><span class=p>,</span> <span class=n>n</span><span class=p>,</span> <span class=m>5</span><span class=p>,</span> <span class=n>alpha</span><span class=p>)</span> <span class=o>*</span> <span class=m>100</span>
-      <span class=nf>cat</span><span class=p>(</span><span class=nf>paste0</span><span class=p>(</span><span class=nf>str_pad</span><span class=p>(</span><span class=n>d</span><span class=o>$</span><span class=n>title</span><span class=p>,</span> <span class=m>30</span><span class=p>,</span> <span class=s>&#34;right&#34;</span><span class=p>),</span> <span class=s>&#34;: &#34;</span><span class=p>,</span> <span class=nf>str_pad</span><span class=p>(</span><span class=nf>format</span><span class=p>(</span><span class=n>c</span><span class=p>,</span> <span class=n>nsmall</span> <span class=o>=</span> <span class=m>2</span><span class=p>),</span> <span class=m>6</span><span class=p>,</span> <span class=s>&#34;left&#34;</span><span class=p>),</span> <span class=s>&#34;%\n&#34;</span><span class=p>))</span>
-    <span class=p>}</span>
-    <span class=nf>cat</span><span class=p>(</span><span class=s>&#34;\n&#34;</span><span class=p>)</span>
-  <span class=p>}</span>
-</code></pre></div><p>And here are the results:</p><div class=highlight><pre class=chroma><code class=language-md data-lang=md>*** n = 5, alpha = 90% ***
-Uniform(a=0, b=1)             :  89.65%
-Triangular(a=0, b=2, c=1)     :  89.20%
-Triangular(a=0, b=2, c=0.2)   :  89.00%
-Beta(a=2, b=4)                :  89.72%
-Beta(a=2, b=10)               :  90.32%
-Normal(m=0, sd=1)             :  88.78%
-Weibull(scale=1, shape=2)     :  89.24%
-Student(df=3)                 :  89.56%
-Gumbel(loc=0, scale=1)        :  89.32%
-Exp(rate=1)                   :  89.52%
-Cauchy(x0=0, gamma=1)         :  89.16%
-Pareto(loc=1, shape=0.5)      :  89.19%
-Pareto(loc=1, shape=2)        :  89.29%
-LogNormal(mlog=0, sdlog=1)    :  89.53%
-LogNormal(mlog=0, sdlog=2)    :  89.18%
-LogNormal(mlog=0, sdlog=3)    :  89.06%
-Weibull(shape=0.3)            :  89.56%
-Weibull(shape=0.5)            :  88.83%
-Frechet(shape=1)              :  89.42%
-Frechet(shape=3)              :  89.63%
-
-<span class=gs>*** n = 5, alpha = 95% **</span>*
-Uniform(a=0, b=1)             :  94.72%
-Triangular(a=0, b=2, c=1)     :  94.93%
-Triangular(a=0, b=2, c=0.2)   :  94.58%
-Beta(a=2, b=4)                :  94.56%
-Beta(a=2, b=10)               :  94.80%
-Normal(m=0, sd=1)             :  94.36%
-Weibull(scale=1, shape=2)     :  95.07%
-Student(df=3)                 :  94.73%
-Gumbel(loc=0, scale=1)        :  95.03%
-Exp(rate=1)                   :  94.71%
-Cauchy(x0=0, gamma=1)         :  94.38%
-Pareto(loc=1, shape=0.5)      :  94.64%
-Pareto(loc=1, shape=2)        :  94.58%
-LogNormal(mlog=0, sdlog=1)    :  94.56%
-LogNormal(mlog=0, sdlog=2)    :  94.90%
-LogNormal(mlog=0, sdlog=3)    :  94.90%
-Weibull(shape=0.3)            :  94.56%
-Weibull(shape=0.5)            :  94.43%
-Frechet(shape=1)              :  94.88%
-Frechet(shape=3)              :  94.52%
-
-<span class=gs>*** n = 5, alpha = 99% **</span>*
-Uniform(a=0, b=1)             :  99.21%
-Triangular(a=0, b=2, c=1)     :  99.28%
-Triangular(a=0, b=2, c=0.2)   :  99.22%
-Beta(a=2, b=4)                :  99.38%
-Beta(a=2, b=10)               :  99.17%
-Normal(m=0, sd=1)             :  99.13%
-Weibull(scale=1, shape=2)     :  99.23%
-Student(df=3)                 :  99.35%
-Gumbel(loc=0, scale=1)        :  99.23%
-Exp(rate=1)                   :  99.29%
-Cauchy(x0=0, gamma=1)         :  99.37%
-Pareto(loc=1, shape=0.5)      :  99.30%
-Pareto(loc=1, shape=2)        :  99.41%
-LogNormal(mlog=0, sdlog=1)    :  99.21%
-LogNormal(mlog=0, sdlog=2)    :  99.29%
-LogNormal(mlog=0, sdlog=3)    :  99.34%
-Weibull(shape=0.3)            :  99.21%
-Weibull(shape=0.5)            :  99.29%
-Frechet(shape=1)              :  99.31%
-Frechet(shape=3)              :  99.30%
-
-<span class=gs>*** n = 10, alpha = 90% **</span>*
-Uniform(a=0, b=1)             :  89.33%
-Triangular(a=0, b=2, c=1)     :  89.36%
-Triangular(a=0, b=2, c=0.2)   :  89.77%
-Beta(a=2, b=4)                :  88.51%
-Beta(a=2, b=10)               :  89.07%
-Normal(m=0, sd=1)             :  89.58%
-Weibull(scale=1, shape=2)     :  89.43%
-Student(df=3)                 :  89.19%
-Gumbel(loc=0, scale=1)        :  89.45%
-Exp(rate=1)                   :  88.99%
-Cauchy(x0=0, gamma=1)         :  90.34%
-Pareto(loc=1, shape=0.5)      :  89.42%
-Pareto(loc=1, shape=2)        :  89.38%
-LogNormal(mlog=0, sdlog=1)    :  89.37%
-LogNormal(mlog=0, sdlog=2)    :  89.34%
-LogNormal(mlog=0, sdlog=3)    :  89.42%
-Weibull(shape=0.3)            :  89.59%
-Weibull(shape=0.5)            :  89.25%
-Frechet(shape=1)              :  89.60%
-Frechet(shape=3)              :  89.56%
-
-<span class=gs>*** n = 10, alpha = 95% **</span>*
-Uniform(a=0, b=1)             :  94.85%
-Triangular(a=0, b=2, c=1)     :  94.79%
-Triangular(a=0, b=2, c=0.2)   :  94.51%
-Beta(a=2, b=4)                :  95.02%
-Beta(a=2, b=10)               :  94.71%
-Normal(m=0, sd=1)             :  94.85%
-Weibull(scale=1, shape=2)     :  95.04%
-Student(df=3)                 :  94.71%
-Gumbel(loc=0, scale=1)        :  94.63%
-Exp(rate=1)                   :  94.72%
-Cauchy(x0=0, gamma=1)         :  94.47%
-Pareto(loc=1, shape=0.5)      :  94.28%
-Pareto(loc=1, shape=2)        :  94.96%
-LogNormal(mlog=0, sdlog=1)    :  94.75%
-LogNormal(mlog=0, sdlog=2)    :  94.49%
-LogNormal(mlog=0, sdlog=3)    :  94.41%
-Weibull(shape=0.3)            :  94.71%
-Weibull(shape=0.5)            :  94.83%
-Frechet(shape=1)              :  94.66%
-Frechet(shape=3)              :  94.69%
-
-<span class=gs>*** n = 10, alpha = 99% **</span>*
-Uniform(a=0, b=1)             :  99.25%
-Triangular(a=0, b=2, c=1)     :  99.25%
-Triangular(a=0, b=2, c=0.2)   :  99.24%
-Beta(a=2, b=4)                :  99.20%
-Beta(a=2, b=10)               :  99.21%
-Normal(m=0, sd=1)             :  99.31%
-Weibull(scale=1, shape=2)     :  99.21%
-Student(df=3)                 :  99.36%
-Gumbel(loc=0, scale=1)        :  99.49%
-Exp(rate=1)                   :  99.19%
-Cauchy(x0=0, gamma=1)         :  99.41%
-Pareto(loc=1, shape=0.5)      :  99.19%
-Pareto(loc=1, shape=2)        :  99.28%
-LogNormal(mlog=0, sdlog=1)    :  99.30%
-LogNormal(mlog=0, sdlog=2)    :  99.31%
-LogNormal(mlog=0, sdlog=3)    :  99.39%
-Weibull(shape=0.3)            :  99.20%
-Weibull(shape=0.5)            :  99.36%
-Frechet(shape=1)              :  99.28%
-Frechet(shape=3)              :  99.34%
-
-<span class=gs>*** n = 50, alpha = 90% **</span>*
-Uniform(a=0, b=1)             :  89.62%
-Triangular(a=0, b=2, c=1)     :  88.94%
-Triangular(a=0, b=2, c=0.2)   :  89.03%
-Beta(a=2, b=4)                :  89.16%
-Beta(a=2, b=10)               :  89.71%
-Normal(m=0, sd=1)             :  89.14%
-Weibull(scale=1, shape=2)     :  89.53%
-Student(df=3)                 :  89.10%
-Gumbel(loc=0, scale=1)        :  88.51%
-Exp(rate=1)                   :  89.23%
-Cauchy(x0=0, gamma=1)         :  89.14%
-Pareto(loc=1, shape=0.5)      :  89.55%
-Pareto(loc=1, shape=2)        :  89.27%
-LogNormal(mlog=0, sdlog=1)    :  89.54%
-LogNormal(mlog=0, sdlog=2)    :  89.12%
-LogNormal(mlog=0, sdlog=3)    :  89.69%
-Weibull(shape=0.3)            :  89.15%
-Weibull(shape=0.5)            :  89.03%
-Frechet(shape=1)              :  89.55%
-Frechet(shape=3)              :  88.43%
-
-<span class=gs>*** n = 50, alpha = 95% **</span>*
-Uniform(a=0, b=1)             :  94.86%
-Triangular(a=0, b=2, c=1)     :  94.54%
-Triangular(a=0, b=2, c=0.2)   :  94.32%
-Beta(a=2, b=4)                :  94.63%
-Beta(a=2, b=10)               :  94.58%
-Normal(m=0, sd=1)             :  94.97%
-Weibull(scale=1, shape=2)     :  94.22%
-Student(df=3)                 :  94.85%
-Gumbel(loc=0, scale=1)        :  94.51%
-Exp(rate=1)                   :  94.06%
-Cauchy(x0=0, gamma=1)         :  94.57%
-Pareto(loc=1, shape=0.5)      :  94.67%
-Pareto(loc=1, shape=2)        :  94.84%
-LogNormal(mlog=0, sdlog=1)    :  94.46%
-LogNormal(mlog=0, sdlog=2)    :  94.60%
-LogNormal(mlog=0, sdlog=3)    :  95.00%
-Weibull(shape=0.3)            :  94.68%
-Weibull(shape=0.5)            :  94.49%
-Frechet(shape=1)              :  94.75%
-Frechet(shape=3)              :  94.69%
-
-<span class=gs>*** n = 50, alpha = 99% **</span>*
-Uniform(a=0, b=1)             :  99.24%
-Triangular(a=0, b=2, c=1)     :  99.11%
-Triangular(a=0, b=2, c=0.2)   :  99.34%
-Beta(a=2, b=4)                :  99.30%
-Beta(a=2, b=10)               :  99.26%
-Normal(m=0, sd=1)             :  99.21%
-Weibull(scale=1, shape=2)     :  99.28%
-Student(df=3)                 :  99.31%
-Gumbel(loc=0, scale=1)        :  99.27%
-Exp(rate=1)                   :  99.28%
-Cauchy(x0=0, gamma=1)         :  99.31%
-Pareto(loc=1, shape=0.5)      :  99.41%
-Pareto(loc=1, shape=2)        :  99.40%
-LogNormal(mlog=0, sdlog=1)    :  99.20%
-LogNormal(mlog=0, sdlog=2)    :  99.34%
-LogNormal(mlog=0, sdlog=3)    :  99.24%
-Weibull(shape=0.3)            :  99.30%
-Weibull(shape=0.5)            :  99.37%
-Frechet(shape=1)              :  99.33%
-Frechet(shape=3)              :  99.36%
-</code></pre></div><p>It seems that the approach is accurate enough, the coverage percentage is quite close to the requested confidence level.</p><h3 id=references>References</h3><ul><li><b id=Hodges1963>[Hodges1963]</b><br>Hodges, J. L., and E. L. Lehmann.
+and check the actual coverage percentage in each situation.</p><p>Here is the source code of this simulation:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=nf>library</span><span class=p>(</span><span class=n>evd</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nf>library</span><span class=p>(</span><span class=n>EnvStats</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nf>library</span><span class=p>(</span><span class=n>stringr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>d.unif</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Uniform(a=0, b=1)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=n>runif</span><span class=p>,</span> <span class=n>q</span> <span class=o>=</span> <span class=n>qunif</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>d.tri_0_2_1</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Triangular(a=0, b=2, c=1)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rtri</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>1</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qtri</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>1</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>d.tri_0_2_02</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Triangular(a=0, b=2, c=0.2)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rtri</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>0.2</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qtri</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>0.2</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>d.beta2_4</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Beta(a=2, b=4)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rbeta</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>4</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qbeta</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>4</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>d.beta2_10</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Beta(a=2, b=10)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rbeta</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>10</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qbeta</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>2</span><span class=p>,</span> <span class=m>10</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>d.norm</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Normal(m=0, sd=1)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=n>rnorm</span><span class=p>,</span> <span class=n>q</span> <span class=o>=</span> <span class=n>qnorm</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>d.weibull1_2</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Weibull(scale=1, shape=2)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rweibull</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>2</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qweibull</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>2</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>d.student3</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Student(df=3)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rt</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>3</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qt</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>3</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>d.gumbel</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Gumbel(loc=0, scale=1)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=n>rgumbel</span><span class=p>,</span> <span class=n>q</span> <span class=o>=</span> <span class=n>qgumbel</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>d.exp</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Exp(rate=1)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=n>rexp</span><span class=p>,</span> <span class=n>q</span> <span class=o>=</span> <span class=n>qexp</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>d.cauchy</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Cauchy(x0=0, gamma=1)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=n>rcauchy</span><span class=p>,</span> <span class=n>q</span> <span class=o>=</span> <span class=n>qcauchy</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>d.pareto1_05</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Pareto(loc=1, shape=0.5)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rpareto</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>1</span><span class=p>,</span> <span class=m>0.5</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qpareto</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>1</span><span class=p>,</span> <span class=m>0.5</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>d.pareto1_2</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Pareto(loc=1, shape=2)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rpareto</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>1</span><span class=p>,</span> <span class=m>2</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qpareto</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>1</span><span class=p>,</span> <span class=m>2</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>d.lnorm0_1</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;LogNormal(mlog=0, sdlog=1)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rlnorm</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>1</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qlnorm</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>1</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>d.lnorm0_2</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;LogNormal(mlog=0, sdlog=2)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rlnorm</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>2</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qlnorm</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>2</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>d.lnorm0_3</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;LogNormal(mlog=0, sdlog=3)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rlnorm</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>3</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qlnorm</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>3</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>d.weibull1_03</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Weibull(shape=0.3)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rweibull</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>0.3</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qweibull</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>0.3</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>d.weibull1_05</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Weibull(shape=0.5)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rweibull</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=m>0.5</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qweibull</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=m>0.5</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>d.frechet1</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Frechet(shape=1)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rfrechet</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=n>shape</span> <span class=o>=</span> <span class=m>1</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qfrechet</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=n>shape</span> <span class=o>=</span> <span class=m>1</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>d.frechet3</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span><span class=n>title</span> <span class=o>=</span> <span class=s>&#34;Frechet(shape=3)&#34;</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>n</span><span class=p>)</span> <span class=nf>rfrechet</span><span class=p>(</span><span class=n>n</span><span class=p>,</span> <span class=n>shape</span> <span class=o>=</span> <span class=m>3</span><span class=p>),</span> <span class=n>q</span> <span class=o>=</span> <span class=nf>function</span><span class=p>(</span><span class=n>p</span><span class=p>)</span> <span class=nf>qfrechet</span><span class=p>(</span><span class=n>p</span><span class=p>,</span> <span class=n>shape</span> <span class=o>=</span> <span class=m>3</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>ds</span> <span class=o>&lt;-</span> <span class=nf>list</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=n>d.unif</span><span class=p>,</span> <span class=n>d.tri_0_2_1</span><span class=p>,</span> <span class=n>d.tri_0_2_02</span><span class=p>,</span> <span class=n>d.beta2_4</span><span class=p>,</span> <span class=n>d.beta2_10</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=n>d.norm</span><span class=p>,</span> <span class=n>d.weibull1_2</span><span class=p>,</span> <span class=n>d.student3</span><span class=p>,</span> <span class=n>d.gumbel</span><span class=p>,</span> <span class=n>d.exp</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=n>d.cauchy</span><span class=p>,</span> <span class=n>d.pareto1_05</span><span class=p>,</span> <span class=n>d.pareto1_2</span><span class=p>,</span> <span class=n>d.lnorm0_1</span><span class=p>,</span> <span class=n>d.lnorm0_2</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=n>d.lnorm0_3</span><span class=p>,</span> <span class=n>d.weibull1_03</span><span class=p>,</span> <span class=n>d.weibull1_05</span><span class=p>,</span> <span class=n>d.frechet1</span><span class=p>,</span> <span class=n>d.frechet3</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>hls</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>y</span><span class=p>,</span> <span class=n>alpha</span> <span class=o>=</span> <span class=m>0.95</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=n>df</span> <span class=o>&lt;-</span> <span class=nf>expand.grid</span><span class=p>(</span><span class=n>x</span> <span class=o>=</span> <span class=n>x</span><span class=p>,</span> <span class=n>y</span> <span class=o>=</span> <span class=n>y</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>d</span> <span class=o>&lt;-</span> <span class=nf>sort</span><span class=p>(</span><span class=n>df</span><span class=o>$</span><span class=n>y</span> <span class=o>-</span> <span class=n>df</span><span class=o>$</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>shift</span> <span class=o>&lt;-</span> <span class=nf>mean</span><span class=p>(</span><span class=n>d</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>n</span> <span class=o>&lt;-</span> <span class=nf>length</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>m</span> <span class=o>&lt;-</span> <span class=nf>length</span><span class=p>(</span><span class=n>y</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>A</span> <span class=o>&lt;-</span> <span class=n>n</span> <span class=o>*</span> <span class=n>m</span> <span class=o>/</span> <span class=m>2</span> <span class=o>-</span> <span class=m>0.5</span>
+</span></span><span class=line><span class=cl>  <span class=n>z</span> <span class=o>&lt;-</span> <span class=nf>qnorm</span><span class=p>((</span><span class=m>1</span> <span class=o>+</span> <span class=n>alpha</span><span class=p>)</span> <span class=o>/</span> <span class=m>2</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>B</span> <span class=o>&lt;-</span> <span class=n>z</span> <span class=o>*</span> <span class=nf>sqrt</span><span class=p>(</span><span class=n>n</span> <span class=o>*</span> <span class=n>m</span> <span class=o>*</span> <span class=p>(</span><span class=n>n</span> <span class=o>+</span> <span class=n>m</span> <span class=o>+</span> <span class=m>1</span><span class=p>)</span> <span class=o>/</span> <span class=m>12</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>l</span> <span class=o>&lt;-</span> <span class=nf>max</span><span class=p>(</span><span class=nf>round</span><span class=p>(</span><span class=n>A</span> <span class=o>-</span> <span class=n>B</span><span class=p>),</span> <span class=m>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>r</span> <span class=o>&lt;-</span> <span class=nf>min</span><span class=p>(</span><span class=nf>round</span><span class=p>(</span><span class=n>A</span> <span class=o>+</span> <span class=n>B</span><span class=p>),</span> <span class=nf>length</span><span class=p>(</span><span class=n>d</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>  <span class=nf>list</span><span class=p>(</span><span class=n>shift</span> <span class=o>=</span> <span class=n>shift</span><span class=p>,</span> <span class=n>l</span> <span class=o>=</span> <span class=n>d[l]</span><span class=p>,</span> <span class=n>r</span> <span class=o>=</span> <span class=n>d[r]</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>coverage</span> <span class=o>&lt;-</span> <span class=nf>function</span><span class=p>(</span><span class=n>rdist</span><span class=p>,</span> <span class=n>n</span><span class=p>,</span> <span class=n>true.shift</span><span class=p>,</span> <span class=n>alpha</span> <span class=o>=</span> <span class=m>0.95</span><span class=p>,</span> <span class=n>iterations</span> <span class=o>=</span> <span class=m>10000</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=n>cover.cnt</span> <span class=o>&lt;-</span> <span class=m>0</span>
+</span></span><span class=line><span class=cl>  <span class=nf>for </span><span class=p>(</span><span class=n>iter</span> <span class=n>in</span> <span class=m>1</span><span class=o>:</span><span class=n>iterations</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>est</span> <span class=o>&lt;-</span> <span class=nf>hls</span><span class=p>(</span><span class=nf>rdist</span><span class=p>(</span><span class=m>10</span><span class=p>),</span> <span class=nf>rdist</span><span class=p>(</span><span class=m>10</span><span class=p>)</span> <span class=o>+</span> <span class=n>true.shift</span><span class=p>,</span> <span class=n>alpha</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=nf>if </span><span class=p>(</span><span class=n>est</span><span class=o>$</span><span class=n>l</span> <span class=o>&lt;</span> <span class=n>true.shift</span> <span class=o>&amp;&amp;</span> <span class=n>true.shift</span> <span class=o>&lt;</span> <span class=n>est</span><span class=o>$</span><span class=n>r</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=n>cover.cnt</span> <span class=o>&lt;-</span> <span class=n>cover.cnt</span> <span class=o>+</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=n>cover.cnt</span> <span class=o>/</span> <span class=n>iterations</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nf>for </span><span class=p>(</span><span class=n>n</span> <span class=n>in</span> <span class=nf>c</span><span class=p>(</span><span class=m>5</span><span class=p>,</span> <span class=m>10</span><span class=p>,</span> <span class=m>50</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>  <span class=nf>for </span><span class=p>(</span><span class=n>alpha</span> <span class=n>in</span> <span class=nf>c</span><span class=p>(</span><span class=m>0.90</span><span class=p>,</span> <span class=m>0.95</span><span class=p>,</span> <span class=m>0.99</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nf>cat</span><span class=p>(</span><span class=nf>paste0</span><span class=p>(</span><span class=s>&#34;*** n = &#34;</span><span class=p>,</span> <span class=n>n</span><span class=p>,</span> <span class=s>&#34;, alpha = &#34;</span><span class=p>,</span> <span class=n>alpha</span> <span class=o>*</span> <span class=m>100</span><span class=p>,</span> <span class=s>&#34;% ***\n&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=nf>for </span><span class=p>(</span><span class=n>d</span> <span class=n>in</span> <span class=n>ds</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=n>c</span> <span class=o>&lt;-</span> <span class=nf>coverage</span><span class=p>(</span><span class=n>d</span><span class=o>$</span><span class=n>r</span><span class=p>,</span> <span class=n>n</span><span class=p>,</span> <span class=m>5</span><span class=p>,</span> <span class=n>alpha</span><span class=p>)</span> <span class=o>*</span> <span class=m>100</span>
+</span></span><span class=line><span class=cl>      <span class=nf>cat</span><span class=p>(</span><span class=nf>paste0</span><span class=p>(</span><span class=nf>str_pad</span><span class=p>(</span><span class=n>d</span><span class=o>$</span><span class=n>title</span><span class=p>,</span> <span class=m>30</span><span class=p>,</span> <span class=s>&#34;right&#34;</span><span class=p>),</span> <span class=s>&#34;: &#34;</span><span class=p>,</span> <span class=nf>str_pad</span><span class=p>(</span><span class=nf>format</span><span class=p>(</span><span class=n>c</span><span class=p>,</span> <span class=n>nsmall</span> <span class=o>=</span> <span class=m>2</span><span class=p>),</span> <span class=m>6</span><span class=p>,</span> <span class=s>&#34;left&#34;</span><span class=p>),</span> <span class=s>&#34;%\n&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=nf>cat</span><span class=p>(</span><span class=s>&#34;\n&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span></code></pre></div><p>And here are the results:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-md data-lang=md><span class=line><span class=cl>*** n = 5, alpha = 90% <span class=ge>**</span>*
+</span></span><span class=line><span class=cl>Uniform(a=0, b=1)             :  89.65%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=1)     :  89.20%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=0.2)   :  89.00%
+</span></span><span class=line><span class=cl>Beta(a=2, b=4)                :  89.72%
+</span></span><span class=line><span class=cl>Beta(a=2, b=10)               :  90.32%
+</span></span><span class=line><span class=cl>Normal(m=0, sd=1)             :  88.78%
+</span></span><span class=line><span class=cl>Weibull(scale=1, shape=2)     :  89.24%
+</span></span><span class=line><span class=cl>Student(df=3)                 :  89.56%
+</span></span><span class=line><span class=cl>Gumbel(loc=0, scale=1)        :  89.32%
+</span></span><span class=line><span class=cl>Exp(rate=1)                   :  89.52%
+</span></span><span class=line><span class=cl>Cauchy(x0=0, gamma=1)         :  89.16%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=0.5)      :  89.19%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=2)        :  89.29%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=1)    :  89.53%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=2)    :  89.18%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=3)    :  89.06%
+</span></span><span class=line><span class=cl>Weibull(shape=0.3)            :  89.56%
+</span></span><span class=line><span class=cl>Weibull(shape=0.5)            :  88.83%
+</span></span><span class=line><span class=cl>Frechet(shape=1)              :  89.42%
+</span></span><span class=line><span class=cl>Frechet(shape=3)              :  89.63%
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=ge>**</span>* n = 5, alpha = 95% <span class=ge>**</span>*
+</span></span><span class=line><span class=cl>Uniform(a=0, b=1)             :  94.72%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=1)     :  94.93%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=0.2)   :  94.58%
+</span></span><span class=line><span class=cl>Beta(a=2, b=4)                :  94.56%
+</span></span><span class=line><span class=cl>Beta(a=2, b=10)               :  94.80%
+</span></span><span class=line><span class=cl>Normal(m=0, sd=1)             :  94.36%
+</span></span><span class=line><span class=cl>Weibull(scale=1, shape=2)     :  95.07%
+</span></span><span class=line><span class=cl>Student(df=3)                 :  94.73%
+</span></span><span class=line><span class=cl>Gumbel(loc=0, scale=1)        :  95.03%
+</span></span><span class=line><span class=cl>Exp(rate=1)                   :  94.71%
+</span></span><span class=line><span class=cl>Cauchy(x0=0, gamma=1)         :  94.38%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=0.5)      :  94.64%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=2)        :  94.58%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=1)    :  94.56%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=2)    :  94.90%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=3)    :  94.90%
+</span></span><span class=line><span class=cl>Weibull(shape=0.3)            :  94.56%
+</span></span><span class=line><span class=cl>Weibull(shape=0.5)            :  94.43%
+</span></span><span class=line><span class=cl>Frechet(shape=1)              :  94.88%
+</span></span><span class=line><span class=cl>Frechet(shape=3)              :  94.52%
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=ge>**</span>* n = 5, alpha = 99% <span class=ge>**</span>*
+</span></span><span class=line><span class=cl>Uniform(a=0, b=1)             :  99.21%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=1)     :  99.28%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=0.2)   :  99.22%
+</span></span><span class=line><span class=cl>Beta(a=2, b=4)                :  99.38%
+</span></span><span class=line><span class=cl>Beta(a=2, b=10)               :  99.17%
+</span></span><span class=line><span class=cl>Normal(m=0, sd=1)             :  99.13%
+</span></span><span class=line><span class=cl>Weibull(scale=1, shape=2)     :  99.23%
+</span></span><span class=line><span class=cl>Student(df=3)                 :  99.35%
+</span></span><span class=line><span class=cl>Gumbel(loc=0, scale=1)        :  99.23%
+</span></span><span class=line><span class=cl>Exp(rate=1)                   :  99.29%
+</span></span><span class=line><span class=cl>Cauchy(x0=0, gamma=1)         :  99.37%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=0.5)      :  99.30%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=2)        :  99.41%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=1)    :  99.21%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=2)    :  99.29%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=3)    :  99.34%
+</span></span><span class=line><span class=cl>Weibull(shape=0.3)            :  99.21%
+</span></span><span class=line><span class=cl>Weibull(shape=0.5)            :  99.29%
+</span></span><span class=line><span class=cl>Frechet(shape=1)              :  99.31%
+</span></span><span class=line><span class=cl>Frechet(shape=3)              :  99.30%
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=ge>**</span>* n = 10, alpha = 90% <span class=ge>**</span>*
+</span></span><span class=line><span class=cl>Uniform(a=0, b=1)             :  89.33%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=1)     :  89.36%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=0.2)   :  89.77%
+</span></span><span class=line><span class=cl>Beta(a=2, b=4)                :  88.51%
+</span></span><span class=line><span class=cl>Beta(a=2, b=10)               :  89.07%
+</span></span><span class=line><span class=cl>Normal(m=0, sd=1)             :  89.58%
+</span></span><span class=line><span class=cl>Weibull(scale=1, shape=2)     :  89.43%
+</span></span><span class=line><span class=cl>Student(df=3)                 :  89.19%
+</span></span><span class=line><span class=cl>Gumbel(loc=0, scale=1)        :  89.45%
+</span></span><span class=line><span class=cl>Exp(rate=1)                   :  88.99%
+</span></span><span class=line><span class=cl>Cauchy(x0=0, gamma=1)         :  90.34%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=0.5)      :  89.42%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=2)        :  89.38%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=1)    :  89.37%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=2)    :  89.34%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=3)    :  89.42%
+</span></span><span class=line><span class=cl>Weibull(shape=0.3)            :  89.59%
+</span></span><span class=line><span class=cl>Weibull(shape=0.5)            :  89.25%
+</span></span><span class=line><span class=cl>Frechet(shape=1)              :  89.60%
+</span></span><span class=line><span class=cl>Frechet(shape=3)              :  89.56%
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=ge>**</span>* n = 10, alpha = 95% <span class=ge>**</span>*
+</span></span><span class=line><span class=cl>Uniform(a=0, b=1)             :  94.85%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=1)     :  94.79%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=0.2)   :  94.51%
+</span></span><span class=line><span class=cl>Beta(a=2, b=4)                :  95.02%
+</span></span><span class=line><span class=cl>Beta(a=2, b=10)               :  94.71%
+</span></span><span class=line><span class=cl>Normal(m=0, sd=1)             :  94.85%
+</span></span><span class=line><span class=cl>Weibull(scale=1, shape=2)     :  95.04%
+</span></span><span class=line><span class=cl>Student(df=3)                 :  94.71%
+</span></span><span class=line><span class=cl>Gumbel(loc=0, scale=1)        :  94.63%
+</span></span><span class=line><span class=cl>Exp(rate=1)                   :  94.72%
+</span></span><span class=line><span class=cl>Cauchy(x0=0, gamma=1)         :  94.47%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=0.5)      :  94.28%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=2)        :  94.96%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=1)    :  94.75%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=2)    :  94.49%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=3)    :  94.41%
+</span></span><span class=line><span class=cl>Weibull(shape=0.3)            :  94.71%
+</span></span><span class=line><span class=cl>Weibull(shape=0.5)            :  94.83%
+</span></span><span class=line><span class=cl>Frechet(shape=1)              :  94.66%
+</span></span><span class=line><span class=cl>Frechet(shape=3)              :  94.69%
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=ge>**</span>* n = 10, alpha = 99% <span class=ge>**</span>*
+</span></span><span class=line><span class=cl>Uniform(a=0, b=1)             :  99.25%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=1)     :  99.25%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=0.2)   :  99.24%
+</span></span><span class=line><span class=cl>Beta(a=2, b=4)                :  99.20%
+</span></span><span class=line><span class=cl>Beta(a=2, b=10)               :  99.21%
+</span></span><span class=line><span class=cl>Normal(m=0, sd=1)             :  99.31%
+</span></span><span class=line><span class=cl>Weibull(scale=1, shape=2)     :  99.21%
+</span></span><span class=line><span class=cl>Student(df=3)                 :  99.36%
+</span></span><span class=line><span class=cl>Gumbel(loc=0, scale=1)        :  99.49%
+</span></span><span class=line><span class=cl>Exp(rate=1)                   :  99.19%
+</span></span><span class=line><span class=cl>Cauchy(x0=0, gamma=1)         :  99.41%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=0.5)      :  99.19%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=2)        :  99.28%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=1)    :  99.30%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=2)    :  99.31%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=3)    :  99.39%
+</span></span><span class=line><span class=cl>Weibull(shape=0.3)            :  99.20%
+</span></span><span class=line><span class=cl>Weibull(shape=0.5)            :  99.36%
+</span></span><span class=line><span class=cl>Frechet(shape=1)              :  99.28%
+</span></span><span class=line><span class=cl>Frechet(shape=3)              :  99.34%
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=ge>**</span>* n = 50, alpha = 90% <span class=ge>**</span>*
+</span></span><span class=line><span class=cl>Uniform(a=0, b=1)             :  89.62%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=1)     :  88.94%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=0.2)   :  89.03%
+</span></span><span class=line><span class=cl>Beta(a=2, b=4)                :  89.16%
+</span></span><span class=line><span class=cl>Beta(a=2, b=10)               :  89.71%
+</span></span><span class=line><span class=cl>Normal(m=0, sd=1)             :  89.14%
+</span></span><span class=line><span class=cl>Weibull(scale=1, shape=2)     :  89.53%
+</span></span><span class=line><span class=cl>Student(df=3)                 :  89.10%
+</span></span><span class=line><span class=cl>Gumbel(loc=0, scale=1)        :  88.51%
+</span></span><span class=line><span class=cl>Exp(rate=1)                   :  89.23%
+</span></span><span class=line><span class=cl>Cauchy(x0=0, gamma=1)         :  89.14%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=0.5)      :  89.55%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=2)        :  89.27%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=1)    :  89.54%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=2)    :  89.12%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=3)    :  89.69%
+</span></span><span class=line><span class=cl>Weibull(shape=0.3)            :  89.15%
+</span></span><span class=line><span class=cl>Weibull(shape=0.5)            :  89.03%
+</span></span><span class=line><span class=cl>Frechet(shape=1)              :  89.55%
+</span></span><span class=line><span class=cl>Frechet(shape=3)              :  88.43%
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=ge>**</span>* n = 50, alpha = 95% <span class=ge>**</span>*
+</span></span><span class=line><span class=cl>Uniform(a=0, b=1)             :  94.86%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=1)     :  94.54%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=0.2)   :  94.32%
+</span></span><span class=line><span class=cl>Beta(a=2, b=4)                :  94.63%
+</span></span><span class=line><span class=cl>Beta(a=2, b=10)               :  94.58%
+</span></span><span class=line><span class=cl>Normal(m=0, sd=1)             :  94.97%
+</span></span><span class=line><span class=cl>Weibull(scale=1, shape=2)     :  94.22%
+</span></span><span class=line><span class=cl>Student(df=3)                 :  94.85%
+</span></span><span class=line><span class=cl>Gumbel(loc=0, scale=1)        :  94.51%
+</span></span><span class=line><span class=cl>Exp(rate=1)                   :  94.06%
+</span></span><span class=line><span class=cl>Cauchy(x0=0, gamma=1)         :  94.57%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=0.5)      :  94.67%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=2)        :  94.84%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=1)    :  94.46%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=2)    :  94.60%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=3)    :  95.00%
+</span></span><span class=line><span class=cl>Weibull(shape=0.3)            :  94.68%
+</span></span><span class=line><span class=cl>Weibull(shape=0.5)            :  94.49%
+</span></span><span class=line><span class=cl>Frechet(shape=1)              :  94.75%
+</span></span><span class=line><span class=cl>Frechet(shape=3)              :  94.69%
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=ge>**</span>* n = 50, alpha = 99% <span class=ge>**</span>*
+</span></span><span class=line><span class=cl>Uniform(a=0, b=1)             :  99.24%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=1)     :  99.11%
+</span></span><span class=line><span class=cl>Triangular(a=0, b=2, c=0.2)   :  99.34%
+</span></span><span class=line><span class=cl>Beta(a=2, b=4)                :  99.30%
+</span></span><span class=line><span class=cl>Beta(a=2, b=10)               :  99.26%
+</span></span><span class=line><span class=cl>Normal(m=0, sd=1)             :  99.21%
+</span></span><span class=line><span class=cl>Weibull(scale=1, shape=2)     :  99.28%
+</span></span><span class=line><span class=cl>Student(df=3)                 :  99.31%
+</span></span><span class=line><span class=cl>Gumbel(loc=0, scale=1)        :  99.27%
+</span></span><span class=line><span class=cl>Exp(rate=1)                   :  99.28%
+</span></span><span class=line><span class=cl>Cauchy(x0=0, gamma=1)         :  99.31%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=0.5)      :  99.41%
+</span></span><span class=line><span class=cl>Pareto(loc=1, shape=2)        :  99.40%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=1)    :  99.20%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=2)    :  99.34%
+</span></span><span class=line><span class=cl>LogNormal(mlog=0, sdlog=3)    :  99.24%
+</span></span><span class=line><span class=cl>Weibull(shape=0.3)            :  99.30%
+</span></span><span class=line><span class=cl>Weibull(shape=0.5)            :  99.37%
+</span></span><span class=line><span class=cl>Frechet(shape=1)              :  99.33%
+</span></span><span class=line><span class=cl>Frechet(shape=3)              :  99.36%
+</span></span></code></pre></div><p>It seems that the approach is accurate enough, the coverage percentage is quite close to the requested confidence level.</p><h3 id=references>References</h3><ul><li><b id=Hodges1963>[Hodges1963]</b><br>Hodges, J. L., and E. L. Lehmann.
 “Estimates of Location Based on Rank Tests.” The Annals of Mathematical Statistics 34, no. 2 (June 1963): 598–611.<br><a href=https://doi.org/10.1214/aoms/1177704172>https://doi.org/10.1214/aoms/1177704172</a>.</li><li><b id=Sen1963>[Sen1963]</b><br>Sen, Pranab Kumar.
 “On the Estimation of Relative Potency in Dilution (-Direct) Assays by Distribution-Free Methods.”
 Biometrics 19, no. 4 (December 1963): 532.<br><a href=https://doi.org/10.2307/2527532>https://doi.org/10.2307/2527532</a>.</li><li><b id=Deshpande2018>[Deshpande2018]</b><br>Deshpande, J. V., Uttara Naik-Nimbalkar, and Isha Dewan.
 Nonparametric Statistics: Theory and Methods.
-New Jersey: World Scientific, 2018.</li></ul><br><br><div class=row><div class="mx-auto share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fhodges-lehmann-sen-shift-ci%2f&title=Hodges-Lehmann-Sen%20shift%20and%20shift%20confidence%20interval%20estimators" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Hodges-Lehmann-Sen%20shift%20and%20shift%20confidence%20interval%20estimators&url=https%3a%2f%2faakinshin.net%2fposts%2fhodges-lehmann-sen-shift-ci%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fhodges-lehmann-sen-shift-ci%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fhodges-lehmann-sen-shift-ci%2f&title=Hodges-Lehmann-Sen%20shift%20and%20shift%20confidence%20interval%20estimators" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
+New Jersey: World Scientific, 2018.</li></ul><br><br><div class=row><div class="justify-content-center share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fhodges-lehmann-sen-shift-ci%2f&title=Hodges-Lehmann-Sen%20shift%20and%20shift%20confidence%20interval%20estimators" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Hodges-Lehmann-Sen%20shift%20and%20shift%20confidence%20interval%20estimators&url=https%3a%2f%2faakinshin.net%2fposts%2fhodges-lehmann-sen-shift-ci%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fhodges-lehmann-sen-shift-ci%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fhodges-lehmann-sen-shift-ci%2f&title=Hodges-Lehmann-Sen%20shift%20and%20shift%20confidence%20interval%20estimators" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
 |
-<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a><a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a><a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>|
-<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.082780cb948cc57eabbc0d80172a7a5347d5572b599938b4c9876dfd7978b424.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script><script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true,processEnvironments:true,},options:{skipHtmlTags:['script','noscript','style','textarea','pre'],ignoreHtmlClass:'tex2jax_ignore',processHtmlClass:'tex2jax_process'}};</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></body></html>
+<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a>
+<a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a>
+<a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>
+|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.c26550621ac13c2221d7f6f5e6fe862345d3919723c50d730893e3e4856ecf35.js></script>
+<script src=/js/bootstrap.bundle.min.js></script>
+<script src=/js/anchor.min.js></script>
+<script src=https://aakinshin.net/js/custom.min.f6e5d13fe39f305056cc743ee4cb8d117c1aba26176e58c82c79a480d02fe4b7.js></script>
+<script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></body></html>

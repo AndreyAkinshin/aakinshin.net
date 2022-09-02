@@ -1,12 +1,12 @@
-<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Mathematics,Statistics,Research,Research: P² quantile estimator"><title>P² quantile estimator rounding issue | Andrey Akinshin</title><meta name=description content="Update: the estimator accuracy could be improved using a bunch of patches.
-The P² quantile estimator is a sequential estimator that uses \(O(1)\) memory. T..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.882998740b9c4c24677576b997bde5a487246e2e3bd72128a0e922eaa59db029.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.50da8736f05b35aac9691de67fe993cbe01b7d88fcf0cb682c3a8f39933fe4a3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.b7c11be17efd31d4852ff062694551596a7625c992103c0605c98f85d6569f11.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>Posts</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/posts/>All Posts</a>
-<a class=dropdown-item href=https://aakinshin.net/tags/statistics/>Posts about Statistics</a>
-<a class=dropdown-item href=https://aakinshin.net/tags/>All Tags</a></div></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>P² quantile estimator rounding issue</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-10-26>October 26, 2021</time>
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Mathematics,Statistics,Research,Research: P² quantile estimator"><title>P² quantile estimator rounding issue | Andrey Akinshin</title><meta name=description content="Update: the estimator accuracy could be improved using a bunch of patches.
+The P² quantile estimator is a sequential estimator that uses \(O(1)\) memory. T..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=https://aakinshin.net/sass/bootstrap-light.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=https://aakinshin.net/sass/bootstrap-dark.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.d7f6578e23ad3f0c33c589f9bcb34f995b45121f1f3ce888869c86b26826c845.js></script>
+<script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.9e68d431432744c07a43381a8a833ffe0921cc0e006d84ad97f0b0d43c5cd82d.mjs></script>
+<link href=https://aakinshin.net/css/fontawesome-all.min.178e95bba6ea2e9a90838cd646658f4bf6667a6ceaa057cb587bf7e6eb8412d3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.7e186db80d8c431d196b3e0718afb0636b82a269a8c92521c11a55267a24fc27.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ZVB6MXSX32")</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-41419012-5")</script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[o]=e[o]||function(){(e[o].a=e[o].a||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym"),ym(28700916,"init",{clickmap:!0,trackLinks:!0,accurateTrackBounce:!0})</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href=# role=button data-bs-toggle=dropdown aria-expanded=false>Blog</a><ul class="dropdown-menu bg-primary"><li><a class=dropdown-item href=https://aakinshin.net/posts/>All Posts</a></li><li><a class=dropdown-item href=https://aakinshin.net/tags/statistics/>Posts about Statistics</a></li><li></li><a class=dropdown-item href=https://aakinshin.net/tags/>All Tags</a></li></ul></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ms-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>P² quantile estimator rounding issue</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-10-26>October 26, 2021</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i>&nbsp;
+<i class="fas fa-tag"></i>
+&nbsp;
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
@@ -24,270 +24,270 @@ If the considered sequence currently contains exactly <span class="math inline">
 The <a href=https://doi.org/10.1145/4372.4378>original paper</a> suggests using the marker increments to &ldquo;reduce CPU overhead&rdquo;:</p><ul><li><span class="math inline">\(dn'_0 = 0\)</span></li><li><span class="math inline">\(dn'_1 = p / 2\)</span></li><li><span class="math inline">\(dn'_2 = p\)</span></li><li><span class="math inline">\(dn'_3 = (1 + p) / 2\)</span></li><li><span class="math inline">\(dn'_4 = 1\)</span></li></ul><p><a href=https://github.com/AnthonyLloyd>@AnthonyLloyd</a> has <a href=https://github.com/AndreyAkinshin/perfolizer/issues/8>reported</a>
 that such approach has rounding issues.
 Let&rsquo;s try to fix this problem and see how it affects the approach.</p><h3 id=experiments>Experiments</h3><p>Let&rsquo;s implement the classic approach with increments (<code>P2QuantileEstimatorOriginal</code>)
-and the new one without increments (<code>P2QuantileEstimatorPatched</code>):</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>class</span> <span class=nc>P2QuantileEstimatorOriginal</span>
-<span class=p>{</span>
-    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span> <span class=n>p</span><span class=p>;</span>
-    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>n</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// marker positions
-</span><span class=c1></span>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>ns</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// desired marker positions
-</span><span class=c1></span>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>dns</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span>
-    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// marker heights
-</span><span class=c1></span>    <span class=k>private</span> <span class=kt>int</span> <span class=n>count</span><span class=p>;</span>
-
-    <span class=k>public</span> <span class=n>P2QuantileEstimatorOriginal</span><span class=p>(</span><span class=kt>double</span> <span class=n>probability</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=n>p</span> <span class=p>=</span> <span class=n>probability</span><span class=p>;</span>
-    <span class=p>}</span>
-
-    <span class=k>public</span> <span class=k>void</span> <span class=n>AddValue</span><span class=p>(</span><span class=kt>double</span> <span class=n>x</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>)</span>
-        <span class=p>{</span>
-            <span class=n>q</span><span class=p>[</span><span class=n>count</span><span class=p>++]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
-            <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>==</span> <span class=m>5</span><span class=p>)</span>
-            <span class=p>{</span>
-                <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>);</span>
-
-                <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-                    <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>i</span><span class=p>;</span>
-
-                <span class=n>ns</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
-                <span class=n>ns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
-                <span class=n>ns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=m>4</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
-                <span class=n>ns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=m>2</span> <span class=p>+</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
-                <span class=n>ns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=m>4</span><span class=p>;</span>
-
-                <span class=n>dns</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
-                <span class=n>dns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=n>p</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
-                <span class=n>dns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=n>p</span><span class=p>;</span>
-                <span class=n>dns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=p>(</span><span class=m>1</span> <span class=p>+</span> <span class=n>p</span><span class=p>)</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
-                <span class=n>dns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
-            <span class=p>}</span>
-
-            <span class=k>return</span><span class=p>;</span>
-        <span class=p>}</span>
-
-        <span class=kt>int</span> <span class=n>k</span><span class=p>;</span>
-        <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>])</span>
-        <span class=p>{</span>
-            <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
-        <span class=p>}</span>
-        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>1</span><span class=p>])</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
-        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>])</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
-        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>3</span><span class=p>])</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>2</span><span class=p>;</span>
-        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>4</span><span class=p>])</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>3</span><span class=p>;</span>
-        <span class=k>else</span>
-        <span class=p>{</span>
-            <span class=n>q</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>3</span><span class=p>;</span>
-        <span class=p>}</span>
-
-        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=n>k</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-            <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]++;</span>
-        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-            <span class=n>ns</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+=</span> <span class=n>dns</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
-
-        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;=</span> <span class=m>3</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-        <span class=p>{</span>
-            <span class=kt>double</span> <span class=n>d</span> <span class=p>=</span> <span class=n>ns</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
-            <span class=k>if</span> <span class=p>(</span><span class=n>d</span> <span class=p>&gt;=</span> <span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&gt;</span> <span class=m>1</span> <span class=p>||</span> <span class=n>d</span> <span class=p>&lt;=</span> <span class=p>-</span><span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&lt;</span> <span class=p>-</span><span class=m>1</span><span class=p>)</span>
-            <span class=p>{</span>
-                <span class=kt>int</span> <span class=n>dInt</span> <span class=p>=</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sign</span><span class=p>(</span><span class=n>d</span><span class=p>);</span>
-                <span class=kt>double</span> <span class=n>qs</span> <span class=p>=</span> <span class=n>Parabolic</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
-                <span class=k>if</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>&lt;</span> <span class=n>qs</span> <span class=p>&amp;&amp;</span> <span class=n>qs</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>])</span>
-                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>qs</span><span class=p>;</span>
-                <span class=k>else</span>
-                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>Linear</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
-                <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+=</span> <span class=n>dInt</span><span class=p>;</span>
-            <span class=p>}</span>
-        <span class=p>}</span>
-
-        <span class=n>count</span><span class=p>++;</span>
-    <span class=p>}</span>
-
-    <span class=k>private</span> <span class=kt>double</span> <span class=n>Parabolic</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>double</span> <span class=n>d</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>*</span> <span class=p>(</span>
-            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>+</span>
-            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span>
-        <span class=p>);</span>
-    <span class=p>}</span>
-
-    <span class=k>private</span> <span class=kt>double</span> <span class=n>Linear</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>int</span> <span class=n>d</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]);</span>
-    <span class=p>}</span>
-
-    <span class=k>public</span> <span class=kt>double</span> <span class=n>GetQuantile</span><span class=p>()</span>
-    <span class=p>{</span>
-        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>==</span> <span class=m>0</span><span class=p>)</span>
-            <span class=k>throw</span> <span class=k>new</span> <span class=n>InvalidOperationException</span><span class=p>(</span><span class=s>&#34;Sequence contains no elements&#34;</span><span class=p>);</span>
-        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>&lt;=</span> <span class=m>5</span><span class=p>)</span>
-        <span class=p>{</span>
-            <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=n>count</span><span class=p>);</span>
-            <span class=kt>int</span> <span class=n>index</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Round</span><span class=p>((</span><span class=n>count</span> <span class=p>-</span> <span class=m>1</span><span class=p>)</span> <span class=p>*</span> <span class=n>p</span><span class=p>);</span>
-            <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
-        <span class=p>}</span>
-
-        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>];</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-
-<span class=k>public</span> <span class=k>class</span> <span class=nc>P2QuantileEstimatorPatched</span>
-<span class=p>{</span>
-    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span> <span class=n>p</span><span class=p>;</span>
-    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>n</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// marker positions
-</span><span class=c1></span>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>ns</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// desired marker positions
-</span><span class=c1></span>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// marker heights
-</span><span class=c1></span>    <span class=k>private</span> <span class=kt>int</span> <span class=n>count</span><span class=p>;</span>
-
-    <span class=k>public</span> <span class=n>P2QuantileEstimatorPatched</span><span class=p>(</span><span class=kt>double</span> <span class=n>probability</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=n>p</span> <span class=p>=</span> <span class=n>probability</span><span class=p>;</span>
-    <span class=p>}</span>
-
-    <span class=k>public</span> <span class=k>void</span> <span class=n>AddValue</span><span class=p>(</span><span class=kt>double</span> <span class=n>x</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>)</span>
-        <span class=p>{</span>
-            <span class=n>q</span><span class=p>[</span><span class=n>count</span><span class=p>++]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
-            <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>==</span> <span class=m>5</span><span class=p>)</span>
-            <span class=p>{</span>
-                <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>);</span>
-
-                <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-                    <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>i</span><span class=p>;</span>
-
-                <span class=n>ns</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
-                <span class=n>ns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
-                <span class=n>ns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=m>4</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
-                <span class=n>ns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=m>2</span> <span class=p>+</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
-                <span class=n>ns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=m>4</span><span class=p>;</span>
-            <span class=p>}</span>
-
-            <span class=k>return</span><span class=p>;</span>
-        <span class=p>}</span>
-
-        <span class=kt>int</span> <span class=n>k</span><span class=p>;</span>
-        <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>])</span>
-        <span class=p>{</span>
-            <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
-        <span class=p>}</span>
-        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>1</span><span class=p>])</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
-        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>])</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
-        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>3</span><span class=p>])</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>2</span><span class=p>;</span>
-        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>4</span><span class=p>])</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>3</span><span class=p>;</span>
-        <span class=k>else</span>
-        <span class=p>{</span>
-            <span class=n>q</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>3</span><span class=p>;</span>
-        <span class=p>}</span>
-
-        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=n>k</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-            <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]++;</span>
-        <span class=n>ns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=n>p</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
-        <span class=n>ns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
-        <span class=n>ns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=p>(</span><span class=m>1</span> <span class=p>+</span> <span class=n>p</span><span class=p>)</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
-        <span class=n>ns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span><span class=p>;</span>
-
-        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;=</span> <span class=m>3</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-        <span class=p>{</span>
-            <span class=kt>double</span> <span class=n>d</span> <span class=p>=</span> <span class=n>ns</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
-            <span class=k>if</span> <span class=p>(</span><span class=n>d</span> <span class=p>&gt;=</span> <span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&gt;</span> <span class=m>1</span> <span class=p>||</span> <span class=n>d</span> <span class=p>&lt;=</span> <span class=p>-</span><span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&lt;</span> <span class=p>-</span><span class=m>1</span><span class=p>)</span>
-            <span class=p>{</span>
-                <span class=kt>int</span> <span class=n>dInt</span> <span class=p>=</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sign</span><span class=p>(</span><span class=n>d</span><span class=p>);</span>
-                <span class=kt>double</span> <span class=n>qs</span> <span class=p>=</span> <span class=n>Parabolic</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
-                <span class=k>if</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>&lt;</span> <span class=n>qs</span> <span class=p>&amp;&amp;</span> <span class=n>qs</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>])</span>
-                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>qs</span><span class=p>;</span>
-                <span class=k>else</span>
-                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>Linear</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
-                <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+=</span> <span class=n>dInt</span><span class=p>;</span>
-            <span class=p>}</span>
-        <span class=p>}</span>
-
-        <span class=n>count</span><span class=p>++;</span>
-    <span class=p>}</span>
-
-    <span class=k>private</span> <span class=kt>double</span> <span class=n>Parabolic</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>double</span> <span class=n>d</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>*</span> <span class=p>(</span>
-            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>+</span>
-            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span>
-        <span class=p>);</span>
-    <span class=p>}</span>
-
-    <span class=k>private</span> <span class=kt>double</span> <span class=n>Linear</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>int</span> <span class=n>d</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]);</span>
-    <span class=p>}</span>
-
-    <span class=k>public</span> <span class=kt>double</span> <span class=n>GetQuantile</span><span class=p>()</span>
-    <span class=p>{</span>
-        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>==</span> <span class=m>0</span><span class=p>)</span>
-            <span class=k>throw</span> <span class=k>new</span> <span class=n>InvalidOperationException</span><span class=p>(</span><span class=s>&#34;Sequence contains no elements&#34;</span><span class=p>);</span>
-        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>&lt;=</span> <span class=m>5</span><span class=p>)</span>
-        <span class=p>{</span>
-            <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=n>count</span><span class=p>);</span>
-            <span class=kt>int</span> <span class=n>index</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Round</span><span class=p>((</span><span class=n>count</span> <span class=p>-</span> <span class=m>1</span><span class=p>)</span> <span class=p>*</span> <span class=n>p</span><span class=p>);</span>
-            <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
-        <span class=p>}</span>
-
-        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>];</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><p>The main change is replacing</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-    <span class=n>ns</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+=</span> <span class=n>dns</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
-</code></pre></div><p>by</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=n>ns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=n>p</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
-<span class=n>ns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
-<span class=n>ns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=p>(</span><span class=m>1</span> <span class=p>+</span> <span class=n>p</span><span class=p>)</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
-<span class=n>ns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span><span class=p>;</span>
-</code></pre></div><p>Now let&rsquo;s benchmark it using <a href=https://github.com/dotnet/BenchmarkDotNet>BenchmarkDotNet</a>:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[LongRunJob]</span>
-<span class=k>public</span> <span class=k>class</span> <span class=nc>P2Benchmarks</span>
-<span class=p>{</span>
-<span class=na>    [Benchmark]</span>
-    <span class=k>public</span> <span class=k>void</span> <span class=n>Original</span><span class=p>()</span>
-    <span class=p>{</span>
-        <span class=kt>var</span> <span class=n>estimator</span> <span class=p>=</span> <span class=k>new</span> <span class=n>P2QuantileEstimatorOriginal</span><span class=p>(</span><span class=m>0.5</span><span class=p>);</span>
-        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>1</span><span class=n>_000_000</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-            <span class=n>estimator</span><span class=p>.</span><span class=n>AddValue</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
-    <span class=p>}</span>
-<span class=na>
-</span><span class=na>    [Benchmark]</span>
-    <span class=k>public</span> <span class=k>void</span> <span class=n>Patched</span><span class=p>()</span>
-    <span class=p>{</span>
-        <span class=kt>var</span> <span class=n>estimator</span> <span class=p>=</span> <span class=k>new</span> <span class=n>P2QuantileEstimatorPatched</span><span class=p>(</span><span class=m>0.5</span><span class=p>);</span>
-        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>1</span><span class=n>_000_000</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-            <span class=n>estimator</span><span class=p>.</span><span class=n>AddValue</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-
-<span class=k>class</span> <span class=nc>Program</span>
-<span class=p>{</span>
-    <span class=k>static</span> <span class=k>void</span> <span class=n>Main</span><span class=p>()</span>
-    <span class=p>{</span>
-        <span class=n>BenchmarkRunner</span><span class=p>.</span><span class=n>Run</span><span class=p>&lt;</span><span class=n>P2Benchmarks</span><span class=p>&gt;();</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><p>Here are the benchmark results:</p><div class=highlight><pre class=chroma><code class=language-md data-lang=md>BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19042.1288 (20H2/October2020Update)
-Intel Core i7-7700K CPU 4.20GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical cores
-.NET SDK=5.0.300
-  [Host]  : .NET 5.0.6 (5.0.621.22011), X64 RyuJIT
-  LongRun : .NET 5.0.6 (5.0.621.22011), X64 RyuJIT
-
-|   Method |     Mean |    Error |   StdDev |
-|--------- |---------:|---------:|---------:|
-| Original | 24.47 ms | 0.028 ms | 0.138 ms |
-|  Patched | 21.72 ms | 0.026 ms | 0.133 ms |
-</code></pre></div><p>As we can see, the <code>Patched</code> version works even faster than the <code>Original</code>.
+and the new one without increments (<code>P2QuantileEstimatorPatched</code>):</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>P2QuantileEstimatorOriginal</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>n</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// marker positions</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>ns</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// desired marker positions</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>dns</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// marker heights</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=kt>int</span> <span class=n>count</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=n>P2QuantileEstimatorOriginal</span><span class=p>(</span><span class=kt>double</span> <span class=n>probability</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>p</span> <span class=p>=</span> <span class=n>probability</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>void</span> <span class=n>AddValue</span><span class=p>(</span><span class=kt>double</span> <span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>q</span><span class=p>[</span><span class=n>count</span><span class=p>++]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>==</span> <span class=m>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>                    <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                <span class=n>ns</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>ns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>ns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=m>4</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>ns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=m>2</span> <span class=p>+</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>ns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=m>4</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                <span class=n>dns</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>dns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=n>p</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>dns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>dns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=p>(</span><span class=m>1</span> <span class=p>+</span> <span class=n>p</span><span class=p>)</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>dns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>k</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>1</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>3</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>4</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>3</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>q</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>3</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=n>k</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>            <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]++;</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>            <span class=n>ns</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+=</span> <span class=n>dns</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;=</span> <span class=m>3</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kt>double</span> <span class=n>d</span> <span class=p>=</span> <span class=n>ns</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>d</span> <span class=p>&gt;=</span> <span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&gt;</span> <span class=m>1</span> <span class=p>||</span> <span class=n>d</span> <span class=p>&lt;=</span> <span class=p>-</span><span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&lt;</span> <span class=p>-</span><span class=m>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=kt>int</span> <span class=n>dInt</span> <span class=p>=</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sign</span><span class=p>(</span><span class=n>d</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=kt>double</span> <span class=n>qs</span> <span class=p>=</span> <span class=n>Parabolic</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=k>if</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>&lt;</span> <span class=n>qs</span> <span class=p>&amp;&amp;</span> <span class=n>qs</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>qs</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=k>else</span>
+</span></span><span class=line><span class=cl>                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>Linear</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+=</span> <span class=n>dInt</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>count</span><span class=p>++;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=kt>double</span> <span class=n>Parabolic</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>double</span> <span class=n>d</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>*</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>+</span>
+</span></span><span class=line><span class=cl>            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>        <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=kt>double</span> <span class=n>Linear</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>int</span> <span class=n>d</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=kt>double</span> <span class=n>GetQuantile</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>==</span> <span class=m>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=k>new</span> <span class=n>InvalidOperationException</span><span class=p>(</span><span class=s>&#34;Sequence contains no elements&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>&lt;=</span> <span class=m>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=n>count</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=kt>int</span> <span class=n>index</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Round</span><span class=p>((</span><span class=n>count</span> <span class=p>-</span> <span class=m>1</span><span class=p>)</span> <span class=p>*</span> <span class=n>p</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>P2QuantileEstimatorPatched</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>n</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// marker positions</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>ns</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// desired marker positions</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// marker heights</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=kt>int</span> <span class=n>count</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=n>P2QuantileEstimatorPatched</span><span class=p>(</span><span class=kt>double</span> <span class=n>probability</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>p</span> <span class=p>=</span> <span class=n>probability</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>void</span> <span class=n>AddValue</span><span class=p>(</span><span class=kt>double</span> <span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>q</span><span class=p>[</span><span class=n>count</span><span class=p>++]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>==</span> <span class=m>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>                    <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                <span class=n>ns</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>ns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>ns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=m>4</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>ns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=m>2</span> <span class=p>+</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>ns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=m>4</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>k</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>1</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>3</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>4</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>3</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>q</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>3</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=n>k</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>            <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]++;</span>
+</span></span><span class=line><span class=cl>        <span class=n>ns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=n>p</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>ns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>ns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=p>(</span><span class=m>1</span> <span class=p>+</span> <span class=n>p</span><span class=p>)</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>ns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;=</span> <span class=m>3</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kt>double</span> <span class=n>d</span> <span class=p>=</span> <span class=n>ns</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>d</span> <span class=p>&gt;=</span> <span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&gt;</span> <span class=m>1</span> <span class=p>||</span> <span class=n>d</span> <span class=p>&lt;=</span> <span class=p>-</span><span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&lt;</span> <span class=p>-</span><span class=m>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=kt>int</span> <span class=n>dInt</span> <span class=p>=</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sign</span><span class=p>(</span><span class=n>d</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=kt>double</span> <span class=n>qs</span> <span class=p>=</span> <span class=n>Parabolic</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=k>if</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>&lt;</span> <span class=n>qs</span> <span class=p>&amp;&amp;</span> <span class=n>qs</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>qs</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=k>else</span>
+</span></span><span class=line><span class=cl>                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>Linear</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+=</span> <span class=n>dInt</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>count</span><span class=p>++;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=kt>double</span> <span class=n>Parabolic</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>double</span> <span class=n>d</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>*</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>+</span>
+</span></span><span class=line><span class=cl>            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>        <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=kt>double</span> <span class=n>Linear</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>int</span> <span class=n>d</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=kt>double</span> <span class=n>GetQuantile</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>==</span> <span class=m>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=k>new</span> <span class=n>InvalidOperationException</span><span class=p>(</span><span class=s>&#34;Sequence contains no elements&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>&lt;=</span> <span class=m>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=n>count</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=kt>int</span> <span class=n>index</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Round</span><span class=p>((</span><span class=n>count</span> <span class=p>-</span> <span class=m>1</span><span class=p>)</span> <span class=p>*</span> <span class=n>p</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>The main change is replacing</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>    <span class=n>ns</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+=</span> <span class=n>dns</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+</span></span></code></pre></div><p>by</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=n>ns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=n>p</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>ns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>ns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=p>(</span><span class=m>1</span> <span class=p>+</span> <span class=n>p</span><span class=p>)</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>ns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span><span class=p>;</span>
+</span></span></code></pre></div><p>Now let&rsquo;s benchmark it using <a href=https://github.com/dotnet/BenchmarkDotNet>BenchmarkDotNet</a>:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=na>[LongRunJob]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>P2Benchmarks</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>void</span> <span class=n>Original</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kt>var</span> <span class=n>estimator</span> <span class=p>=</span> <span class=k>new</span> <span class=n>P2QuantileEstimatorOriginal</span><span class=p>(</span><span class=m>0.5</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>1_000_000</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>            <span class=n>estimator</span><span class=p>.</span><span class=n>AddValue</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>void</span> <span class=n>Patched</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kt>var</span> <span class=n>estimator</span> <span class=p>=</span> <span class=k>new</span> <span class=n>P2QuantileEstimatorPatched</span><span class=p>(</span><span class=m>0.5</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>1_000_000</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>            <span class=n>estimator</span><span class=p>.</span><span class=n>AddValue</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Program</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>static</span> <span class=k>void</span> <span class=n>Main</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>BenchmarkRunner</span><span class=p>.</span><span class=n>Run</span><span class=p>&lt;</span><span class=n>P2Benchmarks</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Here are the benchmark results:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-md data-lang=md><span class=line><span class=cl>BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19042.1288 (20H2/October2020Update)
+</span></span><span class=line><span class=cl>Intel Core i7-7700K CPU 4.20GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical cores
+</span></span><span class=line><span class=cl>.NET SDK=5.0.300
+</span></span><span class=line><span class=cl>  [Host]  : .NET 5.0.6 (5.0.621.22011), X64 RyuJIT
+</span></span><span class=line><span class=cl>  LongRun : .NET 5.0.6 (5.0.621.22011), X64 RyuJIT
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>|   Method |     Mean |    Error |   StdDev |
+</span></span><span class=line><span class=cl>|--------- |---------:|---------:|---------:|
+</span></span><span class=line><span class=cl>| Original | 24.47 ms | 0.028 ms | 0.138 ms |
+</span></span><span class=line><span class=cl>|  Patched | 21.72 ms | 0.026 ms | 0.133 ms |
+</span></span></code></pre></div><p>As we can see, the <code>Patched</code> version works even faster than the <code>Original</code>.
 Of course, the difference in performance could be explained
 by the manual loop unrolling and decreasing the number of operations
 (we do not update <span class="math inline">\(n'_0\)</span> in <code>Patched</code> since <span class="math inline">\(dn'_0 = 0\)</span>).
@@ -295,132 +295,140 @@ Of course, further optimizations are possible.
 The current implementation doesn&rsquo;t aim to be the fastest one, it aims to be the readable one.
 The most important thing here is that the patch doesn&rsquo;t lead to a performance regression.
 Meanwhile, it also reduces the memory overhead (we shouldn&rsquo;t keep the <code>dns</code> array with five <code>double</code> elements anymore).</p><p>Now it&rsquo;s time to check the impact on the estimator result.
-Let&rsquo;s consider the following code snippet:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>var</span> <span class=n>random</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Random</span><span class=p>(</span><span class=m>1729</span><span class=p>);</span>
-<span class=kt>var</span> <span class=n>original</span> <span class=p>=</span> <span class=k>new</span> <span class=n>P2QuantileEstimatorOriginal</span><span class=p>(</span><span class=m>0.6</span><span class=p>);</span>
-<span class=kt>var</span> <span class=n>patched</span> <span class=p>=</span> <span class=k>new</span> <span class=n>P2QuantileEstimatorPatched</span><span class=p>(</span><span class=m>0.6</span><span class=p>);</span>
-<span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>100</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-<span class=p>{</span>
-    <span class=kt>var</span> <span class=n>x</span> <span class=p>=</span> <span class=n>random</span><span class=p>.</span><span class=n>NextDouble</span><span class=p>();</span>
-    <span class=n>original</span><span class=p>.</span><span class=n>AddValue</span><span class=p>(</span><span class=n>x</span><span class=p>);</span>
-    <span class=n>patched</span><span class=p>.</span><span class=n>AddValue</span><span class=p>(</span><span class=n>x</span><span class=p>);</span>
-<span class=p>}</span>
-
-<span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;Original : &#34;</span> <span class=p>+</span> <span class=n>original</span><span class=p>.</span><span class=n>GetQuantile</span><span class=p>());</span>
-<span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;Patched  : &#34;</span> <span class=p>+</span> <span class=n>patched</span><span class=p>.</span><span class=n>GetQuantile</span><span class=p>());</span>
-</code></pre></div><p>Here is the corresponding output:</p><div class=highlight><pre class=chroma><code class=language-md data-lang=md>Original : 0.6094896389457989
-Patched  : 0.6053711159656534
-</code></pre></div><p>As we can see, the difference is noticeable.</p><h3 id=conclusion>Conclusion</h3><p>The suggested change:</p><ul><li>Improves performance keeping the same readability level</li><li>Reduces memory overhead</li><li>Fixes the internal calculations</li></ul><p>Thus, I have decided to
+Let&rsquo;s consider the following code snippet:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=kt>var</span> <span class=n>random</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Random</span><span class=p>(</span><span class=m>1729</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>var</span> <span class=n>original</span> <span class=p>=</span> <span class=k>new</span> <span class=n>P2QuantileEstimatorOriginal</span><span class=p>(</span><span class=m>0.6</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=kt>var</span> <span class=n>patched</span> <span class=p>=</span> <span class=k>new</span> <span class=n>P2QuantileEstimatorPatched</span><span class=p>(</span><span class=m>0.6</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>100</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>var</span> <span class=n>x</span> <span class=p>=</span> <span class=n>random</span><span class=p>.</span><span class=n>NextDouble</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>original</span><span class=p>.</span><span class=n>AddValue</span><span class=p>(</span><span class=n>x</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>patched</span><span class=p>.</span><span class=n>AddValue</span><span class=p>(</span><span class=n>x</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;Original : &#34;</span> <span class=p>+</span> <span class=n>original</span><span class=p>.</span><span class=n>GetQuantile</span><span class=p>());</span>
+</span></span><span class=line><span class=cl><span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;Patched  : &#34;</span> <span class=p>+</span> <span class=n>patched</span><span class=p>.</span><span class=n>GetQuantile</span><span class=p>());</span>
+</span></span></code></pre></div><p>Here is the corresponding output:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-md data-lang=md><span class=line><span class=cl>Original : 0.6094896389457989
+</span></span><span class=line><span class=cl>Patched  : 0.6053711159656534
+</span></span></code></pre></div><p>As we can see, the difference is noticeable.</p><h3 id=conclusion>Conclusion</h3><p>The suggested change:</p><ul><li>Improves performance keeping the same readability level</li><li>Reduces memory overhead</li><li>Fixes the internal calculations</li></ul><p>Thus, I have decided to
 <a href=https://github.com/AndreyAkinshin/perfolizer/commit/4e40b500e60486a19b977b73974b79621d871078>update</a>
 the corresponding implementation in perfolizer.
 The fix is available in perfolizer v0.3.0-nightly.106+.
-Here is the updated copy-pastable version of the reference implementation:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>class</span> <span class=nc>P2QuantileEstimator</span>
-<span class=p>{</span>
-    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span> <span class=n>p</span><span class=p>;</span>
-    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>n</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// marker positions
-</span><span class=c1></span>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>ns</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// desired marker positions
-</span><span class=c1></span>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// marker heights
-</span><span class=c1></span>    <span class=k>private</span> <span class=kt>int</span> <span class=n>count</span><span class=p>;</span>
-
-    <span class=k>public</span> <span class=n>P2QuantileEstimator</span><span class=p>(</span><span class=kt>double</span> <span class=n>probability</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=n>p</span> <span class=p>=</span> <span class=n>probability</span><span class=p>;</span>
-    <span class=p>}</span>
-
-    <span class=k>public</span> <span class=k>void</span> <span class=n>AddValue</span><span class=p>(</span><span class=kt>double</span> <span class=n>x</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>)</span>
-        <span class=p>{</span>
-            <span class=n>q</span><span class=p>[</span><span class=n>count</span><span class=p>++]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
-            <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>==</span> <span class=m>5</span><span class=p>)</span>
-            <span class=p>{</span>
-                <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>);</span>
-
-                <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-                    <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>i</span><span class=p>;</span>
-
-                <span class=n>ns</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
-                <span class=n>ns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
-                <span class=n>ns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=m>4</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
-                <span class=n>ns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=m>2</span> <span class=p>+</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
-                <span class=n>ns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=m>4</span><span class=p>;</span>
-            <span class=p>}</span>
-
-            <span class=k>return</span><span class=p>;</span>
-        <span class=p>}</span>
-
-        <span class=kt>int</span> <span class=n>k</span><span class=p>;</span>
-        <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>])</span>
-        <span class=p>{</span>
-            <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
-        <span class=p>}</span>
-        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>1</span><span class=p>])</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
-        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>])</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
-        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>3</span><span class=p>])</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>2</span><span class=p>;</span>
-        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>4</span><span class=p>])</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>3</span><span class=p>;</span>
-        <span class=k>else</span>
-        <span class=p>{</span>
-            <span class=n>q</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
-            <span class=n>k</span> <span class=p>=</span> <span class=m>3</span><span class=p>;</span>
-        <span class=p>}</span>
-
-        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=n>k</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-            <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]++;</span>
-        <span class=n>ns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=n>p</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
-        <span class=n>ns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
-        <span class=n>ns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=p>(</span><span class=m>1</span> <span class=p>+</span> <span class=n>p</span><span class=p>)</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
-        <span class=n>ns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span><span class=p>;</span>
-
-        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;=</span> <span class=m>3</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-        <span class=p>{</span>
-            <span class=kt>double</span> <span class=n>d</span> <span class=p>=</span> <span class=n>ns</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
-            <span class=k>if</span> <span class=p>(</span><span class=n>d</span> <span class=p>&gt;=</span> <span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&gt;</span> <span class=m>1</span> <span class=p>||</span> <span class=n>d</span> <span class=p>&lt;=</span> <span class=p>-</span><span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&lt;</span> <span class=p>-</span><span class=m>1</span><span class=p>)</span>
-            <span class=p>{</span>
-                <span class=kt>int</span> <span class=n>dInt</span> <span class=p>=</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sign</span><span class=p>(</span><span class=n>d</span><span class=p>);</span>
-                <span class=kt>double</span> <span class=n>qs</span> <span class=p>=</span> <span class=n>Parabolic</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
-                <span class=k>if</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>&lt;</span> <span class=n>qs</span> <span class=p>&amp;&amp;</span> <span class=n>qs</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>])</span>
-                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>qs</span><span class=p>;</span>
-                <span class=k>else</span>
-                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>Linear</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
-                <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+=</span> <span class=n>dInt</span><span class=p>;</span>
-            <span class=p>}</span>
-        <span class=p>}</span>
-
-        <span class=n>count</span><span class=p>++;</span>
-    <span class=p>}</span>
-
-    <span class=k>private</span> <span class=kt>double</span> <span class=n>Parabolic</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>double</span> <span class=n>d</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>*</span> <span class=p>(</span>
-            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>+</span>
-            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span>
-        <span class=p>);</span>
-    <span class=p>}</span>
-
-    <span class=k>private</span> <span class=kt>double</span> <span class=n>Linear</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>int</span> <span class=n>d</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]);</span>
-    <span class=p>}</span>
-
-    <span class=k>public</span> <span class=kt>double</span> <span class=n>GetQuantile</span><span class=p>()</span>
-    <span class=p>{</span>
-        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>==</span> <span class=m>0</span><span class=p>)</span>
-            <span class=k>throw</span> <span class=k>new</span> <span class=n>InvalidOperationException</span><span class=p>(</span><span class=s>&#34;Sequence contains no elements&#34;</span><span class=p>);</span>
-        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>&lt;=</span> <span class=m>5</span><span class=p>)</span>
-        <span class=p>{</span>
-            <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=n>count</span><span class=p>);</span>
-            <span class=kt>int</span> <span class=n>index</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Round</span><span class=p>((</span><span class=n>count</span> <span class=p>-</span> <span class=m>1</span><span class=p>)</span> <span class=p>*</span> <span class=n>p</span><span class=p>);</span>
-            <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
-        <span class=p>}</span>
-
-        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>];</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><br><br><div class=row><div class="mx-auto share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator-rounding-issue%2f&title=P%c2%b2%20quantile%20estimator%20rounding%20issue" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=P%c2%b2%20quantile%20estimator%20rounding%20issue&url=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator-rounding-issue%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator-rounding-issue%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator-rounding-issue%2f&title=P%c2%b2%20quantile%20estimator%20rounding%20issue" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
+Here is the updated copy-pastable version of the reference implementation:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>P2QuantileEstimator</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>n</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// marker positions</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>ns</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// desired marker positions</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>readonly</span> <span class=kt>double</span><span class=p>[]</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>double</span><span class=p>[</span><span class=m>5</span><span class=p>];</span> <span class=c1>// marker heights</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=kt>int</span> <span class=n>count</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=n>P2QuantileEstimator</span><span class=p>(</span><span class=kt>double</span> <span class=n>probability</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>p</span> <span class=p>=</span> <span class=n>probability</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>void</span> <span class=n>AddValue</span><span class=p>(</span><span class=kt>double</span> <span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>q</span><span class=p>[</span><span class=n>count</span><span class=p>++]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>==</span> <span class=m>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>                    <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>i</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                <span class=n>ns</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>ns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>ns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=m>4</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>ns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=m>2</span> <span class=p>+</span> <span class=m>2</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>ns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=m>4</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>k</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>q</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>1</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>3</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=n>x</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=m>4</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>3</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>else</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>q</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=n>x</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>k</span> <span class=p>=</span> <span class=m>3</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=n>k</span> <span class=p>+</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>5</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>            <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]++;</span>
+</span></span><span class=line><span class=cl>        <span class=n>ns</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=n>p</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>ns</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=n>p</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>ns</span><span class=p>[</span><span class=m>3</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span> <span class=p>*</span> <span class=p>(</span><span class=m>1</span> <span class=p>+</span> <span class=n>p</span><span class=p>)</span> <span class=p>/</span> <span class=m>2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>ns</span><span class=p>[</span><span class=m>4</span><span class=p>]</span> <span class=p>=</span> <span class=n>count</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;=</span> <span class=m>3</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kt>double</span> <span class=n>d</span> <span class=p>=</span> <span class=n>ns</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>d</span> <span class=p>&gt;=</span> <span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&gt;</span> <span class=m>1</span> <span class=p>||</span> <span class=n>d</span> <span class=p>&lt;=</span> <span class=p>-</span><span class=m>1</span> <span class=p>&amp;&amp;</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>&lt;</span> <span class=p>-</span><span class=m>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=kt>int</span> <span class=n>dInt</span> <span class=p>=</span> <span class=n>Math</span><span class=p>.</span><span class=n>Sign</span><span class=p>(</span><span class=n>d</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=kt>double</span> <span class=n>qs</span> <span class=p>=</span> <span class=n>Parabolic</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=k>if</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>&lt;</span> <span class=n>qs</span> <span class=p>&amp;&amp;</span> <span class=n>qs</span> <span class=p>&lt;</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>qs</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=k>else</span>
+</span></span><span class=line><span class=cl>                    <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>=</span> <span class=n>Linear</span><span class=p>(</span><span class=n>i</span><span class=p>,</span> <span class=n>dInt</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+=</span> <span class=n>dInt</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>count</span><span class=p>++;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=kt>double</span> <span class=n>Parabolic</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>double</span> <span class=n>d</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>*</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>+</span>
+</span></span><span class=line><span class=cl>            <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=m>1</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>d</span><span class=p>)</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>-</span> <span class=m>1</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>        <span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=kt>double</span> <span class=n>Linear</span><span class=p>(</span><span class=kt>int</span> <span class=n>i</span><span class=p>,</span> <span class=kt>int</span> <span class=n>d</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=p>+</span> <span class=n>d</span> <span class=p>*</span> <span class=p>(</span><span class=n>q</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>q</span><span class=p>[</span><span class=n>i</span><span class=p>])</span> <span class=p>/</span> <span class=p>(</span><span class=n>n</span><span class=p>[</span><span class=n>i</span> <span class=p>+</span> <span class=n>d</span><span class=p>]</span> <span class=p>-</span> <span class=n>n</span><span class=p>[</span><span class=n>i</span><span class=p>]);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=kt>double</span> <span class=n>GetQuantile</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>==</span> <span class=m>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=k>new</span> <span class=n>InvalidOperationException</span><span class=p>(</span><span class=s>&#34;Sequence contains no elements&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>count</span> <span class=p>&lt;=</span> <span class=m>5</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>Array</span><span class=p>.</span><span class=n>Sort</span><span class=p>(</span><span class=n>q</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=n>count</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=kt>int</span> <span class=n>index</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>Math</span><span class=p>.</span><span class=n>Round</span><span class=p>((</span><span class=n>count</span> <span class=p>-</span> <span class=m>1</span><span class=p>)</span> <span class=p>*</span> <span class=n>p</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=n>index</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>q</span><span class=p>[</span><span class=m>2</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><br><br><div class=row><div class="justify-content-center share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator-rounding-issue%2f&title=P%c2%b2%20quantile%20estimator%20rounding%20issue" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=P%c2%b2%20quantile%20estimator%20rounding%20issue&url=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator-rounding-issue%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator-rounding-issue%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fp2-quantile-estimator-rounding-issue%2f&title=P%c2%b2%20quantile%20estimator%20rounding%20issue" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
 |
-<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a><a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a><a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>|
-<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.082780cb948cc57eabbc0d80172a7a5347d5572b599938b4c9876dfd7978b424.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script><script>window.MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true,processEnvironments:true,},options:{skipHtmlTags:['script','noscript','style','textarea','pre'],ignoreHtmlClass:'tex2jax_ignore',processHtmlClass:'tex2jax_process'}};</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></body></html>
+<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a>
+<a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a>
+<a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>
+|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.c26550621ac13c2221d7f6f5e6fe862345d3919723c50d730893e3e4856ecf35.js></script>
+<script src=/js/bootstrap.bundle.min.js></script>
+<script src=/js/anchor.min.js></script>
+<script src=https://aakinshin.net/js/custom.min.f6e5d13fe39f305056cc743ee4cb8d117c1aba26176e58c82c79a480d02fe4b7.js></script>
+<script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></body></html>

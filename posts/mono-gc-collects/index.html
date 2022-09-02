@@ -1,11 +1,11 @@
-<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Programming,.NET,C#,R,Rider,Mono,GC"><title>Analyzing distribution of Mono GC collections | Andrey Akinshin</title><meta name=description content="Sometimes I want to understand the GC performance impact on an application quickly. I know that there are many powerful diagnostic tools and approaches, bu..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.882998740b9c4c24677576b997bde5a487246e2e3bd72128a0e922eaa59db029.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.50da8736f05b35aac9691de67fe993cbe01b7d88fcf0cb682c3a8f39933fe4a3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.b7c11be17efd31d4852ff062694551596a7625c992103c0605c98f85d6569f11.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>Posts</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/posts/>All Posts</a>
-<a class=dropdown-item href=https://aakinshin.net/tags/statistics/>Posts about Statistics</a>
-<a class=dropdown-item href=https://aakinshin.net/tags/>All Tags</a></div></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Analyzing distribution of Mono GC collections</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2018-02-20>February 20, 2018</time>
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Programming,.NET,C#,R,Rider,Mono,GC"><title>Analyzing distribution of Mono GC collections | Andrey Akinshin</title><meta name=description content="Sometimes I want to understand the GC performance impact on an application quickly. I know that there are many powerful diagnostic tools and approaches, bu..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=https://aakinshin.net/sass/bootstrap-light.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=https://aakinshin.net/sass/bootstrap-dark.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.d7f6578e23ad3f0c33c589f9bcb34f995b45121f1f3ce888869c86b26826c845.js></script>
+<script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.9e68d431432744c07a43381a8a833ffe0921cc0e006d84ad97f0b0d43c5cd82d.mjs></script>
+<link href=https://aakinshin.net/css/fontawesome-all.min.178e95bba6ea2e9a90838cd646658f4bf6667a6ceaa057cb587bf7e6eb8412d3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.7e186db80d8c431d196b3e0718afb0636b82a269a8c92521c11a55267a24fc27.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ZVB6MXSX32")</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-41419012-5")</script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[o]=e[o]||function(){(e[o].a=e[o].a||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym"),ym(28700916,"init",{clickmap:!0,trackLinks:!0,accurateTrackBounce:!0})</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href=# role=button data-bs-toggle=dropdown aria-expanded=false>Blog</a><ul class="dropdown-menu bg-primary"><li><a class=dropdown-item href=https://aakinshin.net/posts/>All Posts</a></li><li><a class=dropdown-item href=https://aakinshin.net/tags/statistics/>Posts about Statistics</a></li><li></li><a class=dropdown-item href=https://aakinshin.net/tags/>All Tags</a></li></ul></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ms-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Analyzing distribution of Mono GC collections</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2018-02-20>February 20, 2018</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i>&nbsp;
+<i class="fas fa-tag"></i>
+&nbsp;
 <a href=https://aakinshin.net/tags/programming/ class="badge badge-info">Programming</a>
 <a href=https://aakinshin.net/tags/dotnet/ class="badge badge-info">.NET</a>
 <a href=https://aakinshin.net/tags/cs/ class="badge badge-info">C#</a>
@@ -20,143 +20,143 @@ to get an overview of the current situation
 (if everything is terrible, I always can switch to an advanced approach).
 Today I want to share with you my favorite way to quickly get statistics
 of GC pauses in Mono and generate nice plots like this:</p><div class=row><div class=mx-auto><a href=/posts/mono-gc-collects/img/plot-64.png target=_blank alt=plot-64><img class="mx-auto d-block img-fluid" width=800 src=/posts/mono-gc-collects/img/plot-64.png></a></div></div><br><h3 id=getting-raw-data>Getting raw data</h3><p>Mono has internal tools for getting brief data about GC events.
-You just should set a few environment variables:</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash><span class=nb>export</span> <span class=nv>MONO_LOG_LEVEL</span><span class=o>=</span>debug
-<span class=nb>export</span> <span class=nv>MONO_LOG_MASK</span><span class=o>=</span>gc
-</code></pre></div><p>As a result, we will get lines like follows in stdout:</p><div class=highlight><pre class=chroma><code class=language-ini data-lang=ini><span class=na>Mono: GC_MINOR: (Nursery full) time 4.29ms, stw 4.51ms promoted 1337K major size: 5456K in use: 4785K los size: 8192K in use: 6821K</span>
-<span class=na>Mono: GC_MINOR: (Nursery full) time 2.55ms, stw 2.88ms promoted 558K major size: 6304K in use: 5528K los size: 8192K in use: 7039K</span>
-<span class=na>Mono: GC_MINOR: (Nursery full) time 6.70ms, stw 7.04ms promoted 2035K major size: 8512K in use: 7715K los size: 9216K in use: 7818K</span>
-<span class=na>Mono: GC_MAJOR: (LOS overflow) time 7.72ms, stw 8.02ms los size: 6144K in use: 2039K</span>
-<span class=na>Mono: GC_MAJOR_SWEEP: major size: 7936K in use: 5779K</span>
-<span class=na>Mono: GC_MINOR: (Nursery full) time 5.18ms, stw 5.43ms promoted 2420K major size: 10352K in use: 8351K los size: 6144K in use: 3150K</span>
-<span class=na>Mono: GC_MINOR: (Nursery full) time 5.81ms, stw 6.14ms promoted 1810K major size: 12192K in use: 10374K los size: 6144K in use: 3167K</span>
-<span class=na>Mono: GC_MINOR: (Nursery full) time 2.87ms, stw 3.21ms promoted 702K major size: 13056K in use: 11235K los size: 6144K in use: 3303K</span>
-<span class=na>Mono: GC_MINOR: (Nursery full) time 4.36ms, stw 4.71ms promoted 1028K major size: 14160K in use: 12374K los size: 6144K in use: 3320K</span>
-<span class=na>Mono: GC_MINOR: (Nursery full) time 3.25ms, stw 3.55ms promoted 708K major size: 14912K in use: 13157K los size: 6144K in use: 3320K</span>
-<span class=na>Mono: GC_MINOR: (Nursery full) time 3.34ms, stw 3.56ms promoted 908K major size: 16032K in use: 14189K los size: 6144K in use: 3447K</span>
-<span class=na>Mono: GC_MINOR: (Nursery full) time 2.77ms, stw 3.02ms promoted 614K major size: 16672K in use: 14894K los size: 6144K in use: 3467K</span>
-<span class=na>Mono: GC_MINOR: (Nursery full) time 5.00ms, stw 5.40ms promoted 918K major size: 17664K in use: 15878K los size: 6144K in use: 3549K</span>
-<span class=na>Mono: GC_MINOR: (Nursery full) time 4.01ms, stw 4.27ms promoted 1728K major size: 19584K in use: 17733K los size: 6144K in use: 3614K</span>
-<span class=na>Mono: GC_MINOR: (Nursery full) time 4.60ms, stw 4.84ms promoted 3514K major size: 23440K in use: 21511K los size: 6144K in use: 3655K</span>
-<span class=na>Mono: GC_MAJOR: (LOS overflow) time 18.97ms, stw 19.27ms los size: 6144K in use: 2346K</span>
-<span class=na>Mono: GC_MAJOR_SWEEP: major size: 25664K in use: 22669K</span>
-<span class=na>Mono: GC_MINOR: (Nursery full) time 3.88ms, stw 4.13ms promoted 1912K major size: 27472K in use: 24707K los size: 6144K in use: 2675K</span>
-<span class=na>Mono: GC_MINOR: (Nursery full) time 3.82ms, stw 4.14ms promoted 980K major size: 28448K in use: 25788K los size: 6144K in use: 3372K</span>
-<span class=na>Mono: GC_MINOR: (Nursery full) time 2.98ms, stw 3.24ms promoted 617K major size: 29040K in use: 26448K los size: 6144K in use: 3434K</span>
-</code></pre></div><p>Here we can find a lot of interesting information.
+You just should set a few environment variables:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=nb>export</span> <span class=nv>MONO_LOG_LEVEL</span><span class=o>=</span>debug
+</span></span><span class=line><span class=cl><span class=nb>export</span> <span class=nv>MONO_LOG_MASK</span><span class=o>=</span>gc
+</span></span></code></pre></div><p>As a result, we will get lines like follows in stdout:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-ini data-lang=ini><span class=line><span class=cl><span class=na>Mono: GC_MINOR: (Nursery full) time 4.29ms, stw 4.51ms promoted 1337K major size: 5456K in use: 4785K los size: 8192K in use: 6821K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MINOR: (Nursery full) time 2.55ms, stw 2.88ms promoted 558K major size: 6304K in use: 5528K los size: 8192K in use: 7039K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MINOR: (Nursery full) time 6.70ms, stw 7.04ms promoted 2035K major size: 8512K in use: 7715K los size: 9216K in use: 7818K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MAJOR: (LOS overflow) time 7.72ms, stw 8.02ms los size: 6144K in use: 2039K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MAJOR_SWEEP: major size: 7936K in use: 5779K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MINOR: (Nursery full) time 5.18ms, stw 5.43ms promoted 2420K major size: 10352K in use: 8351K los size: 6144K in use: 3150K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MINOR: (Nursery full) time 5.81ms, stw 6.14ms promoted 1810K major size: 12192K in use: 10374K los size: 6144K in use: 3167K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MINOR: (Nursery full) time 2.87ms, stw 3.21ms promoted 702K major size: 13056K in use: 11235K los size: 6144K in use: 3303K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MINOR: (Nursery full) time 4.36ms, stw 4.71ms promoted 1028K major size: 14160K in use: 12374K los size: 6144K in use: 3320K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MINOR: (Nursery full) time 3.25ms, stw 3.55ms promoted 708K major size: 14912K in use: 13157K los size: 6144K in use: 3320K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MINOR: (Nursery full) time 3.34ms, stw 3.56ms promoted 908K major size: 16032K in use: 14189K los size: 6144K in use: 3447K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MINOR: (Nursery full) time 2.77ms, stw 3.02ms promoted 614K major size: 16672K in use: 14894K los size: 6144K in use: 3467K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MINOR: (Nursery full) time 5.00ms, stw 5.40ms promoted 918K major size: 17664K in use: 15878K los size: 6144K in use: 3549K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MINOR: (Nursery full) time 4.01ms, stw 4.27ms promoted 1728K major size: 19584K in use: 17733K los size: 6144K in use: 3614K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MINOR: (Nursery full) time 4.60ms, stw 4.84ms promoted 3514K major size: 23440K in use: 21511K los size: 6144K in use: 3655K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MAJOR: (LOS overflow) time 18.97ms, stw 19.27ms los size: 6144K in use: 2346K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MAJOR_SWEEP: major size: 25664K in use: 22669K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MINOR: (Nursery full) time 3.88ms, stw 4.13ms promoted 1912K major size: 27472K in use: 24707K los size: 6144K in use: 2675K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MINOR: (Nursery full) time 3.82ms, stw 4.14ms promoted 980K major size: 28448K in use: 25788K los size: 6144K in use: 3372K</span>
+</span></span><span class=line><span class=cl><span class=na>Mono: GC_MINOR: (Nursery full) time 2.98ms, stw 3.24ms promoted 617K major size: 29040K in use: 26448K los size: 6144K in use: 3434K</span>
+</span></span></code></pre></div><p>Here we can find a lot of interesting information.
 However, it&rsquo;s raw data, and it&rsquo;s not easy to manually process such logs
 (especially if you have hundreds of lines).
 Let&rsquo;s parse it and aggregate the most important data about GC pauses.</p><h3 id=the-script>The script</h3><p>I use the following simple regular expression for capturing most interesting lines: <code>^Mono: GC_(.{5}).*time ([0-9\\.]*)ms</code>
 (you can find an online version
 <a href=https://regex101.com/r/wovoAs/1>here</a> and
 <a href=https://regexper.com/#%5EMono%3A%20GC_(.%7B5%7D).*time%20(%5B0-9%5C%5C.%5D*)ms>here</a>).</p><div class=row><div class=mx-auto><a href=/posts/mono-gc-collects/img/regex.png target=_blank alt=regex><img class="mx-auto d-block img-fluid" width=800 src=/posts/mono-gc-collects/img/regex.png></a></div></div><br><p>Usually, I use R for simple statistics/plotting tasks.
-Here is my script for processing such logs (assuming that we have the full log in <code>output.txt</code>):</p><div class=highlight><pre class=chroma><code class=language-r data-lang=r><span class=nf>library</span><span class=p>(</span><span class=n>ggplot2</span><span class=p>);</span><span class=nf>library</span><span class=p>(</span><span class=n>dplyr</span><span class=p>);</span><span class=nf>library</span><span class=p>(</span><span class=n>stringr</span><span class=p>)</span>
-
-<span class=n>lines</span> <span class=o>&lt;-</span> <span class=nf>readLines</span><span class=p>(</span><span class=s>&#34;output.txt&#34;</span><span class=p>)</span>
-<span class=n>df</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>(</span><span class=nf>str_match</span><span class=p>(</span><span class=n>lines</span><span class=p>,</span> <span class=s>&#34;^Mono: GC_(.{5}).*time ([0-9\\.]*)ms&#34;</span><span class=p>))</span><span class=n>[</span><span class=p>,</span><span class=m>2</span><span class=o>:</span><span class=m>3</span><span class=n>]</span>
-<span class=nf>colnames</span><span class=p>(</span><span class=n>df</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>c</span><span class=p>(</span><span class=s>&#34;type&#34;</span><span class=p>,</span> <span class=s>&#34;time&#34;</span><span class=p>)</span>
-<span class=n>df</span><span class=o>$</span><span class=n>time</span> <span class=o>&lt;-</span> <span class=nf>as.double</span><span class=p>(</span><span class=nf>as.character</span><span class=p>(</span><span class=n>df</span><span class=o>$</span><span class=n>time</span><span class=p>))</span>
-<span class=n>df</span> <span class=o>&lt;-</span> <span class=n>df</span> <span class=o>%&gt;%</span> <span class=nf>filter</span><span class=p>(</span><span class=n>type</span> <span class=o>!=</span> <span class=s>&#34;NA&#34;</span><span class=p>)</span>
-
-<span class=nf>ggplot</span><span class=p>(</span><span class=n>df</span><span class=p>,</span> <span class=nf>aes</span><span class=p>(</span><span class=n>x</span><span class=o>=</span><span class=n>time</span><span class=p>,</span> <span class=n>color</span><span class=o>=</span><span class=n>type</span><span class=p>))</span> <span class=o>+</span> 
-  <span class=nf>geom_histogram</span><span class=p>()</span> <span class=o>+</span>
-  <span class=nf>facet_grid</span><span class=p>(</span><span class=n>.~type</span><span class=p>,</span> <span class=n>scales</span> <span class=o>=</span> <span class=s>&#34;free&#34;</span><span class=p>)</span>
-<span class=nf>ggsave</span><span class=p>(</span><span class=s>&#34;plot.png&#34;</span><span class=p>)</span>
-
-<span class=nf>summary</span><span class=p>(</span><span class=n>df</span> <span class=o>%&gt;%</span> <span class=nf>filter</span><span class=p>(</span><span class=n>type</span> <span class=o>==</span> <span class=s>&#34;MINOR&#34;</span><span class=p>))</span>
-<span class=nf>summary</span><span class=p>(</span><span class=n>df</span> <span class=o>%&gt;%</span> <span class=nf>filter</span><span class=p>(</span><span class=n>type</span> <span class=o>==</span> <span class=s>&#34;MAJOR&#34;</span><span class=p>))</span>
-</code></pre></div><h3 id=case-study>Case study</h3><p>Once, I decided to play with the <code>nursery-size</code> value in <a href=https://www.jetbrains.com/rider/>Rider</a>.
+Here is my script for processing such logs (assuming that we have the full log in <code>output.txt</code>):</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=nf>library</span><span class=p>(</span><span class=n>ggplot2</span><span class=p>);</span><span class=nf>library</span><span class=p>(</span><span class=n>dplyr</span><span class=p>);</span><span class=nf>library</span><span class=p>(</span><span class=n>stringr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>lines</span> <span class=o>&lt;-</span> <span class=nf>readLines</span><span class=p>(</span><span class=s>&#34;output.txt&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>df</span> <span class=o>&lt;-</span> <span class=nf>data.frame</span><span class=p>(</span><span class=nf>str_match</span><span class=p>(</span><span class=n>lines</span><span class=p>,</span> <span class=s>&#34;^Mono: GC_(.{5}).*time ([0-9\\.]*)ms&#34;</span><span class=p>))</span><span class=n>[</span><span class=p>,</span><span class=m>2</span><span class=o>:</span><span class=m>3</span><span class=n>]</span>
+</span></span><span class=line><span class=cl><span class=nf>colnames</span><span class=p>(</span><span class=n>df</span><span class=p>)</span> <span class=o>&lt;-</span> <span class=nf>c</span><span class=p>(</span><span class=s>&#34;type&#34;</span><span class=p>,</span> <span class=s>&#34;time&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>df</span><span class=o>$</span><span class=n>time</span> <span class=o>&lt;-</span> <span class=nf>as.double</span><span class=p>(</span><span class=nf>as.character</span><span class=p>(</span><span class=n>df</span><span class=o>$</span><span class=n>time</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>df</span> <span class=o>&lt;-</span> <span class=n>df</span> <span class=o>%&gt;%</span> <span class=nf>filter</span><span class=p>(</span><span class=n>type</span> <span class=o>!=</span> <span class=s>&#34;NA&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nf>ggplot</span><span class=p>(</span><span class=n>df</span><span class=p>,</span> <span class=nf>aes</span><span class=p>(</span><span class=n>x</span><span class=o>=</span><span class=n>time</span><span class=p>,</span> <span class=n>color</span><span class=o>=</span><span class=n>type</span><span class=p>))</span> <span class=o>+</span> 
+</span></span><span class=line><span class=cl>  <span class=nf>geom_histogram</span><span class=p>()</span> <span class=o>+</span>
+</span></span><span class=line><span class=cl>  <span class=nf>facet_grid</span><span class=p>(</span><span class=n>.~type</span><span class=p>,</span> <span class=n>scales</span> <span class=o>=</span> <span class=s>&#34;free&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nf>ggsave</span><span class=p>(</span><span class=s>&#34;plot.png&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nf>summary</span><span class=p>(</span><span class=n>df</span> <span class=o>%&gt;%</span> <span class=nf>filter</span><span class=p>(</span><span class=n>type</span> <span class=o>==</span> <span class=s>&#34;MINOR&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=nf>summary</span><span class=p>(</span><span class=n>df</span> <span class=o>%&gt;%</span> <span class=nf>filter</span><span class=p>(</span><span class=n>type</span> <span class=o>==</span> <span class=s>&#34;MAJOR&#34;</span><span class=p>))</span>
+</span></span></code></pre></div><h3 id=case-study>Case study</h3><p>Once, I decided to play with the <code>nursery-size</code> value in <a href=https://www.jetbrains.com/rider/>Rider</a>.
 The default value is <code>4 MB</code>, but it&rsquo;s not the optimal value for Rider.
-Let&rsquo;s open a simple solution in Rider and look at the statistics.</p><h4 id=nursery-size4m>nursery-size=4m</h4><div class=row><div class=mx-auto><a href=/posts/mono-gc-collects/img/plot-4.png target=_blank alt=plot-4><img class="mx-auto d-block img-fluid" width=800 src=/posts/mono-gc-collects/img/plot-4.png></a></div></div><br><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>&gt; summary<span class=o>(</span>df %&gt;% filter<span class=o>(</span><span class=nb>type</span> <span class=o>==</span> <span class=s2>&#34;MINOR&#34;</span><span class=o>))</span>
-    <span class=nb>type</span>           <span class=nb>time</span>       
- MAJOR:   <span class=m>0</span>   Min.   : 0.320  
- MINOR:2029   1st Qu.: 6.990  
-              Median : 8.670  
-              Mean   : 8.664  
-              3rd Qu.: 9.910  
-              Max.   :84.190  
-
-&gt; summary<span class=o>(</span>df %&gt;% filter<span class=o>(</span><span class=nb>type</span> <span class=o>==</span> <span class=s2>&#34;MAJOR&#34;</span><span class=o>))</span>
-    <span class=nb>type</span>         <span class=nb>time</span>        
- MAJOR:20   Min.   :  68.16  
- MINOR: <span class=m>0</span>   1st Qu.: 168.90  
-            Median : 237.40  
-            Mean   : 339.33  
-            3rd Qu.: 402.62  
-            Max.   :1068.22 
-</code></pre></div><h4 id=nursery-size64m>nursery-size=64m</h4><div class=row><div class=mx-auto><a href=/posts/mono-gc-collects/img/plot-64.png target=_blank alt=plot-64><img class="mx-auto d-block img-fluid" width=800 src=/posts/mono-gc-collects/img/plot-64.png></a></div></div><br><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>&gt; summary<span class=o>(</span>df %&gt;% filter<span class=o>(</span><span class=nb>type</span> <span class=o>==</span> <span class=s2>&#34;MINOR&#34;</span><span class=o>))</span>
-    <span class=nb>type</span>          <span class=nb>time</span>       
- MAJOR:  <span class=m>0</span>   Min.   :  3.42  
- MINOR:273   1st Qu.: 11.72  
-             Median : 15.01  
-             Mean   : 22.72  
-             3rd Qu.: 20.79  
-             Max.   :379.26  
-
-&gt; summary<span class=o>(</span>df %&gt;% filter<span class=o>(</span><span class=nb>type</span> <span class=o>==</span> <span class=s2>&#34;MAJOR&#34;</span><span class=o>))</span>
-    <span class=nb>type</span>         <span class=nb>time</span>        
- MAJOR:18   Min.   :  22.94  
- MINOR: <span class=m>0</span>   1st Qu.: 176.00  
-            Median : 317.68  
-            Mean   : 397.17  
-            3rd Qu.: 567.48  
-            Max.   :1052.87  
-</code></pre></div><p>The average time of <code>GC_MINOR</code> is bigger for <code>64 M</code> (<code>22.72ms</code> vs. <code>8.664ms</code>),
+Let&rsquo;s open a simple solution in Rider and look at the statistics.</p><h4 id=nursery-size4m>nursery-size=4m</h4><div class=row><div class=mx-auto><a href=/posts/mono-gc-collects/img/plot-4.png target=_blank alt=plot-4><img class="mx-auto d-block img-fluid" width=800 src=/posts/mono-gc-collects/img/plot-4.png></a></div></div><br><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; summary<span class=o>(</span>df %&gt;% filter<span class=o>(</span><span class=nb>type</span> <span class=o>==</span> <span class=s2>&#34;MINOR&#34;</span><span class=o>))</span>
+</span></span><span class=line><span class=cl>    <span class=nb>type</span>           <span class=nb>time</span>       
+</span></span><span class=line><span class=cl> MAJOR:   <span class=m>0</span>   Min.   : 0.320  
+</span></span><span class=line><span class=cl> MINOR:2029   1st Qu.: 6.990  
+</span></span><span class=line><span class=cl>              Median : 8.670  
+</span></span><span class=line><span class=cl>              Mean   : 8.664  
+</span></span><span class=line><span class=cl>              3rd Qu.: 9.910  
+</span></span><span class=line><span class=cl>              Max.   :84.190  
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; summary<span class=o>(</span>df %&gt;% filter<span class=o>(</span><span class=nb>type</span> <span class=o>==</span> <span class=s2>&#34;MAJOR&#34;</span><span class=o>))</span>
+</span></span><span class=line><span class=cl>    <span class=nb>type</span>         <span class=nb>time</span>        
+</span></span><span class=line><span class=cl> MAJOR:20   Min.   :  68.16  
+</span></span><span class=line><span class=cl> MINOR: <span class=m>0</span>   1st Qu.: 168.90  
+</span></span><span class=line><span class=cl>            Median : 237.40  
+</span></span><span class=line><span class=cl>            Mean   : 339.33  
+</span></span><span class=line><span class=cl>            3rd Qu.: 402.62  
+</span></span><span class=line><span class=cl>            Max.   :1068.22 
+</span></span></code></pre></div><h4 id=nursery-size64m>nursery-size=64m</h4><div class=row><div class=mx-auto><a href=/posts/mono-gc-collects/img/plot-64.png target=_blank alt=plot-64><img class="mx-auto d-block img-fluid" width=800 src=/posts/mono-gc-collects/img/plot-64.png></a></div></div><br><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>&gt; summary<span class=o>(</span>df %&gt;% filter<span class=o>(</span><span class=nb>type</span> <span class=o>==</span> <span class=s2>&#34;MINOR&#34;</span><span class=o>))</span>
+</span></span><span class=line><span class=cl>    <span class=nb>type</span>          <span class=nb>time</span>       
+</span></span><span class=line><span class=cl> MAJOR:  <span class=m>0</span>   Min.   :  3.42  
+</span></span><span class=line><span class=cl> MINOR:273   1st Qu.: 11.72  
+</span></span><span class=line><span class=cl>             Median : 15.01  
+</span></span><span class=line><span class=cl>             Mean   : 22.72  
+</span></span><span class=line><span class=cl>             3rd Qu.: 20.79  
+</span></span><span class=line><span class=cl>             Max.   :379.26  
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&gt; summary<span class=o>(</span>df %&gt;% filter<span class=o>(</span><span class=nb>type</span> <span class=o>==</span> <span class=s2>&#34;MAJOR&#34;</span><span class=o>))</span>
+</span></span><span class=line><span class=cl>    <span class=nb>type</span>         <span class=nb>time</span>        
+</span></span><span class=line><span class=cl> MAJOR:18   Min.   :  22.94  
+</span></span><span class=line><span class=cl> MINOR: <span class=m>0</span>   1st Qu.: 176.00  
+</span></span><span class=line><span class=cl>            Median : 317.68  
+</span></span><span class=line><span class=cl>            Mean   : 397.17  
+</span></span><span class=line><span class=cl>            3rd Qu.: 567.48  
+</span></span><span class=line><span class=cl>            Max.   :1052.87  
+</span></span></code></pre></div><p>The average time of <code>GC_MINOR</code> is bigger for <code>64 M</code> (<code>22.72ms</code> vs. <code>8.664ms</code>),
 but the amount of <code>GC_MINOR</code> collections is <code>273</code> instead of <code>2029</code>!</p><h4 id=performance-impact>Performance impact</h4><p>Does it really affect the performance?
 Let&rsquo;s find out!
 I checked a subset of the Rider solution (212 projects) on Ubuntu 16.04.
 I measured the startup time
 (the time before solution is fully loaded include the full product initialization).
 I have analyzed the full distributions, but let&rsquo;s look only at average numbers for simplification.
-The results:</p><div class=highlight><pre class=chroma><code class=language-ini data-lang=ini><span class=na>Mono 4.8</span>
-<span class=na>nursery-size</span><span class=o>=</span><span class=s>4m      -&gt; Time = ~75sec</span>
-<span class=na>nursery-size</span><span class=o>=</span><span class=s>64m     -&gt; Time = ~47sec</span>
-
-<span class=na>Mono 5.2</span>
-<span class=na>nursery-size</span><span class=o>=</span><span class=s>4m      -&gt; Time = ~95sec</span>
-<span class=na>nursery-size</span><span class=o>=</span><span class=s>64m     -&gt; Time = ~40sec</span>
-</code></pre></div><p>After many additional checks on different solutions,
+The results:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-ini data-lang=ini><span class=line><span class=cl><span class=na>Mono 4.8</span>
+</span></span><span class=line><span class=cl><span class=na>nursery-size</span><span class=o>=</span><span class=s>4m      -&gt; Time = ~75sec</span>
+</span></span><span class=line><span class=cl><span class=na>nursery-size</span><span class=o>=</span><span class=s>64m     -&gt; Time = ~47sec</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=na>Mono 5.2</span>
+</span></span><span class=line><span class=cl><span class=na>nursery-size</span><span class=o>=</span><span class=s>4m      -&gt; Time = ~95sec</span>
+</span></span><span class=line><span class=cl><span class=na>nursery-size</span><span class=o>=</span><span class=s>64m     -&gt; Time = ~40sec</span>
+</span></span></code></pre></div><p>After many additional checks on different solutions,
 the nursery size was changed to <code>64 MB</code> in Rider 2017.2,
 it improved the startup experience for Linux and macOS users on huge solutions.</p><h3 id=default-way-to-get-statistics>Default way to get statistics</h3><p>You can also run mono with the <code>--stats</code> arguments and get a lot of useful information includes a report about GC.
-It looks like follows:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>GC statistics
-Collection max time                 : 79.32 ms
-Minor fragment clear                : 0.01 ms
-Minor pinning                       : 6.78 ms
-Minor scan remembered set           : 124.51 ms
-Minor scan major blocks             : 47.46 ms
-Minor scan los                      : 67.16 ms
-Minor scan pinned                   : 0.01 ms
-Minor scan roots                    : 14.70 ms
-Minor fragment creation             : 1.38 ms
-Major fragment clear                : 0.12 ms
-Major pinning                       : 12.85 ms
-Major scan pinned                   : 0.01 ms
-Major scan roots                    : 128.16 ms
-Major scan mod union blocks         : 48.61 ms
-Major scan mod union los            : 4.63 ms
-Major finish gray stack             : 190.74 ms
-Major free big objects              : 0.00 ms
-Major LOS sweep                     : 6.57 ms
-Major sweep                         : 0.08 ms
-Major fragment creation             : 0.56 ms
-Number of pinned objects            : 11933
-World stop                          : 7.60 ms
-World restart                       : 2.77 ms
-# major blocks allocated            : 9952
-# major blocks freed                : 6202
-# major blocks lazy swept           : 11
-# major blocks freed ideally        : 2528
-# major blocks freed less ideally   : 3674
-# major blocks freed individually   : 0
-# major blocks allocated less ideally: 0
-# workers finished                  : 14
-Memgov alloc                        : 190944712
-Memgov max alloc                    : 318818244
-Minor GC collections                : 14
-Major GC collections                : 10
-Minor GC time                       : 420.70 ms
-Major GC time                       : 434.76 ms
-Major GC time concurrent            : 757.94 ms
-</code></pre></div><p>It&rsquo;s also a very useful trick, but I prefer to look at the distribution,
+It looks like follows:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>GC statistics
+</span></span><span class=line><span class=cl>Collection max time                 : 79.32 ms
+</span></span><span class=line><span class=cl>Minor fragment clear                : 0.01 ms
+</span></span><span class=line><span class=cl>Minor pinning                       : 6.78 ms
+</span></span><span class=line><span class=cl>Minor scan remembered set           : 124.51 ms
+</span></span><span class=line><span class=cl>Minor scan major blocks             : 47.46 ms
+</span></span><span class=line><span class=cl>Minor scan los                      : 67.16 ms
+</span></span><span class=line><span class=cl>Minor scan pinned                   : 0.01 ms
+</span></span><span class=line><span class=cl>Minor scan roots                    : 14.70 ms
+</span></span><span class=line><span class=cl>Minor fragment creation             : 1.38 ms
+</span></span><span class=line><span class=cl>Major fragment clear                : 0.12 ms
+</span></span><span class=line><span class=cl>Major pinning                       : 12.85 ms
+</span></span><span class=line><span class=cl>Major scan pinned                   : 0.01 ms
+</span></span><span class=line><span class=cl>Major scan roots                    : 128.16 ms
+</span></span><span class=line><span class=cl>Major scan mod union blocks         : 48.61 ms
+</span></span><span class=line><span class=cl>Major scan mod union los            : 4.63 ms
+</span></span><span class=line><span class=cl>Major finish gray stack             : 190.74 ms
+</span></span><span class=line><span class=cl>Major free big objects              : 0.00 ms
+</span></span><span class=line><span class=cl>Major LOS sweep                     : 6.57 ms
+</span></span><span class=line><span class=cl>Major sweep                         : 0.08 ms
+</span></span><span class=line><span class=cl>Major fragment creation             : 0.56 ms
+</span></span><span class=line><span class=cl>Number of pinned objects            : 11933
+</span></span><span class=line><span class=cl>World stop                          : 7.60 ms
+</span></span><span class=line><span class=cl>World restart                       : 2.77 ms
+</span></span><span class=line><span class=cl># major blocks allocated            : 9952
+</span></span><span class=line><span class=cl># major blocks freed                : 6202
+</span></span><span class=line><span class=cl># major blocks lazy swept           : 11
+</span></span><span class=line><span class=cl># major blocks freed ideally        : 2528
+</span></span><span class=line><span class=cl># major blocks freed less ideally   : 3674
+</span></span><span class=line><span class=cl># major blocks freed individually   : 0
+</span></span><span class=line><span class=cl># major blocks allocated less ideally: 0
+</span></span><span class=line><span class=cl># workers finished                  : 14
+</span></span><span class=line><span class=cl>Memgov alloc                        : 190944712
+</span></span><span class=line><span class=cl>Memgov max alloc                    : 318818244
+</span></span><span class=line><span class=cl>Minor GC collections                : 14
+</span></span><span class=line><span class=cl>Major GC collections                : 10
+</span></span><span class=line><span class=cl>Minor GC time                       : 420.70 ms
+</span></span><span class=line><span class=cl>Major GC time                       : 434.76 ms
+</span></span><span class=line><span class=cl>Major GC time concurrent            : 757.94 ms
+</span></span></code></pre></div><p>It&rsquo;s also a very useful trick, but I prefer to look at the distribution,
 so I typically collect full information about all GC collections.</p><h3 id=conclusion>Conclusion</h3><p>When you start a performance investigation,
 you don&rsquo;t know the current runtime characteristics in advance.
 These characteristics can be useful for initial hypotheses.
@@ -171,7 +171,13 @@ the default <a href=http://www.mono-project.com/docs/debug+profile/profile/profi
 you need only ten seconds for the setup and
 you can run it on a customer computer without additional tools.
 Data can be processed with a small R script which can be easily modified
-if you want to calculate some advanced statistics.</p><br><br><div class=row><div class="mx-auto share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fmono-gc-collects%2f&title=Analyzing%20distribution%20of%20Mono%20GC%20collections" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Analyzing%20distribution%20of%20Mono%20GC%20collections&url=https%3a%2f%2faakinshin.net%2fposts%2fmono-gc-collects%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fmono-gc-collects%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fmono-gc-collects%2f&title=Analyzing%20distribution%20of%20Mono%20GC%20collections" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
+if you want to calculate some advanced statistics.</p><br><br><div class=row><div class="justify-content-center share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fmono-gc-collects%2f&title=Analyzing%20distribution%20of%20Mono%20GC%20collections" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Analyzing%20distribution%20of%20Mono%20GC%20collections&url=https%3a%2f%2faakinshin.net%2fposts%2fmono-gc-collects%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fmono-gc-collects%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fmono-gc-collects%2f&title=Analyzing%20distribution%20of%20Mono%20GC%20collections" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
 |
-<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a><a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a><a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>|
-<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.082780cb948cc57eabbc0d80172a7a5347d5572b599938b4c9876dfd7978b424.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>
+<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a>
+<a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a>
+<a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>
+|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.c26550621ac13c2221d7f6f5e6fe862345d3919723c50d730893e3e4856ecf35.js></script>
+<script src=/js/bootstrap.bundle.min.js></script>
+<script src=/js/anchor.min.js></script>
+<script src=https://aakinshin.net/js/custom.min.f6e5d13fe39f305056cc743ee4cb8d117c1aba26176e58c82c79a480d02fe4b7.js></script></body></html>

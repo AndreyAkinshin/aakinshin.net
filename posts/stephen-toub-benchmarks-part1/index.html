@@ -1,11 +1,11 @@
-<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Programming,.NET,C#,BenchmarkDotNet,Benchmarks,CoreCLR"><title>Measuring Performance Improvements in .NET Core with BenchmarkDotNet (Part 1) | Andrey Akinshin</title><meta name=description content="A few days ago Stephen Toub published a great post at the Microsoft .NET Blog: Performance Improvements in .NET Core. He showed some significant performanc..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.882998740b9c4c24677576b997bde5a487246e2e3bd72128a0e922eaa59db029.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.50da8736f05b35aac9691de67fe993cbe01b7d88fcf0cb682c3a8f39933fe4a3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.b7c11be17efd31d4852ff062694551596a7625c992103c0605c98f85d6569f11.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>Posts</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/posts/>All Posts</a>
-<a class=dropdown-item href=https://aakinshin.net/tags/statistics/>Posts about Statistics</a>
-<a class=dropdown-item href=https://aakinshin.net/tags/>All Tags</a></div></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Measuring Performance Improvements in .NET Core with BenchmarkDotNet (Part 1)</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2017-06-09>June 9, 2017</time>
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Programming,.NET,C#,BenchmarkDotNet,Benchmarks,CoreCLR"><title>Measuring Performance Improvements in .NET Core with BenchmarkDotNet (Part 1) | Andrey Akinshin</title><meta name=description content="A few days ago Stephen Toub published a great post at the Microsoft .NET Blog: Performance Improvements in .NET Core. He showed some significant performanc..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=https://aakinshin.net/sass/bootstrap-light.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=https://aakinshin.net/sass/bootstrap-dark.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.d7f6578e23ad3f0c33c589f9bcb34f995b45121f1f3ce888869c86b26826c845.js></script>
+<script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.9e68d431432744c07a43381a8a833ffe0921cc0e006d84ad97f0b0d43c5cd82d.mjs></script>
+<link href=https://aakinshin.net/css/fontawesome-all.min.178e95bba6ea2e9a90838cd646658f4bf6667a6ceaa057cb587bf7e6eb8412d3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.7e186db80d8c431d196b3e0718afb0636b82a269a8c92521c11a55267a24fc27.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ZVB6MXSX32")</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-41419012-5")</script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[o]=e[o]||function(){(e[o].a=e[o].a||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym"),ym(28700916,"init",{clickmap:!0,trackLinks:!0,accurateTrackBounce:!0})</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href=# role=button data-bs-toggle=dropdown aria-expanded=false>Blog</a><ul class="dropdown-menu bg-primary"><li><a class=dropdown-item href=https://aakinshin.net/posts/>All Posts</a></li><li><a class=dropdown-item href=https://aakinshin.net/tags/statistics/>Posts about Statistics</a></li><li></li><a class=dropdown-item href=https://aakinshin.net/tags/>All Tags</a></li></ul></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ms-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Measuring Performance Improvements in .NET Core with BenchmarkDotNet (Part 1)</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2017-06-09>June 9, 2017</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i>&nbsp;
+<i class="fas fa-tag"></i>
+&nbsp;
 <a href=https://aakinshin.net/tags/programming/ class="badge badge-info">Programming</a>
 <a href=https://aakinshin.net/tags/dotnet/ class="badge badge-info">.NET</a>
 <a href=https://aakinshin.net/tags/cs/ class="badge badge-info">C#</a>
@@ -94,29 +94,29 @@ Of course, you can be lucky and avoid all these problems without the corresponde
 But again: how can you be sure?</p><h4 id=environments>Environments</h4><p>In the original post, Stephen compare <code>.NET Core 2.0 Preview 1</code> and <code>.NET Framework 4.7</code> (with <code>RyuJIT-x64</code>).
 I believe that he ran each benchmark twice: on each runtime.
 BenchmarkDotNet has special objects — <a href=http://benchmarkdotnet.org/Configs/Jobs.htm>Jobs</a> which help you to compare several environments at once.
-Basically, you can define a config for your benchmark:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>class</span> <span class=nc>MyConfig</span> <span class=p>:</span> <span class=n>ManualConfig</span>
-<span class=p>{</span>
-  <span class=k>public</span> <span class=n>MyConfig</span><span class=p>()</span>
-  <span class=p>{</span>
-    <span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Clr</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Jit</span><span class=p>.</span><span class=n>RyuJit</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Platform</span><span class=p>.</span><span class=n>X64</span><span class=p>));</span>
-    <span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Core</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>CsProjCoreToolchain</span><span class=p>.</span><span class=n>NetCoreApp20</span><span class=p>));</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><p><code>RyuJIT-x64</code> is not the only JIT in the full .NET Framework.
+Basically, you can define a config for your benchmark:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>MyConfig</span> <span class=p>:</span> <span class=n>ManualConfig</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=n>MyConfig</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Clr</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Jit</span><span class=p>.</span><span class=n>RyuJit</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Platform</span><span class=p>.</span><span class=n>X64</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Core</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>CsProjCoreToolchain</span><span class=p>.</span><span class=n>NetCoreApp20</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p><code>RyuJIT-x64</code> is not the only JIT in the full .NET Framework.
 Some people still use <code>LegacyJIT-x64</code> (because not all of the enterprise companies are ready for switching to a new JIT-compiler without a detailed performance research).
 If you develop <code>x86</code> application, you use <code>LegacyJIT-x86</code>.
-In BenchmarkDotNet, you can just add a few additional jobs:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Clr</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Jit</span><span class=p>.</span><span class=n>LegacyJit</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Platform</span><span class=p>.</span><span class=n>X64</span><span class=p>));</span>
-<span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Clr</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Jit</span><span class=p>.</span><span class=n>LegacyJit</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Platform</span><span class=p>.</span><span class=n>X86</span><span class=p>));</span>
-</code></pre></div><p>Also it would be nice to check the <a href=http://www.mono-project.com/>mono</a> performance:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Mono</span><span class=p>));</span>
-</code></pre></div><p>Wait!
+In BenchmarkDotNet, you can just add a few additional jobs:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Clr</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Jit</span><span class=p>.</span><span class=n>LegacyJit</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Platform</span><span class=p>.</span><span class=n>X64</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Clr</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Jit</span><span class=p>.</span><span class=n>LegacyJit</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Platform</span><span class=p>.</span><span class=n>X86</span><span class=p>));</span>
+</span></span></code></pre></div><p>Also it would be nice to check the <a href=http://www.mono-project.com/>mono</a> performance:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Mono</span><span class=p>));</span>
+</span></span></code></pre></div><p>Wait!
 I have two different mono on my Windows machine: <code>x86</code> and <code>x64</code>.
 I want to check both versions!
 How can I do it?
-Easy peasy:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=k>new</span> <span class=n>MonoRuntime</span><span class=p>(</span><span class=s>&#34;Mono_x64&#34;</span><span class=p>,</span> <span class=s>@&#34;C:\Program Files\Mono\bin\mono.exe&#34;</span><span class=p>)));</span>
-<span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=k>new</span> <span class=n>MonoRuntime</span><span class=p>(</span><span class=s>&#34;Mono_x86&#34;</span><span class=p>,</span> <span class=s>@&#34;C:\Program Files (x86)\Mono\bin\mono.exe&#34;</span><span class=p>)));</span>
-</code></pre></div><p>Also I want to compare <code>.NET Core 2.0 Preview 1</code> with <code>.NET Core 1.1</code>:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Core</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>CsProjCoreToolchain</span><span class=p>.</span><span class=n>NetCoreApp11</span><span class=p>));</span>
-<span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Core</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>CsProjCoreToolchain</span><span class=p>.</span><span class=n>NetCoreApp20</span><span class=p>));</span>
-</code></pre></div><p>There are a huge amount of different environments.
+Easy peasy:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=k>new</span> <span class=n>MonoRuntime</span><span class=p>(</span><span class=s>&#34;Mono_x64&#34;</span><span class=p>,</span> <span class=s>@&#34;C:\Program Files\Mono\bin\mono.exe&#34;</span><span class=p>)));</span>
+</span></span><span class=line><span class=cl><span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=k>new</span> <span class=n>MonoRuntime</span><span class=p>(</span><span class=s>&#34;Mono_x86&#34;</span><span class=p>,</span> <span class=s>@&#34;C:\Program Files (x86)\Mono\bin\mono.exe&#34;</span><span class=p>)));</span>
+</span></span></code></pre></div><p>Also I want to compare <code>.NET Core 2.0 Preview 1</code> with <code>.NET Core 1.1</code>:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Core</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>CsProjCoreToolchain</span><span class=p>.</span><span class=n>NetCoreApp11</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Core</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>CsProjCoreToolchain</span><span class=p>.</span><span class=n>NetCoreApp20</span><span class=p>));</span>
+</span></span></code></pre></div><p>There are a huge amount of different environments.
 You can&rsquo;t make any conclusion about C# performance based only on a single runtime
 (remember that C# is just a language, it&rsquo;s an abstraction; it hasn&rsquo;t such property as &ldquo;performance&rdquo;; &ldquo;performance&rdquo; is a property of a runtime.)
 If you want to get the results which you can apply, you have to check different configurations.
@@ -124,17 +124,17 @@ BenchmarkDotNet also helps you to check a lot of additional things like
 GC settings (Server/Workstation, On/Off concurrent GC, and so on) and
 benchmark mode parameters (e.g. you can automatically throw away all the outliers or include them in the final results).</p><p>The main important fact here: you can define a config once and use it everywhere.
 You can get the summary table with all results by a single click:
-you shouldn&rsquo;t manually run the program in all environment after each change.</p><h4 id=automation-and-analysis>Automation and analysis</h4><p>BenchmarkDotNet has a lot of additional tools for performance engineers.</p><p>For example, if you want to enumerate a parameter (e.g. size of an array), you can use <code>Params</code>:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=kt>int</span><span class=p>[]</span> <span class=n>a</span><span class=p>;</span>
-<span class=na>
-</span><span class=na>[Params(1, 100, 100_000, 10_000_000)]</span>
-<span class=k>public</span> <span class=kt>int</span> <span class=n>N</span><span class=p>;</span>
-<span class=na>
-</span><span class=na>[GlobalSetup]</span>
-<span class=k>public</span> <span class=k>void</span> <span class=n>Setup</span><span class=p>()</span>
-<span class=p>{</span>
-  <span class=n>a</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>N</span><span class=p>];</span>
-<span class=p>}</span>
-</code></pre></div><p>Of course, you can do it manually.
+you shouldn&rsquo;t manually run the program in all environment after each change.</p><h4 id=automation-and-analysis>Automation and analysis</h4><p>BenchmarkDotNet has a lot of additional tools for performance engineers.</p><p>For example, if you want to enumerate a parameter (e.g. size of an array), you can use <code>Params</code>:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=kt>int</span><span class=p>[]</span> <span class=n>a</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>[Params(1, 100, 100_000, 10_000_000)]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=kt>int</span> <span class=n>N</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>[GlobalSetup]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>void</span> <span class=n>Setup</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=n>a</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>N</span><span class=p>];</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Of course, you can do it manually.
 But you can
 spent a lot of time on this,
 make a mistake,
@@ -167,102 +167,102 @@ Also, this is a common situation these days
 when some guy read such discussion and will go to improve coreclr or corefx on GitHub.
 Remember that performance is a very tricky subject
 and you will not get good knowledge based on a few blog posts without own experiments.</p><h4 id=preparation>Preparation</h4><p>Let&rsquo;s check how it works ont only on the <code>.NET Core 2.0 Preview 1</code> and <code>.NET Framework 4.7</code>, but also on <code>Mono 5.0.1</code>.
-Also, we would like to look at the distribution, so we add <code>RPlotExporter</code>:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>class</span> <span class=nc>MainConfig</span> <span class=p>:</span> <span class=n>ManualConfig</span>
-<span class=p>{</span>
-  <span class=k>public</span> <span class=n>MainConfig</span><span class=p>()</span>
-  <span class=p>{</span>
-    <span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Clr</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Jit</span><span class=p>.</span><span class=n>RyuJit</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Platform</span><span class=p>.</span><span class=n>X64</span><span class=p>).</span><span class=n>WithId</span><span class=p>(</span><span class=s>&#34;NET4.7_RyuJIT-x64&#34;</span><span class=p>));</span>
-    <span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Mono</span><span class=p>).</span><span class=n>WithId</span><span class=p>(</span><span class=s>&#34;Mono5.0.1-x64&#34;</span><span class=p>));</span>
-    <span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Core</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>CsProjCoreToolchain</span><span class=p>.</span><span class=n>NetCoreApp20</span><span class=p>).</span><span class=n>WithId</span><span class=p>(</span><span class=s>&#34;Core2.0-x64&#34;</span><span class=p>));</span>
-    <span class=n>Add</span><span class=p>(</span><span class=n>RPlotExporter</span><span class=p>.</span><span class=n>Default</span><span class=p>);</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><p>BenchmarkDotNet will print such lines before each summary:</p><div class=highlight><pre class=chroma><code class=language-ini data-lang=ini><span class=na>BenchmarkDotNet</span><span class=o>=</span><span class=s>v0.10.8, OS=Windows 10 Redstone 1 (10.0.14393)</span>
-<span class=na>Processor</span><span class=o>=</span><span class=s>Intel Core i7-6700HQ CPU 2.60GHz (Skylake), ProcessorCount=8</span>
-<span class=na>Frequency</span><span class=o>=</span><span class=s>2531250 Hz, Resolution=395.0617 ns, Timer=TSC</span>
-<span class=na>dotnet cli version</span><span class=o>=</span><span class=s>2.0.0-preview1-005977
-</span><span class=s>  [Host]            : .NET Core 4.6.25302.01, 64bit RyuJIT
-</span><span class=s>  Core2.0-x64       : .NET Core 4.6.25302.01, 64bit RyuJIT
-</span><span class=s>  Mono5.0.1-x64     : Mono 5.0.1 (Visual Studio), 64bit
-</span><span class=s>  NET4.7_RyuJIT-x64 : Clr 4.0.30319.42000, 64bit RyuJIT-v4.7.2053.0</span>
-</code></pre></div><p>Here is the summary table legend:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>  Mean   : Arithmetic mean of all measurements
-  Error  : Half of 99.9% confidence interval
-  StdDev : Standard deviation of all measurements
-
-  Gen 0     : GC Generation 0 collects per 1k Operations
-  Gen 1     : GC Generation 1 collects per 1k Operations
-  Gen 2     : GC Generation 2 collects per 1k Operations
-  Allocated : Allocated memory per single operation (managed only, inclusive, 1KB = 1024B)
-
-  1 ns   : 1 Nanosecond  (0.000000001 sec)
-  1 us   : 1 Microsecond (0.000001 sec)
-</code></pre></div><p>Ok, now we are ready.</p><h3 id=collections>Collections</h3><p>In this post (probably the first one from a series), we will talk only about collections.
+Also, we would like to look at the distribution, so we add <code>RPlotExporter</code>:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>MainConfig</span> <span class=p>:</span> <span class=n>ManualConfig</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=n>MainConfig</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Clr</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Jit</span><span class=p>.</span><span class=n>RyuJit</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Platform</span><span class=p>.</span><span class=n>X64</span><span class=p>).</span><span class=n>WithId</span><span class=p>(</span><span class=s>&#34;NET4.7_RyuJIT-x64&#34;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Mono</span><span class=p>).</span><span class=n>WithId</span><span class=p>(</span><span class=s>&#34;Mono5.0.1-x64&#34;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Core</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>CsProjCoreToolchain</span><span class=p>.</span><span class=n>NetCoreApp20</span><span class=p>).</span><span class=n>WithId</span><span class=p>(</span><span class=s>&#34;Core2.0-x64&#34;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=n>Add</span><span class=p>(</span><span class=n>RPlotExporter</span><span class=p>.</span><span class=n>Default</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>BenchmarkDotNet will print such lines before each summary:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-ini data-lang=ini><span class=line><span class=cl><span class=na>BenchmarkDotNet</span><span class=o>=</span><span class=s>v0.10.8, OS=Windows 10 Redstone 1 (10.0.14393)</span>
+</span></span><span class=line><span class=cl><span class=na>Processor</span><span class=o>=</span><span class=s>Intel Core i7-6700HQ CPU 2.60GHz (Skylake), ProcessorCount=8</span>
+</span></span><span class=line><span class=cl><span class=na>Frequency</span><span class=o>=</span><span class=s>2531250 Hz, Resolution=395.0617 ns, Timer=TSC</span>
+</span></span><span class=line><span class=cl><span class=na>dotnet cli version</span><span class=o>=</span><span class=s>2.0.0-preview1-005977
+</span></span></span><span class=line><span class=cl><span class=s>  [Host]            : .NET Core 4.6.25302.01, 64bit RyuJIT
+</span></span></span><span class=line><span class=cl><span class=s>  Core2.0-x64       : .NET Core 4.6.25302.01, 64bit RyuJIT
+</span></span></span><span class=line><span class=cl><span class=s>  Mono5.0.1-x64     : Mono 5.0.1 (Visual Studio), 64bit
+</span></span></span><span class=line><span class=cl><span class=s>  NET4.7_RyuJIT-x64 : Clr 4.0.30319.42000, 64bit RyuJIT-v4.7.2053.0</span>
+</span></span></code></pre></div><p>Here is the summary table legend:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>  Mean   : Arithmetic mean of all measurements
+</span></span><span class=line><span class=cl>  Error  : Half of 99.9% confidence interval
+</span></span><span class=line><span class=cl>  StdDev : Standard deviation of all measurements
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  Gen 0     : GC Generation 0 collects per 1k Operations
+</span></span><span class=line><span class=cl>  Gen 1     : GC Generation 1 collects per 1k Operations
+</span></span><span class=line><span class=cl>  Gen 2     : GC Generation 2 collects per 1k Operations
+</span></span><span class=line><span class=cl>  Allocated : Allocated memory per single operation (managed only, inclusive, 1KB = 1024B)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  1 ns   : 1 Nanosecond  (0.000000001 sec)
+</span></span><span class=line><span class=cl>  1 us   : 1 Microsecond (0.000001 sec)
+</span></span></code></pre></div><p>Ok, now we are ready.</p><h3 id=collections>Collections</h3><p>In this post (probably the first one from a series), we will talk only about collections.
 We will look at all the benchmark from the original post,
 reimplement it with the help of BenchmarkDotNet,
 think about possible improvements,
-and analyze the results.</p><h4 id=queue>Queue</h4><p>There is the source code of the first benchmark:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>while</span> <span class=p>(</span><span class=k>true</span><span class=p>)</span>
-<span class=p>{</span>
-  <span class=kt>var</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Queue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
-  <span class=kt>var</span> <span class=n>sw</span> <span class=p>=</span> <span class=n>Stopwatch</span><span class=p>.</span><span class=n>StartNew</span><span class=p>();</span>
-  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>100</span><span class=n>_000_000</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-  <span class=p>{</span>
-    <span class=n>q</span><span class=p>.</span><span class=n>Enqueue</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
-    <span class=n>q</span><span class=p>.</span><span class=n>Dequeue</span><span class=p>();</span>
-  <span class=p>}</span>
-  <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>sw</span><span class=p>.</span><span class=n>Elapsed</span><span class=p>);</span>
-<span class=p>}</span>
-</code></pre></div><p>In BenchmarkDotNet, you shouldn&rsquo;t do a lot of repetitions of a quick piece of code:
+and analyze the results.</p><h4 id=queue>Queue</h4><p>There is the source code of the first benchmark:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>while</span> <span class=p>(</span><span class=k>true</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kt>var</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Queue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl>  <span class=kt>var</span> <span class=n>sw</span> <span class=p>=</span> <span class=n>Stopwatch</span><span class=p>.</span><span class=n>StartNew</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>100_000_000</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>q</span><span class=p>.</span><span class=n>Enqueue</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>q</span><span class=p>.</span><span class=n>Dequeue</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>sw</span><span class=p>.</span><span class=n>Elapsed</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>In BenchmarkDotNet, you shouldn&rsquo;t do a lot of repetitions of a quick piece of code:
 the library will do it for you
 (by the way, why we do exactly <code>100_000_000</code> repetitions here?).
-Here is our benchmark:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[Config(typeof(MainConfig))]</span>
-<span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
-<span class=k>public</span> <span class=k>class</span> <span class=nc>QueueBenchmark1</span>
-<span class=p>{</span>
-  <span class=k>private</span> <span class=n>Queue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Queue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
-<span class=na>
-</span><span class=na>  [Benchmark]</span>
-  <span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
-  <span class=p>{</span>
-    <span class=n>q</span><span class=p>.</span><span class=n>Enqueue</span><span class=p>(</span><span class=m>0</span><span class=p>);</span>
-    <span class=n>q</span><span class=p>.</span><span class=n>Dequeue</span><span class=p>();</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><p>There is my results (BenchmarkDotNet generated a pretty markdown table for me which I copy-pasted to my blog):</p><table><thead><tr><th>Job</th><th align=right>Mean</th><th align=right>Error</th><th align=right>StdDev</th></tr></thead><tbody><tr><td>Core2.0-x64</td><td align=right>6.228 ns</td><td align=right>0.0120 ns</td><td align=right>0.0079 ns</td></tr><tr><td>Mono5.0.1-x64</td><td align=right>10.514 ns</td><td align=right>0.0288 ns</td><td align=right>0.0240 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td align=right>11.150 ns</td><td align=right>0.0592 ns</td><td align=right>0.0525 ns</td></tr></tbody></table><p>Usually, it&rsquo;s also a good idea to look at the distribution.
+Here is our benchmark:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=na>[Config(typeof(MainConfig))]</span>
+</span></span><span class=line><span class=cl><span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>QueueBenchmark1</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>private</span> <span class=n>Queue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Queue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [Benchmark]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>q</span><span class=p>.</span><span class=n>Enqueue</span><span class=p>(</span><span class=m>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>q</span><span class=p>.</span><span class=n>Dequeue</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>There is my results (BenchmarkDotNet generated a pretty markdown table for me which I copy-pasted to my blog):</p><table><thead><tr><th>Job</th><th align=right>Mean</th><th align=right>Error</th><th align=right>StdDev</th></tr></thead><tbody><tr><td>Core2.0-x64</td><td align=right>6.228 ns</td><td align=right>0.0120 ns</td><td align=right>0.0079 ns</td></tr><tr><td>Mono5.0.1-x64</td><td align=right>10.514 ns</td><td align=right>0.0288 ns</td><td align=right>0.0240 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td align=right>11.150 ns</td><td align=right>0.0592 ns</td><td align=right>0.0525 ns</td></tr></tbody></table><p>Usually, it&rsquo;s also a good idea to look at the distribution.
 BenchmarkDotNet provides plots like this:</p><div class=row><div class=mx-auto><a href=/posts/stephen-toub-benchmarks-part1/img/QueueBenchmark1-Run-density.png target=_blank alt=QueueBenchmark1-Run-density><img class="mx-auto d-block img-fluid" width=800 src=/posts/stephen-toub-benchmarks-part1/img/QueueBenchmark1-Run-density.png></a></div></div><br><p>Now everything is fine, but don&rsquo;t forget to check out the distribution
-when you are investigation a new performance space.</p><p>The original results:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>// .NET Framework 4.7
-00:00:00.9392595
-00:00:00.9390453
-00:00:00.9455784
-00:00:00.9508294
-00:00:01.0107745
-// .NET Core 2.0 Preview 1
-00:00:00.5514887
-00:00:00.5662477
-00:00:00.5627481
-00:00:00.5685286
-00:00:00.5262378
-</code></pre></div><p>It&rsquo;s nice to see <code>~1.8x</code> speedup on the .NET Core (both original and BenchmarkDotNet results).
+when you are investigation a new performance space.</p><p>The original results:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>// .NET Framework 4.7
+</span></span><span class=line><span class=cl>00:00:00.9392595
+</span></span><span class=line><span class=cl>00:00:00.9390453
+</span></span><span class=line><span class=cl>00:00:00.9455784
+</span></span><span class=line><span class=cl>00:00:00.9508294
+</span></span><span class=line><span class=cl>00:00:01.0107745
+</span></span><span class=line><span class=cl>// .NET Core 2.0 Preview 1
+</span></span><span class=line><span class=cl>00:00:00.5514887
+</span></span><span class=line><span class=cl>00:00:00.5662477
+</span></span><span class=line><span class=cl>00:00:00.5627481
+</span></span><span class=line><span class=cl>00:00:00.5685286
+</span></span><span class=line><span class=cl>00:00:00.5262378
+</span></span></code></pre></div><p>It&rsquo;s nice to see <code>~1.8x</code> speedup on the .NET Core (both original and BenchmarkDotNet results).
 But here we are talking about too artificial benchmarks: we measure a single <code>Enqueue</code>/<code>Dequeue</code> pair with a zero-size queue.
 The <code>Enqueue</code> doesn&rsquo;t have a fixed performance because it can trigger resizing of the internal array.
-Let&rsquo;s write another benchmark with <code>N</code> elements:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[Config(typeof(MainConfig))]</span>
-<span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
-<span class=k>public</span> <span class=k>class</span> <span class=nc>QueueBenchmark2</span>
-<span class=p>{</span>
-  <span class=k>private</span> <span class=n>Queue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Queue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
-<span class=na>
-</span><span class=na>  [Params(10, 100, 1_000, 10_000)]</span>
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>N</span><span class=p>;</span>
-<span class=na>
-</span><span class=na>  [Benchmark]</span>
-  <span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
-  <span class=p>{</span>
-    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-      <span class=n>q</span><span class=p>.</span><span class=n>Enqueue</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
-    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-      <span class=n>q</span><span class=p>.</span><span class=n>Dequeue</span><span class=p>();</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><p>Results:</p><table><thead><tr><th>Job</th><th>N</th><th>Mean</th><th>Error</th><th align=right>StdDev</th><th></th><th></th></tr></thead><tbody><tr><td><strong>Core2.0-x64</strong></td><td><strong>10</strong></td><td><strong>72.68 ns</strong></td><td><strong>0.1578 ns</strong></td><td align=right><strong>0.1318 ns</strong></td><td></td><td></td></tr><tr><td>Mono5.0.1-x64</td><td>10</td><td>180.29 ns</td><td>0.5868 ns</td><td align=right>0.5489 ns</td><td></td><td></td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>10</td><td>152.73 ns</td><td>0.4126 ns</td><td align=right>0.3658 ns</td><td></td><td></td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>100</strong></td><td><strong>738.99 ns</strong></td><td><strong>1.5047 ns</strong></td><td align=right><strong>1.4075 ns</strong></td><td></td><td></td></tr><tr><td>Mono5.0.1-x64</td><td>100</td><td>2,200.55 ns</td><td>43.0554 ns</td><td align=right>67.0321 ns</td><td></td><td></td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>100</td><td>2,023.59 ns</td><td>5.1311 ns</td><td align=right>4.5486 ns</td><td></td><td></td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>1000</strong></td><td><strong>6,978.27 ns</strong></td><td><strong>21.7015 ns</strong></td><td align=right><strong>19.2378 ns</strong></td><td></td><td></td></tr><tr><td>Mono5.0.1-x64</td><td>1000</td><td>22,917.90 ns</td><td>65.6376 ns</td><td align=right>51.2455 ns</td><td></td><td></td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>1000</td><td>20,632.16 ns</td><td>49.7627 ns</td><td align=right>41.5541 ns</td><td></td><td></td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>10000</strong></td><td><strong>70,749.93 ns</strong></td><td><strong>97.2220 ns</strong></td><td align=right><strong>75.9045 ns</strong></td><td></td><td></td></tr><tr><td>Mono5.0.1-x64</td><td>10000</td><td>228,853.60 ns</td><td>728.0385 ns</td><td align=right>681.0076 ns</td><td></td><td></td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>10000</td><td>206,463.21 ns</td><td>351.8959 ns</td><td align=right>293.8490 ns</td><td></td><td></td></tr></tbody></table><p>Let&rsquo;s look at the bar chart for this benchmark:</p><div class=row><div class=mx-auto><a href=/posts/stephen-toub-benchmarks-part1/img/QueueBenchmark2-barplot.png target=_blank alt=QueueBenchmark2-barplot><img class="mx-auto d-block img-fluid" width=800 src=/posts/stephen-toub-benchmarks-part1/img/QueueBenchmark2-barplot.png></a></div></div><br><p>With <code>N=10_000</code>, we have <code>~2.95x</code> speedup which is pretty great.
+Let&rsquo;s write another benchmark with <code>N</code> elements:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=na>[Config(typeof(MainConfig))]</span>
+</span></span><span class=line><span class=cl><span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>QueueBenchmark2</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>private</span> <span class=n>Queue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Queue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [Params(10, 100, 1_000, 10_000)]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>N</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [Benchmark]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>      <span class=n>q</span><span class=p>.</span><span class=n>Enqueue</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>      <span class=n>q</span><span class=p>.</span><span class=n>Dequeue</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Results:</p><table><thead><tr><th>Job</th><th>N</th><th>Mean</th><th>Error</th><th align=right>StdDev</th><th></th><th></th></tr></thead><tbody><tr><td><strong>Core2.0-x64</strong></td><td><strong>10</strong></td><td><strong>72.68 ns</strong></td><td><strong>0.1578 ns</strong></td><td align=right><strong>0.1318 ns</strong></td><td></td><td></td></tr><tr><td>Mono5.0.1-x64</td><td>10</td><td>180.29 ns</td><td>0.5868 ns</td><td align=right>0.5489 ns</td><td></td><td></td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>10</td><td>152.73 ns</td><td>0.4126 ns</td><td align=right>0.3658 ns</td><td></td><td></td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>100</strong></td><td><strong>738.99 ns</strong></td><td><strong>1.5047 ns</strong></td><td align=right><strong>1.4075 ns</strong></td><td></td><td></td></tr><tr><td>Mono5.0.1-x64</td><td>100</td><td>2,200.55 ns</td><td>43.0554 ns</td><td align=right>67.0321 ns</td><td></td><td></td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>100</td><td>2,023.59 ns</td><td>5.1311 ns</td><td align=right>4.5486 ns</td><td></td><td></td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>1000</strong></td><td><strong>6,978.27 ns</strong></td><td><strong>21.7015 ns</strong></td><td align=right><strong>19.2378 ns</strong></td><td></td><td></td></tr><tr><td>Mono5.0.1-x64</td><td>1000</td><td>22,917.90 ns</td><td>65.6376 ns</td><td align=right>51.2455 ns</td><td></td><td></td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>1000</td><td>20,632.16 ns</td><td>49.7627 ns</td><td align=right>41.5541 ns</td><td></td><td></td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>10000</strong></td><td><strong>70,749.93 ns</strong></td><td><strong>97.2220 ns</strong></td><td align=right><strong>75.9045 ns</strong></td><td></td><td></td></tr><tr><td>Mono5.0.1-x64</td><td>10000</td><td>228,853.60 ns</td><td>728.0385 ns</td><td align=right>681.0076 ns</td><td></td><td></td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>10000</td><td>206,463.21 ns</td><td>351.8959 ns</td><td align=right>293.8490 ns</td><td></td><td></td></tr></tbody></table><p>Let&rsquo;s look at the bar chart for this benchmark:</p><div class=row><div class=mx-auto><a href=/posts/stephen-toub-benchmarks-part1/img/QueueBenchmark2-barplot.png target=_blank alt=QueueBenchmark2-barplot><img class="mx-auto d-block img-fluid" width=800 src=/posts/stephen-toub-benchmarks-part1/img/QueueBenchmark2-barplot.png></a></div></div><br><p>With <code>N=10_000</code>, we have <code>~2.95x</code> speedup which is pretty great.
 You should understand that it&rsquo;s still is not a perfect benchmark for <code>Queue</code>.
 If we want to have a complete performance investigation,
 we should check corner cases (e.g., moments before and after the array resizing),
@@ -274,92 +274,92 @@ I will be happy if someone else continues this research, writes a set of benchma
 It will be a good exercise for you and a good example of a nice performance investigation for the community.
 Feel free to pick up any other example from this post or create you own.</p><h4 id=sortedset>SortedSet</h4><p>The next benchmark is about <code>SortedSet</code>.
 We skip the constructor demo (comparing <code>~7.7sec</code> and <code>~0.013s</code> is not interesting)
-and continue with the <code>Min</code> performance.</p><p>Here is the original code:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>while</span> <span class=p>(</span><span class=k>true</span><span class=p>)</span>
-<span class=p>{</span>
-  <span class=kt>var</span> <span class=n>s</span> <span class=p>=</span> <span class=k>new</span> <span class=n>SortedSet</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
-  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>n</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>n</span> <span class=p>&lt;</span> <span class=m>100</span><span class=n>_000</span><span class=p>;</span> <span class=n>n</span><span class=p>++)</span>
-  <span class=p>{</span>
-    <span class=n>s</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>n</span><span class=p>);</span>
-  <span class=p>}</span>
-
-  <span class=kt>var</span> <span class=n>sw</span> <span class=p>=</span> <span class=n>Stopwatch</span><span class=p>.</span><span class=n>StartNew</span><span class=p>();</span>
-  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>10</span><span class=n>_000_000</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-  <span class=p>{</span>
-    <span class=n>s_result</span> <span class=p>=</span> <span class=n>s</span><span class=p>.</span><span class=n>Min</span><span class=p>;</span>
-  <span class=p>}</span>
-  <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>sw</span><span class=p>.</span><span class=n>Elapsed</span><span class=p>);</span>
-<span class=p>}</span>
-</code></pre></div><p>Original results:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>// .NET Framework 4.7
-00:00:01.1427246
-00:00:01.1295220
-00:00:01.1350696
-00:00:01.1502784
-00:00:01.1677880
-// .NET Core 2.0 Preview 1
-00:00:00.0861391
-00:00:00.0861183
-00:00:00.0866616
-00:00:00.0848434
-00:00:00.0860198
-</code></pre></div><p>Why we put exactly <code>100_000</code> in the <code>SortedSet</code>?
-Let&rsquo;s try different values!</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[Config(typeof(MainConfig))]</span>
-<span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
-<span class=k>public</span> <span class=k>class</span> <span class=nc>SortedSetBenchmark1</span>
-<span class=p>{</span>
-  <span class=k>private</span> <span class=n>SortedSet</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>s</span> <span class=p>=</span> <span class=k>new</span> <span class=n>SortedSet</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
-<span class=na>
-</span><span class=na>  [Params(1, 100, 100_000, 10_000_000)]</span>
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>N</span><span class=p>;</span>
-<span class=na>
-</span><span class=na>  [GlobalSetup]</span>
-  <span class=k>public</span> <span class=k>void</span> <span class=n>Setup</span><span class=p>()</span>
-  <span class=p>{</span>
-    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-      <span class=n>s</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
-  <span class=p>}</span>
-<span class=na>
-</span><span class=na>  [Benchmark]</span>
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>Run</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>s</span><span class=p>.</span><span class=n>Min</span><span class=p>;</span>
-<span class=p>}</span>
-</code></pre></div><table><thead><tr><th>Job</th><th>N</th><th align=right>Mean</th><th align=right>Error</th><th align=right>StdDev</th></tr></thead><tbody><tr><td><strong>Core2.0-x64</strong></td><td><strong>1</strong></td><td align=right><strong>2.010 ns</strong></td><td align=right><strong>0.0061 ns</strong></td><td align=right><strong>0.0057 ns</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>1</td><td align=right>81.355 ns</td><td align=right>1.6598 ns</td><td align=right>2.6802 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>1</td><td align=right>38.103 ns</td><td align=right>0.7885 ns</td><td align=right>1.4015 ns</td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>100</strong></td><td align=right><strong>4.040 ns</strong></td><td align=right><strong>0.0166 ns</strong></td><td align=right><strong>0.0139 ns</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>100</td><td align=right>147.587 ns</td><td align=right>2.9271 ns</td><td align=right>4.8093 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>100</td><td align=right>72.091 ns</td><td align=right>0.2088 ns</td><td align=right>0.2404 ns</td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>100000</strong></td><td align=right><strong>12.193 ns</strong></td><td align=right><strong>0.0471 ns</strong></td><td align=right><strong>0.0440 ns</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>100000</td><td align=right>257.729 ns</td><td align=right>0.6381 ns</td><td align=right>0.5657 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>100000</td><td align=right>145.400 ns</td><td align=right>0.5647 ns</td><td align=right>0.5282 ns</td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>10000000</strong></td><td align=right><strong>55.452 ns</strong></td><td align=right><strong>0.1196 ns</strong></td><td align=right><strong>0.1119 ns</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>10000000</td><td align=right>476.941 ns</td><td align=right>1.2562 ns</td><td align=right>1.1136 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>10000000</td><td align=right>202.415 ns</td><td align=right>0.5968 ns</td><td align=right>0.5290 ns</td></tr></tbody></table><p>Here are some interesting facts:</p><ul><li>In the original post, for <code>N=100_000</code> we have <code>~14.5x</code> speedup on <code>.NET Core</code>.</li><li>In our experiment, we have <code>~12x</code> speedup. <code>.NET Core</code> is still super-fast, but we have a difference between speedup results.</li><li>For <code>N=10_000_000</code> we have <code>~3.7x</code> speedup.
+and continue with the <code>Min</code> performance.</p><p>Here is the original code:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>while</span> <span class=p>(</span><span class=k>true</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kt>var</span> <span class=n>s</span> <span class=p>=</span> <span class=k>new</span> <span class=n>SortedSet</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>n</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>n</span> <span class=p>&lt;</span> <span class=m>100_000</span><span class=p>;</span> <span class=n>n</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>s</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>n</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=kt>var</span> <span class=n>sw</span> <span class=p>=</span> <span class=n>Stopwatch</span><span class=p>.</span><span class=n>StartNew</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>10_000_000</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>s_result</span> <span class=p>=</span> <span class=n>s</span><span class=p>.</span><span class=n>Min</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>sw</span><span class=p>.</span><span class=n>Elapsed</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Original results:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>// .NET Framework 4.7
+</span></span><span class=line><span class=cl>00:00:01.1427246
+</span></span><span class=line><span class=cl>00:00:01.1295220
+</span></span><span class=line><span class=cl>00:00:01.1350696
+</span></span><span class=line><span class=cl>00:00:01.1502784
+</span></span><span class=line><span class=cl>00:00:01.1677880
+</span></span><span class=line><span class=cl>// .NET Core 2.0 Preview 1
+</span></span><span class=line><span class=cl>00:00:00.0861391
+</span></span><span class=line><span class=cl>00:00:00.0861183
+</span></span><span class=line><span class=cl>00:00:00.0866616
+</span></span><span class=line><span class=cl>00:00:00.0848434
+</span></span><span class=line><span class=cl>00:00:00.0860198
+</span></span></code></pre></div><p>Why we put exactly <code>100_000</code> in the <code>SortedSet</code>?
+Let&rsquo;s try different values!</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=na>[Config(typeof(MainConfig))]</span>
+</span></span><span class=line><span class=cl><span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>SortedSetBenchmark1</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>private</span> <span class=n>SortedSet</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>s</span> <span class=p>=</span> <span class=k>new</span> <span class=n>SortedSet</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [Params(1, 100, 100_000, 10_000_000)]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>N</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [GlobalSetup]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=k>void</span> <span class=n>Setup</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>      <span class=n>s</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [Benchmark]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>Run</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>s</span><span class=p>.</span><span class=n>Min</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><table><thead><tr><th>Job</th><th>N</th><th align=right>Mean</th><th align=right>Error</th><th align=right>StdDev</th></tr></thead><tbody><tr><td><strong>Core2.0-x64</strong></td><td><strong>1</strong></td><td align=right><strong>2.010 ns</strong></td><td align=right><strong>0.0061 ns</strong></td><td align=right><strong>0.0057 ns</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>1</td><td align=right>81.355 ns</td><td align=right>1.6598 ns</td><td align=right>2.6802 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>1</td><td align=right>38.103 ns</td><td align=right>0.7885 ns</td><td align=right>1.4015 ns</td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>100</strong></td><td align=right><strong>4.040 ns</strong></td><td align=right><strong>0.0166 ns</strong></td><td align=right><strong>0.0139 ns</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>100</td><td align=right>147.587 ns</td><td align=right>2.9271 ns</td><td align=right>4.8093 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>100</td><td align=right>72.091 ns</td><td align=right>0.2088 ns</td><td align=right>0.2404 ns</td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>100000</strong></td><td align=right><strong>12.193 ns</strong></td><td align=right><strong>0.0471 ns</strong></td><td align=right><strong>0.0440 ns</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>100000</td><td align=right>257.729 ns</td><td align=right>0.6381 ns</td><td align=right>0.5657 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>100000</td><td align=right>145.400 ns</td><td align=right>0.5647 ns</td><td align=right>0.5282 ns</td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>10000000</strong></td><td align=right><strong>55.452 ns</strong></td><td align=right><strong>0.1196 ns</strong></td><td align=right><strong>0.1119 ns</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>10000000</td><td align=right>476.941 ns</td><td align=right>1.2562 ns</td><td align=right>1.1136 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>10000000</td><td align=right>202.415 ns</td><td align=right>0.5968 ns</td><td align=right>0.5290 ns</td></tr></tbody></table><p>Here are some interesting facts:</p><ul><li>In the original post, for <code>N=100_000</code> we have <code>~14.5x</code> speedup on <code>.NET Core</code>.</li><li>In our experiment, we have <code>~12x</code> speedup. <code>.NET Core</code> is still super-fast, but we have a difference between speedup results.</li><li>For <code>N=10_000_000</code> we have <code>~3.7x</code> speedup.
 Be careful with the parameters of your benchmark: they can significantly affect your results.</li><li><code>Mono</code> works <code>~2.35</code> times slower than <code>.NET Framework 4.7</code> + <code>RyuJIT-x64</code> for <code>N=10_000_000</code>.</li></ul><h4 id=list>List</h4><p>Now it&rsquo;s time for the <code>List</code>.
-The original benchmark:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>while</span> <span class=p>(</span><span class=k>true</span><span class=p>)</span>
-<span class=p>{</span>
-  <span class=kt>var</span> <span class=n>l</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
-  <span class=kt>var</span> <span class=n>sw</span> <span class=p>=</span> <span class=n>Stopwatch</span><span class=p>.</span><span class=n>StartNew</span><span class=p>();</span>
-  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>100</span><span class=n>_000_000</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-  <span class=p>{</span>
-    <span class=n>l</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
-    <span class=n>l</span><span class=p>.</span><span class=n>RemoveAt</span><span class=p>(</span><span class=m>0</span><span class=p>);</span>
-  <span class=p>}</span>
-  <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>sw</span><span class=p>.</span><span class=n>Elapsed</span><span class=p>);</span>
-<span class=p>}</span>
-</code></pre></div><p>The original results:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>// .NET Framework 4.7
-00:00:00.4434135
-00:00:00.4394329
-00:00:00.4496867
-00:00:00.4496383
-00:00:00.4515505
-// .NET Core 2.0 Preview 1
-00:00:00.3213094
-00:00:00.3211772
-00:00:00.3179631
-00:00:00.3198449
-00:00:00.3164009
-</code></pre></div><p>Let&rsquo;s write a simple benchmark for <code>Add</code>/<code>RemoveAt</code>:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[Config(typeof(MainConfig))]</span>
-<span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
-<span class=k>public</span> <span class=k>class</span> <span class=nc>ListBenchmark1</span>
-<span class=p>{</span>
-  <span class=k>private</span> <span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>l</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
-<span class=na>
-</span><span class=na>  [Benchmark]</span>
-  <span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
-  <span class=p>{</span>
-    <span class=n>l</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=m>0</span><span class=p>);</span>
-    <span class=n>l</span><span class=p>.</span><span class=n>RemoveAt</span><span class=p>(</span><span class=m>0</span><span class=p>);</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><table><thead><tr><th>Job</th><th align=right>Mean</th><th align=right>Error</th><th align=right>StdDev</th><th align=right>Median</th></tr></thead><tbody><tr><td>Core2.0-x64</td><td align=right>3.375 ns</td><td align=right>0.0053 ns</td><td align=right>0.0057 ns</td><td align=right>3.374 ns</td></tr><tr><td>Mono5.0.1-x64</td><td align=right>7.942 ns</td><td align=right>0.1972 ns</td><td align=right>0.3556 ns</td><td align=right>8.229 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td align=right>5.914 ns</td><td align=right>0.0126 ns</td><td align=right>0.0098 ns</td><td align=right>5.913 ns</td></tr></tbody></table><p>We can see here <code>~1.8x</code> speedup on .NET Core, in the original post it was <code>~1.4x</code>.
+The original benchmark:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>while</span> <span class=p>(</span><span class=k>true</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kt>var</span> <span class=n>l</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl>  <span class=kt>var</span> <span class=n>sw</span> <span class=p>=</span> <span class=n>Stopwatch</span><span class=p>.</span><span class=n>StartNew</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>100_000_000</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>l</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>l</span><span class=p>.</span><span class=n>RemoveAt</span><span class=p>(</span><span class=m>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>sw</span><span class=p>.</span><span class=n>Elapsed</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>The original results:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>// .NET Framework 4.7
+</span></span><span class=line><span class=cl>00:00:00.4434135
+</span></span><span class=line><span class=cl>00:00:00.4394329
+</span></span><span class=line><span class=cl>00:00:00.4496867
+</span></span><span class=line><span class=cl>00:00:00.4496383
+</span></span><span class=line><span class=cl>00:00:00.4515505
+</span></span><span class=line><span class=cl>// .NET Core 2.0 Preview 1
+</span></span><span class=line><span class=cl>00:00:00.3213094
+</span></span><span class=line><span class=cl>00:00:00.3211772
+</span></span><span class=line><span class=cl>00:00:00.3179631
+</span></span><span class=line><span class=cl>00:00:00.3198449
+</span></span><span class=line><span class=cl>00:00:00.3164009
+</span></span></code></pre></div><p>Let&rsquo;s write a simple benchmark for <code>Add</code>/<code>RemoveAt</code>:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=na>[Config(typeof(MainConfig))]</span>
+</span></span><span class=line><span class=cl><span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>ListBenchmark1</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>private</span> <span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>l</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [Benchmark]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>l</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=m>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>l</span><span class=p>.</span><span class=n>RemoveAt</span><span class=p>(</span><span class=m>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><table><thead><tr><th>Job</th><th align=right>Mean</th><th align=right>Error</th><th align=right>StdDev</th><th align=right>Median</th></tr></thead><tbody><tr><td>Core2.0-x64</td><td align=right>3.375 ns</td><td align=right>0.0053 ns</td><td align=right>0.0057 ns</td><td align=right>3.374 ns</td></tr><tr><td>Mono5.0.1-x64</td><td align=right>7.942 ns</td><td align=right>0.1972 ns</td><td align=right>0.3556 ns</td><td align=right>8.229 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td align=right>5.914 ns</td><td align=right>0.0126 ns</td><td align=right>0.0098 ns</td><td align=right>5.913 ns</td></tr></tbody></table><p>We can see here <code>~1.8x</code> speedup on .NET Core, in the original post it was <code>~1.4x</code>.
 Another interesting fact: did you noticed that BenchmarkDotNet added the <code>Median</code> column in this table (it was skipped in previous benchmarks)?
 By default, BenchmarkDotNet tries not to bore you with statistics (however, you can request any statistics manually).
 If BenchmarkDotNet discovers something strange in the results, it adds additional columns with interesting values.
@@ -388,212 +388,212 @@ try different versions of mono,
 different machines,
 and so on.
 In this post, I want to talk only about benchmarking.
-The important point here is that such phenomena can be easily skipped during handwritten measurements.</p><p>Now le&rsquo;ts check how it works on huge lists:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[Config(typeof(MainConfig))]</span>
-<span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
-<span class=k>public</span> <span class=k>class</span> <span class=nc>ListBenchmark2</span>
-<span class=p>{</span>
-  <span class=k>private</span> <span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>l</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
-<span class=na>
-</span><span class=na>  [Params(10, 100, 1000)]</span>
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>N</span><span class=p>;</span>
-<span class=na>
-</span><span class=na>  [Benchmark]</span>
-  <span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
-  <span class=p>{</span>
-    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-      <span class=n>l</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
-    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-      <span class=n>l</span><span class=p>.</span><span class=n>RemoveAt</span><span class=p>(</span><span class=n>N</span> <span class=p>-</span> <span class=m>1</span> <span class=p>-</span> <span class=n>i</span><span class=p>);</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><table><thead><tr><th>Job</th><th>N</th><th align=right>Mean</th><th align=right>Error</th><th align=right>StdDev</th><th align=right>Median</th></tr></thead><tbody><tr><td><strong>Core2.0-x64</strong></td><td><strong>10</strong></td><td align=right><strong>42.87 ns</strong></td><td align=right><strong>0.1396 ns</strong></td><td align=right><strong>0.1166 ns</strong></td><td align=right><strong>42.83 ns</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>10</td><td align=right>115.27 ns</td><td align=right>0.7361 ns</td><td align=right>0.9040 ns</td><td align=right>115.55 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>10</td><td align=right>59.53 ns</td><td align=right>0.3000 ns</td><td align=right>0.2506 ns</td><td align=right>59.45 ns</td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>100</strong></td><td align=right><strong>430.05 ns</strong></td><td align=right><strong>0.7114 ns</strong></td><td align=right><strong>0.6307 ns</strong></td><td align=right><strong>429.95 ns</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>100</td><td align=right>871.77 ns</td><td align=right>17.3243 ns</td><td align=right>32.9613 ns</td><td align=right>897.37 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>100</td><td align=right>664.19 ns</td><td align=right>1.3559 ns</td><td align=right>0.9804 ns</td><td align=right>663.97 ns</td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>1000</strong></td><td align=right><strong>4,059.05 ns</strong></td><td align=right><strong>13.0940 ns</strong></td><td align=right><strong>10.2230 ns</strong></td><td align=right><strong>4,060.99 ns</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>1000</td><td align=right>7,623.19 ns</td><td align=right>95.4478 ns</td><td align=right>79.7032 ns</td><td align=right>7,610.51 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>1000</td><td align=right>6,271.42 ns</td><td align=right>123.4688 ns</td><td align=right>209.6594 ns</td><td align=right>6,398.59 ns</td></tr></tbody></table><p>For <code>N=1000</code>, we have <code>~1.55x</code> speedup.
+The important point here is that such phenomena can be easily skipped during handwritten measurements.</p><p>Now le&rsquo;ts check how it works on huge lists:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=na>[Config(typeof(MainConfig))]</span>
+</span></span><span class=line><span class=cl><span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>ListBenchmark2</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>private</span> <span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>l</span> <span class=p>=</span> <span class=k>new</span> <span class=n>List</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [Params(10, 100, 1000)]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>N</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [Benchmark]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>      <span class=n>l</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>      <span class=n>l</span><span class=p>.</span><span class=n>RemoveAt</span><span class=p>(</span><span class=n>N</span> <span class=p>-</span> <span class=m>1</span> <span class=p>-</span> <span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><table><thead><tr><th>Job</th><th>N</th><th align=right>Mean</th><th align=right>Error</th><th align=right>StdDev</th><th align=right>Median</th></tr></thead><tbody><tr><td><strong>Core2.0-x64</strong></td><td><strong>10</strong></td><td align=right><strong>42.87 ns</strong></td><td align=right><strong>0.1396 ns</strong></td><td align=right><strong>0.1166 ns</strong></td><td align=right><strong>42.83 ns</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>10</td><td align=right>115.27 ns</td><td align=right>0.7361 ns</td><td align=right>0.9040 ns</td><td align=right>115.55 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>10</td><td align=right>59.53 ns</td><td align=right>0.3000 ns</td><td align=right>0.2506 ns</td><td align=right>59.45 ns</td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>100</strong></td><td align=right><strong>430.05 ns</strong></td><td align=right><strong>0.7114 ns</strong></td><td align=right><strong>0.6307 ns</strong></td><td align=right><strong>429.95 ns</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>100</td><td align=right>871.77 ns</td><td align=right>17.3243 ns</td><td align=right>32.9613 ns</td><td align=right>897.37 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>100</td><td align=right>664.19 ns</td><td align=right>1.3559 ns</td><td align=right>0.9804 ns</td><td align=right>663.97 ns</td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>1000</strong></td><td align=right><strong>4,059.05 ns</strong></td><td align=right><strong>13.0940 ns</strong></td><td align=right><strong>10.2230 ns</strong></td><td align=right><strong>4,060.99 ns</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>1000</td><td align=right>7,623.19 ns</td><td align=right>95.4478 ns</td><td align=right>79.7032 ns</td><td align=right>7,610.51 ns</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>1000</td><td align=right>6,271.42 ns</td><td align=right>123.4688 ns</td><td align=right>209.6594 ns</td><td align=right>6,398.59 ns</td></tr></tbody></table><p>For <code>N=1000</code>, we have <code>~1.55x</code> speedup.
 And we still have a bimodal distribution for mono.
-Here is the timeline plot for <code>N=100</code>:</p><div class=row><div class=mx-auto><a href="/posts/stephen-toub-benchmarks-part1/img/ListBenchmark2-Run-Mono5.0.1-x64%20N=100-timelineSmooth.png" target=_blank alt="ListBenchmark2-Run-Mono5.0.1-x64 N=100-timelineSmooth"><img class="mx-auto d-block img-fluid" width=800 src="/posts/stephen-toub-benchmarks-part1/img/ListBenchmark2-Run-Mono5.0.1-x64%20N=100-timelineSmooth.png"></a></div></div><br><h4 id=concurrentqueue>ConcurrentQueue</h4><p>Now let&rsquo;s play with <code>ConcurrentQueue</code>.</p><p>The original code:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>while</span> <span class=p>(</span><span class=k>true</span><span class=p>)</span>
-<span class=p>{</span>
-  <span class=kt>var</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ConcurrentQueue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
-  <span class=kt>int</span> <span class=n>gen0</span> <span class=p>=</span> <span class=n>GC</span><span class=p>.</span><span class=n>CollectionCount</span><span class=p>(</span><span class=m>0</span><span class=p>),</span> <span class=n>gen1</span> <span class=p>=</span> <span class=n>GC</span><span class=p>.</span><span class=n>CollectionCount</span><span class=p>(</span><span class=m>1</span><span class=p>),</span> <span class=n>gen2</span> <span class=p>=</span> <span class=n>GC</span><span class=p>.</span><span class=n>CollectionCount</span><span class=p>(</span><span class=m>2</span><span class=p>);</span>
-  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>100</span><span class=n>_000_000</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-  <span class=p>{</span>
-    <span class=n>q</span><span class=p>.</span><span class=n>Enqueue</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
-    <span class=n>q</span><span class=p>.</span><span class=n>TryDequeue</span><span class=p>(</span><span class=k>out</span> <span class=kt>int</span> <span class=n>_</span><span class=p>);</span>
-  <span class=p>}</span>
-  <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>$&#34;Gen0={GC.CollectionCount(0) - gen0} Gen1={GC.CollectionCount(1) - gen1} Gen2={GC.CollectionCount(2) - gen2}&#34;</span><span class=p>);</span>
-<span class=p>}</span>
-</code></pre></div><p>The original results:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>// .NET Framework 4.7
-00:00:02.6485174  Gen0=162 Gen1=80 Gen2=0
-00:00:02.6144919  Gen0=162 Gen1=81 Gen2=0
-00:00:02.6699958  Gen0=162 Gen1=81 Gen2=0
-00:00:02.6441047  Gen0=162 Gen1=81 Gen2=0
-00:00:02.6255135  Gen0=162 Gen1=81 Gen2=0
-// .NET Core 2.0 Preview 1
-00:00:01.7700190  Gen0=0 Gen1=0 Gen2=0
-00:00:01.8324078  Gen0=0 Gen1=0 Gen2=0
-00:00:01.7552966  Gen0=0 Gen1=0 Gen2=0
-00:00:01.7518632  Gen0=0 Gen1=0 Gen2=0
-00:00:01.7560811  Gen0=0 Gen1=0 Gen2=0
-</code></pre></div><p>Here we manually check GC collections.
+Here is the timeline plot for <code>N=100</code>:</p><div class=row><div class=mx-auto><a href="/posts/stephen-toub-benchmarks-part1/img/ListBenchmark2-Run-Mono5.0.1-x64%20N=100-timelineSmooth.png" target=_blank alt="ListBenchmark2-Run-Mono5.0.1-x64 N=100-timelineSmooth"><img class="mx-auto d-block img-fluid" width=800 src="/posts/stephen-toub-benchmarks-part1/img/ListBenchmark2-Run-Mono5.0.1-x64%20N=100-timelineSmooth.png"></a></div></div><br><h4 id=concurrentqueue>ConcurrentQueue</h4><p>Now let&rsquo;s play with <code>ConcurrentQueue</code>.</p><p>The original code:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>while</span> <span class=p>(</span><span class=k>true</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kt>var</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ConcurrentQueue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl>  <span class=kt>int</span> <span class=n>gen0</span> <span class=p>=</span> <span class=n>GC</span><span class=p>.</span><span class=n>CollectionCount</span><span class=p>(</span><span class=m>0</span><span class=p>),</span> <span class=n>gen1</span> <span class=p>=</span> <span class=n>GC</span><span class=p>.</span><span class=n>CollectionCount</span><span class=p>(</span><span class=m>1</span><span class=p>),</span> <span class=n>gen2</span> <span class=p>=</span> <span class=n>GC</span><span class=p>.</span><span class=n>CollectionCount</span><span class=p>(</span><span class=m>2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>100_000_000</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>q</span><span class=p>.</span><span class=n>Enqueue</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>q</span><span class=p>.</span><span class=n>TryDequeue</span><span class=p>(</span><span class=k>out</span> <span class=kt>int</span> <span class=n>_</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>$&#34;Gen0={GC.CollectionCount(0) - gen0} Gen1={GC.CollectionCount(1) - gen1} Gen2={GC.CollectionCount(2) - gen2}&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>The original results:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>// .NET Framework 4.7
+</span></span><span class=line><span class=cl>00:00:02.6485174  Gen0=162 Gen1=80 Gen2=0
+</span></span><span class=line><span class=cl>00:00:02.6144919  Gen0=162 Gen1=81 Gen2=0
+</span></span><span class=line><span class=cl>00:00:02.6699958  Gen0=162 Gen1=81 Gen2=0
+</span></span><span class=line><span class=cl>00:00:02.6441047  Gen0=162 Gen1=81 Gen2=0
+</span></span><span class=line><span class=cl>00:00:02.6255135  Gen0=162 Gen1=81 Gen2=0
+</span></span><span class=line><span class=cl>// .NET Core 2.0 Preview 1
+</span></span><span class=line><span class=cl>00:00:01.7700190  Gen0=0 Gen1=0 Gen2=0
+</span></span><span class=line><span class=cl>00:00:01.8324078  Gen0=0 Gen1=0 Gen2=0
+</span></span><span class=line><span class=cl>00:00:01.7552966  Gen0=0 Gen1=0 Gen2=0
+</span></span><span class=line><span class=cl>00:00:01.7518632  Gen0=0 Gen1=0 Gen2=0
+</span></span><span class=line><span class=cl>00:00:01.7560811  Gen0=0 Gen1=0 Gen2=0
+</span></span></code></pre></div><p>Here we manually check GC collections.
 In general case, it can be heard because such measurements have own problems.
 In BenchmarkDotNet, you mark the benchmark class with the <code>[MemoryDiagnoser]</code> attribute,
 and GC statistics will be automatically calculated.
 And it&rsquo;s not only about high-precision GC collection values, it also prints average allocated size in bytes!
 Check out a post of <a href=https://github.com/adamsitnik>Adam Sitnik</a>
-about <code>MemoryDiagnoser</code>: <a href=http://adamsitnik.com/the-new-Memory-Diagnoser/>&ldquo;The new MemoryDiagnoser is now better than ever!"</a>.</p><p>Let&rsquo;s write a new benchmark:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[Config(typeof(MainConfig))]</span>
-<span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
-<span class=na>[MemoryDiagnoser]</span>
-<span class=k>public</span> <span class=k>class</span> <span class=nc>ConcurrentQueueBenchmark1</span>
-<span class=p>{</span>
-  <span class=k>private</span> <span class=n>ConcurrentQueue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ConcurrentQueue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
-<span class=na>
-</span><span class=na>  [Benchmark]</span>
-  <span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
-  <span class=p>{</span>
-    <span class=n>q</span><span class=p>.</span><span class=n>Enqueue</span><span class=p>(</span><span class=m>0</span><span class=p>);</span>
-    <span class=n>q</span><span class=p>.</span><span class=n>TryDequeue</span><span class=p>(</span><span class=k>out</span> <span class=kt>int</span> <span class=n>_</span><span class=p>);</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><table><thead><tr><th>Job</th><th align=right>Mean</th><th align=right>Error</th><th align=right>StdDev</th><th align=right>Gen 0</th><th align=right>Gen 1</th><th align=right>Gen 2</th><th align=right>Allocated</th></tr></thead><tbody><tr><td>Core2.0-x64</td><td align=right>18.92 ns</td><td align=right>0.0272 ns</td><td align=right>0.0227 ns</td><td align=right>-</td><td align=right>-</td><td align=right>-</td><td align=right>0 B</td></tr><tr><td>Mono5.0.1-x64</td><td align=right>45.41 ns</td><td align=right>0.1918 ns</td><td align=right>0.1498 ns</td><td align=right>0.0018</td><td align=right>0.0001</td><td align=right>0.0000</td><td align=right>N/A</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td align=right>31.24 ns</td><td align=right>0.0826 ns</td><td align=right>0.0773 ns</td><td align=right>0.0017</td><td align=right>0.0008</td><td align=right>0.0000</td><td align=right>9 B</td></tr></tbody></table><p>Now we know average GC collection counts for all generations (<code>Gen 0</code>/<code>Gen 1</code>/<code>Gen 2</code> are values per 1000 operations)
+about <code>MemoryDiagnoser</code>: <a href=http://adamsitnik.com/the-new-Memory-Diagnoser/>&ldquo;The new MemoryDiagnoser is now better than ever!&rdquo;</a>.</p><p>Let&rsquo;s write a new benchmark:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=na>[Config(typeof(MainConfig))]</span>
+</span></span><span class=line><span class=cl><span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
+</span></span><span class=line><span class=cl><span class=na>[MemoryDiagnoser]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>ConcurrentQueueBenchmark1</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>private</span> <span class=n>ConcurrentQueue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ConcurrentQueue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [Benchmark]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>q</span><span class=p>.</span><span class=n>Enqueue</span><span class=p>(</span><span class=m>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>q</span><span class=p>.</span><span class=n>TryDequeue</span><span class=p>(</span><span class=k>out</span> <span class=kt>int</span> <span class=n>_</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><table><thead><tr><th>Job</th><th align=right>Mean</th><th align=right>Error</th><th align=right>StdDev</th><th align=right>Gen 0</th><th align=right>Gen 1</th><th align=right>Gen 2</th><th align=right>Allocated</th></tr></thead><tbody><tr><td>Core2.0-x64</td><td align=right>18.92 ns</td><td align=right>0.0272 ns</td><td align=right>0.0227 ns</td><td align=right>-</td><td align=right>-</td><td align=right>-</td><td align=right>0 B</td></tr><tr><td>Mono5.0.1-x64</td><td align=right>45.41 ns</td><td align=right>0.1918 ns</td><td align=right>0.1498 ns</td><td align=right>0.0018</td><td align=right>0.0001</td><td align=right>0.0000</td><td align=right>N/A</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td align=right>31.24 ns</td><td align=right>0.0826 ns</td><td align=right>0.0773 ns</td><td align=right>0.0017</td><td align=right>0.0008</td><td align=right>0.0000</td><td align=right>9 B</td></tr></tbody></table><p>Now we know average GC collection counts for all generations (<code>Gen 0</code>/<code>Gen 1</code>/<code>Gen 2</code> are values per 1000 operations)
 and the amount of allocated memory.
-The original speedup is <code>~1.45x</code>, our value is <code>~1.65x</code></p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[Config(typeof(MainConfig))]</span>
-<span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
-<span class=k>public</span> <span class=k>class</span> <span class=nc>ConcurrentQueueBenchmark2</span>
-<span class=p>{</span>
-  <span class=k>private</span> <span class=n>ConcurrentQueue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ConcurrentQueue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
-<span class=na>
-</span><span class=na>  [Params(100, 100_000, 1_000_000)]</span>
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>N</span><span class=p>;</span>
-<span class=na>
-</span><span class=na>  [Benchmark]</span>
-  <span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
-  <span class=p>{</span>
-    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-      <span class=n>q</span><span class=p>.</span><span class=n>Enqueue</span><span class=p>(</span><span class=m>0</span><span class=p>);</span>
-    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-      <span class=n>q</span><span class=p>.</span><span class=n>TryDequeue</span><span class=p>(</span><span class=k>out</span> <span class=kt>int</span> <span class=n>_</span><span class=p>);</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><table><thead><tr><th>Job</th><th>N</th><th align=right>Mean</th><th align=right>Error</th><th align=right>StdDev</th></tr></thead><tbody><tr><td><strong>Core2.0-x64</strong></td><td><strong>100</strong></td><td align=right><strong>2.490 us</strong></td><td align=right><strong>0.0022 us</strong></td><td align=right><strong>0.0019 us</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>100</td><td align=right>4.283 us</td><td align=right>0.0784 us</td><td align=right>0.0695 us</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>100</td><td align=right>3.174 us</td><td align=right>0.0206 us</td><td align=right>0.0183 us</td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>100000</strong></td><td align=right><strong>2,720.496 us</strong></td><td align=right><strong>4.2448 us</strong></td><td align=right><strong>3.3141 us</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>100000</td><td align=right>4,130.617 us</td><td align=right>13.7123 us</td><td align=right>12.1556 us</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>100000</td><td align=right>3,211.175 us</td><td align=right>5.8462 us</td><td align=right>5.4685 us</td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>1000000</strong></td><td align=right><strong>27,249.183 us</strong></td><td align=right><strong>74.8775 us</strong></td><td align=right><strong>66.3769 us</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>1000000</td><td align=right>41,757.702 us</td><td align=right>123.4342 us</td><td align=right>126.7578 us</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>1000000</td><td align=right>34,823.063 us</td><td align=right>694.9357 us</td><td align=right>1,161.0814 us</td></tr></tbody></table><p>Thus, speedup for <code>N=1_000_000</code> is <code>~1.26x</code>.
+The original speedup is <code>~1.45x</code>, our value is <code>~1.65x</code></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=na>[Config(typeof(MainConfig))]</span>
+</span></span><span class=line><span class=cl><span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>ConcurrentQueueBenchmark2</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>private</span> <span class=n>ConcurrentQueue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ConcurrentQueue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [Params(100, 100_000, 1_000_000)]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>N</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [Benchmark]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>      <span class=n>q</span><span class=p>.</span><span class=n>Enqueue</span><span class=p>(</span><span class=m>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>      <span class=n>q</span><span class=p>.</span><span class=n>TryDequeue</span><span class=p>(</span><span class=k>out</span> <span class=kt>int</span> <span class=n>_</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><table><thead><tr><th>Job</th><th>N</th><th align=right>Mean</th><th align=right>Error</th><th align=right>StdDev</th></tr></thead><tbody><tr><td><strong>Core2.0-x64</strong></td><td><strong>100</strong></td><td align=right><strong>2.490 us</strong></td><td align=right><strong>0.0022 us</strong></td><td align=right><strong>0.0019 us</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>100</td><td align=right>4.283 us</td><td align=right>0.0784 us</td><td align=right>0.0695 us</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>100</td><td align=right>3.174 us</td><td align=right>0.0206 us</td><td align=right>0.0183 us</td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>100000</strong></td><td align=right><strong>2,720.496 us</strong></td><td align=right><strong>4.2448 us</strong></td><td align=right><strong>3.3141 us</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>100000</td><td align=right>4,130.617 us</td><td align=right>13.7123 us</td><td align=right>12.1556 us</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>100000</td><td align=right>3,211.175 us</td><td align=right>5.8462 us</td><td align=right>5.4685 us</td></tr><tr><td><strong>Core2.0-x64</strong></td><td><strong>1000000</strong></td><td align=right><strong>27,249.183 us</strong></td><td align=right><strong>74.8775 us</strong></td><td align=right><strong>66.3769 us</strong></td></tr><tr><td>Mono5.0.1-x64</td><td>1000000</td><td align=right>41,757.702 us</td><td align=right>123.4342 us</td><td align=right>126.7578 us</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>1000000</td><td align=right>34,823.063 us</td><td align=right>694.9357 us</td><td align=right>1,161.0814 us</td></tr></tbody></table><p>Thus, speedup for <code>N=1_000_000</code> is <code>~1.26x</code>.
 Let&rsquo;s look at the timelines:</p><div class=row><div class=mx-auto><a href=/posts/stephen-toub-benchmarks-part1/img/ConcurrentQueueBenchmark2-Run-facetTimeline.png target=_blank alt=ConcurrentQueueBenchmark2-Run-facetTimeline><img class="mx-auto d-block img-fluid" width=800 src=/posts/stephen-toub-benchmarks-part1/img/ConcurrentQueueBenchmark2-Run-facetTimeline.png></a></div></div><br><p>Plots are cool: we immediately see a suspicious place: <code>.NET Framework 4.7</code> + <code>N=1_000_000</code>.
 Looks like another bimodal distribution: a good candidate for detailed research, if we continue this investigation.</p><p>Now let&rsquo;s look at a more interesting example with multithreading.
-The original code:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>while</span> <span class=p>(</span><span class=k>true</span><span class=p>)</span>
-<span class=p>{</span>
-  <span class=k>const</span> <span class=kt>int</span> <span class=n>Items</span> <span class=p>=</span> <span class=m>100</span><span class=n>_000_000</span><span class=p>;</span>
-  <span class=kt>var</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ConcurrentQueue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
-  <span class=kt>var</span> <span class=n>sw</span> <span class=p>=</span> <span class=n>Stopwatch</span><span class=p>.</span><span class=n>StartNew</span><span class=p>();</span>
-
-  <span class=n>Task</span> <span class=n>consumer</span> <span class=p>=</span> <span class=n>Task</span><span class=p>.</span><span class=n>Run</span><span class=p>(()</span> <span class=p>=&gt;</span>
-  <span class=p>{</span>
-    <span class=kt>int</span> <span class=n>total</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
-     <span class=k>while</span> <span class=p>(</span><span class=n>total</span> <span class=p>&lt;</span> <span class=n>Items</span><span class=p>)</span> <span class=k>if</span> <span class=p>(</span><span class=n>q</span><span class=p>.</span><span class=n>TryDequeue</span><span class=p>(</span><span class=k>out</span> <span class=kt>int</span> <span class=n>_</span><span class=p>))</span> <span class=n>total</span><span class=p>++;</span>
-  <span class=p>});</span>
-  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>Items</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span> <span class=n>q</span><span class=p>.</span><span class=n>Enqueue</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
-  <span class=n>consumer</span><span class=p>.</span><span class=n>Wait</span><span class=p>();</span>
-
-  <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>sw</span><span class=p>.</span><span class=n>Elapsed</span><span class=p>);</span>
-<span class=p>}</span>
-</code></pre></div><p>The original results:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>// .NET Framework 4.7
-00:00:06.1366044
-00:00:05.7169339
-00:00:06.3870274
-00:00:05.5487718
-00:00:06.6069291
-// .NET Core 2.0 Preview 1
-00:00:01.2052460
-00:00:01.5269184
-00:00:01.4638793
-00:00:01.4963922
-00:00:01.4927520
-</code></pre></div><p>It&rsquo;s not easy to write multithreading benchmarks.
+The original code:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>while</span> <span class=p>(</span><span class=k>true</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>const</span> <span class=kt>int</span> <span class=n>Items</span> <span class=p>=</span> <span class=m>100_000_000</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=kt>var</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ConcurrentQueue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl>  <span class=kt>var</span> <span class=n>sw</span> <span class=p>=</span> <span class=n>Stopwatch</span><span class=p>.</span><span class=n>StartNew</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>Task</span> <span class=n>consumer</span> <span class=p>=</span> <span class=n>Task</span><span class=p>.</span><span class=n>Run</span><span class=p>(()</span> <span class=p>=&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>total</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>     <span class=k>while</span> <span class=p>(</span><span class=n>total</span> <span class=p>&lt;</span> <span class=n>Items</span><span class=p>)</span> <span class=k>if</span> <span class=p>(</span><span class=n>q</span><span class=p>.</span><span class=n>TryDequeue</span><span class=p>(</span><span class=k>out</span> <span class=kt>int</span> <span class=n>_</span><span class=p>))</span> <span class=n>total</span><span class=p>++;</span>
+</span></span><span class=line><span class=cl>  <span class=p>});</span>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>Items</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span> <span class=n>q</span><span class=p>.</span><span class=n>Enqueue</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=n>consumer</span><span class=p>.</span><span class=n>Wait</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>sw</span><span class=p>.</span><span class=n>Elapsed</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>The original results:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>// .NET Framework 4.7
+</span></span><span class=line><span class=cl>00:00:06.1366044
+</span></span><span class=line><span class=cl>00:00:05.7169339
+</span></span><span class=line><span class=cl>00:00:06.3870274
+</span></span><span class=line><span class=cl>00:00:05.5487718
+</span></span><span class=line><span class=cl>00:00:06.6069291
+</span></span><span class=line><span class=cl>// .NET Core 2.0 Preview 1
+</span></span><span class=line><span class=cl>00:00:01.2052460
+</span></span><span class=line><span class=cl>00:00:01.5269184
+</span></span><span class=line><span class=cl>00:00:01.4638793
+</span></span><span class=line><span class=cl>00:00:01.4963922
+</span></span><span class=line><span class=cl>00:00:01.4927520
+</span></span></code></pre></div><p>It&rsquo;s not easy to write multithreading benchmarks.
 People asked me several times about multithreading support in BenchmarkDotNet, but it&rsquo;s not easy to implement.
 Of course, it&rsquo;s easy to provide a nice API for such benchmark, but it&rsquo;s hard to achieve stable results.
 I don&rsquo;t want to write another benchmarking library which prints <em>some numbers</em>.
 If we have a feature, it should work great.
-So, we don&rsquo;t support it out of the box, but we can just rewrite the original benchmark with the help of BenchmarkDotNet in a simple way:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[Config(typeof(MonitoringConfig))]</span>
-<span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
-<span class=k>public</span> <span class=k>class</span> <span class=nc>ConcurrentQueueBenchmark3</span>
-<span class=p>{</span>
-  <span class=k>private</span> <span class=n>ConcurrentQueue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ConcurrentQueue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
-<span class=na>
-</span><span class=na>  [Params(100_000_000)]</span>
-  <span class=k>public</span> <span class=kt>int</span> <span class=n>N</span><span class=p>;</span>
-<span class=na>
-</span><span class=na>  [Benchmark]</span>
-  <span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
-  <span class=p>{</span>
-    <span class=n>Task</span> <span class=n>consumer</span> <span class=p>=</span> <span class=n>Task</span><span class=p>.</span><span class=n>Run</span><span class=p>(()</span> <span class=p>=&gt;</span>
-    <span class=p>{</span>
-      <span class=kt>int</span> <span class=n>total</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
-      <span class=k>while</span> <span class=p>(</span><span class=n>total</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>)</span> <span class=k>if</span> <span class=p>(</span><span class=n>q</span><span class=p>.</span><span class=n>TryDequeue</span><span class=p>(</span><span class=k>out</span> <span class=kt>int</span> <span class=n>_</span><span class=p>))</span> <span class=n>total</span><span class=p>++;</span>
-    <span class=p>});</span>
-    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-      <span class=n>q</span><span class=p>.</span><span class=n>Enqueue</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
-    <span class=n>consumer</span><span class=p>.</span><span class=n>Wait</span><span class=p>();</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><p>Here we use <code>MonitoringConfig</code> instead of <code>MainConfig</code>:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>class</span> <span class=nc>MonitoringConfig</span> <span class=p>:</span> <span class=n>ManualConfig</span>
-<span class=p>{</span>
-  <span class=k>public</span> <span class=n>MonitoringConfig</span><span class=p>()</span>
-  <span class=p>{</span>
-    <span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>RunStrategy</span><span class=p>.</span><span class=n>Monitoring</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Clr</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Jit</span><span class=p>.</span><span class=n>RyuJit</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Platform</span><span class=p>.</span><span class=n>X64</span><span class=p>).</span><span class=n>WithId</span><span class=p>(</span><span class=s>&#34;NET4.7_RyuJIT-x64&#34;</span><span class=p>));</span>
-    <span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>RunStrategy</span><span class=p>.</span><span class=n>Monitoring</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Mono</span><span class=p>).</span><span class=n>WithId</span><span class=p>(</span><span class=s>&#34;Mono5.0.1-x64&#34;</span><span class=p>));</span>
-    <span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>RunStrategy</span><span class=p>.</span><span class=n>Monitoring</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Core</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>CsProjCoreToolchain</span><span class=p>.</span><span class=n>NetCoreApp20</span><span class=p>).</span><span class=n>WithId</span><span class=p>(</span><span class=s>&#34;Core2.0-x64&#34;</span><span class=p>));</span>
-    <span class=n>Add</span><span class=p>(</span><span class=n>RPlotExporter</span><span class=p>.</span><span class=n>Default</span><span class=p>);</span>
-    <span class=n>KeepBenchmarkFiles</span> <span class=p>=</span> <span class=k>true</span><span class=p>;</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><p>Mainly, BenchmarkDotNet is focusing on microbenchmarking.
+So, we don&rsquo;t support it out of the box, but we can just rewrite the original benchmark with the help of BenchmarkDotNet in a simple way:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=na>[Config(typeof(MonitoringConfig))]</span>
+</span></span><span class=line><span class=cl><span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>ConcurrentQueueBenchmark3</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>private</span> <span class=n>ConcurrentQueue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ConcurrentQueue</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;();</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [Params(100_000_000)]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=kt>int</span> <span class=n>N</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [Benchmark]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Task</span> <span class=n>consumer</span> <span class=p>=</span> <span class=n>Task</span><span class=p>.</span><span class=n>Run</span><span class=p>(()</span> <span class=p>=&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=kt>int</span> <span class=n>total</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>      <span class=k>while</span> <span class=p>(</span><span class=n>total</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>)</span> <span class=k>if</span> <span class=p>(</span><span class=n>q</span><span class=p>.</span><span class=n>TryDequeue</span><span class=p>(</span><span class=k>out</span> <span class=kt>int</span> <span class=n>_</span><span class=p>))</span> <span class=n>total</span><span class=p>++;</span>
+</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>      <span class=n>q</span><span class=p>.</span><span class=n>Enqueue</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>consumer</span><span class=p>.</span><span class=n>Wait</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Here we use <code>MonitoringConfig</code> instead of <code>MainConfig</code>:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>MonitoringConfig</span> <span class=p>:</span> <span class=n>ManualConfig</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=n>MonitoringConfig</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>RunStrategy</span><span class=p>.</span><span class=n>Monitoring</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Clr</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Jit</span><span class=p>.</span><span class=n>RyuJit</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Platform</span><span class=p>.</span><span class=n>X64</span><span class=p>).</span><span class=n>WithId</span><span class=p>(</span><span class=s>&#34;NET4.7_RyuJIT-x64&#34;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>RunStrategy</span><span class=p>.</span><span class=n>Monitoring</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Mono</span><span class=p>).</span><span class=n>WithId</span><span class=p>(</span><span class=s>&#34;Mono5.0.1-x64&#34;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=n>Add</span><span class=p>(</span><span class=n>Job</span><span class=p>.</span><span class=n>Default</span><span class=p>.</span><span class=n>With</span><span class=p>(</span><span class=n>RunStrategy</span><span class=p>.</span><span class=n>Monitoring</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>Runtime</span><span class=p>.</span><span class=n>Core</span><span class=p>).</span><span class=n>With</span><span class=p>(</span><span class=n>CsProjCoreToolchain</span><span class=p>.</span><span class=n>NetCoreApp20</span><span class=p>).</span><span class=n>WithId</span><span class=p>(</span><span class=s>&#34;Core2.0-x64&#34;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>    <span class=n>Add</span><span class=p>(</span><span class=n>RPlotExporter</span><span class=p>.</span><span class=n>Default</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>KeepBenchmarkFiles</span> <span class=p>=</span> <span class=k>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Mainly, BenchmarkDotNet is focusing on microbenchmarking.
 If you measure a method which takes seconds, the whole benchmarking process can take too much time.
 <code>RunStrategy.Monitoring</code> is designed for macrobenchmarks, it allows getting good results in a short period of time.
 One day we will support such method out of the box, but currently <code>Monitoring</code> is our choice (<a href=http://benchmarkdotnet.org/Guides/ChoosingRunStrategy.htm>more about run strategies</a>).</p><p>The results:</p><table><thead><tr><th>Job</th><th>N</th><th align=right>Mean</th><th align=right>Error</th><th align=right>StdDev</th></tr></thead><tbody><tr><td>Core2.0-x64</td><td>100000000</td><td align=right>1.720 s</td><td align=right>0.3313 s</td><td align=right>0.2191 s</td></tr><tr><td>Mono5.0.1-x64</td><td>100000000</td><td align=right>6.829 s</td><td align=right>0.9576 s</td><td align=right>0.6334 s</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td>100000000</td><td align=right>6.042 s</td><td align=right>0.4212 s</td><td align=right>0.2786 s</td></tr></tbody></table><p>The original speedup is <code>~4x..5.3x</code>, the new speedup is <code>~3.5x</code>.
 The important point here is the following: the standard deviation is huge.
-Let&rsquo;s look again at a few of the original results for <code>.NET Framework 4.7</code>:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>00:00:05.5487718
-00:00:06.6069291
-</code></pre></div><p>There is a huge difference between measurements.
+Let&rsquo;s look again at a few of the original results for <code>.NET Framework 4.7</code>:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>00:00:05.5487718
+</span></span><span class=line><span class=cl>00:00:06.6069291
+</span></span></code></pre></div><p>There is a huge difference between measurements.
 It&rsquo;s not enough to do only five iterations in such case!
 Here is the box plot:</p><div class=row><div class=mx-auto><a href=/posts/stephen-toub-benchmarks-part1/img/ConcurrentQueueBenchmark3-boxplot.png target=_blank alt=ConcurrentQueueBenchmark3-boxplot><img class="mx-auto d-block img-fluid" width=800 src=/posts/stephen-toub-benchmarks-part1/img/ConcurrentQueueBenchmark3-boxplot.png></a></div></div><br><p>Probably another case of a bimodal distribution?
-Let&rsquo;s look at the density plot:</p><div class=row><div class=mx-auto><a href=/posts/stephen-toub-benchmarks-part1/img/ConcurrentQueueBenchmark3-Run-density.png target=_blank alt=ConcurrentQueueBenchmark3-Run-density><img class="mx-auto d-block img-fluid" width=800 src=/posts/stephen-toub-benchmarks-part1/img/ConcurrentQueueBenchmark3-Run-density.png></a></div></div><br><p>It&rsquo;s not a bimodal distribution; it&rsquo;s just a distribution of strange form with huge <code>StdDev</code>.</p><h4 id=concurrentbag>ConcurrentBag</h4><p>The original benchmark:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>while</span> <span class=p>(</span><span class=k>true</span><span class=p>)</span>
-<span class=p>{</span>
-  <span class=kt>var</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ConcurrentBag</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;()</span> <span class=p>{</span> <span class=m>1</span><span class=p>,</span> <span class=m>2</span> <span class=p>};</span>
-  <span class=kt>var</span> <span class=n>sw</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Stopwatch</span><span class=p>();</span>
-
-  <span class=kt>int</span> <span class=n>gen0</span> <span class=p>=</span> <span class=n>GC</span><span class=p>.</span><span class=n>CollectionCount</span><span class=p>(</span><span class=m>0</span><span class=p>),</span> <span class=n>gen1</span> <span class=p>=</span> <span class=n>GC</span><span class=p>.</span><span class=n>CollectionCount</span><span class=p>(</span><span class=m>1</span><span class=p>),</span> <span class=n>gen2</span> <span class=p>=</span> <span class=n>GC</span><span class=p>.</span><span class=n>CollectionCount</span><span class=p>(</span><span class=m>2</span><span class=p>);</span>
-  <span class=n>sw</span><span class=p>.</span><span class=n>Start</span><span class=p>();</span>
-
-  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>100</span><span class=n>_000_000</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-  <span class=p>{</span>
-    <span class=n>q</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
-    <span class=n>q</span><span class=p>.</span><span class=n>TryTake</span><span class=p>(</span><span class=k>out</span> <span class=kt>int</span> <span class=n>_</span><span class=p>);</span>
-  <span class=p>}</span>
-
-  <span class=n>sw</span><span class=p>.</span><span class=n>Stop</span><span class=p>();</span>
-  <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>$&#34;Elapsed={sw.Elapsed} Gen0={GC.CollectionCount(0) - gen0} Gen1={GC.CollectionCount(1) - gen1} Gen2={GC.CollectionCount(2) - gen2}&#34;</span><span class=p>);</span>
-<span class=p>}</span>
-</code></pre></div><p>The original results:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=c1>// .NET Framework 4.7
-</span><span class=c1></span><span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>06.5672723</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>953</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
-<span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>06.4829793</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>954</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>1</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
-<span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>06.9008532</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>954</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
-<span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>06.6485667</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>953</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>1</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
-<span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>06.4671746</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>954</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>1</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
-<span class=c1>// .NET Core 2.0 Preview 1
-</span><span class=c1></span><span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>04.3377355</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
-<span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>04.2892791</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
-<span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>04.3101593</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
-<span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>04.2652497</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
-<span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>04.2808077</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
-</code></pre></div><p>A new benchmark:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[Config(typeof(MainConfig))]</span>
-<span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
-<span class=na>[MemoryDiagnoser]</span>
-<span class=k>public</span> <span class=k>class</span> <span class=nc>ConcurrentBag</span>
-<span class=p>{</span>
-  <span class=k>private</span> <span class=n>ConcurrentBag</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ConcurrentBag</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=p>{</span> <span class=m>1</span><span class=p>,</span> <span class=m>2</span> <span class=p>};</span>
-<span class=na>
-</span><span class=na>  [Benchmark]</span>
-  <span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
-  <span class=p>{</span>
-    <span class=n>q</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=m>0</span><span class=p>);</span>
-    <span class=n>q</span><span class=p>.</span><span class=n>TryTake</span><span class=p>(</span><span class=k>out</span> <span class=kt>int</span> <span class=n>_</span><span class=p>);</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><table><thead><tr><th>Job</th><th align=right>Mean</th><th align=right>Error</th><th align=right>StdDev</th><th align=right>Gen 0</th><th align=right>Allocated</th></tr></thead><tbody><tr><td>Core2.0-x64</td><td align=right>56.47 ns</td><td align=right>1.1561 ns</td><td align=right>2.1140 ns</td><td align=right>-</td><td align=right>0 B</td></tr><tr><td>Mono5.0.1-x64</td><td align=right>162.82 ns</td><td align=right>0.2874 ns</td><td align=right>0.2548 ns</td><td align=right>0.0086</td><td align=right>N/A</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td align=right>82.52 ns</td><td align=right>0.2572 ns</td><td align=right>0.2008 ns</td><td align=right>0.0126</td><td align=right>40 B</td></tr></tbody></table><p>The original speedup is <code>~1.5x</code>, the new speedup is <code>~1.37x</code> (almost the same).</p><p>By the way, Mono works slowly again: about two times slower than the full framework.
+Let&rsquo;s look at the density plot:</p><div class=row><div class=mx-auto><a href=/posts/stephen-toub-benchmarks-part1/img/ConcurrentQueueBenchmark3-Run-density.png target=_blank alt=ConcurrentQueueBenchmark3-Run-density><img class="mx-auto d-block img-fluid" width=800 src=/posts/stephen-toub-benchmarks-part1/img/ConcurrentQueueBenchmark3-Run-density.png></a></div></div><br><p>It&rsquo;s not a bimodal distribution; it&rsquo;s just a distribution of strange form with huge <code>StdDev</code>.</p><h4 id=concurrentbag>ConcurrentBag</h4><p>The original benchmark:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>while</span> <span class=p>(</span><span class=k>true</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kt>var</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ConcurrentBag</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;()</span> <span class=p>{</span> <span class=m>1</span><span class=p>,</span> <span class=m>2</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl>  <span class=kt>var</span> <span class=n>sw</span> <span class=p>=</span> <span class=k>new</span> <span class=n>Stopwatch</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=kt>int</span> <span class=n>gen0</span> <span class=p>=</span> <span class=n>GC</span><span class=p>.</span><span class=n>CollectionCount</span><span class=p>(</span><span class=m>0</span><span class=p>),</span> <span class=n>gen1</span> <span class=p>=</span> <span class=n>GC</span><span class=p>.</span><span class=n>CollectionCount</span><span class=p>(</span><span class=m>1</span><span class=p>),</span> <span class=n>gen2</span> <span class=p>=</span> <span class=n>GC</span><span class=p>.</span><span class=n>CollectionCount</span><span class=p>(</span><span class=m>2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=n>sw</span><span class=p>.</span><span class=n>Start</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=m>100_000_000</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>q</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>q</span><span class=p>.</span><span class=n>TryTake</span><span class=p>(</span><span class=k>out</span> <span class=kt>int</span> <span class=n>_</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>sw</span><span class=p>.</span><span class=n>Stop</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>  <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>$&#34;Elapsed={sw.Elapsed} Gen0={GC.CollectionCount(0) - gen0} Gen1={GC.CollectionCount(1) - gen1} Gen2={GC.CollectionCount(2) - gen2}&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>The original results:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=c1>// .NET Framework 4.7</span>
+</span></span><span class=line><span class=cl><span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>06.5672723</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>953</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
+</span></span><span class=line><span class=cl><span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>06.4829793</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>954</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>1</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
+</span></span><span class=line><span class=cl><span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>06.9008532</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>954</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
+</span></span><span class=line><span class=cl><span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>06.6485667</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>953</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>1</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
+</span></span><span class=line><span class=cl><span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>06.4671746</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>954</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>1</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
+</span></span><span class=line><span class=cl><span class=c1>// .NET Core 2.0 Preview 1</span>
+</span></span><span class=line><span class=cl><span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>04.3377355</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
+</span></span><span class=line><span class=cl><span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>04.2892791</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
+</span></span><span class=line><span class=cl><span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>04.3101593</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
+</span></span><span class=line><span class=cl><span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>04.2652497</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
+</span></span><span class=line><span class=cl><span class=n>Elapsed</span><span class=p>=</span><span class=m>00</span><span class=p>:</span><span class=m>00</span><span class=p>:</span><span class=m>04.2808077</span> <span class=n>Gen0</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen1</span><span class=p>=</span><span class=m>0</span> <span class=n>Gen2</span><span class=p>=</span><span class=m>0</span>
+</span></span></code></pre></div><p>A new benchmark:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=na>[Config(typeof(MainConfig))]</span>
+</span></span><span class=line><span class=cl><span class=na>[BenchmarkCategory(&#34;Collections&#34;)]</span>
+</span></span><span class=line><span class=cl><span class=na>[MemoryDiagnoser]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>ConcurrentBag</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>private</span> <span class=n>ConcurrentBag</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=n>q</span> <span class=p>=</span> <span class=k>new</span> <span class=n>ConcurrentBag</span><span class=p>&lt;</span><span class=kt>int</span><span class=p>&gt;</span> <span class=p>{</span> <span class=m>1</span><span class=p>,</span> <span class=m>2</span> <span class=p>};</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [Benchmark]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=k>void</span> <span class=n>Run</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>q</span><span class=p>.</span><span class=n>Add</span><span class=p>(</span><span class=m>0</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>q</span><span class=p>.</span><span class=n>TryTake</span><span class=p>(</span><span class=k>out</span> <span class=kt>int</span> <span class=n>_</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><table><thead><tr><th>Job</th><th align=right>Mean</th><th align=right>Error</th><th align=right>StdDev</th><th align=right>Gen 0</th><th align=right>Allocated</th></tr></thead><tbody><tr><td>Core2.0-x64</td><td align=right>56.47 ns</td><td align=right>1.1561 ns</td><td align=right>2.1140 ns</td><td align=right>-</td><td align=right>0 B</td></tr><tr><td>Mono5.0.1-x64</td><td align=right>162.82 ns</td><td align=right>0.2874 ns</td><td align=right>0.2548 ns</td><td align=right>0.0086</td><td align=right>N/A</td></tr><tr><td>NET4.7_RyuJIT-x64</td><td align=right>82.52 ns</td><td align=right>0.2572 ns</td><td align=right>0.2008 ns</td><td align=right>0.0126</td><td align=right>40 B</td></tr></tbody></table><p>The original speedup is <code>~1.5x</code>, the new speedup is <code>~1.37x</code> (almost the same).</p><p>By the way, Mono works slowly again: about two times slower than the full framework.
 On <code>.NET Core 2.0 Preview 1</code>, we got another bimodal distributions, here is a timeline plot:</p><div class=row><div class=mx-auto><a href=/posts/stephen-toub-benchmarks-part1/img/ConcurrentBag-Run-Core2.0-x64-timelineSmooth.png target=_blank alt=ConcurrentBag-Run-Core2.0-x64-timelineSmooth><img class="mx-auto d-block img-fluid" width=800 src=/posts/stephen-toub-benchmarks-part1/img/ConcurrentBag-Run-Core2.0-x64-timelineSmooth.png></a></div></div><br><h3 id=conclusion>Conclusion</h3><p>Could we say that .NET Core is always the fastest runtime?
 No.
 We looked only at specific cases related to coreclr-specific optimizations.
@@ -625,7 +625,13 @@ but I want to get some feedback first.
 Is it an interesting topic?
 Is it worth to explain all the benchmarks and how they can be improved?
 If so, I will be happy to explain in detail what happens in each case
-(I hope that these explanations will help people to design correct benchmark for similar cases).</p><br><br><div class=row><div class="mx-auto share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fstephen-toub-benchmarks-part1%2f&title=Measuring%20Performance%20Improvements%20in%20.NET%20Core%20with%20BenchmarkDotNet%20%28Part%201%29" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Measuring%20Performance%20Improvements%20in%20.NET%20Core%20with%20BenchmarkDotNet%20%28Part%201%29&url=https%3a%2f%2faakinshin.net%2fposts%2fstephen-toub-benchmarks-part1%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fstephen-toub-benchmarks-part1%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fstephen-toub-benchmarks-part1%2f&title=Measuring%20Performance%20Improvements%20in%20.NET%20Core%20with%20BenchmarkDotNet%20%28Part%201%29" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
+(I hope that these explanations will help people to design correct benchmark for similar cases).</p><br><br><div class=row><div class="justify-content-center share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fstephen-toub-benchmarks-part1%2f&title=Measuring%20Performance%20Improvements%20in%20.NET%20Core%20with%20BenchmarkDotNet%20%28Part%201%29" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Measuring%20Performance%20Improvements%20in%20.NET%20Core%20with%20BenchmarkDotNet%20%28Part%201%29&url=https%3a%2f%2faakinshin.net%2fposts%2fstephen-toub-benchmarks-part1%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fstephen-toub-benchmarks-part1%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fstephen-toub-benchmarks-part1%2f&title=Measuring%20Performance%20Improvements%20in%20.NET%20Core%20with%20BenchmarkDotNet%20%28Part%201%29" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
 |
-<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a><a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a><a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>|
-<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.082780cb948cc57eabbc0d80172a7a5347d5572b599938b4c9876dfd7978b424.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>
+<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a>
+<a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a>
+<a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>
+|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.c26550621ac13c2221d7f6f5e6fe862345d3919723c50d730893e3e4856ecf35.js></script>
+<script src=/js/bootstrap.bundle.min.js></script>
+<script src=/js/anchor.min.js></script>
+<script src=https://aakinshin.net/js/custom.min.f6e5d13fe39f305056cc743ee4cb8d117c1aba26176e58c82c79a480d02fe4b7.js></script></body></html>

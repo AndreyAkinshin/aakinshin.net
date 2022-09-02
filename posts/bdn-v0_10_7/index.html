@@ -1,12 +1,12 @@
-<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Programming,.NET,C#,BenchmarkDotNet,Benchmarking"><title>BenchmarkDotNet v0.10.7 | Andrey Akinshin</title><meta name=description content="BenchmarkDotNet v0.10.7 has been released. In this post, I will briefly cover the following features:
- LINQPad support Filters and categories Updated Setup..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.882998740b9c4c24677576b997bde5a487246e2e3bd72128a0e922eaa59db029.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.50da8736f05b35aac9691de67fe993cbe01b7d88fcf0cb682c3a8f39933fe4a3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.b7c11be17efd31d4852ff062694551596a7625c992103c0605c98f85d6569f11.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>Posts</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/posts/>All Posts</a>
-<a class=dropdown-item href=https://aakinshin.net/tags/statistics/>Posts about Statistics</a>
-<a class=dropdown-item href=https://aakinshin.net/tags/>All Tags</a></div></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>BenchmarkDotNet v0.10.7</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2017-06-05>June 5, 2017</time>
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Programming,.NET,C#,BenchmarkDotNet,Benchmarking"><title>BenchmarkDotNet v0.10.7 | Andrey Akinshin</title><meta name=description content="BenchmarkDotNet v0.10.7 has been released. In this post, I will briefly cover the following features:
+LINQPad support Filters and categories Updated Setup/..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=https://aakinshin.net/sass/bootstrap-light.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=https://aakinshin.net/sass/bootstrap-dark.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.d7f6578e23ad3f0c33c589f9bcb34f995b45121f1f3ce888869c86b26826c845.js></script>
+<script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.9e68d431432744c07a43381a8a833ffe0921cc0e006d84ad97f0b0d43c5cd82d.mjs></script>
+<link href=https://aakinshin.net/css/fontawesome-all.min.178e95bba6ea2e9a90838cd646658f4bf6667a6ceaa057cb587bf7e6eb8412d3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.7e186db80d8c431d196b3e0718afb0636b82a269a8c92521c11a55267a24fc27.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ZVB6MXSX32")</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-41419012-5")</script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[o]=e[o]||function(){(e[o].a=e[o].a||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym"),ym(28700916,"init",{clickmap:!0,trackLinks:!0,accurateTrackBounce:!0})</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href=# role=button data-bs-toggle=dropdown aria-expanded=false>Blog</a><ul class="dropdown-menu bg-primary"><li><a class=dropdown-item href=https://aakinshin.net/posts/>All Posts</a></li><li><a class=dropdown-item href=https://aakinshin.net/tags/statistics/>Posts about Statistics</a></li><li></li><a class=dropdown-item href=https://aakinshin.net/tags/>All Tags</a></li></ul></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ms-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>BenchmarkDotNet v0.10.7</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2017-06-05>June 5, 2017</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i>&nbsp;
+<i class="fas fa-tag"></i>
+&nbsp;
 <a href=https://aakinshin.net/tags/programming/ class="badge badge-info">Programming</a>
 <a href=https://aakinshin.net/tags/dotnet/ class="badge badge-info">.NET</a>
 <a href=https://aakinshin.net/tags/cs/ class="badge badge-info">C#</a>
@@ -20,156 +20,156 @@ The fix was on the LINQPad side, so you need LINQPad 5.22.05+ to get it worked (
 <a href=https://github.com/dotnet/BenchmarkDotNet/issues/445>BenchmarkDotNet#445</a>.</p><hr><h3 id=filters-and-categories>Filters and categories</h3><p><a href=https://github.com/dotnet/BenchmarkDotNet/issues/248>This issue</a> by <a href=https://github.com/jskeet>@jskeet</a> was pretty old,
 but I finally found some time to implement it.
 BenchmarkDotNet becomes very popular, some of our users have a lot of benchmarks, and they don&rsquo;t want to run all the benchmarks each time.
-In this case, they can <em>filter</em> some of them with the help of <em>filters</em>.</p><p>Usage examples:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[Config(typeof(Config))]</span>
-<span class=k>public</span> <span class=k>class</span> <span class=nc>IntroFilters</span>
-<span class=p>{</span>
-    <span class=k>private</span> <span class=k>class</span> <span class=nc>Config</span> <span class=p>:</span> <span class=n>ManualConfig</span>
-    <span class=p>{</span>
-        <span class=c1>// We will benchmark ONLY method with names with names (which contains &#34;A&#34; OR &#34;1&#34;) AND (have length &lt; 3)
-</span><span class=c1></span>        <span class=k>public</span> <span class=n>Config</span><span class=p>()</span>
-        <span class=p>{</span>
-            <span class=n>Add</span><span class=p>(</span><span class=k>new</span> <span class=n>DisjunctionFilter</span><span class=p>(</span>
-                <span class=k>new</span> <span class=n>NameFilter</span><span class=p>(</span><span class=n>name</span> <span class=p>=&gt;</span> <span class=n>name</span><span class=p>.</span><span class=n>Contains</span><span class=p>(</span><span class=s>&#34;A&#34;</span><span class=p>)),</span>
-                <span class=k>new</span> <span class=n>NameFilter</span><span class=p>(</span><span class=n>name</span> <span class=p>=&gt;</span> <span class=n>name</span><span class=p>.</span><span class=n>Contains</span><span class=p>(</span><span class=s>&#34;1&#34;</span><span class=p>))</span>
-            <span class=p>));</span> <span class=c1>// benchmark with names which contains &#34;A&#34; OR &#34;1&#34;
-</span><span class=c1></span>            <span class=n>Add</span><span class=p>(</span><span class=k>new</span> <span class=n>NameFilter</span><span class=p>(</span><span class=n>name</span> <span class=p>=&gt;</span> <span class=n>name</span><span class=p>.</span><span class=n>Length</span> <span class=p>&lt;</span> <span class=m>3</span><span class=p>));</span> <span class=c1>// benchmark with names with length &lt; 3
-</span><span class=c1></span>        <span class=p>}</span>
-    <span class=p>}</span>
-<span class=na>
-</span><span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>A1</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span> <span class=c1>// Will be benchmarked
-</span><span class=c1></span><span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>A2</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span> <span class=c1>// Will be benchmarked
-</span><span class=c1></span><span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>A3</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span> <span class=c1>// Will be benchmarked
-</span><span class=c1></span><span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>B1</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span> <span class=c1>// Will be benchmarked
-</span><span class=c1></span><span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>B2</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span>
-<span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>B3</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span>
-<span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>C1</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span> <span class=c1>// Will be benchmarked
-</span><span class=c1></span><span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>C2</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span>
-<span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>C3</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span>
-<span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>Aaa</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span>
-<span class=p>}</span>
-</code></pre></div><p>An example of <code>BenchmarkCategory</code> usage:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[DryJob]</span>
-<span class=na>[CategoriesColumn]</span>
-<span class=na>[BenchmarkCategory(&#34;Awesome&#34;)]</span>
-<span class=na>[AnyCategoriesFilter(&#34;A&#34;, &#34;1&#34;)]</span>
-<span class=k>public</span> <span class=k>class</span> <span class=nc>IntroCategories</span>
-<span class=p>{</span>
-<span class=na>    [Benchmark]</span>
-<span class=na>    [BenchmarkCategory(&#34;A&#34;, &#34;1&#34;)]</span>
-    <span class=k>public</span> <span class=k>void</span> <span class=n>A1</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span> <span class=c1>// Will be benchmarked
-</span><span class=c1></span><span class=na>
-</span><span class=na>    [Benchmark]</span>
-<span class=na>    [BenchmarkCategory(&#34;A&#34;, &#34;2&#34;)]</span>
-    <span class=k>public</span> <span class=k>void</span> <span class=n>A2</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span> <span class=c1>// Will be benchmarked
-</span><span class=c1></span><span class=na>
-</span><span class=na>    [Benchmark]</span>
-<span class=na>    [BenchmarkCategory(&#34;B&#34;, &#34;1&#34;)]</span>
-    <span class=k>public</span> <span class=k>void</span> <span class=n>B1</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span> <span class=c1>// Will be benchmarked
-</span><span class=c1></span><span class=na>
-</span><span class=na>    [Benchmark]</span>
-<span class=na>    [BenchmarkCategory(&#34;B&#34;, &#34;2&#34;)]</span>
-    <span class=k>public</span> <span class=k>void</span> <span class=n>B2</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span>
-<span class=p>}</span>
-</code></pre></div><p>The filtering can be performed via command line.
-Examples:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>--category=A
---allCategories=A,B
---anyCategories=A,B
-</code></pre></div><p>If you are using <code>BenchmarkSwitcher</code> and want to run all the benchmarks with a category from all types and join them into one summary table, use the <code>--join</code> option (or <code>BenchmarkSwitcher.RunAllJoined</code>):</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>* --join --category=MyAwesomeCategory
-</code></pre></div><p>The last feature was inspired by a <a href=https://github.com/NickCraver>@NickCraver</a> <a href=https://github.com/dotnet/BenchmarkDotNet/issues/248#issuecomment-300652000>comment</a>,
+In this case, they can <em>filter</em> some of them with the help of <em>filters</em>.</p><p>Usage examples:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=na>[Config(typeof(Config))]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>IntroFilters</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=k>class</span> <span class=nc>Config</span> <span class=p>:</span> <span class=n>ManualConfig</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=c1>// We will benchmark ONLY method with names with names (which contains &#34;A&#34; OR &#34;1&#34;) AND (have length &lt; 3)</span>
+</span></span><span class=line><span class=cl>        <span class=k>public</span> <span class=n>Config</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>Add</span><span class=p>(</span><span class=k>new</span> <span class=n>DisjunctionFilter</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>                <span class=k>new</span> <span class=n>NameFilter</span><span class=p>(</span><span class=n>name</span> <span class=p>=&gt;</span> <span class=n>name</span><span class=p>.</span><span class=n>Contains</span><span class=p>(</span><span class=s>&#34;A&#34;</span><span class=p>)),</span>
+</span></span><span class=line><span class=cl>                <span class=k>new</span> <span class=n>NameFilter</span><span class=p>(</span><span class=n>name</span> <span class=p>=&gt;</span> <span class=n>name</span><span class=p>.</span><span class=n>Contains</span><span class=p>(</span><span class=s>&#34;1&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>            <span class=p>));</span> <span class=c1>// benchmark with names which contains &#34;A&#34; OR &#34;1&#34;</span>
+</span></span><span class=line><span class=cl>            <span class=n>Add</span><span class=p>(</span><span class=k>new</span> <span class=n>NameFilter</span><span class=p>(</span><span class=n>name</span> <span class=p>=&gt;</span> <span class=n>name</span><span class=p>.</span><span class=n>Length</span> <span class=p>&lt;</span> <span class=m>3</span><span class=p>));</span> <span class=c1>// benchmark with names with length &lt; 3</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>A1</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span> <span class=c1>// Will be benchmarked</span>
+</span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>A2</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span> <span class=c1>// Will be benchmarked</span>
+</span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>A3</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span> <span class=c1>// Will be benchmarked</span>
+</span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>B1</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span> <span class=c1>// Will be benchmarked</span>
+</span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>B2</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>B3</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>C1</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span> <span class=c1>// Will be benchmarked</span>
+</span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>C2</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>C3</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span> <span class=k>public</span> <span class=k>void</span> <span class=n>Aaa</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>An example of <code>BenchmarkCategory</code> usage:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=na>[DryJob]</span>
+</span></span><span class=line><span class=cl><span class=na>[CategoriesColumn]</span>
+</span></span><span class=line><span class=cl><span class=na>[BenchmarkCategory(&#34;Awesome&#34;)]</span>
+</span></span><span class=line><span class=cl><span class=na>[AnyCategoriesFilter(&#34;A&#34;, &#34;1&#34;)]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>IntroCategories</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span>
+</span></span><span class=line><span class=cl><span class=na>    [BenchmarkCategory(&#34;A&#34;, &#34;1&#34;)]</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>void</span> <span class=n>A1</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span> <span class=c1>// Will be benchmarked</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span>
+</span></span><span class=line><span class=cl><span class=na>    [BenchmarkCategory(&#34;A&#34;, &#34;2&#34;)]</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>void</span> <span class=n>A2</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span> <span class=c1>// Will be benchmarked</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span>
+</span></span><span class=line><span class=cl><span class=na>    [BenchmarkCategory(&#34;B&#34;, &#34;1&#34;)]</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>void</span> <span class=n>B1</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span> <span class=c1>// Will be benchmarked</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span>
+</span></span><span class=line><span class=cl><span class=na>    [BenchmarkCategory(&#34;B&#34;, &#34;2&#34;)]</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>void</span> <span class=n>B2</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Thread</span><span class=p>.</span><span class=n>Sleep</span><span class=p>(</span><span class=m>10</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>The filtering can be performed via command line.
+Examples:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>--category=A
+</span></span><span class=line><span class=cl>--allCategories=A,B
+</span></span><span class=line><span class=cl>--anyCategories=A,B
+</span></span></code></pre></div><p>If you are using <code>BenchmarkSwitcher</code> and want to run all the benchmarks with a category from all types and join them into one summary table, use the <code>--join</code> option (or <code>BenchmarkSwitcher.RunAllJoined</code>):</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>* --join --category=MyAwesomeCategory
+</span></span></code></pre></div><p>The last feature was inspired by a <a href=https://github.com/NickCraver>@NickCraver</a> <a href=https://github.com/dotnet/BenchmarkDotNet/issues/248#issuecomment-300652000>comment</a>,
 it should be useful in <a href=https://github.com/StackExchange/Dapper>Dapper</a>.</p><p>See also:
 <a href=https://github.com/dotnet/BenchmarkDotNet/issues/248>BenchmarkDotNet#248</a>.</p><hr><h3 id=updated-setupcleanup-attributes>Updated Setup/Cleanup attributes</h3><p>Sometimes we want to write some logic which should be executed <em>before</em> or <em>after</em> a benchmark, but we don&rsquo;t want to measure it.
 For this purpose, BenchmarkDotNet provides a set of attributes: <code>[GlobalSetup]</code>, <code>[GlobalCleanup]</code>, <code>[IterationSetup]</code>, <code>[IterationCleanup]</code>.</p><h4 id=globalsetup>GlobalSetup</h4><p>A method which is marked by the <code>[GlobalSetup]</code> attribute will be executed only once per a benchmarked method
-after initialization of benchmark parameters and before all the benchmark method invocations.</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>class</span> <span class=nc>GlobalSetupExample</span>
-<span class=p>{</span>
-<span class=na>    [Params(10, 100, 1000)]</span>
-    <span class=k>public</span> <span class=kt>int</span> <span class=n>N</span><span class=p>;</span>
-
-    <span class=k>private</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>data</span><span class=p>;</span>
-<span class=na>
-</span><span class=na>    [GlobalSetup]</span>
-    <span class=k>public</span> <span class=k>void</span> <span class=n>GlobalSetup</span><span class=p>()</span>
-    <span class=p>{</span>
-        <span class=n>data</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>N</span><span class=p>];</span> <span class=c1>// executed once per each N value
-</span><span class=c1></span>    <span class=p>}</span>
-<span class=na>
-</span><span class=na>    [Benchmark]</span>
-    <span class=k>public</span> <span class=kt>int</span> <span class=n>Logic</span><span class=p>()</span>
-    <span class=p>{</span>
-        <span class=kt>int</span> <span class=n>res</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
-        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
-            <span class=n>res</span> <span class=p>+=</span> <span class=n>data</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
-        <span class=k>return</span> <span class=n>res</span><span class=p>;</span>
-    <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><h4 id=globalcleanup>GlobalCleanup</h4><p>A method which is marked by the <code>[GlobalCleanup]</code> attribute will be executed only once per a benchmarked method
+after initialization of benchmark parameters and before all the benchmark method invocations.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>GlobalSetupExample</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=na>    [Params(10, 100, 1000)]</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=kt>int</span> <span class=n>N</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>private</span> <span class=kt>int</span><span class=p>[]</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>    [GlobalSetup]</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=k>void</span> <span class=n>GlobalSetup</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>data</span> <span class=p>=</span> <span class=k>new</span> <span class=kt>int</span><span class=p>[</span><span class=n>N</span><span class=p>];</span> <span class=c1>// executed once per each N value</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>    [Benchmark]</span>
+</span></span><span class=line><span class=cl>    <span class=k>public</span> <span class=kt>int</span> <span class=n>Logic</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kt>int</span> <span class=n>res</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span> <span class=n>i</span> <span class=p>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=p>++)</span>
+</span></span><span class=line><span class=cl>            <span class=n>res</span> <span class=p>+=</span> <span class=n>data</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>res</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h4 id=globalcleanup>GlobalCleanup</h4><p>A method which is marked by the <code>[GlobalCleanup]</code> attribute will be executed only once per a benchmarked method
 after all the benchmark method invocations.
-If you are using some unmanaged resources (e.g., which were created in the <code>GlobalSetup</code> method), they can be disposed in the <code>GlobalCleanup</code> method.</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=k>public</span> <span class=k>void</span> <span class=n>GlobalCleanup</span><span class=p>()</span>
-<span class=p>{</span>
-    <span class=c1>// Disposing logic
-</span><span class=c1></span><span class=p>}</span>
-</code></pre></div><h4 id=iterationsetup>IterationSetup</h4><p>A method which is marked by the <code>[IterationSetup]</code> attribute will be executed only once <em>before each an iteration</em>.
+If you are using some unmanaged resources (e.g., which were created in the <code>GlobalSetup</code> method), they can be disposed in the <code>GlobalCleanup</code> method.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>public</span> <span class=k>void</span> <span class=n>GlobalCleanup</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// Disposing logic</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h4 id=iterationsetup>IterationSetup</h4><p>A method which is marked by the <code>[IterationSetup]</code> attribute will be executed only once <em>before each an iteration</em>.
 It&rsquo;s not recommended to use this attribute in microbenchmarks because it can spoil the results.
 However, if you are writing a macrobenchmark (e.g. a benchmark which takes at least 100ms) and
 you want to prepare some data before each iteration, <code>[IterationSetup]</code> can be useful.
 BenchmarkDotNet doesn&rsquo;t support setup/cleanup method for a single method invocation (<em>an operation</em>), but you can perform only one operation per iteration.
 It&rsquo;s recommended to use <code>RunStrategy.Monitoring</code> for such cases.
 Be careful: if you allocate any objects in the <code>[IterationSetup]</code> method, the MemoryDiagnoser results can also be spoiled.</p><h4 id=iterationcleanup>IterationCleanup</h4><p>A method which is marked by the <code>[IterationCleanup]</code> attribute will be executed only once <em>after each an iteration</em>.
-This attribute has the same set of constraint with <code>[IterationSetup]</code>: it&rsquo;s not recommended to use <code>[IterationCleanup]</code> in microbenchmarks or benchmark which also</p><h4 id=an-example>An example</h4><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[SimpleJob(RunStrategy.Monitoring, launchCount: 1, warmupCount: 2, targetCount: 3)]</span>
-<span class=k>public</span> <span class=k>class</span> <span class=nc>SetupAndCleanupExample</span>
-<span class=p>{</span>
-  <span class=k>private</span> <span class=kt>int</span> <span class=n>setupCounter</span><span class=p>;</span>
-  <span class=k>private</span> <span class=kt>int</span> <span class=n>cleanupCounter</span><span class=p>;</span>
-<span class=na>
-</span><span class=na>  [IterationSetup]</span>
-  <span class=k>public</span> <span class=k>void</span> <span class=n>IterationSetup</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;// &#34;</span> <span class=p>+</span> <span class=s>&#34;IterationSetup&#34;</span> <span class=p>+</span> <span class=s>&#34; (&#34;</span> <span class=p>+</span> <span class=p>++</span><span class=n>setupCounter</span> <span class=p>+</span> <span class=s>&#34;)&#34;</span><span class=p>);</span>
-<span class=na>
-</span><span class=na>  [IterationCleanup]</span>
-  <span class=k>public</span> <span class=k>void</span> <span class=n>IterationCleanup</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;// &#34;</span> <span class=p>+</span> <span class=s>&#34;IterationCleanup&#34;</span> <span class=p>+</span> <span class=s>&#34; (&#34;</span> <span class=p>+</span> <span class=p>++</span><span class=n>cleanupCounter</span> <span class=p>+</span> <span class=s>&#34;)&#34;</span><span class=p>);</span>
-<span class=na>
-</span><span class=na>  [GlobalSetup]</span>
-  <span class=k>public</span> <span class=k>void</span> <span class=n>GlobalSetup</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;// &#34;</span> <span class=p>+</span> <span class=s>&#34;GlobalSetup&#34;</span><span class=p>);</span>
-<span class=na>
-</span><span class=na>  [GlobalCleanup]</span>
-  <span class=k>public</span> <span class=k>void</span> <span class=n>GlobalCleanup</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;// &#34;</span> <span class=p>+</span> <span class=s>&#34;GlobalCleanup&#34;</span><span class=p>);</span>
-<span class=na>
-</span><span class=na>  [Benchmark]</span>
-  <span class=k>public</span> <span class=k>void</span> <span class=n>Benchmark</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;// &#34;</span> <span class=p>+</span> <span class=s>&#34;Benchmark&#34;</span><span class=p>);</span>
-<span class=p>}</span>
-</code></pre></div><p>The order of method calls:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>// GlobalSetup
-
-// IterationSetup (1)    // IterationSetup Jitting
-// IterationCleanup (1)  // IterationCleanup Jitting
-
-// IterationSetup (2)    // MainWarmup1
-// Benchmark             // MainWarmup1
-// IterationCleanup (2)  // MainWarmup1
-
-// IterationSetup (3)    // MainWarmup2
-// Benchmark             // MainWarmup2
-// IterationCleanup (3)  // MainWarmup2
-
-// IterationSetup (4)    // MainTarget1
-// Benchmark             // MainTarget1
-// IterationCleanup (4)  // MainTarget1
-
-// IterationSetup (5)    // MainTarget2
-// Benchmark             // MainTarget2
-// IterationCleanup (5)  // MainTarget2
-
-// IterationSetup (6)    // MainTarget3
-// Benchmark             // MainTarget3
-// IterationCleanup (6)  // MainTarget3
-
-// GlobalCleanup
-</code></pre></div><h4 id=some-additional-comments>Some additional comments</h4><p>In <code>v0.10.6</code>, we had only the <code>[Setup]</code> and <code>[Cleanup]</code> attributes which were renamed to <code>[GlobalSetup]</code> and <code>[GlobalCleanup]</code>.
-In <code>v0.10.7</code>, we still have <code>[Setup]</code> and <code>[Cleanup]</code> (so, your benchmarks will not be broken after the update) with a simple trick which is very popular for backward compatibility:</p><div class=highlight><pre class=chroma><code class=language-cs data-lang=cs><span class=na>[Obsolete(&#34;Use GlobalSetupAttribute&#34;)]</span>
-<span class=k>public</span> <span class=k>class</span> <span class=nc>SetupAttribute</span> <span class=p>:</span> <span class=n>GlobalSetupAttribute</span>
-<span class=p>{</span>
-<span class=p>}</span>
-<span class=na>[Obsolete(&#34;Use GlobalCleanupAttribute&#34;)]</span>
-<span class=k>public</span> <span class=k>class</span> <span class=nc>CleanupAttribute</span> <span class=p>:</span> <span class=n>GlobalCleanupAttribute</span>
-<span class=p>{</span>
-<span class=p>}</span>
-</code></pre></div><p>It&rsquo;s recommended to fix your benchmarks because we are going to drop in in a few months.
+This attribute has the same set of constraint with <code>[IterationSetup]</code>: it&rsquo;s not recommended to use <code>[IterationCleanup]</code> in microbenchmarks or benchmark which also</p><h4 id=an-example>An example</h4><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=na>[SimpleJob(RunStrategy.Monitoring, launchCount: 1, warmupCount: 2, targetCount: 3)]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>SetupAndCleanupExample</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=k>private</span> <span class=kt>int</span> <span class=n>setupCounter</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>private</span> <span class=kt>int</span> <span class=n>cleanupCounter</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [IterationSetup]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=k>void</span> <span class=n>IterationSetup</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;// &#34;</span> <span class=p>+</span> <span class=s>&#34;IterationSetup&#34;</span> <span class=p>+</span> <span class=s>&#34; (&#34;</span> <span class=p>+</span> <span class=p>++</span><span class=n>setupCounter</span> <span class=p>+</span> <span class=s>&#34;)&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [IterationCleanup]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=k>void</span> <span class=n>IterationCleanup</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;// &#34;</span> <span class=p>+</span> <span class=s>&#34;IterationCleanup&#34;</span> <span class=p>+</span> <span class=s>&#34; (&#34;</span> <span class=p>+</span> <span class=p>++</span><span class=n>cleanupCounter</span> <span class=p>+</span> <span class=s>&#34;)&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [GlobalSetup]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=k>void</span> <span class=n>GlobalSetup</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;// &#34;</span> <span class=p>+</span> <span class=s>&#34;GlobalSetup&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [GlobalCleanup]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=k>void</span> <span class=n>GlobalCleanup</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;// &#34;</span> <span class=p>+</span> <span class=s>&#34;GlobalCleanup&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>  [Benchmark]</span>
+</span></span><span class=line><span class=cl>  <span class=k>public</span> <span class=k>void</span> <span class=n>Benchmark</span><span class=p>()</span> <span class=p>=&gt;</span> <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=s>&#34;// &#34;</span> <span class=p>+</span> <span class=s>&#34;Benchmark&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>The order of method calls:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>// GlobalSetup
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// IterationSetup (1)    // IterationSetup Jitting
+</span></span><span class=line><span class=cl>// IterationCleanup (1)  // IterationCleanup Jitting
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// IterationSetup (2)    // MainWarmup1
+</span></span><span class=line><span class=cl>// Benchmark             // MainWarmup1
+</span></span><span class=line><span class=cl>// IterationCleanup (2)  // MainWarmup1
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// IterationSetup (3)    // MainWarmup2
+</span></span><span class=line><span class=cl>// Benchmark             // MainWarmup2
+</span></span><span class=line><span class=cl>// IterationCleanup (3)  // MainWarmup2
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// IterationSetup (4)    // MainTarget1
+</span></span><span class=line><span class=cl>// Benchmark             // MainTarget1
+</span></span><span class=line><span class=cl>// IterationCleanup (4)  // MainTarget1
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// IterationSetup (5)    // MainTarget2
+</span></span><span class=line><span class=cl>// Benchmark             // MainTarget2
+</span></span><span class=line><span class=cl>// IterationCleanup (5)  // MainTarget2
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// IterationSetup (6)    // MainTarget3
+</span></span><span class=line><span class=cl>// Benchmark             // MainTarget3
+</span></span><span class=line><span class=cl>// IterationCleanup (6)  // MainTarget3
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>// GlobalCleanup
+</span></span></code></pre></div><h4 id=some-additional-comments>Some additional comments</h4><p>In <code>v0.10.6</code>, we had only the <code>[Setup]</code> and <code>[Cleanup]</code> attributes which were renamed to <code>[GlobalSetup]</code> and <code>[GlobalCleanup]</code>.
+In <code>v0.10.7</code>, we still have <code>[Setup]</code> and <code>[Cleanup]</code> (so, your benchmarks will not be broken after the update) with a simple trick which is very popular for backward compatibility:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=na>[Obsolete(&#34;Use GlobalSetupAttribute&#34;)]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>SetupAttribute</span> <span class=p>:</span> <span class=n>GlobalSetupAttribute</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=na>[Obsolete(&#34;Use GlobalCleanupAttribute&#34;)]</span>
+</span></span><span class=line><span class=cl><span class=k>public</span> <span class=k>class</span> <span class=nc>CleanupAttribute</span> <span class=p>:</span> <span class=n>GlobalCleanupAttribute</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>It&rsquo;s recommended to fix your benchmarks because we are going to drop in in a few months.
 Here is discussion about renaming: <a href=https://github.com/dotnet/BenchmarkDotNet/issues/456>BenchmarkDotNet#456</a>.</p><p>Historically, BenchmarkDotNet was focused only on microbenchmarking.
 We didn&rsquo;t implement <code>[IterationSetup]</code>/<code>[IterationCleanup]</code> before because these attributes can&rsquo;t be applied for benchmarking of methods which take nanoseconds (if you want good precision):
 Since a lot of our users use it for macrobenchmarking now (and they don&rsquo;t need super-precision in this case),
@@ -185,27 +185,33 @@ Probably, it&rsquo;s not the last such problem, so we are going to continue to i
 <a href=https://github.com/dotnet/BenchmarkDotNet/commit/afa803d0e38c0e11864b2e4394d4a85d3801d944>BenchmarkDotNet/afa803d0</a></p><hr><h3 id=building-sources-on-linux>Building Sources on Linux</h3><p>BenchmarkDotNet is a cross-platform NuGet package so that you can use all the basic features on Windows, Linux, and MacOS.
 We develop BenchmarkDotNet on Windows, but it&rsquo;s already possible to develop it on Linux and MacOS (with some limitations).
 If you have latest <a href=https://www.microsoft.com/net/download/core>.NET Core SDK</a> and <a href=https://www.mono-project.com/download/stable/>Mono</a>,
-you should be able to build the solution (with unloaded F#/VB projects), run samples (for both <code>net46</code>/<code>netcoreapp1.1</code>), run unit tests (for <code>netcoreapp1.1</code> only).</p><div class=row><div class=mx-auto><a href=/posts/bdn-v0_10_7/img/linux-xunit.png target=_blank alt=linux-xunit><img class="mx-auto d-block img-fluid" width=800 src=/posts/bdn-v0_10_7/img/linux-xunit.png></a></div></div><br><p>Unfortunately, I don&rsquo;t know how to run unit tests on <code>net46</code> and how to pack NuGet packages on Linux:</p><div class=highlight><pre class=chroma><code class=language-txt data-lang=txt>akinshin@xu:~/RiderProjects/BenchmarkDotNet/tests$ dotnet test BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj --configuration Release --framework net46
-Build started, please wait...
-/usr/share/dotnet/sdk/1.0.4/Microsoft.Common.CurrentVersion.targets(1111,5): error MSB3644: The reference assemblies for framework &#34;.NETFramework,Version=v4.6&#34; were not found. To resolve this, install the SDK or Targeting Pack for this framework version or retarget your application to a version of the framework for which you have the SDK or Targeting Pack installed. Note that assemblies will be resolved from the Global Assembly Cache (GAC) and will be used in place of reference assemblies. Therefore your assembly may not be correctly targeted for the framework you intend. [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
-/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018: The &#34;GenerateRuntimeConfigurationFiles&#34; task failed unexpectedly. [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
-/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018: System.IO.DirectoryNotFoundException: Could not find a part of the path &#39;/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/bin/Release/net46/BenchmarkDotNet.Tests.runtimeconfig.json&#39;. [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
-/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Interop.ThrowExceptionForIoErrno(ErrorInfo errorInfo, String path, Boolean isDirectory, Func`2 errorRewriter) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
-/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Interop.CheckIo[TSafeHandle](TSafeHandle handle, String path, Boolean isDirectory, Func`2 errorRewriter) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
-/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String path, OpenFlags flags, Int32 mode) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
-/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at System.IO.UnixFileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, FileStream parent) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
-/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at System.IO.UnixFileSystem.Open(String fullPath, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, FileStream parent) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
-/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
-/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.NET.Build.Tasks.GenerateRuntimeConfigurationFiles.WriteToJsonFile(String fileName, Object value) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
-/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.NET.Build.Tasks.GenerateRuntimeConfigurationFiles.WriteRuntimeConfig(ProjectContext projectContext) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
-/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.NET.Build.Tasks.GenerateRuntimeConfigurationFiles.ExecuteCore() [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
-/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.NET.Build.Tasks.TaskBase.Execute() [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
-/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskExecutionHost.Microsoft.Build.BackEnd.ITaskExecutionHost.Execute() [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
-/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskBuilder.&lt;ExecuteInstantiatedTask&gt;d__25.MoveNext() [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
-</code></pre></div><p><a href=https://developercommunity.visualstudio.com/content/problem/61641/targeting-multiple-frameworks-causes-build-to-fail.html>It seems</a> that it&rsquo;s impossible now (.NET Core SDK 1.0.4) by design.
+you should be able to build the solution (with unloaded F#/VB projects), run samples (for both <code>net46</code>/<code>netcoreapp1.1</code>), run unit tests (for <code>netcoreapp1.1</code> only).</p><div class=row><div class=mx-auto><a href=/posts/bdn-v0_10_7/img/linux-xunit.png target=_blank alt=linux-xunit><img class="mx-auto d-block img-fluid" width=800 src=/posts/bdn-v0_10_7/img/linux-xunit.png></a></div></div><br><p>Unfortunately, I don&rsquo;t know how to run unit tests on <code>net46</code> and how to pack NuGet packages on Linux:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>akinshin@xu:~/RiderProjects/BenchmarkDotNet/tests$ dotnet test BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj --configuration Release --framework net46
+</span></span><span class=line><span class=cl>Build started, please wait...
+</span></span><span class=line><span class=cl>/usr/share/dotnet/sdk/1.0.4/Microsoft.Common.CurrentVersion.targets(1111,5): error MSB3644: The reference assemblies for framework &#34;.NETFramework,Version=v4.6&#34; were not found. To resolve this, install the SDK or Targeting Pack for this framework version or retarget your application to a version of the framework for which you have the SDK or Targeting Pack installed. Note that assemblies will be resolved from the Global Assembly Cache (GAC) and will be used in place of reference assemblies. Therefore your assembly may not be correctly targeted for the framework you intend. [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+</span></span><span class=line><span class=cl>/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018: The &#34;GenerateRuntimeConfigurationFiles&#34; task failed unexpectedly. [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+</span></span><span class=line><span class=cl>/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018: System.IO.DirectoryNotFoundException: Could not find a part of the path &#39;/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/bin/Release/net46/BenchmarkDotNet.Tests.runtimeconfig.json&#39;. [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+</span></span><span class=line><span class=cl>/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Interop.ThrowExceptionForIoErrno(ErrorInfo errorInfo, String path, Boolean isDirectory, Func`2 errorRewriter) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+</span></span><span class=line><span class=cl>/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Interop.CheckIo[TSafeHandle](TSafeHandle handle, String path, Boolean isDirectory, Func`2 errorRewriter) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+</span></span><span class=line><span class=cl>/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String path, OpenFlags flags, Int32 mode) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+</span></span><span class=line><span class=cl>/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at System.IO.UnixFileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, FileStream parent) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+</span></span><span class=line><span class=cl>/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at System.IO.UnixFileSystem.Open(String fullPath, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, FileStream parent) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+</span></span><span class=line><span class=cl>/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+</span></span><span class=line><span class=cl>/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.NET.Build.Tasks.GenerateRuntimeConfigurationFiles.WriteToJsonFile(String fileName, Object value) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+</span></span><span class=line><span class=cl>/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.NET.Build.Tasks.GenerateRuntimeConfigurationFiles.WriteRuntimeConfig(ProjectContext projectContext) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+</span></span><span class=line><span class=cl>/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.NET.Build.Tasks.GenerateRuntimeConfigurationFiles.ExecuteCore() [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+</span></span><span class=line><span class=cl>/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.NET.Build.Tasks.TaskBase.Execute() [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+</span></span><span class=line><span class=cl>/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskExecutionHost.Microsoft.Build.BackEnd.ITaskExecutionHost.Execute() [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+</span></span><span class=line><span class=cl>/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskBuilder.&lt;ExecuteInstantiatedTask&gt;d__25.MoveNext() [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+</span></span></code></pre></div><p><a href=https://developercommunity.visualstudio.com/content/problem/61641/targeting-multiple-frameworks-causes-build-to-fail.html>It seems</a> that it&rsquo;s impossible now (.NET Core SDK 1.0.4) by design.
 I hope that it will be possible in the future and BenchmarkDotNet will become xplat not only for our users, but also for core BenchmarkDotNet developers.</p><hr><h3 id=conclusion>Conclusion</h3><p><code>v0.10.7</code> is a small (but important) step forward to <code>v1.0</code>.
 We didn&rsquo;t release it yet because we are still not sure about how perfect API should look like and what kind of features should be included in a decent benchmarking library.
-Any feedback is very valuable, don&rsquo;t hesitate to <a href=https://github.com/dotnet/BenchmarkDotNet/issues/new>create issues</a> on GitHub if you don&rsquo;t like the current API or you need some additional features.</p><ul><li>BenchmarkDotNet on GitHub: <a href=https://github.com/dotnet/BenchmarkDotNet>https://github.com/dotnet/BenchmarkDotNet</a></li><li>Official documentation: <a href=http://benchmarkdotnet.org/>http://benchmarkdotnet.org/</a></li><li>ChangeLog: <a href=https://github.com/dotnet/BenchmarkDotNet/wiki/ChangeLog>https://github.com/dotnet/BenchmarkDotNet/wiki/ChangeLog</a></li></ul><br><br><div class=row><div class="mx-auto share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fbdn-v0_10_7%2f&title=BenchmarkDotNet%20v0.10.7" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=BenchmarkDotNet%20v0.10.7&url=https%3a%2f%2faakinshin.net%2fposts%2fbdn-v0_10_7%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fbdn-v0_10_7%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fbdn-v0_10_7%2f&title=BenchmarkDotNet%20v0.10.7" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
+Any feedback is very valuable, don&rsquo;t hesitate to <a href=https://github.com/dotnet/BenchmarkDotNet/issues/new>create issues</a> on GitHub if you don&rsquo;t like the current API or you need some additional features.</p><ul><li>BenchmarkDotNet on GitHub: <a href=https://github.com/dotnet/BenchmarkDotNet>https://github.com/dotnet/BenchmarkDotNet</a></li><li>Official documentation: <a href=http://benchmarkdotnet.org/>http://benchmarkdotnet.org/</a></li><li>ChangeLog: <a href=https://github.com/dotnet/BenchmarkDotNet/wiki/ChangeLog>https://github.com/dotnet/BenchmarkDotNet/wiki/ChangeLog</a></li></ul><br><br><div class=row><div class="justify-content-center share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fbdn-v0_10_7%2f&title=BenchmarkDotNet%20v0.10.7" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=BenchmarkDotNet%20v0.10.7&url=https%3a%2f%2faakinshin.net%2fposts%2fbdn-v0_10_7%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fbdn-v0_10_7%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fbdn-v0_10_7%2f&title=BenchmarkDotNet%20v0.10.7" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
 |
-<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a><a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a><a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>|
-<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.082780cb948cc57eabbc0d80172a7a5347d5572b599938b4c9876dfd7978b424.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>
+<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a>
+<a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a>
+<a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>
+|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.c26550621ac13c2221d7f6f5e6fe862345d3919723c50d730893e3e4856ecf35.js></script>
+<script src=/js/bootstrap.bundle.min.js></script>
+<script src=/js/anchor.min.js></script>
+<script src=https://aakinshin.net/js/custom.min.f6e5d13fe39f305056cc743ee4cb8d117c1aba26176e58c82c79a480d02fe4b7.js></script></body></html>

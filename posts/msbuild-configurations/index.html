@@ -1,221 +1,227 @@
-<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.74.3"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Programming,.NET,MSBuild,Configurations"><title>Setting up build configuration in .NET | Andrey Akinshin</title><meta name=description content="You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But the..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=/css/lumen-bootstrap.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/slate-bootstrap.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><link href=/css/syntax-light.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=/css/syntax-dark.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.26d61b7027fe55e642f0001cef94cb75b567d721086492aab6b4e32d9ee7811d.js></script><script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.882998740b9c4c24677576b997bde5a487246e2e3bd72128a0e922eaa59db029.mjs></script><link href=https://aakinshin.net/css/fontawesome-all.min.50da8736f05b35aac9691de67fe993cbe01b7d88fcf0cb682c3a8f39933fe4a3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.b7c11be17efd31d4852ff062694551596a7625c992103c0605c98f85d6569f11.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','G-ZVB6MXSX32');</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','UA-41419012-5');</script><script type=text/javascript>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(28700916,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>Posts</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/posts/>All Posts</a>
-<a class=dropdown-item href=https://aakinshin.net/tags/statistics/>Posts about Statistics</a>
-<a class=dropdown-item href=https://aakinshin.net/tags/>All Tags</a></div></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle=dropdown href=# role=button aria-haspopup=true aria-expanded=false>EN</a><div class=dropdown-menu><a class=dropdown-item href=https://aakinshin.net/ru/posts/msbuild-configurations/>RU</a></div></li></ul><ul class="navbar-nav ml-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Setting up build configuration in .NET</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2014-02-08>February 8, 2014</time>
+<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Programming,.NET,MSBuild,Configurations"><title>Setting up build configuration in .NET | Andrey Akinshin</title><meta name=description content="You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But the..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=https://aakinshin.net/sass/bootstrap-light.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=https://aakinshin.net/sass/bootstrap-dark.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.d7f6578e23ad3f0c33c589f9bcb34f995b45121f1f3ce888869c86b26826c845.js></script>
+<script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.9e68d431432744c07a43381a8a833ffe0921cc0e006d84ad97f0b0d43c5cd82d.mjs></script>
+<link href=https://aakinshin.net/css/fontawesome-all.min.178e95bba6ea2e9a90838cd646658f4bf6667a6ceaa057cb587bf7e6eb8412d3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.2a76db7cc14055b3bafacc363f453917ab54a818a7db2a0a9b2409c0f6bf07c5.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.7e186db80d8c431d196b3e0718afb0636b82a269a8c92521c11a55267a24fc27.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVB6MXSX32"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-ZVB6MXSX32")</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-41419012-5"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-41419012-5")</script><script type=text/javascript>(function(e,t,n,s,o,i,a){e[o]=e[o]||function(){(e[o].a=e[o].a||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym"),ym(28700916,"init",{clickmap:!0,trackLinks:!0,accurateTrackBounce:!0})</script><noscript><div><img src=https://mc.yandex.ru/watch/28700916 style=position:absolute;left:-9999px alt></div></noscript><script src=/js/jquery-3.3.1.slim.min.js></script></head><body><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href=# role=button data-bs-toggle=dropdown aria-expanded=false>Blog</a><ul class="dropdown-menu bg-primary"><li><a class=dropdown-item href=https://aakinshin.net/posts/>All Posts</a></li><li><a class=dropdown-item href=https://aakinshin.net/tags/statistics/>Posts about Statistics</a></li><li></li><a class=dropdown-item href=https://aakinshin.net/tags/>All Tags</a></li></ul></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li><li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href=# role=button data-bs-toggle=dropdown aria-expanded=false>EN</a><ul class="dropdown-menu bg-primary"><li></li><a class=dropdown-item href=https://aakinshin.net/ru/posts/msbuild-configurations/>RU</a></li></ul></li></ul><ul class="navbar-nav ms-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Setting up build configuration in .NET</h1><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2014-02-08>February 8, 2014</time>
 &nbsp;&nbsp;
-<i class="fas fa-tag"></i>&nbsp;
+<i class="fas fa-tag"></i>
+&nbsp;
 <a href=https://aakinshin.net/tags/programming/ class="badge badge-info">Programming</a>
 <a href=https://aakinshin.net/tags/dotnet/ class="badge badge-info">.NET</a>
 <a href=https://aakinshin.net/tags/msbuild/ class="badge badge-info">MSBuild</a>
-<a href=https://aakinshin.net/tags/configurations/ class="badge badge-info">Configurations</a></span><br><br><p>You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But there can appear a necessity to extend it with the additional configurations. It’s ok if you need to add just a couple of new settings, but what if there are tens of such settings? And what if your solution contains 20 projects that need setting up of these configurations? In this case it becomes quite difficult to manage and modify build parameters.</p><p>In this article, we will review a way to make this process simpler by reducing description of the build configurations.</p><p>Open csproj file of one of your projects, you will find the following strings there:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
-  <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
-  <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
-  <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
-  <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>
-  <span class=nt>&lt;OutputPath&gt;</span>bin\Debug\<span class=nt>&lt;/OutputPath&gt;</span>
-  <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
-  <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
-<span class=nt>&lt;/PropertyGroup&gt;</span>
-<span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
-  <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
-  <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
-  <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>
-  <span class=nt>&lt;OutputPath&gt;</span>bin\Release\<span class=nt>&lt;/OutputPath&gt;</span>
-  <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
-  <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
-<span class=nt>&lt;/PropertyGroup&gt;</span>
-</code></pre></div><p>The first problem we face with is that the strings are duplicated (or almost duplicated) in all projects. Luckily, csproj files support export of configurations. So, let’s create the <code>Configurations.targets</code> file in the solution root folder. It will contain:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
-    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
-    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
-    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>
-    <span class=nt>&lt;OutputPath&gt;</span>bin\Debug\<span class=nt>&lt;/OutputPath&gt;</span>
-    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
-    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
-    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
-    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
-    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>
-    <span class=nt>&lt;OutputPath&gt;</span>bin\Release\<span class=nt>&lt;/OutputPath&gt;</span>
-    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
-    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
-    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-<span class=nt>&lt;/Project&gt;</span>
-</code></pre></div><p>After that you will be able to change the corresponding strings in the source csproj file to:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Import</span> <span class=na>Project=</span><span class=s>&#34;..\Configurations.targets&#34;</span> <span class=nt>/&gt;</span>
-</code></pre></div><p>Cool, we got rid of the duplicated configuration descriptions. Now we can focus on editing of a single file. You can notice that some strings are still duplicated in Debug and Release configurations. Assume that a developer wants to setup all these parameters individually for every configuration. If there is no such need, it’s possible to take the duplicated lines out to the common <code>PropertyGroup</code>:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
-  <span class=nt>&lt;PropertyGroup&gt;</span>
-    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
-    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
-    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span> 
-
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
-    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
-    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>
-    <span class=nt>&lt;OutputPath&gt;</span>bin\Debug\<span class=nt>&lt;/OutputPath&gt;</span>
-    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
-    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>
-    <span class=nt>&lt;OutputPath&gt;</span>bin\Release\<span class=nt>&lt;/OutputPath&gt;</span>
-    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-<span class=nt>&lt;/Project&gt;</span>
-</code></pre></div><p>Is it possible to enhance anything else? Let’s think. The eye catches <code>OutputPath</code> which can be figured out from the configuration name. When you have two configurations you can set individual settings for each of them. But if you have quite a lot of configurations it would be great to make <code>OutputPath</code> figure out of the configuration name. Here we get the <code>$(Configuration)</code> variable that will help us to determine this name.</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
-  <span class=c>&lt;!-- Common --&gt;</span>
-  <span class=nt>&lt;PropertyGroup&gt;</span>
-    <span class=nt>&lt;OutputPath&gt;</span>bin\$(Configuration)\<span class=nt>&lt;/OutputPath&gt;</span>
-    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
-    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
-    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span> 
-
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
-    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
-    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>    
-    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
-    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>    
-    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-<span class=nt>&lt;/Project&gt;</span>
-</code></pre></div><p>Great! We got rid of duplication. What else can be optimized? As a rule, the properties being set up depend only on the configuration; change of the platform doesn’t influence anything. Let’s remove this unnecessary condition.</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
-  <span class=c>&lt;!-- Common --&gt;</span>
-  <span class=nt>&lt;PropertyGroup&gt;</span>
-    <span class=nt>&lt;OutputPath&gt;</span>bin\$(Configuration)\<span class=nt>&lt;/OutputPath&gt;</span>
-    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
-    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
-    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span> 
-
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)&#39; == &#39;Debug&#39; &#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
-    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
-    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>    
-    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)&#39; == &#39;Release&#39; &#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
-    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>    
-    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-<span class=nt>&lt;/Project&gt;</span>
-</code></pre></div><p>Now let’s add new configurations. Assume we want to add a Demo mode to the application. Not all features are available in this mode. The Demo mode may also require debugging that is why it’s reasonable to create <code>DebugDemo</code> and <code>ReleaseDemo</code> configurations. And, for example, we want to add a build mode that will require a user to use a license. We may also want to license Demo version. So, we have 4 more configurations: <code>DebugLicense</code>, <code>ReleaseLicense</code>, <code>DebugDemoLicense</code>, <code>ReleaseDemoLicense</code>. This situation is just a sample, your project can be absolutely different. <code>Demo</code> and <code>License</code> will add new variables to <code>DefineConstants</code>. It seems that you just need to create 8 separate <code>PropertyGroups</code> for 8 configurations. But something in my mind begins to protest. Luckily, you can add a more complicated condition than just comparison to the <code>Condition</code>. In this sample, we will search for the set substring in the configuration name:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
-  <span class=c>&lt;!-- Common --&gt;</span>
-  <span class=nt>&lt;PropertyGroup&gt;</span>
-    <span class=nt>&lt;OutputPath&gt;</span>bin\$(Configuration)\<span class=nt>&lt;/OutputPath&gt;</span>
-    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
-    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
-    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span> 
-
-  <span class=c>&lt;!-- Conditional --&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Debug&#39;))&#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
-    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
-    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>    
-    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Release&#39;))&#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
-    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>    
-    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;License&#39;))&#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);LICENSE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Demo&#39;))&#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);DEMO<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>  
-<span class=nt>&lt;/Project&gt;</span>
-</code></pre></div><p>Looks quite good. There is a little problem: Visual Studio can’t get a list of available configurations. This issue can be solved by adding empty <code>PropertyGroups</code> with the same <code>Condition</code> as in the beginning. And you can add only those configurations you will actually use in your work. For example, we don’t want to debug <code>Demo</code> and <code>License</code> configurations. In this case we can write the following strings:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
-  <span class=c>&lt;!-- Common --&gt;</span>
-  <span class=nt>&lt;PropertyGroup&gt;</span>
-    <span class=nt>&lt;OutputPath&gt;</span>bin\$(Configuration)\<span class=nt>&lt;/OutputPath&gt;</span>
-    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
-    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
-    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span> 
-
-  <span class=c>&lt;!-- Conditional --&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Debug&#39;))&#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
-    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
-    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>    
-    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Release&#39;))&#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
-    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>    
-    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;License&#39;))&#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);LICENSE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Demo&#39;))&#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);DEMO<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>  
-
-  <span class=c>&lt;!-- Available --&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseDemo|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseLicense|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseDemoLicense|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
-<span class=nt>&lt;/Project&gt;</span>
-</code></pre></div><p>If you’ve got the inborn hatred to duplication of anything, you can take out additional properties duplicated in all projects to the file you’ve got. For example, in this way:</p><div class=highlight><pre class=chroma><code class=language-xml data-lang=xml><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
-  <span class=c>&lt;!-- Common --&gt;</span>
-  <span class=nt>&lt;PropertyGroup&gt;</span>
-    <span class=nt>&lt;Configuration</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)&#39; == &#39;&#39; &#34;</span><span class=nt>&gt;</span>Release<span class=nt>&lt;/Configuration&gt;</span>
-    <span class=nt>&lt;Platform</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Platform)&#39; == &#39;&#39; &#34;</span><span class=nt>&gt;</span>AnyCPU<span class=nt>&lt;/Platform&gt;</span>    
-    <span class=nt>&lt;TargetFrameworkVersion&gt;</span>v4.0<span class=nt>&lt;/TargetFrameworkVersion&gt;</span>
-    <span class=nt>&lt;SolutionDir</span> <span class=na>Condition=</span><span class=s>&#34;$(SolutionDir) == &#39;&#39; Or $(SolutionDir) == &#39;*Undefined*&#39;&#34;</span><span class=nt>&gt;</span>..\<span class=nt>&lt;/SolutionDir&gt;</span>
-    <span class=nt>&lt;OutputPath&gt;</span>bin\$(Configuration)\<span class=nt>&lt;/OutputPath&gt;</span>
-    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
-    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
-    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span> 
-
-  <span class=c>&lt;!-- Conditional --&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Debug&#39;))&#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
-    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
-    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>
-    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Release&#39;))&#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
-    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>
-    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;License&#39;))&#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);LICENSE<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Demo&#39;))&#34;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);DEMO<span class=nt>&lt;/DefineConstants&gt;</span>
-  <span class=nt>&lt;/PropertyGroup&gt;</span>  
-
-  <span class=c>&lt;!-- Available --&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseDemo|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseLicense|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
-  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseDemoLicense|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
-<span class=nt>&lt;/Project&gt;</span>
-</code></pre></div><p>Now we got rid of all duplication for sure. And it’s so easy to setup configurations. I’d like to notice that this approach may not suit you; many projects are perfectly developed without editing of the configurations. And sometimes it’s necessary to setup each configuration for each project and for each platform manually – in this case you won’t be able to save your time by removing duplications. But if you’ve got a problem with setting up of quite a lot of configurations for quite a lot of projects, this practice may be a good fit. You can also get more information on build in MSDN.</p><h2 id=links>Links</h2><ul><li><a href=http://msdn.microsoft.com/en-us/library/0k6kkbsd.aspx>MSBuild Reference</a></li><li><a href=http://msdn.microsoft.com/en-us/library/ms164307.aspx>MSBuild Conditional Constructs</a></li><li><a href=http://msdn.microsoft.com/en-us/library/7szfhaft.aspx>MSBuild Conditions</a></li><li><a href=http://msdn.microsoft.com/en-us/library/dd633440.aspx>Expand Property Functions</a></li><li><a href=http://msdn.microsoft.com/en-us/library/ms171459.aspx>How to: Use Environment Variables in a Build</a></li><li><a href=http://msdn.microsoft.com/en-us/library/bb629394.aspx>Common MSBuild Project Properties</a></li><li><a href=http://msdn.microsoft.com/en-us/library/bb629388.aspx>Common MSBuild Project Items</a></li></ul><h2 id=cross-posts>Cross-posts</h2><ul><li><a href=http://blogs.perpetuumsoft.com/dotnet/setting-up-build-configuration-in-net/>blogs.perpetuumsoft.com</a></li></ul><br><br><div class=row><div class="mx-auto share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fmsbuild-configurations%2f&title=Setting%20up%20build%20configuration%20in%20.NET" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Setting%20up%20build%20configuration%20in%20.NET&url=https%3a%2f%2faakinshin.net%2fposts%2fmsbuild-configurations%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fmsbuild-configurations%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fmsbuild-configurations%2f&title=Setting%20up%20build%20configuration%20in%20.NET" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
+<a href=https://aakinshin.net/tags/configurations/ class="badge badge-info">Configurations</a></span><br><br><p>You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But there can appear a necessity to extend it with the additional configurations. It’s ok if you need to add just a couple of new settings, but what if there are tens of such settings? And what if your solution contains 20 projects that need setting up of these configurations? In this case it becomes quite difficult to manage and modify build parameters.</p><p>In this article, we will review a way to make this process simpler by reducing description of the build configurations.</p><p>Open csproj file of one of your projects, you will find the following strings there:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;OutputPath&gt;</span>bin\Debug\<span class=nt>&lt;/OutputPath&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;OutputPath&gt;</span>bin\Release\<span class=nt>&lt;/OutputPath&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span></code></pre></div><p>The first problem we face with is that the strings are duplicated (or almost duplicated) in all projects. Luckily, csproj files support export of configurations. So, let’s create the <code>Configurations.targets</code> file in the solution root folder. It will contain:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;OutputPath&gt;</span>bin\Debug\<span class=nt>&lt;/OutputPath&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;OutputPath&gt;</span>bin\Release\<span class=nt>&lt;/OutputPath&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;/Project&gt;</span>
+</span></span></code></pre></div><p>After that you will be able to change the corresponding strings in the source csproj file to:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;Import</span> <span class=na>Project=</span><span class=s>&#34;..\Configurations.targets&#34;</span> <span class=nt>/&gt;</span>
+</span></span></code></pre></div><p>Cool, we got rid of the duplicated configuration descriptions. Now we can focus on editing of a single file. You can notice that some strings are still duplicated in Debug and Release configurations. Assume that a developer wants to setup all these parameters individually for every configuration. If there is no such need, it’s possible to take the duplicated lines out to the common <code>PropertyGroup</code>:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;OutputPath&gt;</span>bin\Debug\<span class=nt>&lt;/OutputPath&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;OutputPath&gt;</span>bin\Release\<span class=nt>&lt;/OutputPath&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;/Project&gt;</span>
+</span></span></code></pre></div><p>Is it possible to enhance anything else? Let’s think. The eye catches <code>OutputPath</code> which can be figured out from the configuration name. When you have two configurations you can set individual settings for each of them. But if you have quite a lot of configurations it would be great to make <code>OutputPath</code> figure out of the configuration name. Here we get the <code>$(Configuration)</code> variable that will help us to determine this name.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=c>&lt;!-- Common --&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;OutputPath&gt;</span>bin\$(Configuration)\<span class=nt>&lt;/OutputPath&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>    
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39; &#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>    
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;/Project&gt;</span>
+</span></span></code></pre></div><p>Great! We got rid of duplication. What else can be optimized? As a rule, the properties being set up depend only on the configuration; change of the platform doesn’t influence anything. Let’s remove this unnecessary condition.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=c>&lt;!-- Common --&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;OutputPath&gt;</span>bin\$(Configuration)\<span class=nt>&lt;/OutputPath&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)&#39; == &#39;Debug&#39; &#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>    
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)&#39; == &#39;Release&#39; &#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>    
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;/Project&gt;</span>
+</span></span></code></pre></div><p>Now let’s add new configurations. Assume we want to add a Demo mode to the application. Not all features are available in this mode. The Demo mode may also require debugging that is why it’s reasonable to create <code>DebugDemo</code> and <code>ReleaseDemo</code> configurations. And, for example, we want to add a build mode that will require a user to use a license. We may also want to license Demo version. So, we have 4 more configurations: <code>DebugLicense</code>, <code>ReleaseLicense</code>, <code>DebugDemoLicense</code>, <code>ReleaseDemoLicense</code>. This situation is just a sample, your project can be absolutely different. <code>Demo</code> and <code>License</code> will add new variables to <code>DefineConstants</code>. It seems that you just need to create 8 separate <code>PropertyGroups</code> for 8 configurations. But something in my mind begins to protest. Luckily, you can add a more complicated condition than just comparison to the <code>Condition</code>. In this sample, we will search for the set substring in the configuration name:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=c>&lt;!-- Common --&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;OutputPath&gt;</span>bin\$(Configuration)\<span class=nt>&lt;/OutputPath&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c>&lt;!-- Conditional --&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Debug&#39;))&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>    
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Release&#39;))&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>    
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;License&#39;))&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);LICENSE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Demo&#39;))&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);DEMO<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>  
+</span></span><span class=line><span class=cl><span class=nt>&lt;/Project&gt;</span>
+</span></span></code></pre></div><p>Looks quite good. There is a little problem: Visual Studio can’t get a list of available configurations. This issue can be solved by adding empty <code>PropertyGroups</code> with the same <code>Condition</code> as in the beginning. And you can add only those configurations you will actually use in your work. For example, we don’t want to debug <code>Demo</code> and <code>License</code> configurations. In this case we can write the following strings:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=c>&lt;!-- Common --&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;OutputPath&gt;</span>bin\$(Configuration)\<span class=nt>&lt;/OutputPath&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c>&lt;!-- Conditional --&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Debug&#39;))&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>    
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Release&#39;))&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>    
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;License&#39;))&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);LICENSE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Demo&#39;))&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);DEMO<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>  
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c>&lt;!-- Available --&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseDemo|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseLicense|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseDemoLicense|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;/Project&gt;</span>
+</span></span></code></pre></div><p>If you’ve got the inborn hatred to duplication of anything, you can take out additional properties duplicated in all projects to the file you’ve got. For example, in this way:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;Project</span> <span class=na>DefaultTargets=</span><span class=s>&#34;Build&#34;</span> <span class=na>xmlns=</span><span class=s>&#34;http://schemas.microsoft.com/developer/msbuild/2003&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=c>&lt;!-- Common --&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;Configuration</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Configuration)&#39; == &#39;&#39; &#34;</span><span class=nt>&gt;</span>Release<span class=nt>&lt;/Configuration&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;Platform</span> <span class=na>Condition=</span><span class=s>&#34; &#39;$(Platform)&#39; == &#39;&#39; &#34;</span><span class=nt>&gt;</span>AnyCPU<span class=nt>&lt;/Platform&gt;</span>    
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;TargetFrameworkVersion&gt;</span>v4.0<span class=nt>&lt;/TargetFrameworkVersion&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;SolutionDir</span> <span class=na>Condition=</span><span class=s>&#34;$(SolutionDir) == &#39;&#39; Or $(SolutionDir) == &#39;*Undefined*&#39;&#34;</span><span class=nt>&gt;</span>..\<span class=nt>&lt;/SolutionDir&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;OutputPath&gt;</span>bin\$(Configuration)\<span class=nt>&lt;/OutputPath&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;PlatformTarget&gt;</span>AnyCPU<span class=nt>&lt;/PlatformTarget&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;ErrorReport&gt;</span>prompt<span class=nt>&lt;/ErrorReport&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;WarningLevel&gt;</span>4<span class=nt>&lt;/WarningLevel&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c>&lt;!-- Conditional --&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Debug&#39;))&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugSymbols&gt;</span>true<span class=nt>&lt;/DebugSymbols&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugType&gt;</span>full<span class=nt>&lt;/DebugType&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;Optimize&gt;</span>false<span class=nt>&lt;/Optimize&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>DEBUG;TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Release&#39;))&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DebugType&gt;</span>pdbonly<span class=nt>&lt;/DebugType&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;Optimize&gt;</span>true<span class=nt>&lt;/Optimize&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>TRACE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;License&#39;))&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);LICENSE<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;$(Configuration.Contains(&#39;Demo&#39;))&#34;</span><span class=nt>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;DefineConstants&gt;</span>$(DefineConstants);DEMO<span class=nt>&lt;/DefineConstants&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;/PropertyGroup&gt;</span>  
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c>&lt;!-- Available --&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;Release|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseDemo|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseLicense|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=nt>&lt;PropertyGroup</span> <span class=na>Condition=</span><span class=s>&#34;&#39;$(Configuration)|$(Platform)&#39; == &#39;ReleaseDemoLicense|AnyCPU&#39;&#34;</span> <span class=nt>/&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;/Project&gt;</span>
+</span></span></code></pre></div><p>Now we got rid of all duplication for sure. And it’s so easy to setup configurations. I’d like to notice that this approach may not suit you; many projects are perfectly developed without editing of the configurations. And sometimes it’s necessary to setup each configuration for each project and for each platform manually – in this case you won’t be able to save your time by removing duplications. But if you’ve got a problem with setting up of quite a lot of configurations for quite a lot of projects, this practice may be a good fit. You can also get more information on build in MSDN.</p><h2 id=links>Links</h2><ul><li><a href=http://msdn.microsoft.com/en-us/library/0k6kkbsd.aspx>MSBuild Reference</a></li><li><a href=http://msdn.microsoft.com/en-us/library/ms164307.aspx>MSBuild Conditional Constructs</a></li><li><a href=http://msdn.microsoft.com/en-us/library/7szfhaft.aspx>MSBuild Conditions</a></li><li><a href=http://msdn.microsoft.com/en-us/library/dd633440.aspx>Expand Property Functions</a></li><li><a href=http://msdn.microsoft.com/en-us/library/ms171459.aspx>How to: Use Environment Variables in a Build</a></li><li><a href=http://msdn.microsoft.com/en-us/library/bb629394.aspx>Common MSBuild Project Properties</a></li><li><a href=http://msdn.microsoft.com/en-us/library/bb629388.aspx>Common MSBuild Project Items</a></li></ul><h2 id=cross-posts>Cross-posts</h2><ul><li><a href=http://blogs.perpetuumsoft.com/dotnet/setting-up-build-configuration-in-net/>blogs.perpetuumsoft.com</a></li></ul><br><br><div class=row><div class="justify-content-center share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fmsbuild-configurations%2f&title=Setting%20up%20build%20configuration%20in%20.NET" target=_blank title="Share on Reddit"><i class="fab fa-reddit fa-2x"></i></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Setting%20up%20build%20configuration%20in%20.NET&url=https%3a%2f%2faakinshin.net%2fposts%2fmsbuild-configurations%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><i class="fab fa-twitter fa-2x"></i></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fmsbuild-configurations%2f" target=_blank title="Share on HackerNews"><i class="fab fa-hacker-news fa-2x"></i></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fmsbuild-configurations%2f&title=Setting%20up%20build%20configuration%20in%20.NET" target=_blank title="Add to Pocket"><i class="fab fa-get-pocket fa-2x"></i></a></div></div></div></div><hr></div></div></main></div><footer class=blog-footer><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
 |
-<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a><a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a><a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>|
-<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.082780cb948cc57eabbc0d80172a7a5347d5572b599938b4c9876dfd7978b424.js></script><script src=/js/popper.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/anchor.min.js></script><script src=https://aakinshin.net/js/custom.min.11932490dde776463ed165b345838c701accc0cfdedf2e0868f13415f41f0872.js></script></body></html>
+<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a>
+<a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a>
+<a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>
+|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.c26550621ac13c2221d7f6f5e6fe862345d3919723c50d730893e3e4856ecf35.js></script>
+<script src=/js/bootstrap.bundle.min.js></script>
+<script src=/js/anchor.min.js></script>
+<script src=https://aakinshin.net/js/custom.min.f6e5d13fe39f305056cc743ee4cb8d117c1aba26176e58c82c79a480d02fe4b7.js></script></body></html>
