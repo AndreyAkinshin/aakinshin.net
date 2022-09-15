@@ -304,9 +304,8 @@ It means that now we have three equal fragments (for $x_1$, $x_4$, $x_5$):
 
 {{< example >}}
 *Input:* $x = \{ 1, 2, 3, 4, 5 \}$, $w = \{ 0.4, 0.4, 0.05, 0.05, 0.1 \}$, $p = 0.5$.  
-The values of $x$ and $p$ match the previous example, so we have the same plot for $I_u(a, b)$.
-However, the new value of $w$ defines another Kish’s effective sample size
-  ($n^*\approx 2.985$; $a=b\approx 1.493$)
+The new value of $w$ defines another Kish’s effective sample size
+  ($n^*\approx 2.985$; $a^*=b^*\approx 1.993$)
   and introduces another fragmentation:
 
 {{< imgld_small hd6 >}}
