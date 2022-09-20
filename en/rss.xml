@@ -1,4 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 13 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Huggins-Roy's family of effective sample sizes</title><link>https://aakinshin.net/posts/huggins-roy-ess/</link><pubDate>Tue, 13 Sep 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/huggins-roy-ess/</guid><description>&lt;p>When we work with weighted samples, it&amp;rsquo;s essential to introduce adjustments for the sample size.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 20 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Weighted quantile estimators for exponential smoothing and mixture distributions</title><link>https://aakinshin.net/posts/wqe-smoothing-mixture/</link><pubDate>Tue, 20 Sep 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/wqe-smoothing-mixture/</guid><description>&lt;p>There are various ways to estimate quantiles of weighted samples.
+The proper choice of the most appropriate weighted quantile estimator depends not only on the own estimator properties
+but also on the goal.&lt;/p>
+&lt;p>Let us consider two problems:&lt;/p>
+&lt;ol>
+&lt;li>&lt;em>Estimating quantiles of a weighted mixture distribution.&lt;/em>&lt;br />
+In this problem, we have a weighted mixture distribution given by &lt;span class="math inline">\(F = \sum_{i=1}^m w_i F_i\)&lt;/span>.
+We collect samples &lt;span class="math inline">\(\mathbf{x_1}, \mathbf{x_2}, \ldots, \mathbf{x_m}\)&lt;/span> from &lt;span class="math inline">\(F_1, F_2, \ldots F_m\)&lt;/span>,
+and want to estimate quantile function &lt;span class="math inline">\(F^{-1}\)&lt;/span> of the mixture distribution based on the given samples.&lt;/li>
+&lt;li>&lt;em>Quantile exponential smoothing.&lt;/em>&lt;br />
+In this problem, we have a time series &lt;span class="math inline">\(\mathbf{x} = \{ x_1, x_2, \ldots, x_n \}\)&lt;/span>.
+We want to describe the distribution &amp;ldquo;at the end&amp;rdquo; of this time series.
+The latest series element &lt;span class="math inline">\(x_n\)&lt;/span> is the most &amp;ldquo;actual&amp;rdquo; one, but we cannot build a distribution based on a single element.
+Therefore, we have to consider more elements at the end of &lt;span class="math inline">\(\mathbf{x}\)&lt;/span>.
+However, if we take too many elements, we may corrupt the estimations due to obsolete measurements.
+To resolve this problem, we can assign weights to all elements according to the exponential law
+and estimate weighted quantiles.&lt;/li>
+&lt;/ol>
+&lt;p>In both problems, the usage of weighted quantile estimators looks like a reasonable solution.
+However, in each problem, we have different expectations of the estimator behavior.
+In this post, we provide an example that illustrates the difference in these expectations.&lt;/p></description></item><item><title>The Huggins-Roy family of effective sample sizes</title><link>https://aakinshin.net/posts/huggins-roy-ess/</link><pubDate>Tue, 13 Sep 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/huggins-roy-ess/</guid><description>&lt;p>When we work with weighted samples, it&amp;rsquo;s essential to introduce adjustments for the sample size.
 Indeed, let&amp;rsquo;s consider two following weighted samples:&lt;/p>
 &lt;p>&lt;span class="math display">\[\mathbf{x}_1 = \{ x_1, x_2, \ldots, x_n \}, \quad \mathbf{w}_1 = \{ w_1, w_2, \ldots, w_n \},
 \]&lt;/span>&lt;/p>
