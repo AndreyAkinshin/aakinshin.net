@@ -1,8 +1,10 @@
 ---
-title: Huggins-Roy's family of effective sample sizes
+title: The Huggins-Roy family of effective sample sizes
 date: 2022-09-13
 tags:
 - Statistics
+- research
+- research-wqe
 features:
 - math
 ---

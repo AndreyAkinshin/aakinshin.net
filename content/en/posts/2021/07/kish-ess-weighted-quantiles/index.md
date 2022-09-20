@@ -5,6 +5,7 @@ tags:
 - mathematics
 - statistics
 - research
+- research-wqe
 - Quantiles
 features:
 - math

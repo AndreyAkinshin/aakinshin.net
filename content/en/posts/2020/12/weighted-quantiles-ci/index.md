@@ -6,6 +6,7 @@ tags:
 - mathematics
 - statistics
 - research
+- research-wqe
 - Quantile
 - Confidence Interval
 features:
