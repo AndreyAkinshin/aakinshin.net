@@ -414,9 +414,9 @@ It means that $q_{0.25} = x_2$, which satisfies our expectations (the first quar
   Thus, $q_p = \sum_{i=1}^{n} W_{n,i} \cdot x_i = (\lfloor h \rfloor - h + 1) x_{\lfloor h \rfloor} + (h - \lfloor h \rfloor) x_{\lfloor h \rfloor + 1} = x_{\lfloor h \rfloor} + (h - \lfloor h \rfloor) (x_{\lfloor h \rfloor + 1} - x_{\lfloor h \rfloor})$.
 
 {{< example >}}
-*Input:* $n = 5$, $p = 0.25$.  
+*Input:* $n = 5$, $p = 0.35$.  
 We have $h = 2.4$ which is a non-integer number.
-Thus, the first quartile estimation is a linear combination of $x_2$ and $x_3$:
+Thus, the $0.35^\textrm{th}$ quantile estimation is a linear combination of $x_2$ and $x_3$:
 
 {{< imgld_small type7-3 >}}
 
