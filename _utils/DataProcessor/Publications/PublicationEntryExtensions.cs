@@ -295,7 +295,7 @@ namespace DataProcessor.Publications
                         else if (url.Contains("springer"))
                             title = "Springer";
                         else if (url.Contains("arxiv"))
-                            title = "<i class='fas fa-file-pdf'></i> arXiv (PDF)";
+                            title = "arXiv";
                         else if (url.Contains("publons"))
                             title = "Publons";
                         else if (url.Contains("github"))
@@ -311,6 +311,13 @@ namespace DataProcessor.Publications
                         builder.AppendLine("  [[item.link]]");
                         builder.AppendLine($"  Label = \"{title}\"");
                         builder.AppendLine($"  Url = \"{url}\"");
+
+                        if (url.Contains("arxiv"))
+                        {
+                            builder.AppendLine("  [[item.link]]");
+                            builder.AppendLine($"  Label = \"<i class='fas fa-file-pdf'></i> PDF\"");
+                            builder.AppendLine($"  Url = \"{url.Replace("/abs/", "/pdf/") + ".pdf"}\"");
+                        }
                     }
                 }
             }
