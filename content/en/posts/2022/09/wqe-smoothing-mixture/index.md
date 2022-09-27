@@ -2,7 +2,9 @@
 title: Weighted quantile estimators for exponential smoothing and mixture distributions
 date: 2022-09-20
 tags:
-- Statistics
+- mathematics
+- statistics
+- research
 - research-wqe
 features:
 - math
