@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 20 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Weighted quantile estimators for exponential smoothing and mixture distributions</title><link>https://aakinshin.net/posts/wqe-smoothing-mixture/</link><pubDate>Tue, 20 Sep 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/wqe-smoothing-mixture/</guid><description>&lt;p>There are various ways to estimate quantiles of weighted samples.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 27 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Sensitivity curve of the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/hd-sc/</link><pubDate>Tue, 27 Sep 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/hd-sc/</guid><description>&lt;p>The Harrell-Davis quantile estimator is an efficient replacement for the traditional quantile estimator,
+especially in the case of light-tailed distributions.
+Unfortunately, it is not robust: its breakdown point is zero.
+However, the breakdown point is not the only descriptor of robustness.
+While the breakdown point describes the portion of the distribution that should be replaced by
+arbitrary large values to corrupt the estimation,
+it does not describe the actual impact of finite outliers.
+The arithmetic mean also has the breakdown point of zero,
+but the practical robustness of the mean and the Harrell-Davis quantile estimator are not the same.
+The Harrell-Davis quantile estimator is an L-estimator
+that assigns extremely low weights to sample elements near the tails
+(especially, for reasonably large sample sizes).
+Therefore, the actual impact of potential outliers is not so noticeable.
+In this post, we use the standardized sensitivity curve to evaluate this impact.&lt;/p></description></item><item><title>Weighted quantile estimators for exponential smoothing and mixture distributions</title><link>https://aakinshin.net/posts/wqe-smoothing-mixture/</link><pubDate>Tue, 20 Sep 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/wqe-smoothing-mixture/</guid><description>&lt;p>There are various ways to estimate quantiles of weighted samples.
 The proper choice of the most appropriate weighted quantile estimator depends not only on the own estimator properties
 but also on the goal.&lt;/p>
 &lt;p>Let us consider two problems:&lt;/p>
