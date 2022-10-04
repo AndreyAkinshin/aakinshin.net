@@ -1,5 +1,5 @@
 ---
-title: Sensitivity curve of the Harrell-Davis quantile estimator
+title: Sensitivity curve of the Harrell-Davis quantile estimator, Part 1
 date: 2022-09-27
 tags:
 - mathematics
@@ -7,6 +7,8 @@ tags:
 - research
 features:
 - math
+aliases:
+- hd-sc
 ---
 
 The Harrell-Davis quantile estimator is an efficient replacement for the traditional quantile estimator,
