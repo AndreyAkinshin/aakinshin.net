@@ -43,6 +43,8 @@ namespace DataProcessor.Talks
             if (string.IsNullOrWhiteSpace(label))
             {
                 label = keyLegend.ContainsKey(Key) ? keyLegend[Key] : Capitalize(Key);
+                if (faDictionary.ContainsKey(Key))
+                    label = $"<i class='{faDictionary[Key]}'></i> {label}";
                 if (!string.IsNullOrWhiteSpace(Caption))
                     label += " (" + Caption + ")";
             }
