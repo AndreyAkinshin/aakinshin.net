@@ -1,4 +1,34 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 11 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Sensitivity curve of the Harrell-Davis quantile estimator, Part 3</title><link>https://aakinshin.net/posts/hd-sc3/</link><pubDate>Tue, 11 Oct 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/hd-sc3/</guid><description>&lt;p>In the previous posts (&lt;a href="https://aakinshin.net/posts/hd-sc1/">1&lt;/a>, &lt;a href="https://aakinshin.net/posts/hd-sc2/">2&lt;/a>), I have explored the sensitivity curves of
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 18 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Preprint announcement: 'Finite-sample Rousseeuw-Croux scale estimators'</title><link>https://aakinshin.net/posts/preprint-frc/</link><pubDate>Tue, 18 Oct 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/preprint-frc/</guid><description>&lt;p>Recently, I published a preprint of a paper &amp;lsquo;Finite-sample Rousseeuw-Croux scale estimators&amp;rsquo;.
+It&amp;rsquo;s based on a series of my &lt;a href="https://aakinshin.net/tags/research-frc/">research notes&lt;/a>.&lt;/p>
+&lt;p>The paper preprint is available on arXiv:
+&lt;a href="https://arxiv.org/abs/2209.12268">arXiv:2209.12268 [stat.ME]&lt;/a>.
+The paper source code is available on GitHub:
+&lt;a href="https://github.com/AndreyAkinshin/paper-frc">AndreyAkinshin/paper-frc&lt;/a>.
+You can cite it as follows:&lt;/p>
+&lt;ul>
+&lt;li>Andrey Akinshin (2022)
+&amp;ldquo;Finite-sample Rousseeuw-Croux scale estimators&amp;rdquo;
+&lt;a href="https://arxiv.org/abs/2209.12268">arXiv:2209.12268&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Abstract:&lt;/p>
+&lt;blockquote>
+&lt;p>The Rousseeuw-Croux &lt;span class="math inline">\(S_n\)&lt;/span>, &lt;span class="math inline">\(Q_n\)&lt;/span> scale estimators and the median absolute deviation &lt;span class="math inline">\(\operatorname{MAD}_n\)&lt;/span>
+can be used as consistent estimators for the standard deviation under normality.
+All of them are highly robust: the breakdown point of all three estimators is &lt;span class="math inline">\(50\%\)&lt;/span>.
+However, &lt;span class="math inline">\(S_n\)&lt;/span> and &lt;span class="math inline">\(Q_n\)&lt;/span> are much more efficient than &lt;span class="math inline">\(\operatorname{MAD}_n\)&lt;/span>:
+their asymptotic Gaussian efficiency values are &lt;span class="math inline">\(58\%\)&lt;/span> and &lt;span class="math inline">\(82\%\)&lt;/span> respectively
+compared to &lt;span class="math inline">\(37\%\)&lt;/span> for &lt;span class="math inline">\(\operatorname{MAD}_n\)&lt;/span>.
+Although these values look impressive, they are only asymptotic values.
+The actual Gaussian efficiency of &lt;span class="math inline">\(S_n\)&lt;/span> and &lt;span class="math inline">\(Q_n\)&lt;/span> for small sample sizes
+is noticeably lower than in the asymptotic case.&lt;/p>
+&lt;p>The original work by Rousseeuw and Croux (1993)
+provides only rough approximations of the finite-sample bias-correction factors for &lt;span class="math inline">\(S_n,\, Q_n\)&lt;/span>
+and brief notes on their finite-sample efficiency values.
+In this paper, we perform extensive Monte-Carlo simulations in order to obtain refined values of the
+finite-sample properties of the Rousseeuw-Croux scale estimators.
+We present accurate values of the bias-correction factors and Gaussian efficiency for small samples (&lt;span class="math inline">\(n \leq 100\)&lt;/span>)
+and prediction equations for samples of larger sizes.&lt;/p>
+&lt;/blockquote></description></item><item><title>Sensitivity curve of the Harrell-Davis quantile estimator, Part 3</title><link>https://aakinshin.net/posts/hd-sc3/</link><pubDate>Tue, 11 Oct 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/hd-sc3/</guid><description>&lt;p>In the previous posts (&lt;a href="https://aakinshin.net/posts/hd-sc1/">1&lt;/a>, &lt;a href="https://aakinshin.net/posts/hd-sc2/">2&lt;/a>), I have explored the sensitivity curves of
 the Harrell-Davis quantile estimator on
 the normal distribution, the exponential distribution, and the Cauchy distribution.
 In this post, I build these sensitivity curves for some additional distributions.&lt;/p></description></item><item><title>Sensitivity curve of the Harrell-Davis quantile estimator, Part 2</title><link>https://aakinshin.net/posts/hd-sc2/</link><pubDate>Tue, 04 Oct 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/hd-sc2/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/hd-sc1/">previous post&lt;/a>, I have explored the sensitivity curves of
