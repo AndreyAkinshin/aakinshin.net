@@ -31,6 +31,8 @@ We want to build a weighted quantile estimator $\operatorname{Q}(\mathbf{x}, \ma
 
 In this post, we consider a specific problem of estimating quantiles of a weighted mixture distribution.
 
+<!--more-->
+
 For example, we can consider three distributions given by their cumulative distribution functions (CDFs)
   $F_X$, $F_Y$, and $F_Z$ with weight coefficients $w_X$, $w_Y$, and $w_Z$.
 Their weighted mixture is given by $F=\overline{w}_X F_X + \overline{w}_Y F_Y + \overline{w}_Z F_Z$.
