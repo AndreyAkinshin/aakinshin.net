@@ -2,6 +2,16 @@ talks:
   ######################################################################################################################
   # 2022
   ######################################################################################################################
+  - date: 2022-11-04
+    event: DotNext 2022 Autumn
+    event-type: conference
+    title_en: Let's talk about descriptive statistics of performance distributions
+    title_ru: Поговорим об описательной статистике перформанс-распределений
+    location: Online
+    lang: ru
+    links:
+      - key: slides-web
+        url: https://slides.aakinshin.net/dotnext2022/
   - date: 2022-06-17
     event: DotNext 2022 Spring
     event-type: conference
