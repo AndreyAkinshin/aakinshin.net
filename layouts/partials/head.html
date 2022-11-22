@@ -72,9 +72,6 @@
     {{ printf `<link rel="%s" type="%s" href="%s" title="RSS Feed" />` .Rel .MediaType.Type .Permalink | safeHTML }}
   {{ end -}}
 
-  {{ partial "scripts/ga.html" }}
-  {{ partial "scripts/ym.html" }}
-
   <!-- jQuery -->
   <script src="/js/jquery-3.3.1.slim.min.js"></script>
 </head>
