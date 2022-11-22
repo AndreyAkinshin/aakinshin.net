@@ -78,7 +78,7 @@ Now let us explore this function for the mean and for the median.
 ### Resistance of the mean and the median
 
 Now let's build the plot of $R(T, n, s)$ for the mean and the median.
-In this experiment, we consider $n \leq 100$, $s \in {1, 2, 3, 4, 5, 6}$.
+In this experiment, we consider $n \leq 100$, $s \in \{1, 2, 3, 4, 5, 6\}$.
 Here are the plots:
 
 {{< imgld resistance >}}
