@@ -4,3 +4,6 @@ heavy-tailness
 heavy-tailedness
 trimodal
 Sheather
+Multimodality
+imgld
+imgld
