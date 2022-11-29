@@ -1,4 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 22 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Resistance to the low-density regions: the Harrell-Davis median</title><link>https://aakinshin.net/posts/rldr-hdmedian/</link><pubDate>Tue, 22 Nov 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/rldr-hdmedian/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/rldr-mean-median/">previous post&lt;/a>,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 29 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Sheather &amp; Jones vs. unbiased cross-validation</title><link>https://aakinshin.net/posts/sj-vs-ucv/</link><pubDate>Tue, 29 Nov 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/sj-vs-ucv/</guid><description>&lt;p>In the post about &lt;a href="https://aakinshin.net/posts/kde-bw/">the importance of kernel density estimation bandwidth&lt;/a>,
+I reviewed several bandwidth selectors and showed their impact on the KDE.
+The classic selectors like Scott&amp;rsquo;s rule of thumb or Silverman&amp;rsquo;s rule of thumb are designed for the normal distribution
+and perform purely in non-parametric cases.
+One of the most significant caveats is that they can mask multimodality.
+The same problem is also relevant to the biased cross-validation method.
+Among all the bandwidth selectors
+&lt;a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/bandwidth.html">available in R&lt;/a>,
+only Sheather &amp;amp; Jones and unbiased cross-validation provide reliable results in the multimodal case.
+However, I always advocate using the Sheather &amp;amp; Jones method rather than the unbiased cross-validation approach.&lt;/p>
+&lt;p>In this post, I will show the drawbacks of the unbiased cross-validation method
+and what kind of problems we can get if we use it as a KDE bandwidth selector.&lt;/p></description></item><item><title>Resistance to the low-density regions: the Harrell-Davis median</title><link>https://aakinshin.net/posts/rldr-hdmedian/</link><pubDate>Tue, 22 Nov 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/rldr-hdmedian/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/rldr-mean-median/">previous post&lt;/a>,
 we defined the resistance function that show sensitivity of the given estimator
 to the low-density regions.
 We also showed the resistance function plots for the mean and the sample median.
