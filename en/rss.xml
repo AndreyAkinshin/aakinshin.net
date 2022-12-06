@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 29 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Sheather &amp; Jones vs. unbiased cross-validation</title><link>https://aakinshin.net/posts/sj-vs-ucv/</link><pubDate>Tue, 29 Nov 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/sj-vs-ucv/</guid><description>&lt;p>In the post about &lt;a href="https://aakinshin.net/posts/kde-bw/">the importance of kernel density estimation bandwidth&lt;/a>,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 06 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Kernel density estimation boundary correction: reflection (ggplot2 v3.4.0)</title><link>https://aakinshin.net/posts/kde-bc-reflection/</link><pubDate>Tue, 06 Dec 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kde-bc-reflection/</guid><description>&lt;p>Kernel density estimation (KDE) is a popular way to approximate a distribution based on the given data.
+However, it has several flaws.
+One of the most significant flaws is that it extends the support of the distribution.
+It is pretty unfortunate: even if we know the actual range of supported values,
+KDE provides non-zero density values for the regions where no values exist.
+It is obviously an inaccurate estimation.
+The procedure of adjusting the KDE values according to the given boundaries is known as &lt;em>boundary correction&lt;/em>.
+As usual, there are plenty of available boundary correction strategies.&lt;/p>
+&lt;p>One such strategy was implemented in the
+&lt;a href="https://www.tidyverse.org/blog/2022/11/ggplot2-3-4-0/#bounded-density-estimation">v3.4.0 update&lt;/a> of
+&lt;a href="https://ggplot2.tidyverse.org/">ggplot2&lt;/a> (a popular R package for plotting)
+thanks to &lt;a href="https://github.com/tidyverse/ggplot2/pull/4013/">pull request #4013&lt;/a>.
+At the present moment, it supports a single boundary correction strategy called &lt;em>reflection&lt;/em>.
+In this post, we discuss this approach and see how it works in practice.&lt;/p></description></item><item><title>Sheather &amp; Jones vs. unbiased cross-validation</title><link>https://aakinshin.net/posts/sj-vs-ucv/</link><pubDate>Tue, 29 Nov 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/sj-vs-ucv/</guid><description>&lt;p>In the post about &lt;a href="https://aakinshin.net/posts/kde-bw/">the importance of kernel density estimation bandwidth&lt;/a>,
 I reviewed several bandwidth selectors and showed their impact on the KDE.
 The classic selectors like Scott&amp;rsquo;s rule of thumb or Silverman&amp;rsquo;s rule of thumb are designed for the normal distribution
 and perform purely in non-parametric cases.
