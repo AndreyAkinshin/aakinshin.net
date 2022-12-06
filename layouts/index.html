@@ -1,5 +1,11 @@
 {{ define "main" }}
 
+{{ if eq .Site.Language.Lang "ru" }}
+<script>
+  window.location.replace("/ru/about");
+</script>
+{{ end }}
+
 {{ partial "english-post-message.html" . }}
 
 {{ $paginator := .Paginate (where .Site.RegularPages "Type" "posts") }}

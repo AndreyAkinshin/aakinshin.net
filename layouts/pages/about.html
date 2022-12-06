@@ -2,17 +2,20 @@
 
 <h1>{{ i18n "andreyAkinshin" }}</h1>
 <div id="profiles" class="fa-2x">
+  <div class="faicon"><a href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub"></i></a></div>
 <div class="faicon"><a href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter"></i></a></div>
-<div class="faicon"><a href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub"></i></a></div>
+{{ if eq .Site.Language.Lang "ru" }}
 <div class="faicon"><a href="https://www.youtube.com/channel/UCk25QhN-9_wwkqyeapuCh9w"><i class="fab fa-youtube" title="YouTube"></i></a></div>
-<div class="faicon"><a href="https://www.amazon.com/Andrey-Akinshin/e/B07QYFMFHY"><i class="fab fa-amazon" title="Amazon"></i></a></div>
-<div class="faicon"><a href="https://scholar.google.com/citations?user=rYVl83IAAAAJ&hl=en"><i class="fas fa-graduation-cap" title="Google Scholar"></i></a></div>
-<div class="faicon"><a href="http://stackoverflow.com/users/184842/AndreyAkinshin"><i class="fab fa-stack-overflow" title="StackOverflow"></i></a></div>
-<div class="faicon"><a href="http://habrahabr.ru/users/dreamwalker"><i class="fas fa-hospital-symbol" title="Habrahabr"></i></a></div>
-<div class="faicon"><a href="http://www.linkedin.com/in/AndreyAkinshin"><i class="fab fa-linkedin-in" title="LinkedIn"></i></a></div>
-<div class="faicon"><a href="http://www.slideshare.net/AndreyAkinshin"><i class="fab fa-slideshare" title="SlideShare"></i></a></div>
-<div class="faicon"><a href="http://www.goodreads.com/AndreyAkinshin"><i class="fab fa-goodreads" title="GoodReads"></i></a></div>
+{{ end }}
+<div class="faicon"><a href="https://scholar.google.com/citations?hl=en&user=rYVl83IAAAAJ&view_op=list_works&sortby=pubdate"><i class="fas fa-graduation-cap" title="Google Scholar"></i></a></div>
 <div class="faicon"><a href="https://www.researchgate.net/profile/Andrey_Akinshin"><i class="fab fa-researchgate" title="ResearchGate"></i></a></div>
+<div class="faicon"><a href="http://stackoverflow.com/users/184842/AndreyAkinshin"><i class="fab fa-stack-overflow" title="StackOverflow"></i></a></div>
+{{ if eq .Site.Language.Lang "ru" }}
+<div class="faicon"><a href="http://habrahabr.ru/users/dreamwalker"><i class="fas fa-hospital-symbol" title="Habrahabr"></i></a></div>
+{{ end }}
+<div class="faicon"><a href="http://www.linkedin.com/in/AndreyAkinshin"><i class="fab fa-linkedin-in" title="LinkedIn"></i></a></div>
+<div class="faicon"><a href="https://www.amazon.com/Andrey-Akinshin/e/B07QYFMFHY"><i class="fab fa-amazon" title="Amazon"></i></a></div>
+<div class="faicon"><a href="http://www.goodreads.com/AndreyAkinshin"><i class="fab fa-goodreads" title="GoodReads"></i></a></div>
 <div class="faicon"><a href='{{ ((.Site.GetPage "/posts").OutputFormats.Get "rss").Permalink }}'><i class="fas fa-rss" title="RSS"></i></a></div>
 </div>
 <a href="mailto:andrey.akinshin@gmail.com">andrey.akinshin@gmail.com</a>
@@ -27,8 +30,8 @@
   <h2>{{ i18n "content" }}</h2>
 
   {{ i18n "activities" }}:
-  <a href="#talks">{{ i18n "publicTalks" }} ({{ len .Site.Data.gen.talks_en.item }})</a> <b>|</b>
   <a href="#publications">{{ i18n "publications" }} ({{ len .Site.Data.gen.publications_en.item }})</a> <b>|</b>
+  <a href="#talks">{{ i18n "publicTalks" }} ({{ len .Site.Data.gen.talks_en.item }})</a> <b>|</b>
   <a href="#posts">{{ i18n "posts" }} ({{ len (where .Site.RegularPages "Section" "posts") }})</a> <b>|</b>
   <a href="#media">{{ i18n "media" }} ({{ len .Site.Data.gen.media_en.item }})</a> <b>|</b>
   <a href="#open-source">{{ i18n "openSource" }}</a> <br />
@@ -43,12 +46,6 @@
   <a href="#education">{{ i18n "education" }}</a> <b>|</b>
   <a href="#certificates">{{ i18n "certificates" }}</a> <br />
 
-</section>
-<hr />
-
-<section>
-  <h2 id="talks">{{ i18n "publicTalks" }}</h2>
-  {{ partial "about/items" (dict "context" . "name" "talks") }}
 </section>
 <hr />
 
@@ -86,6 +83,12 @@
   <p>Google Scholar: <a href="https://scholar.google.com/citations?user=rYVl83IAAAAJ">rYVl83IAAAAJ</a></p>
   <p>ResearchGate: <a href="https://www.researchgate.net/profile/Andrey_Akinshin">Andrey_Akinshin</a></p>
   <p>arXiv: <a href="https://arxiv.org/a/akinshin_a_1.html">akinshin_a_1</a></p>
+</section>
+<hr />
+
+<section>
+  <h2 id="talks">{{ i18n "publicTalks" }}</h2>
+  {{ partial "about/items" (dict "context" . "name" "talks") }}
 </section>
 <hr />
 

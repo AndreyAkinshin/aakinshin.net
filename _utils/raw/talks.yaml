@@ -2,6 +2,16 @@ talks:
   ######################################################################################################################
   # 2022
   ######################################################################################################################
+  - date: 2022-11-07
+    event: Heisenbug 2022 Autumn
+    event-type: conference
+    title_en: Descriptive statistics of performance distributions
+    title_ru: Описательная статистика перформанс-распределений
+    location: Online
+    lang: ru
+    links:
+      - key: slides-web
+        url: https://slides.aakinshin.net/heisenbug2022/
   - date: 2022-11-04
     event: DotNext 2022 Autumn
     event-type: conference

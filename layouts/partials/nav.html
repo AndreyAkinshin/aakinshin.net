@@ -5,20 +5,14 @@
         <li class="nav-item">
           <a class="nav-link" id="nav-link-blog" href="{{ .Site.Home.Permalink }}"><i class="fas fa-home" title="Home" style="color:white"></i></a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ i18n "blog" }}</a>
-          <ul class="dropdown-menu bg-primary">
-            <li><a class="dropdown-item" href='{{ (.Site.GetPage "/posts").Permalink }}'>{{ i18n "allPosts" }}</a></li>
-            {{ if eq .Site.Language.Lang "en" }}
-            <li><a class="dropdown-item" href='{{ (.Site.GetPage "/tags/statistics").Permalink }}'>{{ i18n "postsStatistics" }}</a></li>
-            {{ end }}
-            <li></li><a class="dropdown-item" href='{{ (.Site.GetPage "/tags").Permalink }}'>{{ i18n "allTags" }}</a></li>
-          </ul>
+        <li class="nav-item">
+          <a class="nav-link" id="nav-link-posts" href='{{ (.Site.GetPage "/posts").Permalink }}'>{{ i18n "posts" }}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" id="nav-link-about" href='{{ (.Site.GetPage "/pages/about.md").Permalink }}'>{{ i18n "about" }}</a>
         </li>
         {{ if .IsTranslated }}
+        {{ if eq .Site.Language.Lang "ru" }}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ upper .Site.Language.Lang }} </a>
             {{ range .Translations }}
@@ -27,6 +21,7 @@
               </ul>
             {{ end }}
           </li>
+        {{ end }}
         {{ end }}
       </ul>
       <ul class="navbar-nav ms-auto">

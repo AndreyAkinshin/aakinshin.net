@@ -61,7 +61,18 @@
   ![](/img/icons/huawei.png)
   [Huawei Research](https://www.huawei.com/en/corporate-information/research-development)
 
-  * *06/2022–Present:* Mathematician
+  * *06/2022–09/2022:* Mathematician
+  <br /><br />
+
+  ![](/img/icons/jetbrains.png)
+  [JetBrains](https://www.jetbrains.com/)
+
+  * *11/2022–Present:* Senior Performance Engineer
+
+  **Projects**
+  * ![](/img/icons/rider.png)
+    [Rider](https://www.jetbrains.com/rider/):
+    A cross-platform .NET IDE based on the IntelliJ platform and ReSharper<br />
 
 </section>
 
