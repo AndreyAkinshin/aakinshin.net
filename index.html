@@ -1,9 +1,7 @@
 <!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content><title>Andrey Akinshin's blog</title><meta name=description content="Andrey Akinshin's blog"><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=https://aakinshin.net/sass/bootstrap-light.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=https://aakinshin.net/sass/bootstrap-dark.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.d7f6578e23ad3f0c33c589f9bcb34f995b45121f1f3ce888869c86b26826c845.js></script>
 <script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.9e68d431432744c07a43381a8a833ffe0921cc0e006d84ad97f0b0d43c5cd82d.mjs></script>
-<link href=https://aakinshin.net/css/fontawesome-all.min.178e95bba6ea2e9a90838cd646658f4bf6667a6ceaa057cb587bf7e6eb8412d3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.60773ab7266ecc6e9625306f57c0a82a219b011dc3ea2d83763d1ecdf11c86d2.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.7e186db80d8c431d196b3e0718afb0636b82a269a8c92521c11a55267a24fc27.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script src=/js/jquery-3.3.1.slim.min.js></script></head><body class="d-flex flex-column min-vh-100"><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-posts href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ms-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title><a href=/posts/kde-bc-reflection/>Kernel density estimation boundary correction: reflection (ggplot2 v3.4.0)</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2022-12-06>December 6, 2022</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+<link href=https://aakinshin.net/css/main.min.d3894e60e337fa8d9f2c81dcda5dcb9144502462aaabed3c6bad2fcf178a8410.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body class="d-flex flex-column min-vh-100"><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><svg class="fai"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></li><li class=nav-item><a class=nav-link id=nav-link-posts href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ms-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title><a href=/posts/kde-bc-reflection/>Kernel density estimation boundary correction: reflection (ggplot2 v3.4.0)</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2022-12-06>December 6, 2022</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a></span><br><br><p>Kernel density estimation (KDE) is a popular way to approximate a distribution based on the given data.
@@ -18,10 +16,8 @@ As usual, there are plenty of available boundary correction strategies.</p><p>On
 <a href=https://ggplot2.tidyverse.org/>ggplot2</a> (a popular R package for plotting)
 thanks to <a href=https://github.com/tidyverse/ggplot2/pull/4013/>pull request #4013</a>.
 At the present moment, it supports a single boundary correction strategy called <em>reflection</em>.
-In this post, we discuss this approach and see how it works in practice.</p><br><a href=/posts/kde-bc-reflection/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/sj-vs-ucv/>Sheather & Jones vs. unbiased cross-validation</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2022-11-29>November 29, 2022</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+In this post, we discuss this approach and see how it works in practice.</p><br><a href=/posts/kde-bc-reflection/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/sj-vs-ucv/>Sheather & Jones vs. unbiased cross-validation</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2022-11-29>November 29, 2022</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a></span><br><br><p>In the post about <a href=https://aakinshin.net/posts/kde-bw/>the importance of kernel density estimation bandwidth</a>,
@@ -34,20 +30,16 @@ Among all the bandwidth selectors
 <a href=https://stat.ethz.ch/R-manual/R-devel/library/stats/html/bandwidth.html>available in R</a>,
 only Sheather & Jones and unbiased cross-validation provide reliable results in the multimodal case.
 However, I always advocate using the Sheather & Jones method rather than the unbiased cross-validation approach.</p><p>In this post, I will show the drawbacks of the unbiased cross-validation method
-and what kind of problems we can get if we use it as a KDE bandwidth selector.</p><br><a href=/posts/sj-vs-ucv/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/rldr-hdmedian/>Resistance to the low-density regions: the Harrell-Davis median</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2022-11-22>November 22, 2022</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+and what kind of problems we can get if we use it as a KDE bandwidth selector.</p><br><a href=/posts/sj-vs-ucv/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/rldr-hdmedian/>Resistance to the low-density regions: the Harrell-Davis median</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2022-11-22>November 22, 2022</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a></span><br><br><p>In the <a href=https://aakinshin.net/posts/rldr-mean-median/>previous post</a>,
 we defined the resistance function that show sensitivity of the given estimator
 to the low-density regions.
 We also showed the resistance function plots for the mean and the sample median.
-In this post, we explore corresponding plots for the Harrell-Davis median.</p><br><a href=/posts/rldr-hdmedian/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/rldr-mean-median/>Resistance to the low-density regions: the mean and the median</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2022-11-15>November 15, 2022</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+In this post, we explore corresponding plots for the Harrell-Davis median.</p><br><a href=/posts/rldr-hdmedian/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/rldr-mean-median/>Resistance to the low-density regions: the mean and the median</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2022-11-15>November 15, 2022</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a></span><br><br><p>When we discuss resistant statistics, we typically assume resistance to extreme values.
@@ -55,10 +47,8 @@ However, extreme values are not the only problem source
 that can violate usual assumptions about expected metric distribution.
 The low-density regions which often arise in multimodal distributions
 can also corrupt the results of the statistical analysis.
-In this post, I discuss this problem and introduce a measure of resistance to low-density regions.</p><br><a href=/posts/rldr-mean-median/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/thd-ge/>Finite-sample Gaussian efficiency of the trimmed Harrell-Davis median estimator</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2022-11-08>November 8, 2022</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+In this post, I discuss this problem and introduce a measure of resistance to low-density regions.</p><br><a href=/posts/rldr-mean-median/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/thd-ge/>Finite-sample Gaussian efficiency of the trimmed Harrell-Davis median estimator</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2022-11-08>November 8, 2022</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a></span><br><br><p>In the <a href=https://aakinshin.net/posts/hd-ge/>previous post</a>,
@@ -66,17 +56,13 @@ we obtained the finite-sample Gaussian efficiency values
 of the sample median and the Harrell-Davis median.
 In this post, we extended these results
 and get the finite-sample Gaussian efficiency values
-of the <a href=https://aakinshin.net/posts/pub-thdqe/>trimmed Harrell-Davis median estimator based on the highest density interval of the width <span class="math inline">\(1/\sqrt{n}\)</span></a>.</p><br><a href=/posts/thd-ge/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/hd-ge/>Finite-sample Gaussian efficiency of the Harrell-Davis median estimator</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2022-11-01>November 1, 2022</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+of the <a href=https://aakinshin.net/posts/pub-thdqe/>trimmed Harrell-Davis median estimator based on the highest density interval of the width <span class="math inline">\(1/\sqrt{n}\)</span></a>.</p><br><a href=/posts/thd-ge/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/hd-ge/>Finite-sample Gaussian efficiency of the Harrell-Davis median estimator</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2022-11-01>November 1, 2022</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a></span><br><br><p>In this post, we explore finite-sample and asymptotic Gaussian efficiency values
-of the sample median and the Harrell-Davis median.</p><br><a href=/posts/hd-ge/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/wqe-mixture/>Weighted quantile estimation for a weighted mixture distribution</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2022-10-25>October 25, 2022</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+of the sample median and the Harrell-Davis median.</p><br><a href=/posts/hd-ge/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/wqe-mixture/>Weighted quantile estimation for a weighted mixture distribution</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2022-10-25>October 25, 2022</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
@@ -87,10 +73,8 @@ We assign non-negative weight coefficients <span class="math inline">\(w_i\)</sp
 \]</span></p><p>In the non-weighted case, we can consider a quantile estimator <span class="math inline">\(\operatorname{Q}(\mathbf{x}, p)\)</span>
 that estimates the <span class="math inline">\(p^\textrm{th}\)</span> quantile of the underlying distribution.
 We want to build a weighted quantile estimator <span class="math inline">\(\operatorname{Q}(\mathbf{x}, \mathbf{w}, p)\)</span>
-so that we can estimate the quantiles of a weighed sample.</p><p>In this post, we consider a specific problem of estimating quantiles of a weighted mixture distribution.</p><br><a href=/posts/wqe-mixture/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/preprint-frc/>Preprint announcement: 'Finite-sample Rousseeuw-Croux scale estimators'</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2022-10-18>October 18, 2022</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+so that we can estimate the quantiles of a weighed sample.</p><p>In this post, we consider a specific problem of estimating quantiles of a weighted mixture distribution.</p><br><a href=/posts/wqe-mixture/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/preprint-frc/>Preprint announcement: 'Finite-sample Rousseeuw-Croux scale estimators'</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2022-10-18>October 18, 2022</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/paper-announcement/ class="badge badge-info">Paper announcement</a>
@@ -115,32 +99,24 @@ and brief notes on their finite-sample efficiency values.
 In this paper, we perform extensive Monte-Carlo simulations in order to obtain refined values of the
 finite-sample properties of the Rousseeuw-Croux scale estimators.
 We present accurate values of the bias-correction factors and Gaussian efficiency for small samples (<span class="math inline">\(n \leq 100\)</span>)
-and prediction equations for samples of larger sizes.</p></blockquote><br><a href=/posts/preprint-frc/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/hd-sc3/>Sensitivity curve of the Harrell-Davis quantile estimator, Part 3</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2022-10-11>October 11, 2022</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+and prediction equations for samples of larger sizes.</p></blockquote><br><a href=/posts/preprint-frc/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/hd-sc3/>Sensitivity curve of the Harrell-Davis quantile estimator, Part 3</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2022-10-11>October 11, 2022</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a></span><br><br><p>In the previous posts (<a href=https://aakinshin.net/posts/hd-sc1/>1</a>, <a href=https://aakinshin.net/posts/hd-sc2/>2</a>), I have explored the sensitivity curves of
 the Harrell-Davis quantile estimator on
 the normal distribution, the exponential distribution, and the Cauchy distribution.
-In this post, I build these sensitivity curves for some additional distributions.</p><br><a href=/posts/hd-sc3/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/hd-sc2/>Sensitivity curve of the Harrell-Davis quantile estimator, Part 2</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2022-10-04>October 4, 2022</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+In this post, I build these sensitivity curves for some additional distributions.</p><br><a href=/posts/hd-sc3/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/hd-sc2/>Sensitivity curve of the Harrell-Davis quantile estimator, Part 2</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2022-10-04>October 4, 2022</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a></span><br><br><p>In the <a href=https://aakinshin.net/posts/hd-sc1/>previous post</a>, I have explored the sensitivity curves of
 the Harrell-Davis quantile estimator on the normal distribution.
 In this post, I continue the same investigation on the exponential and Cauchy distributions.</p><br><a href=/posts/hd-sc2/>Read more</a><br><br><hr></div></div><div class=paginator><ul class="pagination pagination-default"><li class="page-item disabled"><a aria-disabled=true aria-label=First class=page-link role=button tabindex=-1><span aria-hidden=true>&#171;&#171;</span></a></li><li class="page-item disabled"><a aria-disabled=true aria-label=Previous class=page-link role=button tabindex=-1><span aria-hidden=true>&#171;</span></a></li><li class="page-item active"><a aria-current=page aria-label="Page 1" class=page-link role=button>1</a></li><li class=page-item><a href=/page/2/ aria-label="Page 2" class=page-link role=button>2</a></li><li class=page-item><a href=/page/3/ aria-label="Page 3" class=page-link role=button>3</a></li><li class=page-item><a href=/page/4/ aria-label="Page 4" class=page-link role=button>4</a></li><li class=page-item><a href=/page/5/ aria-label="Page 5" class=page-link role=button>5</a></li><li class=page-item><a href=/page/2/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a></li><li class=page-item><a href=/page/18/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a></li></ul></div></main></div><footer class="blog-footer mt-auto"><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
 |
-<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a>
-<a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a>
-<a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>
-|
-<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.c26550621ac13c2221d7f6f5e6fe862345d3919723c50d730893e3e4856ecf35.js></script>
-<script src=/js/bootstrap.bundle.min.js></script>
-<script src=/js/anchor.min.js></script>
-<script src=https://aakinshin.net/js/custom.min.f6e5d13fe39f305056cc743ee4cb8d117c1aba26176e58c82c79a480d02fe4b7.js></script>
+<a href=https://github.com/AndreyAkinshin><svg class="fai"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a><a href=https://twitter.com/andrey_akinshin><svg class="fai"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a><a href=https://aakinshin.net/posts/index.xml><svg class="fai"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a>|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js integrity="sha512-zPB79j2C+3sFS9zcA3vg/z6bVKzJVEyu9pY5w89akQRys76zpAT2t6S3wZKla3QQ14O5l/Yt0RUQ/DHXx82Y5g==" crossorigin=anonymous referrerpolicy=no-referrer></script>
+<script src=https://aakinshin.net/js/theme-after.min.29520a8e1176193da7ea4e6cb56cf9b3e634b867c9979234d8dafb5ab61dd494.js></script>
 <script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></body></html>

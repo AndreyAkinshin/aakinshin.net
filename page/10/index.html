@@ -1,9 +1,7 @@
 <!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content><title>Andrey Akinshin's blog (Page 10)</title><meta name=description content="Andrey Akinshin's blog"><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=https://aakinshin.net/sass/bootstrap-light.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=https://aakinshin.net/sass/bootstrap-dark.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.d7f6578e23ad3f0c33c589f9bcb34f995b45121f1f3ce888869c86b26826c845.js></script>
 <script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.9e68d431432744c07a43381a8a833ffe0921cc0e006d84ad97f0b0d43c5cd82d.mjs></script>
-<link href=https://aakinshin.net/css/fontawesome-all.min.178e95bba6ea2e9a90838cd646658f4bf6667a6ceaa057cb587bf7e6eb8412d3.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/about.min.60773ab7266ecc6e9625306f57c0a82a219b011dc3ea2d83763d1ecdf11c86d2.css rel=stylesheet type=text/css media=all><link href=https://aakinshin.net/css/blog.min.7e186db80d8c431d196b3e0718afb0636b82a269a8c92521c11a55267a24fc27.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"><script src=/js/jquery-3.3.1.slim.min.js></script></head><body class="d-flex flex-column min-vh-100"><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><i class="fas fa-home" title=Home style=color:#fff></i></a></li><li class=nav-item><a class=nav-link id=nav-link-posts href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ms-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title><a href=/posts/hd-sv-no-efficiency/>Comparing the efficiency of the Harrell-Davis, Sfakianakis-Verginis, and Navruz-Özdemir quantile estimators</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-05-18>May 18, 2021</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+<link href=https://aakinshin.net/css/main.min.d3894e60e337fa8d9f2c81dcda5dcb9144502462aaabed3c6bad2fcf178a8410.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body class="d-flex flex-column min-vh-100"><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><svg class="fai"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></li><li class=nav-item><a class=nav-link id=nav-link-posts href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ms-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title><a href=/posts/hd-sv-no-efficiency/>Comparing the efficiency of the Harrell-Davis, Sfakianakis-Verginis, and Navruz-Özdemir quantile estimators</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2021-05-18>May 18, 2021</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
@@ -13,10 +11,8 @@
 <a href=https://aakinshin.net/posts/wthdqe-efficiency/>Efficiency of the winsorized and trimmed Harrell-Davis quantile estimators</a>).</p><p>In this post, I continue this research and compare the efficiency of
 the Harrell-Davis quantile estimator,
 the <a href=https://aakinshin.net/posts/sfakianakis-verginis-quantile-estimator/>Sfakianakis-Verginis quantile estimators</a>, and
-the <a href=https://aakinshin.net/posts/navruz-ozdemir-quantile-estimator/>Navruz-Özdemir quantile estimator</a>.</p><div class=row><div class=mx-auto><a href=/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-light.png target=_blank class=imgldlink alt=LightAndHeavy_N10_Efficiency><picture><source theme=dark srcset=/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-light.png></picture></a></div></div><br><br><a href=/posts/hd-sv-no-efficiency/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/dispersion-exponential-smoothing/>Dispersion exponential smoothing</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-05-11>May 11, 2021</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+the <a href=https://aakinshin.net/posts/navruz-ozdemir-quantile-estimator/>Navruz-Özdemir quantile estimator</a>.</p><div class=row><div class=mx-auto><a href=/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-light.png target=_blank class=imgldlink alt=LightAndHeavy_N10_Efficiency><picture><source theme=dark srcset=/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-light.png></picture></a></div></div><br><br><a href=/posts/hd-sv-no-efficiency/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/dispersion-exponential-smoothing/>Dispersion exponential smoothing</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2021-05-11>May 11, 2021</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
@@ -30,10 +26,8 @@ I showed how to apply exponential smoothing to quantiles
 using the <a href=https://aakinshin.net/posts/weighted-quantiles/>weighted Harrell-Davis quantile estimator</a>.
 This technique allows getting smooth and stable moving median estimations.
 In this post, I&rsquo;m going to discuss how to use the same approach
-to estimate moving dispersion.</p><br><a href=/posts/dispersion-exponential-smoothing/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/quantile-exponential-smoothing/>Quantile exponential smoothing</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-05-04>May 4, 2021</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+to estimate moving dispersion.</p><br><a href=/posts/dispersion-exponential-smoothing/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/quantile-exponential-smoothing/>Quantile exponential smoothing</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2021-05-04>May 4, 2021</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
@@ -67,10 +61,8 @@ It&rsquo;s possible because the quantiles also can be estimated for weighted sam
 In one of my previous posts, I <a href=https://aakinshin.net/posts/weighted-quantiles/>showed</a> how to adapt
 the Hyndman-Fan Type 7 and Harrell-Davis quantile estimators to the weighted samples.
 In this post, I&rsquo;m going to show how we can use this technique to estimate
-the weighted moving quantiles using exponentially decreasing weights.</p><br><a href=/posts/quantile-exponential-smoothing/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/qrde-discrete/>Improving quantile-respectful density estimation for discrete distributions using jittering</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-04-27>April 27, 2021</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+the weighted moving quantiles using exponentially decreasing weights.</p><br><a href=/posts/quantile-exponential-smoothing/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/qrde-discrete/>Improving quantile-respectful density estimation for discrete distributions using jittering</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2021-04-27>April 27, 2021</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
@@ -103,10 +95,8 @@ because it&rsquo;s impossible to build an &ldquo;honest&rdquo; density function 
 without using the Dirac delta function.
 This is a severe problem for QRDE-based algorithms like the
 <a href=https://aakinshin.net/posts/lowland-multimodality-detection/>lowland multimodality detection algorithm</a>.
-In this post, I will show how jittering could help to solve this problem and get a smooth QRDE on samples with ties.</p><br><a href=/posts/qrde-discrete/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/discrete-sample-jittering/>How to build a smooth density estimation for a discrete sample using jittering</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-04-20>April 20, 2021</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+In this post, I will show how jittering could help to solve this problem and get a smooth QRDE on samples with ties.</p><br><a href=/posts/qrde-discrete/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/discrete-sample-jittering/>How to build a smooth density estimation for a discrete sample using jittering</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2021-04-20>April 20, 2021</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
@@ -124,10 +114,8 @@ In the simplest case, jittering just adds random noise to each measurement.
 Such a trick removes all ties from the sample and allows building a smooth density estimation.</p><p>However, there are many different ways to apply jittering.
 The trickiest question here is how to choose proper noise values.
 In this post, I want to share one of my favorite jittering approaches.
-It generates a non-randomized noise pattern with a low risk of noticeable sample corruption.</p><br><a href=/posts/discrete-sample-jittering/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/kde-discrete/>Kernel density estimation and discrete values</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-04-13>April 13, 2021</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+It generates a non-randomized noise pattern with a low risk of noticeable sample corruption.</p><br><a href=/posts/discrete-sample-jittering/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/kde-discrete/>Kernel density estimation and discrete values</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2021-04-13>April 13, 2021</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
@@ -147,10 +135,8 @@ If a sample contains ties, we are most likely working with
 either a discrete distribution or a mixture of discrete and continuous distributions.
 A KDE for such a sample may significantly differ from the actual PDF.
 Thus, this technique may mislead us instead of providing insights about the true underlying distribution.</p><p>In this post, we discuss the usage of PDF and PMF with continuous and discrete distributions.
-Also, we look at examples of corrupted density estimation plots for distributions with discrete features.</p><br><a href=/posts/kde-discrete/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/wthdqe-efficiency/>Efficiency of the winsorized and trimmed Harrell-Davis quantile estimators</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-04-06>April 6, 2021</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+Also, we look at examples of corrupted density estimation plots for distributions with discrete features.</p><br><a href=/posts/kde-discrete/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/wthdqe-efficiency/>Efficiency of the winsorized and trimmed Harrell-Davis quantile estimators</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2021-04-06>April 6, 2021</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
@@ -162,10 +148,8 @@ Both modifications have a higher level of robustness in comparison to the origin
 Also, I <a href=https://aakinshin.net/posts/hdqe-efficiency/>discussed</a> the <a href=https://en.wikipedia.org/wiki/Efficiency_(statistics)>efficiency</a>
 of the Harrell-Davis quantile estimator.
 In this post, I&rsquo;m going to continue numerical simulation and estimate the efficiency of
-the winsorized and trimmed modifications.</p><div class=row><div class=mx-auto><a href=/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-light.png target=_blank class=imgldlink alt=LightAndHeavy_N10_Efficiency><picture><source theme=dark srcset=/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-light.png></picture></a></div></div><br><br><a href=/posts/wthdqe-efficiency/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/trimmed-hdqe/>Trimmed modification of the Harrell-Davis quantile estimator</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-03-30>March 30, 2021</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+the winsorized and trimmed modifications.</p><div class=row><div class=mx-auto><a href=/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-light.png target=_blank class=imgldlink alt=LightAndHeavy_N10_Efficiency><picture><source theme=dark srcset=/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-light.png></picture></a></div></div><br><br><a href=/posts/wthdqe-efficiency/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/trimmed-hdqe/>Trimmed modification of the Harrell-Davis quantile estimator</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2021-03-30>March 30, 2021</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
@@ -175,10 +159,8 @@ the winsorized and trimmed modifications.</p><div class=row><div class=mx-auto><
 <a href=https://aakinshin.net/tags/research-thdqe/ class="badge badge-info">Research: Building trimmed Harrell-Davis quantile estimator</a></span><br><br><p>In one of <a href=https://aakinshin.net/posts/winsorized-hdqe/>the previous posts</a>, I discussed winsorized Harrell-Davis quantile estimator.
 This estimator is more robust than the classic Harrell-Davis quantile estimator.
 In this post, I want to suggest another modification that may be better for some corner cases:
-the <em>trimmed</em> Harrell-Davis quantile estimator.</p><br><a href=/posts/trimmed-hdqe/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/hdqe-efficiency/>Efficiency of the Harrell-Davis quantile estimator</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-03-23>March 23, 2021</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+the <em>trimmed</em> Harrell-Davis quantile estimator.</p><br><a href=/posts/trimmed-hdqe/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/hdqe-efficiency/>Efficiency of the Harrell-Davis quantile estimator</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2021-03-23>March 23, 2021</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
@@ -191,10 +173,8 @@ The Harrell-Davis quantile estimator is a good option to achieve higher efficien
 However, this estimator may provide lower efficiency in some special cases.
 In this post, we will conduct a set of simulations that show the actual efficiency numbers.
 We compare different distributions (symmetric and right-skewed, heavy-tailed and light-tailed),
-quantiles, and sample sizes.</p><br><a href=/posts/hdqe-efficiency/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/navruz-ozdemir-quantile-estimator/>Navruz-Özdemir quantile estimator</a></h2><span class=blog-post-meta><div class=faicon><i class="far fa-calendar-alt"></i></div><time datetime=2021-03-16>March 16, 2021</time>
-&nbsp;&nbsp;
-<i class="fas fa-tag"></i>
-&nbsp;
+quantiles, and sample sizes.</p><br><a href=/posts/hdqe-efficiency/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/navruz-ozdemir-quantile-estimator/>Navruz-Özdemir quantile estimator</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2021-03-16>March 16, 2021</time>
+&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
 <a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
 <a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
 <a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
@@ -213,13 +193,9 @@ Also, I add some additional explanations,
 simplify the final equation,
 and provide reference implementations in C# and R.</p><br><a href=/posts/navruz-ozdemir-quantile-estimator/>Read more</a><br><br><hr></div></div><div class=paginator><ul class="pagination pagination-default"><li class=page-item><a href=/ aria-label=First class=page-link role=button><span aria-hidden=true>&#171;&#171;</span></a></li><li class=page-item><a href=/page/9/ aria-label=Previous class=page-link role=button><span aria-hidden=true>&#171;</span></a></li><li class=page-item><a href=/page/8/ aria-label="Page 8" class=page-link role=button>8</a></li><li class=page-item><a href=/page/9/ aria-label="Page 9" class=page-link role=button>9</a></li><li class="page-item active"><a aria-current=page aria-label="Page 10" class=page-link role=button>10</a></li><li class=page-item><a href=/page/11/ aria-label="Page 11" class=page-link role=button>11</a></li><li class=page-item><a href=/page/12/ aria-label="Page 12" class=page-link role=button>12</a></li><li class=page-item><a href=/page/11/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a></li><li class=page-item><a href=/page/18/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a></li></ul></div></main></div><footer class="blog-footer mt-auto"><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
 |
-<a href=https://github.com/AndreyAkinshin><i class="fab fa-github" title=GitHub></i></a>
-<a href=https://twitter.com/andrey_akinshin><i class="fab fa-twitter" title=Twitter></i></a>
-<a href=https://aakinshin.net/posts/index.xml><i class="fas fa-rss" title=RSS></i></a>
-|
-<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://aakinshin.net/js/theme-after.min.c26550621ac13c2221d7f6f5e6fe862345d3919723c50d730893e3e4856ecf35.js></script>
-<script src=/js/bootstrap.bundle.min.js></script>
-<script src=/js/anchor.min.js></script>
-<script src=https://aakinshin.net/js/custom.min.f6e5d13fe39f305056cc743ee4cb8d117c1aba26176e58c82c79a480d02fe4b7.js></script>
+<a href=https://github.com/AndreyAkinshin><svg class="fai"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a><a href=https://twitter.com/andrey_akinshin><svg class="fai"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a><a href=https://aakinshin.net/posts/index.xml><svg class="fai"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a>|
+<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js></script>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js integrity="sha512-zPB79j2C+3sFS9zcA3vg/z6bVKzJVEyu9pY5w89akQRys76zpAT2t6S3wZKla3QQ14O5l/Yt0RUQ/DHXx82Y5g==" crossorigin=anonymous referrerpolicy=no-referrer></script>
+<script src=https://aakinshin.net/js/theme-after.min.29520a8e1176193da7ea4e6cb56cf9b3e634b867c9979234d8dafb5ab61dd494.js></script>
 <script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script></body></html>
