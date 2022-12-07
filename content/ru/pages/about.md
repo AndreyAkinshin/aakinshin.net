@@ -4,7 +4,7 @@ layout: "about"
 url: /ru/about
 ---
 
-<div class="compact">
+<div class="about-compact">
 
 Андрей Акиньшин — программист,
   автор [постов](#posts) и [статей](#publications) про математику и программирование,

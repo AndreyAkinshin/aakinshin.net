@@ -2,13 +2,12 @@
 {{ $dateFormat := .Site.Params.dateFormat | default "January 2, 2006" }}
 
 <span class="blog-post-meta">
-<div class="faicon"><i class="far fa-calendar-alt"></i></div>
+<svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"></use></svg>
 <time datetime="{{ $dateTime }}">{{ partial "date-full.html" . }}</time>
 &nbsp;&nbsp;
 
 {{ with (.GetTerms "tags") }}
-  <i class="fas fa-tag"></i>
-  &nbsp;
+  <svg class="fai"><use xlink:href="/img/fa/all.svg#tag"></use></svg>
   {{ range . }}
     <a href="{{ .Permalink }}" class="badge badge-info">{{ .Title }}</a>
   {{ end }}

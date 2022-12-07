@@ -2,9 +2,24 @@
   <div class="container">
     <p>&copy; 2013&mdash;2022 {{ i18n "andreyAkinshin" }}
       |
-      <a href="https://github.com/AndreyAkinshin"><i class="fab fa-github" title="GitHub"></i></a>
-      <a href="https://twitter.com/andrey_akinshin"><i class="fab fa-twitter" title="Twitter"></i></a>
-      <a href='{{ ((.Site.GetPage "/posts").OutputFormats.Get "rss").Permalink }}'><i class="fas fa-rss" title="RSS"></i></a>
+      <a href="https://github.com/AndreyAkinshin">
+        <svg class="fai">
+          <title>GitHub</title>
+          <use xlink:href="/img/fa/all.svg#github"></use>
+        </svg>
+      </a>
+      <a href="https://twitter.com/andrey_akinshin">
+        <svg class="fai">
+          <title>Twitter</title>
+          <use xlink:href="/img/fa/all.svg#twitter"></use>
+        </svg>
+      </a>
+      <a href='{{ ((.Site.GetPage "/posts").OutputFormats.Get "rss").Permalink }}'>
+        <svg class="fai">
+          <title>RSS</title>
+          <use xlink:href="/img/fa/all.svg#rss"></use>
+        </svg>
+      </a>
       |
       <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
   </div>

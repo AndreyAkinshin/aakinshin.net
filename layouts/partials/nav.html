@@ -3,7 +3,12 @@
     <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" id="nav-link-blog" href="{{ .Site.Home.Permalink }}"><i class="fas fa-home" title="Home" style="color:white"></i></a>
+          {{ if eq .Site.Language.Lang "ru" }}
+          <a class="nav-link" id="nav-link-blog" href='{{ (.Site.GetPage "/pages/about.md").Permalink }}'><svg class="fai"><use xlink:href="/img/fa/all.svg#house-chimney"></use></svg></a>
+          {{ end }}
+          {{ if eq .Site.Language.Lang "en" }}
+          <a class="nav-link" id="nav-link-blog" href="{{ .Site.Home.Permalink }}"><svg class="fai"><use xlink:href="/img/fa/all.svg#house-chimney"></use></svg></a>
+          {{ end }}
         </li>
         <li class="nav-item">
           <a class="nav-link" id="nav-link-posts" href='{{ (.Site.GetPage "/posts").Permalink }}'>{{ i18n "posts" }}</a>
@@ -13,14 +18,11 @@
         </li>
         {{ if .IsTranslated }}
         {{ if eq .Site.Language.Lang "ru" }}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ upper .Site.Language.Lang }} </a>
-            {{ range .Translations }}
-              <ul class="dropdown-menu bg-primary">
-                <li></li><a class="dropdown-item" href='{{ .Permalink }}'>{{ upper .Lang }}</a></li>
-              </ul>
-            {{ end }}
-          </li>
+        {{ range .Translations }}
+        <li class="nav-item">
+          <a class="nav-link" id="nav-link-en" href='{{ .Permalink }}'>{{ upper .Lang }}</a>
+        </li>
+        {{ end }}
         {{ end }}
         {{ end }}
       </ul>

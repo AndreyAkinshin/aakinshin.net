@@ -277,7 +277,7 @@ namespace DataProcessor.Publications
                     {
                         var title = Resolve(lang, "Link", "Ссылка");
                         if (url.EndsWith(".pdf"))
-                            title = "<i class='fas fa-file-pdf'></i> PDF";
+                            title = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF";
                         else if (url.Contains("ieeexplore.ieee.org"))
                             title = "IEEE";
                         else if (url.Contains("apps.webofknowledge.com"))
@@ -299,7 +299,7 @@ namespace DataProcessor.Publications
                         else if (url.Contains("publons"))
                             title = "Publons";
                         else if (url.Contains("github"))
-                            title = "<i class='fab fa-github' title='GitHub'></i> GitHub";
+                            title = "<svg class='fai'><use xlink:href='/img/fa/all.svg#github'></use></svg> GitHub";
                         else if (url.Contains("conf.nsc.ru") || url.Contains("uni-bielefeld.de") ||
                                  url.Contains("cmb.molgen.mpg.de") || url.Contains("sites.google.com"))
                             title = Resolve(lang, "Conference site", "Сайт конференции");
@@ -315,7 +315,7 @@ namespace DataProcessor.Publications
                         if (url.Contains("arxiv"))
                         {
                             builder.AppendLine("  [[item.link]]");
-                            builder.AppendLine($"  Label = \"<i class='fas fa-file-pdf'></i> PDF\"");
+                            builder.AppendLine($"  Label = \"<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF\"");
                             builder.AppendLine($"  Url = \"{url.Replace("/abs/", "/pdf/") + ".pdf"}\"");
                         }
                     }

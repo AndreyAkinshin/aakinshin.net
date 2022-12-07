@@ -47,8 +47,8 @@
 
 
   <!-- Bootstrap CSS & Highlight.js-->
-   {{ $bootstrapLightCss := (resources.Get "sass/bootstrap-light.scss") | resources.ToCSS | minify }}
-   {{ $bootstrapDarkCss := (resources.Get "sass/bootstrap-dark.scss") | resources.ToCSS | minify }}
+  {{ $bootstrapLightCss := (resources.Get "sass/bootstrap-light.scss") | resources.ToCSS | minify }}
+  {{ $bootstrapDarkCss := (resources.Get "sass/bootstrap-dark.scss") | resources.ToCSS | minify }}
 
   <link href="{{ $bootstrapLightCss.Permalink }}" theme="light" rel="stylesheet" type="text/css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
   <link href="{{ $bootstrapDarkCss.Permalink }}" theme="dark" rel="stylesheet" type="text/css" media="(prefers-color-scheme: dark)">
@@ -57,12 +57,9 @@
   <!-- DarkModeToggle -->
   {{ partial "import/mjs.html" "dark-mode-toggle" }}
 
-  <!-- FontAwesome -->
-  {{ partial "import/css.html" "fontawesome-all" }}
-  
+
   <!-- Custom styles -->
-  {{ partial "import/css.html" "about" }}
-  {{ partial "import/css.html" "blog" }}
+  {{ partial "import/css.html" "main" }}
   {{ if in .Params.Features "pre-ascii" }}
     {{ partial "import/css.html" "pre-ascii" }}
   {{ end }}
@@ -71,7 +68,4 @@
   {{ with (.Site.GetPage "/posts").OutputFormats.Get "rss" -}}
     {{ printf `<link rel="%s" type="%s" href="%s" title="RSS Feed" />` .Rel .MediaType.Type .Permalink | safeHTML }}
   {{ end -}}
-
-  <!-- jQuery -->
-  <script src="/js/jquery-3.3.1.slim.min.js"></script>
 </head>

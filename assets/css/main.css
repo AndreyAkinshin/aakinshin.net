@@ -183,9 +183,12 @@ dark-mode-toggle {
 }
 
 /* Icons */
-.faicon {
-  display: inline;
-  margin-right: 0.7rem;
+.fai {
+  height: 1em;
+  width: 1em;
+  padding-bottom: 0.2em;
+  padding-right: 0.2em;
+  fill: currentColor;
 }
 
 /* Post examples */
@@ -225,6 +228,9 @@ body {
 .share-button {
   padding-left: 15px;
 }
+.share-button svg {
+  font-size: 200%;
+}
 
 /* Misc */
 .d-none{
@@ -236,4 +242,23 @@ code.has-jax {
   background: inherit !important;
   border: none !important;
   font-size: 100%;
+}
+
+/* about */
+#about-profiles svg {
+  margin-right: 0.7rem;
+}
+#about p, #about ul {
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+}
+#about ol {
+  margin-left:10px;
+}
+#about img {
+  height: 18px;
+}
+.about-compact p {
+  text-indent: 20px !important;
+  margin: 0 !important;
 }

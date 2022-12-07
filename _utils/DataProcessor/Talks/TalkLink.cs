@@ -7,11 +7,11 @@ namespace DataProcessor.Talks
     {
         private static readonly Dictionary<string, string> faDictionary = new Dictionary<string, string>()
         {
-            {"youtube", "fab fa-youtube"},
-            {"pdf", "fas fa-file-pdf"},
-            {"slideshare", "fab fa-slideshare"},
-            {"photos", "fas fa-camera-retro"},
-            {"org", "fas fa-building"}
+            {"youtube", "youtube"},
+            {"pdf", "file-pdf"},
+            {"slideshare", "slideshare"},
+            {"photos", "camera-retro"},
+            {"org", "building"}
         };
 
         private static readonly Dictionary<string, string> keyLegend = new Dictionary<string, string>
@@ -44,7 +44,7 @@ namespace DataProcessor.Talks
             {
                 label = keyLegend.ContainsKey(Key) ? keyLegend[Key] : Capitalize(Key);
                 if (faDictionary.ContainsKey(Key))
-                    label = $"<i class='{faDictionary[Key]}'></i> {label}";
+                    label = $"<svg class='fai'><use xlink:href='/img/fa/all.svg#{faDictionary[Key]}'></use></svg> {label}";
                 if (!string.IsNullOrWhiteSpace(Caption))
                     label += " (" + Caption + ")";
             }
