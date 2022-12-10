@@ -1,11 +1,346 @@
-<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Mathematics,Statistics,Research,Research: P² quantile estimator"><title>Moving extended P² quantile estimator | Andrey Akinshin</title><meta name=description content="In the previous posts, I discussed the P² quantile estimator (a sequential estimator which takes \(O(1)\) memory and estimates a single predefined quantile..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=https://aakinshin.net/sass/bootstrap-light.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=https://aakinshin.net/sass/bootstrap-dark.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.d7f6578e23ad3f0c33c589f9bcb34f995b45121f1f3ce888869c86b26826c845.js></script>
-<script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.9e68d431432744c07a43381a8a833ffe0921cc0e006d84ad97f0b0d43c5cd82d.mjs></script>
-<link href=https://aakinshin.net/css/main.min.4521fdf961aba8dee11ce56edc3cfa07845a0629c82e528856f1558c230aea2f.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body class="d-flex flex-column min-vh-100"><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><svg class="fai"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></li><li class=nav-item><a class=nav-link id=nav-link-posts href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ms-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Moving extended P² quantile estimator</h1><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2022-01-25>January 25, 2022</time>
-&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
-<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
-<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
-<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
-<a href=https://aakinshin.net/tags/research-p2qe/ class="badge badge-info">Research: P² quantile estimator</a></span><br><br><p>In the previous posts, I discussed
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Mathematics,Statistics,Research,Research: P² quantile estimator"><title>Moving extended P² quantile estimator | Andrey Akinshin</title><meta name=description content="In the previous posts, I discussed the P² quantile estimator (a sequential estimator which takes \(O(1)\) memory and estimates a single predefined quantile..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><script src=https://cdn.tailwindcss.com/3.2.4></script>
+<script>tailwind.config={darkMode:"class"}</script><style type=text/tailwindcss>
+    @layer base {
+       
+       
+      body {
+        @apply bg-white dark:bg-zinc-800;
+        @apply text-black dark:text-gray-400;
+      }
+      nav {
+        @apply bg-sky-800 dark:bg-zinc-900;
+      }
+      a {
+        @apply text-sky-600 dark:text-white;
+        @apply no-underline;
+      }
+      .main-content a:not(.label-link) {
+        @apply hover:underline;
+      }
+      hr {
+        @apply h-px my-3 border-0 bg-gray-300 dark:bg-gray-600;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        @apply leading-tight;
+      }
+      h1, h2, h3 {
+        @apply text-4xl py-4;
+      }
+      h4 {
+        @apply text-3xl py-3;
+      }
+      h5, h6 {
+        @apply text-2xl py-2;
+      }
+      table {
+        @apply border self-center mx-auto;
+      }
+      th, td {
+        @apply border p-2
+      }
+      blockquote {
+        @apply border-l-8 border-gray-300 bg-gray-100 dark:border-zinc-600 dark:bg-zinc-700;
+        @apply ml-4 my-4 pl-4 py-2;
+      }
+
+       
+      .main ul {
+        @apply list-disc ml-10 my-2;
+      }
+      .main ol {
+        @apply list-decimal ml-10 my-2;
+      }
+      .main p {
+        @apply mb-3;
+      }
+
+       
+      .label {
+        @apply mx-1 px-1 py-0.5;
+        @apply rounded border border-gray-400 dark:border-gray-500;
+      }
+      .label-link {
+        @apply mx-1 px-1 py-0.5;
+        @apply rounded border border-sky-600 dark:border-slate-400;
+        @apply hover:bg-sky-200 dark:hover:bg-gray-500;
+      }
+      .nav-item {
+        @apply text-white hover:bg-sky-700 dark:hover:bg-gray-700;
+      }
+
+       
+      .paginator {
+        @apply flex flex-wrap justify-center mb-4;
+      }
+      .paginator .page-item {
+        @apply inline-flex border rounded px-3 py-1;
+      }
+      .paginator .page-item:not(.active):not(.disabled) {
+        @apply border-gray-400 dark:border-gray-400;
+      }
+      .paginator .page-item.active {
+        @apply border-sky-600 dark:border-white;
+      }
+      .paginator .page-item.disabled {
+        @apply bg-gray-50 dark:bg-gray-500 dark:border-gray-400;
+      }
+      .paginator .page-item.disabled a {
+        @apply text-gray-400 dark:text-gray-400;
+      }
+
+       
+      .anchorjs-link {
+        transition: all .25s linear;
+      }
+      *:hover > .anchorjs-link {
+        margin-left: -1.125em !important;
+      }
+
+       
+      .block-example {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      
+        margin-left: 10px;
+        padding-left: 10px;
+      
+        border-left: 5px solid;
+        border-color: grey;
+      }
+      .block-example-title::before {  
+        counter-increment: example;
+        content: "Example " counter(example);
+      }
+      body {
+        counter-reset: example;
+      }
+
+       
+      #about-profiles svg {
+        margin-right: 0.7rem;
+      }
+      #about p, #about ul {
+        margin-top: 0rem;
+        margin-bottom: 0rem;
+      }
+      #about ol {
+        @apply ml-10;
+      }
+      #about img {
+        height: 18px;
+        @apply inline-flex;
+      }
+      .about-compact p {
+        text-indent: 20px !important;
+        margin: 0 !important;
+      }
+
+       
+      .d-none { display:none; }
+
+       
+      code.has-jax {
+        -webkit-font-smoothing: antialiased;
+        background: inherit !important;
+        border: none !important;
+        font-size: 100%;
+      }
+
+       
+      .fai {
+        @apply inline-flex;
+        height: 1.2em;
+        width: 1.2em;
+        padding-right: 0.4em;
+        fill: currentColor;
+      }
+      .fai-link {
+        @apply hover:text-sky-400 dark:hover:text-blue-400;
+      }
+      .label-link .fai {
+        @apply pl-1 pb-1;
+        height: 1.5em;
+        width: 1.5em;
+      }
+
+       
+      .chroma {
+        @apply my-5 overflow-y-scroll;
+        border-radius: 3px;
+        border: 1px solid #C3CCD0;
+        padding: 0.5em;
+      }
+        .chroma { background-color: #ffffff }
+        .chroma .x {  }
+        .chroma .err { color: #a61717; background-color: #e3d2d2 }
+        .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+        .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
+        .chroma .hl { display: block; width: 100%;background-color: #ffffcc }
+        .chroma .lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+        .chroma .ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+        .chroma .k { color: #000000; font-weight: bold }
+        .chroma .kc { color: #000000; font-weight: bold }
+        .chroma .kd { color: #000000; font-weight: bold }
+        .chroma .kn { color: #000000; font-weight: bold }
+        .chroma .kp { color: #000000; font-weight: bold }
+        .chroma .kr { color: #000000; font-weight: bold }
+        .chroma .kt { color: #445588; font-weight: bold }
+        .chroma .n {  }
+        .chroma .na { color: #008080 }
+        .chroma .nb { color: #0086b3 }
+        .chroma .bp { color: #999999 }
+        .chroma .nc { color: #445588; font-weight: bold }
+        .chroma .no { color: #008080 }
+        .chroma .nd { color: #3c5d5d; font-weight: bold }
+        .chroma .ni { color: #800080 }
+        .chroma .ne { color: #990000; font-weight: bold }
+        .chroma .nf { color: #990000; font-weight: bold }
+        .chroma .fm {  }
+        .chroma .nl { color: #990000; font-weight: bold }
+        .chroma .nn { color: #555555 }
+        .chroma .nx {  }
+        .chroma .py {  }
+        .chroma .nt { color: #000080 }
+        .chroma .nv { color: #008080 }
+        .chroma .vc { color: #008080 }
+        .chroma .vg { color: #008080 }
+        .chroma .vi { color: #008080 }
+        .chroma .vm {  }
+        .chroma .l {  }
+        .chroma .ld {  }
+        .chroma .s { color: #dd1144 }
+        .chroma .sa { color: #dd1144 }
+        .chroma .sb { color: #dd1144 }
+        .chroma .sc { color: #dd1144 }
+        .chroma .dl { color: #dd1144 }
+        .chroma .sd { color: #dd1144 }
+        .chroma .s2 { color: #dd1144 }
+        .chroma .se { color: #dd1144 }
+        .chroma .sh { color: #dd1144 }
+        .chroma .si { color: #dd1144 }
+        .chroma .sx { color: #dd1144 }
+        .chroma .sr { color: #009926 }
+        .chroma .s1 { color: #dd1144 }
+        .chroma .ss { color: #990073 }
+        .chroma .m { color: #009999 }
+        .chroma .mb { color: #009999 }
+        .chroma .mf { color: #009999 }
+        .chroma .mh { color: #009999 }
+        .chroma .mi { color: #009999 }
+        .chroma .il { color: #009999 }
+        .chroma .mo { color: #009999 }
+        .chroma .o { color: #000000; font-weight: bold }
+        .chroma .ow { color: #000000; font-weight: bold }
+        .chroma .p {  }
+        .chroma .c { color: #999988; font-style: italic }
+        .chroma .ch { color: #999988; font-style: italic }
+        .chroma .cm { color: #999988; font-style: italic }
+        .chroma .c1 { color: #999988; font-style: italic }
+        .chroma .cs { color: #999999; font-weight: bold; font-style: italic }
+        .chroma .cp { color: #999999; font-weight: bold; font-style: italic }
+        .chroma .cpf { color: #999999; font-weight: bold; font-style: italic }
+        .chroma .g {  }
+        .chroma .gd { color: #000000; background-color: #ffdddd }
+        .chroma .ge { color: #000000; font-style: italic }
+        .chroma .gr { color: #aa0000 }
+        .chroma .gh { color: #999999 }
+        .chroma .gi { color: #000000; background-color: #ddffdd }
+        .chroma .go { color: #888888 }
+        .chroma .gp { color: #555555 }
+        .chroma .gs { font-weight: bold }
+        .chroma .gu { color: #aaaaaa }
+        .chroma .gt { color: #aa0000 }
+        .chroma .gl { text-decoration: underline }
+        .chroma .w { color: #bbbbbb }
+        .dark.chroma { color: #f8f8f2; background-color: #272822 }
+        .dark .chroma { color: #f8f8f2; background-color: #272822 }
+        .dark .chroma .x {  }
+        .dark .chroma .err { color: #960050; background-color: #1e0010 }
+        .dark .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+        .dark .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
+        .dark .chroma .hl { display: block; width: 100%;background-color: #ffffcc }
+        .dark .chroma .lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+        .dark .chroma .ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+        .dark .chroma .k { color: #66d9ef }
+        .dark .chroma .kc { color: #66d9ef }
+        .dark .chroma .kd { color: #66d9ef }
+        .dark .chroma .kn { color: #f92672 }
+        .dark .chroma .kp { color: #66d9ef }
+        .dark .chroma .kr { color: #66d9ef }
+        .dark .chroma .kt { color: #66d9ef }
+        .dark .chroma .n {  }
+        .dark .chroma .na { color: #a6e22e }
+        .dark .chroma .nb {  }
+        .dark .chroma .bp {  }
+        .dark .chroma .nc { color: #a6e22e }
+        .dark .chroma .no { color: #66d9ef }
+        .dark .chroma .nd { color: #a6e22e }
+        .dark .chroma .ni {  }
+        .dark .chroma .ne { color: #a6e22e }
+        .dark .chroma .nf { color: #a6e22e }
+        .dark .chroma .fm {  }
+        .dark .chroma .nl {  }
+        .dark .chroma .nn {  }
+        .dark .chroma .nx { color: #a6e22e }
+        .dark .chroma .py {  }
+        .dark .chroma .nt { color: #f92672 }
+        .dark .chroma .nv {  }
+        .dark .chroma .vc {  }
+        .dark .chroma .vg {  }
+        .dark .chroma .vi {  }
+        .dark .chroma .vm {  }
+        .dark .chroma .l { color: #ae81ff }
+        .dark .chroma .ld { color: #e6db74 }
+        .dark .chroma .s { color: #e6db74 }
+        .dark .chroma .sa { color: #e6db74 }
+        .dark .chroma .sb { color: #e6db74 }
+        .dark .chroma .sc { color: #e6db74 }
+        .dark .chroma .dl { color: #e6db74 }
+        .dark .chroma .sd { color: #e6db74 }
+        .dark .chroma .s2 { color: #e6db74 }
+        .dark .chroma .se { color: #ae81ff }
+        .dark .chroma .sh { color: #e6db74 }
+        .dark .chroma .si { color: #e6db74 }
+        .dark .chroma .sx { color: #e6db74 }
+        .dark .chroma .sr { color: #e6db74 }
+        .dark .chroma .s1 { color: #e6db74 }
+        .dark .chroma .ss { color: #e6db74 }
+        .dark .chroma .m { color: #ae81ff }
+        .dark .chroma .mb { color: #ae81ff }
+        .dark .chroma .mf { color: #ae81ff }
+        .dark .chroma .mh { color: #ae81ff }
+        .dark .chroma .mi { color: #ae81ff }
+        .dark .chroma .il { color: #ae81ff }
+        .dark .chroma .mo { color: #ae81ff }
+        .dark .chroma .o { color: #f92672 }
+        .dark .chroma .ow { color: #f92672 }
+        .dark .chroma .p {  }
+        .dark .chroma .c { color: #75715e }
+        .dark .chroma .ch { color: #75715e }
+        .dark .chroma .cm { color: #75715e }
+        .dark .chroma .c1 { color: #75715e }
+        .dark .chroma .cs { color: #75715e }
+        .dark .chroma .cp { color: #75715e }
+        .dark .chroma .cpf { color: #75715e }
+        .dark .chroma .g {  }
+        .dark .chroma .gd { color: #f92672 }
+        .dark .chroma .ge { font-style: italic }
+        .dark .chroma .gr {  }
+        .dark .chroma .gh {  }
+        .dark .chroma .gi { color: #a6e22e }
+        .dark .chroma .go {  }
+        .dark .chroma .gp {  }
+        .dark .chroma .gs { font-weight: bold }
+        .dark .chroma .gu { color: #75715e }
+        .dark .chroma .gt {  }
+        .dark .chroma .gl {  }
+        .dark .chroma .w {  }
+    }
+  </style><script>localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")</script><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body><nav><div class="container flex flex-wrap items-center justify-between mx-auto max-w-6xl h-12 px-6"><div class="flex items-center justify-start justify-self-start"><div class="flex nav-item h-12 w-12 items-center justify-center"><a class=text-white href=https://aakinshin.net/><svg class="fai w-6 h-6"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/posts/>Posts</a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/about/>About</a></div></div><button id=theme-toggle type=button class="nav-item p-3 content-center justify-self-end"><svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001.0 1010.586 10.586z"/></svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1A1 1 0 119 4V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707A1 1 0 1113.536 5.05l.707-.707a1 1 0 011.414.0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707A1 1 0 004.343 5.757l.707.707zm1.414 8.486-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"/></svg></button></div></nav><div class="main container mx-auto max-w-6xl px-6"><div class=main-post><h1 class=blog-post-title id=post-title>Moving extended P² quantile estimator</h1><div class="flex flex-wrap justify-start items-center"><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2022-01-25>January 25, 2022</time><svg class="fai ml-3"><use xlink:href="/img/fa/all.svg#tag"/></svg>
+<a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/research-p2qe/>Research: P² quantile estimator</a></div><br><div class=main-content><p>In the previous posts, I discussed
 <a href=https://aakinshin.net/posts/p2-quantile-estimator/>the P² quantile estimator</a>
 (a sequential estimator which takes <span class="math inline">\(O(1)\)</span> memory and estimates a single predefined quantile),
 <a href=https://aakinshin.net/posts/mp2-quantile-estimator/>the moving P² quantile estimator</a>
@@ -219,11 +554,6 @@ All the additional details are presented in the post about <a href=https://aakin
 </span></span><span class=line><span class=cl>        <span class=k>throw</span> <span class=k>new</span> <span class=n>InvalidOperationException</span><span class=p>(</span><span class=s>$&#34;Target quantile ({p}) wasn&#39;t requested in the constructor&#34;</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><br><br><div class=row><div class="justify-content-center share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fmoving-ex-p2-quantile-estimator%2f&title=Moving%20extended%20P%c2%b2%20quantile%20estimator" target=_blank title="Share on Reddit"><svg class="fai"><use xlink:href="/img/fa/all.svg#reddit"/></svg></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Moving%20extended%20P%c2%b2%20quantile%20estimator&url=https%3a%2f%2faakinshin.net%2fposts%2fmoving-ex-p2-quantile-estimator%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><svg class="fai"><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fmoving-ex-p2-quantile-estimator%2f" target=_blank title="Share on HackerNews"><svg class="fai"><use xlink:href="/img/fa/all.svg#hacker-news"/></svg></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fmoving-ex-p2-quantile-estimator%2f&title=Moving%20extended%20P%c2%b2%20quantile%20estimator" target=_blank title="Add to Pocket"><svg class="fai"><use xlink:href="/img/fa/all.svg#get-pocket"/></svg></a></div></div></div></div><hr></div></div></main></div><footer class="blog-footer mt-auto"><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
-|
-<a href=https://github.com/AndreyAkinshin><svg class="fai"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a><a href=https://twitter.com/andrey_akinshin><svg class="fai"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a><a href=https://aakinshin.net/posts/index.xml><svg class="fai"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a>|
-<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js></script>
-<script src=https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js integrity="sha512-zPB79j2C+3sFS9zcA3vg/z6bVKzJVEyu9pY5w89akQRys76zpAT2t6S3wZKla3QQ14O5l/Yt0RUQ/DHXx82Y5g==" crossorigin=anonymous referrerpolicy=no-referrer></script>
-<script src=https://aakinshin.net/js/theme-after.min.29520a8e1176193da7ea4e6cb56cf9b3e634b867c9979234d8dafb5ab61dd494.js></script>
-<script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+</span></span></code></pre></div></div><br><br><div class="flex flex-wrap justify-center items-center mb-5"><span>Share:</span><div class="text-4xl pl-3"><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fmoving-ex-p2-quantile-estimator%2f&title=Moving%20extended%20P%c2%b2%20quantile%20estimator" target=_blank title="Share on Reddit"><svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#reddit"/></svg></a></div><div class="text-4xl pl-3"><a href="https://twitter.com/intent/tweet?text=Moving%20extended%20P%c2%b2%20quantile%20estimator&url=https%3a%2f%2faakinshin.net%2fposts%2fmoving-ex-p2-quantile-estimator%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></div><div class="text-4xl pl-3"><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fmoving-ex-p2-quantile-estimator%2f" target=_blank title="Share on HackerNews"><svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#hacker-news"/></svg></a></div><div class="text-4xl pl-3"><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fmoving-ex-p2-quantile-estimator%2f&title=Moving%20extended%20P%c2%b2%20quantile%20estimator" target=_blank title="Add to Pocket"><svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#get-pocket"/></svg></a></div></div></div></div><script>var themeToggleDarkIcon=document.getElementById("theme-toggle-dark-icon"),themeToggleBtn,themeToggleLightIcon=document.getElementById("theme-toggle-light-icon");const imagesDark=document.querySelectorAll(".img-dark"),imagesLight=document.querySelectorAll(".img-light");localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?(themeToggleLightIcon.classList.remove("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")})):(themeToggleDarkIcon.classList.remove("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")})),themeToggleBtn=document.getElementById("theme-toggle"),themeToggleBtn.addEventListener("click",function(){themeToggleDarkIcon.classList.toggle("hidden"),themeToggleLightIcon.classList.toggle("hidden"),imagesLight.forEach(e=>{e.classList.toggle("hidden")}),imagesDark.forEach(e=>{e.classList.toggle("hidden")}),localStorage.getItem("color-theme")?localStorage.getItem("color-theme")==="light"?(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark")):(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):document.documentElement.classList.contains("dark")?(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark"))})</script><footer class="z-20 p-4 md:p-6 mt-3 w-full border-t border-gray-200 shadow flex items-center justify-center dark:border-gray-600 bg-white dark:bg-zinc-800"><span class="dark:text-gray-400 text-center">© 2013—2022 Andrey Akinshin</span><ul class="flex flex-wrap items-center px-4 mb-1"><li><a href=https://github.com/AndreyAkinshin><svg class="fai fai-link w-5 h-5"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a></li><li><a href=https://twitter.com/andrey_akinshin><svg class="fai fai-link w-5 h-5"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></li><li><a href=https://aakinshin.net/posts/index.xml><svg class="fai fai-link w-5 h-5"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a></li></ul><div class=main-content><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js integrity="sha512-zPB79j2C+3sFS9zcA3vg/z6bVKzJVEyu9pY5w89akQRys76zpAT2t6S3wZKla3QQ14O5l/Yt0RUQ/DHXx82Y5g==" crossorigin=anonymous referrerpolicy=no-referrer></script>
+<script>anchors.options={placement:"left",icon:"§"},anchors.add("h1"),anchors.add("h2"),anchors.add("h3")</script><script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js></script></body></html>

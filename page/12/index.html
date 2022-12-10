@@ -1,12 +1,347 @@
-<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content><title>Andrey Akinshin's blog (Page 12)</title><meta name=description content="Andrey Akinshin's blog"><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=https://aakinshin.net/sass/bootstrap-light.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=https://aakinshin.net/sass/bootstrap-dark.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.d7f6578e23ad3f0c33c589f9bcb34f995b45121f1f3ce888869c86b26826c845.js></script>
-<script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.9e68d431432744c07a43381a8a833ffe0921cc0e006d84ad97f0b0d43c5cd82d.mjs></script>
-<link href=https://aakinshin.net/css/main.min.4521fdf961aba8dee11ce56edc3cfa07845a0629c82e528856f1558c230aea2f.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body class="d-flex flex-column min-vh-100"><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><svg class="fai"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></li><li class=nav-item><a class=nav-link id=nav-link-posts href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ms-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class=blog-post><h2 class=blog-post-title><a href=/posts/partitioning-heaps-quantile-estimator/>Fast implementation of the moving quantile based on the partitioning heaps</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-12-29>December 29, 2020</time>
-&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
-<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
-<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
-<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
-<a href=https://aakinshin.net/tags/quantile/ class="badge badge-info">Quantile</a>
-<a href=https://aakinshin.net/tags/moving-quantile/ class="badge badge-info">Moving Quantile</a></span><br><br><p>Imagine you have a time series.
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content><title>Andrey Akinshin's blog (Page 12)</title><meta name=description content="Andrey Akinshin's blog"><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><script src=https://cdn.tailwindcss.com/3.2.4></script>
+<script>tailwind.config={darkMode:"class"}</script><style type=text/tailwindcss>
+    @layer base {
+       
+       
+      body {
+        @apply bg-white dark:bg-zinc-800;
+        @apply text-black dark:text-gray-400;
+      }
+      nav {
+        @apply bg-sky-800 dark:bg-zinc-900;
+      }
+      a {
+        @apply text-sky-600 dark:text-white;
+        @apply no-underline;
+      }
+      .main-content a:not(.label-link) {
+        @apply hover:underline;
+      }
+      hr {
+        @apply h-px my-3 border-0 bg-gray-300 dark:bg-gray-600;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        @apply leading-tight;
+      }
+      h1, h2, h3 {
+        @apply text-4xl py-4;
+      }
+      h4 {
+        @apply text-3xl py-3;
+      }
+      h5, h6 {
+        @apply text-2xl py-2;
+      }
+      table {
+        @apply border self-center mx-auto;
+      }
+      th, td {
+        @apply border p-2
+      }
+      blockquote {
+        @apply border-l-8 border-gray-300 bg-gray-100 dark:border-zinc-600 dark:bg-zinc-700;
+        @apply ml-4 my-4 pl-4 py-2;
+      }
+
+       
+      .main ul {
+        @apply list-disc ml-10 my-2;
+      }
+      .main ol {
+        @apply list-decimal ml-10 my-2;
+      }
+      .main p {
+        @apply mb-3;
+      }
+
+       
+      .label {
+        @apply mx-1 px-1 py-0.5;
+        @apply rounded border border-gray-400 dark:border-gray-500;
+      }
+      .label-link {
+        @apply mx-1 px-1 py-0.5;
+        @apply rounded border border-sky-600 dark:border-slate-400;
+        @apply hover:bg-sky-200 dark:hover:bg-gray-500;
+      }
+      .nav-item {
+        @apply text-white hover:bg-sky-700 dark:hover:bg-gray-700;
+      }
+
+       
+      .paginator {
+        @apply flex flex-wrap justify-center mb-4;
+      }
+      .paginator .page-item {
+        @apply inline-flex border rounded px-3 py-1;
+      }
+      .paginator .page-item:not(.active):not(.disabled) {
+        @apply border-gray-400 dark:border-gray-400;
+      }
+      .paginator .page-item.active {
+        @apply border-sky-600 dark:border-white;
+      }
+      .paginator .page-item.disabled {
+        @apply bg-gray-50 dark:bg-gray-500 dark:border-gray-400;
+      }
+      .paginator .page-item.disabled a {
+        @apply text-gray-400 dark:text-gray-400;
+      }
+
+       
+      .anchorjs-link {
+        transition: all .25s linear;
+      }
+      *:hover > .anchorjs-link {
+        margin-left: -1.125em !important;
+      }
+
+       
+      .block-example {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      
+        margin-left: 10px;
+        padding-left: 10px;
+      
+        border-left: 5px solid;
+        border-color: grey;
+      }
+      .block-example-title::before {  
+        counter-increment: example;
+        content: "Example " counter(example);
+      }
+      body {
+        counter-reset: example;
+      }
+
+       
+      #about-profiles svg {
+        margin-right: 0.7rem;
+      }
+      #about p, #about ul {
+        margin-top: 0rem;
+        margin-bottom: 0rem;
+      }
+      #about ol {
+        @apply ml-10;
+      }
+      #about img {
+        height: 18px;
+        @apply inline-flex;
+      }
+      .about-compact p {
+        text-indent: 20px !important;
+        margin: 0 !important;
+      }
+
+       
+      .d-none { display:none; }
+
+       
+      code.has-jax {
+        -webkit-font-smoothing: antialiased;
+        background: inherit !important;
+        border: none !important;
+        font-size: 100%;
+      }
+
+       
+      .fai {
+        @apply inline-flex;
+        height: 1.2em;
+        width: 1.2em;
+        padding-right: 0.4em;
+        fill: currentColor;
+      }
+      .fai-link {
+        @apply hover:text-sky-400 dark:hover:text-blue-400;
+      }
+      .label-link .fai {
+        @apply pl-1 pb-1;
+        height: 1.5em;
+        width: 1.5em;
+      }
+
+       
+      .chroma {
+        @apply my-5 overflow-y-scroll;
+        border-radius: 3px;
+        border: 1px solid #C3CCD0;
+        padding: 0.5em;
+      }
+        .chroma { background-color: #ffffff }
+        .chroma .x {  }
+        .chroma .err { color: #a61717; background-color: #e3d2d2 }
+        .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+        .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
+        .chroma .hl { display: block; width: 100%;background-color: #ffffcc }
+        .chroma .lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+        .chroma .ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+        .chroma .k { color: #000000; font-weight: bold }
+        .chroma .kc { color: #000000; font-weight: bold }
+        .chroma .kd { color: #000000; font-weight: bold }
+        .chroma .kn { color: #000000; font-weight: bold }
+        .chroma .kp { color: #000000; font-weight: bold }
+        .chroma .kr { color: #000000; font-weight: bold }
+        .chroma .kt { color: #445588; font-weight: bold }
+        .chroma .n {  }
+        .chroma .na { color: #008080 }
+        .chroma .nb { color: #0086b3 }
+        .chroma .bp { color: #999999 }
+        .chroma .nc { color: #445588; font-weight: bold }
+        .chroma .no { color: #008080 }
+        .chroma .nd { color: #3c5d5d; font-weight: bold }
+        .chroma .ni { color: #800080 }
+        .chroma .ne { color: #990000; font-weight: bold }
+        .chroma .nf { color: #990000; font-weight: bold }
+        .chroma .fm {  }
+        .chroma .nl { color: #990000; font-weight: bold }
+        .chroma .nn { color: #555555 }
+        .chroma .nx {  }
+        .chroma .py {  }
+        .chroma .nt { color: #000080 }
+        .chroma .nv { color: #008080 }
+        .chroma .vc { color: #008080 }
+        .chroma .vg { color: #008080 }
+        .chroma .vi { color: #008080 }
+        .chroma .vm {  }
+        .chroma .l {  }
+        .chroma .ld {  }
+        .chroma .s { color: #dd1144 }
+        .chroma .sa { color: #dd1144 }
+        .chroma .sb { color: #dd1144 }
+        .chroma .sc { color: #dd1144 }
+        .chroma .dl { color: #dd1144 }
+        .chroma .sd { color: #dd1144 }
+        .chroma .s2 { color: #dd1144 }
+        .chroma .se { color: #dd1144 }
+        .chroma .sh { color: #dd1144 }
+        .chroma .si { color: #dd1144 }
+        .chroma .sx { color: #dd1144 }
+        .chroma .sr { color: #009926 }
+        .chroma .s1 { color: #dd1144 }
+        .chroma .ss { color: #990073 }
+        .chroma .m { color: #009999 }
+        .chroma .mb { color: #009999 }
+        .chroma .mf { color: #009999 }
+        .chroma .mh { color: #009999 }
+        .chroma .mi { color: #009999 }
+        .chroma .il { color: #009999 }
+        .chroma .mo { color: #009999 }
+        .chroma .o { color: #000000; font-weight: bold }
+        .chroma .ow { color: #000000; font-weight: bold }
+        .chroma .p {  }
+        .chroma .c { color: #999988; font-style: italic }
+        .chroma .ch { color: #999988; font-style: italic }
+        .chroma .cm { color: #999988; font-style: italic }
+        .chroma .c1 { color: #999988; font-style: italic }
+        .chroma .cs { color: #999999; font-weight: bold; font-style: italic }
+        .chroma .cp { color: #999999; font-weight: bold; font-style: italic }
+        .chroma .cpf { color: #999999; font-weight: bold; font-style: italic }
+        .chroma .g {  }
+        .chroma .gd { color: #000000; background-color: #ffdddd }
+        .chroma .ge { color: #000000; font-style: italic }
+        .chroma .gr { color: #aa0000 }
+        .chroma .gh { color: #999999 }
+        .chroma .gi { color: #000000; background-color: #ddffdd }
+        .chroma .go { color: #888888 }
+        .chroma .gp { color: #555555 }
+        .chroma .gs { font-weight: bold }
+        .chroma .gu { color: #aaaaaa }
+        .chroma .gt { color: #aa0000 }
+        .chroma .gl { text-decoration: underline }
+        .chroma .w { color: #bbbbbb }
+        .dark.chroma { color: #f8f8f2; background-color: #272822 }
+        .dark .chroma { color: #f8f8f2; background-color: #272822 }
+        .dark .chroma .x {  }
+        .dark .chroma .err { color: #960050; background-color: #1e0010 }
+        .dark .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+        .dark .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
+        .dark .chroma .hl { display: block; width: 100%;background-color: #ffffcc }
+        .dark .chroma .lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+        .dark .chroma .ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+        .dark .chroma .k { color: #66d9ef }
+        .dark .chroma .kc { color: #66d9ef }
+        .dark .chroma .kd { color: #66d9ef }
+        .dark .chroma .kn { color: #f92672 }
+        .dark .chroma .kp { color: #66d9ef }
+        .dark .chroma .kr { color: #66d9ef }
+        .dark .chroma .kt { color: #66d9ef }
+        .dark .chroma .n {  }
+        .dark .chroma .na { color: #a6e22e }
+        .dark .chroma .nb {  }
+        .dark .chroma .bp {  }
+        .dark .chroma .nc { color: #a6e22e }
+        .dark .chroma .no { color: #66d9ef }
+        .dark .chroma .nd { color: #a6e22e }
+        .dark .chroma .ni {  }
+        .dark .chroma .ne { color: #a6e22e }
+        .dark .chroma .nf { color: #a6e22e }
+        .dark .chroma .fm {  }
+        .dark .chroma .nl {  }
+        .dark .chroma .nn {  }
+        .dark .chroma .nx { color: #a6e22e }
+        .dark .chroma .py {  }
+        .dark .chroma .nt { color: #f92672 }
+        .dark .chroma .nv {  }
+        .dark .chroma .vc {  }
+        .dark .chroma .vg {  }
+        .dark .chroma .vi {  }
+        .dark .chroma .vm {  }
+        .dark .chroma .l { color: #ae81ff }
+        .dark .chroma .ld { color: #e6db74 }
+        .dark .chroma .s { color: #e6db74 }
+        .dark .chroma .sa { color: #e6db74 }
+        .dark .chroma .sb { color: #e6db74 }
+        .dark .chroma .sc { color: #e6db74 }
+        .dark .chroma .dl { color: #e6db74 }
+        .dark .chroma .sd { color: #e6db74 }
+        .dark .chroma .s2 { color: #e6db74 }
+        .dark .chroma .se { color: #ae81ff }
+        .dark .chroma .sh { color: #e6db74 }
+        .dark .chroma .si { color: #e6db74 }
+        .dark .chroma .sx { color: #e6db74 }
+        .dark .chroma .sr { color: #e6db74 }
+        .dark .chroma .s1 { color: #e6db74 }
+        .dark .chroma .ss { color: #e6db74 }
+        .dark .chroma .m { color: #ae81ff }
+        .dark .chroma .mb { color: #ae81ff }
+        .dark .chroma .mf { color: #ae81ff }
+        .dark .chroma .mh { color: #ae81ff }
+        .dark .chroma .mi { color: #ae81ff }
+        .dark .chroma .il { color: #ae81ff }
+        .dark .chroma .mo { color: #ae81ff }
+        .dark .chroma .o { color: #f92672 }
+        .dark .chroma .ow { color: #f92672 }
+        .dark .chroma .p {  }
+        .dark .chroma .c { color: #75715e }
+        .dark .chroma .ch { color: #75715e }
+        .dark .chroma .cm { color: #75715e }
+        .dark .chroma .c1 { color: #75715e }
+        .dark .chroma .cs { color: #75715e }
+        .dark .chroma .cp { color: #75715e }
+        .dark .chroma .cpf { color: #75715e }
+        .dark .chroma .g {  }
+        .dark .chroma .gd { color: #f92672 }
+        .dark .chroma .ge { font-style: italic }
+        .dark .chroma .gr {  }
+        .dark .chroma .gh {  }
+        .dark .chroma .gi { color: #a6e22e }
+        .dark .chroma .go {  }
+        .dark .chroma .gp {  }
+        .dark .chroma .gs { font-weight: bold }
+        .dark .chroma .gu { color: #75715e }
+        .dark .chroma .gt {  }
+        .dark .chroma .gl {  }
+        .dark .chroma .w {  }
+    }
+  </style><script>localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")</script><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body><nav><div class="container flex flex-wrap items-center justify-between mx-auto max-w-6xl h-12 px-6"><div class="flex items-center justify-start justify-self-start"><div class="flex nav-item h-12 w-12 items-center justify-center"><a class=text-white href=https://aakinshin.net/><svg class="fai w-6 h-6"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/posts/>Posts</a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/about/>About</a></div></div><button id=theme-toggle type=button class="nav-item p-3 content-center justify-self-end"><svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001.0 1010.586 10.586z"/></svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1A1 1 0 119 4V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707A1 1 0 1113.536 5.05l.707-.707a1 1 0 011.414.0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707A1 1 0 004.343 5.757l.707.707zm1.414 8.486-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"/></svg></button></div></nav><div class="main container mx-auto max-w-6xl px-6"><div class=main-content><div><h2><a href=/posts/partitioning-heaps-quantile-estimator/>Fast implementation of the moving quantile based on the partitioning heaps</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-12-29>December 29, 2020</time><svg class="fai ml-3"><use xlink:href="/img/fa/all.svg#tag"/></svg>
+<a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/quantile/>Quantile</a>
+<a class=label-link href=https://aakinshin.net/tags/moving-quantile/>Moving Quantile</a></div><br><p>Imagine you have a time series.
 Let&rsquo;s say, after each new observation, you want to know an &ldquo;average&rdquo; value across the last <span class="math inline">\(L\)</span> observations.
 Such a metric is known as <a href=https://en.wikipedia.org/wiki/Moving_average>a moving average</a>
 (or rolling/running average).</p><p>The most popular moving average example is <a href=https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average>the moving mean</a>.
@@ -14,17 +349,17 @@ It&rsquo;s easy to efficiently implement this metric.
 However, it has a major drawback: it&rsquo;s not robust.
 Outliers can easily spoil the moving mean and transform it into a meaningless and untrustable metric.</p><p>Fortunately, we have a good alternative: <a href=https://en.wikipedia.org/wiki/Moving_average#Moving_median>the moving median</a>.
 Typically, it generates a stable and smooth series of values.
-In the below figure, you can see the difference between the moving mean and the moving median on noisy data.</p><div class=row><div class=mx-auto><a href=/posts/partitioning-heaps-quantile-estimator/img/example-light.png target=_blank class=imgldlink alt=example><picture><source theme=dark srcset=/posts/partitioning-heaps-quantile-estimator/img/example-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/partitioning-heaps-quantile-estimator/img/example-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/partitioning-heaps-quantile-estimator/img/example-light.png></picture></a></div></div><br><p>The moving median also has a drawback: it&rsquo;s not easy to efficiently implement it.
+In the below figure, you can see the difference between the moving mean and the moving median on noisy data.</p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/partitioning-heaps-quantile-estimator/img/example-light.png target=_blank alt=example><img src=/posts/partitioning-heaps-quantile-estimator/img/example-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/partitioning-heaps-quantile-estimator/img/example-dark.png target=_blank alt=example><img src=/posts/partitioning-heaps-quantile-estimator/img/example-dark.png width=800></a></div><p>The moving median also has a drawback: it&rsquo;s not easy to efficiently implement it.
 Today we going to discuss the Hardle-Steiger method to estimate the median
 (memory: <span class="math inline">\(O(L)\)</span>, element processing complexity: <span class="math inline">\(O(log(L))\)</span>, median estimating complexity: <span class="math inline">\(O(1)\)</span>).
-Also, we will learn how to calculate <em>the moving quantiles</em> based on this method.</p><p>In this post, you will find the following:</p><ul><li>An overview of the Hardle-Steiger method</li><li>A simple way to implement the Hardle-Steiger method</li><li>Moving quantiles inspired by the Hardle-Steiger method</li><li>How to process initial elements</li><li>Reference C# implementation</li></ul><br><a href=/posts/partitioning-heaps-quantile-estimator/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/quantile-ci-coverage/>Coverage of quantile confidence intervals</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-12-22>December 22, 2020</time>
-&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
-<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
-<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
-<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
-<a href=https://aakinshin.net/tags/quantile/ class="badge badge-info">Quantile</a>
-<a href=https://aakinshin.net/tags/coverage/ class="badge badge-info">Coverage</a>
-<a href=https://aakinshin.net/tags/confidence-interval/ class="badge badge-info">Confidence Interval</a></span><br><br><p>There is a common <a href=https://en.wikipedia.org/wiki/Confidence_interval#Misunderstandings>misunderstanding</a>
+Also, we will learn how to calculate <em>the moving quantiles</em> based on this method.</p><p>In this post, you will find the following:</p><ul><li>An overview of the Hardle-Steiger method</li><li>A simple way to implement the Hardle-Steiger method</li><li>Moving quantiles inspired by the Hardle-Steiger method</li><li>How to process initial elements</li><li>Reference C# implementation</li></ul><br><a href=/posts/partitioning-heaps-quantile-estimator/>Read more</a><br><br><hr></div><div><h2><a href=/posts/quantile-ci-coverage/>Coverage of quantile confidence intervals</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-12-22>December 22, 2020</time><svg class="fai ml-3"><use xlink:href="/img/fa/all.svg#tag"/></svg>
+<a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/quantile/>Quantile</a>
+<a class=label-link href=https://aakinshin.net/tags/coverage/>Coverage</a>
+<a class=label-link href=https://aakinshin.net/tags/confidence-interval/>Confidence Interval</a></div><br><p>There is a common <a href=https://en.wikipedia.org/wiki/Confidence_interval#Misunderstandings>misunderstanding</a>
 that a 95% confidence interval is an interval that covers the true parameter value with 95% probability.
 Meanwhile, the correct definition assumes that
 the true parameter value will be covered by 95% of 95% confidence intervals <em>in the long run</em>.
@@ -48,11 +383,10 @@ However, if you estimate confidence intervals around quantiles for non-parametri
 you should care about the following things:</p><ul><li>The used approach to estimate confidence intervals</li><li>The underlying distribution</li><li>The sample size</li><li>The position of the target quantile</li></ul><p>I <a href=https://aakinshin.net/posts/weighted-quantiles-ci/>have already showed</a> how to estimate
 the confidence interval around the given quantile using the Maritz-Jarrett method.
 It&rsquo;s time to verify the reliability of this approach.
-In this post, I&rsquo;m going to show some Monte-Carlo simulations that evaluate the coverage percentage in different situations.</p><br><a href=/posts/quantile-ci-coverage/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/statistics-for-performance/>Statistical approaches for performance analysis</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-12-15>December 15, 2020</time>
-&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
-<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
-<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
-<a href=https://aakinshin.net/tags/performance-analysis/ class="badge badge-info">Performance analysis</a></span><br><br><p>Software performance is a complex discipline that requires knowledge in different areas
+In this post, I&rsquo;m going to show some Monte-Carlo simulations that evaluate the coverage percentage in different situations.</p><br><a href=/posts/quantile-ci-coverage/>Read more</a><br><br><hr></div><div><h2><a href=/posts/statistics-for-performance/>Statistical approaches for performance analysis</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-12-15>December 15, 2020</time><svg class="fai ml-3"><use xlink:href="/img/fa/all.svg#tag"/></svg>
+<a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/performance-analysis/>Performance analysis</a></div><br><p>Software performance is a complex discipline that requires knowledge in different areas
 from benchmarking to the internals of modern runtimes, operating systems, and hardware.
 Surprisingly, the most difficult challenges in performance analysis are not about programming,
 they are about mathematical statistics!</p><p>Many software developers can drill into performance problems and implement excellent optimizations,
@@ -72,14 +406,13 @@ in your statistical toolbox.
 I would not say that all of them are must have to know,
 but they can definitely help you to improve the reliability of your statistical checks
 in different problems of performance analysis.
-Consider the below list as a letter to a younger version of myself with a brief list of topics that are good to learn.</p><br><a href=/posts/statistics-for-performance/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/weighted-quantiles-ci/>Quantile confidence intervals for weighted samples</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-12-08>December 8, 2020</time>
-&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
-<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
-<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
-<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
-<a href=https://aakinshin.net/tags/research-wqe/ class="badge badge-info">Research: Weighted quantile estimators</a>
-<a href=https://aakinshin.net/tags/quantile/ class="badge badge-info">Quantile</a>
-<a href=https://aakinshin.net/tags/confidence-interval/ class="badge badge-info">Confidence Interval</a></span><br><br><p><strong>Update 2021-07-06:
+Consider the below list as a letter to a younger version of myself with a brief list of topics that are good to learn.</p><br><a href=/posts/statistics-for-performance/>Read more</a><br><br><hr></div><div><h2><a href=/posts/weighted-quantiles-ci/>Quantile confidence intervals for weighted samples</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-12-08>December 8, 2020</time><svg class="fai ml-3"><use xlink:href="/img/fa/all.svg#tag"/></svg>
+<a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/research-wqe/>Research: Weighted quantile estimators</a>
+<a class=label-link href=https://aakinshin.net/tags/quantile/>Quantile</a>
+<a class=label-link href=https://aakinshin.net/tags/confidence-interval/>Confidence Interval</a></div><br><p><strong>Update 2021-07-06:
 the approach was updated using the <a href=https://aakinshin.net/posts/kish-ess-weighted-quantiles/>Kish&rsquo;s effective sample size</a>.</strong></p><p>When you work with non-parametric distributions,
 quantile estimations are essential to get the main distribution properties.
 Once you get the estimation values, you may be interested in measuring the accuracy of these estimations.
@@ -99,16 +432,15 @@ this approach works like a charm.
 If you have any recent changes, you can detect such situations by huge confidence intervals
 due to the sample inconsistency.</p><p>So, how do we estimate confidence intervals around quantiles for the weighted samples?
 In one of the previous posts, I have already shown how to <a href=https://aakinshin.net/posts/weighted-quantiles/>estimate quantiles on weighted samples</a>.
-In this post, I will show how to estimate quantile confidence intervals for weighted samples.</p><br><a href=/posts/weighted-quantiles-ci/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/qad/>Quantile absolute deviation: estimating statistical dispersion around quantiles</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-12-01>December 1, 2020</time>
-&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
-<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
-<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
-<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
-<a href=https://aakinshin.net/tags/quantiles/ class="badge badge-info">Quantiles</a>
-<a href=https://aakinshin.net/tags/mad/ class="badge badge-info">MAD</a>
-<a href=https://aakinshin.net/tags/research-qad/ class="badge badge-info">Research: Quantile absolute deviation</a>
-<a href=https://aakinshin.net/tags/dispersion/ class="badge badge-info">Dispersion</a>
-<a href=https://aakinshin.net/tags/harrell-davis-quantile-estimator/ class="badge badge-info">Harrell-Davis quantile estimator</a></span><br><br><p>There are many different metrics for <a href=https://en.wikipedia.org/wiki/Statistical_dispersion>statistical dispersion</a>.
+In this post, I will show how to estimate quantile confidence intervals for weighted samples.</p><br><a href=/posts/weighted-quantiles-ci/>Read more</a><br><br><hr></div><div><h2><a href=/posts/qad/>Quantile absolute deviation: estimating statistical dispersion around quantiles</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-12-01>December 1, 2020</time><svg class="fai ml-3"><use xlink:href="/img/fa/all.svg#tag"/></svg>
+<a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/quantiles/>Quantiles</a>
+<a class=label-link href=https://aakinshin.net/tags/mad/>MAD</a>
+<a class=label-link href=https://aakinshin.net/tags/research-qad/>Research: Quantile absolute deviation</a>
+<a class=label-link href=https://aakinshin.net/tags/dispersion/>Dispersion</a>
+<a class=label-link href=https://aakinshin.net/tags/harrell-davis-quantile-estimator/>Harrell-Davis quantile estimator</a></div><br><p>There are many different metrics for <a href=https://en.wikipedia.org/wiki/Statistical_dispersion>statistical dispersion</a>.
 The most famous one is the <a href=https://en.wikipedia.org/wiki/Standard_deviation>standard deviation</a>.
 The standard deviation is the most popular way to describe the spread around the mean when
 you work with normally distributed data.
@@ -124,14 +456,14 @@ So, it makes sense to learn how to describe dispersion around the given quantile
 Which metric should we choose?</p><p>Recently, I came up with a great solution to this problem.
 We can generalize the median absolute deviation into the quantile absolute deviation (QAD) around the given quantile based on the Harrell-Davis quantile estimator.
 I will show how to calculate it, how to interpret it, and how to get insights about distribution properties
-from images like this one:</p><div class=row><div class=mx-auto><a href=/posts/qad/img/modal5-light.png target=_blank class=imgldlink alt=modal5><picture><source theme=dark srcset=/posts/qad/img/modal5-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/qad/img/modal5-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/qad/img/modal5-light.png></picture></a></div></div><br><br><a href=/posts/qad/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/p2-quantile-estimator/>P² quantile estimator: estimating the median without storing values</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-11-24>November 24, 2020</time>
-&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
-<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
-<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
-<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
-<a href=https://aakinshin.net/tags/quantiles/ class="badge badge-info">Quantiles</a>
-<a href=https://aakinshin.net/tags/performance-telemetry/ class="badge badge-info">Performance Telemetry</a>
-<a href=https://aakinshin.net/tags/research-p2qe/ class="badge badge-info">Research: P² quantile estimator</a></span><br><br><p><strong>Update: the estimator accuracy could be improved using a bunch of <a href=https://aakinshin.net/tags/research-p2qe/>patches</a>.</strong></p><p>Imagine that you are implementing performance telemetry in your application.
+from images like this one:</p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/qad/img/modal5-light.png target=_blank alt=modal5><img src=/posts/qad/img/modal5-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/qad/img/modal5-dark.png target=_blank alt=modal5><img src=/posts/qad/img/modal5-dark.png width=800></a></div><br><a href=/posts/qad/>Read more</a><br><br><hr></div><div><h2><a href=/posts/p2-quantile-estimator/>P² quantile estimator: estimating the median without storing values</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-11-24>November 24, 2020</time><svg class="fai ml-3"><use xlink:href="/img/fa/all.svg#tag"/></svg>
+<a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/quantiles/>Quantiles</a>
+<a class=label-link href=https://aakinshin.net/tags/performance-telemetry/>Performance Telemetry</a>
+<a class=label-link href=https://aakinshin.net/tags/research-p2qe/>Research: P² quantile estimator</a></div><br><p><strong>Update: the estimator accuracy could be improved using a bunch of <a href=https://aakinshin.net/tags/research-p2qe/>patches</a>.</strong></p><p>Imagine that you are implementing performance telemetry in your application.
 There is an operation that is executed millions of times, and you want to get its &ldquo;average&rdquo; duration.
 It&rsquo;s not a good idea to use the arithmetic mean because the obtained value can be easily spoiled by outliers.
 It&rsquo;s much better to use the median which is one of the most robust ways to describe the average.</p><p>The straightforward median estimation approach requires storing all the values.
@@ -142,15 +474,14 @@ This is an algorithm that allows calculating the median value (or any other quan
 using a fixed amount of memory.
 Of course, it provides only an approximation of the real median value,
 but it&rsquo;s usually enough for typical telemetry use cases.</p><p>In this post, I will show one of the simplest sequential quantile estimators that is called the P² quantile estimator
-(or the Piecewise-Parabolic quantile estimator).</p><br><a href=/posts/p2-quantile-estimator/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/modality-summary-notation/>Plain-text summary notation for multimodal distributions</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-11-17>November 17, 2020</time>
-&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
-<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
-<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
-<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
-<a href=https://aakinshin.net/tags/multimodality/ class="badge badge-info">Multimodality</a>
-<a href=https://aakinshin.net/tags/qrde/ class="badge badge-info">QRDE</a>
-<a href=https://aakinshin.net/tags/harrell-davis-quantile-estimator/ class="badge badge-info">Harrell-Davis quantile estimator</a>
-<a href=https://aakinshin.net/tags/outliers/ class="badge badge-info">Outliers</a></span><br><br><p>Let&rsquo;s say you collected a lot of data and want to explore the underlying distributions of collected samples.
+(or the Piecewise-Parabolic quantile estimator).</p><br><a href=/posts/p2-quantile-estimator/>Read more</a><br><br><hr></div><div><h2><a href=/posts/modality-summary-notation/>Plain-text summary notation for multimodal distributions</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-11-17>November 17, 2020</time><svg class="fai ml-3"><use xlink:href="/img/fa/all.svg#tag"/></svg>
+<a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/multimodality/>Multimodality</a>
+<a class=label-link href=https://aakinshin.net/tags/qrde/>QRDE</a>
+<a class=label-link href=https://aakinshin.net/tags/harrell-davis-quantile-estimator/>Harrell-Davis quantile estimator</a>
+<a class=label-link href=https://aakinshin.net/tags/outliers/>Outliers</a></div><br><p>Let&rsquo;s say you collected a lot of data and want to explore the underlying distributions of collected samples.
 If you have only a few distributions, the best way to do that is to look at the density plots
 (expressed via histograms, kernel density estimations, or <a href=https://aakinshin.net/posts/qrde-hd/>quantile-respectful density estimations</a>).
 However, it&rsquo;s not always possible.</p><p>Suppose you have to process dozens, hundreds, or even thousands of distributions.
@@ -170,35 +501,36 @@ It&rsquo;s important to not only find such distribution but also have a way to p
 I didn&rsquo;t manage to find an approach that works fine in my cases, so I came up with my own notation.
 Most of the interpretation problems in my experiments arise from multimodality and outliers,
 so I decided to focus on these two things and specifically highlight them.
-Let&rsquo;s consider this plot:</p><div class=row><div class=mx-auto><a href=/posts/modality-summary-notation/img/thumbnail-light.svg target=_blank class=imgldlink alt=thumbnail><picture><source theme=dark srcset=/posts/modality-summary-notation/img/thumbnail-dark.svg media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/modality-summary-notation/img/thumbnail-light.svg media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/modality-summary-notation/img/thumbnail-light.svg></picture></a></div></div><br><p>I suggest describing it like this:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=o>{</span>1.00, 2.00<span class=o>}</span> + <span class=o>[</span>7.16<span class=p>;</span> 13.12<span class=o>]</span>_100 + <span class=o>{</span>19.00<span class=o>}</span> + <span class=o>[</span>27.69<span class=p>;</span> 32.34<span class=o>]</span>_100 + <span class=o>{</span>37.00..39.00<span class=o>}</span>_3
-</span></span></code></pre></div><p>Let me explain the suggested notation in detail.</p><br><a href=/posts/modality-summary-notation/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/intermodal-outliers/>Intermodal outliers</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-11-10>November 10, 2020</time>
-&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
-<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
-<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
-<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
-<a href=https://aakinshin.net/tags/multimodality/ class="badge badge-info">Multimodality</a>
-<a href=https://aakinshin.net/tags/qrde/ class="badge badge-info">QRDE</a>
-<a href=https://aakinshin.net/tags/harrell-davis-quantile-estimator/ class="badge badge-info">Harrell-Davis quantile estimator</a>
-<a href=https://aakinshin.net/tags/outliers/ class="badge badge-info">Outliers</a></span><br><br><p><a href=https://en.wikipedia.org/wiki/Outlier>Outlier</a> analysis is a typical step in distribution exploration.
+Let&rsquo;s consider this plot:</p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/modality-summary-notation/img/thumbnail-light.svg target=_blank alt=thumbnail><img src=/posts/modality-summary-notation/img/thumbnail-light.svg width=800></a>
+<a class="img-dark hidden" href=/posts/modality-summary-notation/img/thumbnail-dark.svg target=_blank alt=thumbnail><img src=/posts/modality-summary-notation/img/thumbnail-dark.svg width=800></a></div><p>I suggest describing it like this:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=o>{</span>1.00, 2.00<span class=o>}</span> + <span class=o>[</span>7.16<span class=p>;</span> 13.12<span class=o>]</span>_100 + <span class=o>{</span>19.00<span class=o>}</span> + <span class=o>[</span>27.69<span class=p>;</span> 32.34<span class=o>]</span>_100 + <span class=o>{</span>37.00..39.00<span class=o>}</span>_3
+</span></span></code></pre></div><p>Let me explain the suggested notation in detail.</p><br><a href=/posts/modality-summary-notation/>Read more</a><br><br><hr></div><div><h2><a href=/posts/intermodal-outliers/>Intermodal outliers</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-11-10>November 10, 2020</time><svg class="fai ml-3"><use xlink:href="/img/fa/all.svg#tag"/></svg>
+<a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/multimodality/>Multimodality</a>
+<a class=label-link href=https://aakinshin.net/tags/qrde/>QRDE</a>
+<a class=label-link href=https://aakinshin.net/tags/harrell-davis-quantile-estimator/>Harrell-Davis quantile estimator</a>
+<a class=label-link href=https://aakinshin.net/tags/outliers/>Outliers</a></div><br><p><a href=https://en.wikipedia.org/wiki/Outlier>Outlier</a> analysis is a typical step in distribution exploration.
 Usually, we work with the &ldquo;lower outliers&rdquo; (extremely low values) and the &ldquo;upper outliers&rdquo; (extremely high values).
 However, outliers are not always extreme values.
 In the general case, an outlier is a value that significantly differs from other values in the same sample.
 In the case of multimodal distribution, we can also consider outliers in the middle of the distribution.
-Let&rsquo;s call such outliers that we found between modes the &ldquo;<em>intermodal outliers</em>.&rdquo;</p><div class=row><div class=mx-auto><a href=/posts/intermodal-outliers/img/step4-light.svg target=_blank class=imgldlink alt=step4><picture><source theme=dark srcset=/posts/intermodal-outliers/img/step4-dark.svg media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/intermodal-outliers/img/step4-light.svg media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/intermodal-outliers/img/step4-light.svg></picture></a></div></div><br><p>Look at the above density plot.
+Let&rsquo;s call such outliers that we found between modes the &ldquo;<em>intermodal outliers</em>.&rdquo;</p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/intermodal-outliers/img/step4-light.svg target=_blank alt=step4><img src=/posts/intermodal-outliers/img/step4-light.svg width=800></a>
+<a class="img-dark hidden" href=/posts/intermodal-outliers/img/step4-dark.svg target=_blank alt=step4><img src=/posts/intermodal-outliers/img/step4-dark.svg width=800></a></div><p>Look at the above density plot.
 It&rsquo;s a bimodal distribution that is formed as a combination of two unimodal distributions.
 Each of the unimodal distributions may have its own lower and upper outliers.
 When we merge them, the upper outliers of the first distribution and the lower outliers of the second distribution
 stop being lower or upper outliers.
 However, if these values don&rsquo;t belong to the modes, they still are a subject of interest.
 In this post, I will show you how to detect such intermodal outliers
-and how they can be used to form a better distribution description.</p><br><a href=/posts/intermodal-outliers/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/lowland-multimodality-detection/>Lowland multimodality detection</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-11-03>November 3, 2020</time>
-&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
-<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
-<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
-<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
-<a href=https://aakinshin.net/tags/multimodality/ class="badge badge-info">Multimodality</a>
-<a href=https://aakinshin.net/tags/qrde/ class="badge badge-info">QRDE</a>
-<a href=https://aakinshin.net/tags/harrell-davis-quantile-estimator/ class="badge badge-info">Harrell-Davis quantile estimator</a></span><br><br><div class=row><div class=mx-auto><a href=/posts/lowland-multimodality-detection/img/data5-light.svg target=_blank class=imgldlink alt=data5><picture><source theme=dark srcset=/posts/lowland-multimodality-detection/img/data5-dark.svg media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/lowland-multimodality-detection/img/data5-light.svg media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/lowland-multimodality-detection/img/data5-light.svg></picture></a></div></div><br><p>Multimodality is an essential feature of a distribution, which may create many troubles during automatic analysis.
+and how they can be used to form a better distribution description.</p><br><a href=/posts/intermodal-outliers/>Read more</a><br><br><hr></div><div><h2><a href=/posts/lowland-multimodality-detection/>Lowland multimodality detection</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-11-03>November 3, 2020</time><svg class="fai ml-3"><use xlink:href="/img/fa/all.svg#tag"/></svg>
+<a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/multimodality/>Multimodality</a>
+<a class=label-link href=https://aakinshin.net/tags/qrde/>QRDE</a>
+<a class=label-link href=https://aakinshin.net/tags/harrell-davis-quantile-estimator/>Harrell-Davis quantile estimator</a></div><br><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/lowland-multimodality-detection/img/data5-light.svg target=_blank alt=data5><img src=/posts/lowland-multimodality-detection/img/data5-light.svg width=800></a>
+<a class="img-dark hidden" href=/posts/lowland-multimodality-detection/img/data5-dark.svg target=_blank alt=data5><img src=/posts/lowland-multimodality-detection/img/data5-dark.svg width=800></a></div><p>Multimodality is an essential feature of a distribution, which may create many troubles during automatic analysis.
 One of the best ways to work with such distributions is to detect all the modes in advance based on the given samples.
 Unfortunately, this problem is much harder than it looks like.</p><p>I tried many different approaches for multimodality detection, but none of them was good enough.
 During the past several years, my approach of choice was the <a href=http://www.brendangregg.com/FrequencyTrails/modes.html>mvalue-based modal test</a> by Brendan Gregg.
@@ -209,15 +541,15 @@ The current working title is &ldquo;the lowland multimodality detector.&rdquo;
 It takes an estimation of the probability density function (PDF) and tries to find &ldquo;lowlands&rdquo; (areas that are much lower than neighboring peaks).
 Next, it splits the plot by these lowlands and detects modes between them.
 For the PDF estimation, it uses the <a href=https://aakinshin.net/posts/qrde-hd/>quantile-respectful density estimation based on the Harrell-Davis quantile estimator</a> (QRDE-HD).
-Let me explain how it works in detail.</p><br><a href=/posts/lowland-multimodality-detection/>Read more</a><br><br><hr></div><div class=blog-post><h2 class=blog-post-title><a href=/posts/qrde-hd/>Quantile-respectful density estimation based on the Harrell-Davis quantile estimator</a></h2><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-10-27>October 27, 2020</time>
-&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
-<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
-<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
-<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
-<a href=https://aakinshin.net/tags/pdf/ class="badge badge-info">PDF</a>
-<a href=https://aakinshin.net/tags/qrde/ class="badge badge-info">QRDE</a>
-<a href=https://aakinshin.net/tags/harrell-davis-quantile-estimator/ class="badge badge-info">Harrell-Davis quantile estimator</a></span><br><br><p>The idea of this post was born when I was working on a presentation for my recent <a href=https://dotnext.ru/en/>DotNext</a> <a href="https://www.youtube.com/watch?v=gc3yVybPuaY&list=PL21xssNXOJNGUROqzSTOC8uZL4W2QZpvK&index=1">talk</a>.
-It had a <a href=https://slides.aakinshin.net/dotnext-piter2020/#193>slide</a> with a density plot like this:</p><div class=row><div class=mx-auto><a href=/posts/qrde-hd/img/riddle-light.png target=_blank class=imgldlink alt=riddle><picture><source theme=dark srcset=/posts/qrde-hd/img/riddle-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/qrde-hd/img/riddle-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/qrde-hd/img/riddle-light.png></picture></a></div></div><br><p>Here we can see a density plot based on a sample with highlighted <a href=https://en.wikipedia.org/wiki/Decile>decile</a> locations that split the plot into 10 equal parts.
+Let me explain how it works in detail.</p><br><a href=/posts/lowland-multimodality-detection/>Read more</a><br><br><hr></div><div><h2><a href=/posts/qrde-hd/>Quantile-respectful density estimation based on the Harrell-Davis quantile estimator</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2020-10-27>October 27, 2020</time><svg class="fai ml-3"><use xlink:href="/img/fa/all.svg#tag"/></svg>
+<a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/pdf/>PDF</a>
+<a class=label-link href=https://aakinshin.net/tags/qrde/>QRDE</a>
+<a class=label-link href=https://aakinshin.net/tags/harrell-davis-quantile-estimator/>Harrell-Davis quantile estimator</a></div><br><p>The idea of this post was born when I was working on a presentation for my recent <a href=https://dotnext.ru/en/>DotNext</a> <a href="https://www.youtube.com/watch?v=gc3yVybPuaY&list=PL21xssNXOJNGUROqzSTOC8uZL4W2QZpvK&index=1">talk</a>.
+It had a <a href=https://slides.aakinshin.net/dotnext-piter2020/#193>slide</a> with a density plot like this:</p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/qrde-hd/img/riddle-light.png target=_blank alt=riddle><img src=/posts/qrde-hd/img/riddle-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/qrde-hd/img/riddle-dark.png target=_blank alt=riddle><img src=/posts/qrde-hd/img/riddle-dark.png width=800></a></div><p>Here we can see a density plot based on a sample with highlighted <a href=https://en.wikipedia.org/wiki/Decile>decile</a> locations that split the plot into 10 equal parts.
 Before the conference, I have been reviewed by <a href=https://twitter.com/VladimirSitnikv>@VladimirSitnikv</a>.
 He raised a reasonable concern: it doesn&rsquo;t look like all the density plot segments are equal and contain exactly 10% of the whole plot.
 And he was right!</p><p>However, I didn&rsquo;t make any miscalculations.
@@ -233,11 +565,6 @@ Today I will present a good solution: we should use the quantile-respectful dens
 I know the title is a bit long, but it&rsquo;s not so complicated as it sounds.
 In this post, I will show how to build such plots.
 Also I will compare them to the classic histograms and kernel density estimations.
-As a bonus, I will demonstrate how awesome these plots are for multimodality detection.</p><br><a href=/posts/qrde-hd/>Read more</a><br><br><hr></div></div><div class=paginator><ul class="pagination pagination-default"><li class=page-item><a href=/ aria-label=First class=page-link role=button><span aria-hidden=true>&#171;&#171;</span></a></li><li class=page-item><a href=/page/11/ aria-label=Previous class=page-link role=button><span aria-hidden=true>&#171;</span></a></li><li class=page-item><a href=/page/10/ aria-label="Page 10" class=page-link role=button>10</a></li><li class=page-item><a href=/page/11/ aria-label="Page 11" class=page-link role=button>11</a></li><li class="page-item active"><a aria-current=page aria-label="Page 12" class=page-link role=button>12</a></li><li class=page-item><a href=/page/13/ aria-label="Page 13" class=page-link role=button>13</a></li><li class=page-item><a href=/page/14/ aria-label="Page 14" class=page-link role=button>14</a></li><li class=page-item><a href=/page/13/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a></li><li class=page-item><a href=/page/18/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a></li></ul></div></main></div><footer class="blog-footer mt-auto"><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
-|
-<a href=https://github.com/AndreyAkinshin><svg class="fai"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a><a href=https://twitter.com/andrey_akinshin><svg class="fai"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a><a href=https://aakinshin.net/posts/index.xml><svg class="fai"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a>|
-<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js></script>
-<script src=https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js integrity="sha512-zPB79j2C+3sFS9zcA3vg/z6bVKzJVEyu9pY5w89akQRys76zpAT2t6S3wZKla3QQ14O5l/Yt0RUQ/DHXx82Y5g==" crossorigin=anonymous referrerpolicy=no-referrer></script>
-<script src=https://aakinshin.net/js/theme-after.min.29520a8e1176193da7ea4e6cb56cf9b3e634b867c9979234d8dafb5ab61dd494.js></script>
-<script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+As a bonus, I will demonstrate how awesome these plots are for multimodality detection.</p><br><a href=/posts/qrde-hd/>Read more</a><br><br><hr></div></div><div class=paginator><ul class="pagination pagination-default"><li class=page-item><a href=/ aria-label=First class=page-link role=button><span aria-hidden=true>&#171;&#171;</span></a></li><li class=page-item><a href=/page/11/ aria-label=Previous class=page-link role=button><span aria-hidden=true>&#171;</span></a></li><li class=page-item><a href=/page/10/ aria-label="Page 10" class=page-link role=button>10</a></li><li class=page-item><a href=/page/11/ aria-label="Page 11" class=page-link role=button>11</a></li><li class="page-item active"><a aria-current=page aria-label="Page 12" class=page-link role=button>12</a></li><li class=page-item><a href=/page/13/ aria-label="Page 13" class=page-link role=button>13</a></li><li class=page-item><a href=/page/14/ aria-label="Page 14" class=page-link role=button>14</a></li><li class=page-item><a href=/page/13/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a></li><li class=page-item><a href=/page/18/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a></li></ul></div></div><script>var themeToggleDarkIcon=document.getElementById("theme-toggle-dark-icon"),themeToggleBtn,themeToggleLightIcon=document.getElementById("theme-toggle-light-icon");const imagesDark=document.querySelectorAll(".img-dark"),imagesLight=document.querySelectorAll(".img-light");localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?(themeToggleLightIcon.classList.remove("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")})):(themeToggleDarkIcon.classList.remove("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")})),themeToggleBtn=document.getElementById("theme-toggle"),themeToggleBtn.addEventListener("click",function(){themeToggleDarkIcon.classList.toggle("hidden"),themeToggleLightIcon.classList.toggle("hidden"),imagesLight.forEach(e=>{e.classList.toggle("hidden")}),imagesDark.forEach(e=>{e.classList.toggle("hidden")}),localStorage.getItem("color-theme")?localStorage.getItem("color-theme")==="light"?(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark")):(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):document.documentElement.classList.contains("dark")?(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark"))})</script><footer class="z-20 p-4 md:p-6 mt-3 w-full border-t border-gray-200 shadow flex items-center justify-center dark:border-gray-600 bg-white dark:bg-zinc-800"><span class="dark:text-gray-400 text-center">© 2013—2022 Andrey Akinshin</span><ul class="flex flex-wrap items-center px-4 mb-1"><li><a href=https://github.com/AndreyAkinshin><svg class="fai fai-link w-5 h-5"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a></li><li><a href=https://twitter.com/andrey_akinshin><svg class="fai fai-link w-5 h-5"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></li><li><a href=https://aakinshin.net/posts/index.xml><svg class="fai fai-link w-5 h-5"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a></li></ul><div class=main-content><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js integrity="sha512-zPB79j2C+3sFS9zcA3vg/z6bVKzJVEyu9pY5w89akQRys76zpAT2t6S3wZKla3QQ14O5l/Yt0RUQ/DHXx82Y5g==" crossorigin=anonymous referrerpolicy=no-referrer></script>
+<script>anchors.options={placement:"left",icon:"§"},anchors.add("h1"),anchors.add("h2"),anchors.add("h3")</script><script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js></script></body></html>

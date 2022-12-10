@@ -206,93 +206,65 @@ for the standard deviation under the normal distribution.&lt;/p>
 derive the corresponding equation for the asymptotic Gaussian efficiency of &lt;span class="math inline">\(\QAD(X, p)\)&lt;/span>,
 and find the point in which &lt;span class="math inline">\(\QAD(X, p)\)&lt;/span> achieves the highest Gaussian efficiency.&lt;/p></description></item><item><title>Quantile absolute deviation of the Pareto distribution</title><link>https://aakinshin.net/posts/qad-pareto/</link><pubDate>Mon, 29 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qad-pareto/</guid><description>&lt;p>In this post,
 we derive the exact equation for the quantile absolute deviation around the median of the Pareto(1,1) distribution.&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/qad-pareto/img/qad-light.png" target="_blank" class="imgldlink" alt="qad">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/qad-pareto/img/qad-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/qad-pareto/img/qad-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/qad-pareto/img/qad-light.png" target="_blank" alt="qad">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/qad-pareto/img/qad-light.png"
 width='800'
-src="https://aakinshin.net/posts/qad-pareto/img/qad-light.png">
-&lt;/picture>
+/>
 &lt;/a>
-&lt;/div>
-&lt;/div>
-&lt;br /></description></item><item><title>Quantile absolute deviation of the Exponential distribution</title><link>https://aakinshin.net/posts/qad-exp/</link><pubDate>Fri, 26 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qad-exp/</guid><description>&lt;p>In this post,
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/qad-pareto/img/qad-dark.png" target="_blank" alt="qad">
+&lt;img
+src="https://aakinshin.net/posts/qad-pareto/img/qad-dark.png"
+width='800'
+/>
+&lt;/a>
+&lt;/div></description></item><item><title>Quantile absolute deviation of the Exponential distribution</title><link>https://aakinshin.net/posts/qad-exp/</link><pubDate>Fri, 26 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qad-exp/</guid><description>&lt;p>In this post,
 we derive the exact equation for the quantile absolute deviation around the median of the Exponential distribution.&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/qad-exp/img/qad-light.png" target="_blank" class="imgldlink" alt="qad">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/qad-exp/img/qad-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/qad-exp/img/qad-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/qad-exp/img/qad-light.png" target="_blank" alt="qad">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/qad-exp/img/qad-light.png"
 width='800'
-src="https://aakinshin.net/posts/qad-exp/img/qad-light.png">
-&lt;/picture>
+/>
 &lt;/a>
-&lt;/div>
-&lt;/div>
-&lt;br /></description></item><item><title>Quantile absolute deviation of the Uniform distribution</title><link>https://aakinshin.net/posts/qad-uniform/</link><pubDate>Thu, 25 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qad-uniform/</guid><description>&lt;p>In this post,
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/qad-exp/img/qad-dark.png" target="_blank" alt="qad">
+&lt;img
+src="https://aakinshin.net/posts/qad-exp/img/qad-dark.png"
+width='800'
+/>
+&lt;/a>
+&lt;/div></description></item><item><title>Quantile absolute deviation of the Uniform distribution</title><link>https://aakinshin.net/posts/qad-uniform/</link><pubDate>Thu, 25 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qad-uniform/</guid><description>&lt;p>In this post,
 we derive the exact equation for the quantile absolute deviation around the median of the Uniform distribution.&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/qad-uniform/img/qad-light.png" target="_blank" class="imgldlink" alt="qad">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/qad-uniform/img/qad-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/qad-uniform/img/qad-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/qad-uniform/img/qad-light.png" target="_blank" alt="qad">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/qad-uniform/img/qad-light.png"
 width='800'
-src="https://aakinshin.net/posts/qad-uniform/img/qad-light.png">
-&lt;/picture>
+/>
 &lt;/a>
-&lt;/div>
-&lt;/div>
-&lt;br /></description></item><item><title>Quantile absolute deviation of the Normal distribution</title><link>https://aakinshin.net/posts/qad-normal/</link><pubDate>Wed, 24 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qad-normal/</guid><description>&lt;p>In this post,
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/qad-uniform/img/qad-dark.png" target="_blank" alt="qad">
+&lt;img
+src="https://aakinshin.net/posts/qad-uniform/img/qad-dark.png"
+width='800'
+/>
+&lt;/a>
+&lt;/div></description></item><item><title>Quantile absolute deviation of the Normal distribution</title><link>https://aakinshin.net/posts/qad-normal/</link><pubDate>Wed, 24 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qad-normal/</guid><description>&lt;p>In this post,
 we derive the exact equation for the quantile absolute deviation around the median of the Normal distribution.&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/qad-normal/img/qad-light.png" target="_blank" class="imgldlink" alt="qad">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/qad-normal/img/qad-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/qad-normal/img/qad-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/qad-normal/img/qad-light.png" target="_blank" alt="qad">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/qad-normal/img/qad-light.png"
 width='800'
-src="https://aakinshin.net/posts/qad-normal/img/qad-light.png">
-&lt;/picture>
+/>
 &lt;/a>
-&lt;/div>
-&lt;/div>
-&lt;br /></description></item><item><title>Standard quantile absolute deviation</title><link>https://aakinshin.net/posts/sqad/</link><pubDate>Tue, 23 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/sqad/</guid><description>&lt;p>The median absolute deviation (MAD) is a popular robust replacement of the standard deviation (StdDev).
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/qad-normal/img/qad-dark.png" target="_blank" alt="qad">
+&lt;img
+src="https://aakinshin.net/posts/qad-normal/img/qad-dark.png"
+width='800'
+/>
+&lt;/a>
+&lt;/div></description></item><item><title>Standard quantile absolute deviation</title><link>https://aakinshin.net/posts/sqad/</link><pubDate>Tue, 23 Aug 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/sqad/</guid><description>&lt;p>The median absolute deviation (MAD) is a popular robust replacement of the standard deviation (StdDev).
 It&amp;rsquo;s truly robust: its breakdown point is &lt;span class="math inline">\(50\%\)&lt;/span>.
 However, it&amp;rsquo;s not so efficient when we use it as a consistent estimator for the standard deviation under normality:
 the asymptotic relative efficiency against StdDev (we call it the &lt;em>Gaussian efficiency&lt;/em>) is only about &lt;span class="math inline">\(\approx 37\%\)&lt;/span>.&lt;/p>
@@ -371,27 +343,20 @@ ak &amp; \quad \textrm{for}\; 0 \leq x \leq 1,\\
 \end{cases}
 \]&lt;/span>&lt;/p>
 &lt;p>In this case study, we build a &lt;a href="https://shiny.rstudio.com/">Shiny&lt;/a> application that draws 3D phase portraits of this system for various sets of input parameters.&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/dscs2/img/screen-light.png" target="_blank" class="imgldlink" alt="screen">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/dscs2/img/screen-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/dscs2/img/screen-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/dscs2/img/screen-light.png" target="_blank" alt="screen">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/dscs2/img/screen-light.png"
 width='800'
-src="https://aakinshin.net/posts/dscs2/img/screen-light.png">
-&lt;/picture>
+/>
 &lt;/a>
-&lt;/div>
-&lt;/div>
-&lt;br /></description></item><item><title>Degenerate point of dispersion estimators</title><link>https://aakinshin.net/posts/degenerate-point/</link><pubDate>Tue, 12 Jul 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/degenerate-point/</guid><description>&lt;p>Recently, I have been working on searching for a robust statistical dispersion estimator
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/dscs2/img/screen-dark.png" target="_blank" alt="screen">
+&lt;img
+src="https://aakinshin.net/posts/dscs2/img/screen-dark.png"
+width='800'
+/>
+&lt;/a>
+&lt;/div></description></item><item><title>Degenerate point of dispersion estimators</title><link>https://aakinshin.net/posts/degenerate-point/</link><pubDate>Tue, 12 Jul 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/degenerate-point/</guid><description>&lt;p>Recently, I have been working on searching for a robust statistical dispersion estimator
 that doesn&amp;rsquo;t become zero on samples with a huge number of tied values.
 I have already created a few of such estimators like
 the &lt;em>middle non-zero quantile absolute deviation&lt;/em> (&lt;a href="https://aakinshin.net/posts/mnzqad/">part 1&lt;/a>, &lt;a href="https://aakinshin.net/posts/mnzqad2/">part 2&lt;/a>) and
@@ -559,27 +524,20 @@ and mark all the sample elements outside the interval&lt;/p>
 &lt;p>as outliers.
 Typical recommendation for &lt;span class="math inline">\(k\)&lt;/span> is &lt;span class="math inline">\(1.5\)&lt;/span> for &amp;ldquo;regular&amp;rdquo; outliers and &lt;span class="math inline">\(3.0\)&lt;/span> for &amp;ldquo;far outliers&amp;rdquo;.
 Here is a box plot example for a sample taken from the standard normal distributions (sample size is &lt;span class="math inline">\(1000\)&lt;/span>):&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot1-light.png" target="_blank" class="imgldlink" alt="boxplot1">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot1-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot1-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot1-light.png" target="_blank" alt="boxplot1">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot1-light.png"
 width='800'
-src="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot1-light.png">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot1-dark.png" target="_blank" alt="boxplot1">
+&lt;img
+src="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot1-dark.png"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>As we can see, 11 elements were marked as outliers (shown as dots).
 Is it an expected result or not?
 The answer depends on your goals.
@@ -589,27 +547,20 @@ In fact, the chosen outlier detector provides a unique outlier definition.&lt;/p
 When I detect too many outliers, all such reports become useless noise.
 For example, on the above image, I wouldn&amp;rsquo;t treat any of the sample elements as outliers.
 However, If we add &lt;span class="math inline">\(10.0\)&lt;/span> to this sample, this element is an obvious outlier (which will be the only one):&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot2-light.png" target="_blank" class="imgldlink" alt="boxplot2">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot2-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot2-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot2-light.png" target="_blank" alt="boxplot2">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot2-light.png"
 width='800'
-src="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot2-light.png">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot2-dark.png" target="_blank" alt="boxplot2">
+&lt;img
+src="https://aakinshin.net/posts/tukey-outlier-probability/img/boxplot2-dark.png"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>Thus, an important property of an outlier detector is the &amp;ldquo;false positive rate&amp;rdquo;:
 the percentage of samples with detected outliers which I wouldn&amp;rsquo;t treat as outliers.
 In this post, I perform numerical simulations that show the probability of observing outliers
@@ -795,27 +746,20 @@ In this post, we briefly talk about some of these cases.&lt;/p></description></i
 It&amp;rsquo;s time to discuss misleadingness of the measure of tailedness: kurtosis
 (which, sometimes, could be incorrectly interpreted as a measure of peakedness).
 Typically, the concept of kurtosis is explained with the help of images like this:&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/misleading-kurtosis/img/kurt_intro-light.png" target="_blank" class="imgldlink" alt="kurt_intro">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/misleading-kurtosis/img/kurt_intro-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/misleading-kurtosis/img/kurt_intro-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/misleading-kurtosis/img/kurt_intro-light.png" target="_blank" alt="kurt_intro">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/misleading-kurtosis/img/kurt_intro-light.png"
 width='800'
-src="https://aakinshin.net/posts/misleading-kurtosis/img/kurt_intro-light.png">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/misleading-kurtosis/img/kurt_intro-dark.png" target="_blank" alt="kurt_intro">
+&lt;img
+src="https://aakinshin.net/posts/misleading-kurtosis/img/kurt_intro-dark.png"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>Unfortunately, the raw kurtosis value may provide wrong insights about distribution properties.
 In this post, we briefly discuss the sources of its misleadingness:&lt;/p>
 &lt;ul>
@@ -826,27 +770,20 @@ but there are other definitions of this measure.&lt;/li>
 &lt;li>The classic definition of kurtosis is not robust: it could be easily spoiled by extreme outliers.&lt;/li>
 &lt;/ul></description></item><item><title>Misleading skewness</title><link>https://aakinshin.net/posts/misleading-skewness/</link><pubDate>Tue, 09 Nov 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/misleading-skewness/</guid><description>&lt;p>Skewness is a commonly used measure of the asymmetry of the probability distributions.
 A typical skewness interpretation comes down to an image like this:&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/misleading-skewness/img/skew_intro-light.png" target="_blank" class="imgldlink" alt="skew_intro">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/misleading-skewness/img/skew_intro-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/misleading-skewness/img/skew_intro-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/misleading-skewness/img/skew_intro-light.png" target="_blank" alt="skew_intro">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/misleading-skewness/img/skew_intro-light.png"
 width='800'
-src="https://aakinshin.net/posts/misleading-skewness/img/skew_intro-light.png">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/misleading-skewness/img/skew_intro-dark.png" target="_blank" alt="skew_intro">
+&lt;img
+src="https://aakinshin.net/posts/misleading-skewness/img/skew_intro-dark.png"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>It looks extremely simple: using the skewness sign,
 we get an idea of the distribution form and the arrangement of the mean and the median.
 Unfortunately, it doesn&amp;rsquo;t always work as expected.
@@ -896,53 +833,39 @@ based on the highest density interval of the given width.
 I assumed that non-smoothness was caused by a non-smooth rectangular window
 which was used to build the truncated beta distribution.
 In this post, we are going to try another option: the Planck-taper window.&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/thdqe-ow2/img/qrde-light.png" target="_blank" class="imgldlink" alt="qrde">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/thdqe-ow2/img/qrde-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/thdqe-ow2/img/qrde-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/thdqe-ow2/img/qrde-light.png" target="_blank" alt="qrde">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/thdqe-ow2/img/qrde-light.png"
 width='800'
-src="https://aakinshin.net/posts/thdqe-ow2/img/qrde-light.png">
-&lt;/picture>
+/>
 &lt;/a>
-&lt;/div>
-&lt;/div>
-&lt;br /></description></item><item><title>Optimal window of the trimmed Harrell-Davis quantile estimator, Part 1: Problems with the rectangular window</title><link>https://aakinshin.net/posts/thdqe-ow1/</link><pubDate>Tue, 05 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-ow1/</guid><description>&lt;p>In the previous post, we have obtained a nice version of the trimmed Harrell-Davis quantile estimator
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/thdqe-ow2/img/qrde-dark.png" target="_blank" alt="qrde">
+&lt;img
+src="https://aakinshin.net/posts/thdqe-ow2/img/qrde-dark.png"
+width='800'
+/>
+&lt;/a>
+&lt;/div></description></item><item><title>Optimal window of the trimmed Harrell-Davis quantile estimator, Part 1: Problems with the rectangular window</title><link>https://aakinshin.net/posts/thdqe-ow1/</link><pubDate>Tue, 05 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-ow1/</guid><description>&lt;p>In the previous post, we have obtained a nice version of the trimmed Harrell-Davis quantile estimator
 which provides an opportunity to get a nice trade-off between robustness and statistical efficiency
 of quantile estimations.
 Unfortunately, it has a severe drawback.
 If we build a &lt;a href="https://aakinshin.net/posts/qrde-hd/">quantile-respectful density estimation&lt;/a> based on the suggested estimator,
 we won&amp;rsquo;t get a smooth density function as in the case of the classic Harrell-Davis quantile estimator:&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/thdqe-ow1/img/qrde-light.png" target="_blank" class="imgldlink" alt="qrde">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/thdqe-ow1/img/qrde-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/thdqe-ow1/img/qrde-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/thdqe-ow1/img/qrde-light.png" target="_blank" alt="qrde">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/thdqe-ow1/img/qrde-light.png"
 width='800'
-src="https://aakinshin.net/posts/thdqe-ow1/img/qrde-light.png">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/thdqe-ow1/img/qrde-dark.png" target="_blank" alt="qrde">
+&lt;img
+src="https://aakinshin.net/posts/thdqe-ow1/img/qrde-dark.png"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>In this blog post series, we are going to find a way to improve the trimmed Harrell-Davis quantile estimator
 so that it gives a smooth density function and keeps its advantages in terms of robustness and statistical efficiency.&lt;/p></description></item><item><title>Beta distribution highest density interval of the given width</title><link>https://aakinshin.net/posts/beta-hdi/</link><pubDate>Tue, 28 Sep 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/beta-hdi/</guid><description>&lt;p>In one of &lt;a href="https://aakinshin.net/posts/kosqe5/">the previous posts&lt;/a>, I discussed the idea of the trimmed Harrell-Davis quantile estimator
 based on the highest density interval of the given width.
@@ -1047,27 +970,20 @@ but rather research notes about conducted experiments.
 It&amp;rsquo;s important for me to keep records of all the experiments I perform regardless of the usefulness of the results.&lt;/li>
 &lt;/ol>
 &lt;p>So, let&amp;rsquo;s briefly look at the results of this not-so-useful approach.&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/kosqe2/img/LightAndHeavy__N15_Efficiency-light.png" target="_blank" class="imgldlink" alt="LightAndHeavy__N15_Efficiency">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/kosqe2/img/LightAndHeavy__N15_Efficiency-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/kosqe2/img/LightAndHeavy__N15_Efficiency-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/kosqe2/img/LightAndHeavy__N15_Efficiency-light.png" target="_blank" alt="LightAndHeavy__N15_Efficiency">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/kosqe2/img/LightAndHeavy__N15_Efficiency-light.png"
 width='800'
-src="https://aakinshin.net/posts/kosqe2/img/LightAndHeavy__N15_Efficiency-light.png">
-&lt;/picture>
+/>
 &lt;/a>
-&lt;/div>
-&lt;/div>
-&lt;br /></description></item><item><title>Quantile estimators based on k order statistics, Part 1: Motivation</title><link>https://aakinshin.net/posts/kosqe1/</link><pubDate>Tue, 03 Aug 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe1/</guid><description>&lt;p>It&amp;rsquo;s not easy to choose a good quantile estimator.
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/kosqe2/img/LightAndHeavy__N15_Efficiency-dark.png" target="_blank" alt="LightAndHeavy__N15_Efficiency">
+&lt;img
+src="https://aakinshin.net/posts/kosqe2/img/LightAndHeavy__N15_Efficiency-dark.png"
+width='800'
+/>
+&lt;/a>
+&lt;/div></description></item><item><title>Quantile estimators based on k order statistics, Part 1: Motivation</title><link>https://aakinshin.net/posts/kosqe1/</link><pubDate>Tue, 03 Aug 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kosqe1/</guid><description>&lt;p>It&amp;rsquo;s not easy to choose a good quantile estimator.
 In my previous posts, I considered several groups of quantile estimators:&lt;/p>
 &lt;ul>
 &lt;li>Quantile estimators based 1 or 2 order statistics (Hyndman-Fan Type1-9)&lt;/li>
@@ -1105,27 +1021,20 @@ In the light-tailed case, such a result is less preferable than Hyndman-Fan Type
 that contribute to the final quantile estimations.
 In this post, I look at some numerical simulations
 that compare trimmed HDQEs with different lower bounds.&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/thdqe-overtrimming/img/LightAndHeavy__N05_Efficiency-light.png" target="_blank" class="imgldlink" alt="LightAndHeavy__N05_Efficiency">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/thdqe-overtrimming/img/LightAndHeavy__N05_Efficiency-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/thdqe-overtrimming/img/LightAndHeavy__N05_Efficiency-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/thdqe-overtrimming/img/LightAndHeavy__N05_Efficiency-light.png" target="_blank" alt="LightAndHeavy__N05_Efficiency">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/thdqe-overtrimming/img/LightAndHeavy__N05_Efficiency-light.png"
 width='800'
-src="https://aakinshin.net/posts/thdqe-overtrimming/img/LightAndHeavy__N05_Efficiency-light.png">
-&lt;/picture>
+/>
 &lt;/a>
-&lt;/div>
-&lt;/div>
-&lt;br /></description></item><item><title>Optimal threshold of the trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/thdqe-threshold/</link><pubDate>Tue, 20 Jul 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-threshold/</guid><description>&lt;p>The traditional quantile estimators (which are based on 1 or 2 order statistics) have great robustness.
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/thdqe-overtrimming/img/LightAndHeavy__N05_Efficiency-dark.png" target="_blank" alt="LightAndHeavy__N05_Efficiency">
+&lt;img
+src="https://aakinshin.net/posts/thdqe-overtrimming/img/LightAndHeavy__N05_Efficiency-dark.png"
+width='800'
+/>
+&lt;/a>
+&lt;/div></description></item><item><title>Optimal threshold of the trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/thdqe-threshold/</link><pubDate>Tue, 20 Jul 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thdqe-threshold/</guid><description>&lt;p>The traditional quantile estimators (which are based on 1 or 2 order statistics) have great robustness.
 However, the statistical efficiency of these estimators is not so great.
 The Harrell-Davis quantile estimator has much better efficiency (at least in the light-tailed case),
 but it&amp;rsquo;s not robust (because it calculates a weighted sum of all sample values).
@@ -1136,27 +1045,20 @@ I also perform a numerical simulations that &lt;a href="https://aakinshin.net/po
 of the original Harrell-Davis quantile estimator against its trimmed and winsorized modifications.
 It&amp;rsquo;s time to discuss how to choose the optimal trimming threshold
 and how it affects the estimator efficiency.&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/thdqe-threshold/img/LightAndHeavy__N40_Efficiency-light.png" target="_blank" class="imgldlink" alt="LightAndHeavy__N40_Efficiency">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/thdqe-threshold/img/LightAndHeavy__N40_Efficiency-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/thdqe-threshold/img/LightAndHeavy__N40_Efficiency-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/thdqe-threshold/img/LightAndHeavy__N40_Efficiency-light.png" target="_blank" alt="LightAndHeavy__N40_Efficiency">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/thdqe-threshold/img/LightAndHeavy__N40_Efficiency-light.png"
 width='800'
-src="https://aakinshin.net/posts/thdqe-threshold/img/LightAndHeavy__N40_Efficiency-light.png">
-&lt;/picture>
+/>
 &lt;/a>
-&lt;/div>
-&lt;/div>
-&lt;br /></description></item><item><title>Estimating quantile confidence intervals: Maritz-Jarrett vs. jackknife</title><link>https://aakinshin.net/posts/maritz-jarrett-vs-jackknife/</link><pubDate>Tue, 13 Jul 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/maritz-jarrett-vs-jackknife/</guid><description>&lt;p>When it comes to estimating quantiles of the given sample,
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/thdqe-threshold/img/LightAndHeavy__N40_Efficiency-dark.png" target="_blank" alt="LightAndHeavy__N40_Efficiency">
+&lt;img
+src="https://aakinshin.net/posts/thdqe-threshold/img/LightAndHeavy__N40_Efficiency-dark.png"
+width='800'
+/>
+&lt;/a>
+&lt;/div></description></item><item><title>Estimating quantile confidence intervals: Maritz-Jarrett vs. jackknife</title><link>https://aakinshin.net/posts/maritz-jarrett-vs-jackknife/</link><pubDate>Tue, 13 Jul 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/maritz-jarrett-vs-jackknife/</guid><description>&lt;p>When it comes to estimating quantiles of the given sample,
 my estimator of choice is the Harrell-Davis quantile estimator
 (to be more specific, its &lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">trimmed version&lt;/a>).
 If I need to get a confidence interval for the obtained quantiles,
@@ -1283,27 +1185,20 @@ it starts to trim sample values only for &lt;span class="math inline">\(n \geq 8
 the Harrell-Davis quantile estimator,
 the &lt;a href="https://aakinshin.net/posts/sfakianakis-verginis-quantile-estimator/">Sfakianakis-Verginis quantile estimators&lt;/a>, and
 the &lt;a href="https://aakinshin.net/posts/navruz-ozdemir-quantile-estimator/">Navruz-Özdemir quantile estimator&lt;/a>.&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-light.png" target="_blank" class="imgldlink" alt="LightAndHeavy_N10_Efficiency">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-light.png" target="_blank" alt="LightAndHeavy_N10_Efficiency">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-light.png"
 width='800'
-src="https://aakinshin.net/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-light.png">
-&lt;/picture>
+/>
 &lt;/a>
-&lt;/div>
-&lt;/div>
-&lt;br /></description></item><item><title>Dispersion exponential smoothing</title><link>https://aakinshin.net/posts/dispersion-exponential-smoothing/</link><pubDate>Tue, 11 May 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/dispersion-exponential-smoothing/</guid><description>&lt;p>In this &lt;a href="https://aakinshin.net/posts/quantile-exponential-smoothing/">previous post&lt;/a>,
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-dark.png" target="_blank" alt="LightAndHeavy_N10_Efficiency">
+&lt;img
+src="https://aakinshin.net/posts/hd-sv-no-efficiency/img/LightAndHeavy_N10_Efficiency-dark.png"
+width='800'
+/>
+&lt;/a>
+&lt;/div></description></item><item><title>Dispersion exponential smoothing</title><link>https://aakinshin.net/posts/dispersion-exponential-smoothing/</link><pubDate>Tue, 11 May 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/dispersion-exponential-smoothing/</guid><description>&lt;p>In this &lt;a href="https://aakinshin.net/posts/quantile-exponential-smoothing/">previous post&lt;/a>,
 I showed how to apply exponential smoothing to quantiles
 using the &lt;a href="https://aakinshin.net/posts/weighted-quantiles/">weighted Harrell-Davis quantile estimator&lt;/a>.
 This technique allows getting smooth and stable moving median estimations.
@@ -1367,27 +1262,20 @@ This is a severe problem for QRDE-based algorithms like the
 In this post, I will show how jittering could help to solve this problem and get a smooth QRDE on samples with ties.&lt;/p></description></item><item><title>How to build a smooth density estimation for a discrete sample using jittering</title><link>https://aakinshin.net/posts/discrete-sample-jittering/</link><pubDate>Tue, 20 Apr 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/discrete-sample-jittering/</guid><description>&lt;p>Let&amp;rsquo;s say you have a sample with tied values.
 If you draw a kernel density estimation (KDE) for such a sample,
 you may get a serrated pattern like this:&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/discrete-sample-jittering/img/intro-light.png" target="_blank" class="imgldlink" alt="intro">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/discrete-sample-jittering/img/intro-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/discrete-sample-jittering/img/intro-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/discrete-sample-jittering/img/intro-light.png" target="_blank" alt="intro">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/discrete-sample-jittering/img/intro-light.png"
 width='800'
-src="https://aakinshin.net/posts/discrete-sample-jittering/img/intro-light.png">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/discrete-sample-jittering/img/intro-dark.png" target="_blank" alt="intro">
+&lt;img
+src="https://aakinshin.net/posts/discrete-sample-jittering/img/intro-dark.png"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>KDE requires samples from continuous distributions
 while tied values arise in discrete or mixture distributions.
 Even if the original distribution is continuous,
@@ -1403,27 +1291,20 @@ It generates a non-randomized noise pattern with a low risk of noticeable sample
 Based on the given sample, it allows estimating the probability density function (PDF) of the underlying distribution.
 Here is an example of KDE for &lt;code>x = {3.82, 4.61, 4.89, 4.91, 5.31, 5.6, 5.66, 7.00, 7.00, 7.00}&lt;/code>
 (normal kernel, Sheather &amp;amp; Jones bandwidth selector):&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/kde-discrete/img/intro-light.png" target="_blank" class="imgldlink" alt="intro">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/kde-discrete/img/intro-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/kde-discrete/img/intro-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/kde-discrete/img/intro-light.png" target="_blank" alt="intro">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/kde-discrete/img/intro-light.png"
 width='800'
-src="https://aakinshin.net/posts/kde-discrete/img/intro-light.png">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/kde-discrete/img/intro-dark.png" target="_blank" alt="intro">
+&lt;img
+src="https://aakinshin.net/posts/kde-discrete/img/intro-dark.png"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>KDE is a simple and straightforward way to build a PDF, but it&amp;rsquo;s not always the best one.
 In addition to my &lt;a href="https://aakinshin.net/posts/kde-bw/">concerns about bandwidth selection&lt;/a>,
 continuous use of KDE creates an illusion that all distributions are smooth and continuous.
@@ -1443,27 +1324,20 @@ Also, I &lt;a href="https://aakinshin.net/posts/hdqe-efficiency/">discussed&lt;/
 of the Harrell-Davis quantile estimator.
 In this post, I&amp;rsquo;m going to continue numerical simulation and estimate the efficiency of
 the winsorized and trimmed modifications.&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-light.png" target="_blank" class="imgldlink" alt="LightAndHeavy_N10_Efficiency">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-light.png" target="_blank" alt="LightAndHeavy_N10_Efficiency">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-light.png"
 width='800'
-src="https://aakinshin.net/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-light.png">
-&lt;/picture>
+/>
 &lt;/a>
-&lt;/div>
-&lt;/div>
-&lt;br /></description></item><item><title>Trimmed modification of the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/trimmed-hdqe/</link><pubDate>Tue, 30 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/trimmed-hdqe/</guid><description>&lt;p>In one of &lt;a href="https://aakinshin.net/posts/winsorized-hdqe/">the previous posts&lt;/a>, I discussed winsorized Harrell-Davis quantile estimator.
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-dark.png" target="_blank" alt="LightAndHeavy_N10_Efficiency">
+&lt;img
+src="https://aakinshin.net/posts/wthdqe-efficiency/img/LightAndHeavy_N10_Efficiency-dark.png"
+width='800'
+/>
+&lt;/a>
+&lt;/div></description></item><item><title>Trimmed modification of the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/trimmed-hdqe/</link><pubDate>Tue, 30 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/trimmed-hdqe/</guid><description>&lt;p>In one of &lt;a href="https://aakinshin.net/posts/winsorized-hdqe/">the previous posts&lt;/a>, I discussed winsorized Harrell-Davis quantile estimator.
 This estimator is more robust than the classic Harrell-Davis quantile estimator.
 In this post, I want to suggest another modification that may be better for some corner cases:
 the &lt;em>trimmed&lt;/em> Harrell-Davis quantile estimator.&lt;/p></description></item><item><title>Efficiency of the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/hdqe-efficiency/</link><pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/hdqe-efficiency/</guid><description>&lt;p>One of the most essential properties of a quantile estimator is
@@ -1523,27 +1397,20 @@ Even minor deviations from normality could make it completely unreliable and dec
 Let me demonstrate this problem using an example.&lt;/p>
 &lt;p>Below you can see three density plots of some distributions.
 Could you guess their standard deviations?&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/misleading-stddev/img/density1-light.png" target="_blank" class="imgldlink" alt="density1">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/misleading-stddev/img/density1-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/misleading-stddev/img/density1-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/misleading-stddev/img/density1-light.png" target="_blank" alt="density1">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/misleading-stddev/img/density1-light.png"
 width='800'
-src="https://aakinshin.net/posts/misleading-stddev/img/density1-light.png">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/misleading-stddev/img/density1-dark.png" target="_blank" alt="density1">
+&lt;img
+src="https://aakinshin.net/posts/misleading-stddev/img/density1-dark.png"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>The correct answers are &lt;span class="math inline">\(1.0, 3.0, 11.0\)&lt;/span>.
 And here is a more challenging problem: could you match these values with the corresponding distributions?&lt;/p></description></item><item><title>Unbiased median absolute deviation based on the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/unbiased-mad-hd/</link><pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/unbiased-mad-hd/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> (&lt;span class="math inline">\(\textrm{MAD}\)&lt;/span>)
 is a robust measure of scale.
@@ -1657,27 +1524,20 @@ the &lt;a href="https://en.wikipedia.org/wiki/Gumbel_distribution">Gumbel distri
 (it&amp;rsquo;s a good model for slightly right-skewed distributions).
 According to the performed Monte Carlo simulation,
 the Harrell-Davis quantile estimator always has better accuracy:&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-light.png" target="_blank" class="imgldlink" alt="summary">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-light.png" target="_blank" alt="summary">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-light.png"
 width='800'
-src="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-light.png">
-&lt;/picture>
+/>
 &lt;/a>
-&lt;/div>
-&lt;/div>
-&lt;br /></description></item><item><title>Fast implementation of the moving quantile based on the partitioning heaps</title><link>https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/</link><pubDate>Tue, 29 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/</guid><description>&lt;p>Imagine you have a time series.
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-dark.png" target="_blank" alt="summary">
+&lt;img
+src="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-dark.png"
+width='800'
+/>
+&lt;/a>
+&lt;/div></description></item><item><title>Fast implementation of the moving quantile based on the partitioning heaps</title><link>https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/</link><pubDate>Tue, 29 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/</guid><description>&lt;p>Imagine you have a time series.
 Let&amp;rsquo;s say, after each new observation, you want to know an &amp;ldquo;average&amp;rdquo; value across the last &lt;span class="math inline">\(L\)&lt;/span> observations.
 Such a metric is known as &lt;a href="https://en.wikipedia.org/wiki/Moving_average">a moving average&lt;/a>
 (or rolling/running average).&lt;/p>
@@ -1688,27 +1548,20 @@ Outliers can easily spoil the moving mean and transform it into a meaningless an
 &lt;p>Fortunately, we have a good alternative: &lt;a href="https://en.wikipedia.org/wiki/Moving_average#Moving_median">the moving median&lt;/a>.
 Typically, it generates a stable and smooth series of values.
 In the below figure, you can see the difference between the moving mean and the moving median on noisy data.&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/img/example-light.png" target="_blank" class="imgldlink" alt="example">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/img/example-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/img/example-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/img/example-light.png" target="_blank" alt="example">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/img/example-light.png"
 width='800'
-src="https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/img/example-light.png">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/img/example-dark.png" target="_blank" alt="example">
+&lt;img
+src="https://aakinshin.net/posts/partitioning-heaps-quantile-estimator/img/example-dark.png"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>The moving median also has a drawback: it&amp;rsquo;s not easy to efficiently implement it.
 Today we going to discuss the Hardle-Steiger method to estimate the median
 (memory: &lt;span class="math inline">\(O(L)\)&lt;/span>, element processing complexity: &lt;span class="math inline">\(O(log(L))\)&lt;/span>, median estimating complexity: &lt;span class="math inline">\(O(1)\)&lt;/span>).
@@ -1818,27 +1671,20 @@ Which metric should we choose?&lt;/p>
 We can generalize the median absolute deviation into the quantile absolute deviation (QAD) around the given quantile based on the Harrell-Davis quantile estimator.
 I will show how to calculate it, how to interpret it, and how to get insights about distribution properties
 from images like this one:&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/qad/img/modal5-light.png" target="_blank" class="imgldlink" alt="modal5">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/qad/img/modal5-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/qad/img/modal5-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/qad/img/modal5-light.png" target="_blank" alt="modal5">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/qad/img/modal5-light.png"
 width='800'
-src="https://aakinshin.net/posts/qad/img/modal5-light.png">
-&lt;/picture>
+/>
 &lt;/a>
-&lt;/div>
-&lt;/div>
-&lt;br /></description></item><item><title>P² quantile estimator: estimating the median without storing values</title><link>https://aakinshin.net/posts/p2-quantile-estimator/</link><pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator/</guid><description>&lt;p>&lt;strong>Update: the estimator accuracy could be improved using a bunch of &lt;a href="https://aakinshin.net/tags/research-p2qe/">patches&lt;/a>.&lt;/strong>&lt;/p>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/qad/img/modal5-dark.png" target="_blank" alt="modal5">
+&lt;img
+src="https://aakinshin.net/posts/qad/img/modal5-dark.png"
+width='800'
+/>
+&lt;/a>
+&lt;/div></description></item><item><title>P² quantile estimator: estimating the median without storing values</title><link>https://aakinshin.net/posts/p2-quantile-estimator/</link><pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator/</guid><description>&lt;p>&lt;strong>Update: the estimator accuracy could be improved using a bunch of &lt;a href="https://aakinshin.net/tags/research-p2qe/">patches&lt;/a>.&lt;/strong>&lt;/p>
 &lt;p>Imagine that you are implementing performance telemetry in your application.
 There is an operation that is executed millions of times, and you want to get its &amp;ldquo;average&amp;rdquo; duration.
 It&amp;rsquo;s not a good idea to use the arithmetic mean because the obtained value can be easily spoiled by outliers.
@@ -1878,27 +1724,20 @@ I didn&amp;rsquo;t manage to find an approach that works fine in my cases, so I 
 Most of the interpretation problems in my experiments arise from multimodality and outliers,
 so I decided to focus on these two things and specifically highlight them.
 Let&amp;rsquo;s consider this plot:&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/modality-summary-notation/img/thumbnail-light.svg" target="_blank" class="imgldlink" alt="thumbnail">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/modality-summary-notation/img/thumbnail-dark.svg"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/modality-summary-notation/img/thumbnail-light.svg"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/modality-summary-notation/img/thumbnail-light.svg" target="_blank" alt="thumbnail">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/modality-summary-notation/img/thumbnail-light.svg"
 width='800'
-src="https://aakinshin.net/posts/modality-summary-notation/img/thumbnail-light.svg">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/modality-summary-notation/img/thumbnail-dark.svg" target="_blank" alt="thumbnail">
+&lt;img
+src="https://aakinshin.net/posts/modality-summary-notation/img/thumbnail-dark.svg"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>I suggest describing it like this:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="o">{&lt;/span>1.00, 2.00&lt;span class="o">}&lt;/span> + &lt;span class="o">[&lt;/span>7.16&lt;span class="p">;&lt;/span> 13.12&lt;span class="o">]&lt;/span>_100 + &lt;span class="o">{&lt;/span>19.00&lt;span class="o">}&lt;/span> + &lt;span class="o">[&lt;/span>27.69&lt;span class="p">;&lt;/span> 32.34&lt;span class="o">]&lt;/span>_100 + &lt;span class="o">{&lt;/span>37.00..39.00&lt;span class="o">}&lt;/span>_3
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Let me explain the suggested notation in detail.&lt;/p></description></item><item><title>Intermodal outliers</title><link>https://aakinshin.net/posts/intermodal-outliers/</link><pubDate>Tue, 10 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/intermodal-outliers/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Outlier">Outlier&lt;/a> analysis is a typical step in distribution exploration.
@@ -1907,27 +1746,20 @@ However, outliers are not always extreme values.
 In the general case, an outlier is a value that significantly differs from other values in the same sample.
 In the case of multimodal distribution, we can also consider outliers in the middle of the distribution.
 Let&amp;rsquo;s call such outliers that we found between modes the &amp;ldquo;&lt;em>intermodal outliers&lt;/em>.&amp;rdquo;&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/intermodal-outliers/img/step4-light.svg" target="_blank" class="imgldlink" alt="step4">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/intermodal-outliers/img/step4-dark.svg"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/intermodal-outliers/img/step4-light.svg"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/intermodal-outliers/img/step4-light.svg" target="_blank" alt="step4">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/intermodal-outliers/img/step4-light.svg"
 width='800'
-src="https://aakinshin.net/posts/intermodal-outliers/img/step4-light.svg">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/intermodal-outliers/img/step4-dark.svg" target="_blank" alt="step4">
+&lt;img
+src="https://aakinshin.net/posts/intermodal-outliers/img/step4-dark.svg"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>Look at the above density plot.
 It&amp;rsquo;s a bimodal distribution that is formed as a combination of two unimodal distributions.
 Each of the unimodal distributions may have its own lower and upper outliers.
@@ -1935,27 +1767,20 @@ When we merge them, the upper outliers of the first distribution and the lower o
 stop being lower or upper outliers.
 However, if these values don&amp;rsquo;t belong to the modes, they still are a subject of interest.
 In this post, I will show you how to detect such intermodal outliers
-and how they can be used to form a better distribution description.&lt;/p></description></item><item><title>Lowland multimodality detection</title><link>https://aakinshin.net/posts/lowland-multimodality-detection/</link><pubDate>Tue, 03 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/lowland-multimodality-detection/</guid><description>&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-light.svg" target="_blank" class="imgldlink" alt="data5">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-dark.svg"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-light.svg"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+and how they can be used to form a better distribution description.&lt;/p></description></item><item><title>Lowland multimodality detection</title><link>https://aakinshin.net/posts/lowland-multimodality-detection/</link><pubDate>Tue, 03 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/lowland-multimodality-detection/</guid><description>&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-light.svg" target="_blank" alt="data5">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-light.svg"
 width='800'
-src="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-light.svg">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-dark.svg" target="_blank" alt="data5">
+&lt;img
+src="https://aakinshin.net/posts/lowland-multimodality-detection/img/data5-dark.svg"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>Multimodality is an essential feature of a distribution, which may create many troubles during automatic analysis.
 One of the best ways to work with such distributions is to detect all the modes in advance based on the given samples.
 Unfortunately, this problem is much harder than it looks like.&lt;/p>
@@ -1978,27 +1803,20 @@ Next, it splits the plot by these lowlands and detects modes between them.
 For the PDF estimation, it uses the &lt;a href="https://aakinshin.net/posts/qrde-hd/">quantile-respectful density estimation based on the Harrell-Davis quantile estimator&lt;/a> (QRDE-HD).
 Let me explain how it works in detail.&lt;/p></description></item><item><title>Quantile-respectful density estimation based on the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/qrde-hd/</link><pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qrde-hd/</guid><description>&lt;p>The idea of this post was born when I was working on a presentation for my recent &lt;a href="https://dotnext.ru/en/">DotNext&lt;/a> &lt;a href="https://www.youtube.com/watch?v=gc3yVybPuaY&amp;amp;list=PL21xssNXOJNGUROqzSTOC8uZL4W2QZpvK&amp;amp;index=1">talk&lt;/a>.
 It had a &lt;a href="https://slides.aakinshin.net/dotnext-piter2020/#193">slide&lt;/a> with a density plot like this:&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/qrde-hd/img/riddle-light.png" target="_blank" class="imgldlink" alt="riddle">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/qrde-hd/img/riddle-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/qrde-hd/img/riddle-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/qrde-hd/img/riddle-light.png" target="_blank" alt="riddle">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/qrde-hd/img/riddle-light.png"
 width='800'
-src="https://aakinshin.net/posts/qrde-hd/img/riddle-light.png">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/qrde-hd/img/riddle-dark.png" target="_blank" alt="riddle">
+&lt;img
+src="https://aakinshin.net/posts/qrde-hd/img/riddle-dark.png"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>Here we can see a density plot based on a sample with highlighted &lt;a href="https://en.wikipedia.org/wiki/Decile">decile&lt;/a> locations that split the plot into 10 equal parts.
 Before the conference, I have been reviewed by &lt;a href="https://twitter.com/VladimirSitnikv">@VladimirSitnikv&lt;/a>.
 He raised a reasonable concern: it doesn&amp;rsquo;t look like all the density plot segments are equal and contain exactly 10% of the whole plot.
@@ -2019,27 +1837,20 @@ In this post, I will show how to build such plots.
 Also I will compare them to the classic histograms and kernel density estimations.
 As a bonus, I will demonstrate how awesome these plots are for multimodality detection.&lt;/p></description></item><item><title>Misleading histograms</title><link>https://aakinshin.net/posts/misleading-histograms/</link><pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/misleading-histograms/</guid><description>&lt;p>Below you see two histograms.
 What could you say about them?&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-light.svg" target="_blank" class="imgldlink" alt="hist-riddle">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-dark.svg"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-light.svg"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-light.svg" target="_blank" alt="hist-riddle">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-light.svg"
 width='800'
-src="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-light.svg">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-dark.svg" target="_blank" alt="hist-riddle">
+&lt;img
+src="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-dark.svg"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>Most likely, you say that the first histogram is based on a uniform distribution,
 and the second one is based on a multimodal distribution with four modes.
 Although this is not obvious from the plots,
@@ -2054,27 +1865,20 @@ Unfortunately, this way may easily become a slippery slope.
 In the &lt;a href="https://aakinshin.net/posts/kde-bw/">previous post&lt;/a>, I have shown how density plots may deceive you when the bandwidth is poorly chosen.
 Today, we talk about histograms and why you can&amp;rsquo;t trust them in the general case.&lt;/p></description></item><item><title>The importance of kernel density estimation bandwidth</title><link>https://aakinshin.net/posts/kde-bw/</link><pubDate>Tue, 13 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kde-bw/</guid><description>&lt;p>Below see two kernel density estimations.
 What could you say about them?&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/kde-bw/img/kde-riddle-light.svg" target="_blank" class="imgldlink" alt="kde-riddle">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/kde-bw/img/kde-riddle-dark.svg"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/kde-bw/img/kde-riddle-light.svg"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/kde-bw/img/kde-riddle-light.svg" target="_blank" alt="kde-riddle">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/kde-bw/img/kde-riddle-light.svg"
 width='800'
-src="https://aakinshin.net/posts/kde-bw/img/kde-riddle-light.svg">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/kde-bw/img/kde-riddle-dark.svg" target="_blank" alt="kde-riddle">
+&lt;img
+src="https://aakinshin.net/posts/kde-bw/img/kde-riddle-dark.svg"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>Most likely, you say that the first plot is based on a uniform distribution,
 and the second one is based on a multimodal distribution with four modes.
 Although this is not obvious from the plots,
@@ -2233,27 +2037,20 @@ src="https://aakinshin.net/posts/introducing-perfolizer/img/perfolizer.svg" />
 &lt;br /></description></item><item><title>Distribution comparison via the shift and ratio functions</title><link>https://aakinshin.net/posts/shift-and-ratio-functions/</link><pubDate>Fri, 11 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/shift-and-ratio-functions/</guid><description>&lt;p>When we compare two distributions, it&amp;rsquo;s not always enough to detect a statistically significant difference between them.
 In many cases, we also want to evaluate the magnitude of this difference.
 Let&amp;rsquo;s look at the following image:&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare1-light.png" target="_blank" class="imgldlink" alt="compare1">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare1-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare1-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare1-light.png" target="_blank" alt="compare1">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare1-light.png"
 width='800'
-src="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare1-light.png">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare1-dark.png" target="_blank" alt="compare1">
+&lt;img
+src="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare1-dark.png"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>On the left side, we can see a timeline plot with 2000 points
 (at the middle of this plot, the distribution was significantly changed).
 On the right side, you can see density plots for the left and the right side of
@@ -2261,79 +2058,58 @@ the timeline plot (before and after the change).
 It&amp;rsquo;s a pretty simple case, the difference between distributions be expressed via the
 difference between mean values.&lt;/p>
 &lt;p>Now let&amp;rsquo;s look at a more tricky case:&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare2-light.png" target="_blank" class="imgldlink" alt="compare2">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare2-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare2-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare2-light.png" target="_blank" alt="compare2">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare2-light.png"
 width='800'
-src="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare2-light.png">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare2-dark.png" target="_blank" alt="compare2">
+&lt;img
+src="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare2-dark.png"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>Here we have a bimodal distribution; after the change, the left mode &amp;ldquo;moved right.&amp;rdquo;
 Now it&amp;rsquo;s much harder to evaluate the difference between distributions
 because the mean and the median values almost not changed:
 the right mode has the biggest impact on these metrics than the left more.&lt;/p>
 &lt;p>And here is a much more tricky case:&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare3-light.png" target="_blank" class="imgldlink" alt="compare3">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare3-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare3-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare3-light.png" target="_blank" alt="compare3">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare3-light.png"
 width='800'
-src="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare3-light.png">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare3-dark.png" target="_blank" alt="compare3">
+&lt;img
+src="https://aakinshin.net/posts/shift-and-ratio-functions/img/compare3-dark.png"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>Here we also have a bimodal distribution; after the change, both modes moved:
 the left mode &amp;ldquo;moved right&amp;rdquo; and the right mode &amp;ldquo;moved left.&amp;rdquo;
 How should we describe the difference between these distributions now?&lt;/p></description></item><item><title>Normality is a myth</title><link>https://aakinshin.net/posts/normality/</link><pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/normality/</guid><description>&lt;p>In many statistical papers, you can find the following phrase: &amp;ldquo;assuming that we have a normal distribution.&amp;rdquo;
 Probably, you saw plots of the normal distribution density function in some statistics textbooks,
 it looks like this:&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/normality/img/normal-light.png" target="_blank" class="imgldlink" alt="normal">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/normality/img/normal-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/normality/img/normal-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/normality/img/normal-light.png" target="_blank" alt="normal">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/normality/img/normal-light.png"
 width='800'
-src="https://aakinshin.net/posts/normality/img/normal-light.png">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/normality/img/normal-dark.png" target="_blank" alt="normal">
+&lt;img
+src="https://aakinshin.net/posts/normality/img/normal-dark.png"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>The normal distribution is a pretty user-friendly mental model when we are trying to interpret the statistical metrics
 like mean and standard deviation.
 However, it may also be an insidious and misleading model when your distribution is not normal.
@@ -2348,52 +2124,38 @@ you should forget about normality.
 That&amp;rsquo;s how a typical performance distribution looks like
 (I built the below picture based on a real benchmark that measures the load time of assemblies
 when we open the &lt;a href="https://github.com/OrchardCMS/Orchard">Orchard&lt;/a> solution in &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a> on Linux):&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/normality/img/performance-light.png" target="_blank" class="imgldlink" alt="performance">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/normality/img/performance-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/normality/img/performance-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/normality/img/performance-light.png" target="_blank" alt="performance">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/normality/img/performance-light.png"
 width='800'
-src="https://aakinshin.net/posts/normality/img/performance-light.png">
-&lt;/picture>
+/>
 &lt;/a>
-&lt;/div>
-&lt;/div>
-&lt;br /></description></item><item><title>Implementation of efficient algorithm for changepoint detection: ED-PELT</title><link>https://aakinshin.net/posts/edpelt/</link><pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/edpelt/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Change_detection">Changepoint detection&lt;/a> is an important task that has a lot of applications.
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/normality/img/performance-dark.png" target="_blank" alt="performance">
+&lt;img
+src="https://aakinshin.net/posts/normality/img/performance-dark.png"
+width='800'
+/>
+&lt;/a>
+&lt;/div></description></item><item><title>Implementation of efficient algorithm for changepoint detection: ED-PELT</title><link>https://aakinshin.net/posts/edpelt/</link><pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/edpelt/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Change_detection">Changepoint detection&lt;/a> is an important task that has a lot of applications.
 For example, I use it to detect changes in the &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a> performance test suite.
 It&amp;rsquo;s very important to detect not only performance degradations, but any kinds of performance changes
 (e.g., the variance may increase, or a unimodal distribution may be split to several modes).
 You can see examples of such changes on the following picture (we change the color when a changepoint is detected):&lt;/p>
-&lt;div class="row">
-&lt;div class="mx-auto">
-&lt;a href="https://aakinshin.net/posts/edpelt/img/edpelt-light.png" target="_blank" class="imgldlink" alt="edpelt">
-&lt;picture>
-&lt;source
-theme='dark'
-srcset="https://aakinshin.net/posts/edpelt/img/edpelt-dark.png"
-media="(prefers-color-scheme: dark)">
-&lt;source
-theme='light'
-srcset="https://aakinshin.net/posts/edpelt/img/edpelt-light.png"
-media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/edpelt/img/edpelt-light.png" target="_blank" alt="edpelt">
 &lt;img
-class="mx-auto d-block img-fluid"
+src="https://aakinshin.net/posts/edpelt/img/edpelt-light.png"
 width='800'
-src="https://aakinshin.net/posts/edpelt/img/edpelt-light.png">
-&lt;/picture>
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/edpelt/img/edpelt-dark.png" target="_blank" alt="edpelt">
+&lt;img
+src="https://aakinshin.net/posts/edpelt/img/edpelt-dark.png"
+width='800'
+/>
 &lt;/a>
 &lt;/div>
-&lt;/div>
-&lt;br />
 &lt;p>Unfortunately, it&amp;rsquo;s pretty hard to write a reliable and fast algorithm for changepoint detection.
 Recently, I found a cool paper (&lt;a href="https://link.springer.com/article/10.1007/s11222-016-9687-5">Haynes, K., Fearnhead, P. &amp;amp; Eckley, I.A. &amp;ldquo;A computationally efficient nonparametric approach for changepoint detection,&amp;rdquo; Stat Comput (2017) 27: 1293&lt;/a>) that describes the ED-PELT algorithm.
 It has &lt;code>O(N*log(N))&lt;/code> complexity and pretty good detection accuracy.

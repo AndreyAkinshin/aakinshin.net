@@ -1,17 +1,353 @@
-<!doctype html><html lang=en class=h-100><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Mathematics,Statistics,Research,Density estimation,Discrete distribution,Ties,KDE"><title>Kernel density estimation and discrete values | Andrey Akinshin</title><meta name=description content="A discussion about kernel density estimation problems for distributions with discrete features"><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><link href=https://aakinshin.net/sass/bootstrap-light.min.css theme=light rel=stylesheet type=text/css media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><link href=https://aakinshin.net/sass/bootstrap-dark.min.css theme=dark rel=stylesheet type=text/css media="(prefers-color-scheme: dark)"><script src=https://aakinshin.net/js/theme-before.min.d7f6578e23ad3f0c33c589f9bcb34f995b45121f1f3ce888869c86b26826c845.js></script>
-<script type=module src=https://aakinshin.net/js/dark-mode-toggle.min.9e68d431432744c07a43381a8a833ffe0921cc0e006d84ad97f0b0d43c5cd82d.mjs></script>
-<link href=https://aakinshin.net/css/main.min.4521fdf961aba8dee11ce56edc3cfa07845a0629c82e528856f1558c230aea2f.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body class="d-flex flex-column min-vh-100"><div class=bg-primary><div class="container bg-primary"><nav class="navbar navbar-expand-sm navbar-dark bg-primary"><ul class="navbar-nav mr-auto"><li class=nav-item><a class=nav-link id=nav-link-blog href=https://aakinshin.net/><svg class="fai"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></li><li class=nav-item><a class=nav-link id=nav-link-posts href=https://aakinshin.net/posts/>Posts</a></li><li class=nav-item><a class=nav-link id=nav-link-about href=https://aakinshin.net/about/>About</a></li></ul><ul class="navbar-nav ms-auto"><li class=nav-item><dark-mode-toggle permanent=true></dark-mode-toggle></li></ul></nav></div></div><div class=container><main id=main><div class=blog-main><div class="blog-post table-sm"><h1 class=blog-post-title id=post-title>Kernel density estimation and discrete values</h1><span class=blog-post-meta><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2021-04-13>April 13, 2021</time>
-&nbsp;&nbsp;<svg class="fai"><use xlink:href="/img/fa/all.svg#tag"/></svg>
-<a href=https://aakinshin.net/tags/mathematics/ class="badge badge-info">Mathematics</a>
-<a href=https://aakinshin.net/tags/statistics/ class="badge badge-info">Statistics</a>
-<a href=https://aakinshin.net/tags/research/ class="badge badge-info">Research</a>
-<a href=https://aakinshin.net/tags/density-estimation/ class="badge badge-info">Density estimation</a>
-<a href=https://aakinshin.net/tags/discrete-distribution/ class="badge badge-info">Discrete distribution</a>
-<a href=https://aakinshin.net/tags/ties/ class="badge badge-info">Ties</a>
-<a href=https://aakinshin.net/tags/kde/ class="badge badge-info">KDE</a></span><br><br><p>Kernel density estimation (KDE) is a popular technique of data visualization.
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Mathematics,Statistics,Research,Density estimation,Discrete distribution,Ties,KDE"><title>Kernel density estimation and discrete values | Andrey Akinshin</title><meta name=description content="A discussion about kernel density estimation problems for distributions with discrete features"><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><script src=https://cdn.tailwindcss.com/3.2.4></script>
+<script>tailwind.config={darkMode:"class"}</script><style type=text/tailwindcss>
+    @layer base {
+       
+       
+      body {
+        @apply bg-white dark:bg-zinc-800;
+        @apply text-black dark:text-gray-400;
+      }
+      nav {
+        @apply bg-sky-800 dark:bg-zinc-900;
+      }
+      a {
+        @apply text-sky-600 dark:text-white;
+        @apply no-underline;
+      }
+      .main-content a:not(.label-link) {
+        @apply hover:underline;
+      }
+      hr {
+        @apply h-px my-3 border-0 bg-gray-300 dark:bg-gray-600;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        @apply leading-tight;
+      }
+      h1, h2, h3 {
+        @apply text-4xl py-4;
+      }
+      h4 {
+        @apply text-3xl py-3;
+      }
+      h5, h6 {
+        @apply text-2xl py-2;
+      }
+      table {
+        @apply border self-center mx-auto;
+      }
+      th, td {
+        @apply border p-2
+      }
+      blockquote {
+        @apply border-l-8 border-gray-300 bg-gray-100 dark:border-zinc-600 dark:bg-zinc-700;
+        @apply ml-4 my-4 pl-4 py-2;
+      }
+
+       
+      .main ul {
+        @apply list-disc ml-10 my-2;
+      }
+      .main ol {
+        @apply list-decimal ml-10 my-2;
+      }
+      .main p {
+        @apply mb-3;
+      }
+
+       
+      .label {
+        @apply mx-1 px-1 py-0.5;
+        @apply rounded border border-gray-400 dark:border-gray-500;
+      }
+      .label-link {
+        @apply mx-1 px-1 py-0.5;
+        @apply rounded border border-sky-600 dark:border-slate-400;
+        @apply hover:bg-sky-200 dark:hover:bg-gray-500;
+      }
+      .nav-item {
+        @apply text-white hover:bg-sky-700 dark:hover:bg-gray-700;
+      }
+
+       
+      .paginator {
+        @apply flex flex-wrap justify-center mb-4;
+      }
+      .paginator .page-item {
+        @apply inline-flex border rounded px-3 py-1;
+      }
+      .paginator .page-item:not(.active):not(.disabled) {
+        @apply border-gray-400 dark:border-gray-400;
+      }
+      .paginator .page-item.active {
+        @apply border-sky-600 dark:border-white;
+      }
+      .paginator .page-item.disabled {
+        @apply bg-gray-50 dark:bg-gray-500 dark:border-gray-400;
+      }
+      .paginator .page-item.disabled a {
+        @apply text-gray-400 dark:text-gray-400;
+      }
+
+       
+      .anchorjs-link {
+        transition: all .25s linear;
+      }
+      *:hover > .anchorjs-link {
+        margin-left: -1.125em !important;
+      }
+
+       
+      .block-example {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      
+        margin-left: 10px;
+        padding-left: 10px;
+      
+        border-left: 5px solid;
+        border-color: grey;
+      }
+      .block-example-title::before {  
+        counter-increment: example;
+        content: "Example " counter(example);
+      }
+      body {
+        counter-reset: example;
+      }
+
+       
+      #about-profiles svg {
+        margin-right: 0.7rem;
+      }
+      #about p, #about ul {
+        margin-top: 0rem;
+        margin-bottom: 0rem;
+      }
+      #about ol {
+        @apply ml-10;
+      }
+      #about img {
+        height: 18px;
+        @apply inline-flex;
+      }
+      .about-compact p {
+        text-indent: 20px !important;
+        margin: 0 !important;
+      }
+
+       
+      .d-none { display:none; }
+
+       
+      code.has-jax {
+        -webkit-font-smoothing: antialiased;
+        background: inherit !important;
+        border: none !important;
+        font-size: 100%;
+      }
+
+       
+      .fai {
+        @apply inline-flex;
+        height: 1.2em;
+        width: 1.2em;
+        padding-right: 0.4em;
+        fill: currentColor;
+      }
+      .fai-link {
+        @apply hover:text-sky-400 dark:hover:text-blue-400;
+      }
+      .label-link .fai {
+        @apply pl-1 pb-1;
+        height: 1.5em;
+        width: 1.5em;
+      }
+
+       
+      .chroma {
+        @apply my-5 overflow-y-scroll;
+        border-radius: 3px;
+        border: 1px solid #C3CCD0;
+        padding: 0.5em;
+      }
+        .chroma { background-color: #ffffff }
+        .chroma .x {  }
+        .chroma .err { color: #a61717; background-color: #e3d2d2 }
+        .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+        .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
+        .chroma .hl { display: block; width: 100%;background-color: #ffffcc }
+        .chroma .lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+        .chroma .ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+        .chroma .k { color: #000000; font-weight: bold }
+        .chroma .kc { color: #000000; font-weight: bold }
+        .chroma .kd { color: #000000; font-weight: bold }
+        .chroma .kn { color: #000000; font-weight: bold }
+        .chroma .kp { color: #000000; font-weight: bold }
+        .chroma .kr { color: #000000; font-weight: bold }
+        .chroma .kt { color: #445588; font-weight: bold }
+        .chroma .n {  }
+        .chroma .na { color: #008080 }
+        .chroma .nb { color: #0086b3 }
+        .chroma .bp { color: #999999 }
+        .chroma .nc { color: #445588; font-weight: bold }
+        .chroma .no { color: #008080 }
+        .chroma .nd { color: #3c5d5d; font-weight: bold }
+        .chroma .ni { color: #800080 }
+        .chroma .ne { color: #990000; font-weight: bold }
+        .chroma .nf { color: #990000; font-weight: bold }
+        .chroma .fm {  }
+        .chroma .nl { color: #990000; font-weight: bold }
+        .chroma .nn { color: #555555 }
+        .chroma .nx {  }
+        .chroma .py {  }
+        .chroma .nt { color: #000080 }
+        .chroma .nv { color: #008080 }
+        .chroma .vc { color: #008080 }
+        .chroma .vg { color: #008080 }
+        .chroma .vi { color: #008080 }
+        .chroma .vm {  }
+        .chroma .l {  }
+        .chroma .ld {  }
+        .chroma .s { color: #dd1144 }
+        .chroma .sa { color: #dd1144 }
+        .chroma .sb { color: #dd1144 }
+        .chroma .sc { color: #dd1144 }
+        .chroma .dl { color: #dd1144 }
+        .chroma .sd { color: #dd1144 }
+        .chroma .s2 { color: #dd1144 }
+        .chroma .se { color: #dd1144 }
+        .chroma .sh { color: #dd1144 }
+        .chroma .si { color: #dd1144 }
+        .chroma .sx { color: #dd1144 }
+        .chroma .sr { color: #009926 }
+        .chroma .s1 { color: #dd1144 }
+        .chroma .ss { color: #990073 }
+        .chroma .m { color: #009999 }
+        .chroma .mb { color: #009999 }
+        .chroma .mf { color: #009999 }
+        .chroma .mh { color: #009999 }
+        .chroma .mi { color: #009999 }
+        .chroma .il { color: #009999 }
+        .chroma .mo { color: #009999 }
+        .chroma .o { color: #000000; font-weight: bold }
+        .chroma .ow { color: #000000; font-weight: bold }
+        .chroma .p {  }
+        .chroma .c { color: #999988; font-style: italic }
+        .chroma .ch { color: #999988; font-style: italic }
+        .chroma .cm { color: #999988; font-style: italic }
+        .chroma .c1 { color: #999988; font-style: italic }
+        .chroma .cs { color: #999999; font-weight: bold; font-style: italic }
+        .chroma .cp { color: #999999; font-weight: bold; font-style: italic }
+        .chroma .cpf { color: #999999; font-weight: bold; font-style: italic }
+        .chroma .g {  }
+        .chroma .gd { color: #000000; background-color: #ffdddd }
+        .chroma .ge { color: #000000; font-style: italic }
+        .chroma .gr { color: #aa0000 }
+        .chroma .gh { color: #999999 }
+        .chroma .gi { color: #000000; background-color: #ddffdd }
+        .chroma .go { color: #888888 }
+        .chroma .gp { color: #555555 }
+        .chroma .gs { font-weight: bold }
+        .chroma .gu { color: #aaaaaa }
+        .chroma .gt { color: #aa0000 }
+        .chroma .gl { text-decoration: underline }
+        .chroma .w { color: #bbbbbb }
+        .dark.chroma { color: #f8f8f2; background-color: #272822 }
+        .dark .chroma { color: #f8f8f2; background-color: #272822 }
+        .dark .chroma .x {  }
+        .dark .chroma .err { color: #960050; background-color: #1e0010 }
+        .dark .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
+        .dark .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
+        .dark .chroma .hl { display: block; width: 100%;background-color: #ffffcc }
+        .dark .chroma .lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+        .dark .chroma .ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
+        .dark .chroma .k { color: #66d9ef }
+        .dark .chroma .kc { color: #66d9ef }
+        .dark .chroma .kd { color: #66d9ef }
+        .dark .chroma .kn { color: #f92672 }
+        .dark .chroma .kp { color: #66d9ef }
+        .dark .chroma .kr { color: #66d9ef }
+        .dark .chroma .kt { color: #66d9ef }
+        .dark .chroma .n {  }
+        .dark .chroma .na { color: #a6e22e }
+        .dark .chroma .nb {  }
+        .dark .chroma .bp {  }
+        .dark .chroma .nc { color: #a6e22e }
+        .dark .chroma .no { color: #66d9ef }
+        .dark .chroma .nd { color: #a6e22e }
+        .dark .chroma .ni {  }
+        .dark .chroma .ne { color: #a6e22e }
+        .dark .chroma .nf { color: #a6e22e }
+        .dark .chroma .fm {  }
+        .dark .chroma .nl {  }
+        .dark .chroma .nn {  }
+        .dark .chroma .nx { color: #a6e22e }
+        .dark .chroma .py {  }
+        .dark .chroma .nt { color: #f92672 }
+        .dark .chroma .nv {  }
+        .dark .chroma .vc {  }
+        .dark .chroma .vg {  }
+        .dark .chroma .vi {  }
+        .dark .chroma .vm {  }
+        .dark .chroma .l { color: #ae81ff }
+        .dark .chroma .ld { color: #e6db74 }
+        .dark .chroma .s { color: #e6db74 }
+        .dark .chroma .sa { color: #e6db74 }
+        .dark .chroma .sb { color: #e6db74 }
+        .dark .chroma .sc { color: #e6db74 }
+        .dark .chroma .dl { color: #e6db74 }
+        .dark .chroma .sd { color: #e6db74 }
+        .dark .chroma .s2 { color: #e6db74 }
+        .dark .chroma .se { color: #ae81ff }
+        .dark .chroma .sh { color: #e6db74 }
+        .dark .chroma .si { color: #e6db74 }
+        .dark .chroma .sx { color: #e6db74 }
+        .dark .chroma .sr { color: #e6db74 }
+        .dark .chroma .s1 { color: #e6db74 }
+        .dark .chroma .ss { color: #e6db74 }
+        .dark .chroma .m { color: #ae81ff }
+        .dark .chroma .mb { color: #ae81ff }
+        .dark .chroma .mf { color: #ae81ff }
+        .dark .chroma .mh { color: #ae81ff }
+        .dark .chroma .mi { color: #ae81ff }
+        .dark .chroma .il { color: #ae81ff }
+        .dark .chroma .mo { color: #ae81ff }
+        .dark .chroma .o { color: #f92672 }
+        .dark .chroma .ow { color: #f92672 }
+        .dark .chroma .p {  }
+        .dark .chroma .c { color: #75715e }
+        .dark .chroma .ch { color: #75715e }
+        .dark .chroma .cm { color: #75715e }
+        .dark .chroma .c1 { color: #75715e }
+        .dark .chroma .cs { color: #75715e }
+        .dark .chroma .cp { color: #75715e }
+        .dark .chroma .cpf { color: #75715e }
+        .dark .chroma .g {  }
+        .dark .chroma .gd { color: #f92672 }
+        .dark .chroma .ge { font-style: italic }
+        .dark .chroma .gr {  }
+        .dark .chroma .gh {  }
+        .dark .chroma .gi { color: #a6e22e }
+        .dark .chroma .go {  }
+        .dark .chroma .gp {  }
+        .dark .chroma .gs { font-weight: bold }
+        .dark .chroma .gu { color: #75715e }
+        .dark .chroma .gt {  }
+        .dark .chroma .gl {  }
+        .dark .chroma .w {  }
+    }
+  </style><script>localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")</script><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body><nav><div class="container flex flex-wrap items-center justify-between mx-auto max-w-6xl h-12 px-6"><div class="flex items-center justify-start justify-self-start"><div class="flex nav-item h-12 w-12 items-center justify-center"><a class=text-white href=https://aakinshin.net/><svg class="fai w-6 h-6"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/posts/>Posts</a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/about/>About</a></div></div><button id=theme-toggle type=button class="nav-item p-3 content-center justify-self-end"><svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001.0 1010.586 10.586z"/></svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1A1 1 0 119 4V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707A1 1 0 1113.536 5.05l.707-.707a1 1 0 011.414.0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707A1 1 0 004.343 5.757l.707.707zm1.414 8.486-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"/></svg></button></div></nav><div class="main container mx-auto max-w-6xl px-6"><div class=main-post><h1 class=blog-post-title id=post-title>Kernel density estimation and discrete values</h1><div class="flex flex-wrap justify-start items-center"><svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2021-04-13>April 13, 2021</time><svg class="fai ml-3"><use xlink:href="/img/fa/all.svg#tag"/></svg>
+<a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/density-estimation/>Density estimation</a>
+<a class=label-link href=https://aakinshin.net/tags/discrete-distribution/>Discrete distribution</a>
+<a class=label-link href=https://aakinshin.net/tags/ties/>Ties</a>
+<a class=label-link href=https://aakinshin.net/tags/kde/>KDE</a></div><br><div class=main-content><p>Kernel density estimation (KDE) is a popular technique of data visualization.
 Based on the given sample, it allows estimating the probability density function (PDF) of the underlying distribution.
 Here is an example of KDE for <code>x = {3.82, 4.61, 4.89, 4.91, 5.31, 5.6, 5.66, 7.00, 7.00, 7.00}</code>
-(normal kernel, Sheather & Jones bandwidth selector):</p><div class=row><div class=mx-auto><a href=/posts/kde-discrete/img/intro-light.png target=_blank class=imgldlink alt=intro><picture><source theme=dark srcset=/posts/kde-discrete/img/intro-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/kde-discrete/img/intro-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/kde-discrete/img/intro-light.png></picture></a></div></div><br><p>KDE is a simple and straightforward way to build a PDF, but it&rsquo;s not always the best one.
+(normal kernel, Sheather & Jones bandwidth selector):</p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/kde-discrete/img/intro-light.png target=_blank alt=intro><img src=/posts/kde-discrete/img/intro-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/kde-discrete/img/intro-dark.png target=_blank alt=intro><img src=/posts/kde-discrete/img/intro-dark.png width=800></a></div><p>KDE is a simple and straightforward way to build a PDF, but it&rsquo;s not always the best one.
 In addition to my <a href=https://aakinshin.net/posts/kde-bw/>concerns about bandwidth selection</a>,
 continuous use of KDE creates an illusion that all distributions are smooth and continuous.
 In practice, it&rsquo;s not always true.</p><p>In the above picture, the distribution looks pretty continuous.
@@ -26,7 +362,8 @@ Also, we look at examples of corrupted density estimation plots for distribution
 Typically, such function is denoted as <span class="math inline">\(f(x)\)</span>.
 For example, for <a href=https://en.wikipedia.org/wiki/Exponential_distribution>exponential distribution</a>,
 <span class="math inline">\(f(x) = \lambda e^{-\lambda x}\)</span>.
-Here is how it looks like:</p><div class=row><div class=mx-auto><a href=/posts/kde-discrete/img/exp-pdf-light.png target=_blank class=imgldlink alt=exp-pdf><picture><source theme=dark srcset=/posts/kde-discrete/img/exp-pdf-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/kde-discrete/img/exp-pdf-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/kde-discrete/img/exp-pdf-light.png></picture></a></div></div><br><p>If we want to know the probability of falling a random variable <span class="math inline">\(X\)</span> inside an interval <span class="math inline">\([a;b]\)</span>,
+Here is how it looks like:</p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/kde-discrete/img/exp-pdf-light.png target=_blank alt=exp-pdf><img src=/posts/kde-discrete/img/exp-pdf-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/kde-discrete/img/exp-pdf-dark.png target=_blank alt=exp-pdf><img src=/posts/kde-discrete/img/exp-pdf-dark.png width=800></a></div><p>If we want to know the probability of falling a random variable <span class="math inline">\(X\)</span> inside an interval <span class="math inline">\([a;b]\)</span>,
 we should calculate the integral of <span class="math inline">\(f(x)\)</span> on this interval:</p><p><span class="math display">\[P[a \leq X \leq b] = \int_a^b f(x) dx.
 \]</span></p><p>In the case of absolutely continuous distributions with finite values of <span class="math inline">\(f(x)\)</span>,
 the probability of getting the given constant <span class="math inline">\(a\)</span> as a realization of random variable <span class="math inline">\(X\)</span> is zero:</p><p><span class="math display">\[P[X = a] = \int_a^a f(x) dx = 0.
@@ -37,17 +374,20 @@ In this case, we typically use
 PMF gives us the probability of getting a specific value.
 For example, here is PMF for the <a href=https://en.wikipedia.org/wiki/Poisson_distribution>Poisson distribution</a>:</p><p><span class="math display">\[f(k) = \frac{\lambda^k e^{-\lambda}}{k!} \quad \Big( k \in \mathcal{N}_0 \Big)
 \]</span></p><p>The easiest way to visualize a PMF is a histogram.
-Here is the corresponding histogram for the Poisson distribution:</p><div class=row><div class=mx-auto><a href=/posts/kde-discrete/img/poisson-pmf-light.png target=_blank class=imgldlink alt=poisson-pmf><picture><source theme=dark srcset=/posts/kde-discrete/img/poisson-pmf-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/kde-discrete/img/poisson-pmf-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/kde-discrete/img/poisson-pmf-light.png></picture></a></div></div><br><p>In the case of a discrete distribution,
+Here is the corresponding histogram for the Poisson distribution:</p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/kde-discrete/img/poisson-pmf-light.png target=_blank alt=poisson-pmf><img src=/posts/kde-discrete/img/poisson-pmf-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/kde-discrete/img/poisson-pmf-dark.png target=_blank alt=poisson-pmf><img src=/posts/kde-discrete/img/poisson-pmf-dark.png width=800></a></div><p>In the case of a discrete distribution,
 we typically don&rsquo;t have <a href=https://aakinshin.net/posts/misleading-histograms/>problems with the bin width and the offset</a>.
 In the simplest case, we can just display a bar per each discrete value.
 However, if the discretization step is too small, we will have to group values to get a meaningful image.</p><h3 id=kde-and-discrete-distributions>KDE and discrete distributions</h3><p>Treating discrete distributions as continuous distributions may lead to some undesired effects.
-Let&rsquo;s build a KDE<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> for a random sample from the Poisson distribution (<code>x = {2, 3, 0, 2, 1, 1, 2, 0, 1, 1}</code>):</p><div class=row><div class=mx-auto><a href=/posts/kde-discrete/img/poisson-kde-light.png target=_blank class=imgldlink alt=poisson-kde><picture><source theme=dark srcset=/posts/kde-discrete/img/poisson-kde-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/kde-discrete/img/poisson-kde-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/kde-discrete/img/poisson-kde-light.png></picture></a></div></div><br><p>Such visualization creates a false feeling of a continuous distribution.
+Let&rsquo;s build a KDE<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> for a random sample from the Poisson distribution (<code>x = {2, 3, 0, 2, 1, 1, 2, 0, 1, 1}</code>):</p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/kde-discrete/img/poisson-kde-light.png target=_blank alt=poisson-kde><img src=/posts/kde-discrete/img/poisson-kde-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/kde-discrete/img/poisson-kde-dark.png target=_blank alt=poisson-kde><img src=/posts/kde-discrete/img/poisson-kde-dark.png width=800></a></div><p>Such visualization creates a false feeling of a continuous distribution.
 We could think that this distribution is multimodal while it&rsquo;s actually unimodal.
 We could think that there is a high probability of real numbers while</p><h3 id=pdf-and-discrete-distributions>PDF and discrete distributions</h3><p>Strictly speaking, PDF is not defined for discrete distributions.
 However, we could try to define it using <a href=https://en.wikipedia.org/wiki/Dirac_delta_function>the Dirac delta function</a>:</p><p><span class="math display">\[\delta(x) = \begin{cases} +\infty, & x = 0 \\ 0, & x \ne 0 \end{cases},
 \]</span></p><p><span class="math display">\[\int_{-\infty}^\infty \delta(x) \, dx = 1.
 \]</span></p><p>For example, for the Poisson distribution, the PDF can be defined as follows:</p><p><span class="math display">\[f(x) = \sum_{i=0}^\infty \frac{\lambda^x e^{-\lambda}}{x!} \cdot \delta(x - i)
-\]</span></p><div class=row><div class=mx-auto><a href=/posts/kde-discrete/img/poisson-pdf-light.png target=_blank class=imgldlink alt=poisson-pdf><picture><source theme=dark srcset=/posts/kde-discrete/img/poisson-pdf-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/kde-discrete/img/poisson-pdf-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/kde-discrete/img/poisson-pdf-light.png></picture></a></div></div><br><p>Sometimes, such PDF is referenced as <em>generalized PDF</em>.
+\]</span></p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/kde-discrete/img/poisson-pdf-light.png target=_blank alt=poisson-pdf><img src=/posts/kde-discrete/img/poisson-pdf-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/kde-discrete/img/poisson-pdf-dark.png target=_blank alt=poisson-pdf><img src=/posts/kde-discrete/img/poisson-pdf-dark.png width=800></a></div><p>Sometimes, such PDF is referenced as <em>generalized PDF</em>.
 It allows working with continuous and discrete distributions the same way.</p><h3 id=pdf-and-mixed-distributions>PDF and mixed distributions</h3><p>We can also consider a mixture of a discrete distribution and a continuous distribution.
 One of the most famous examples of mixed discrete/continuous distributions is
 the <a href=https://en.wikipedia.org/wiki/Rectified_Gaussian_distribution>rectified Gaussian distribution</a>.
@@ -58,7 +398,8 @@ Here is the PDF of the rectified Gaussian distribution:</p><p><span class="math 
 \]</span></p><p>where
 <span class="math inline">\(\Phi(x)\)</span> is the CDF of the standard normal distribution,
 <span class="math inline">\(\delta(x)\)</span> is the Dirac delta function,
-<span class="math inline">\(\textrm{U}(x)\)</span> is the unit step function.</p><p>And here are the PDF plots of the standard Gaussian, rectified Gaussian, and truncated Gaussian distributions:</p><div class=row><div class=mx-auto><a href=/posts/kde-discrete/img/rectified-pdf-light.png target=_blank class=imgldlink alt=rectified-pdf><picture><source theme=dark srcset=/posts/kde-discrete/img/rectified-pdf-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/kde-discrete/img/rectified-pdf-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/kde-discrete/img/rectified-pdf-light.png></picture></a></div></div><br><p>The most important thing about the standard rectified Gaussian distribution is that
+<span class="math inline">\(\textrm{U}(x)\)</span> is the unit step function.</p><p>And here are the PDF plots of the standard Gaussian, rectified Gaussian, and truncated Gaussian distributions:</p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/kde-discrete/img/rectified-pdf-light.png target=_blank alt=rectified-pdf><img src=/posts/kde-discrete/img/rectified-pdf-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/kde-discrete/img/rectified-pdf-dark.png target=_blank alt=rectified-pdf><img src=/posts/kde-discrete/img/rectified-pdf-dark.png width=800></a></div><p>The most important thing about the standard rectified Gaussian distribution is that
 we get the value <code>0</code> with the probability <code>0.5</code>.
 It&rsquo;s hard to highlight this fact on the PDF plot, but we could try to do it using the Dirac delta function.</p><h3 id=real-life-distributions-from-continuous-to-discrete>Real-life distributions: from continuous to discrete</h3><p>There are many real-life distributions that we treat as continuous.
 However, in some cases, these distributions may accidentally become discrete.
@@ -72,13 +413,15 @@ we can treat this distribution as a discrete one.
 Indeed, it&rsquo;s impossible to obtain any measurements between <code>0.001</code> and <code>0.002</code> with such a resolution.
 It&rsquo;s important because when the number of observations is high,
 we can easily get <a href=https://aakinshin.net/posts/kde-bw/>the undersmoothing problem</a>.
-Here is another example of KDE<sup id=fnref1:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> that illustrates the problem:</p><div class=row><div class=mx-auto><a href=/posts/kde-discrete/img/real-pdf-light.png target=_blank class=imgldlink alt=real-pdf><picture><source theme=dark srcset=/posts/kde-discrete/img/real-pdf-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/kde-discrete/img/real-pdf-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/kde-discrete/img/real-pdf-light.png></picture></a></div></div><br><p>This estimation was formed based on a sample (N=3000) of short durations rounded to milliseconds.
+Here is another example of KDE<sup id=fnref1:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> that illustrates the problem:</p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/kde-discrete/img/real-pdf-light.png target=_blank alt=real-pdf><img src=/posts/kde-discrete/img/real-pdf-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/kde-discrete/img/real-pdf-dark.png target=_blank alt=real-pdf><img src=/posts/kde-discrete/img/real-pdf-dark.png width=800></a></div><p>This estimation was formed based on a sample (N=3000) of short durations rounded to milliseconds.
 Rounding leads to artificial discretization, which leads to undersmoothing.
 As a result, we have a serrated pattern instead of a nice-looking smooth approximation.</p><h3 id=real-life-distribution-from-continuous-to-mixed>Real-life distribution: from continuous to mixed</h3><p>Another source of problems is boundary values.
 For example, if a distribution consists of non-negative numbers,
 it&rsquo;s a typical situation when some of the measurements are equal to zero.
 If we have an upper limit for measurements,
-we could expect that some values are equal to this limit.</p><p>Here is another KDE<sup id=fnref2:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> based on a sample from the rectified Gaussian distribution:</p><div class=row><div class=mx-auto><a href=/posts/kde-discrete/img/real2-pdf-light.png target=_blank class=imgldlink alt=real2-pdf><picture><source theme=dark srcset=/posts/kde-discrete/img/real2-pdf-dark.png media="(prefers-color-scheme: dark)"><source theme=light srcset=/posts/kde-discrete/img/real2-pdf-light.png media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)"><img class="mx-auto d-block img-fluid" width=800 src=/posts/kde-discrete/img/real2-pdf-light.png></picture></a></div></div><br><p>The plot focuses our attention on the fact that most of the sample values are around zero,
+we could expect that some values are equal to this limit.</p><p>Here is another KDE<sup id=fnref2:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> based on a sample from the rectified Gaussian distribution:</p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/kde-discrete/img/real2-pdf-light.png target=_blank alt=real2-pdf><img src=/posts/kde-discrete/img/real2-pdf-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/kde-discrete/img/real2-pdf-dark.png target=_blank alt=real2-pdf><img src=/posts/kde-discrete/img/real2-pdf-dark.png width=800></a></div><p>The plot focuses our attention on the fact that most of the sample values are around zero,
 but it hides the shape of the distribution in the non-zero region.
 Also, it hides the ratio of zero and non-zero values.
 In fact, only a half of the values are zeros; another half has the shape of the truncated gaussian distribution.</p><h3 id=conclusion>Conclusion</h3><p>There are many real-life distributions that we consider continuous.
@@ -86,11 +429,6 @@ Even when they are truly continuous, the collected data may belong to
 a discrete distribution or mixed discrete/continuous distributions.
 If a sample contains tied values, the distribution is most probably has discrete features.
 In this case, you should be careful with density estimation.
-Some common ways to estimate density, like kernel density estimation, may mislead you using corrupted visualizations.</p><div class=footnotes role=doc-endnotes><hr><ol><li id=fn:1><p>All KDE plots in this post use the normal kernel and the Sheather & Jones bandwidth selector.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a>&#160;<a href=#fnref1:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a>&#160;<a href=#fnref2:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></div><br><br><div class=row><div class="justify-content-center share-block"><div class=share-title>Share:</div><div class=share-button><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fkde-discrete%2f&title=Kernel%20density%20estimation%20and%20discrete%20values" target=_blank title="Share on Reddit"><svg class="fai"><use xlink:href="/img/fa/all.svg#reddit"/></svg></a></div><div class=share-button><a href="https://twitter.com/intent/tweet?text=Kernel%20density%20estimation%20and%20discrete%20values&url=https%3a%2f%2faakinshin.net%2fposts%2fkde-discrete%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><svg class="fai"><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></div><div class=share-button><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fkde-discrete%2f" target=_blank title="Share on HackerNews"><svg class="fai"><use xlink:href="/img/fa/all.svg#hacker-news"/></svg></a></div><div class=share-button><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fkde-discrete%2f&title=Kernel%20density%20estimation%20and%20discrete%20values" target=_blank title="Add to Pocket"><svg class="fai"><use xlink:href="/img/fa/all.svg#get-pocket"/></svg></a></div></div></div></div><hr></div></div></main></div><footer class="blog-footer mt-auto"><div class=container><p>&copy; 2013&mdash;2022 Andrey Akinshin
-|
-<a href=https://github.com/AndreyAkinshin><svg class="fai"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a><a href=https://twitter.com/andrey_akinshin><svg class="fai"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a><a href=https://aakinshin.net/posts/index.xml><svg class="fai"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a>|
-<a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></p></div></footer><script src=https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js></script>
-<script src=https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js integrity="sha512-zPB79j2C+3sFS9zcA3vg/z6bVKzJVEyu9pY5w89akQRys76zpAT2t6S3wZKla3QQ14O5l/Yt0RUQ/DHXx82Y5g==" crossorigin=anonymous referrerpolicy=no-referrer></script>
-<script src=https://aakinshin.net/js/theme-after.min.29520a8e1176193da7ea4e6cb56cf9b3e634b867c9979234d8dafb5ab61dd494.js></script>
-<script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+Some common ways to estimate density, like kernel density estimation, may mislead you using corrupted visualizations.</p><div class=footnotes role=doc-endnotes><hr><ol><li id=fn:1><p>All KDE plots in this post use the normal kernel and the Sheather & Jones bandwidth selector.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a>&#160;<a href=#fnref1:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a>&#160;<a href=#fnref2:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></div></div><br><br><div class="flex flex-wrap justify-center items-center mb-5"><span>Share:</span><div class="text-4xl pl-3"><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fkde-discrete%2f&title=Kernel%20density%20estimation%20and%20discrete%20values" target=_blank title="Share on Reddit"><svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#reddit"/></svg></a></div><div class="text-4xl pl-3"><a href="https://twitter.com/intent/tweet?text=Kernel%20density%20estimation%20and%20discrete%20values&url=https%3a%2f%2faakinshin.net%2fposts%2fkde-discrete%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></div><div class="text-4xl pl-3"><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fkde-discrete%2f" target=_blank title="Share on HackerNews"><svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#hacker-news"/></svg></a></div><div class="text-4xl pl-3"><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fkde-discrete%2f&title=Kernel%20density%20estimation%20and%20discrete%20values" target=_blank title="Add to Pocket"><svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#get-pocket"/></svg></a></div></div></div></div><script>var themeToggleDarkIcon=document.getElementById("theme-toggle-dark-icon"),themeToggleBtn,themeToggleLightIcon=document.getElementById("theme-toggle-light-icon");const imagesDark=document.querySelectorAll(".img-dark"),imagesLight=document.querySelectorAll(".img-light");localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?(themeToggleLightIcon.classList.remove("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")})):(themeToggleDarkIcon.classList.remove("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")})),themeToggleBtn=document.getElementById("theme-toggle"),themeToggleBtn.addEventListener("click",function(){themeToggleDarkIcon.classList.toggle("hidden"),themeToggleLightIcon.classList.toggle("hidden"),imagesLight.forEach(e=>{e.classList.toggle("hidden")}),imagesDark.forEach(e=>{e.classList.toggle("hidden")}),localStorage.getItem("color-theme")?localStorage.getItem("color-theme")==="light"?(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark")):(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):document.documentElement.classList.contains("dark")?(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark"))})</script><footer class="z-20 p-4 md:p-6 mt-3 w-full border-t border-gray-200 shadow flex items-center justify-center dark:border-gray-600 bg-white dark:bg-zinc-800"><span class="dark:text-gray-400 text-center">© 2013—2022 Andrey Akinshin</span><ul class="flex flex-wrap items-center px-4 mb-1"><li><a href=https://github.com/AndreyAkinshin><svg class="fai fai-link w-5 h-5"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a></li><li><a href=https://twitter.com/andrey_akinshin><svg class="fai fai-link w-5 h-5"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></li><li><a href=https://aakinshin.net/posts/index.xml><svg class="fai fai-link w-5 h-5"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a></li></ul><div class=main-content><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js integrity="sha512-zPB79j2C+3sFS9zcA3vg/z6bVKzJVEyu9pY5w89akQRys76zpAT2t6S3wZKla3QQ14O5l/Yt0RUQ/DHXx82Y5g==" crossorigin=anonymous referrerpolicy=no-referrer></script>
+<script>anchors.options={placement:"left",icon:"§"},anchors.add("h1"),anchors.add("h2"),anchors.add("h3")</script><script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js></script></body></html>
