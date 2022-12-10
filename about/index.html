@@ -39,7 +39,7 @@
       }
       blockquote {
         @apply border-l-8 border-gray-300 bg-gray-100 dark:border-zinc-600 dark:bg-zinc-700;
-        @apply ml-4 my-4 pl-4 py-2;
+        @apply ml-4 my-4 px-4 py-2;
       }
 
        
@@ -88,254 +88,34 @@
       }
 
        
-      .anchorjs-link {
-        transition: all .25s linear;
-      }
-      *:hover > .anchorjs-link {
-        margin-left: -1.125em !important;
-      }
-
-       
       .block-example {
-        margin-top: 10px;
-        margin-bottom: 10px;
-      
-        margin-left: 10px;
-        padding-left: 10px;
-      
-        border-left: 5px solid;
-        border-color: grey;
-      }
-      .block-example-title::before {  
-        counter-increment: example;
-        content: "Example " counter(example);
-      }
-      body {
-        counter-reset: example;
+        @apply my-4 pl-3;
+        @apply border-l-8 border-gray-300 dark:border-zinc-600;
       }
 
        
-      #about-profiles svg {
-        margin-right: 0.7rem;
-      }
-      #about p, #about ul {
-        margin-top: 0rem;
-        margin-bottom: 0rem;
-      }
-      #about ol {
-        @apply ml-10;
-      }
       #about img {
-        height: 18px;
-        @apply inline-flex;
-      }
-      .about-compact p {
-        text-indent: 20px !important;
-        margin: 0 !important;
-      }
-
-       
-      .d-none { display:none; }
-
-       
-      code.has-jax {
-        -webkit-font-smoothing: antialiased;
-        background: inherit !important;
-        border: none !important;
-        font-size: 100%;
+        @apply inline-flex h-4;
       }
 
        
       .fai {
-        @apply inline-flex;
-        height: 1.2em;
-        width: 1.2em;
-        padding-right: 0.4em;
-        fill: currentColor;
+        @apply inline-flex h-[1.2em] w-[1.2em] pr-[0.4em] fill-current;
       }
       .fai-link {
         @apply hover:text-sky-400 dark:hover:text-blue-400;
       }
       .label-link .fai {
-        @apply pl-1 pb-1;
-        height: 1.5em;
-        width: 1.5em;
+        @apply pl-1 pb-1 h-[1.5em] w-[1.5em];
       }
 
        
       .chroma {
         @apply my-5 overflow-y-scroll;
-        border-radius: 3px;
-        border: 1px solid #C3CCD0;
-        padding: 0.5em;
+        @apply p-1 border rounded;
       }
-        .chroma { background-color: #ffffff }
-        .chroma .x {  }
-        .chroma .err { color: #a61717; background-color: #e3d2d2 }
-        .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
-        .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
-        .chroma .hl { display: block; width: 100%;background-color: #ffffcc }
-        .chroma .lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-        .chroma .ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-        .chroma .k { color: #000000; font-weight: bold }
-        .chroma .kc { color: #000000; font-weight: bold }
-        .chroma .kd { color: #000000; font-weight: bold }
-        .chroma .kn { color: #000000; font-weight: bold }
-        .chroma .kp { color: #000000; font-weight: bold }
-        .chroma .kr { color: #000000; font-weight: bold }
-        .chroma .kt { color: #445588; font-weight: bold }
-        .chroma .n {  }
-        .chroma .na { color: #008080 }
-        .chroma .nb { color: #0086b3 }
-        .chroma .bp { color: #999999 }
-        .chroma .nc { color: #445588; font-weight: bold }
-        .chroma .no { color: #008080 }
-        .chroma .nd { color: #3c5d5d; font-weight: bold }
-        .chroma .ni { color: #800080 }
-        .chroma .ne { color: #990000; font-weight: bold }
-        .chroma .nf { color: #990000; font-weight: bold }
-        .chroma .fm {  }
-        .chroma .nl { color: #990000; font-weight: bold }
-        .chroma .nn { color: #555555 }
-        .chroma .nx {  }
-        .chroma .py {  }
-        .chroma .nt { color: #000080 }
-        .chroma .nv { color: #008080 }
-        .chroma .vc { color: #008080 }
-        .chroma .vg { color: #008080 }
-        .chroma .vi { color: #008080 }
-        .chroma .vm {  }
-        .chroma .l {  }
-        .chroma .ld {  }
-        .chroma .s { color: #dd1144 }
-        .chroma .sa { color: #dd1144 }
-        .chroma .sb { color: #dd1144 }
-        .chroma .sc { color: #dd1144 }
-        .chroma .dl { color: #dd1144 }
-        .chroma .sd { color: #dd1144 }
-        .chroma .s2 { color: #dd1144 }
-        .chroma .se { color: #dd1144 }
-        .chroma .sh { color: #dd1144 }
-        .chroma .si { color: #dd1144 }
-        .chroma .sx { color: #dd1144 }
-        .chroma .sr { color: #009926 }
-        .chroma .s1 { color: #dd1144 }
-        .chroma .ss { color: #990073 }
-        .chroma .m { color: #009999 }
-        .chroma .mb { color: #009999 }
-        .chroma .mf { color: #009999 }
-        .chroma .mh { color: #009999 }
-        .chroma .mi { color: #009999 }
-        .chroma .il { color: #009999 }
-        .chroma .mo { color: #009999 }
-        .chroma .o { color: #000000; font-weight: bold }
-        .chroma .ow { color: #000000; font-weight: bold }
-        .chroma .p {  }
-        .chroma .c { color: #999988; font-style: italic }
-        .chroma .ch { color: #999988; font-style: italic }
-        .chroma .cm { color: #999988; font-style: italic }
-        .chroma .c1 { color: #999988; font-style: italic }
-        .chroma .cs { color: #999999; font-weight: bold; font-style: italic }
-        .chroma .cp { color: #999999; font-weight: bold; font-style: italic }
-        .chroma .cpf { color: #999999; font-weight: bold; font-style: italic }
-        .chroma .g {  }
-        .chroma .gd { color: #000000; background-color: #ffdddd }
-        .chroma .ge { color: #000000; font-style: italic }
-        .chroma .gr { color: #aa0000 }
-        .chroma .gh { color: #999999 }
-        .chroma .gi { color: #000000; background-color: #ddffdd }
-        .chroma .go { color: #888888 }
-        .chroma .gp { color: #555555 }
-        .chroma .gs { font-weight: bold }
-        .chroma .gu { color: #aaaaaa }
-        .chroma .gt { color: #aa0000 }
-        .chroma .gl { text-decoration: underline }
-        .chroma .w { color: #bbbbbb }
-        .dark.chroma { color: #f8f8f2; background-color: #272822 }
-        .dark .chroma { color: #f8f8f2; background-color: #272822 }
-        .dark .chroma .x {  }
-        .dark .chroma .err { color: #960050; background-color: #1e0010 }
-        .dark .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
-        .dark .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
-        .dark .chroma .hl { display: block; width: 100%;background-color: #ffffcc }
-        .dark .chroma .lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-        .dark .chroma .ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-        .dark .chroma .k { color: #66d9ef }
-        .dark .chroma .kc { color: #66d9ef }
-        .dark .chroma .kd { color: #66d9ef }
-        .dark .chroma .kn { color: #f92672 }
-        .dark .chroma .kp { color: #66d9ef }
-        .dark .chroma .kr { color: #66d9ef }
-        .dark .chroma .kt { color: #66d9ef }
-        .dark .chroma .n {  }
-        .dark .chroma .na { color: #a6e22e }
-        .dark .chroma .nb {  }
-        .dark .chroma .bp {  }
-        .dark .chroma .nc { color: #a6e22e }
-        .dark .chroma .no { color: #66d9ef }
-        .dark .chroma .nd { color: #a6e22e }
-        .dark .chroma .ni {  }
-        .dark .chroma .ne { color: #a6e22e }
-        .dark .chroma .nf { color: #a6e22e }
-        .dark .chroma .fm {  }
-        .dark .chroma .nl {  }
-        .dark .chroma .nn {  }
-        .dark .chroma .nx { color: #a6e22e }
-        .dark .chroma .py {  }
-        .dark .chroma .nt { color: #f92672 }
-        .dark .chroma .nv {  }
-        .dark .chroma .vc {  }
-        .dark .chroma .vg {  }
-        .dark .chroma .vi {  }
-        .dark .chroma .vm {  }
-        .dark .chroma .l { color: #ae81ff }
-        .dark .chroma .ld { color: #e6db74 }
-        .dark .chroma .s { color: #e6db74 }
-        .dark .chroma .sa { color: #e6db74 }
-        .dark .chroma .sb { color: #e6db74 }
-        .dark .chroma .sc { color: #e6db74 }
-        .dark .chroma .dl { color: #e6db74 }
-        .dark .chroma .sd { color: #e6db74 }
-        .dark .chroma .s2 { color: #e6db74 }
-        .dark .chroma .se { color: #ae81ff }
-        .dark .chroma .sh { color: #e6db74 }
-        .dark .chroma .si { color: #e6db74 }
-        .dark .chroma .sx { color: #e6db74 }
-        .dark .chroma .sr { color: #e6db74 }
-        .dark .chroma .s1 { color: #e6db74 }
-        .dark .chroma .ss { color: #e6db74 }
-        .dark .chroma .m { color: #ae81ff }
-        .dark .chroma .mb { color: #ae81ff }
-        .dark .chroma .mf { color: #ae81ff }
-        .dark .chroma .mh { color: #ae81ff }
-        .dark .chroma .mi { color: #ae81ff }
-        .dark .chroma .il { color: #ae81ff }
-        .dark .chroma .mo { color: #ae81ff }
-        .dark .chroma .o { color: #f92672 }
-        .dark .chroma .ow { color: #f92672 }
-        .dark .chroma .p {  }
-        .dark .chroma .c { color: #75715e }
-        .dark .chroma .ch { color: #75715e }
-        .dark .chroma .cm { color: #75715e }
-        .dark .chroma .c1 { color: #75715e }
-        .dark .chroma .cs { color: #75715e }
-        .dark .chroma .cp { color: #75715e }
-        .dark .chroma .cpf { color: #75715e }
-        .dark .chroma .g {  }
-        .dark .chroma .gd { color: #f92672 }
-        .dark .chroma .ge { font-style: italic }
-        .dark .chroma .gr {  }
-        .dark .chroma .gh {  }
-        .dark .chroma .gi { color: #a6e22e }
-        .dark .chroma .go {  }
-        .dark .chroma .gp {  }
-        .dark .chroma .gs { font-weight: bold }
-        .dark .chroma .gu { color: #75715e }
-        .dark .chroma .gt {  }
-        .dark .chroma .gl {  }
-        .dark .chroma .w {  }
     }
-  </style><script>localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")</script><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body><nav><div class="container flex flex-wrap items-center justify-between mx-auto max-w-6xl h-12 px-6"><div class="flex items-center justify-start justify-self-start"><div class="flex nav-item h-12 w-12 items-center justify-center"><a class=text-white href=https://aakinshin.net/><svg class="fai w-6 h-6"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/posts/>Posts</a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/about/>About</a></div></div><button id=theme-toggle type=button class="nav-item p-3 content-center justify-self-end"><svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001.0 1010.586 10.586z"/></svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1A1 1 0 119 4V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707A1 1 0 1113.536 5.05l.707-.707a1 1 0 011.414.0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707A1 1 0 004.343 5.757l.707.707zm1.414 8.486-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"/></svg></button></div></nav><div class="main container mx-auto max-w-6xl px-6"><div><h1 style=margin-bottom:-15px>Andrey Akinshin</h1><div id=about-profiles style=font-size:200%><a href=https://github.com/AndreyAkinshin><svg class="fai fai-link"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a><a href=https://twitter.com/andrey_akinshin><svg class="fai fai-link"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a><a href="https://scholar.google.com/citations?hl=en&user=rYVl83IAAAAJ&view_op=list_works&sortby=pubdate"><svg class="fai fai-link"><title>Google Scholar</title><use xlink:href="/img/fa/all.svg#graduation-cap"/></svg></a><a href=https://www.researchgate.net/profile/Andrey_Akinshin><svg class="fai fai-link"><title>ResearchGate</title><use xlink:href="/img/fa/all.svg#researchgate"/></svg></a><a href=http://stackoverflow.com/users/184842/AndreyAkinshin><svg class="fai fai-link"><title>StackOverflow</title><use xlink:href="/img/fa/all.svg#stack-overflow"/></svg></a><a href=http://www.linkedin.com/in/AndreyAkinshin><svg class="fai fai-link"><title>LinkedIn</title><use xlink:href="/img/fa/all.svg#linkedin-in"/></svg></a><a href=https://www.amazon.com/Andrey-Akinshin/e/B07QYFMFHY><svg class="fai fai-link"><title>Amazon</title><use xlink:href="/img/fa/all.svg#amazon"/></svg></a><a href=http://www.goodreads.com/AndreyAkinshin><svg class="fai fai-link"><title>GoodReads</title><use xlink:href="/img/fa/all.svg#goodreads"/></svg></a><a href=https://aakinshin.net/posts/index.xml><svg class="fai fai-link"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a></div><a href=mailto:andrey.akinshin@gmail.com>andrey.akinshin@gmail.com</a><hr><div class=main-content><div class="about-compact main-content"><p>Andrey Akinshin is a software developer,
+  </style><style>.block-example-title::before{counter-increment:example;content:"Example " counter(example)}body{counter-reset:example}code.has-jax{-webkit-font-smoothing:antialiased;background:inherit!important;border:none!important;font-size:100%}.anchorjs-link{transition:all .25s linear}*:hover>.anchorjs-link{margin-left:-1.125em!important}.chroma{background-color:#fff}.chroma .x{}.chroma .err{color:#a61717;background-color:#e3d2d2}.chroma .lntd{vertical-align:top;padding:0;margin:0;border:0}.chroma .lntable{border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block}.chroma .hl{display:block;width:100%;background-color:#ffc}.chroma .lnt{margin-right:.4em;padding:0 .4em;color:#7f7f7f}.chroma .ln{margin-right:.4em;padding:0 .4em;color:#7f7f7f}.chroma .k{color:#000;font-weight:700}.chroma .kc{color:#000;font-weight:700}.chroma .kd{color:#000;font-weight:700}.chroma .kn{color:#000;font-weight:700}.chroma .kp{color:#000;font-weight:700}.chroma .kr{color:#000;font-weight:700}.chroma .kt{color:#458;font-weight:700}.chroma .n{}.chroma .na{color:teal}.chroma .nb{color:#0086b3}.chroma .bp{color:#999}.chroma .nc{color:#458;font-weight:700}.chroma .no{color:teal}.chroma .nd{color:#3c5d5d;font-weight:700}.chroma .ni{color:purple}.chroma .ne{color:#900;font-weight:700}.chroma .nf{color:#900;font-weight:700}.chroma .fm{}.chroma .nl{color:#900;font-weight:700}.chroma .nn{color:#555}.chroma .nx{}.chroma .py{}.chroma .nt{color:navy}.chroma .nv{color:teal}.chroma .vc{color:teal}.chroma .vg{color:teal}.chroma .vi{color:teal}.chroma .vm{}.chroma .l{}.chroma .ld{}.chroma .s{color:#d14}.chroma .sa{color:#d14}.chroma .sb{color:#d14}.chroma .sc{color:#d14}.chroma .dl{color:#d14}.chroma .sd{color:#d14}.chroma .s2{color:#d14}.chroma .se{color:#d14}.chroma .sh{color:#d14}.chroma .si{color:#d14}.chroma .sx{color:#d14}.chroma .sr{color:#009926}.chroma .s1{color:#d14}.chroma .ss{color:#990073}.chroma .m{color:#099}.chroma .mb{color:#099}.chroma .mf{color:#099}.chroma .mh{color:#099}.chroma .mi{color:#099}.chroma .il{color:#099}.chroma .mo{color:#099}.chroma .o{color:#000;font-weight:700}.chroma .ow{color:#000;font-weight:700}.chroma .p{}.chroma .c{color:#998;font-style:italic}.chroma .ch{color:#998;font-style:italic}.chroma .cm{color:#998;font-style:italic}.chroma .c1{color:#998;font-style:italic}.chroma .cs{color:#999;font-weight:700;font-style:italic}.chroma .cp{color:#999;font-weight:700;font-style:italic}.chroma .cpf{color:#999;font-weight:700;font-style:italic}.chroma .g{}.chroma .gd{color:#000;background-color:#fdd}.chroma .ge{color:#000;font-style:italic}.chroma .gr{color:#a00}.chroma .gh{color:#999}.chroma .gi{color:#000;background-color:#dfd}.chroma .go{color:#888}.chroma .gp{color:#555}.chroma .gs{font-weight:700}.chroma .gu{color:#aaa}.chroma .gt{color:#a00}.chroma .gl{text-decoration:underline}.chroma .w{color:#bbb}.dark.chroma{color:#f8f8f2;background-color:#272822}.dark .chroma{color:#f8f8f2;background-color:#272822}.dark .chroma .x{}.dark .chroma .err{color:#960050;background-color:#1e0010}.dark .chroma .lntd{vertical-align:top;padding:0;margin:0;border:0}.dark .chroma .lntable{border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block}.dark .chroma .hl{display:block;width:100%;background-color:#ffc}.dark .chroma .lnt{margin-right:.4em;padding:0 .4em;color:#7f7f7f}.dark .chroma .ln{margin-right:.4em;padding:0 .4em;color:#7f7f7f}.dark .chroma .k{color:#66d9ef}.dark .chroma .kc{color:#66d9ef}.dark .chroma .kd{color:#66d9ef}.dark .chroma .kn{color:#f92672}.dark .chroma .kp{color:#66d9ef}.dark .chroma .kr{color:#66d9ef}.dark .chroma .kt{color:#66d9ef}.dark .chroma .n{}.dark .chroma .na{color:#a6e22e}.dark .chroma .nb{}.dark .chroma .bp{}.dark .chroma .nc{color:#a6e22e}.dark .chroma .no{color:#66d9ef}.dark .chroma .nd{color:#a6e22e}.dark .chroma .ni{}.dark .chroma .ne{color:#a6e22e}.dark .chroma .nf{color:#a6e22e}.dark .chroma .fm{}.dark .chroma .nl{}.dark .chroma .nn{}.dark .chroma .nx{color:#a6e22e}.dark .chroma .py{}.dark .chroma .nt{color:#f92672}.dark .chroma .nv{}.dark .chroma .vc{}.dark .chroma .vg{}.dark .chroma .vi{}.dark .chroma .vm{}.dark .chroma .l{color:#ae81ff}.dark .chroma .ld{color:#e6db74}.dark .chroma .s{color:#e6db74}.dark .chroma .sa{color:#e6db74}.dark .chroma .sb{color:#e6db74}.dark .chroma .sc{color:#e6db74}.dark .chroma .dl{color:#e6db74}.dark .chroma .sd{color:#e6db74}.dark .chroma .s2{color:#e6db74}.dark .chroma .se{color:#ae81ff}.dark .chroma .sh{color:#e6db74}.dark .chroma .si{color:#e6db74}.dark .chroma .sx{color:#e6db74}.dark .chroma .sr{color:#e6db74}.dark .chroma .s1{color:#e6db74}.dark .chroma .ss{color:#e6db74}.dark .chroma .m{color:#ae81ff}.dark .chroma .mb{color:#ae81ff}.dark .chroma .mf{color:#ae81ff}.dark .chroma .mh{color:#ae81ff}.dark .chroma .mi{color:#ae81ff}.dark .chroma .il{color:#ae81ff}.dark .chroma .mo{color:#ae81ff}.dark .chroma .o{color:#f92672}.dark .chroma .ow{color:#f92672}.dark .chroma .p{}.dark .chroma .c{color:#75715e}.dark .chroma .ch{color:#75715e}.dark .chroma .cm{color:#75715e}.dark .chroma .c1{color:#75715e}.dark .chroma .cs{color:#75715e}.dark .chroma .cp{color:#75715e}.dark .chroma .cpf{color:#75715e}.dark .chroma .g{}.dark .chroma .gd{color:#f92672}.dark .chroma .ge{font-style:italic}.dark .chroma .gr{}.dark .chroma .gh{}.dark .chroma .gi{color:#a6e22e}.dark .chroma .go{}.dark .chroma .gp{}.dark .chroma .gs{font-weight:700}.dark .chroma .gu{color:#75715e}.dark .chroma .gt{}.dark .chroma .gl{}.dark .chroma .w{}</style><script>localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")</script><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body><nav><div class="container flex flex-wrap items-center justify-between mx-auto max-w-6xl h-12 px-6"><div class="flex items-center justify-start justify-self-start"><div class="flex nav-item h-12 w-12 items-center justify-center"><a class=text-white href=https://aakinshin.net/><svg class="fai w-6 h-6"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/posts/>Posts</a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/about/>About</a></div></div><button id=theme-toggle type=button class="nav-item p-3 content-center justify-self-end"><svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001.0 1010.586 10.586z"/></svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1A1 1 0 119 4V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707A1 1 0 1113.536 5.05l.707-.707a1 1 0 011.414.0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707A1 1 0 004.343 5.757l.707.707zm1.414 8.486-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"/></svg></button></div></nav><div class="main container mx-auto max-w-6xl px-6"><div><h1 style=margin-bottom:-15px>Andrey Akinshin</h1><div id=about-profiles style=font-size:200%><a href=https://github.com/AndreyAkinshin><svg class="fai fai-link"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a><a href=https://twitter.com/andrey_akinshin><svg class="fai fai-link"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a><a href="https://scholar.google.com/citations?hl=en&user=rYVl83IAAAAJ&view_op=list_works&sortby=pubdate"><svg class="fai fai-link"><title>Google Scholar</title><use xlink:href="/img/fa/all.svg#graduation-cap"/></svg></a><a href=https://www.researchgate.net/profile/Andrey_Akinshin><svg class="fai fai-link"><title>ResearchGate</title><use xlink:href="/img/fa/all.svg#researchgate"/></svg></a><a href=http://stackoverflow.com/users/184842/AndreyAkinshin><svg class="fai fai-link"><title>StackOverflow</title><use xlink:href="/img/fa/all.svg#stack-overflow"/></svg></a><a href=http://www.linkedin.com/in/AndreyAkinshin><svg class="fai fai-link"><title>LinkedIn</title><use xlink:href="/img/fa/all.svg#linkedin-in"/></svg></a><a href=https://www.amazon.com/Andrey-Akinshin/e/B07QYFMFHY><svg class="fai fai-link"><title>Amazon</title><use xlink:href="/img/fa/all.svg#amazon"/></svg></a><a href=http://www.goodreads.com/AndreyAkinshin><svg class="fai fai-link"><title>GoodReads</title><use xlink:href="/img/fa/all.svg#goodreads"/></svg></a><a href=https://aakinshin.net/posts/index.xml><svg class="fai fai-link"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a></div><a href=mailto:andrey.akinshin@gmail.com>andrey.akinshin@gmail.com</a><hr><div class=main-content><div class="[&>p]:m-0 [&>p]:indent-6"><p>Andrey Akinshin is a software developer,
 an author of <a href=#posts>blog posts</a> and <a href=#publications>papers</a> about mathematics and programming,
 a frequent <a href=#talks>conference speaker</a> (100+ public talks).
 He is
@@ -758,56 +538,26 @@ Previously, he worked as a postdoctoral research fellow at the <a href=http://ww
 <span class=label>Text</span></li></ol><h3>2015</h3><ol><li value=1><a href=http://nbj.ru/publs/upgrade-modernizatsija-i-razvitie/2015/01/13/pasport-my-tebja-znaem/index.html>Passport, we know you!</a><br><i>National bank journal, January 13, 2015</i><br><span class=label>RU</span>
 <span class=label>Interview</span>
 <span class=label>Text</span></li></ol></section><hr><section><h2 id=open-source>Open Source</h2><svg class="fai text-lg mb-1 mr-0 pr-0"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg><b>GitHub:</b>
-<a href=https://github.com/AndreyAkinshin/>github.com/AndreyAkinshin</a><br><h3>Project Lead</h3><ul><li value><a href=https://github.com/dotnet/BenchmarkDotNet>dotnet/<b>BenchmarkDotNet</b></a> (<a href='https://github.com/dotnet/BenchmarkDotNet/commits?author=AndreyAkinshin'>commits</a>)<br><i>Powerful .NET library for benchmarking</i><br></li></ul><h3>Owner</h3><ul><li value><a href=https://github.com/AndreyAkinshin/perfolizer>AndreyAkinshin/<b>perfolizer</b></a> (<a href='https://github.com/AndreyAkinshin/perfolizer/commits?author=AndreyAkinshin'>commits</a>)<br><i>Performance analysis toolkit</i><br></li><li value><a href=https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template>AndreyAkinshin/<b>Russian-Phd-LaTeX-Dissertation-Template</b></a> (<a href='https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template/commits?author=AndreyAkinshin'>commits</a>)<br><i>LaTeX-template for russian PhD thesis</i><br></li><li value><a href=https://github.com/AndreyAkinshin/ggwaterfall>AndreyAkinshin/<b>ggwaterfall</b></a> (<a href='https://github.com/AndreyAkinshin/ggwaterfall/commits?author=AndreyAkinshin'>commits</a>)<br><i>R package with functions for drawing density and frequency trail waterfall plots</i><br></li><li value><a href=https://github.com/AndreyAkinshin/ProblemBook.NET>AndreyAkinshin/<b>ProblemBook.NET</b></a> (<a href='https://github.com/AndreyAkinshin/ProblemBook.NET/commits?author=AndreyAkinshin'>commits</a>)<br><i>Free book with .NET/C# problems</i><br></li><li value><a href=https://github.com/AndreyAkinshin/CultureInfoExplorer>AndreyAkinshin/<b>CultureInfoExplorer</b></a> (<a href='https://github.com/AndreyAkinshin/CultureInfoExplorer/commits?author=AndreyAkinshin'>commits</a>)<br><i>Explorer of CultureInfo instances in .NET</i><br></li><li value><a href=https://github.com/AndreyAkinshin/InteropDotNet>AndreyAkinshin/<b>InteropDotNet</b></a> (<a href='https://github.com/AndreyAkinshin/InteropDotNet/commits?author=AndreyAkinshin'>commits</a>)<br><i>Cross-platform AnyCPU P/Invoke for .NET</i><br></li><li value><a href=https://github.com/AndreyAkinshin/aakinshin.net>AndreyAkinshin/<b>aakinshin.net</b></a> (<a href='https://github.com/AndreyAkinshin/aakinshin.net/commits?author=AndreyAkinshin'>commits</a>)<br><i>aakinshin.net (Source code)</i><br></li><li value><a href=https://github.com/AndreyAkinshin/knockout-mvc>AndreyAkinshin/<b>knockout-mvc</b></a> (<a href='https://github.com/AndreyAkinshin/knockout-mvc/commits?author=AndreyAkinshin'>commits</a>)<br><i>Knockout.js wrapper for ASP.NET</i><br></li><li value><a href=https://github.com/AndreyAkinshin/CourseraDspWorkbook>AndreyAkinshin/<b>CourseraDspWorkbook</b></a> (<a href='https://github.com/AndreyAkinshin/CourseraDspWorkbook/commits?author=AndreyAkinshin'>commits</a>)<br><i>Workbook for Coursera DSP course</i><br></li></ul><h3>Contributor</h3><ul><li value><a href=https://github.com/dotnet/runtime>dotnet/<b>runtime</b></a> (<a href='https://github.com/dotnet/runtime/commits?author=AndreyAkinshin'>commits</a>)<br><i>.NET is a cross-platform runtime and libraries, for cloud, IoT and desktop apps. It includes a garbage collector, JIT compiler, primitive data types and class libraries</i><br></li><li value><a href=https://github.com/dotnet/coreclr>dotnet/<b>coreclr</b></a> (<a href='https://github.com/dotnet/coreclr/commits?author=AndreyAkinshin'>commits</a>)<br><i>This repo contains the .NET Core runtime, called CoreCLR, and the base library, called System.Private.Corelib (or mscorlib)</i><br></li><li value><a href=https://github.com/dotnet/corefx>dotnet/<b>corefx</b></a> (<a href='https://github.com/dotnet/corefx/commits?author=AndreyAkinshin'>commits</a>)<br><i>This repo contains the .NET Core foundational libraries, called CoreFX. It includes classes for collections, file systems, console, XML, async and many others</i><br></li><li value><a href=https://github.com/JetBrains/intellij-community>JetBrains/<b>intellij-community</b></a> (<a href='https://github.com/JetBrains/intellij-community/commits?author=AndreyAkinshin'>commits</a>)<br><i>IntelliJ IDEA Community Edition</i><br></li><li value><a href=https://github.com/mono/mono>mono/<b>mono</b></a> (<a href='https://github.com/mono/mono/commits?author=AndreyAkinshin'>commits</a>)<br><i>Mono open source ECMA CLI, C# and .NET implementation</i><br></li><li value><a href=https://github.com/NuGet/NuGet.Client>NuGet/<b>NuGet.Client</b></a> (<a href='https://github.com/NuGet/NuGet.Client/commits?author=AndreyAkinshin'>commits</a>)<br><i>Core client libraries for NuGet Services</i><br></li><li value><a href=https://github.com/nodatime/nodatime>nodatime/<b>nodatime</b></a> (<a href='https://github.com/nodatime/nodatime/commits?author=AndreyAkinshin'>commits</a>)<br><i>A better date and time API for .NET</i><br></li><li value><a href=https://github.com/charlesw/tesseract>charlesw/<b>tesseract</b></a> (<a href='https://github.com/charlesw/tesseract/commits?author=AndreyAkinshin'>commits</a>)<br><i>A .NET wrapper for tesseract-ocr</i><br></li><li value><a href=https://github.com/tmyroadctfig/twaindotnet>tmyroadctfig/<b>twaindotnet</b></a> (<a href='https://github.com/tmyroadctfig/twaindotnet/commits?author=AndreyAkinshin'>commits</a>)<br><i>.NET API for TWAIN</i><br></li><li value><a href=https://github.com/Code52/pretzel>Code52/<b>pretzel</b></a> (<a href='https://github.com/Code52/pretzel/commits?author=AndreyAkinshin'>commits</a>)<br><i>A site generation tool (and then some) for .NET platforms</i><br></li><li value><a href=https://github.com/chocolatey/chocolatey.org>chocolatey/<b>chocolatey.org</b></a> (<a href='https://github.com/chocolatey/chocolatey.org/commits?author=AndreyAkinshin'>commits</a>)<br><i>Chocolatey.org</i><br></li><li value><a href=https://github.com/jjrdk/ArchiMetrics>jjrdk/<b>ArchiMetrics</b></a> (<a href='https://github.com/jjrdk/ArchiMetrics/commits?author=AndreyAkinshin'>commits</a>)<br><i>Various code analysis tools for C#</i><br></li><li value><a href=https://github.com/finagle/finch>finagle/<b>finch</b></a> (<a href='https://github.com/finagle/finch/commits?author=AndreyAkinshin'>commits</a>)<br><i>Scala combinator library for building Finagle HTTP services</i><br></li><li value><a href=https://github.com/GitbookIO/gitbook>GitbookIO/<b>gitbook</b></a> (<a href='https://github.com/GitbookIO/gitbook/commits?author=AndreyAkinshin'>commits</a>)<br><i>Modern documentation format and toolchain using Git and Markdown</i><br></li><li value><a href=https://github.com/overthecs/overthecs.github.io>overthecs/<b>overthecs.github.io</b></a> (<a href='https://github.com/overthecs/overthecs.github.io/commits?author=AndreyAkinshin'>commits</a>)<br><i>Source code of OverAPI</i><br></li><li value><a href=https://github.com/yihui/knitr-examples>yihui/<b>knitr-examples</b></a> (<a href='https://github.com/yihui/knitr-examples/commits?author=AndreyAkinshin'>commits</a>)<br><i>A collection of knitr examples</i><br></li><li value><a href=https://github.com/ravendb/ravendb>ravendb/<b>ravendb</b></a> (<a href='https://github.com/ravendb/ravendb/commits?author=AndreyAkinshin'>commits</a>)<br><i>An ACID NoSQL Document Database</i><br></li><li value><a href=https://github.com/mfilippov/vimeo-dot-net>mfilippov/<b>vimeo-dot-net</b></a> (<a href='https://github.com/mfilippov/vimeo-dot-net/commits?author=AndreyAkinshin'>commits</a>)<br><i>A .NET wrapper for Vimeo API v3.0</i><br></li><li value><a href=https://github.com/dotnet/docs>dotnet/<b>docs</b></a> (<a href='https://github.com/dotnet/docs/commits?author=AndreyAkinshin'>commits</a>)<br><i>This repository contains .NET Documentation</i><br></li><li value><a href=https://github.com/mono/linker>mono/<b>linker</b></a> (<a href='https://github.com/mono/linker/commits?author=AndreyAkinshin'>commits</a>)<br><i>Mono linker</i><br></li><li value><a href=https://github.com/JetBrains/ideolog>JetBrains/<b>ideolog</b></a> (<a href='https://github.com/JetBrains/ideolog/commits?author=AndreyAkinshin'>commits</a>)<br><i>Interactive viewer for '.log' files</i><br></li><li value><a href=https://github.com/JetBrains/resharper-unity>JetBrains/<b>resharper-unity</b></a> (<a href='https://github.com/JetBrains/resharper-unity/commits?author=AndreyAkinshin'>commits</a>)<br><i>Unity support for both ReSharper and Rider</i><br></li><li value><a href=https://github.com/traff/pty4j>traff/<b>pty4j</b></a> (<a href='https://github.com/traff/pty4j/commits?author=AndreyAkinshin'>commits</a>)<br><i>Pty for Java</i><br></li><li value><a href=https://github.com/nwillc/ksvg>nwillc/<b>ksvg</b></a> (<a href='https://github.com/nwillc/ksvg/commits?author=AndreyAkinshin'>commits</a>)<br><i>A Multiplatform Kotlin SVG image DSL</i><br></li><li value><a href=https://github.com/KonH/LivelibExport>KonH/<b>LivelibExport</b></a> (<a href='https://github.com/KonH/LivelibExport/commits?author=AndreyAkinshin'>commits</a>)<br><i>Script that converts LiveLib reading list to csv</i><br></li><li value><a href=https://github.com/facebook/react-native>facebook/<b>react-native</b></a> (<a href='https://github.com/facebook/react-native/commits?author=AndreyAkinshin'>commits</a>)<br><i>A framework for building native apps with React</i><br></li></ul></section><hr><section><h3 id=enterprise>Enterprise programming</h3><p><strong>Favorite languages:</strong> C#, Kotlin, R, LaTeX<br><strong>Specialization:</strong> performance, benchmarking, algorithms, mathematics<br><br></p><p><img src=/img/icons/perpetuum.png alt>
-<a href=http://www.perpetuumsoft.com/>Perpetuum Software LLC</a>
+<a href=https://github.com/AndreyAkinshin/>github.com/AndreyAkinshin</a><br><h3>Project Lead</h3><ul><li value><a href=https://github.com/dotnet/BenchmarkDotNet>dotnet/<b>BenchmarkDotNet</b></a> (<a href='https://github.com/dotnet/BenchmarkDotNet/commits?author=AndreyAkinshin'>commits</a>)<br><i>Powerful .NET library for benchmarking</i><br></li></ul><h3>Owner</h3><ul><li value><a href=https://github.com/AndreyAkinshin/perfolizer>AndreyAkinshin/<b>perfolizer</b></a> (<a href='https://github.com/AndreyAkinshin/perfolizer/commits?author=AndreyAkinshin'>commits</a>)<br><i>Performance analysis toolkit</i><br></li><li value><a href=https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template>AndreyAkinshin/<b>Russian-Phd-LaTeX-Dissertation-Template</b></a> (<a href='https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template/commits?author=AndreyAkinshin'>commits</a>)<br><i>LaTeX-template for russian PhD thesis</i><br></li><li value><a href=https://github.com/AndreyAkinshin/ggwaterfall>AndreyAkinshin/<b>ggwaterfall</b></a> (<a href='https://github.com/AndreyAkinshin/ggwaterfall/commits?author=AndreyAkinshin'>commits</a>)<br><i>R package with functions for drawing density and frequency trail waterfall plots</i><br></li><li value><a href=https://github.com/AndreyAkinshin/ProblemBook.NET>AndreyAkinshin/<b>ProblemBook.NET</b></a> (<a href='https://github.com/AndreyAkinshin/ProblemBook.NET/commits?author=AndreyAkinshin'>commits</a>)<br><i>Free book with .NET/C# problems</i><br></li><li value><a href=https://github.com/AndreyAkinshin/CultureInfoExplorer>AndreyAkinshin/<b>CultureInfoExplorer</b></a> (<a href='https://github.com/AndreyAkinshin/CultureInfoExplorer/commits?author=AndreyAkinshin'>commits</a>)<br><i>Explorer of CultureInfo instances in .NET</i><br></li><li value><a href=https://github.com/AndreyAkinshin/InteropDotNet>AndreyAkinshin/<b>InteropDotNet</b></a> (<a href='https://github.com/AndreyAkinshin/InteropDotNet/commits?author=AndreyAkinshin'>commits</a>)<br><i>Cross-platform AnyCPU P/Invoke for .NET</i><br></li><li value><a href=https://github.com/AndreyAkinshin/aakinshin.net>AndreyAkinshin/<b>aakinshin.net</b></a> (<a href='https://github.com/AndreyAkinshin/aakinshin.net/commits?author=AndreyAkinshin'>commits</a>)<br><i>aakinshin.net (Source code)</i><br></li><li value><a href=https://github.com/AndreyAkinshin/knockout-mvc>AndreyAkinshin/<b>knockout-mvc</b></a> (<a href='https://github.com/AndreyAkinshin/knockout-mvc/commits?author=AndreyAkinshin'>commits</a>)<br><i>Knockout.js wrapper for ASP.NET</i><br></li><li value><a href=https://github.com/AndreyAkinshin/CourseraDspWorkbook>AndreyAkinshin/<b>CourseraDspWorkbook</b></a> (<a href='https://github.com/AndreyAkinshin/CourseraDspWorkbook/commits?author=AndreyAkinshin'>commits</a>)<br><i>Workbook for Coursera DSP course</i><br></li></ul><h3>Contributor</h3><ul><li value><a href=https://github.com/dotnet/runtime>dotnet/<b>runtime</b></a> (<a href='https://github.com/dotnet/runtime/commits?author=AndreyAkinshin'>commits</a>)<br><i>.NET is a cross-platform runtime and libraries, for cloud, IoT and desktop apps. It includes a garbage collector, JIT compiler, primitive data types and class libraries</i><br></li><li value><a href=https://github.com/dotnet/coreclr>dotnet/<b>coreclr</b></a> (<a href='https://github.com/dotnet/coreclr/commits?author=AndreyAkinshin'>commits</a>)<br><i>This repo contains the .NET Core runtime, called CoreCLR, and the base library, called System.Private.Corelib (or mscorlib)</i><br></li><li value><a href=https://github.com/dotnet/corefx>dotnet/<b>corefx</b></a> (<a href='https://github.com/dotnet/corefx/commits?author=AndreyAkinshin'>commits</a>)<br><i>This repo contains the .NET Core foundational libraries, called CoreFX. It includes classes for collections, file systems, console, XML, async and many others</i><br></li><li value><a href=https://github.com/JetBrains/intellij-community>JetBrains/<b>intellij-community</b></a> (<a href='https://github.com/JetBrains/intellij-community/commits?author=AndreyAkinshin'>commits</a>)<br><i>IntelliJ IDEA Community Edition</i><br></li><li value><a href=https://github.com/mono/mono>mono/<b>mono</b></a> (<a href='https://github.com/mono/mono/commits?author=AndreyAkinshin'>commits</a>)<br><i>Mono open source ECMA CLI, C# and .NET implementation</i><br></li><li value><a href=https://github.com/NuGet/NuGet.Client>NuGet/<b>NuGet.Client</b></a> (<a href='https://github.com/NuGet/NuGet.Client/commits?author=AndreyAkinshin'>commits</a>)<br><i>Core client libraries for NuGet Services</i><br></li><li value><a href=https://github.com/nodatime/nodatime>nodatime/<b>nodatime</b></a> (<a href='https://github.com/nodatime/nodatime/commits?author=AndreyAkinshin'>commits</a>)<br><i>A better date and time API for .NET</i><br></li><li value><a href=https://github.com/charlesw/tesseract>charlesw/<b>tesseract</b></a> (<a href='https://github.com/charlesw/tesseract/commits?author=AndreyAkinshin'>commits</a>)<br><i>A .NET wrapper for tesseract-ocr</i><br></li><li value><a href=https://github.com/tmyroadctfig/twaindotnet>tmyroadctfig/<b>twaindotnet</b></a> (<a href='https://github.com/tmyroadctfig/twaindotnet/commits?author=AndreyAkinshin'>commits</a>)<br><i>.NET API for TWAIN</i><br></li><li value><a href=https://github.com/Code52/pretzel>Code52/<b>pretzel</b></a> (<a href='https://github.com/Code52/pretzel/commits?author=AndreyAkinshin'>commits</a>)<br><i>A site generation tool (and then some) for .NET platforms</i><br></li><li value><a href=https://github.com/chocolatey/chocolatey.org>chocolatey/<b>chocolatey.org</b></a> (<a href='https://github.com/chocolatey/chocolatey.org/commits?author=AndreyAkinshin'>commits</a>)<br><i>Chocolatey.org</i><br></li><li value><a href=https://github.com/jjrdk/ArchiMetrics>jjrdk/<b>ArchiMetrics</b></a> (<a href='https://github.com/jjrdk/ArchiMetrics/commits?author=AndreyAkinshin'>commits</a>)<br><i>Various code analysis tools for C#</i><br></li><li value><a href=https://github.com/finagle/finch>finagle/<b>finch</b></a> (<a href='https://github.com/finagle/finch/commits?author=AndreyAkinshin'>commits</a>)<br><i>Scala combinator library for building Finagle HTTP services</i><br></li><li value><a href=https://github.com/GitbookIO/gitbook>GitbookIO/<b>gitbook</b></a> (<a href='https://github.com/GitbookIO/gitbook/commits?author=AndreyAkinshin'>commits</a>)<br><i>Modern documentation format and toolchain using Git and Markdown</i><br></li><li value><a href=https://github.com/overthecs/overthecs.github.io>overthecs/<b>overthecs.github.io</b></a> (<a href='https://github.com/overthecs/overthecs.github.io/commits?author=AndreyAkinshin'>commits</a>)<br><i>Source code of OverAPI</i><br></li><li value><a href=https://github.com/yihui/knitr-examples>yihui/<b>knitr-examples</b></a> (<a href='https://github.com/yihui/knitr-examples/commits?author=AndreyAkinshin'>commits</a>)<br><i>A collection of knitr examples</i><br></li><li value><a href=https://github.com/ravendb/ravendb>ravendb/<b>ravendb</b></a> (<a href='https://github.com/ravendb/ravendb/commits?author=AndreyAkinshin'>commits</a>)<br><i>An ACID NoSQL Document Database</i><br></li><li value><a href=https://github.com/mfilippov/vimeo-dot-net>mfilippov/<b>vimeo-dot-net</b></a> (<a href='https://github.com/mfilippov/vimeo-dot-net/commits?author=AndreyAkinshin'>commits</a>)<br><i>A .NET wrapper for Vimeo API v3.0</i><br></li><li value><a href=https://github.com/dotnet/docs>dotnet/<b>docs</b></a> (<a href='https://github.com/dotnet/docs/commits?author=AndreyAkinshin'>commits</a>)<br><i>This repository contains .NET Documentation</i><br></li><li value><a href=https://github.com/mono/linker>mono/<b>linker</b></a> (<a href='https://github.com/mono/linker/commits?author=AndreyAkinshin'>commits</a>)<br><i>Mono linker</i><br></li><li value><a href=https://github.com/JetBrains/ideolog>JetBrains/<b>ideolog</b></a> (<a href='https://github.com/JetBrains/ideolog/commits?author=AndreyAkinshin'>commits</a>)<br><i>Interactive viewer for '.log' files</i><br></li><li value><a href=https://github.com/JetBrains/resharper-unity>JetBrains/<b>resharper-unity</b></a> (<a href='https://github.com/JetBrains/resharper-unity/commits?author=AndreyAkinshin'>commits</a>)<br><i>Unity support for both ReSharper and Rider</i><br></li><li value><a href=https://github.com/traff/pty4j>traff/<b>pty4j</b></a> (<a href='https://github.com/traff/pty4j/commits?author=AndreyAkinshin'>commits</a>)<br><i>Pty for Java</i><br></li><li value><a href=https://github.com/nwillc/ksvg>nwillc/<b>ksvg</b></a> (<a href='https://github.com/nwillc/ksvg/commits?author=AndreyAkinshin'>commits</a>)<br><i>A Multiplatform Kotlin SVG image DSL</i><br></li><li value><a href=https://github.com/KonH/LivelibExport>KonH/<b>LivelibExport</b></a> (<a href='https://github.com/KonH/LivelibExport/commits?author=AndreyAkinshin'>commits</a>)<br><i>Script that converts LiveLib reading list to csv</i><br></li><li value><a href=https://github.com/facebook/react-native>facebook/<b>react-native</b></a> (<a href='https://github.com/facebook/react-native/commits?author=AndreyAkinshin'>commits</a>)<br><i>A framework for building native apps with React</i><br></li></ul></section><hr><section><h3 id=enterprise>Enterprise programming</h3><p><strong>Favorite languages:</strong> C#, Kotlin, R, LaTeX<br><strong>Specialization:</strong> performance, benchmarking, algorithms, mathematics<br><br></p><p><svg class="fai"><use xlink:href="/img/fa/all.svg#building"/></svg><a href=http://www.perpetuumsoft.com/>Perpetuum Software LLC</a>
 /
-<img src=/img/icons/enterra.png alt>
 <a href=http://www.enterra-inc.com/>Enterra, Inc</a>
 /
-<img src=/img/icons/notariat.png alt>
-<a href=http://notariatsoft.ru/>Adaptive technologies</a></p><ul><li><em>09/2010–08/2011:</em> Junior Software Developer<br></li><li><em>09/2011–01/2013:</em> Software Developer<br></li><li><em>02/2013–09/2016:</em> Lead Software Developer</li></ul><p><strong>Projects</strong></p><ul><li><img src=/img/icons/pv.png alt>
-<a href=http://passportvision.ru/>PassportVision</a>:
-Image recognition software based on OpenCV, Tesseract<br><em>Team Lead (architecture design, recognition algorithms)</em></li><li><img src=/img/icons/grapholite.png alt>
-<a href=http://grapholite.com/>Grapholite</a>:
-Diagram editor for
-<a href=http://apps.microsoft.com/windows/app/grapholite-diagrams-pro/99164828-b985-44ad-af71-58827d8d8a13><img src=/img/icons/windows8.png alt="Windows 8" title="Windows 8/10"></a>
-<a href=http://www.windowsphone.com/en-us/store/app/grapholite-diagrams-phone-edition/4e89fe82-db21-45c5-a284-8de9a443fb70><img src=/img/icons/winphone.png alt="Windows Phone" title="Windows Phone"></a>
-<a href=https://grapholite.com/Download/Grapholite.msi><img src=/img/icons/wpf.png alt=WPF title=WPF></a>
-<a href=https://grapholite.com/Designer><img src=/img/icons/silverlight.png alt=Silverlight title=Silverlight></a>
-<a href="https://itunes.apple.com/us/app/grapholite-diagrams-flow-charts/id954302708?ls=1&mt=8"><img src=/img/icons/ios.png alt=iPad title=iPad></a>
-<a href="https://play.google.com/store/apps/details?id=com.grapholite.diagramsdemo"><img src=/img/icons/android.png alt=Android title=Android></a>
-(an analogue of MS Visio).<br><em>Developer (algorithm development, mathematics, architecture design)</em></li><li><img src=/img/icons/knockout-mvc.png alt>
-<a href=http://knockoutmvc.com/>Knockout MVC</a>:
-ASP.NET MVC wrapper for knockout.js<br><em>Main developer (architecture design, API, client/server logic, official site, documentation, etc.)</em></li><li><img src=/img/icons/ui-controls.png alt>
-<a href=http://www.perpetuumsoft.com/Windows8-UI-Controls.aspx>UI Controls for Windows 8</a>:
-A set of UI controls that will help develop true Windows Store application faster<br><em>Main developer (architecture design, API, XAML-layout, demo project, documentation, etc.)</em><br><br></li></ul><p><img src=/img/icons/jetbrains.png alt>
-<a href=https://www.jetbrains.com/>JetBrains</a></p><ul><li><em>10/2015–12/2020:</em> Software Developer</li><li><em>01/2021–03/2022:</em> Performance Lead</li></ul><p><strong>Projects</strong></p><ul><li><img src=/img/icons/rider.png alt>
-<a href=https://www.jetbrains.com/rider/>Rider</a>:
-A cross-platform .NET IDE based on the IntelliJ platform and ReSharper<br><em>Maintainer of the NuGet and Unit Testing subsystems</em><br><em>Author of a performance testing framework and a performance monitoring service</em><br><br></li></ul><p><img src=/img/icons/huawei.png alt>
-<a href=https://www.huawei.com/en/corporate-information/research-development>Huawei Research</a></p><ul><li><em>06/2022–09/2022:</em> Mathematician<br><br></li></ul><p><img src=/img/icons/jetbrains.png alt>
-<a href=https://www.jetbrains.com/>JetBrains</a></p><ul><li><em>11/2022–Present:</em> Senior Performance Engineer</li></ul><p><strong>Projects</strong></p><ul><li><img src=/img/icons/rider.png alt>
-<a href=https://www.jetbrains.com/rider/>Rider</a>:
-A cross-platform .NET IDE based on the IntelliJ platform and ReSharper<br></li></ul></section><hr><section><h3 id=science>Science</h3><p><em>Ph.D. in Mathematics and Computer Science</em><br><br></p><p><img src=/img/icons/math-nsc.png alt>
-<a href=http://math.nsc.ru/english.html>Sobolev Institute of Mathematics SB RAS</a>, Laboratory of Inverse Problems of Mathematical Physics (Novosibirsk, Russia)<br></p><ul><li><em>08/2012–06/2014:</em> Engineer</li><li><em>07/2014–12/2016:</em> Research scientist</li></ul><p><strong>Areas of expertise:</strong> mathematical biology, gene networks, differential equations with delayed argument, bifurcation theory.<br><strong>Selected scholarships and grants</strong></p><ul><li><em>01/2012–12/2014:</em> The grant <a href=http://www.rfbr.ru/rffi/portal/project_search/o_387745>RFBR 12-01-00074</a> “Direct and inverse problems of gene networks mathematical modeling”<br></li><li><em>07/2012–07/2014:</em> The scholarships <a href="https://grants.extech.ru/grants/res/winners.php?OZ=5&TZ=U&year=2012">SP-561.2012.5</a> of the President of Russian Federation, direction: “Strategic information technology, including the creation of supercomputers and software development” (“Numerical methods for modeling and analyzing of gene networks”)<br></li><li><em>01/2015–12/2017:</em> The grant <a href=http://www.rfbr.ru/rffi/portal/project_search/o_1999519>RFBR 15-01-00745 A</a> “Dynamic characteristics of gene networks models”</li><li><em>01/2018-12/2020:</em> The grant <a href=http://www.rfbr.ru/rffi/portal/project_search/o_2070395>RFBR 18-01-00057 A</a> “Ring structures in gene network models”<br><br></li></ul><p><img src=/img/icons/weizmann.png alt>
-<a href=http://www.weizmann.ac.il/>Weizmann Institute of Science</a>, <a href=http://wws.weizmann.ac.il/math/>Faculty of Mathematics and Computer Science</a> (Rehovot, Israel)</p><ul><li><em>10/2014–09/2016:</em> Postdoctoral Research Fellow</li></ul><p><strong>Areas of expertise:</strong> digital signal processing, Fourier transform, Gibbs phenomenon, Prony systems.</p></section><hr><section><h3 id=competitive>Competitive programming</h3><p><strong>Selected contests (2002-2009)</strong></p><ul><li><em>04/2006:</em>
-<img src=/img/icons/acm-icpc.png alt>
+<a href=http://notariatsoft.ru/>Adaptive technologies</a></p><ul><li><em>09/2010–08/2011:</em> Junior Software Developer<br></li><li><em>09/2011–01/2013:</em> Software Developer<br></li><li><em>02/2013–09/2016:</em> Lead Software Developer</li></ul><p><strong>Projects</strong></p><ul><li><a href=http://passportvision.ru/>PassportVision</a>:
+Image recognition software based on OpenCV, Tesseract<br><em>Team Lead (architecture design, recognition algorithms)</em></li><li><a href=http://grapholite.com/>Grapholite</a>:
+Multiplatform diagram editor (an analogue of MS Visio).<br><em>Developer (algorithm development, mathematics, architecture design)</em></li><li><a href=http://knockoutmvc.com/>Knockout MVC</a>:
+ASP.NET MVC wrapper for knockout.js<br><em>Main developer (architecture design, API, client/server logic, official site, documentation, etc.)</em></li><li><a href=http://www.perpetuumsoft.com/Windows8-UI-Controls.aspx>UI Controls for Windows 8</a>:
+A set of UI controls that will help develop true Windows Store application faster<br><em>Main developer (architecture design, API, XAML-layout, demo project, documentation, etc.)</em><br><br></li></ul><p><svg class="fai"><use xlink:href="/img/fa/all.svg#building"/></svg><a href=https://www.jetbrains.com/>JetBrains</a></p><ul><li><em>10/2015–12/2020:</em> Software Developer</li><li><em>01/2021–03/2022:</em> Performance Lead</li></ul><p><strong>Projects</strong></p><ul><li><a href=https://www.jetbrains.com/rider/>Rider</a>:
+A cross-platform .NET IDE based on the IntelliJ platform and ReSharper<br><em>Maintainer of the NuGet and Unit Testing subsystems</em><br><em>Author of a performance testing framework and a performance monitoring service</em><br><br></li></ul><p><svg class="fai"><use xlink:href="/img/fa/all.svg#building"/></svg><a href=https://www.huawei.com/en/corporate-information/research-development>Huawei Research</a></p><ul><li><em>06/2022–09/2022:</em> Mathematician<br><br></li></ul><p><svg class="fai"><use xlink:href="/img/fa/all.svg#building"/></svg><a href=https://www.jetbrains.com/>JetBrains</a></p><ul><li><em>11/2022–Present:</em> Senior Performance Engineer</li></ul><p><strong>Projects</strong></p><ul><li><a href=https://www.jetbrains.com/rider/>Rider</a>:
+A cross-platform .NET IDE based on the IntelliJ platform and ReSharper<br></li></ul></section><hr><section><h3 id=science>Science</h3><p><em>Ph.D. in Mathematics and Computer Science</em><br><br></p><p><svg class="fai"><use xlink:href="/img/fa/all.svg#building"/></svg><a href=http://math.nsc.ru/english.html>Sobolev Institute of Mathematics SB RAS</a>, Laboratory of Inverse Problems of Mathematical Physics (Novosibirsk, Russia)<br></p><ul><li><em>08/2012–06/2014:</em> Engineer</li><li><em>07/2014–12/2016:</em> Research scientist</li></ul><p><strong>Areas of expertise:</strong> mathematical biology, gene networks, differential equations with delayed argument, bifurcation theory.<br><strong>Selected scholarships and grants</strong></p><ul><li><em>01/2012–12/2014:</em> The grant <a href=http://www.rfbr.ru/rffi/portal/project_search/o_387745>RFBR 12-01-00074</a> “Direct and inverse problems of gene networks mathematical modeling”<br></li><li><em>07/2012–07/2014:</em> The scholarships <a href="https://grants.extech.ru/grants/res/winners.php?OZ=5&TZ=U&year=2012">SP-561.2012.5</a> of the President of Russian Federation, direction: “Strategic information technology, including the creation of supercomputers and software development” (“Numerical methods for modeling and analyzing of gene networks”)<br></li><li><em>01/2015–12/2017:</em> The grant <a href=http://www.rfbr.ru/rffi/portal/project_search/o_1999519>RFBR 15-01-00745 A</a> “Dynamic characteristics of gene networks models”</li><li><em>01/2018-12/2020:</em> The grant <a href=http://www.rfbr.ru/rffi/portal/project_search/o_2070395>RFBR 18-01-00057 A</a> “Ring structures in gene network models”<br><br></li></ul><p><svg class="fai"><use xlink:href="/img/fa/all.svg#building"/></svg><a href=http://www.weizmann.ac.il/>Weizmann Institute of Science</a>, <a href=http://wws.weizmann.ac.il/math/>Faculty of Mathematics and Computer Science</a> (Rehovot, Israel)</p><ul><li><em>10/2014–09/2016:</em> Postdoctoral Research Fellow</li></ul><p><strong>Areas of expertise:</strong> digital signal processing, Fourier transform, Gibbs phenomenon, Prony systems.</p></section><hr><section><h3 id=competitive>Competitive programming</h3><p><strong>Selected contests (2002-2009)</strong></p><ul><li><em>04/2006:</em>
 Gold medal at
 Final of Russian Olympiad in Informatics <a href=http://neerc.ifmo.ru/school/archive/2005-2006/ru-olymp-roi-2006-standings.html>ROI 2006</a> (Kislovodsk)<br></li><li><em>04/2008:</em>
-<img src=/img/icons/acm-icpc.png alt>
 Certified participant at
 <a href=http://icpc.baylor.edu/community/results-2008>ACM International Collegiate Programming Contest 2008</a> (Canada)<br></li><li><em>04/2009:</em>
-<img src=/img/icons/acm-icpc.png alt>
 Silver medal at
 <a href=http://icpc.baylor.edu/community/results-2009>ACM International Collegiate Programming Contest 2009</a> (Sweden)<br></li></ul></section><hr><section><h3 id=teaching>Teaching</h3><ul><li><em>09/2006–05/2012:</em>
-<img src=/img/icons/s42.png alt>
 Coach of competitive programming and mathematics teams in Barnaul <a href=http://gymnasium42.ru/>Gymnasium №42</a>.</li><li><em>09/2009–09/2016:</em>
-<img src=/img/icons/aeli.png alt>
 Senior lecturer of computer science and mathematics in Altai Economics and Law Institute, Department of general mathematical and scientific disciplines.</li><li><em>09/2011–11/2011:</em>
-<img src=/img/icons/ministry.png alt>
-Lecturer under the Russian federal program F-263 №4 “Specialized training and retraining of specialists at the centers of education and development in information technology”.</li></ul></section><hr><section><h3 id=education>Education</h3><p><img src=/img/icons/astu.png alt>
-<a href=http://www.en.altstu.ru/>I.I. Polzunov Altai state technical university</a>, <a href=http://www.altstu.ru/structure/faculty/fit/>Faculty of Information Technologies</a> (Barnaul, Russia)<br></p><ul><li><em>09/2006–06/2011:</em> Student, specialty <a href=http://www.altstu.ru/entrant/speciality/0026/>230105</a> “Software for Computers and Automated System”.<br>Honours degree, 5.0 GPA, AltSTU student of the year 2009, head of the group.</li><li><em>08/2011–12/2013:</em> Ph.D. student, specialty: <a href=https://vak.gov.by/node/1080>05.13.18</a> “Mathematical modeling, numeric methods, and software systems”.<br>Ph.D. thesis <a href=https://dlib.rsl.ru/01005540613>“Mathematical and numerical modeling of gene networks artificial regulatory circuits”</a><br>(defended in <a href=https://icmmg.nsc.ru/en>Institute of Computational Mathematics and Mathematical Geophysics SB RAS</a>, December 2013).</li></ul></section><hr><section><h3 id=certificates>Certificates and Awards</h3><p><strong><a href=https://mvp.microsoft.com/en-us/PublicProfile/5001348>Microsoft MVP (Most Valuable Professional)</a></strong></p><ul><li>2015</li><li>2016</li><li>2017-2018</li><li>2018-2019<br><br></li></ul><p><strong>Russian state registration certificates of Computer Programs</strong></p><ul><li><img src=/img/icons/ministry.png alt>
-Phase Portrait Analyzer
-(Russian state registration certificate of Computer Programs <a href="http://www1.fips.ru/fips_servl/fips_servlet?DB=EVM&rn=673&DocNumber=2013660415&TypeFile=html">№2013660415</a>)<br><em>Software for analyzing of some nonlinear differential equation system</em></li><li><img src=/img/icons/ministry.png alt>
-Neuro Biomarker Analyzer
+Lecturer under the Russian federal program F-263 №4 “Specialized training and retraining of specialists at the centers of education and development in information technology”.</li></ul></section><hr><section><h3 id=education>Education</h3><p><a href=http://www.en.altstu.ru/>I.I. Polzunov Altai state technical university</a>, <a href=http://www.altstu.ru/structure/faculty/fit/>Faculty of Information Technologies</a> (Barnaul, Russia)<br></p><ul><li><em>09/2006–06/2011:</em> Student, specialty <a href=http://www.altstu.ru/entrant/speciality/0026/>230105</a> “Software for Computers and Automated System”.<br>Honours degree, 5.0 GPA, AltSTU student of the year 2009, head of the group.</li><li><em>08/2011–12/2013:</em> Ph.D. student, specialty: <a href=https://vak.gov.by/node/1080>05.13.18</a> “Mathematical modeling, numeric methods, and software systems”.<br>Ph.D. thesis <a href=https://dlib.rsl.ru/01005540613>“Mathematical and numerical modeling of gene networks artificial regulatory circuits”</a><br>(defended in <a href=https://icmmg.nsc.ru/en>Institute of Computational Mathematics and Mathematical Geophysics SB RAS</a>, December 2013).</li></ul></section><hr><section><h3 id=certificates>Certificates and Awards</h3><p><strong><a href=https://mvp.microsoft.com/en-us/PublicProfile/5001348>Microsoft MVP (Most Valuable Professional)</a></strong></p><ul><li>2015</li><li>2016</li><li>2017-2018</li><li>2018-2019<br><br></li></ul><p><strong>Russian state registration certificates of Computer Programs</strong></p><ul><li>Phase Portrait Analyzer
+(Russian state registration certificate of Computer Programs <a href="http://www1.fips.ru/fips_servl/fips_servlet?DB=EVM&rn=673&DocNumber=2013660415&TypeFile=html">№2013660415</a>)<br><em>Software for analyzing of some nonlinear differential equation system</em></li><li>Neuro Biomarker Analyzer
 (Russian state registration certificate of Computer Programs <a href=http://www1.fips.ru/Archive/EVM/2015/2015.03.20/DOC/RUNW/000/002/015/612/396/document.pdf>№2015612396</a>)<br><em>Software for the diagnostic and prognostic values evaluation of biochemical parameters of serum biomarkers in peripheral blood for the differential diagnosis of neurological syndromes of lumbar degenerative disc disease</em><br><br></li></ul><p><strong>Microsoft</strong></p><ul><li>Microsoft Certified Professional (MCP): <a href=/data/certificates/mcp.pdf>certificate</a></li><li><a href=https://www.microsoft.com/learning/en-us/exam-70-483.aspx>Programming in C# Specialist (70-483)</a>: <a href=/data/certificates/ms-70-483.pdf>certificate</a><br><br></li></ul><p><b><a href=https://www.coursera.org/specialization/jhudatascience/1>Coursera: The Data Science Specialization</a></b><br></p><ol><li><a href=https://www.coursera.org/course/datascitoolbox>The Data Scientist’s Toolbox</a>: <a href=https://www.coursera.org/records/DjNvsvmPV9xCbVp8>certificate (verifiable)</a></li><li><a href=https://www.coursera.org/course/rprog>R Programming</a>: <a href=https://www.coursera.org/records/HYm8MNbAKs4VF2n6>certificate (verifiable)</a></li><li><a href=https://www.coursera.org/course/getdata>Getting and Cleaning Data</a>: <a href=https://www.coursera.org/records/mdbQY6K5KGT2YLnu>certificate (verifiable)</a></li><li><a href=https://www.coursera.org/course/exdata>Exploratory Data Analysis</a>: <a href=https://www.coursera.org/records/wbRpVCv3cbGA366h>certificate (verifiable)</a></li><li><a href=https://www.coursera.org/course/repdata>Reproducible Research</a>: <a href=https://www.coursera.org/records/9Dn88n69GSBgdqRq>certificate (verifiable)</a></li><li><a href=https://www.coursera.org/course/statinference>Statistical Inference</a>: <a href=https://www.coursera.org/records/SrwJ9BzYnJvCqFhf>certificate (verifiable)</a></li><li><a href=https://www.coursera.org/course/regmods>Regression Models</a>: <a href=https://www.coursera.org/records/VCYRT4KkCtg6RvDb>certificate (verifiable)</a></li><li><a href=https://www.coursera.org/course/predmachlearn>Practical Machine Learning</a>: <a href=https://www.coursera.org/records/MSqb7c4BNBNsh2r6>certificate (verifiable)</a></li><li><a href=https://www.coursera.org/course/devdataprod>Developing Data Products</a>: <a href=https://www.coursera.org/records/sGb9a2xXgvKTX7J7>certificate (verifiable)</a></li><li><a href=https://www.coursera.org/course/dsscapstone>Data Science Capstone</a>: <a href=https://www.coursera.org/account/accomplishments/records/6GSQ7S36nRUQ7YDn>certificate (verifiable)</a></li></ol><p><strong>Coursera</strong></p><ul><li><a href=https://www.coursera.org/course/usablesec>Usable Security</a>: <a href=https://www.coursera.org/account/accomplishments/records/HercA2dcqGaEpKsm>certificate (verifiable)</a></li><li><a href=https://www.coursera.org/course/softwaresec>Software Security</a>: <a href=https://www.coursera.org/account/accomplishments/records/CESXRmrpvMM4kbsd>certificate (verifiable)</a></li><li><a href=https://www.coursera.org/learn/cryptography>Cryptography</a>: <a href=https://www.coursera.org/account/accomplishments/records/KYELW2LJ54AL>certificate (verifiable)</a></li><li><a href=https://www.coursera.org/learn/hardware-security/>Hardware Security</a>: <a href=https://www.coursera.org/account/accomplishments/records/NRVPDVRLFTJA>certificate (verifiable)</a></li><li><a href=https://www.coursera.org/course/dsp>Digital Signal Processing</a>: <a href=https://www.coursera.org/account/accomplishments/records/SjLYjhw5dwvz3fFR>certificate (verifiable)</a></li><li><a href=https://www.coursera.org/course/sysbio>Introduction to Systems Biology</a>: <a href=https://www.coursera.org/records/vfkb32TKmLapxqJN>certificate (verifiable)</a></li><li><a href=https://www.coursera.org/course/latex>Introduction to LaTeX</a>: <a href=https://www.coursera.org/records/t8gYgHqbtKs3pygc>certificate (verifiable)</a></li></ul></section></div></div></div><script>var themeToggleDarkIcon=document.getElementById("theme-toggle-dark-icon"),themeToggleBtn,themeToggleLightIcon=document.getElementById("theme-toggle-light-icon");const imagesDark=document.querySelectorAll(".img-dark"),imagesLight=document.querySelectorAll(".img-light");localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?(themeToggleLightIcon.classList.remove("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")})):(themeToggleDarkIcon.classList.remove("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")})),themeToggleBtn=document.getElementById("theme-toggle"),themeToggleBtn.addEventListener("click",function(){themeToggleDarkIcon.classList.toggle("hidden"),themeToggleLightIcon.classList.toggle("hidden"),imagesLight.forEach(e=>{e.classList.toggle("hidden")}),imagesDark.forEach(e=>{e.classList.toggle("hidden")}),localStorage.getItem("color-theme")?localStorage.getItem("color-theme")==="light"?(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark")):(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):document.documentElement.classList.contains("dark")?(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark"))})</script><footer class="z-20 p-4 md:p-6 mt-3 w-full border-t border-gray-200 shadow flex items-center justify-center dark:border-gray-600 bg-white dark:bg-zinc-800"><span class="dark:text-gray-400 text-center">© 2013—2022 Andrey Akinshin</span><ul class="flex flex-wrap items-center px-4 mb-1"><li><a href=https://github.com/AndreyAkinshin><svg class="fai fai-link w-5 h-5"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a></li><li><a href=https://twitter.com/andrey_akinshin><svg class="fai fai-link w-5 h-5"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></li><li><a href=https://aakinshin.net/posts/index.xml><svg class="fai fai-link w-5 h-5"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a></li></ul><div class=main-content><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js integrity="sha512-zPB79j2C+3sFS9zcA3vg/z6bVKzJVEyu9pY5w89akQRys76zpAT2t6S3wZKla3QQ14O5l/Yt0RUQ/DHXx82Y5g==" crossorigin=anonymous referrerpolicy=no-referrer></script>
 <script>anchors.options={placement:"left",icon:"§"},anchors.add("h1"),anchors.add("h2"),anchors.add("h3")</script></body></html>

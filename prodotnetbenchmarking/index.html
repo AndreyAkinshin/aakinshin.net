@@ -39,7 +39,7 @@
       }
       blockquote {
         @apply border-l-8 border-gray-300 bg-gray-100 dark:border-zinc-600 dark:bg-zinc-700;
-        @apply ml-4 my-4 pl-4 py-2;
+        @apply ml-4 my-4 px-4 py-2;
       }
 
        
@@ -88,254 +88,34 @@
       }
 
        
-      .anchorjs-link {
-        transition: all .25s linear;
-      }
-      *:hover > .anchorjs-link {
-        margin-left: -1.125em !important;
-      }
-
-       
       .block-example {
-        margin-top: 10px;
-        margin-bottom: 10px;
-      
-        margin-left: 10px;
-        padding-left: 10px;
-      
-        border-left: 5px solid;
-        border-color: grey;
-      }
-      .block-example-title::before {  
-        counter-increment: example;
-        content: "Example " counter(example);
-      }
-      body {
-        counter-reset: example;
+        @apply my-4 pl-3;
+        @apply border-l-8 border-gray-300 dark:border-zinc-600;
       }
 
        
-      #about-profiles svg {
-        margin-right: 0.7rem;
-      }
-      #about p, #about ul {
-        margin-top: 0rem;
-        margin-bottom: 0rem;
-      }
-      #about ol {
-        @apply ml-10;
-      }
       #about img {
-        height: 18px;
-        @apply inline-flex;
-      }
-      .about-compact p {
-        text-indent: 20px !important;
-        margin: 0 !important;
-      }
-
-       
-      .d-none { display:none; }
-
-       
-      code.has-jax {
-        -webkit-font-smoothing: antialiased;
-        background: inherit !important;
-        border: none !important;
-        font-size: 100%;
+        @apply inline-flex h-4;
       }
 
        
       .fai {
-        @apply inline-flex;
-        height: 1.2em;
-        width: 1.2em;
-        padding-right: 0.4em;
-        fill: currentColor;
+        @apply inline-flex h-[1.2em] w-[1.2em] pr-[0.4em] fill-current;
       }
       .fai-link {
         @apply hover:text-sky-400 dark:hover:text-blue-400;
       }
       .label-link .fai {
-        @apply pl-1 pb-1;
-        height: 1.5em;
-        width: 1.5em;
+        @apply pl-1 pb-1 h-[1.5em] w-[1.5em];
       }
 
        
       .chroma {
         @apply my-5 overflow-y-scroll;
-        border-radius: 3px;
-        border: 1px solid #C3CCD0;
-        padding: 0.5em;
+        @apply p-1 border rounded;
       }
-        .chroma { background-color: #ffffff }
-        .chroma .x {  }
-        .chroma .err { color: #a61717; background-color: #e3d2d2 }
-        .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
-        .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
-        .chroma .hl { display: block; width: 100%;background-color: #ffffcc }
-        .chroma .lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-        .chroma .ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-        .chroma .k { color: #000000; font-weight: bold }
-        .chroma .kc { color: #000000; font-weight: bold }
-        .chroma .kd { color: #000000; font-weight: bold }
-        .chroma .kn { color: #000000; font-weight: bold }
-        .chroma .kp { color: #000000; font-weight: bold }
-        .chroma .kr { color: #000000; font-weight: bold }
-        .chroma .kt { color: #445588; font-weight: bold }
-        .chroma .n {  }
-        .chroma .na { color: #008080 }
-        .chroma .nb { color: #0086b3 }
-        .chroma .bp { color: #999999 }
-        .chroma .nc { color: #445588; font-weight: bold }
-        .chroma .no { color: #008080 }
-        .chroma .nd { color: #3c5d5d; font-weight: bold }
-        .chroma .ni { color: #800080 }
-        .chroma .ne { color: #990000; font-weight: bold }
-        .chroma .nf { color: #990000; font-weight: bold }
-        .chroma .fm {  }
-        .chroma .nl { color: #990000; font-weight: bold }
-        .chroma .nn { color: #555555 }
-        .chroma .nx {  }
-        .chroma .py {  }
-        .chroma .nt { color: #000080 }
-        .chroma .nv { color: #008080 }
-        .chroma .vc { color: #008080 }
-        .chroma .vg { color: #008080 }
-        .chroma .vi { color: #008080 }
-        .chroma .vm {  }
-        .chroma .l {  }
-        .chroma .ld {  }
-        .chroma .s { color: #dd1144 }
-        .chroma .sa { color: #dd1144 }
-        .chroma .sb { color: #dd1144 }
-        .chroma .sc { color: #dd1144 }
-        .chroma .dl { color: #dd1144 }
-        .chroma .sd { color: #dd1144 }
-        .chroma .s2 { color: #dd1144 }
-        .chroma .se { color: #dd1144 }
-        .chroma .sh { color: #dd1144 }
-        .chroma .si { color: #dd1144 }
-        .chroma .sx { color: #dd1144 }
-        .chroma .sr { color: #009926 }
-        .chroma .s1 { color: #dd1144 }
-        .chroma .ss { color: #990073 }
-        .chroma .m { color: #009999 }
-        .chroma .mb { color: #009999 }
-        .chroma .mf { color: #009999 }
-        .chroma .mh { color: #009999 }
-        .chroma .mi { color: #009999 }
-        .chroma .il { color: #009999 }
-        .chroma .mo { color: #009999 }
-        .chroma .o { color: #000000; font-weight: bold }
-        .chroma .ow { color: #000000; font-weight: bold }
-        .chroma .p {  }
-        .chroma .c { color: #999988; font-style: italic }
-        .chroma .ch { color: #999988; font-style: italic }
-        .chroma .cm { color: #999988; font-style: italic }
-        .chroma .c1 { color: #999988; font-style: italic }
-        .chroma .cs { color: #999999; font-weight: bold; font-style: italic }
-        .chroma .cp { color: #999999; font-weight: bold; font-style: italic }
-        .chroma .cpf { color: #999999; font-weight: bold; font-style: italic }
-        .chroma .g {  }
-        .chroma .gd { color: #000000; background-color: #ffdddd }
-        .chroma .ge { color: #000000; font-style: italic }
-        .chroma .gr { color: #aa0000 }
-        .chroma .gh { color: #999999 }
-        .chroma .gi { color: #000000; background-color: #ddffdd }
-        .chroma .go { color: #888888 }
-        .chroma .gp { color: #555555 }
-        .chroma .gs { font-weight: bold }
-        .chroma .gu { color: #aaaaaa }
-        .chroma .gt { color: #aa0000 }
-        .chroma .gl { text-decoration: underline }
-        .chroma .w { color: #bbbbbb }
-        .dark.chroma { color: #f8f8f2; background-color: #272822 }
-        .dark .chroma { color: #f8f8f2; background-color: #272822 }
-        .dark .chroma .x {  }
-        .dark .chroma .err { color: #960050; background-color: #1e0010 }
-        .dark .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
-        .dark .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; width: auto; overflow: auto; display: block; }
-        .dark .chroma .hl { display: block; width: 100%;background-color: #ffffcc }
-        .dark .chroma .lnt { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-        .dark .chroma .ln { margin-right: 0.4em; padding: 0 0.4em 0 0.4em;color: #7f7f7f }
-        .dark .chroma .k { color: #66d9ef }
-        .dark .chroma .kc { color: #66d9ef }
-        .dark .chroma .kd { color: #66d9ef }
-        .dark .chroma .kn { color: #f92672 }
-        .dark .chroma .kp { color: #66d9ef }
-        .dark .chroma .kr { color: #66d9ef }
-        .dark .chroma .kt { color: #66d9ef }
-        .dark .chroma .n {  }
-        .dark .chroma .na { color: #a6e22e }
-        .dark .chroma .nb {  }
-        .dark .chroma .bp {  }
-        .dark .chroma .nc { color: #a6e22e }
-        .dark .chroma .no { color: #66d9ef }
-        .dark .chroma .nd { color: #a6e22e }
-        .dark .chroma .ni {  }
-        .dark .chroma .ne { color: #a6e22e }
-        .dark .chroma .nf { color: #a6e22e }
-        .dark .chroma .fm {  }
-        .dark .chroma .nl {  }
-        .dark .chroma .nn {  }
-        .dark .chroma .nx { color: #a6e22e }
-        .dark .chroma .py {  }
-        .dark .chroma .nt { color: #f92672 }
-        .dark .chroma .nv {  }
-        .dark .chroma .vc {  }
-        .dark .chroma .vg {  }
-        .dark .chroma .vi {  }
-        .dark .chroma .vm {  }
-        .dark .chroma .l { color: #ae81ff }
-        .dark .chroma .ld { color: #e6db74 }
-        .dark .chroma .s { color: #e6db74 }
-        .dark .chroma .sa { color: #e6db74 }
-        .dark .chroma .sb { color: #e6db74 }
-        .dark .chroma .sc { color: #e6db74 }
-        .dark .chroma .dl { color: #e6db74 }
-        .dark .chroma .sd { color: #e6db74 }
-        .dark .chroma .s2 { color: #e6db74 }
-        .dark .chroma .se { color: #ae81ff }
-        .dark .chroma .sh { color: #e6db74 }
-        .dark .chroma .si { color: #e6db74 }
-        .dark .chroma .sx { color: #e6db74 }
-        .dark .chroma .sr { color: #e6db74 }
-        .dark .chroma .s1 { color: #e6db74 }
-        .dark .chroma .ss { color: #e6db74 }
-        .dark .chroma .m { color: #ae81ff }
-        .dark .chroma .mb { color: #ae81ff }
-        .dark .chroma .mf { color: #ae81ff }
-        .dark .chroma .mh { color: #ae81ff }
-        .dark .chroma .mi { color: #ae81ff }
-        .dark .chroma .il { color: #ae81ff }
-        .dark .chroma .mo { color: #ae81ff }
-        .dark .chroma .o { color: #f92672 }
-        .dark .chroma .ow { color: #f92672 }
-        .dark .chroma .p {  }
-        .dark .chroma .c { color: #75715e }
-        .dark .chroma .ch { color: #75715e }
-        .dark .chroma .cm { color: #75715e }
-        .dark .chroma .c1 { color: #75715e }
-        .dark .chroma .cs { color: #75715e }
-        .dark .chroma .cp { color: #75715e }
-        .dark .chroma .cpf { color: #75715e }
-        .dark .chroma .g {  }
-        .dark .chroma .gd { color: #f92672 }
-        .dark .chroma .ge { font-style: italic }
-        .dark .chroma .gr {  }
-        .dark .chroma .gh {  }
-        .dark .chroma .gi { color: #a6e22e }
-        .dark .chroma .go {  }
-        .dark .chroma .gp {  }
-        .dark .chroma .gs { font-weight: bold }
-        .dark .chroma .gu { color: #75715e }
-        .dark .chroma .gt {  }
-        .dark .chroma .gl {  }
-        .dark .chroma .w {  }
     }
-  </style><script>localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")</script><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body><nav><div class="container flex flex-wrap items-center justify-between mx-auto max-w-6xl h-12 px-6"><div class="flex items-center justify-start justify-self-start"><div class="flex nav-item h-12 w-12 items-center justify-center"><a class=text-white href=https://aakinshin.net/><svg class="fai w-6 h-6"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/posts/>Posts</a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/about/>About</a></div></div><button id=theme-toggle type=button class="nav-item p-3 content-center justify-self-end"><svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001.0 1010.586 10.586z"/></svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1A1 1 0 119 4V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707A1 1 0 1113.536 5.05l.707-.707a1 1 0 011.414.0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707A1 1 0 004.343 5.757l.707.707zm1.414 8.486-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"/></svg></button></div></nav><div class="main container mx-auto max-w-6xl px-6"><h1>Pro .NET Benchmarking</h1><p></p><div class=container-fluid><div class=row><div class=col-sm><img class=img-fluid src=/img/misc/prodotnetbenchmarking-cover.png alt=Cover></div><div class=col-md><h3>Learn how to measure application performance and analyze the results!</h3>Use this in-depth guide to correctly design benchmarks, measure key performance metrics of .NET applications, and analyze results.
+  </style><style>.block-example-title::before{counter-increment:example;content:"Example " counter(example)}body{counter-reset:example}code.has-jax{-webkit-font-smoothing:antialiased;background:inherit!important;border:none!important;font-size:100%}.anchorjs-link{transition:all .25s linear}*:hover>.anchorjs-link{margin-left:-1.125em!important}.chroma{background-color:#fff}.chroma .x{}.chroma .err{color:#a61717;background-color:#e3d2d2}.chroma .lntd{vertical-align:top;padding:0;margin:0;border:0}.chroma .lntable{border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block}.chroma .hl{display:block;width:100%;background-color:#ffc}.chroma .lnt{margin-right:.4em;padding:0 .4em;color:#7f7f7f}.chroma .ln{margin-right:.4em;padding:0 .4em;color:#7f7f7f}.chroma .k{color:#000;font-weight:700}.chroma .kc{color:#000;font-weight:700}.chroma .kd{color:#000;font-weight:700}.chroma .kn{color:#000;font-weight:700}.chroma .kp{color:#000;font-weight:700}.chroma .kr{color:#000;font-weight:700}.chroma .kt{color:#458;font-weight:700}.chroma .n{}.chroma .na{color:teal}.chroma .nb{color:#0086b3}.chroma .bp{color:#999}.chroma .nc{color:#458;font-weight:700}.chroma .no{color:teal}.chroma .nd{color:#3c5d5d;font-weight:700}.chroma .ni{color:purple}.chroma .ne{color:#900;font-weight:700}.chroma .nf{color:#900;font-weight:700}.chroma .fm{}.chroma .nl{color:#900;font-weight:700}.chroma .nn{color:#555}.chroma .nx{}.chroma .py{}.chroma .nt{color:navy}.chroma .nv{color:teal}.chroma .vc{color:teal}.chroma .vg{color:teal}.chroma .vi{color:teal}.chroma .vm{}.chroma .l{}.chroma .ld{}.chroma .s{color:#d14}.chroma .sa{color:#d14}.chroma .sb{color:#d14}.chroma .sc{color:#d14}.chroma .dl{color:#d14}.chroma .sd{color:#d14}.chroma .s2{color:#d14}.chroma .se{color:#d14}.chroma .sh{color:#d14}.chroma .si{color:#d14}.chroma .sx{color:#d14}.chroma .sr{color:#009926}.chroma .s1{color:#d14}.chroma .ss{color:#990073}.chroma .m{color:#099}.chroma .mb{color:#099}.chroma .mf{color:#099}.chroma .mh{color:#099}.chroma .mi{color:#099}.chroma .il{color:#099}.chroma .mo{color:#099}.chroma .o{color:#000;font-weight:700}.chroma .ow{color:#000;font-weight:700}.chroma .p{}.chroma .c{color:#998;font-style:italic}.chroma .ch{color:#998;font-style:italic}.chroma .cm{color:#998;font-style:italic}.chroma .c1{color:#998;font-style:italic}.chroma .cs{color:#999;font-weight:700;font-style:italic}.chroma .cp{color:#999;font-weight:700;font-style:italic}.chroma .cpf{color:#999;font-weight:700;font-style:italic}.chroma .g{}.chroma .gd{color:#000;background-color:#fdd}.chroma .ge{color:#000;font-style:italic}.chroma .gr{color:#a00}.chroma .gh{color:#999}.chroma .gi{color:#000;background-color:#dfd}.chroma .go{color:#888}.chroma .gp{color:#555}.chroma .gs{font-weight:700}.chroma .gu{color:#aaa}.chroma .gt{color:#a00}.chroma .gl{text-decoration:underline}.chroma .w{color:#bbb}.dark.chroma{color:#f8f8f2;background-color:#272822}.dark .chroma{color:#f8f8f2;background-color:#272822}.dark .chroma .x{}.dark .chroma .err{color:#960050;background-color:#1e0010}.dark .chroma .lntd{vertical-align:top;padding:0;margin:0;border:0}.dark .chroma .lntable{border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block}.dark .chroma .hl{display:block;width:100%;background-color:#ffc}.dark .chroma .lnt{margin-right:.4em;padding:0 .4em;color:#7f7f7f}.dark .chroma .ln{margin-right:.4em;padding:0 .4em;color:#7f7f7f}.dark .chroma .k{color:#66d9ef}.dark .chroma .kc{color:#66d9ef}.dark .chroma .kd{color:#66d9ef}.dark .chroma .kn{color:#f92672}.dark .chroma .kp{color:#66d9ef}.dark .chroma .kr{color:#66d9ef}.dark .chroma .kt{color:#66d9ef}.dark .chroma .n{}.dark .chroma .na{color:#a6e22e}.dark .chroma .nb{}.dark .chroma .bp{}.dark .chroma .nc{color:#a6e22e}.dark .chroma .no{color:#66d9ef}.dark .chroma .nd{color:#a6e22e}.dark .chroma .ni{}.dark .chroma .ne{color:#a6e22e}.dark .chroma .nf{color:#a6e22e}.dark .chroma .fm{}.dark .chroma .nl{}.dark .chroma .nn{}.dark .chroma .nx{color:#a6e22e}.dark .chroma .py{}.dark .chroma .nt{color:#f92672}.dark .chroma .nv{}.dark .chroma .vc{}.dark .chroma .vg{}.dark .chroma .vi{}.dark .chroma .vm{}.dark .chroma .l{color:#ae81ff}.dark .chroma .ld{color:#e6db74}.dark .chroma .s{color:#e6db74}.dark .chroma .sa{color:#e6db74}.dark .chroma .sb{color:#e6db74}.dark .chroma .sc{color:#e6db74}.dark .chroma .dl{color:#e6db74}.dark .chroma .sd{color:#e6db74}.dark .chroma .s2{color:#e6db74}.dark .chroma .se{color:#ae81ff}.dark .chroma .sh{color:#e6db74}.dark .chroma .si{color:#e6db74}.dark .chroma .sx{color:#e6db74}.dark .chroma .sr{color:#e6db74}.dark .chroma .s1{color:#e6db74}.dark .chroma .ss{color:#e6db74}.dark .chroma .m{color:#ae81ff}.dark .chroma .mb{color:#ae81ff}.dark .chroma .mf{color:#ae81ff}.dark .chroma .mh{color:#ae81ff}.dark .chroma .mi{color:#ae81ff}.dark .chroma .il{color:#ae81ff}.dark .chroma .mo{color:#ae81ff}.dark .chroma .o{color:#f92672}.dark .chroma .ow{color:#f92672}.dark .chroma .p{}.dark .chroma .c{color:#75715e}.dark .chroma .ch{color:#75715e}.dark .chroma .cm{color:#75715e}.dark .chroma .c1{color:#75715e}.dark .chroma .cs{color:#75715e}.dark .chroma .cp{color:#75715e}.dark .chroma .cpf{color:#75715e}.dark .chroma .g{}.dark .chroma .gd{color:#f92672}.dark .chroma .ge{font-style:italic}.dark .chroma .gr{}.dark .chroma .gh{}.dark .chroma .gi{color:#a6e22e}.dark .chroma .go{}.dark .chroma .gp{}.dark .chroma .gs{font-weight:700}.dark .chroma .gu{color:#75715e}.dark .chroma .gt{}.dark .chroma .gl{}.dark .chroma .w{}</style><script>localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")</script><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body><nav><div class="container flex flex-wrap items-center justify-between mx-auto max-w-6xl h-12 px-6"><div class="flex items-center justify-start justify-self-start"><div class="flex nav-item h-12 w-12 items-center justify-center"><a class=text-white href=https://aakinshin.net/><svg class="fai w-6 h-6"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/posts/>Posts</a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/about/>About</a></div></div><button id=theme-toggle type=button class="nav-item p-3 content-center justify-self-end"><svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001.0 1010.586 10.586z"/></svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1A1 1 0 119 4V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707A1 1 0 1113.536 5.05l.707-.707a1 1 0 011.414.0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707A1 1 0 004.343 5.757l.707.707zm1.414 8.486-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"/></svg></button></div></nav><div class="main container mx-auto max-w-6xl px-6"><h1>Pro .NET Benchmarking</h1><p></p><div class="grid grid-cols-1 md:grid-cols-2"><div class="mx-5 max-w-lg"><a href=/img/misc/prodotnetbenchmarking-cover.png target=_blank alt=Cover><img src=/img/misc/prodotnetbenchmarking-cover.png alt=Cover></a></div><div><h3 class="pt-0 pb-5">Learn how to measure application performance and analyze the results!</h3>Use this in-depth guide to correctly design benchmarks, measure key performance metrics of .NET applications, and analyze results.
 This book presents dozens of case studies to help you understand complicated benchmarking topics.
 You will avoid common pitfalls, control the accuracy of your measurements, and improve performance of your software.
 Author Andrey Akinshin has maintained
@@ -344,32 +124,31 @@ Author Andrey Akinshin has maintained
 and covers common mistakes that developers usually make in their benchmarks.
 This book includes not only .NET-specific content but also essential knowledge about performance measurements
 which can be applied to any language or platform (common benchmarking methodology, statistics, and low-level features of modern hardware).
-With this book, you will learn:<ul><li>Be aware of the best practices for writing benchmarks and performance tests</li><li>Avoid the common benchmarking pitfalls</li><li>Know the hardware and software factors that affect application performance</li><li>Analyze performance measurements</li></ul><div class=text-center><a class="btn btn-info" href=https://www.apress.com/us/book/9781484249406>Apress</a>
-<a class="btn btn-info" href=https://www.amazon.com/gp/product/1484249402/>Amazon US</a>
-<a class="btn btn-info" href=https://www.amazon.ca/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402>Amazon CA</a>
-<a class="btn btn-info" href=https://www.amazon.co.uk/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402>Amazon UK</a>
-<a class="btn btn-info" href=https://www.amazon.de/dp/1484249402/>Amazon DE</a>
-<a class="btn btn-info" href=https://www.amazon.fr/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/>Amazon FR</a>
-<a class="btn btn-info" href=https://www.amazon.es/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/>Amazon ES</a>
-<a class="btn btn-info" href=https://www.amazon.co.jp/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/>Amazon JP</a>
-<a class="btn btn-info" href=https://www.springer.com/gp/book/9781484249406>Springer</a>
-<a class="btn btn-info" href="https://books.google.ru/books?id=IXCfDwAAQBAJ">Google Books</a>
-<a class="btn btn-info" href=https://www.oreilly.com/library/view/pro-net-benchmarking/9781484249413/>O’Reilly</a>
-<a class="btn btn-info" href=https://www.goodreads.com/book/show/45159905-pro-net-benchmarking>GoodReads</a>
-<a class="btn btn-info" href=https://www.researchgate.net/publication/334047447_Pro_NET_Benchmarking_The_Art_of_Performance_Measurement>ResearchGate</a>
-<a class="btn btn-info" href=https://github.com/Apress/pro-.net-benchmarking>GitHub (Examples)</a></div></div></div></div><p></p><h2 id=content>Content</h2><p>The book contains nine chapters:</p><ul><li><strong>Chapter 1 “Introducing Benchmarking”</strong><br>This chapter contains some basic information about benchmarking and other performance investigations, including benchmarking goals and requirements. We will also discuss performance spaces and why it’s so important to analyze benchmark results.</li><li><strong>Chapter 2 “Common Benchmarking Pitfalls”</strong><br>This chapter contains 15 examples of common mistakes that developers usually make during benchmarking. Each example is pretty small (so, you can easily understand what’s going on), but all of them demonstrate important problems and explain how to resolve them.</li><li><strong>Chapter 3 “How Environment Affects Performance”</strong><br>This chapter explains why the environment is so important and introduces a lot of terms that will be used in subsequent chapters. You will find 12 case studies that demonstrate how minor changes in the environment may significantly affect application performance.</li><li><strong>Chapter 4 “Statistics for Performance Engineers”</strong><br>This chapter contains the essential knowledge about statistics that you need during performance analysis. For each term,
-you will find practical recommendations that will help you use statistical metrics during your performance investigations. It also contains some statistical approaches that are really useful for benchmarking. At the end of this chapter, you will find different ways to lie with benchmarking: this knowledge will protect you from incorrect result interpretation.</li><li><strong>Chapter 5 “Performance Analysis and Performance Testing”</strong><br>This chapter covers topics that you need to know if you want to control the performance level in a large product automatically. You will learn different kinds of performance tests, performance anomalies that you can observe, and how to protect yourself from these anomalies. At the end of this chapter, you will find a description of performance-driven development (an approach for writing performance tests) and a general discussion about performance culture.</li><li><strong>Chapter 6 “Diagnostic Tools”</strong><br>This chapter contains a brief overview of different tools that can be useful during performance investigations.</li><li><strong>Chapter 7 “CPU-Bound Benchmarks”</strong><br>This chapter contains 24 case studies that show different pitfalls in CPU-bound benchmarks. We will discuss some runtime- specific features like register allocation, inlining, and intrinsics; and hardware-specific features like instruction-level parallelism, branch prediction, and arithmetics (including IEEE 754).</li><li><strong>Chapter 8 “Memory-Bound Benchmarks”</strong><br>This chapter contains 12 case studies that show different pitfalls in memory-bound benchmarks. We will discuss some runtime- specific features about garbage collection and its settings; and hardware-specific features like CPU cache and physical memory layout.</li><li><strong>Chapter 9 “Hardware and Software Timers”</strong><br>This chapter contains all you need to know about timers. We will discuss basic terminology, different kinds of hardware timers, corresponding timestamping APIs on different operating systems, and the most common pitfalls of using these APIs. This chapter also contains a lot of “extra” content that you don’t actually need for benchmarking, but it may be interesting for people who want to learn more about timers.</li></ul><h2 id=table-of-content>Table of content</h2><ul><li><strong>Chapter 1 “Introducing Benchmarking”</strong><ul><li>Planning a Performance Investigation<ul><li>Define Problems and Goals</li><li>Pick Metrics</li><li>Select Approaches and Tools</li><li>Perform an Experiment to Get the Results</li><li>Complete the Analysis and Draw Conclusions</li></ul></li><li>Benchmarking Goals<ul><li>Performance Analysis</li><li>Benchmarks as a Marketing Tool</li><li>Scientific Interest</li><li>Benchmarking for Fun</li></ul></li><li>Benchmark Requirements<ul><li>Repeatability</li><li>Verifiability and Portability</li><li>Non-Invading Principle</li><li>Acceptable Level of Precision</li><li>Honesty</li></ul></li><li>Performance Spaces<ul><li>Basics</li><li>Performance Model</li><li>Source Code</li><li>Environment</li><li>Input Data</li><li>Distribution</li><li>The Space</li></ul></li><li>Analysis<ul><li>The Bad, the Ugly and the Good</li><li>Find Your Bottleneck</li><li>Statistics</li></ul></li><li>Summary</li></ul></li><li><strong>Chapter 2 “Common Benchmarking Pitfalls”</strong><ul><li>General Pitfalls<ul><li>Inaccurate Timestamping</li><li>Executing a Benchmark in the Wrong Way</li><li>Natural Noise</li><li>Tricky Distributions</li><li>Measuring Cold Start instead of Warmed Steady State</li><li>Insufficient Number of Invocations</li><li>Infrastructure Overhead</li><li>Unequal Iterations</li></ul></li><li>.NET-Specific Pitfalls<ul><li>Loop Unrolling</li><li>Dead Code Elimination</li><li>Constant Folding</li><li>Bound Check Elimination</li><li>Inlining</li><li>Conditional Jitting</li><li>Interface Method Dispatching</li></ul></li><li>Summary</li></ul></li><li><strong>Chapter 3 “How Environment Affects Performance”</strong><ul><li>Runtime<ul><li>.NET Framework</li><li>.NET Core</li><li>Mono</li><li>Case Study 1: StringBuilder and CLR Versions</li><li>Case Study 2: Dictionary and Randomized String Hashing</li><li>Case Study 3: IList.Count and Unexpected Performance Degradation</li><li>Case Study 4: Build Time and GetLastWriteTime Resolution</li><li>Summing Up</li></ul></li><li>Compilation<ul><li>IL Generation</li><li>Just-In-Time (JIT) Compilation</li><li>Ahead-Of-Time (AOT) Compilation</li><li>Case Study 1: Switch and C* Compiler Versions</li><li>Case Study 2: Params and Memory Allocations</li><li>Case Study 3: Swap and Unobvious IL</li><li>Case Study 4: Huge Methods and Jitting</li><li>Summing Up</li></ul></li><li>External Environment<ul><li>Operating System</li><li>Hardware</li><li>The Physical World</li><li>Case Study 1: Windows Updates and Changes in .NET Framework</li><li>Case Study 2: Meltdown, Spectre, and Critical Patches</li><li>Case Study 3: MSBuild and Windows Defender</li><li>Case Study 4: Pause Latency and Intel Skylake</li><li>Summing Up</li></ul></li><li>Summary</li></ul></li><li><strong>Chapter 4 “Statistics for Performance Engineers”</strong><ul><li>Descriptive Statistics<ul><li>Basic Sample Plots</li><li>Sample Size</li><li>Minimum, Maximum, and Range</li><li>Mean</li><li>Median</li><li>Quantiles, Quartiles, and Percentiles</li><li>Outliers</li><li>Box Plots</li><li>Frequency Trails</li><li>Modes</li><li>Variance and Standard Deviation</li><li>Normal Distribution</li><li>Skewness</li><li>Kurtosis</li><li>Standard Error and Confidence Intervals</li><li>The Central Limit Theorem</li><li>Summing Up</li></ul></li><li>Performance Analysis<ul><li>Distribution Comparison</li><li>Regression Models</li><li>Optional Stopping</li><li>Pilot Experiments</li><li>Summing Up</li></ul></li><li>How to Lie with Benchmarking<ul><li>Lie with Small Samples</li><li>Lie with Percents</li><li>Lie with Ratios</li><li>Lie with Plots</li><li>Lie with Data Dredging</li><li>Summing Up</li></ul></li><li>Summary</li></ul></li><li><strong>Chapter 5 “Performance Analysis and Performance Testing”</strong><ul><li>Performance Testing Goals<ul><li>Goal 1: Prevent Performance Degradations</li><li>Goal 2: Detect Not-Prevented Degradations</li><li>Goal 3: Detect Other Kinds of Performance Anomalies</li><li>Goal 4: Reduce Type I Error Rate</li><li>Goal 5: Reduce Type II Error Rate</li><li>Goal 6: Automate Everything</li><li>Summing Up</li></ul></li><li>Kinds of Benchmarks and Performance Tests<ul><li>Cold Start Tests</li><li>Warmed Up Tests</li><li>Asymptotic Tests</li><li>Latency and Throughput Tests</li><li>Unit and Integration Tests</li><li>Monitoring and Telemetry</li><li>Tests With External Dependencies</li><li>Other Kinds of Performance Tests</li><li>Summing Up</li></ul></li><li>Performance Anomalies<ul><li>Degradation</li><li>Acceleration</li><li>Temporal Clustering</li><li>Spatial Clustering</li><li>Huge Duration</li><li>Huge Variance</li><li>Huge Outliers</li><li>Multimodal Distributions</li><li>False Anomalies</li><li>Underlying Problems and Recommendations</li><li>Summing Up</li></ul></li><li>Strategies of Defense<ul><li>Pre-Commit Tests</li><li>Daily Tests</li><li>Retrospective Analysis</li><li>Checkpoints Testing</li><li>Pre-Release Testing</li><li>Manual Testing</li><li>Post-Release Telemetry and Monitoring</li><li>Summing Up</li></ul></li><li>Performance Subpaces<ul><li>Metric Subspace</li><li>Iteration Subspace</li><li>Test Subspace</li><li>Environment Subspace</li><li>Parameter Subspace</li><li>History Subspace</li><li>Summing Up</li></ul></li><li>Performance Asserts and Alarms<ul><li>Absolute Threshold</li><li>Relative Threshold</li><li>Adaptive Threshold</li><li>Manual Threshold</li><li>Summing Up</li></ul></li><li>Performance-Driven Development (PDD)<ul><li>Define a Task and Performance Goals</li><li>Write a Performance Test</li><li>Change the Code</li><li>Check the New Performance Space</li><li>Summing Up</li></ul></li><li>Performance Culture<ul><li>Shared Performance Goals</li><li>Reliable Performance Testing Infrastructure</li><li>Performance Cleanness</li><li>Personal Responsibility</li><li>Summing Up</li></ul></li><li>Summary</li></ul></li><li><strong>Chapter 6 “Diagnostic Tools”</strong><ul><li>BenchmarkDotNet</li><li>Visual Studio Tools<ul><li>Embedded Profilers</li><li>Disassembly View</li></ul></li><li>JetBrains Tools<ul><li>dotPeek</li><li>dotTrace and dotMemory</li><li>ReSharper</li><li>Rider</li></ul></li><li>Windows Sysinternals<ul><li>RAMMap</li><li>VMMap</li><li>Process Monitor</li></ul></li><li>Other Useful Tools<ul><li>ildasm and ilasm</li><li>monodis</li><li>ILSpy</li><li>dnSpy</li><li>WinDbg</li><li>Asm-Dude</li><li>Mono Console Tools</li><li>PerfView</li><li>perfcollect</li><li>Process Hacker</li><li>Intel VTune Amplifier</li></ul></li><li>Summary</li></ul></li><li><strong>Chapter 7 “CPU-Bound Benchmarks”</strong><ul><li>Registers and Stack<ul><li>Case Study 1: Struct Promotion</li><li>Case Study 2: Local Variables</li><li>Case Study 3: Try-Catch</li><li>Case Study 4: Number of Calls</li><li>Summing Up</li></ul></li><li>Inlining<ul><li>Case Study 1: Call Overhead</li><li>Case Study 2: Register Allocation</li><li>Case Study 3: Cooperative Optimizations</li><li>Case Study 4: The &ldquo;starg&rdquo; IL Instruction</li><li>Summing Up</li></ul></li><li>Instruction-Level Parallelism<ul><li>Case Study 1: Parallel Execution</li><li>Case Study 2: Data Dependencies</li><li>Case Study 3: Dependency Graph</li><li>Case Study 4: Extremely Short Loops</li><li>Summing Up</li></ul></li><li>Branch Prediction<ul><li>Case Study 1: Sorted and Unsorted Data</li><li>Case Study 2: Number of Conditions</li><li>Case Study 3: Minimum</li><li>Case Study 4: Patterns</li><li>Summing Up</li></ul></li><li>Arithmetic<ul><li>Case Study 1: Denormalized Numbers</li><li>Case Study 2: Math.Abs</li><li>Case Study 3: double.ToString</li><li>Case Study 4: Integer Division</li><li>Summing Up</li></ul></li><li>Intrinsics<ul><li>Case Study 1: Math.Round</li><li>Case Study 2: Rotate Bits</li><li>Case Study 3: Vectorization</li><li>Case Study 4: System.Runtime.Intrinsics</li><li>Summing Up</li></ul></li><li>Summary</li></ul></li><li><strong>Chapter 8 “Memory-Bound Benchmarks”</strong><ul><li>CPU Cache<ul><li>Case Study 1: Memory Access Patterns</li><li>Case Study 2: Cache Levels</li><li>Case Study 3: Cache Associativity</li><li>Case Study 4: False Sharing</li><li>Summing Up</li></ul></li><li>Memory Layout<ul><li>Case Study 1: Struct Alignment</li><li>Case Study 2: Cache Bank Conflicts</li><li>Case Study 3: Cache Line Splits</li><li>Case Study 4: 4K Aliasing</li><li>Summing Up</li></ul></li><li>Garbage Collector<ul><li>Case Study 1: GC Modes</li><li>Case Study 2: Nursery Size in Mono</li><li>Case Study 3: Large Object Heaps</li><li>Case Study 4: Finalization</li><li>Summing Up</li></ul></li><li>Summary</li></ul></li><li><strong>Chapter 9 “Hardware and Software Timers”</strong><ul><li>Terminology<ul><li>Time Units</li><li>Frequency Units</li><li>Main Components of a Hardware Timer</li><li>Ticks and Quantizing Errors</li><li>Basic Timer Characteristics</li><li>Summing Up</li></ul></li><li>Hardware Timers<ul><li>TSC</li><li>HPET and ACPI PM</li><li>History of Magic Numbers</li><li>Summing Up</li></ul></li><li>OS Timestamping API<ul><li>Timestamping API on Windows: System Timer</li><li>Timestamping API on Windows: QPC</li><li>Timestamping API on Unix</li><li>Summing Up</li></ul></li><li>.NET Timestamping API<ul><li>DateTime.UtcNow</li><li>Environment.TickCount</li><li>Stopwatch.GetTimestamp</li><li>Summing Up</li></ul></li><li>Timestamping Pitfalls<ul><li>Small Resolution</li><li>Counter Overflow</li><li>Time Components and Total Properties</li><li>Changes in Current Time</li><li>Sequential Reads</li><li>Summing Up</li></ul></li><li>Summary</li></ul></li></ul><h2 id=details>Details</h2><ul><li><strong>Title:</strong> Pro .NET Benchmarking</li><li><strong>Subtitle:</strong> The Art of Performance Measurement</li><li><strong>Author:</strong> Andrey Akinshin</li><li><strong>Publisher:</strong>: Apress</li><li><strong>Edition:</strong> 1</li><li><strong>Date:</strong> June, 2019</li><li><strong>Number of Pages:</strong> 690</li><li><strong>Number of Illustrations:</strong> 65</li><li><strong>Language:</strong> English</li><li><strong>Softcover ISBN-10:</strong> 1484249402</li><li><strong>Softcover ISBN-13:</strong> 978-1-4842-4940-6</li><li><strong>eBook ISBN-13:</strong> 978-1-4842-4941-3</li><li><strong>DOI:</strong> 10.1007/978-1-4842-4941-3</li></ul><p><strong>How to cite:</strong>
+With this book, you will learn:<ul><li>Be aware of the best practices for writing benchmarks and performance tests</li><li>Avoid the common benchmarking pitfalls</li><li>Know the hardware and software factors that affect application performance</li><li>Analyze performance measurements</li></ul><div class="flex flex-wrap mx-auto justify-center"><a class="label-link my-1" href=https://www.apress.com/us/book/9781484249406>Apress</a>
+<a class="label-link my-1" href=https://www.amazon.com/gp/product/1484249402/>Amazon US</a>
+<a class="label-link my-1" href=https://www.amazon.ca/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402>Amazon CA</a>
+<a class="label-link my-1" href=https://www.amazon.co.uk/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402>Amazon UK</a>
+<a class="label-link my-1" href=https://www.amazon.de/dp/1484249402/>Amazon DE</a>
+<a class="label-link my-1" href=https://www.amazon.fr/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/>Amazon FR</a>
+<a class="label-link my-1" href=https://www.amazon.es/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/>Amazon ES</a>
+<a class="label-link my-1" href=https://www.amazon.co.jp/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/>Amazon JP</a>
+<a class="label-link my-1" href=https://www.springer.com/gp/book/9781484249406>Springer</a>
+<a class="label-link my-1" href="https://books.google.ru/books?id=IXCfDwAAQBAJ">Google Books</a>
+<a class="label-link my-1" href=https://www.oreilly.com/library/view/pro-net-benchmarking/9781484249413/>O’Reilly</a>
+<a class="label-link my-1" href=https://www.goodreads.com/book/show/45159905-pro-net-benchmarking>GoodReads</a>
+<a class="label-link my-1" href=https://www.researchgate.net/publication/334047447_Pro_NET_Benchmarking_The_Art_of_Performance_Measurement>ResearchGate</a>
+<a class="label-link my-1" href=https://github.com/Apress/pro-.net-benchmarking>GitHub (Examples)</a></div></div></div><p></p><h2 id=content>Content</h2><p>The book contains nine chapters:</p><ul><li><strong>Chapter 1 “Introducing Benchmarking”</strong><br>This chapter contains some basic information about benchmarking and other performance investigations, including benchmarking goals and requirements. We will also discuss performance spaces and why it’s so important to analyze benchmark results.</li><li><strong>Chapter 2 “Common Benchmarking Pitfalls”</strong><br>This chapter contains 15 examples of common mistakes that developers usually make during benchmarking. Each example is pretty small (so, you can easily understand what’s going on), but all of them demonstrate important problems and explain how to resolve them.</li><li><strong>Chapter 3 “How Environment Affects Performance”</strong><br>This chapter explains why the environment is so important and introduces a lot of terms that will be used in subsequent chapters. You will find 12 case studies that demonstrate how minor changes in the environment may significantly affect application performance.</li><li><strong>Chapter 4 “Statistics for Performance Engineers”</strong><br>This chapter contains the essential knowledge about statistics that you need during performance analysis. For each term,
+you will find practical recommendations that will help you use statistical metrics during your performance investigations. It also contains some statistical approaches that are really useful for benchmarking. At the end of this chapter, you will find different ways to lie with benchmarking: this knowledge will protect you from incorrect result interpretation.</li><li><strong>Chapter 5 “Performance Analysis and Performance Testing”</strong><br>This chapter covers topics that you need to know if you want to control the performance level in a large product automatically. You will learn different kinds of performance tests, performance anomalies that you can observe, and how to protect yourself from these anomalies. At the end of this chapter, you will find a description of performance-driven development (an approach for writing performance tests) and a general discussion about performance culture.</li><li><strong>Chapter 6 “Diagnostic Tools”</strong><br>This chapter contains a brief overview of different tools that can be useful during performance investigations.</li><li><strong>Chapter 7 “CPU-Bound Benchmarks”</strong><br>This chapter contains 24 case studies that show different pitfalls in CPU-bound benchmarks. We will discuss some runtime- specific features like register allocation, inlining, and intrinsics; and hardware-specific features like instruction-level parallelism, branch prediction, and arithmetics (including IEEE 754).</li><li><strong>Chapter 8 “Memory-Bound Benchmarks”</strong><br>This chapter contains 12 case studies that show different pitfalls in memory-bound benchmarks. We will discuss some runtime- specific features about garbage collection and its settings; and hardware-specific features like CPU cache and physical memory layout.</li><li><strong>Chapter 9 “Hardware and Software Timers”</strong><br>This chapter contains all you need to know about timers. We will discuss basic terminology, different kinds of hardware timers, corresponding timestamping APIs on different operating systems, and the most common pitfalls of using these APIs. This chapter also contains a lot of “extra” content that you don’t actually need for benchmarking, but it may be interesting for people who want to learn more about timers.</li></ul><h2 id=details>Details</h2><ul><li><strong>Title:</strong> Pro .NET Benchmarking</li><li><strong>Subtitle:</strong> The Art of Performance Measurement</li><li><strong>Author:</strong> Andrey Akinshin</li><li><strong>Publisher:</strong>: Apress</li><li><strong>Edition:</strong> 1</li><li><strong>Date:</strong> June, 2019</li><li><strong>Number of Pages:</strong> 690</li><li><strong>Number of Illustrations:</strong> 65</li><li><strong>Language:</strong> English</li><li><strong>Softcover ISBN-10:</strong> 1484249402</li><li><strong>Softcover ISBN-13:</strong> 978-1-4842-4940-6</li><li><strong>eBook ISBN-13:</strong> 978-1-4842-4941-3</li><li><strong>DOI:</strong> 10.1007/978-1-4842-4941-3</li></ul><p><strong>How to cite:</strong>
 Akinshin, Andrey.
 <em>Pro .NET Benchmarking.</em>
-Apress, 2019.</p><p><strong>BibTeX reference:</strong></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-tex data-lang=tex><span class=line><span class=cl>@book<span class=nb>{</span>Akinshin2019,
-</span></span><span class=line><span class=cl>  author    = <span class=nb>{</span>Akinshin, Andrey<span class=nb>}</span>, 
-</span></span><span class=line><span class=cl>  title     = <span class=nb>{</span>Pro .NET Benchmarking<span class=nb>}</span>,
-</span></span><span class=line><span class=cl>  publisher = <span class=nb>{</span>Apress<span class=nb>}</span>,
-</span></span><span class=line><span class=cl>  year      = <span class=nb>{</span>2019<span class=nb>}</span>,
-</span></span><span class=line><span class=cl>  edition   = <span class=nb>{</span>1<span class=nb>}</span>,
-</span></span><span class=line><span class=cl>  pages     = <span class=nb>{</span>690<span class=nb>}</span>,
-</span></span><span class=line><span class=cl>  isbn      = <span class=nb>{</span>978-1-4842-4940-6<span class=nb>}</span>,
-</span></span><span class=line><span class=cl>  doi       = <span class=nb>{</span>10.1007/978-1-4842-4941-3<span class=nb>}</span>
-</span></span><span class=line><span class=cl><span class=nb>}</span>
-</span></span></code></pre></div></div><script>var themeToggleDarkIcon=document.getElementById("theme-toggle-dark-icon"),themeToggleBtn,themeToggleLightIcon=document.getElementById("theme-toggle-light-icon");const imagesDark=document.querySelectorAll(".img-dark"),imagesLight=document.querySelectorAll(".img-light");localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?(themeToggleLightIcon.classList.remove("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")})):(themeToggleDarkIcon.classList.remove("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")})),themeToggleBtn=document.getElementById("theme-toggle"),themeToggleBtn.addEventListener("click",function(){themeToggleDarkIcon.classList.toggle("hidden"),themeToggleLightIcon.classList.toggle("hidden"),imagesLight.forEach(e=>{e.classList.toggle("hidden")}),imagesDark.forEach(e=>{e.classList.toggle("hidden")}),localStorage.getItem("color-theme")?localStorage.getItem("color-theme")==="light"?(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark")):(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):document.documentElement.classList.contains("dark")?(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark"))})</script><footer class="z-20 p-4 md:p-6 mt-3 w-full border-t border-gray-200 shadow flex items-center justify-center dark:border-gray-600 bg-white dark:bg-zinc-800"><span class="dark:text-gray-400 text-center">© 2013—2022 Andrey Akinshin</span><ul class="flex flex-wrap items-center px-4 mb-1"><li><a href=https://github.com/AndreyAkinshin><svg class="fai fai-link w-5 h-5"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a></li><li><a href=https://twitter.com/andrey_akinshin><svg class="fai fai-link w-5 h-5"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></li><li><a href=https://aakinshin.net/posts/index.xml><svg class="fai fai-link w-5 h-5"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a></li></ul><div class=main-content><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js integrity="sha512-zPB79j2C+3sFS9zcA3vg/z6bVKzJVEyu9pY5w89akQRys76zpAT2t6S3wZKla3QQ14O5l/Yt0RUQ/DHXx82Y5g==" crossorigin=anonymous referrerpolicy=no-referrer></script>
-<script>anchors.options={placement:"left",icon:"§"},anchors.add("h1"),anchors.add("h2"),anchors.add("h3")</script></body></html>
+Apress, 2019.</p><p><strong>BibTeX reference:</strong></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bib data-lang=bib><span class=line><span class=cl><span class=nc>@book</span><span class=p>{</span><span class=nl>Akinshin2019</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=na>author</span>    <span class=p>=</span> <span class=s>{Akinshin, Andrey}</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>  <span class=na>title</span>     <span class=p>=</span> <span class=s>{Pro .NET Benchmarking}</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=na>publisher</span> <span class=p>=</span> <span class=s>{Apress}</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=na>year</span>      <span class=p>=</span> <span class=s>{2019}</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=na>edition</span>   <span class=p>=</span> <span class=s>{1}</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=na>pages</span>     <span class=p>=</span> <span class=s>{690}</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=na>isbn</span>      <span class=p>=</span> <span class=s>{978-1-4842-4940-6}</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=na>doi</span>       <span class=p>=</span> <span class=s>{10.1007/978-1-4842-4941-3}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h2 id=table-of-content>Table of content</h2><ul><li><strong>Chapter 1 “Introducing Benchmarking”</strong><ul><li>Planning a Performance Investigation<ul><li>Define Problems and Goals</li><li>Pick Metrics</li><li>Select Approaches and Tools</li><li>Perform an Experiment to Get the Results</li><li>Complete the Analysis and Draw Conclusions</li></ul></li><li>Benchmarking Goals<ul><li>Performance Analysis</li><li>Benchmarks as a Marketing Tool</li><li>Scientific Interest</li><li>Benchmarking for Fun</li></ul></li><li>Benchmark Requirements<ul><li>Repeatability</li><li>Verifiability and Portability</li><li>Non-Invading Principle</li><li>Acceptable Level of Precision</li><li>Honesty</li></ul></li><li>Performance Spaces<ul><li>Basics</li><li>Performance Model</li><li>Source Code</li><li>Environment</li><li>Input Data</li><li>Distribution</li><li>The Space</li></ul></li><li>Analysis<ul><li>The Bad, the Ugly and the Good</li><li>Find Your Bottleneck</li><li>Statistics</li></ul></li><li>Summary</li></ul></li><li><strong>Chapter 2 “Common Benchmarking Pitfalls”</strong><ul><li>General Pitfalls<ul><li>Inaccurate Timestamping</li><li>Executing a Benchmark in the Wrong Way</li><li>Natural Noise</li><li>Tricky Distributions</li><li>Measuring Cold Start instead of Warmed Steady State</li><li>Insufficient Number of Invocations</li><li>Infrastructure Overhead</li><li>Unequal Iterations</li></ul></li><li>.NET-Specific Pitfalls<ul><li>Loop Unrolling</li><li>Dead Code Elimination</li><li>Constant Folding</li><li>Bound Check Elimination</li><li>Inlining</li><li>Conditional Jitting</li><li>Interface Method Dispatching</li></ul></li><li>Summary</li></ul></li><li><strong>Chapter 3 “How Environment Affects Performance”</strong><ul><li>Runtime<ul><li>.NET Framework</li><li>.NET Core</li><li>Mono</li><li>Case Study 1: StringBuilder and CLR Versions</li><li>Case Study 2: Dictionary and Randomized String Hashing</li><li>Case Study 3: IList.Count and Unexpected Performance Degradation</li><li>Case Study 4: Build Time and GetLastWriteTime Resolution</li><li>Summing Up</li></ul></li><li>Compilation<ul><li>IL Generation</li><li>Just-In-Time (JIT) Compilation</li><li>Ahead-Of-Time (AOT) Compilation</li><li>Case Study 1: Switch and C* Compiler Versions</li><li>Case Study 2: Params and Memory Allocations</li><li>Case Study 3: Swap and Unobvious IL</li><li>Case Study 4: Huge Methods and Jitting</li><li>Summing Up</li></ul></li><li>External Environment<ul><li>Operating System</li><li>Hardware</li><li>The Physical World</li><li>Case Study 1: Windows Updates and Changes in .NET Framework</li><li>Case Study 2: Meltdown, Spectre, and Critical Patches</li><li>Case Study 3: MSBuild and Windows Defender</li><li>Case Study 4: Pause Latency and Intel Skylake</li><li>Summing Up</li></ul></li><li>Summary</li></ul></li><li><strong>Chapter 4 “Statistics for Performance Engineers”</strong><ul><li>Descriptive Statistics<ul><li>Basic Sample Plots</li><li>Sample Size</li><li>Minimum, Maximum, and Range</li><li>Mean</li><li>Median</li><li>Quantiles, Quartiles, and Percentiles</li><li>Outliers</li><li>Box Plots</li><li>Frequency Trails</li><li>Modes</li><li>Variance and Standard Deviation</li><li>Normal Distribution</li><li>Skewness</li><li>Kurtosis</li><li>Standard Error and Confidence Intervals</li><li>The Central Limit Theorem</li><li>Summing Up</li></ul></li><li>Performance Analysis<ul><li>Distribution Comparison</li><li>Regression Models</li><li>Optional Stopping</li><li>Pilot Experiments</li><li>Summing Up</li></ul></li><li>How to Lie with Benchmarking<ul><li>Lie with Small Samples</li><li>Lie with Percents</li><li>Lie with Ratios</li><li>Lie with Plots</li><li>Lie with Data Dredging</li><li>Summing Up</li></ul></li><li>Summary</li></ul></li><li><strong>Chapter 5 “Performance Analysis and Performance Testing”</strong><ul><li>Performance Testing Goals<ul><li>Goal 1: Prevent Performance Degradations</li><li>Goal 2: Detect Not-Prevented Degradations</li><li>Goal 3: Detect Other Kinds of Performance Anomalies</li><li>Goal 4: Reduce Type I Error Rate</li><li>Goal 5: Reduce Type II Error Rate</li><li>Goal 6: Automate Everything</li><li>Summing Up</li></ul></li><li>Kinds of Benchmarks and Performance Tests<ul><li>Cold Start Tests</li><li>Warmed Up Tests</li><li>Asymptotic Tests</li><li>Latency and Throughput Tests</li><li>Unit and Integration Tests</li><li>Monitoring and Telemetry</li><li>Tests With External Dependencies</li><li>Other Kinds of Performance Tests</li><li>Summing Up</li></ul></li><li>Performance Anomalies<ul><li>Degradation</li><li>Acceleration</li><li>Temporal Clustering</li><li>Spatial Clustering</li><li>Huge Duration</li><li>Huge Variance</li><li>Huge Outliers</li><li>Multimodal Distributions</li><li>False Anomalies</li><li>Underlying Problems and Recommendations</li><li>Summing Up</li></ul></li><li>Strategies of Defense<ul><li>Pre-Commit Tests</li><li>Daily Tests</li><li>Retrospective Analysis</li><li>Checkpoints Testing</li><li>Pre-Release Testing</li><li>Manual Testing</li><li>Post-Release Telemetry and Monitoring</li><li>Summing Up</li></ul></li><li>Performance Subpaces<ul><li>Metric Subspace</li><li>Iteration Subspace</li><li>Test Subspace</li><li>Environment Subspace</li><li>Parameter Subspace</li><li>History Subspace</li><li>Summing Up</li></ul></li><li>Performance Asserts and Alarms<ul><li>Absolute Threshold</li><li>Relative Threshold</li><li>Adaptive Threshold</li><li>Manual Threshold</li><li>Summing Up</li></ul></li><li>Performance-Driven Development (PDD)<ul><li>Define a Task and Performance Goals</li><li>Write a Performance Test</li><li>Change the Code</li><li>Check the New Performance Space</li><li>Summing Up</li></ul></li><li>Performance Culture<ul><li>Shared Performance Goals</li><li>Reliable Performance Testing Infrastructure</li><li>Performance Cleanness</li><li>Personal Responsibility</li><li>Summing Up</li></ul></li><li>Summary</li></ul></li><li><strong>Chapter 6 “Diagnostic Tools”</strong><ul><li>BenchmarkDotNet</li><li>Visual Studio Tools<ul><li>Embedded Profilers</li><li>Disassembly View</li></ul></li><li>JetBrains Tools<ul><li>dotPeek</li><li>dotTrace and dotMemory</li><li>ReSharper</li><li>Rider</li></ul></li><li>Windows Sysinternals<ul><li>RAMMap</li><li>VMMap</li><li>Process Monitor</li></ul></li><li>Other Useful Tools<ul><li>ildasm and ilasm</li><li>monodis</li><li>ILSpy</li><li>dnSpy</li><li>WinDbg</li><li>Asm-Dude</li><li>Mono Console Tools</li><li>PerfView</li><li>perfcollect</li><li>Process Hacker</li><li>Intel VTune Amplifier</li></ul></li><li>Summary</li></ul></li><li><strong>Chapter 7 “CPU-Bound Benchmarks”</strong><ul><li>Registers and Stack<ul><li>Case Study 1: Struct Promotion</li><li>Case Study 2: Local Variables</li><li>Case Study 3: Try-Catch</li><li>Case Study 4: Number of Calls</li><li>Summing Up</li></ul></li><li>Inlining<ul><li>Case Study 1: Call Overhead</li><li>Case Study 2: Register Allocation</li><li>Case Study 3: Cooperative Optimizations</li><li>Case Study 4: The &ldquo;starg&rdquo; IL Instruction</li><li>Summing Up</li></ul></li><li>Instruction-Level Parallelism<ul><li>Case Study 1: Parallel Execution</li><li>Case Study 2: Data Dependencies</li><li>Case Study 3: Dependency Graph</li><li>Case Study 4: Extremely Short Loops</li><li>Summing Up</li></ul></li><li>Branch Prediction<ul><li>Case Study 1: Sorted and Unsorted Data</li><li>Case Study 2: Number of Conditions</li><li>Case Study 3: Minimum</li><li>Case Study 4: Patterns</li><li>Summing Up</li></ul></li><li>Arithmetic<ul><li>Case Study 1: Denormalized Numbers</li><li>Case Study 2: Math.Abs</li><li>Case Study 3: double.ToString</li><li>Case Study 4: Integer Division</li><li>Summing Up</li></ul></li><li>Intrinsics<ul><li>Case Study 1: Math.Round</li><li>Case Study 2: Rotate Bits</li><li>Case Study 3: Vectorization</li><li>Case Study 4: System.Runtime.Intrinsics</li><li>Summing Up</li></ul></li><li>Summary</li></ul></li><li><strong>Chapter 8 “Memory-Bound Benchmarks”</strong><ul><li>CPU Cache<ul><li>Case Study 1: Memory Access Patterns</li><li>Case Study 2: Cache Levels</li><li>Case Study 3: Cache Associativity</li><li>Case Study 4: False Sharing</li><li>Summing Up</li></ul></li><li>Memory Layout<ul><li>Case Study 1: Struct Alignment</li><li>Case Study 2: Cache Bank Conflicts</li><li>Case Study 3: Cache Line Splits</li><li>Case Study 4: 4K Aliasing</li><li>Summing Up</li></ul></li><li>Garbage Collector<ul><li>Case Study 1: GC Modes</li><li>Case Study 2: Nursery Size in Mono</li><li>Case Study 3: Large Object Heaps</li><li>Case Study 4: Finalization</li><li>Summing Up</li></ul></li><li>Summary</li></ul></li><li><strong>Chapter 9 “Hardware and Software Timers”</strong><ul><li>Terminology<ul><li>Time Units</li><li>Frequency Units</li><li>Main Components of a Hardware Timer</li><li>Ticks and Quantizing Errors</li><li>Basic Timer Characteristics</li><li>Summing Up</li></ul></li><li>Hardware Timers<ul><li>TSC</li><li>HPET and ACPI PM</li><li>History of Magic Numbers</li><li>Summing Up</li></ul></li><li>OS Timestamping API<ul><li>Timestamping API on Windows: System Timer</li><li>Timestamping API on Windows: QPC</li><li>Timestamping API on Unix</li><li>Summing Up</li></ul></li><li>.NET Timestamping API<ul><li>DateTime.UtcNow</li><li>Environment.TickCount</li><li>Stopwatch.GetTimestamp</li><li>Summing Up</li></ul></li><li>Timestamping Pitfalls<ul><li>Small Resolution</li><li>Counter Overflow</li><li>Time Components and Total Properties</li><li>Changes in Current Time</li><li>Sequential Reads</li><li>Summing Up</li></ul></li><li>Summary</li></ul></li></ul></div><script>var themeToggleDarkIcon=document.getElementById("theme-toggle-dark-icon"),themeToggleBtn,themeToggleLightIcon=document.getElementById("theme-toggle-light-icon");const imagesDark=document.querySelectorAll(".img-dark"),imagesLight=document.querySelectorAll(".img-light");localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?(themeToggleLightIcon.classList.remove("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")})):(themeToggleDarkIcon.classList.remove("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")})),themeToggleBtn=document.getElementById("theme-toggle"),themeToggleBtn.addEventListener("click",function(){themeToggleDarkIcon.classList.toggle("hidden"),themeToggleLightIcon.classList.toggle("hidden"),imagesLight.forEach(e=>{e.classList.toggle("hidden")}),imagesDark.forEach(e=>{e.classList.toggle("hidden")}),localStorage.getItem("color-theme")?localStorage.getItem("color-theme")==="light"?(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark")):(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):document.documentElement.classList.contains("dark")?(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark"))})</script><footer class="z-20 p-4 md:p-6 mt-3 w-full border-t border-gray-200 shadow flex items-center justify-center dark:border-gray-600 bg-white dark:bg-zinc-800"><span class="dark:text-gray-400 text-center">© 2013—2022 Andrey Akinshin</span><ul class="flex flex-wrap items-center px-4 mb-1"><li><a href=https://github.com/AndreyAkinshin><svg class="fai fai-link w-5 h-5"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a></li><li><a href=https://twitter.com/andrey_akinshin><svg class="fai fai-link w-5 h-5"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></li><li><a href=https://aakinshin.net/posts/index.xml><svg class="fai fai-link w-5 h-5"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a></li></ul><div class=main-content><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></div></footer></body></html>
