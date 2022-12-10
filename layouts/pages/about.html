@@ -1,73 +1,74 @@
 {{ define "main" }}
 
-<h1 style="margin-bottom: -2px;">{{ i18n "andreyAkinshin" }}</h1>
+<div>
+<h1 style="margin-bottom: -15px;">{{ i18n "andreyAkinshin" }}</h1>
 <div id="about-profiles" style="font-size: 200%;">
   <a href="https://github.com/AndreyAkinshin">
-    <svg class="fai">
+    <svg class="fai fai-link">
       <title>GitHub</title>
       <use xlink:href="/img/fa/all.svg#github"></use>
     </svg>
   </a>
   <a href="https://twitter.com/andrey_akinshin">
-    <svg class="fai">
+    <svg class="fai fai-link">
       <title>Twitter</title>
       <use xlink:href="/img/fa/all.svg#twitter"></use>
     </svg>
   </a>
   {{ if eq .Site.Language.Lang "ru" }}
   <a href="https://www.youtube.com/channel/UCk25QhN-9_wwkqyeapuCh9w">
-    <svg class="fai">
+    <svg class="fai fai-link">
       <title>YouTube</title>
       <use xlink:href="/img/fa/all.svg#youtube"></use>
     </svg>
   </a>
   {{ end }}
   <a href="https://scholar.google.com/citations?hl=en&user=rYVl83IAAAAJ&view_op=list_works&sortby=pubdate">
-    <svg class="fai">
+    <svg class="fai fai-link">
       <title>Google Scholar</title>
       <use xlink:href="/img/fa/all.svg#graduation-cap"></use>
     </svg>
   </a>
   <a href="https://www.researchgate.net/profile/Andrey_Akinshin">
-    <svg class="fai">
+    <svg class="fai fai-link">
       <title>ResearchGate</title>
       <use xlink:href="/img/fa/all.svg#researchgate"></use>
     </svg>
   </a>
   <a href="http://stackoverflow.com/users/184842/AndreyAkinshin">
-    <svg class="fai">
+    <svg class="fai fai-link">
       <title>StackOverflow</title>
       <use xlink:href="/img/fa/all.svg#stack-overflow"></use>
     </svg>
   </a>
   {{ if eq .Site.Language.Lang "ru" }}
   <a href="http://habrahabr.ru/users/dreamwalker">
-    <svg class="fai">
+    <svg class="fai fai-link">
       <title>Habrahabr</title>
       <use xlink:href="/img/fa/all.svg#circle-h"></use>
     </svg>
   </a>
   {{ end }}
   <a href="http://www.linkedin.com/in/AndreyAkinshin">
-    <svg class="fai">
+    <svg class="fai fai-link">
       <title>LinkedIn</title>
       <use xlink:href="/img/fa/all.svg#linkedin-in"></use>
     </svg>
   </a>
   <a href="https://www.amazon.com/Andrey-Akinshin/e/B07QYFMFHY">
-    <svg class="fai">
+    <svg class="fai fai-link">
       <title>Amazon</title>
       <use xlink:href="/img/fa/all.svg#amazon"></use>
     </svg>
   </a>
   <a href="http://www.goodreads.com/AndreyAkinshin">
-    <svg class="fai">
+    <svg class="fai fai-link">
       <title>GoodReads</title>
       <use xlink:href="/img/fa/all.svg#goodreads"></use>
     </svg>
   </a>
   <a href='{{ ((.Site.GetPage "/posts").OutputFormats.Get "rss").Permalink }}'>
-    <svg class="fai">
+    <svg class="fai fai-link">
       <title>RSS</title>
       <use xlink:href="/img/fa/all.svg#rss"></use>
     </svg>
@@ -76,9 +77,11 @@
 <a href="mailto:andrey.akinshin@gmail.com">andrey.akinshin@gmail.com</a>
 <hr />
 
+<div class="main-content">
 {{ .Content }}
+</div>
 
-<div id="about">
+<div id="about" class="main-content">
 
 <hr />
 <section>
@@ -162,10 +165,10 @@
 
 <section>
   <h2 id="open-source">{{ i18n "openSource" }}</h2>
-  <svg class="fai"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"></use></svg>
+  <svg class="fai text-lg mb-1 mr-0 pr-0"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"></use></svg>
   <b>GitHub:</b>
   <a href="https://github.com/AndreyAkinshin/">github.com/AndreyAkinshin</a>
-  <br /><br />
+  <br />
   {{ partial "about/items" (dict "context" . "name" "opensource") }}
 </section>
 <hr />
@@ -174,4 +177,5 @@
 
 </div>
 
+</div>
 {{ end }}

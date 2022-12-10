@@ -1,16 +1,14 @@
 {{ $dateTime := .PublishDate.Format "2006-01-02" }}
 {{ $dateFormat := .Site.Params.dateFormat | default "January 2, 2006" }}
 
-<span class="blog-post-meta">
-<svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"></use></svg>
-<time datetime="{{ $dateTime }}">{{ partial "date-full.html" . }}</time>
-&nbsp;&nbsp;
+<div class="flex flex-wrap justify-start items-center">
+  <svg class="fai"><use xlink:href="/img/fa/all.svg#calendar-days"></use></svg>
+  <time datetime="{{ $dateTime }}">{{ partial "date-full.html" . }}</time>
 
-{{ with (.GetTerms "tags") }}
-  <svg class="fai"><use xlink:href="/img/fa/all.svg#tag"></use></svg>
+  {{ with (.GetTerms "tags") }}
+  <svg class="fai ml-3"><use xlink:href="/img/fa/all.svg#tag"></use></svg>
   {{ range . }}
-    <a href="{{ .Permalink }}" class="badge badge-info">{{ .Title }}</a>
+    <a class="label-link" href="{{ .Permalink }}">{{ .Title }}</a>
   {{ end }}
 {{ end }}
-
-</span>
+</div>

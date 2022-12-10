@@ -4,7 +4,7 @@ layout: "about"
 url: about
 ---
 
-<div class="about-compact">
+<div class="[&>p]:m-0 [&>p]:indent-6">
 
 Andrey Akinshin is a software developer,
   an author of [blog posts](#posts) and [papers](#publications) about mathematics and programming,

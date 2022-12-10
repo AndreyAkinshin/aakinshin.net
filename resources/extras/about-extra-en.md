@@ -5,13 +5,11 @@
   **Specialization:** performance, benchmarking, algorithms, mathematics
   <br /><br />
 
-  ![](/img/icons/perpetuum.png)
+  <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
   [Perpetuum Software LLC](http://www.perpetuumsoft.com/)
   /
-  ![](/img/icons/enterra.png)
   [Enterra, Inc](http://www.enterra-inc.com/)
   /
-  ![](/img/icons/notariat.png)
   [Adaptive technologies](http://notariatsoft.ru/)
   
   * *09/2010–08/2011:* Junior Software Developer<br />
@@ -19,59 +17,46 @@
   * *02/2013–09/2016:* Lead Software Developer
 
   **Projects**
-  * ![](/img/icons/pv.png)
-    [PassportVision](http://passportvision.ru/):
+  * [PassportVision](http://passportvision.ru/):
     Image recognition software based on OpenCV, Tesseract<br />
     *Team Lead (architecture design, recognition algorithms)*
-  * ![](/img/icons/grapholite.png)
-    [Grapholite](http://grapholite.com/):
-    Diagram editor for
-      [<img src="/img/icons/windows8.png" alt="Windows 8" title="Windows 8/10" />](http://apps.microsoft.com/windows/app/grapholite-diagrams-pro/99164828-b985-44ad-af71-58827d8d8a13)
-      [<img src="/img/icons/winphone.png" alt="Windows Phone" title="Windows Phone" />](http://www.windowsphone.com/en-us/store/app/grapholite-diagrams-phone-edition/4e89fe82-db21-45c5-a284-8de9a443fb70)
-      [<img src="/img/icons/wpf.png" alt="WPF" title="WPF" />](https://grapholite.com/Download/Grapholite.msi)
-      [<img src="/img/icons/silverlight.png" alt="Silverlight" title="Silverlight" />](https://grapholite.com/Designer)
-      [<img src="/img/icons/ios.png" alt="iPad" title="iPad" />](https://itunes.apple.com/us/app/grapholite-diagrams-flow-charts/id954302708?ls=1&mt=8)
-      [<img src="/img/icons/android.png" alt="Android" title="Android" />](https://play.google.com/store/apps/details?id=com.grapholite.diagramsdemo)
-    (an analogue of MS Visio).<br />
+  * [Grapholite](http://grapholite.com/):
+    Multiplatform diagram editor (an analogue of MS Visio).<br />
     *Developer (algorithm development, mathematics, architecture design)*
-  * ![](/img/icons/knockout-mvc.png)
-    [Knockout MVC](http://knockoutmvc.com/):
+  * [Knockout MVC](http://knockoutmvc.com/):
     ASP.NET MVC wrapper for knockout.js<br />
     *Main developer (architecture design, API, client/server logic, official site, documentation, etc.)*
-  * ![](/img/icons/ui-controls.png)
-    [UI Controls for Windows 8](http://www.perpetuumsoft.com/Windows8-UI-Controls.aspx):
+  * [UI Controls for Windows 8](http://www.perpetuumsoft.com/Windows8-UI-Controls.aspx):
     A set of UI controls that will help develop true Windows Store application faster<br />
     *Main developer (architecture design, API, XAML-layout, demo project, documentation, etc.)*
   <br /><br />
 
-  ![](/img/icons/jetbrains.png)
+  <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
   [JetBrains](https://www.jetbrains.com/)
 
   * *10/2015–12/2020:* Software Developer
   * *01/2021–03/2022:* Performance Lead
 
   **Projects**
-  * ![](/img/icons/rider.png)
-    [Rider](https://www.jetbrains.com/rider/):
+  * [Rider](https://www.jetbrains.com/rider/):
     A cross-platform .NET IDE based on the IntelliJ platform and ReSharper<br />
     *Maintainer of the NuGet and Unit Testing subsystems*<br />
     *Author of a performance testing framework and a performance monitoring service*
   <br /><br />
 
-  ![](/img/icons/huawei.png)
+  <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
   [Huawei Research](https://www.huawei.com/en/corporate-information/research-development)
 
   * *06/2022–09/2022:* Mathematician
   <br /><br />
 
-  ![](/img/icons/jetbrains.png)
+  <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
   [JetBrains](https://www.jetbrains.com/)
 
   * *11/2022–Present:* Senior Performance Engineer
 
   **Projects**
-  * ![](/img/icons/rider.png)
-    [Rider](https://www.jetbrains.com/rider/):
+  * [Rider](https://www.jetbrains.com/rider/):
     A cross-platform .NET IDE based on the IntelliJ platform and ReSharper<br />
 
 </section>
@@ -83,7 +68,7 @@
   *Ph.D. in Mathematics and Computer Science*
   <br /><br />
 
-  ![](/img/icons/math-nsc.png)
+  <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
   [Sobolev Institute of Mathematics SB RAS](http://math.nsc.ru/english.html), Laboratory of Inverse Problems of Mathematical Physics (Novosibirsk, Russia)<br />
 
   * *08/2012–06/2014:* Engineer
@@ -97,7 +82,7 @@
   * *01/2018-12/2020:* The grant [RFBR 18-01-00057 A](http://www.rfbr.ru/rffi/portal/project_search/o_2070395) “Ring structures in gene network models”
   <br /><br />
 
-  ![](/img/icons/weizmann.png)
+  <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
   [Weizmann Institute of Science](http://www.weizmann.ac.il/), [Faculty of Mathematics and Computer Science](http://wws.weizmann.ac.il/math/) (Rehovot, Israel)
 
   * *10/2014–09/2016:* Postdoctoral Research Fellow
@@ -111,15 +96,12 @@
 
   **Selected contests (2002-2009)**
   * *04/2006:*
-    ![](/img/icons/acm-icpc.png)
-    Gold medal at 
+    Gold medal at
     Final of Russian Olympiad in Informatics [ROI 2006](http://neerc.ifmo.ru/school/archive/2005-2006/ru-olymp-roi-2006-standings.html) (Kislovodsk)<br />
   * *04/2008:*
-    ![](/img/icons/acm-icpc.png)
     Certified participant at
     [ACM International Collegiate Programming Contest 2008](http://icpc.baylor.edu/community/results-2008) (Canada)<br />
   * *04/2009:*
-    ![](/img/icons/acm-icpc.png)
     Silver medal at
     [ACM International Collegiate Programming Contest 2009](http://icpc.baylor.edu/community/results-2009) (Sweden)<br />
 </section>
@@ -129,13 +111,10 @@
   <h3 id="teaching">Teaching</h3>
 
   * *09/2006–05/2012:*
-    ![](/img/icons/s42.png)
     Coach of competitive programming and mathematics teams in Barnaul <a href="http://gymnasium42.ru/">Gymnasium&nbsp;№42</a>.
   * *09/2009–09/2016:*
-    ![](/img/icons/aeli.png)
     Senior lecturer of computer science and mathematics in Altai Economics and Law Institute, Department of general mathematical and scientific disciplines.
   * *09/2011–11/2011:*
-    ![](/img/icons/ministry.png)
     Lecturer under the Russian federal program F-263 №4 “Specialized training and retraining of specialists at the centers of education and development in information technology”.
 </section>
 
@@ -143,7 +122,6 @@
 <section>
   <h3 id="education">Education</h3>
 
-  ![](/img/icons/astu.png)
   <a href="http://www.en.altstu.ru/">I.I. Polzunov Altai state technical university</a>, <a href="http://www.altstu.ru/structure/faculty/fit/">Faculty of Information Technologies</a> (Barnaul, Russia)<br />
   
   * *09/2006–06/2011:* Student, specialty <a href="http://www.altstu.ru/entrant/speciality/0026/">230105</a> “Software for Computers and Automated System”.<br />
@@ -165,12 +143,10 @@
   <br /><br />
 
   **Russian state registration certificates of Computer Programs**
-  * ![](/img/icons/ministry.png)
-    Phase Portrait Analyzer
+  * Phase Portrait Analyzer
     (Russian state registration certificate of Computer Programs [№2013660415](http://www1.fips.ru/fips_servl/fips_servlet?DB=EVM&rn=673&DocNumber=2013660415&TypeFile=html))<br />
     *Software for analyzing of some nonlinear differential equation system*
-  * ![](/img/icons/ministry.png)
-    Neuro Biomarker Analyzer
+  * Neuro Biomarker Analyzer
     (Russian state registration certificate of Computer Programs [№2015612396](http://www1.fips.ru/Archive/EVM/2015/2015.03.20/DOC/RUNW/000/002/015/612/396/document.pdf))<br />
     *Software for the diagnostic and prognostic values evaluation of biochemical parameters of serum biomarkers in peripheral blood for the differential diagnosis of neurological syndromes of lumbar degenerative disc disease*
   <br /><br />
@@ -201,5 +177,3 @@
   * <a href="https://www.coursera.org/course/sysbio">Introduction to Systems Biology</a>: <a href="https://www.coursera.org/records/vfkb32TKmLapxqJN">certificate (verifiable)</a>
   * <a href="https://www.coursera.org/course/latex">Introduction to LaTeX</a>: <a href="https://www.coursera.org/records/t8gYgHqbtKs3pygc">certificate (verifiable)</a>
 </section>
-
-<hr />

@@ -1,43 +1,44 @@
 <p></p>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm">
-      <img class="img-fluid" src="/img/misc/prodotnetbenchmarking-cover.png" alt="Cover" />
-    </div>
-    <div class="col-md">
-      <h3>Learn how to measure application performance and analyze the results!</h3>
-      Use this in-depth guide to correctly design benchmarks, measure key performance metrics of .NET applications, and analyze results.
-      This book presents dozens of case studies to help you understand complicated benchmarking topics.
-      You will avoid common pitfalls, control the accuracy of your measurements, and improve performance of your software.
-      Author Andrey Akinshin has maintained
-        <a href="https://github.com/dotnet/BenchmarkDotNet">BenchmarkDotNet</a>
-        (the most popular .NET library for benchmarking) for five years
-        and covers common mistakes that developers usually make in their benchmarks.
-      This book includes not only .NET-specific content but also essential knowledge about performance measurements
-        which can be applied to any language or platform (common benchmarking methodology, statistics, and low-level features of modern hardware).
-      With this book, you will learn:
-      <ul>
-        <li>Be aware of the best practices for writing benchmarks and performance tests</li>
-        <li>Avoid the common benchmarking pitfalls</li>
-        <li>Know the hardware and software factors that affect application performance</li>
-        <li>Analyze performance measurements</li>
-      </ul>
-      <div class="text-center">
-        <a class="btn btn-info" href="https://www.apress.com/us/book/9781484249406">Apress</a>
-        <a class="btn btn-info" href="https://www.amazon.com/gp/product/1484249402/">Amazon US</a>
-        <a class="btn btn-info" href="https://www.amazon.ca/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402">Amazon CA</a>
-        <a class="btn btn-info" href="https://www.amazon.co.uk/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402">Amazon UK</a>
-        <a class="btn btn-info" href="https://www.amazon.de/dp/1484249402/">Amazon DE</a>
-        <a class="btn btn-info" href="https://www.amazon.fr/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/">Amazon FR</a>
-        <a class="btn btn-info" href="https://www.amazon.es/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/">Amazon ES</a>
-        <a class="btn btn-info" href="https://www.amazon.co.jp/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/">Amazon JP</a>
-        <a class="btn btn-info" href="https://www.springer.com/gp/book/9781484249406">Springer</a>
-        <a class="btn btn-info" href="https://books.google.ru/books?id=IXCfDwAAQBAJ">Google Books</a>
-        <a class="btn btn-info" href="https://www.oreilly.com/library/view/pro-net-benchmarking/9781484249413/">O’Reilly</a>
-        <a class="btn btn-info" href="https://www.goodreads.com/book/show/45159905-pro-net-benchmarking">GoodReads</a>
-        <a class="btn btn-info" href="https://www.researchgate.net/publication/334047447_Pro_NET_Benchmarking_The_Art_of_Performance_Measurement">ResearchGate</a>
-        <a class="btn btn-info" href="https://github.com/Apress/pro-.net-benchmarking">GitHub (Examples)</a>
-      </div>
+<div class="grid grid-cols-1 md:grid-cols-2">
+  
+  <div class="mx-5 max-w-lg">
+    <a href="/img/misc/prodotnetbenchmarking-cover.png" target="_blank" alt="Cover">
+      <img src="/img/misc/prodotnetbenchmarking-cover.png" alt="Cover" />
+    </a>
+  </div>
+  <div class="">
+    <h3 class="pt-0 pb-5">Learn how to measure application performance and analyze the results!</h3>
+    Use this in-depth guide to correctly design benchmarks, measure key performance metrics of .NET applications, and analyze results.
+    This book presents dozens of case studies to help you understand complicated benchmarking topics.
+    You will avoid common pitfalls, control the accuracy of your measurements, and improve performance of your software.
+    Author Andrey Akinshin has maintained
+      <a href="https://github.com/dotnet/BenchmarkDotNet">BenchmarkDotNet</a>
+      (the most popular .NET library for benchmarking) for five years
+      and covers common mistakes that developers usually make in their benchmarks.
+    This book includes not only .NET-specific content but also essential knowledge about performance measurements
+      which can be applied to any language or platform (common benchmarking methodology, statistics, and low-level features of modern hardware).
+    With this book, you will learn:
+    <ul>
+      <li>Be aware of the best practices for writing benchmarks and performance tests</li>
+      <li>Avoid the common benchmarking pitfalls</li>
+      <li>Know the hardware and software factors that affect application performance</li>
+      <li>Analyze performance measurements</li>
+    </ul>
+    <div class="flex flex-wrap mx-auto justify-center">
+      <a class="label-link my-1" href="https://www.apress.com/us/book/9781484249406">Apress</a>
+      <a class="label-link my-1" href="https://www.amazon.com/gp/product/1484249402/">Amazon US</a>
+      <a class="label-link my-1" href="https://www.amazon.ca/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402">Amazon CA</a>
+      <a class="label-link my-1" href="https://www.amazon.co.uk/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402">Amazon UK</a>
+      <a class="label-link my-1" href="https://www.amazon.de/dp/1484249402/">Amazon DE</a>
+      <a class="label-link my-1" href="https://www.amazon.fr/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/">Amazon FR</a>
+      <a class="label-link my-1" href="https://www.amazon.es/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/">Amazon ES</a>
+      <a class="label-link my-1" href="https://www.amazon.co.jp/Pro-NET-Benchmarking-Performance-Measurement/dp/1484249402/">Amazon JP</a>
+      <a class="label-link my-1" href="https://www.springer.com/gp/book/9781484249406">Springer</a>
+      <a class="label-link my-1" href="https://books.google.ru/books?id=IXCfDwAAQBAJ">Google Books</a>
+      <a class="label-link my-1" href="https://www.oreilly.com/library/view/pro-net-benchmarking/9781484249413/">O’Reilly</a>
+      <a class="label-link my-1" href="https://www.goodreads.com/book/show/45159905-pro-net-benchmarking">GoodReads</a>
+      <a class="label-link my-1" href="https://www.researchgate.net/publication/334047447_Pro_NET_Benchmarking_The_Art_of_Performance_Measurement">ResearchGate</a>
+      <a class="label-link my-1" href="https://github.com/Apress/pro-.net-benchmarking">GitHub (Examples)</a>
     </div>
   </div>
 </div>
@@ -66,6 +67,42 @@ The book contains nine chapters:
   This chapter contains 12 case studies that show different pitfalls in memory-bound benchmarks. We will discuss some runtime- specific features about garbage collection and its settings; and hardware-specific features like CPU cache and physical memory layout.
 * **Chapter 9 “Hardware and Software Timers”**  
   This chapter contains all you need to know about timers. We will discuss basic terminology, different kinds of hardware timers, corresponding timestamping APIs on different operating systems, and the most common pitfalls of using these APIs. This chapter also contains a lot of “extra” content that you don’t actually need for benchmarking, but it may be interesting for people who want to learn more about timers.
+
+## Details
+
+* **Title:** Pro .NET Benchmarking
+* **Subtitle:** The Art of Performance Measurement
+* **Author:** Andrey Akinshin
+* **Publisher:**: Apress
+* **Edition:** 1
+* **Date:** June, 2019
+* **Number of Pages:** 690
+* **Number of Illustrations:** 65
+* **Language:** English
+* **Softcover ISBN-10:** 1484249402
+* **Softcover ISBN-13:** 978-1-4842-4940-6
+* **eBook ISBN-13:** 978-1-4842-4941-3
+* **DOI:** 10.1007/978-1-4842-4941-3
+
+**How to cite:**
+Akinshin, Andrey.
+*Pro .NET Benchmarking.*
+Apress, 2019.
+
+**BibTeX reference:**
+
+```bib
+@book{Akinshin2019,
+  author    = {Akinshin, Andrey}, 
+  title     = {Pro .NET Benchmarking},
+  publisher = {Apress},
+  year      = {2019},
+  edition   = {1},
+  pages     = {690},
+  isbn      = {978-1-4842-4940-6},
+  doi       = {10.1007/978-1-4842-4941-3}
+}
+```
 
 ## Table of content
 
@@ -364,39 +401,3 @@ The book contains nine chapters:
     * Sequential Reads
     * Summing Up
   * Summary
-
-## Details
-
-* **Title:** Pro .NET Benchmarking
-* **Subtitle:** The Art of Performance Measurement
-* **Author:** Andrey Akinshin
-* **Publisher:**: Apress
-* **Edition:** 1
-* **Date:** June, 2019
-* **Number of Pages:** 690
-* **Number of Illustrations:** 65
-* **Language:** English
-* **Softcover ISBN-10:** 1484249402
-* **Softcover ISBN-13:** 978-1-4842-4940-6
-* **eBook ISBN-13:** 978-1-4842-4941-3
-* **DOI:** 10.1007/978-1-4842-4941-3
-
-**How to cite:**
-Akinshin, Andrey.
-*Pro .NET Benchmarking.*
-Apress, 2019.
-
-**BibTeX reference:**
-
-```tex
-@book{Akinshin2019,
-  author    = {Akinshin, Andrey}, 
-  title     = {Pro .NET Benchmarking},
-  publisher = {Apress},
-  year      = {2019},
-  edition   = {1},
-  pages     = {690},
-  isbn      = {978-1-4842-4940-6},
-  doi       = {10.1007/978-1-4842-4941-3}
-}
-```

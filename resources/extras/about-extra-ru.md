@@ -5,13 +5,11 @@
   **Специализация:** производительность, бенчмаркинг, алгоритмы, математика
   <br /><br />
 
-  ![](/img/icons/perpetuum.png)
+  <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
   [Perpetuum Software LLC](http://www.perpetuumsoft.com/)
   /
-  ![](/img/icons/enterra.png)
   [Enterra, Inc](http://www.enterra-inc.com/)
   /
-  ![](/img/icons/notariat.png)
   [Адаптивные технологии](http://notariatsoft.ru/)
   
   * *09/2010–08/2011:* Стажёр<br />
@@ -19,59 +17,46 @@
   * *02/2013–09/2016:* Ведущий программист
 
   **Проекты**
-  * ![](/img/icons/pv.png)
-    [PassportVision](http://passportvision.ru/):
+  * [PassportVision](http://passportvision.ru/):
     Программа для распознавания паспортов на основе OpenCV, Tesseract<br />
     *Ведущий разработчик (управлением командой, проектирование архитектуры, алгоритмы распознавания)*
-  * ![](/img/icons/grapholite.png)
-    [Grapholite](http://grapholite.com/):
-    Редактор диаграмм под
-      [<img src="/img/icons/windows8.png" alt="Windows 8" title="Windows 8/10" />](http://apps.microsoft.com/windows/app/grapholite-diagrams-pro/99164828-b985-44ad-af71-58827d8d8a13)
-      [<img src="/img/icons/winphone.png" alt="Windows Phone" title="Windows Phone" />](http://www.windowsphone.com/en-us/store/app/grapholite-diagrams-phone-edition/4e89fe82-db21-45c5-a284-8de9a443fb70)
-      [<img src="/img/icons/wpf.png" alt="WPF" title="WPF" />](https://grapholite.com/Download/Grapholite.msi)
-      [<img src="/img/icons/silverlight.png" alt="Silverlight" title="Silverlight" />](https://grapholite.com/Designer)
-      [<img src="/img/icons/ios.png" alt="iPad" title="iPad" />](https://itunes.apple.com/us/app/grapholite-diagrams-flow-charts/id954302708?ls=1&mt=8)
-      [<img src="/img/icons/android.png" alt="Android" title="Android" />](https://play.google.com/store/apps/details?id=com.grapholite.diagramsdemo)
-    (аналог MS Visio).<br />
+  * [Grapholite](http://grapholite.com/):
+    Мультиплатформенный редактор диаграмм (аналог MS Visio).<br />
     *Разработчик (разработка алгоритмов, математика, проектирование части архитектуры)*
-  * ![](/img/icons/knockout-mvc.png)
-    [Knockout MVC](http://knockoutmvc.com/):
+  * [Knockout MVC](http://knockoutmvc.com/):
     ASP.NET MVC-обёртка для knockout.js<br />
     *Главный разработчик (проектирование архитектуры, API, клиентская/серверная логика, вёрстка, документация и т.д.)*
-  * ![](/img/icons/ui-controls.png)
-    [UI Controls for Windows 8](http://www.perpetuumsoft.com/Windows8-UI-Controls.aspx):
+  * [UI Controls for Windows 8](http://www.perpetuumsoft.com/Windows8-UI-Controls.aspx):
     Набор многофункциональных контролов под Windows 8<br />
     *Главный разработчик (проектирование архитектуры, API, XAML-вёрстка, демо-проект, документация и т. д.)*
   <br /><br />
 
-  ![](/img/icons/jetbrains.png)
+  <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
   [JetBrains](https://www.jetbrains.com/)
 
   * *10/2015–12/2020:* Software Developer
   * *01/2021–03/2022:* Performance Lead
 
   **Проекты**
-  * ![](/img/icons/rider.png)
-    [Rider](https://www.jetbrains.com/rider/):
+  * [Rider](https://www.jetbrains.com/rider/):
     Кроссплатформенная .NET IDE на базе IntelliJ platform и ReSharper<br />
     *Мейнтейнер подсистем NuGet и Unit Testing*<br />
     *Автор фреймворка для тестов на производительность и сервиса мониторинга производительности*
   <br /><br />
 
-  ![](/img/icons/huawei.png)
+  <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
   [Huawei Research](https://www.huawei.com/en/corporate-information/research-development)
 
   * *06/2022–09/2022:* математик
   <br /><br />
 
-  ![](/img/icons/jetbrains.png)
+  <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
   [JetBrains](https://www.jetbrains.com/)
 
   * *11/2022–Сейчас:* Senior Performance Engineer
 
   **Проекты**
-  * ![](/img/icons/rider.png)
-    [Rider](https://www.jetbrains.com/rider/):
+  * [Rider](https://www.jetbrains.com/rider/):
     Кроссплатформенная .NET IDE на базе IntelliJ platform и ReSharper
 
 </section>
@@ -83,7 +68,7 @@
   *Кандидат физико-математических наук (05.13.18)*
   <br /><br />
 
-  ![](/img/icons/math-nsc.png)
+  <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
   [Институт математики им С. Л. Соболева СО РАН](http://www.math.nsc.ru/), Лаборатория обратных задач математической физики (Новосибирск)<br />
 
   * *08/2012–06/2014:* Инженер
@@ -97,7 +82,7 @@
   * *01/2018–12/2020:* Грант [РФФИ 18-01-00057 А](http://www.rfbr.ru/rffi/portal/project_search/o_2070395) «Кольцевые структуры в моделях генных сетей»
   <br /><br />
 
-  ![](/img/icons/weizmann.png)
+  <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
   [Институт Вейцмана](http://www.weizmann.ac.il/), [Факультет математики и информатики](http://wws.weizmann.ac.il/math/) (Израиль, Реховот)<br />
 
   * *10/2014–09/2016:* Postdoctoral Research Fellow
@@ -111,15 +96,12 @@
 
   **Избранные олимпиады (2002-2009)**
   * *04/2006:*
-    ![](/img/icons/acm-icpc.png)
-    Золотая медаль, 
+    Золотая медаль,
     Всероссийская олимпиада школьников по информатике [РОИ 2006](http://neerc.ifmo.ru/school/archive/2005-2006/ru-olymp-roi-2006-standings.html) (Кисловодск)<br />
   * *04/2008:*
-    ![](/img/icons/acm-icpc.png)
     Сертифицированный участник,
     [Чемпионат мира по программированию ACM ICPC 2008](http://icpc.baylor.edu/community/results-2008) (Канада)<br />
   * *04/2009:*
-    ![](/img/icons/acm-icpc.png)
     Серебряная медаль,
     [Чемпионат мира по программированию ACM ICPC 2009](http://icpc.baylor.edu/community/results-2009) (Швеция)<br />
 </section>
@@ -129,21 +111,18 @@
   <h3 id="teaching">Преподавание</h3>
 
   * *09/2006–05/2012:*
-    ![](/img/icons/s42.png)
     Тренер сборной по программированию и математике в <a href="http://gymnasium42.ru/">МБОУ «Гимназия №42»</a> г.&nbsp;Барнаула.
   * *09/2009–09/2016:*
-    ![](/img/icons/aeli.png)
-     Старший преподаватель информатики и математики в Алтайском Экономико-Юридическом Институте, кафедра общих математических и естественнонаучных дисциплин.
+    Старший преподаватель информатики и математики в Алтайском Экономико-Юридическом Институте, кафедра общих математических и естественнонаучных дисциплин.
   * *09/2011–11/2011:*
-    ![](/img/icons/ministry.png)
-     Преподаватель в рамках федеральной программы Ф-263 №4 «Подготовка и переподготовка профильных специалистов на базе центров образования и разработок в сфере информационных технологий».
+    Преподаватель в рамках федеральной программы Ф-263 №4 «Подготовка и переподготовка профильных специалистов на базе центров образования и разработок в сфере информационных технологий».
 </section>
 
 <hr />
 <section>
   <h3 id="education">Образование</h3>
 
-  ![](/img/icons/astu.png)
+  <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
   <a href="http://www.altstu.ru/">Алтайский Государственный Технический Университет им И. И. Ползунова</a>,<a href="http://www.altstu.ru/structure/faculty/fit/">Факультет информационных технологий</a> (Барнаул)<br />
   
   * *09/2006–06/2011:* Студент по специальности <a href="http://www.altstu.ru/entrant/speciality/0026/">230105</a> «Программное обеспечение вычислительной техники и автоматизированных систем». Красный диплом, средний балл 5.0, студент года АлтГТУ 2009, староста группы.
@@ -162,12 +141,10 @@
   <br /><br />
 
   **Свидетельства о регистрации программ для ЭВМ**
-  * ![](/img/icons/ministry.png)
-    Phase Portrait Analyzer
+  * Phase Portrait Analyzer
     (Свидетельство о государственной регистрации программы для ЭВМ [№2013660415](http://www1.fips.ru/fips_servl/fips_servlet?DB=EVM&rn=673&DocNumber=2013660415&TypeFile=html))<br />
     *Программа предназначена для выполнения анализа нелинейных систем дифференциальных уравнений специального вида.*
-  * ![](/img/icons/ministry.png)
-    Neuro Biomarker Analyzer
+  * Neuro Biomarker Analyzer
     (Свидетельство о государственной регистрации программы для ЭВМ [№2015612396](http://www1.fips.ru/Archive/EVM/2015/2015.03.20/DOC/RUNW/000/002/015/612/396/document.pdf))<br />
     *Программа позволяет оценить диагностическую и прогностическую значимость биохимических параметров (концентраций) биомаркеров сыворотки периферической крови для дифференциальной диагностики неврологических синдромов поясничного остеохондроза.*
   <br /><br />
@@ -198,6 +175,3 @@
   * <a href="https://www.coursera.org/course/sysbio">Introduction to Systems Biology</a>: <a href="https://www.coursera.org/records/vfkb32TKmLapxqJN">сертификат (верифицируемый)</a>
   * <a href="https://www.coursera.org/course/latex">Документы и презентации в LaTeX</a>: <a href="https://www.coursera.org/records/t8gYgHqbtKs3pygc">сертификат (верифицируемый)</a>
 </section>
-
-
-<hr />

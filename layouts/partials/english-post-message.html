@@ -2,8 +2,8 @@
     {{ if .IsTranslated }}
         {{ range .Translations }}
             {{ if eq .Lang "en"}}
-            <div class="alert alert-info" role="alert">
-                <a style="font-size:150%" href="{{ .Permalink }}">Последние посты доступны только в английской версии блога</a>
+            <div class="my-5 px-5 py-2 rounded border border-orange-700 text-orange-700 hover:bg-orange-200 dark:hover:bg-orange-900">
+                <a style="font-size:150%" class="text-orange-700 dark:text-orange-700" href="{{ .Permalink }}">Последние посты доступны только в английской версии блога</a>
               </div>
             {{ end }}
         {{ end }}

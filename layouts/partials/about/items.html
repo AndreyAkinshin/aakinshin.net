@@ -24,14 +24,16 @@
   <li value="{{ .Index }}">
     {{ safeHTML .Html }}
     <br />
+    <div class="flex flex-wrap gap-y-1">
     {{ if or (isset . "link") (isset . "badge") }}
       {{ range .badge }}
-        <span class="badge badge-secondary">{{ .Label | safeHTML }}</span>
+        <span class="label text-sm">{{ .Label | safeHTML }}</span>
       {{ end }}
       {{ range .link }}
-        <a href="{{ .Url }}" class="badge badge-info">{{ .Label | safeHTML }}</a>
+        <a href="{{ .Url }}" class="label-link text-sm">{{ .Label | safeHTML }}</a>
       {{ end }}
     {{ end }}
+    </div>
   </li>
   
 {{ end }}

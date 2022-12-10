@@ -1,22 +1,21 @@
 {{ define "main" }}
 
-<div class="blog-main">
-<div class="blog-post table-sm">
+<div class="main-post">
 
 <h1 class="blog-post-title" id="post-title">{{ .Title }}</h1>
+
 {{ partial "blog-post-meta.html" . }}
-<br /><br />
+
+<br />
 
 {{ partial "tag-comments.html" . }}
+
+<div class="main-content">
 {{ .Content }}
+</div>
 
 {{ partial "share.html" . }}
 
-<hr />
-
-<!-- TODO: Show GitHub origin -->
-
-</div>
 </div>
 
 {{ end }}
