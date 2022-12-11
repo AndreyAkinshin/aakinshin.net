@@ -5,21 +5,22 @@
 @layer base {
   /*** HTML elements ***/
   body {
-    @apply bg-white dark:bg-zinc-800;
-    @apply text-black dark:text-gray-400;
+    @apply bg-back-l dark:bg-back-d;
+    @apply text-front-l dark:text-front-d;
   }
   nav {
-    @apply bg-sky-800 dark:bg-zinc-900;
+    @apply bg-back-accent-l dark:bg-back-accent-d;
   }
   a {
-    @apply text-sky-600 dark:text-white;
+    @apply text-accent-l dark:text-accent-d;
     @apply no-underline;
   }
   .main-content a:not(.label-link) {
     @apply hover:underline;
   }
   hr {
-    @apply h-px my-3 border-0 bg-gray-300 dark:bg-gray-600;
+    @apply bg-shadow-l dark:bg-shadow-d;
+    @apply h-px my-3 border-0;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply leading-tight;
@@ -40,7 +41,9 @@
     @apply border p-2
   }
   blockquote {
-    @apply border-l-8 border-gray-300 bg-gray-100 dark:border-zinc-600 dark:bg-zinc-700;
+    @apply border-shadow-l dark:border-shadow-d;
+    @apply bg-back2-l dark:bg-back2-d;
+    @apply border-l-8;
     @apply ml-4 my-4 px-4 py-2;
   }
   /*** Main styles ***/
@@ -55,16 +58,20 @@
   }
   /*** Custom styles ***/
   .label {
-    @apply mx-1 px-1 py-0.5 whitespace-nowrap;
-    @apply rounded border border-gray-400 dark:border-gray-500;
+    @apply border-frame-l dark:border-frame-d;
+    @apply rounded border;
+    @apply mx-1 px-1 py-0.5;
+    @apply whitespace-nowrap;
   }
   .label-link {
-    @apply mx-1 px-1 py-0.5 whitespace-nowrap;
-    @apply rounded border border-sky-600 dark:border-slate-400;
-    @apply hover:bg-sky-200 dark:hover:bg-gray-500;
+    @apply border-accent-frame-l dark:border-accent-frame-d;
+    @apply hover:bg-accent-hover-l dark:hover:bg-accent-hover-d;
+    @apply rounded border;
+    @apply mx-1 px-1 py-0.5;
+    @apply whitespace-nowrap;
   }
   .nav-item {
-    @apply text-white hover:bg-sky-700 dark:hover:bg-gray-700;
+    @apply text-white hover:bg-back-accent-hover-l dark:hover:bg-back-accent-hover-d;
   }
   /*** paginator ***/
   .paginator {
@@ -74,21 +81,24 @@
     @apply inline-flex border rounded px-3 py-1;
   }
   .paginator .page-item:not(.active):not(.disabled) {
-    @apply border-gray-400 dark:border-gray-400;
+    @apply border-frame-l dark:border-frame-d;
+    @apply hover:bg-accent-hover-l dark:hover:bg-accent-hover-d;
   }
   .paginator .page-item.active {
-    @apply border-sky-600 dark:border-white;
+    @apply border-accent-frame-l dark:border-accent-frame-d;
   }
   .paginator .page-item.disabled {
-    @apply bg-gray-50 dark:bg-gray-500 dark:border-gray-400;
+    @apply border-frame-l dark:border-frame-d;
+    @apply bg-back2-l dark:bg-back2-d;
   }
   .paginator .page-item.disabled a {
     @apply text-gray-400 dark:text-gray-400;
   }
   /*** examples ***/
   .block-example {
+    @apply border-shadow-l dark:border-shadow-d;
     @apply my-4 pl-3;
-    @apply border-l-8 border-gray-300 dark:border-zinc-600;
+    @apply border-l-8;
   }
   /*** about ***/
   #about img {
@@ -99,7 +109,7 @@
     @apply inline-flex h-[1.2em] w-[1.2em] pr-[0.4em] fill-current;
   }
   .fai-link {
-    @apply hover:text-sky-400 dark:hover:text-blue-400;
+    @apply hover:text-accent-icon-hover-l dark:hover:text-accent-icon-hover-d;
   }
   .label-link .fai {
     @apply pl-1 pb-1 h-[1.5em] w-[1.5em];
