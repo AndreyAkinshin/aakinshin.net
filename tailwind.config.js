@@ -21,7 +21,7 @@ module.exports = {
         },
         'back-accent-hover': {
           'l': colors.sky["700"],
-          'd': colors.gray["700"],
+          'd': colors.zinc["700"],
         },
         'back2': {
           'l': colors.gray["100"],
@@ -29,7 +29,7 @@ module.exports = {
         },
         'front': {
           'l': colors.black,
-          'd': colors.gray["400"],
+          'd': colors.zinc["400"],
         },
         'accent': {
           'l': colors.sky["600"],
@@ -37,23 +37,31 @@ module.exports = {
         },
         'accent-frame': {
           'l': colors.sky["600"],
-          'd': colors.slate["400"],
+          'd': colors.zinc["300"],
         },
         'accent-hover': {
           'l': colors.sky["200"],
-          'd': colors.gray["500"],
+          'd': colors.zinc["600"],
         },
         'accent-icon-hover': {
           'l': colors.sky["400"],
-          'd': colors.blue["400"],
+          'd': colors.blue["300"],
         },
         'shadow': {
           'l': colors.gray["300"],
-          'd': colors.gray["600"],
+          'd': colors.zinc["600"],
         },
         'frame': {
           'l': colors.gray["300"],
-          'd': colors.gray["600"],
+          'd': colors.zinc["600"],
+        },
+        'alert-text': {
+          'l': colors.orange["700"],
+          'd': colors.orange["700"],
+        },
+        'alert-frame': {
+          'l': colors.orange["700"],
+          'd': colors.orange["700"],
         }
       }
     }

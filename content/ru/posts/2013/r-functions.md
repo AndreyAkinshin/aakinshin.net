@@ -407,19 +407,25 @@ aliases:
 
 Работа с функциями:
 
-* `function(arglist) { expr }` — создание пользовательской функции
-* `return(value)` — возвращение значения
-* `do.call(funname, args)` — вызывает функцию по имени
+```r
+function(arglist) { expr } # создание пользовательской функции
+return(value)              # возвращение значения
+do.call(funname, args)     # вызывает функцию по имени
+```
 
 Условные операторы:
 
-* `if(cond) expr`
-* `if(cond) cons.expr else alt.expr`
-* `ifelse(test, yes, no)`
+```r
+if(cond) expr
+if(cond) cons.expr else alt.expr
+ifelse(test, yes, no)
+```
 
 Циклы:
 
-* `for(var in seq) expr`
-* `while(cond) expr`
-* `repeat expr`
-* `break` — остановка цикла
+```r
+for(var in seq) expr
+while(cond) expr
+repeat expr
+break # остановка цикла
+```

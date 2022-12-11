@@ -75,7 +75,14 @@ namespace DataProcessor.Publications
             if (entry.GetJournal() != "")
                 builder.Append(" " + entry.GetJournal() + ".");
             if (entry.GetPublisher() != "")
-                builder.Append($" {Resolve(lang, "Publisher", "Издательство")}: " + entry.GetPublisher() + ".");
+            {
+                var publisher = entry.GetPublisher();
+                if (publisher.ToLowerInvariant() == "arxiv")
+                    builder.Append(" " + publisher + ".");
+                else 
+                    builder.Append($" {Resolve(lang, "Publisher", "Издательство")}: " + publisher + ".");
+            }
+
             if (entry.GetAddress() != "")
                 builder.Append(" " + entry.GetAddress() + ".");
             if (entry.GetOrganization() != "")
@@ -258,7 +265,7 @@ namespace DataProcessor.Publications
                     }
 
                     bool isVak = entry.GetTags().Contains("Vak");
-                    if (isVak || isWoS || isSpringer || isScopus)
+                    if ((isVak || isWoS || isSpringer || isScopus) && lang == PublicationLanguage.Russian)
                     {
                         builder.AppendLine("  [[item.badge]]");
                         var label = lang == PublicationLanguage.Russian ? "ВАК" : "VAK";

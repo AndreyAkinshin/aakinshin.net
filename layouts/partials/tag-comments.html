@@ -11,8 +11,9 @@
   {{ if ne ($isAnnouncement.Get "value") "true" }}
     {{ range . }}
       {{ if eq .Params.type "research" }}
-        {{ .Params.message | markdownify }}
-        <br /><br />
+        <div class="main-content mb-3 px-2 py-1 rounded border text-alert-text-l border-alert-frame-l dark:text-alert-text-d dark:border-alert-frame-d">
+          {{ .Params.message | markdownify }}
+        </div>
       {{ end }}
     {{ end }}
   {{ end }}

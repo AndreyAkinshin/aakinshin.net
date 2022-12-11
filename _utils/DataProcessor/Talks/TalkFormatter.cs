@@ -47,8 +47,13 @@ namespace DataProcessor.Talks
             {
                 builder.Append("  ");
                 if (talk.EventHint != "")
+                {
                     builder.Append(talk.EventHint + " ");
-                builder.Append(QuoteWithLink(talk, talk.Event, "event"));
+                    builder.Append(QuoteWithLink(talk, talk.Event, "event"));
+                }
+                else
+                    builder.Append(talk.Event);
+
                 builder.AppendLine(",<br />");
             }
 

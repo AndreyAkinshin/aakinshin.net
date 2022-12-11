@@ -122,6 +122,7 @@
 <section>
   <h3 id="education">Education</h3>
 
+  <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
   <a href="http://www.en.altstu.ru/">I.I. Polzunov Altai state technical university</a>, <a href="http://www.altstu.ru/structure/faculty/fit/">Faculty of Information Technologies</a> (Barnaul, Russia)<br />
   
   * *09/2006–06/2011:* Student, specialty <a href="http://www.altstu.ru/entrant/speciality/0026/">230105</a> “Software for Computers and Automated System”.<br />

@@ -16,7 +16,7 @@
     @apply no-underline;
   }
   .main-content a:not(.label-link) {
-    @apply hover:underline;
+    @apply hover:text-accent-icon-hover-l hover:dark:text-accent-icon-hover-d
   }
   hr {
     @apply bg-shadow-l dark:bg-shadow-d;
@@ -112,12 +112,13 @@
     @apply hover:text-accent-icon-hover-l dark:hover:text-accent-icon-hover-d;
   }
   .label-link .fai {
-    @apply pl-1 pb-1 h-[1.5em] w-[1.5em];
+    @apply pl-1 pb-1 pb-0.5 h-[1.5em] w-[1.5em];
   }
   /*** Chroma ***/
   .chroma {
+    @apply border-shadow-l dark:border-shadow-d;
     @apply my-5 overflow-y-scroll;
-    @apply p-1 border rounded;
+    @apply p-1 border-2 rounded;
   }
 }
 
@@ -138,12 +139,11 @@ code.has-jax {
   font-size: 100%;
 }
 
-/*** anchorjs ***/
-*:hover > .anchorjs-link {
-  margin-left: -1.125em !important;
+/*** Chroma ***/
+pre.chroma code {
+  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", "Liberation Mono", Menlo, Monaco, Consolas, monospace !important;
 }
 
-/*** Chroma ***/
 /* Background */ .chroma { background-color: #ffffff }
 /* Other */ .chroma .x {  }
 /* Error */ .chroma .err { color: #a61717; background-color: #e3d2d2 }

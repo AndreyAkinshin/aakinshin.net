@@ -35,6 +35,12 @@
       <use xlink:href="/img/fa/all.svg#researchgate"></use>
     </svg>
   </a>
+  <a href="https://orcid.org/0000-0003-3553-9367">
+    <svg class="fai fai-link">
+      <title>ORCID</title>
+      <use xlink:href="/img/fa/all.svg#orcid"></use>
+    </svg>
+  </a>
   <a href="http://stackoverflow.com/users/184842/AndreyAkinshin">
     <svg class="fai fai-link">
       <title>StackOverflow</title>
@@ -112,35 +118,37 @@
   {{ partial "about/items" (dict "context" . "name" "publications") }}
   <br />
   <p>
-    {{ i18n "myErdosNumber" | safeHTML }}: <b>4</b>
-    (
-      <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/1061721">Andrey Akinshin</a>
-      →
-      <a href="https://mathscinet.ams.org/mathscinet-getitem?mr=3716100">MR3716100</a>
-      →
-      <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/185690">Yosef Yomdin</a>
-      →
-      <a href="https://mathscinet.ams.org/mathscinet-getitem?mr=2232733">MR2232733</a>
-      →
-      <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/190389">Matatyahu Rubin</a>
-      →
-      <a href="https://mathscinet.ams.org/mathscinet-getitem?mr=1786142">MR1786142</a>
-      →
-      <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/39270">Robert Bonnet</a>
-      →
-      <a href="https://mathscinet.ams.org/mathscinet-getitem?mr=373945">MR0373945</a>
-      →
-      <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/189017">Paul Erdős</a>
-    )
+    {{ i18n "myErdosNumber" | safeHTML }}: 4
+    (<a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/1061721">Andrey Akinshin</a>
+     →
+     <a href="https://mathscinet.ams.org/mathscinet-getitem?mr=3716100">MR3716100</a>
+     →
+     <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/185690">Yosef Yomdin</a>
+     →
+     <a href="https://mathscinet.ams.org/mathscinet-getitem?mr=2232733">MR2232733</a>
+     →
+     <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/190389">Matatyahu Rubin</a>
+     →
+     <a href="https://mathscinet.ams.org/mathscinet-getitem?mr=1786142">MR1786142</a>
+     →
+     <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/39270">Robert Bonnet</a>
+     →
+     <a href="https://mathscinet.ams.org/mathscinet-getitem?mr=373945">MR0373945</a>
+     →
+     <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/189017">Paul Erdős</a>)
   </p>
-  <p>ORCID: <a href="https://orcid.org/0000-0003-3553-9367">0000-0003-3553-9367</a></p>
-  <p>Scopus AuthorID: <a href="https://www.scopus.com/authid/detail.uri?authorId=56826126900">56826126900</a></p>
-  <p>Web of Science ResearcherID: <a href="https://publons.com/researcher/ABB-9171-2020/">ABB-9171-2020</a></p>
-  <p>Science Index: <a href="https://www.elibrary.ru/author_items.asp?authorid=676806">676806</a></p>
-  <p>MathNet: <a href="http://www.mathnet.ru/php/person.phtml?personid=79053">79053</a></p>
-  <p>Google Scholar: <a href="https://scholar.google.com/citations?user=rYVl83IAAAAJ">rYVl83IAAAAJ</a></p>
-  <p>ResearchGate: <a href="https://www.researchgate.net/profile/Andrey_Akinshin">Andrey_Akinshin</a></p>
-  <p>arXiv: <a href="https://arxiv.org/a/akinshin_a_1.html">akinshin_a_1</a></p>
+  <p>
+    ORCID: <a href="https://orcid.org/0000-0003-3553-9367">0000-0003-3553-9367</a><br />
+    Scopus AuthorID: <a href="https://www.scopus.com/authid/detail.uri?authorId=56826126900">56826126900</a><br />
+    Web of Science ResearcherID: <a href="https://www.webofscience.com/wos/author/record/2102893">ABB-9171-2020</a><br />
+    {{ if eq .Site.Language.Lang "ru" }}
+    Science Index: <a href="https://www.elibrary.ru/author_items.asp?authorid=676806">676806</a><br />
+    MathNet: <a href="http://www.mathnet.ru/php/person.phtml?personid=79053">79053</a><br />
+    {{ end }}
+    Google Scholar: <a href="https://scholar.google.com/citations?hl=en&user=rYVl83IAAAAJ&view_op=list_works&sortby=pubdate">rYVl83IAAAAJ</a><br />
+    ResearchGate: <a href="https://www.researchgate.net/profile/Andrey_Akinshin">Andrey_Akinshin</a><br />
+    arXiv: <a href="https://arxiv.org/a/akinshin_a_1.html">akinshin_a_1</a><br />  
+  </p>
 </section>
 <hr />
 

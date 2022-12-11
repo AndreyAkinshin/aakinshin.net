@@ -10,19 +10,6 @@
     </div>
 
     {{ partial "footer.html" . }}
-    
-    {{ if not (in .Params.Features "hideanchor") }}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.3.1/anchor.min.js" integrity="sha512-zPB79j2C+3sFS9zcA3vg/z6bVKzJVEyu9pY5w89akQRys76zpAT2t6S3wZKla3QQ14O5l/Yt0RUQ/DHXx82Y5g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-      anchors.options = {
-        placement: 'left',
-        icon: '§'
-       };
-       anchors.add('h1');
-       anchors.add('h2');
-       anchors.add('h3');
-    </script>
-    {{ end }}
 
     <!-- Features scripts -->
     {{ partial "scripts/math.html" . }}
