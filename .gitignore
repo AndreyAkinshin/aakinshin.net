@@ -5,6 +5,7 @@
 data/gen/
 public/
 content/en/posts/drafts
+assets/css/main.css
 
 # Binaries
 bin/
