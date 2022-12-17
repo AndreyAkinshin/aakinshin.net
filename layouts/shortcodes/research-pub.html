@@ -1,0 +1,23 @@
+{{ $project := .Get 0 }}
+{{ $data := index .Site.Data.gen "publications_en" }}
+
+<ol reversed>
+{{ range $data.item }}
+{{ if eq .Project $project }}
+  <li>
+    {{ safeHTML .Html }}
+    <br />
+    <div class="flex flex-wrap gap-y-1">
+    {{ if or (isset . "link") (isset . "badge") }}
+      {{ range .badge }}
+        <span class="label text-sm">{{ .Label | safeHTML }}</span>
+      {{ end }}
+      {{ range .link }}
+        <a href="{{ .Url }}" class="label-link text-sm">{{ .Label | safeHTML }}</a>
+      {{ end }}
+    {{ end }}
+    </div>
+  </li>
+{{ end }}
+{{ end }}
+</ol>

@@ -25,7 +25,9 @@ He is also
   a silver medalist of [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest).
 
 Andrey is a Ph.D. in computer science and mathematics.
-His current primary research area is mathematical statistics.
-Previously, he worked as a postdoctoral research fellow at the [Weizmann Institute of Science](http://www.weizmann.ac.il/).
+His current primary research area is [mathematical statistics]({{< ref research >}}/#statistics).
+Previously, he worked as a
+  [postdoctoral research fellow]({{< ref research >}}/#signal-processing) at the
+  [Weizmann Institute of Science](https://www.weizmann.ac.il/).
 
 </div>

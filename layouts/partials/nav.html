@@ -12,6 +12,11 @@
       <div class="flex nav-item h-12 items-center">
         <a class="px-3 text-white" href='{{ (.Site.GetPage "/posts").Permalink }}'>{{ i18n "posts" }}</a>
       </div>
+      {{ if eq .Site.Language.Lang "en" }}
+      <div class="flex nav-item h-12 items-center">
+        <a class="px-3 text-white" href='{{ (.Site.GetPage "/pages/research.md").Permalink }}'>{{ i18n "research" }}</a>
+      </div>
+      {{ end }}
       <div class="flex nav-item h-12 items-center">
         <a class="px-3 text-white" href='{{ (.Site.GetPage "/pages/about.md").Permalink }}'>{{ i18n "about" }}</a>
       </div>

@@ -40,6 +40,8 @@ namespace DataProcessor.Publications
             return urls.ToArray();
         }
 
+        public static string GetProject(this PublicationEntry entry) => entry.GetProperty("custom-project");
+
         public static string[] GetTags(this PublicationEntry entry) => entry.GetProperty("custom-tags")
             .Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
@@ -227,6 +229,8 @@ namespace DataProcessor.Publications
                     builder.AppendLine("[[item]]");
                     builder.AppendLine($"Group = \"{year}\"");
                     builder.AppendLine($"Html = \"{Util.Escape(entry.ToHtml())}\"");
+                    if (!string.IsNullOrEmpty(entry.GetProject()))
+                        builder.AppendLine($"Project = \"{entry.GetProject()}\"");
                     builder.AppendLine($"Index = {counter--}");
 
                     builder.AppendLine("  [[item.badge]]");
@@ -277,7 +281,7 @@ namespace DataProcessor.Publications
                     {
                         builder.AppendLine("  [[item.link]]");
                         builder.AppendLine($"  Label = \"DOI\"");
-                        builder.AppendLine($"  Url = \"http://dx.doi.org/{doi}\"");
+                        builder.AppendLine($"  Url = \"https://dx.doi.org/{doi}\"");
                     }
 
                     foreach (var url in entry.GetUrls())

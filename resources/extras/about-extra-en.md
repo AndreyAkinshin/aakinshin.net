@@ -69,7 +69,7 @@
   <br /><br />
 
   <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
-  [Sobolev Institute of Mathematics SB RAS](http://math.nsc.ru/english.html), Laboratory of Inverse Problems of Mathematical Physics (Novosibirsk, Russia)<br />
+  [Sobolev Institute of Mathematics SB RAS](https://en.wikipedia.org/wiki/Sobolev_Institute_of_Mathematics), Laboratory of Inverse Problems of Mathematical Physics (Novosibirsk, Russia)<br />
 
   * *08/2012–06/2014:* Engineer
   * *07/2014–12/2016:* Research scientist
@@ -128,7 +128,7 @@
   * *09/2006–06/2011:* Student, specialty <a href="http://www.altstu.ru/entrant/speciality/0026/">230105</a> “Software for Computers and Automated System”.<br />
   Honours degree, 5.0 GPA, AltSTU student of the year 2009, head of the group.
   * *08/2011–12/2013:* Ph.D. student, specialty: <a href="https://vak.gov.by/node/1080">05.13.18</a> “Mathematical modeling, numeric methods, and software systems”.<br />
-  Ph.D. thesis <a href="https://dlib.rsl.ru/01005540613">“Mathematical and numerical modeling of gene networks artificial regulatory circuits”</a><br />
+  Ph.D. thesis <a href="https://dlib.rsl.ru/01005540613">“Mathematical and numerical modeling of gene network artificial regulatory circuits”</a><br />
   (defended in <a href="https://icmmg.nsc.ru/en">Institute of Computational Mathematics and Mathematical Geophysics SB RAS</a>, December 2013).
 </section>
 
