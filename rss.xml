@@ -1,4 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 13 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Resistance to the low-density regions: the Hodges-Lehmann location estimator</title><link>https://aakinshin.net/posts/rldr-hl/</link><pubDate>Tue, 13 Dec 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/rldr-hl/</guid><description>&lt;p>In the previous posts, I discussed the concept of a resistance function
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 20 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Median of the shifts vs. shift of the medians</title><link>https://aakinshin.net/posts/median-shift-vs-shift-median/</link><pubDate>Tue, 20 Dec 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/median-shift-vs-shift-median/</guid><description>&lt;p>Let us say that we have two samples
+&lt;span class="math inline">\(x = \{ x_1, x_2, \ldots, x_n \}\)&lt;/span>,
+&lt;span class="math inline">\(y = \{ y_1, y_2, \ldots, y_m \}\)&lt;/span>,
+and we want to estimate the shift of locations between them.
+In the case of the normal distribution, this task is quite simple
+and has a lot of straightforward solutions.
+However, in the nonparametric case, the location shift is an ambiguous metric
+which heavily depends on the chosen estimator.
+In the context of this post, we consider two approaches that may look similar.
+The first one is the &lt;strong>s&lt;/strong>hift of the &lt;strong>m&lt;/strong>edians:&lt;/p>
+&lt;p>&lt;span class="math display">\[\newcommand{\DSM}{\Delta_{\operatorname{SM}}}
+\DSM = \operatorname{median}(y) - \operatorname{median}(x).
+\]&lt;/span>&lt;/p>
+&lt;p>The second one of the median of all pairwise shifts,
+also known as the &lt;strong>H&lt;/strong>odges-&lt;strong>L&lt;/strong>ehmann location shift estimator:&lt;/p>
+&lt;p>&lt;span class="math display">\[\newcommand{\DHL}{\Delta_{\operatorname{HL}}}
+\DHL = \operatorname{median}(y_j - x_i).
+\]&lt;/span>&lt;/p>
+&lt;p>In the case of the normal distributions, these estimators are consistent.
+However, this post will show an example of multimodal distributions
+that lead to opposite signs of &lt;span class="math inline">\(\DSM\)&lt;/span> and &lt;span class="math inline">\(\DHL\)&lt;/span>.&lt;/p></description></item><item><title>Resistance to the low-density regions: the Hodges-Lehmann location estimator</title><link>https://aakinshin.net/posts/rldr-hl/</link><pubDate>Tue, 13 Dec 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/rldr-hl/</guid><description>&lt;p>In the previous posts, I discussed the concept of a resistance function
 that shows the sensitivity of the given estimator to the low-density regions.
 I already showed how this function behaves for &lt;a href="https://aakinshin.net/posts/rldr-mean-median/">the mean, the sample median&lt;/a>,
 and &lt;a href="https://aakinshin.net/posts/rldr-hdmedian/">the Harrell-Davis median&lt;/a>.
