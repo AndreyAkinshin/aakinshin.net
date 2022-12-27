@@ -1,5 +1,5 @@
 ---
-title: Median of the shifts vs. shift of the medians
+title: "Median of the shifts vs. shift of the medians, Part 1"
 description: An example of opposite signs of the median of the shifts and the shift of the medians on multimodal distributions
 thumbnail: z-dark
 date: 2022-12-20
@@ -9,6 +9,8 @@ tags:
 - research
 features:
 - math
+aliases:
+- median-shift-vs-shift-median
 ---
 
 Let us say that we have two samples
