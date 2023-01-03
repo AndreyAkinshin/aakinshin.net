@@ -1,4 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 27 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Median of the shifts vs. shift of the medians, Part 2: Gaussian efficiency</title><link>https://aakinshin.net/posts/median-shift-vs-shift-median2/</link><pubDate>Tue, 27 Dec 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/median-shift-vs-shift-median2/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/median-shift-vs-shift-median1/">previous post&lt;/a>,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 03 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Trimmed Hodges-Lehmann location estimator, Part 1: breakdown point</title><link>https://aakinshin.net/posts/thl-bp/</link><pubDate>Tue, 03 Jan 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thl-bp/</guid><description>&lt;p>For a sample &lt;span class="math inline">\(\mathbf{x} = \{ x_1, x_2, \ldots, x_n \}\)&lt;/span>,
+the Hodges-Lehmann location estimator is defined as follows:&lt;/p>
+&lt;p>&lt;span class="math display">\[\operatorname{HL}(\mathbf{x}) =
+\underset{i &lt; j}{\operatorname{median}}\biggl(\frac{x_i + x_j}{2}\biggr).
+\]&lt;/span>&lt;/p>
+&lt;p>Its asymptotic Gaussian efficiency is &lt;span class="math inline">\(\approx 96\%\)&lt;/span>,
+while its asymptotic breakdown point is &lt;span class="math inline">\(\approx 29\%\)&lt;/span>.
+This makes the Hodges-Lehmann location estimator a decent robust alternative to the mean.&lt;/p>
+&lt;p>While the Gaussian efficiency is quite impressive (almost as efficient as the mean),
+the breakdown point is not as great as in the case of the median (which has a breakdown point of &lt;span class="math inline">\(50\%\)&lt;/span>).
+Could we change this trade-off a little bit and make this estimator more robust,
+sacrificing a small portion of efficiency?
+Yes, we can!&lt;/p>
+&lt;p>In this post, I want to present the idea of the trimmed Hodges-Lehmann location estimator
+and provide the exact equation for its breakdown point.&lt;/p></description></item><item><title>Median of the shifts vs. shift of the medians, Part 2: Gaussian efficiency</title><link>https://aakinshin.net/posts/median-shift-vs-shift-median2/</link><pubDate>Tue, 27 Dec 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/median-shift-vs-shift-median2/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/median-shift-vs-shift-median1/">previous post&lt;/a>,
 we discussed the difference between shifts of the medians
 and the Hodges-Lehmann location shift estimator.
 In this post, we conduct a simple numerical simulation
