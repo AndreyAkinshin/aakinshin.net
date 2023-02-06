@@ -1,0 +1,6 @@
+{{ if eq .Site.Language.Lang "en" }}
+{{ $url := print "https://github.com/AndreyAkinshin/aakinshin.net/tree/master/content/en/" .File.Path }}
+<div class="flex flex-wrap justify-center items-center">
+  The source code of this post and all the relevant files are&nbsp;<a href="{{ $url }}">available on GitHub</a>.
+</div>
+{{ end }}
