@@ -103,6 +103,10 @@ Using such an approach, we can iteratively extend our knowledge base and
 Remember that outliers are not inconvenient values;
   they are an essential part of the data, which may provide valuable insights.
 
+### Acknowledgments
+
+The author thanks [Paul Velleman](https://www.ilr.cornell.edu/people/paul-velleman) for valuable discussions.
+
 ### References
 
 * <b id="Pukelsheim1990">[Pukelsheim1990]</b>  
