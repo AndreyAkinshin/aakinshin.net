@@ -1,4 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 31 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Thoughts about outlier removal and ozone holes</title><link>https://aakinshin.net/posts/outliers-ozon-holes/</link><pubDate>Tue, 31 Jan 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/outliers-ozon-holes/</guid><description>&lt;p>Imagine you work with some data and assume that the underlying distribution is approximately normal.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 07 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Types of finite-sample consistency with the standard deviation</title><link>https://aakinshin.net/posts/sd-consistency-types/</link><pubDate>Tue, 07 Feb 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/sd-consistency-types/</guid><description>&lt;p>Let us say we have a robust dispersion estimator &lt;span class="math inline">\(\operatorname{T}(X)\)&lt;/span>.
+If it is asymptotically consistent with the standard deviation,
+we can use such an estimator as a robust replacement for the standard deviation under normality.
+Thanks to asymptotical consistency, we can use the estimator &amp;ldquo;as is&amp;rdquo; for large samples.
+However, if the number of sample elements is small,
+we typically need finite-sample bias-correction factors to make the estimator unbiased.
+Here we should clearly understand what kind of consistency we need.&lt;/p>
+&lt;p>There are various ways to estimate the standard deviation.
+Let us consider a sample of random variables &lt;span class="math inline">\(X = \{ X_1, X_2, \ldots, X_n \}\)&lt;/span>.
+The most popular equation of the standard deviation is given by&lt;/p>
+&lt;p>&lt;span class="math display">\[s(X) = \sqrt{\frac{1}{n - 1} \sum_{i=1}^n (X_i - \overline{X})^2}.
+\]&lt;/span>&lt;/p>
+&lt;p>Using this definition, we can get an unbiased estimator for the population variance: &lt;span class="math inline">\(\mathbb{E}[s^2(X)] = 1\)&lt;/span>.
+However, it is a biased estimator for the population standard deviation: &lt;span class="math inline">\(\mathbb{E}[s(X)] \neq 1\)&lt;/span>.
+To obtain to corresponding unbiased estimator, we should use &lt;span class="math inline">\(s(\mathbf{x}) \cdot c_4(n)\)&lt;/span>,
+where &lt;span class="math inline">\(c_4(n)\)&lt;/span> is a correction factor defined as follows:&lt;/p>
+&lt;p>&lt;span class="math display">\[c_4(n) = \sqrt{\frac{2}{n-1}} \cdot \frac{\Gamma\left(\frac{n}{2}\right)}{\Gamma\left(\frac{n-1}{2}\right)}.
+\]&lt;/span>&lt;/p>
+&lt;p>When we define finite-sample bias-correction factors for a robust standard deviation replacement,
+we should choose which kind of consistency we need.
+In this post, I briefly explore available options.&lt;/p></description></item><item><title>Thoughts about outlier removal and ozone holes</title><link>https://aakinshin.net/posts/outliers-ozon-holes/</link><pubDate>Tue, 31 Jan 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/outliers-ozon-holes/</guid><description>&lt;p>Imagine you work with some data and assume that the underlying distribution is approximately normal.
 In such cases, the data analysis typically involves non-robust statistics like the mean and the standard deviation.
 While these metrics are highly efficient under normality, they make the analysis procedure fragile:
 a single extreme value can corrupt all the results.
