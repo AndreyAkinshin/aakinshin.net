@@ -96,7 +96,7 @@ Here are the density plots of the corresponding estimations and their squares:
 
 And here is the summary table that shows the difference between different types of consistency:
 
-|Estimator |   Factor| $\mathbb{E}[\operatorname{MAD}_n]$ | $\mathbb{E}[\operatorname{MAD}_n^2]$ |
+|Estimator |   Factor| $\mathbb{E}[\operatorname{T}_n]$ | $\mathbb{E}[\operatorname{T}_n^2]$ |
 |:----|--------:|---------:|--------:|
 |SD      |       NA| 0.9213177 | 1|
 |(A) MAD    | 2.016814| 1 | 1.329097|
