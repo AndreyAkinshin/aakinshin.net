@@ -5,7 +5,7 @@ tags:
 - mathematics
 - statistics
 - research
-- outlier-detection
+- outliers
 features:
 - math
 aliases:
