@@ -1,18 +1,14 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 31 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Thoughts about outlier removal and climate change</title><link>https://aakinshin.net/posts/outliers-climate-change/</link><pubDate>Tue, 31 Jan 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/outliers-climate-change/</guid><description>&lt;p>When it comes to outlier removal,
-people typically start discussing various techniques that remove outliers from the given sample.
-However, such a discussion should be started with the question, &amp;ldquo;why do we want to remove outliers?&amp;rdquo;
-Outliers may provide essential information about the underlying distribution,
-so we do not always want to discard them.
-If we blindly remove all the outliers, we may miss important insights.
-Before we start choosing the best outlier detector, we should understand the nature of the outlier existing.
-We should define what kind of values we recognize as outliers
-and what kind of useful information they can provide.
-If we have non-robust estimators that can be affected by these outliers,
-we may also consider replacing them with robust estimators that do not have such a problem.
-Meanwhile, additional analysis of extreme values can provide
-useful insights for anomaly detection and tail approximation.&lt;/p>
-&lt;p>To illustrate the danger of blind outlier removal, I would like to share a fragment from the book
-&amp;ldquo;Our Changing Climate&amp;rdquo; (1991) by R. Kandel:&lt;/p></description></item><item><title>Nonparametric effect size: Cohen's d vs. Glass's delta</title><link>https://aakinshin.net/posts/gamma-es-cohen-glass/</link><pubDate>Tue, 24 Jan 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/gamma-es-cohen-glass/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/tags/research-gamma-es/">previous posts&lt;/a>,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 31 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Thoughts about outlier removal and ozone holes</title><link>https://aakinshin.net/posts/outliers-ozon-holes/</link><pubDate>Tue, 31 Jan 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/outliers-ozon-holes/</guid><description>&lt;p>Imagine you work with some data and assume that the underlying distribution is approximately normal.
+In such cases, the data analysis typically involves non-robust statistics like the mean and the standard deviation.
+While these metrics are highly efficient under normality, they make the analysis procedure fragile:
+a single extreme value can corrupt all the results.
+You may not expect any significant outliers, but you can never be 100% sure.
+To avoid unexpected surprises and ensure the reliability of the results,
+it may be tempting to automatically exclude all outliers from the collected samples.
+While this approach is widely adopted, it conceals an essential part of the obtained data
+and can lead to fallacious conclusions.&lt;/p>
+&lt;p>Let me recite a classic story about ozone holes,
+which is typically used to illustrate the danger of blind outlier removal:&lt;/p></description></item><item><title>Nonparametric effect size: Cohen's d vs. Glass's delta</title><link>https://aakinshin.net/posts/gamma-es-cohen-glass/</link><pubDate>Tue, 24 Jan 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/gamma-es-cohen-glass/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/tags/research-gamma-es/">previous posts&lt;/a>,
 I discussed the idea of nonparametric effect size measures
 consistent with Cohen&amp;rsquo;s d under normality.
 However, Cohen&amp;rsquo;s d is not always the best effect size measure, even in the normal case.&lt;/p>
