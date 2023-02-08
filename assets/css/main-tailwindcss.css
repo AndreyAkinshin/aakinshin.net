@@ -35,7 +35,7 @@
     @apply text-2xl py-2;
   }
   table {
-    @apply border self-center mx-auto;
+    @apply border self-center mx-auto mb-3;
   }
   th, td {
     @apply border p-2
