@@ -7,3 +7,5 @@ Sheather
 Multimodality
 imgld
 imgld
+Brunner-Munzel
+nonparametric
