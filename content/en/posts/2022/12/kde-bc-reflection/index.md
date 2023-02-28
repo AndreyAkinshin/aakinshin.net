@@ -5,6 +5,8 @@ tags:
 - mathematics
 - statistics
 - research
+features:
+- math
 ---
 
 Kernel density estimation (KDE) is a popular way to approximate a distribution based on the given data.
