@@ -1,4 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 21 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Corner case of the Brunner–Munzel test</title><link>https://aakinshin.net/posts/brunner-munzel-corner-case/</link><pubDate>Tue, 21 Feb 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/brunner-munzel-corner-case/</guid><description>&lt;p>The Brunner–Munzel test is a nonparametric significance test,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 28 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>p-value distribution of the Mann–Whitney U test in the finite case</title><link>https://aakinshin.net/posts/mann-whitney-pvalue-distribution/</link><pubDate>Tue, 28 Feb 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mann-whitney-pvalue-distribution/</guid><description>&lt;p>When we work with null hypothesis significance testing and the null hypothesis is true,
+the distribution of observed p-value is asymptotically uniform.
+However, the distribution shape is not always uniform in the finite case.
+For example, when we work with rank-based tests like the Mann–Whitney U test,
+the distribution of the p-values is discrete with a limited set of possible values.
+This should be taken into account when we design a testing procedure for small samples
+and choose the significance level.&lt;/p>
+&lt;p>Previously, we already discussed the &lt;a href="https://aakinshin.net/posts/mann-whitney-min-stat-level/">minimum reasonable significance level&lt;/a>
+of the Mann-Whitney U test for small samples.
+In this post, we explore the full distribution of the p-values for this case.&lt;/p></description></item><item><title>Corner case of the Brunner–Munzel test</title><link>https://aakinshin.net/posts/brunner-munzel-corner-case/</link><pubDate>Tue, 21 Feb 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/brunner-munzel-corner-case/</guid><description>&lt;p>The Brunner–Munzel test is a nonparametric significance test,
 which can be considered an alternative to the Mann–Whitney U test.
 However, the Brunner–Munzel test has a corner case
 that can cause some practical issues with applying this test to real data.
