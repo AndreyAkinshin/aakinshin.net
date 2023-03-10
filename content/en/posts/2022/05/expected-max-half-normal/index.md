@@ -115,6 +115,6 @@ We can check the correctness of this result using the following R script
 
 ```r
 set.seed(42)
-round(mean(pmin(abs(rnorm(100000000)), abs(rnorm(100000000)))), 3)
+round(mean(pmax(abs(rnorm(100000000)), abs(rnorm(100000000)))), 3)
 # 1.128
 ```
