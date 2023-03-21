@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 14 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>p-value distribution of the Brunner–Munzel test in the finite case</title><link>https://aakinshin.net/posts/brunner-munzel-pvalue-distribution/</link><pubDate>Tue, 14 Mar 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/brunner-munzel-pvalue-distribution/</guid><description>&lt;p>In our of the previous post, I explored the
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 21 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Performance stability of GitHub Actions</title><link>https://aakinshin.net/posts/github-actions-perf-stability/</link><pubDate>Tue, 21 Mar 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/github-actions-perf-stability/</guid><description>&lt;p>Nowadays, &lt;a href="https://github.com/features/actions">GitHub Actions&lt;/a> is one of the most popular free CI systems.
+It&amp;rsquo;s quite convenient to use it to run unit and integration tests.
+However, some developers try to use it to run benchmarks and performance tests.
+Unfortunately, default GitHub Actions build agents do not provide
+a consistent execution environment from the performance point of view.
+Therefore, performance measurements from different builds can not be compared.
+This makes it almost impossible to set up reliable performance tests based
+on the default GitHub Actions build agent pool.&lt;/p>
+&lt;p>So, it&amp;rsquo;s expected that the execution environments are not &lt;em>absolutely&lt;/em> identical.
+But how bad is the situation?
+What&amp;rsquo;s the maximum difference between performance measurements from different builds?
+Is there a chance that we can play with thresholds and
+utilize GitHub Actions to detect at least major performance degradations?
+Let&amp;rsquo;s find out!&lt;/p></description></item><item><title>p-value distribution of the Brunner–Munzel test in the finite case</title><link>https://aakinshin.net/posts/brunner-munzel-pvalue-distribution/</link><pubDate>Tue, 14 Mar 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/brunner-munzel-pvalue-distribution/</guid><description>&lt;p>In our of the previous post, I explored the
 &lt;a href="https://aakinshin.net/posts/mann-whitney-pvalue-distribution/">distribution of observed p-values for the Mann–Whitney U test&lt;/a>
 in the finite case when the null hypothesis is true.
 It is time to repeat the experiment for the Brunner–Munzel test.&lt;/p></description></item><item><title>Comparing statistical power of the Mann-Whitney U test and the Brunner-Munzel test</title><link>https://aakinshin.net/posts/power-mw-bm/</link><pubDate>Tue, 07 Mar 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/power-mw-bm/</guid><description>&lt;p>In this post, we perform a short numerical simulation to compare the statistical power
