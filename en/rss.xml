@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 21 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Performance stability of GitHub Actions</title><link>https://aakinshin.net/posts/github-actions-perf-stability/</link><pubDate>Tue, 21 Mar 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/github-actions-perf-stability/</guid><description>&lt;p>Nowadays, &lt;a href="https://github.com/features/actions">GitHub Actions&lt;/a> is one of the most popular free CI systems.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 28 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Weighted modification of the Hodges-Lehmann location estimator</title><link>https://aakinshin.net/posts/whl/</link><pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/whl/</guid><description>&lt;p>The classic Hodges-Lehmann location estimator is a robust, non-parametric statistic
+used as a measure of the central tendency.
+For a sample &lt;span class="math inline">\(\mathbf{x} = \{ x_1, x_2, \ldots, x_n \}\)&lt;/span>, it is defined as follows:&lt;/p>
+&lt;p>&lt;span class="math display">\[\operatorname{HL}(\mathbf{x}) = \underset{1 \leq i &lt; j \leq n}{\operatorname{median}} \left(\frac{x_i + x_j}{2} \right).
+\]&lt;/span>&lt;/p>
+&lt;p>This estimator works great for non-weighted samples
+(its asymptotic Gaussian efficiency is &lt;span class="math inline">\(\approx 96\%\)&lt;/span>, and its asymptotic breakdown point is &lt;span class="math inline">\(\approx 29\%\)&lt;/span>).
+However, in real-world applications, data points may have varying importance or relevance.
+For example, in finance, different stocks may have different market capitalizations,
+which can impact the overall performance of an index.
+In social science research, survey responses may be weighted
+based on demographic representation to ensure that the final results are more generalizable.
+In software performance measurements, the observations may be collected from different source code revisions,
+some of which may be obsolete.
+In these cases, the classic &lt;span class="math inline">\(\operatorname{HL}\)&lt;/span>-measure is not suitable, as it treats each data point equally.&lt;/p>
+&lt;p>We can overcome this problem using weighted samples to obtain more accurate and meaningful central tendency estimates.
+Unfortunately, there is no well-established definition of the weighted Hodges-Lehmann location estimator.
+In this blog post, we introduce such a definition so that we can apply this estimator to weighted samples
+keeping it compatible with the original version.&lt;/p></description></item><item><title>Performance stability of GitHub Actions</title><link>https://aakinshin.net/posts/github-actions-perf-stability/</link><pubDate>Tue, 21 Mar 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/github-actions-perf-stability/</guid><description>&lt;p>Nowadays, &lt;a href="https://github.com/features/actions">GitHub Actions&lt;/a> is one of the most popular free CI systems.
 It&amp;rsquo;s quite convenient to use it to run unit and integration tests.
 However, some developers try to use it to run benchmarks and performance tests.
 Unfortunately, default GitHub Actions build agents do not provide
