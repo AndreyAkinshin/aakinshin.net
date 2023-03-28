@@ -25,13 +25,13 @@
   h1, h2, h3, h4, h5, h6 {
     @apply leading-tight;
   }
-  h1, h2, h3 {
+  h1, h2 {
     @apply text-4xl py-4;
   }
-  h4 {
+  h3 {
     @apply text-3xl py-3;
   }
-  h5, h6 {
+  h4, h5, h6 {
     @apply text-2xl py-2;
   }
   table {
