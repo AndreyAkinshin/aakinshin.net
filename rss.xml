@@ -1,4 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 28 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Weighted modification of the Hodges-Lehmann location estimator</title><link>https://aakinshin.net/posts/whl/</link><pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/whl/</guid><description>&lt;p>The classic Hodges-Lehmann location estimator is a robust, non-parametric statistic
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 04 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Adaptation of continuous scale measures to discrete distributions</title><link>https://aakinshin.net/posts/scale-measure-for-discrete-case/</link><pubDate>Tue, 04 Apr 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/scale-measure-for-discrete-case/</guid><description>&lt;p>In statistics, it is often important to have a reliable measure of scale
+since it is required for estimating many types of the effect size and for statistical tests.
+If we work with continuous distributions,
+there are plenty of available scale measures with various levels of statistical efficiency and robustness.
+However, when distribution becomes discrete (e.g. because of the limited resolution of the measure tools),
+classic measures of scale can collapse to zero due to tied values in collected samples.
+This can be a severe problem in the analysis
+since the scale measures are often used as denominators in various equations.
+To make the calculations more reliable,
+it is important to handle such situations somehow and ensure that the target scale measure never becomes zero.
+In this post,
+I discuss a simple approach to work around this problem and adapt any given measure of scale to the discrete case.&lt;/p></description></item><item><title>Weighted modification of the Hodges-Lehmann location estimator</title><link>https://aakinshin.net/posts/whl/</link><pubDate>Tue, 28 Mar 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/whl/</guid><description>&lt;p>The classic Hodges-Lehmann location estimator is a robust, non-parametric statistic
 used as a measure of the central tendency.
 For a sample &lt;span class="math inline">\(\mathbf{x} = \{ x_1, x_2, \ldots, x_n \}\)&lt;/span>, it is defined as follows:&lt;/p>
 &lt;p>&lt;span class="math display">\[\operatorname{HL}(\mathbf{x}) = \underset{1 \leq i &lt; j \leq n}{\operatorname{median}} \left(\frac{x_i + x_j}{2} \right).
