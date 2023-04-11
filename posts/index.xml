@@ -1,4 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 04 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Adaptation of continuous scale measures to discrete distributions</title><link>https://aakinshin.net/posts/scale-measure-for-discrete-case/</link><pubDate>Tue, 04 Apr 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/scale-measure-for-discrete-case/</guid><description>&lt;p>In statistics, it is often important to have a reliable measure of scale
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 11 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Rethinking Type I/II error rates</title><link>https://aakinshin.net/posts/rethinking-type-i-ii-errors/</link><pubDate>Tue, 11 Apr 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/rethinking-type-i-ii-errors/</guid><description>&lt;p>When it comes to the analysis of a statistical significance test design,
+many people tend to overfocus purely on the Type I error rate.
+Those who are aware of the importance of power analysis
+often stop at expressing the Type II error rate as a single number.
+It is better than nothing, but such an approach always confuses me.&lt;/p>
+&lt;p>Let us say that the declared Type II error rate is 20% (or the declared statistical power is 80%).
+What does it actually mean?
+If the sample size and the significance level (or any other significance criteria) are given,
+the Type II error rate is a function of the effect size.
+When we express the Type II error rate as a single number,
+we always (implicitly or explicitly) assume the target effect size.
+In most cases, it is an arbitrary number
+that is somehow chosen to reflect our expectations of the &amp;ldquo;reasonable&amp;rdquo; effect size.
+However, the actual Type II error rate and the corresponding statistical power
+depend on the actual effect size that we do not know.
+Some researchers estimate the Type II error rate / statistical power using the measured effect size,
+but it does not make a lot of sense since
+it does not provide new information in addition to the measured effect size or p-value.
+In reality, we have high statistical power (low Type II error rate) for large effect sizes
+and low statistical power (high Type II error rate) for small effect sizes.
+Without the knowledge of the actual effect size (which we do not have),
+the Type II error rate expressed as a single number mostly describes this arbitrarily chosen expected effect size,
+rather than the actual properties of our statistical test.&lt;/p></description></item><item><title>Adaptation of continuous scale measures to discrete distributions</title><link>https://aakinshin.net/posts/scale-measure-for-discrete-case/</link><pubDate>Tue, 04 Apr 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/scale-measure-for-discrete-case/</guid><description>&lt;p>In statistics, it is often important to have a reliable measure of scale
 since it is required for estimating many types of the effect size and for statistical tests.
 If we work with continuous distributions,
 there are plenty of available scale measures with various levels of statistical efficiency and robustness.
