@@ -1,7 +1,7 @@
 ---
-title: Rethinking Type I/II error rates
-thumbnail: pr10-light
-description: Introduce a curve that shows the dependency of the positive detection rate on the actual effect size
+title: Rethinking Type I/II error rates and power curves
+thumbnail: pc10-light
+description: Discussing power curves that show the dependency of the positive detection rate on the actual effect size
 date: 2023-04-11
 tags:
 - mathematics
@@ -70,12 +70,14 @@ Also, this makes it much more difficult
   if these tests use different "negligible" ranges for Type I errors or
   different "expected" effect sizes for Type II errors.
 
-### Positive rate curve
+### Power curve by effect size
 
 So, what can we do to resolve the described problem with the classic Type I/II error rates?
 I would like to share an approach that I use to compare various test procedures.
 Instead of focusing on separate numbers for specific effect sizes,
   I evaluate the whole function that describes the dependency of the positive detection rate on the actual effect size.
+Sometimes, such a function is referenced as the
+  *power curve by effect size* (e.g., see [[Bartlett2022]](#Bartlett2022)).
 
 Let me demonstrate this approach using a classic example.
 We compare two samples from two normal distributions $\mathcal{N}(\mu_1, 1)$ and $\mathcal{N}(\mu_2, 1)$
@@ -92,11 +94,11 @@ In order to evaluate the properties of each test, we do the following:
     respecting the given $\alpha = 0.05$;
 * Repeat the previous step multiple times so that we can evaluate
     the probability of getting the positive result for the given effect size $d$ using the Monte-Carlo method;
-* Build a plot that demonstrates the dependency of the positive detection rate on the actual effect size.
+* Build a power curve plot that demonstrates the dependency of the positive detection rate on the actual effect size.
 
 Below, you can see the results for the sample size $n=10$:
 
-{{< imgld pr10 >}}
+{{< imgld pc10 >}}
 
 Here are some relevant observations:
 
@@ -121,9 +123,9 @@ Here are some relevant observations:
 
 Now let us look at the similar plots for $n \in \{ 20, 30, 100 \}$:
 
-{{< imgld pr20 >}}
-{{< imgld pr30 >}}
-{{< imgld pr100 >}}
+{{< imgld pc20 >}}
+{{< imgld pc30 >}}
+{{< imgld pc100 >}}
 
 As we can see, with larger sample sizes,
   the difference in the statistical power between the considered tests almost disappears.
@@ -132,10 +134,14 @@ For $n=100$, the maximum observed difference of $\approx 0.02$ appears for $d = 
 
 ### Conclusion
 
-While the suggested approach is more complicated than the classic Type I/II error rate
+While the suggested approach of analyzing the power curves is more complicated than the classic Type I/II error rate
   (it forces you to consider the whole function instead of two numbers),
   I believe that it reduces the level of misleadingness and helps to improve the testing procedure design.
 
-However, I have not seen such a kind of analysis in classic books on power analysis or statistical papers.
-Meanwhile, it feels like a reasonable extension of Type I/II error rates.
-If you know of any relevant references, I would appreciate it if you let me know.
+### References
+
+* <b id="Bartlett2022">[Bartlett2022]</b>  
+  Bartlett, James E., and Sarah J. Charles.
+  "Power to the People: A Beginner’s Tutorial to Power Analysis using jamovi."
+  Meta-Psychology 6 (2022).  
+  DOI: [10.15626/MP.2021.3078](http://dx.doi.org/10.15626/MP.2021.3078)
