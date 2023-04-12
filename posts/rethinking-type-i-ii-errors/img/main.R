@@ -34,7 +34,7 @@ build_diff <- function(n = 10, alpha = 0.05) {
 }
 
 # Figures ----------------------------------------------------------------------
-draw_pr <- function(n, alpha = 0.05) {
+draw_pc <- function(n, alpha = 0.05) {
   df <- build_df(n, alpha)
   df$type <- factor(df$type, levels = c("t", "mw"))
   ggplot(df, aes(es, rate, col = type)) +
@@ -46,18 +46,18 @@ draw_pr <- function(n, alpha = 0.05) {
       labels = c("Student's t", "Mann–Whitney U")
     ) +
     labs(
-      title = paste0("Positive rate (normal distribution, n=", n, ", alpha=", alpha, ")"),
+      title = paste0("Power curve (normal distribution, n=", n, ", alpha=", alpha, ")"),
       x = "Effect size",
-      y = "Positive rate",
+      y = "Statistical power",
     col = ""
     ) + 
     theme(legend.position = "bottom")
 }
 
-figure_pr10 <- function() draw_pr(10)
-figure_pr20 <- function() draw_pr(20)
-figure_pr30 <- function() draw_pr(30)
-figure_pr100 <- function() draw_pr(100)
+figure_pc10 <- function() draw_pc(10)
+figure_pc20 <- function() draw_pc(20)
+figure_pc30 <- function() draw_pc(30)
+figure_pc100 <- function() draw_pc(100)
 
 # Plotting ---------------------------------------------------------------------
 regenerate_figures()
