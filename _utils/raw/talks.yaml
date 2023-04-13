@@ -26,6 +26,8 @@ talks:
     links:
       - key: slides-web
         url: https://slides.aakinshin.net/dotnext2022/
+      - key: script
+        url: https://habr.com/en/company/jugru/blog/722342/
   - date: 2022-06-17
     event: DotNext 2022 Spring
     event-type: conference
@@ -92,6 +94,8 @@ talks:
         url: https://slides.aakinshin.net/dotnext-piter2020/
       - key: youtube
         url: https://www.youtube.com/watch?v=gc3yVybPuaY
+      - key: script
+        url: https://habr.com/en/companies/jugru/articles/527186/
   - date: 2020-06-15
     date2: 2020-06-18
     event: Heisenbug 2020 Piter
@@ -115,7 +119,9 @@ talks:
         url: https://slides.aakinshin.net/heisenbug-piter2020/
       - key: youtube
         url: https://www.youtube.com/watch?v=jZ0quqA1Fn8
-######################################################################################################################
+      - key: script
+        url: https://habr.com/en/companies/jugru/articles/527186/
+  ######################################################################################################################
   # 2019
   ######################################################################################################################
   - date: 2019-10-11
