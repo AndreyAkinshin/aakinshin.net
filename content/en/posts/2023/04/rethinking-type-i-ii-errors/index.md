@@ -1,5 +1,5 @@
 ---
-title: Rethinking Type I/II error rates and power curves
+title: Rethinking Type I/II error rates with power curves
 thumbnail: pc10-light
 description: Discussing power curves that show the dependency of the positive detection rate on the actual effect size
 date: 2023-04-11
