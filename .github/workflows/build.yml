@@ -15,7 +15,7 @@ jobs:
           dotnet-version: '6.0.x'
 
       - name: Setup Hugo and Tailwindcss
-        run: ./get-bin.sh
+        run: ./init.sh
 
       - name: Build
         run: ./build.sh

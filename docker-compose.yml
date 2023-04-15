@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  blog:
+    build: .
+    ports:
+      - "1313:1313"
+    volumes:
+      - .:/blog
