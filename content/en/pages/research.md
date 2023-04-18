@@ -19,9 +19,18 @@ ORCID
 <svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#researchgate"></use></svg>
 ResearchGate
 </a>
-<a class="label-link" href="https://www.scopus.com/authid/detail.uri?authorId=56826126900">Scopus</a>
-<a class="label-link" href="https://www.webofscience.com/wos/author/record/2102893">Web of Science</a>
-<a class="label-link" href="https://arxiv.org/a/akinshin_a_1.html">arXiv</a>
+<a class="label-link" href="https://arxiv.org/a/akinshin_a_1.html">
+<svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#arxiv"></use></svg>
+arXiv
+</a>
+<a class="label-link" href="https://www.webofscience.com/wos/author/record/2102893">
+<svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#wos"></use></svg>
+Web of Science
+</a>
+<a class="label-link" href="https://www.scopus.com/authid/detail.uri?authorId=56826126900">
+<svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#scopus"></use></svg>
+Scopus
+</a>
 </div>
 
 This page aggregates results from some of my research projects:

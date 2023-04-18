@@ -243,7 +243,7 @@ namespace DataProcessor.Publications
                     if (isWoS)
                     {
                         builder.AppendLine("  [[item.badge]]");
-                        builder.AppendLine($"  Label = \"Web of Science\"");
+                        builder.AppendLine($"  Label = \"<svg class='fai'><use xlink:href='/img/fa/all.svg#wos'></use></svg> Web of Science\"");
                     }
                     
                     bool isSpringer = entry.GetTags().Contains("Springer");
@@ -257,7 +257,7 @@ namespace DataProcessor.Publications
                     if (isScopus)
                     {
                         builder.AppendLine("  [[item.badge]]");
-                        builder.AppendLine($"  Label = \"Scopus\"");
+                        builder.AppendLine($"  Label = \"<svg class='fai'><use xlink:href='/img/fa/all.svg#scopus'></use></svg> Scopus\"");
                     }
 
                     bool isPreprint = entry.GetTags().Contains("Preprint");
@@ -306,7 +306,7 @@ namespace DataProcessor.Publications
                         else if (url.Contains("springer"))
                             title = "Springer";
                         else if (url.Contains("arxiv"))
-                            title = "arXiv";
+                            title = "<svg class='fai'><use xlink:href='/img/fa/all.svg#arxiv'></use></svg> arXiv";
                         else if (url.Contains("publons"))
                             title = "Publons";
                         else if (url.Contains("github"))
