@@ -1,4 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 11 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Rethinking Type I/II error rates with power curves</title><link>https://aakinshin.net/posts/rethinking-type-i-ii-errors/</link><pubDate>Tue, 11 Apr 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/rethinking-type-i-ii-errors/</guid><description>&lt;p>When it comes to the analysis of a statistical significance test design,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 18 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Preprint announcement: 'Weighted quantile estimators'</title><link>https://aakinshin.net/posts/preprint-wqe/</link><pubDate>Tue, 18 Apr 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/preprint-wqe/</guid><description>&lt;p>I have just published a preprint of a paper &amp;lsquo;Weighted quantile estimators&amp;rsquo;.
+It&amp;rsquo;s based on a series of my &lt;a href="https://aakinshin.net/tags/research-wqe/">research notes&lt;/a> that I have been writing since September 2020.&lt;/p>
+&lt;p>The paper preprint is available on arXiv:
+&lt;a href="https://arxiv.org/abs/2304.07265">arXiv:2304.07265 [stat.ME]&lt;/a>.
+The paper source code is available on GitHub:
+&lt;a href="https://github.com/AndreyAkinshin/paper-wqe">AndreyAkinshin/paper-wqe&lt;/a>.
+You can cite it as follows:&lt;/p>
+&lt;ul>
+&lt;li>Andrey Akinshin (2023)
+&amp;ldquo;Weighted quantile estimators&amp;rdquo;
+&lt;a href="https://arxiv.org/abs/2304.07265">arXiv:2304.07265&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Abstract:&lt;/p>
+&lt;blockquote>
+&lt;p>In this paper, we consider a generic scheme that allows building weighted versions of various quantile estimators,
+such as traditional quantile estimators based on linear interpolation of two order statistics,
+the Harrell-Davis quantile estimator and its trimmed modification.
+The obtained weighted quantile estimators are especially useful
+in the problem of estimating a distribution at the tail of a time series using quantile exponential smoothing.
+The presented approach can also be applied to other problems,
+such as quantile estimation of weighted mixture distributions.&lt;/p>
+&lt;/blockquote></description></item><item><title>Rethinking Type I/II error rates with power curves</title><link>https://aakinshin.net/posts/rethinking-type-i-ii-errors/</link><pubDate>Tue, 11 Apr 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/rethinking-type-i-ii-errors/</guid><description>&lt;p>When it comes to the analysis of a statistical significance test design,
 many people tend to overfocus purely on the Type I error rate.
 Those who are aware of the importance of power analysis
 often stop at expressing the Type II error rate as a single number.
