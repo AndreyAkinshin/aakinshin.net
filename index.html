@@ -54,7 +54,8 @@ it is important to handle such situations somehow and ensure that the target sca
 In this post,
 I discuss a simple approach to work around this problem and adapt any given measure of scale to the discrete case.</p><br><a href=/posts/scale-measure-for-discrete-case/>Read more</a><br><br><hr></div><div><h2><a href=/posts/whl/>Weighted modification of the Hodges-Lehmann location estimator</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai text-accent-l dark:text-front-d"><title>Date</title><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2023-03-28>March 28, 2023</time><svg class="fai ml-3 text-accent-l dark:text-front-d"><title>Tags</title><use xlink:href="/img/fa/all.svg#tag"/></svg><div class="flex flex-wrap gap-y-1"><a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
 <a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
-<a class=label-link href=https://aakinshin.net/tags/research/>Research</a></div></div><br><p>The classic Hodges-Lehmann location estimator is a robust, non-parametric statistic
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/hodges-lehmann/>Hodges-Lehmann estimator</a></div></div><br><p>The classic Hodges-Lehmann location estimator is a robust, non-parametric statistic
 used as a measure of the central tendency.
 For a sample <span class="math inline">\(\mathbf{x} = \{ x_1, x_2, \ldots, x_n \}\)</span>, it is defined as follows:</p><p><span class="math display">\[\operatorname{HL}(\mathbf{x}) = \underset{1 \leq i < j \leq n}{\operatorname{median}} \left(\frac{x_i + x_j}{2} \right).
 \]</span></p><p>This estimator works great for non-weighted samples
@@ -89,11 +90,13 @@ Let&rsquo;s find out!</p><br><a href=/posts/github-actions-perf-stability/>Read 
 in the finite case when the null hypothesis is true.
 It is time to repeat the experiment for the Brunner–Munzel test.</p><br><a href=/posts/brunner-munzel-pvalue-distribution/>Read more</a><br><br><hr></div><div><h2><a href=/posts/power-mw-bm/>Comparing statistical power of the Mann-Whitney U test and the Brunner-Munzel test</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai text-accent-l dark:text-front-d"><title>Date</title><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2023-03-07>March 7, 2023</time><svg class="fai ml-3 text-accent-l dark:text-front-d"><title>Tags</title><use xlink:href="/img/fa/all.svg#tag"/></svg><div class="flex flex-wrap gap-y-1"><a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
 <a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
-<a class=label-link href=https://aakinshin.net/tags/research/>Research</a></div></div><br><p>In this post, we perform a short numerical simulation to compare the statistical power
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/mann-whitney/>Mann-Whitney U-test</a></div></div><br><p>In this post, we perform a short numerical simulation to compare the statistical power
 of the Mann-Whitney U test and the Brunner-Munzel test under normality
 for various sample sizes and significance levels.</p><br><a href=/posts/power-mw-bm/>Read more</a><br><br><hr></div><div><h2><a href=/posts/mann-whitney-pvalue-distribution/>p-value distribution of the Mann–Whitney U test in the finite case</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai text-accent-l dark:text-front-d"><title>Date</title><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2023-02-28>February 28, 2023</time><svg class="fai ml-3 text-accent-l dark:text-front-d"><title>Tags</title><use xlink:href="/img/fa/all.svg#tag"/></svg><div class="flex flex-wrap gap-y-1"><a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
 <a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
-<a class=label-link href=https://aakinshin.net/tags/research/>Research</a></div></div><br><p>When we work with null hypothesis significance testing and the null hypothesis is true,
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/mann-whitney/>Mann-Whitney U-test</a></div></div><br><p>When we work with null hypothesis significance testing and the null hypothesis is true,
 the distribution of observed p-value is asymptotically uniform.
 However, the distribution shape is not always uniform in the finite case.
 For example, when we work with rank-based tests like the Mann–Whitney U test,
@@ -107,7 +110,8 @@ which can be considered an alternative to the Mann–Whitney U test.
 However, the Brunner–Munzel test has a corner case
 that can cause some practical issues with applying this test to real data.
 In this post, I briefly discuss the test itself and the corresponding corner case.</p><br><a href=/posts/brunner-munzel-corner-case/>Read more</a><br><br><hr></div><div><h2><a href=/posts/mann-whitney-misuse/>Examples of the Mann–Whitney U test misuse cases</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai text-accent-l dark:text-front-d"><title>Date</title><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2023-02-14>February 14, 2023</time><svg class="fai ml-3 text-accent-l dark:text-front-d"><title>Tags</title><use xlink:href="/img/fa/all.svg#tag"/></svg><div class="flex flex-wrap gap-y-1"><a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
-<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a></div></div><br><p>The Mann–Whitney U test is one of the most popular nonparametric statistical tests.
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/mann-whitney/>Mann-Whitney U-test</a></div></div><br><p>The Mann–Whitney U test is one of the most popular nonparametric statistical tests.
 Its alternative hypothesis claims that one distribution is stochastically greater than the other.
 However, people often misuse this test and try to apply it to check
 if two nonparametric distributions are not identical

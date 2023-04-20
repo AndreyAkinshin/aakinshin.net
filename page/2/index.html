@@ -46,14 +46,16 @@ After struggling with a lot of different thresholding approaches,
 I came up with the idea of setting a trinal threshold
 that includes three individual thresholds for the shift, the ratio, and the effect size.</p><p>In this post, I show some examples in which a single threshold is not enough.</p><br><a href=/posts/trinal-thresholds/>Read more</a><br><br><hr></div><div><h2><a href=/posts/thl-ge/>Trimmed Hodges-Lehmann location estimator, Part 2: Gaussian efficiency</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai text-accent-l dark:text-front-d"><title>Date</title><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2023-01-10>January 10, 2023</time><svg class="fai ml-3 text-accent-l dark:text-front-d"><title>Tags</title><use xlink:href="/img/fa/all.svg#tag"/></svg><div class="flex flex-wrap gap-y-1"><a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
 <a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
-<a class=label-link href=https://aakinshin.net/tags/research/>Research</a></div></div><br><p>In the <a href=https://aakinshin.net/posts/thl-bp/>previous post</a>, we introduced
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/hodges-lehmann/>Hodges-Lehmann estimator</a></div></div><br><p>In the <a href=https://aakinshin.net/posts/thl-bp/>previous post</a>, we introduced
 the trimmed Hodges-Lehman location estimator.
 For a sample <span class="math inline">\(\mathbf{x} = \{ x_1, x_2, \ldots, x_n \}\)</span>,
 it is defined as follows:</p><p><span class="math display">\[\operatorname{THL}(\mathbf{x}, k) = \underset{k < i < j \leq n - k}{\operatorname{median}}\biggl(\frac{x_{(i)} + x_{(j)}}{2}\biggr).
 \]</span></p><p>We also derived the exact expression for its asymptotic and finite-sample breakdown point values.
 In this post, we explore its Gaussian efficiency.</p><br><a href=/posts/thl-ge/>Read more</a><br><br><hr></div><div><h2><a href=/posts/thl-bp/>Trimmed Hodges-Lehmann location estimator, Part 1: breakdown point</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai text-accent-l dark:text-front-d"><title>Date</title><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2023-01-03>January 3, 2023</time><svg class="fai ml-3 text-accent-l dark:text-front-d"><title>Tags</title><use xlink:href="/img/fa/all.svg#tag"/></svg><div class="flex flex-wrap gap-y-1"><a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
 <a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
-<a class=label-link href=https://aakinshin.net/tags/research/>Research</a></div></div><br><p>For a sample <span class="math inline">\(\mathbf{x} = \{ x_1, x_2, \ldots, x_n \}\)</span>,
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/hodges-lehmann/>Hodges-Lehmann estimator</a></div></div><br><p>For a sample <span class="math inline">\(\mathbf{x} = \{ x_1, x_2, \ldots, x_n \}\)</span>,
 the Hodges-Lehmann location estimator is defined as follows:</p><p><span class="math display">\[\operatorname{HL}(\mathbf{x}) =
 \underset{i < j}{\operatorname{median}}\biggl(\frac{x_i + x_j}{2}\biggr).
 \]</span></p><p>Its asymptotic Gaussian efficiency is <span class="math inline">\(\approx 96\%\)</span>,
@@ -65,13 +67,15 @@ sacrificing a small portion of efficiency?
 Yes, we can!</p><p>In this post, I want to present the idea of the trimmed Hodges-Lehmann location estimator
 and provide the exact equation for its breakdown point.</p><br><a href=/posts/thl-bp/>Read more</a><br><br><hr></div><div><h2><a href=/posts/median-shift-vs-shift-median2/>Median of the shifts vs. shift of the medians, Part 2: Gaussian efficiency</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai text-accent-l dark:text-front-d"><title>Date</title><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2022-12-27>December 27, 2022</time><svg class="fai ml-3 text-accent-l dark:text-front-d"><title>Tags</title><use xlink:href="/img/fa/all.svg#tag"/></svg><div class="flex flex-wrap gap-y-1"><a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
 <a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
-<a class=label-link href=https://aakinshin.net/tags/research/>Research</a></div></div><br><p>In the <a href=https://aakinshin.net/posts/median-shift-vs-shift-median1/>previous post</a>,
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/hodges-lehmann/>Hodges-Lehmann estimator</a></div></div><br><p>In the <a href=https://aakinshin.net/posts/median-shift-vs-shift-median1/>previous post</a>,
 we discussed the difference between shifts of the medians
 and the Hodges-Lehmann location shift estimator.
 In this post, we conduct a simple numerical simulation
 to evaluate the Gaussian efficiency of these two estimators.</p><br><a href=/posts/median-shift-vs-shift-median2/>Read more</a><br><br><hr></div><div><h2><a href=/posts/median-shift-vs-shift-median1/>Median of the shifts vs. shift of the medians, Part 1</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai text-accent-l dark:text-front-d"><title>Date</title><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2022-12-20>December 20, 2022</time><svg class="fai ml-3 text-accent-l dark:text-front-d"><title>Tags</title><use xlink:href="/img/fa/all.svg#tag"/></svg><div class="flex flex-wrap gap-y-1"><a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
 <a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
-<a class=label-link href=https://aakinshin.net/tags/research/>Research</a></div></div><br><p>Let us say that we have two samples
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/hodges-lehmann/>Hodges-Lehmann estimator</a></div></div><br><p>Let us say that we have two samples
 <span class="math inline">\(x = \{ x_1, x_2, \ldots, x_n \}\)</span>,
 <span class="math inline">\(y = \{ y_1, y_2, \ldots, y_m \}\)</span>,
 and we want to estimate the shift of locations between them.
@@ -90,7 +94,8 @@ However, this post will show an example of multimodal distributions
 that lead to opposite signs of <span class="math inline">\(\DSM\)</span> and <span class="math inline">\(\DHL\)</span>.</p><br><a href=/posts/median-shift-vs-shift-median1/>Read more</a><br><br><hr></div><div><h2><a href=/posts/rldr-hl/>Resistance to the low-density regions: the Hodges-Lehmann location estimator</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai text-accent-l dark:text-front-d"><title>Date</title><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2022-12-13>December 13, 2022</time><svg class="fai ml-3 text-accent-l dark:text-front-d"><title>Tags</title><use xlink:href="/img/fa/all.svg#tag"/></svg><div class="flex flex-wrap gap-y-1"><a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
 <a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
 <a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
-<a class=label-link href=https://aakinshin.net/tags/research-rldr/>Research: Resistance to the low-density regions</a></div></div><br><p>In the previous posts, I discussed the concept of a resistance function
+<a class=label-link href=https://aakinshin.net/tags/research-rldr/>Research: Resistance to the low-density regions</a>
+<a class=label-link href=https://aakinshin.net/tags/hodges-lehmann/>Hodges-Lehmann estimator</a></div></div><br><p>In the previous posts, I discussed the concept of a resistance function
 that shows the sensitivity of the given estimator to the low-density regions.
 I already showed how this function behaves for <a href=https://aakinshin.net/posts/rldr-mean-median/>the mean, the sample median</a>,
 and <a href=https://aakinshin.net/posts/rldr-hdmedian/>the Harrell-Davis median</a>.
