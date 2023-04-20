@@ -5,6 +5,7 @@ tags:
 - mathematics
 - statistics
 - research
+- mann-whitney
 features:
 - math
 ---

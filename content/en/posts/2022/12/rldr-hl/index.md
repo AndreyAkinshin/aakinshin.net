@@ -6,6 +6,7 @@ tags:
 - statistics
 - research
 - research-rldr
+- hodges-lehmann
 features:
 - math
 ---

@@ -5,6 +5,7 @@ tags:
 - mathematics
 - statistics
 - research
+- hodges-lehmann
 features:
 - math
 ---

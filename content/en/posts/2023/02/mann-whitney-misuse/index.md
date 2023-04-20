@@ -4,6 +4,7 @@ date: 2023-02-14
 tags:
 - mathematics
 - statistics
+- mann-whitney
 features:
 - math
 ---
