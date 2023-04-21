@@ -74,8 +74,8 @@ This project aims to provide a set of reliable tools and approaches for software
 Since 2013, I have been working on developing
   [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)
   (8K+ [GitHub stars](https://github.com/dotnet/BenchmarkDotNet/stargazers),
-   13K+ [dependent GitHub projects](https://github.com/dotnet/BenchmarkDotNet/network/dependents?package_id=UGFja2FnZS0xNTY3MzExMzE%3D),
-   15M+ [NuGet downloads](https://www.nuget.org/packages/BenchmarkDotNet/)).
+   15K+ [dependent GitHub projects](https://github.com/dotnet/BenchmarkDotNet/network/dependents?package_id=UGFja2FnZS0xNTY3MzExMzE%3D),
+   18M+ [NuGet downloads](https://www.nuget.org/packages/BenchmarkDotNet/)).
 This .NET library helps to transform methods into benchmarks,
   track their performance,
   and share reproducible measurement experiments.
