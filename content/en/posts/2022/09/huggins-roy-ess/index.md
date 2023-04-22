@@ -75,7 +75,7 @@ $$
 
 $$
 \operatorname{ESS}_{1}(\overline{\mathbf{w}}) =
-  \operatorname{exp} \Bigg( -\sum_{i=1}^n \overline{w}_i \log \overline{w}_i \Bigg)^2.
+  \operatorname{exp} \Bigg( -\sum_{i=1}^n \overline{w}_i \log \overline{w}_i \Bigg).
 $$
 
 This approach is also known as *perplexity*
