@@ -124,6 +124,10 @@
     @apply my-5 overflow-y-scroll;
     @apply p-1 border-2 rounded;
   }
+  :not(.chroma) > code {
+    @apply px-1 border rounded;
+    @apply border-shadow-l dark:border-shadow-d;
+  }
 }
 
 /*** examples ***/
@@ -209,7 +213,7 @@ pre.chroma code {
 /* LiteralNumberOct */ .chroma .mo { color: #009999 }
 /* Operator */ .chroma .o { color: #000000; font-weight: bold }
 /* OperatorWord */ .chroma .ow { color: #000000; font-weight: bold }
-/* Punctuation */ .chroma .p {  }
+/* Punctuation */ .chroma .p { color: #111111 }
 /* Comment */ .chroma .c { color: #999988; font-style: italic }
 /* CommentHashbang */ .chroma .ch { color: #999988; font-style: italic }
 /* CommentMultiline */ .chroma .cm { color: #999988; font-style: italic }
@@ -292,7 +296,7 @@ pre.chroma code {
 /* LiteralNumberOct */ .dark .chroma .mo { color: #ae81ff }
 /* Operator */ .dark .chroma .o { color: #f92672 }
 /* OperatorWord */ .dark .chroma .ow { color: #f92672 }
-/* Punctuation */ .dark .chroma .p {  }
+/* Punctuation */ .dark .chroma .p { color: #f8f8f2; }
 /* Comment */ .dark .chroma .c { color: #75715e }
 /* CommentHashbang */ .dark .chroma .ch { color: #75715e }
 /* CommentMultiline */ .dark .chroma .cm { color: #75715e }
