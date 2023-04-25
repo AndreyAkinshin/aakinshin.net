@@ -1,4 +1,29 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 18 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Preprint announcement: 'Weighted quantile estimators'</title><link>https://aakinshin.net/posts/preprint-wqe/</link><pubDate>Tue, 18 Apr 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/preprint-wqe/</guid><description>&lt;p>I have just published a preprint of a paper &amp;lsquo;Weighted quantile estimators&amp;rsquo;.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 25 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>When Mann-Whitney U-test returns astonishingly incorrect p-values</title><link>https://aakinshin.net/posts/r-mann-whitney-incorrect-p-value/</link><pubDate>Tue, 25 Apr 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/r-mann-whitney-incorrect-p-value/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test">Mann–Whitney U test&lt;/a>
+(also known as the Wilcoxon rank-sum test)
+is one of the most popular nonparametric statistical tests.
+In R, it can be accessed using
+the &lt;a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/wilcox.test.html">wilcox.test&lt;/a> function,
+which has been &lt;a href="https://github.com/wch/r-source/blob/tags/R-1-0/src/library/ctest/R/wilcox.test.R">available&lt;/a>
+since R 1.0.0 (February 2000).
+With its extensive adoption and long-standing presence in R,
+the &lt;code>wilcox.test&lt;/code> function has become a trusted tool for many researchers.
+But is it truly reliable, and to what extent can we rely on its accuracy by default?&lt;/p>
+&lt;p>In my work,
+I often encounter the task of comparing a large sample (e.g., of size 50+) with a small sample (e.g., of size 5).
+In some cases, the ranges of these samples do not overlap with each other,
+which is the extreme case of the Mann–Whitney U test: it gives the minimum possible p-value.
+In &lt;a href="https://aakinshin.net/posts/mann-whitney-min-stat-level/">one of the previous posts&lt;/a>,
+I presented the exact equation for such a p-value.
+If we compare two samples of sizes &lt;span class="math inline">\(n\)&lt;/span> and &lt;span class="math inline">\(m\)&lt;/span>,
+the minimum p-value we can observe with the one-tailed Mann–Whitney U test is &lt;span class="math inline">\(1/C_{n+m}^n\)&lt;/span>.
+For example, if &lt;span class="math inline">\(n=50\)&lt;/span> and &lt;span class="math inline">\(m=5\)&lt;/span>, we get &lt;span class="math inline">\(1/C_{55}^5 \approx 0.0000002874587\)&lt;/span>.
+Let&amp;rsquo;s check these calculations using R:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-r" data-lang="r">&lt;span class="line">&lt;span class="cl">&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="nf">wilcox.test&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="m">101&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="m">105&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="m">50&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">alternative&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;greater&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">p.value&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">[1]&lt;/span> &lt;span class="m">0.0001337028&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The obtained p-value is &lt;span class="math inline">\(\approx 0.0001337028\)&lt;/span>, which is &lt;span class="math inline">\(\approx 465\)&lt;/span> times larger than we expected!
+Have we discovered a critical bug in &lt;code>wilcox.test&lt;/code>?
+Can we now trust this function?
+Let&amp;rsquo;s find out!&lt;/p></description></item><item><title>Preprint announcement: 'Weighted quantile estimators'</title><link>https://aakinshin.net/posts/preprint-wqe/</link><pubDate>Tue, 18 Apr 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/preprint-wqe/</guid><description>&lt;p>I have just published a preprint of a paper &amp;lsquo;Weighted quantile estimators&amp;rsquo;.
 It&amp;rsquo;s based on a series of my &lt;a href="https://aakinshin.net/tags/research-wqe/">research notes&lt;/a> that I have been writing since September 2020.&lt;/p>
 &lt;p>The paper preprint is available on arXiv:
 &lt;a href="https://arxiv.org/abs/2304.07265">arXiv:2304.07265 [stat.ME]&lt;/a>.
