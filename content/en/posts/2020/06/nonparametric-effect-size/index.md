@@ -9,7 +9,6 @@ tags:
 - research-gamma-es
 - MAD
 - Harrell-Davis quantile estimator
-- R
 - Perfolizer
 features:
 - math

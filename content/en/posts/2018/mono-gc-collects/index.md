@@ -5,7 +5,6 @@ tags:
 - programming
 - dotnet
 - cs
-- R
 - Rider
 - Mono
 - GC
