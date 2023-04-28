@@ -1,5 +1,5 @@
 ---
-title: "When Mann-Whitney U-test returns astonishingly incorrect p-values"
+title: "When R's Mann-Whitney U-test returns extremely distorted p-values"
 description: "Discussing corner cases in which wilcox.test returns distorted p-values"
 date: 2023-04-25
 tags:
