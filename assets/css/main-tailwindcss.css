@@ -214,13 +214,13 @@ pre.chroma code {
 /* Operator */ .chroma .o { color: #000000; font-weight: bold }
 /* OperatorWord */ .chroma .ow { color: #000000; font-weight: bold }
 /* Punctuation */ .chroma .p { color: #111111 }
-/* Comment */ .chroma .c { color: #999988; font-style: italic }
-/* CommentHashbang */ .chroma .ch { color: #999988; font-style: italic }
-/* CommentMultiline */ .chroma .cm { color: #999988; font-style: italic }
-/* CommentSingle */ .chroma .c1 { color: #999988; font-style: italic }
-/* CommentSpecial */ .chroma .cs { color: #999999; font-weight: bold; font-style: italic }
-/* CommentPreproc */ .chroma .cp { color: #999999; font-weight: bold; font-style: italic }
-/* CommentPreprocFile */ .chroma .cpf { color: #999999; font-weight: bold; font-style: italic }
+/* Comment */ .chroma .c { color: #999988 }
+/* CommentHashbang */ .chroma .ch { color: #999988 }
+/* CommentMultiline */ .chroma .cm { color: #999988 }
+/* CommentSingle */ .chroma .c1 { color: #999988 }
+/* CommentSpecial */ .chroma .cs { color: #999999; font-weight: bold }
+/* CommentPreproc */ .chroma .cp { color: #999999; font-weight: bold }
+/* CommentPreprocFile */ .chroma .cpf { color: #999999; font-weight: bold }
 /* Generic */ .chroma .g {  }
 /* GenericDeleted */ .chroma .gd { color: #000000; background-color: #ffdddd }
 /* GenericEmph */ .chroma .ge { color: #000000; font-style: italic }
