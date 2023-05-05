@@ -58,7 +58,7 @@ This included various
 The goal is to provide a set of non-parametric, robust, and efficient approaches
   that are applicable to software performance distributions.
 
-Every Tuesday, I share my preliminary research notes in the form of
+I regularly share my preliminary research notes in the form of
   [blog posts ({{< tag-count "statistics" >}})]({{< ref statistics >}}).
 
 **Publications:**
