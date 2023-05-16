@@ -1,4 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 09 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Unobvious problems of using the R's implementation of the Hodges-Lehmann estimator</title><link>https://aakinshin.net/posts/r-hodges-lehmann-problems/</link><pubDate>Tue, 09 May 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/r-hodges-lehmann-problems/</guid><description>&lt;p>The Hodges-Lehmann location estimator (also known as pseudo-median) is a robust, non-parametric statistic
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 16 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Efficiency of the central tendency measures under the uniform distribution</title><link>https://aakinshin.net/posts/central-tendency-efficiency-uniform/</link><pubDate>Tue, 16 May 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/central-tendency-efficiency-uniform/</guid><description>&lt;p>Statistical efficiency is one of the primary ways to compare various estimators.
+Since the normality assumption is often used, Gaussian efficiency (efficiency under the normality distribution)
+is typically considered.
+For example, the asymptotic Gaussian efficiency values of
+the median and the Hodges-Lehmann location estimator (the pseudo-median)
+are &lt;span class="math inline">\(\approx 64\%\)&lt;/span> and &lt;span class="math inline">\(\approx 96\%\)&lt;/span> respectively (assuming the baseline is the mean).&lt;/p>
+&lt;p>But what if the underlying distribution is not normal, but uniform?
+What would happen to the relative statistical efficiency values in this case?
+Let&amp;rsquo;s find out!
+In this post, we calculate
+the relative efficiency of the median, the Hodges-Lehmann location estimator, and the midrange
+to the mean under the uniform distribution (or under uniformity).&lt;/p></description></item><item><title>Unobvious problems of using the R's implementation of the Hodges-Lehmann estimator</title><link>https://aakinshin.net/posts/r-hodges-lehmann-problems/</link><pubDate>Tue, 09 May 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/r-hodges-lehmann-problems/</guid><description>&lt;p>The Hodges-Lehmann location estimator (also known as pseudo-median) is a robust, non-parametric statistic
 used as a measure of the central tendency.
 For a sample &lt;span class="math inline">\(\mathbf{x} = \{ x_1, x_2, \ldots, x_n \}\)&lt;/span>, it is defined as follows:&lt;/p>
 &lt;p>&lt;span class="math display">\[\operatorname{HL}(\mathbf{x}) =
