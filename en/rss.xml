@@ -1,4 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 16 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Efficiency of the central tendency measures under the uniform distribution</title><link>https://aakinshin.net/posts/central-tendency-efficiency-uniform/</link><pubDate>Tue, 16 May 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/central-tendency-efficiency-uniform/</guid><description>&lt;p>Statistical efficiency is one of the primary ways to compare various estimators.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 23 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Confusing tie correction in the classic Mann-Whitney U test implementation</title><link>https://aakinshin.net/posts/mw-confusing-tie-correction/</link><pubDate>Tue, 23 May 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mw-confusing-tie-correction/</guid><description>&lt;p>In this post, we discuss the classic implementation of the Mann-Whitney U test for cases
+in which the considered samples contain tied values.
+This approach is used the same way in all the popular statistical packages.&lt;/p>
+&lt;p>Unfortunately, in some situations, this approach produces confusing p-values, which may be surprising for researchers
+who do not have a deep understanding of ties correction.
+Moreover, some statistical textbooks argue against the validity of the default tie correction.
+The controversialness and counterintuitiveness of this approach may become a severe issue which may lead
+to incorrect experiment design and flawed result interpretation.
+In order to prevent such problems, it is essential to clearly understand
+the actual impact of tied observations on the true p-value and
+the impact of tie correction on the approximated p-value estimation.
+In this post, we discuss the tie correction for the Mann-Whitney U test
+and review examples that illustrate potential problems.
+We also provide examples of the Mann-Whitney U test implementations from popular statistical packages:
+&lt;code>wilcox.test&lt;/code> from &lt;code>stats&lt;/code> (R),
+&lt;code>mannwhitneyu&lt;/code> from &lt;code>SciPy&lt;/code> (Python), and
+&lt;code>MannWhitneyUTest&lt;/code> from &lt;code>HypothesisTests&lt;/code> (Julia).
+At the end of the post, we discuss how to avoid possible problems related to the tie correction.&lt;/p></description></item><item><title>Efficiency of the central tendency measures under the uniform distribution</title><link>https://aakinshin.net/posts/central-tendency-efficiency-uniform/</link><pubDate>Tue, 16 May 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/central-tendency-efficiency-uniform/</guid><description>&lt;p>Statistical efficiency is one of the primary ways to compare various estimators.
 Since the normality assumption is often used, Gaussian efficiency (efficiency under the normality distribution)
 is typically considered.
 For example, the asymptotic Gaussian efficiency values of

@@ -1,0 +1,259 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Mathematics,Statistics,Research,Mann-Whitney U-test"><title>Confusing tie correction in the classic Mann-Whitney U test implementation | Andrey Akinshin</title><meta name=description content="A hidden problem of the Mann-Whitney U test implementations in R, Python, Julia in the presence of tie observations"><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><meta name=og:image content="https://aakinshin.net/posts/mw-confusing-tie-correction/img/nm10-dark.png"><script>localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")</script><link href=https://aakinshin.net/css/main.min.3746982c0855975eba2f485ef34018c70576ba5fe5ea2f4333daa717341a2831.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body><nav><div class="container flex flex-wrap items-center justify-between mx-auto max-w-6xl h-12 px-6"><div class="flex items-center justify-start justify-self-start"><div class="flex nav-item h-12 w-12 items-center justify-center"><a class=text-white href=https://aakinshin.net/><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/posts/>Posts</a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/research/>Research</a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/about/>About</a></div></div><div class="flex items-center justify-end justify-self-start"><div class="flex nav-item h-12 items-center" title='Support this blog'><a class="px-3 text-white" href=https://github.com/sponsors/AndreyAkinshin><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#heart"/></svg></a></div><button id=theme-toggle type=button class="nav-item p-3 content-center justify-self-end"><svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001.0 1010.586 10.586z"/></svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1A1 1 0 119 4V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707A1 1 0 1113.536 5.05l.707-.707a1 1 0 011.414.0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707A1 1 0 004.343 5.757l.707.707zm1.414 8.486-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"/></svg></button></div></div></nav><div class="main container mx-auto max-w-6xl px-6"><div class=main-post><h1 class=blog-post-title id=post-title>Confusing tie correction in the classic Mann-Whitney U test implementation</h1><div class="flex flex-wrap justify-start items-center"><svg class="fai text-accent-l dark:text-front-d"><title>Date</title><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2023-05-23>May 23, 2023</time><svg class="fai ml-3 text-accent-l dark:text-front-d"><title>Tags</title><use xlink:href="/img/fa/all.svg#tag"/></svg><div class="flex flex-wrap gap-y-1"><a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/mann-whitney/>Mann-Whitney U-test</a></div></div><br><div class=main-content><p>In this post, we discuss the classic implementation of the Mann-Whitney U test for cases
+in which the considered samples contain tied values.
+This approach is used the same way in all the popular statistical packages.</p><p>Unfortunately, in some situations, this approach produces confusing p-values, which may be surprising for researchers
+who do not have a deep understanding of ties correction.
+Moreover, some statistical textbooks argue against the validity of the default tie correction.
+The controversialness and counterintuitiveness of this approach may become a severe issue which may lead
+to incorrect experiment design and flawed result interpretation.
+In order to prevent such problems, it is essential to clearly understand
+the actual impact of tied observations on the true p-value and
+the impact of tie correction on the approximated p-value estimation.
+In this post, we discuss the tie correction for the Mann-Whitney U test
+and review examples that illustrate potential problems.
+We also provide examples of the Mann-Whitney U test implementations from popular statistical packages:
+<code>wilcox.test</code> from <code>stats</code> (R),
+<code>mannwhitneyu</code> from <code>SciPy</code> (Python), and
+<code>MannWhitneyUTest</code> from <code>HypothesisTests</code> (Julia).
+At the end of the post, we discuss how to avoid possible problems related to the tie correction.</p><h3 id=the-importance-of-tie-analysis>The importance of tie analysis</h3><p>In the realm of mathematical statistics, we often work with random samples from continuous distributions.
+A common assumption made in this context is that the probability of encountering tied values is zero.
+While this statement holds true in an abstract theoretical world,
+issues arise during the transition to real-world data analysis.</p><p>In reality, the resolution of measurement devices is limited, and achieving infinite precision is virtually impossible.
+Consequently, the probability of ties in an actual realization of a random sample does not remain zero.
+The likelihood of ties in a dataset increases as the range of values narrows, and the sample size grows.</p><p>It is crucial to consider how tied values will be addressed when designing a statistical procedure for data analysis.
+Neglecting this aspect
+can lead to the failure of the statistical procedure or results that are significantly distorted.
+Some speculations on this topic can be found in various statistical textbooks:</p><blockquote><p>A common assumption in the development of nonparametric procedures is that
+the underlying population(s) is (are) continuous.
+This assumption implies that the probability of obtaining tied observations is zero.
+Nevertheless, tied observations do occur in practice.
+These ties may arise when the underlying population is not continuous.
+They may even arise if the continuity assumption is valid.
+We simply may be unable, owing to inaccuracies in measurement,
+to distinguish between two very close observations (temperatures, lengths, etc.)
+that emanate from a continuous population.</p><p>&mdash; Hollander, M., Wolfe, D. A., & Chicken, E. (2013). Nonparametric Statistical Methods (3rd ed.). Wiley. Page 7.</p></blockquote><blockquote><p>Our hypotheses have been concerned with observations from continuous d.f. &rsquo;s,
+and this implies that the probability of any pair of observations being precisely equal (a so-called tie)
+is zero and that we may therefore neglect the possibility.
+Thus we have throughout this chapter assumed that observations could be ordered without ties,
+so that the rank-order statistics were uniquely defined.
+However, in practice, observations are always rounded off to a few significant figures,
+and ties will therefore sometimes occur.</p><p>&mdash; M. G. Kendall & Alan Stuart - The Advanced Theory of Statistics,
+Vol. II, 3rd Edition (2010, Wiley). Page 508.</p></blockquote><blockquote><p>The Mann-Whitney test assumes that the scores represent a distribution which has underlying continuity.
+With very precise measurement of a variable which has underlying continuity, the probability of a tie is zero.
+However, with the relatively crude measures which we typically employ in behavioral scientific research,
+ties may well occur.
+We assume that the two observations which obtain tied scores are really different,
+but that this difference is simply too refined or minute for detection by our crude measures.</p><p>&mdash; Sidney Siegel - Nonparametric statistics for the behavioral sciences
+(1956, McGraw-Hill). Page 124.</p></blockquote><h3 id=the-mann-whitney-u-test>The Mann-Whitney U test</h3><p>We consider the one-sided Mann-Whitney U test that compares two samples <span class="math inline">\(\mathbf{x}\)</span> and <span class="math inline">\(\mathbf{y}\)</span>:</p><p><span class="math display">\[\mathbf{x} = \{ x_1, x_2, \ldots, x_n \}, \quad
+\mathbf{y} = \{ y_1, y_2, \ldots, y_m \}.
+\]</span></p><p>For the one-sided version, the alternative hypothesis states that <span class="math inline">\(\mathbb{P}(X > Y) > \mathbb{P}(Y > X)\)</span>.
+The core concept of this test suggests calculating the U statistic:</p><p><span class="math display">\[U(x, y) = \sum_{i=1}^n \sum_{j=1}^m S(x_i, y_j),\quad
+S(a,b) = \begin{cases}
+1, & \text{if } a > b, \\
+0.5, & \text{if } a = b, \\
+0, & \text{if } a < b.
+\end{cases}
+\]</span></p><p>It is a simple rank-based statistic, which varies from <span class="math inline">\(0\)</span> to <span class="math inline">\(nm\)</span>.
+Once we get the value of <span class="math inline">\(U\)</span>,
+we should match it with the distribution of <span class="math inline">\(U\)</span> statistics under the valid null hypothesis.
+There are several approaches to doing this.
+When the sample sizes are small, and there are no tied values, we can calculate the exact p-value using
+<a href=https://en.wikipedia.org/wiki/Dynamic_programming>dynamic programming</a>
+to obtain the exact probability of obtaining the given <span class="math inline">\(U\)</span> statistic for the given <span class="math inline">\(n\)</span> and <span class="math inline">\(m\)</span>.
+However, this approach does not support tied values, and
+it is impractical for large samples due to its computational complexity.
+Another popular way to implement the Mann-Whitney U test is to approximate the U statistic distribution
+by the normal distribution <span class="math inline">\(\mathcal{N}(\mu_U, \sigma^2_U)\)</span>, where</p><p><span class="math display">\[\mu_U = \frac{nm}{2},\quad
+\sigma_U = \sqrt{\frac{nm(n+m+1)}{12}}.
+\]</span></p><h3 id=tie-correction-for-the-mann-whitney-u-test>Tie correction for the Mann-Whitney U test</h3><p>In the case of ties, it is suggested to adjust <span class="math inline">\(\sigma_U\)</span>.
+A <em>typical recommendation</em> for such a correction looks like this:</p><p><span class="math display">\[\sigma_{U,\textrm{ties}} =
+\sqrt{\frac{nm}{12} \left( n+m+1 - \frac{\Sigma_{k=1}^{K} (t_k^3 - t_k)}{(n+m)(n+m-1)} \right)},
+\]</span></p><p>where <span class="math inline">\(t_k\)</span> is &ldquo;the number of ties for the <span class="math inline">\(k^\textrm{th}\)</span> rank,&rdquo;
+assuming ranks in the combined sample <span class="math inline">\(\{ x_1, x_2, \ldots, x_n, y_1, y_2, \ldots, y_m \}\)</span>.
+Note that this accounts not only for between-sample ties (e.g., <span class="math inline">\(x_1=y_1\)</span>),
+but also for within-sample ties (e.g., <span class="math inline">\(x_1=x_2\)</span> or <span class="math inline">\(y_1=y_2\)</span>).
+This approach is advocated in multiple classic textbooks like
+<em>&ldquo;Nonparametric Statistical Methods&rdquo;</em> (1973) by M. Hollander, D.A. Wolfe and
+<em>&ldquo;Statistical methods based on ranks&rdquo;</em> (1975) by E.L. Lehmann, H. J. M. D’Abrera.</p><h3 id=a-case-study>A case study</h3><p>The tie correction may be counterintuitive in some cases.
+Let us illustrate the problem using the following pair of samples of size 10:</p><p><span class="math display">\[\mathbf{x}_A = \{ 7.5, 7.6, 7.7, 7.8, 7.9, 8.0, 8.1, 8.2, 8.3, 8.4 \},
+\]</span></p><p><span class="math display">\[\mathbf{y}_A = \{ 5.5, 5.6, 5.7, 5.8, 5.9, 6.0, 6.1, 6.2, 6.3, 6.4 \}.
+\]</span></p><p>Here we have the <a href=https://aakinshin.net/posts/mann-whitney-min-stat-level/>extreme case</a> of the Mann-Whitney U test:
+the samples do not overlap.
+Therefore, the expected exact p-value is <span class="math inline">\(1 / C_{20}^{10} \approx 5.4 \cdot 10^{-6}\)</span>.
+However, the normal approximation without tie correction described above
+gives another expected p-value of <span class="math inline">\(\approx 9.1 \cdot 10^{-5}\)</span>
+(it noticeably differs from the exact p-value,
+which is <a href=https://aakinshin.net/posts/r-mann-whitney-incorrect-p-value/>another severe issue</a>).</p><p>Now imagine that we reduce the resolution of our measurement device and
+get rounded versions of <span class="math inline">\(\mathbf{x}_A\)</span> and <span class="math inline">\(\mathbf{y}_A\)</span>:</p><p><span class="math display">\[\mathbf{x}_B = \operatorname{round}(\mathbf{x}_A) = \{ 8, 8, 8, 8, 8, 8, 8, 8, 8, 8 \},
+\]</span></p><p><span class="math display">\[\mathbf{y}_B = \operatorname{round}(\mathbf{y}_A) = \{ 6, 6, 6, 6, 6, 6, 6, 6, 6, 6 \}.
+\]</span></p><p>The pair <span class="math inline">\((\mathbf{x}_B, \mathbf{y}_B)\)</span> is not so different from the pair <span class="math inline">\((\mathbf{x}_A, \mathbf{y}_A)\)</span>
+in the context of comparison.
+Both cases represent the same data up to the rounding precision.
+Also, both cases represent the extreme case of the Mann-Whitney U test,
+in which the samples of size <span class="math inline">\(10\)</span> do not overlap.
+Therefore, we may expect the same p-value for both cases.
+Now let us review the actual output of the Mann-Whitney U test using various popular statistical packages.
+We consider the approximate implementation of the Mann-Whitney U test via
+<a href=https://stat.ethz.ch/R-manual/R-devel/library/stats/html/wilcox.test.html>wilcox.test</a> from <code>stats</code> (R),
+<a href=https://docs.scipy.org/doc/scipy-1.10.1/reference/generated/scipy.stats.mannwhitneyu.html>mannwhitneyu</a>
+from <code>SciPy</code> (Python), and
+<a href=https://juliastats.org/HypothesisTests.jl/v0.10.13/nonparametric/#Mann-Whitney-U-test>MannWhitneyUTest</a>
+from <code>HypothesisTests</code> (Julia).</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-R data-lang=R><span class=line><span class=cl><span class=n>xA</span> <span class=o>&lt;-</span> <span class=nf>c</span><span class=p>(</span><span class=m>7.5</span><span class=p>,</span> <span class=m>7.6</span><span class=p>,</span> <span class=m>7.7</span><span class=p>,</span> <span class=m>7.8</span><span class=p>,</span> <span class=m>7.9</span><span class=p>,</span> <span class=m>8.0</span><span class=p>,</span> <span class=m>8.1</span><span class=p>,</span> <span class=m>8.2</span><span class=p>,</span> <span class=m>8.3</span><span class=p>,</span> <span class=m>8.4</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>yA</span> <span class=o>&lt;-</span> <span class=nf>c</span><span class=p>(</span><span class=m>5.5</span><span class=p>,</span> <span class=m>5.6</span><span class=p>,</span> <span class=m>5.7</span><span class=p>,</span> <span class=m>5.8</span><span class=p>,</span> <span class=m>5.9</span><span class=p>,</span> <span class=m>6.0</span><span class=p>,</span> <span class=m>6.1</span><span class=p>,</span> <span class=m>6.2</span><span class=p>,</span> <span class=m>6.3</span><span class=p>,</span> <span class=m>6.4</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>xB</span> <span class=o>&lt;-</span> <span class=nf>round</span><span class=p>(</span><span class=n>xA</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>yB</span> <span class=o>&lt;-</span> <span class=nf>round</span><span class=p>(</span><span class=n>yA</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nf>wilcox.test</span><span class=p>(</span><span class=n>xA</span><span class=p>,</span> <span class=n>yA</span><span class=p>,</span> <span class=n>alternative</span> <span class=o>=</span> <span class=s>&#34;greater&#34;</span><span class=p>,</span> <span class=n>exact</span> <span class=o>=</span> <span class=bp>F</span><span class=p>)</span><span class=o>$</span><span class=n>p.value</span>
+</span></span><span class=line><span class=cl><span class=c1># 9.13359e-05</span>
+</span></span><span class=line><span class=cl><span class=nf>wilcox.test</span><span class=p>(</span><span class=n>xB</span><span class=p>,</span> <span class=n>yB</span><span class=p>,</span> <span class=n>alternative</span> <span class=o>=</span> <span class=s>&#34;greater&#34;</span><span class=p>,</span> <span class=n>exact</span> <span class=o>=</span> <span class=bp>F</span><span class=p>)</span><span class=o>$</span><span class=n>p.value</span>
+</span></span><span class=line><span class=cl><span class=c1># 7.968956e-06</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>numpy</span> <span class=k>as</span> <span class=nn>np</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>scipy.stats</span> <span class=kn>import</span> <span class=n>mannwhitneyu</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xA</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>array</span><span class=p>([</span><span class=mf>7.5</span><span class=p>,</span> <span class=mf>7.6</span><span class=p>,</span> <span class=mf>7.7</span><span class=p>,</span> <span class=mf>7.8</span><span class=p>,</span> <span class=mf>7.9</span><span class=p>,</span> <span class=mf>8.0</span><span class=p>,</span> <span class=mf>8.1</span><span class=p>,</span> <span class=mf>8.2</span><span class=p>,</span> <span class=mf>8.3</span><span class=p>,</span> <span class=mf>8.4</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=n>yA</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>array</span><span class=p>([</span><span class=mf>5.5</span><span class=p>,</span> <span class=mf>5.6</span><span class=p>,</span> <span class=mf>5.7</span><span class=p>,</span> <span class=mf>5.8</span><span class=p>,</span> <span class=mf>5.9</span><span class=p>,</span> <span class=mf>6.0</span><span class=p>,</span> <span class=mf>6.1</span><span class=p>,</span> <span class=mf>6.2</span><span class=p>,</span> <span class=mf>6.3</span><span class=p>,</span> <span class=mf>6.4</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=n>xB</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>round</span><span class=p>(</span><span class=n>xA</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>yB</span> <span class=o>=</span> <span class=n>np</span><span class=o>.</span><span class=n>round</span><span class=p>(</span><span class=n>yA</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>mannwhitneyu</span><span class=p>(</span><span class=n>xA</span><span class=p>,</span> <span class=n>yA</span><span class=p>,</span> <span class=n>alternative</span><span class=o>=</span><span class=s2>&#34;greater&#34;</span><span class=p>,</span> <span class=n>method</span><span class=o>=</span><span class=s2>&#34;asymptotic&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>pvalue</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 9.133589555477501e-05</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>mannwhitneyu</span><span class=p>(</span><span class=n>xB</span><span class=p>,</span> <span class=n>yB</span><span class=p>,</span> <span class=n>alternative</span><span class=o>=</span><span class=s2>&#34;greater&#34;</span><span class=p>,</span> <span class=n>method</span><span class=o>=</span><span class=s2>&#34;asymptotic&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>pvalue</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># 7.968955844033122e-06</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 class=chroma><code class=language-julia data-lang=julia><span class=line><span class=cl><span class=k>using</span> <span class=n>HypothesisTests</span>
+</span></span><span class=line><span class=cl><span class=k>using</span> <span class=n>Statistics</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>xA</span> <span class=o>=</span> <span class=p>[</span><span class=mf>7.5</span><span class=p>,</span> <span class=mf>7.6</span><span class=p>,</span> <span class=mf>7.7</span><span class=p>,</span> <span class=mf>7.8</span><span class=p>,</span> <span class=mf>7.9</span><span class=p>,</span> <span class=mf>8.0</span><span class=p>,</span> <span class=mf>8.1</span><span class=p>,</span> <span class=mf>8.2</span><span class=p>,</span> <span class=mf>8.3</span><span class=p>,</span> <span class=mf>8.4</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=n>yA</span> <span class=o>=</span> <span class=p>[</span><span class=mf>5.5</span><span class=p>,</span> <span class=mf>5.6</span><span class=p>,</span> <span class=mf>5.7</span><span class=p>,</span> <span class=mf>5.8</span><span class=p>,</span> <span class=mf>5.9</span><span class=p>,</span> <span class=mf>6.0</span><span class=p>,</span> <span class=mf>6.1</span><span class=p>,</span> <span class=mf>6.2</span><span class=p>,</span> <span class=mf>6.3</span><span class=p>,</span> <span class=mf>6.4</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=n>xB</span> <span class=o>=</span> <span class=n>round</span><span class=o>.</span><span class=p>(</span><span class=n>xA</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>yB</span> <span class=o>=</span> <span class=n>round</span><span class=o>.</span><span class=p>(</span><span class=n>yA</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>pvalue</span><span class=p>(</span><span class=n>ApproximateMannWhitneyUTest</span><span class=p>(</span><span class=n>xA</span><span class=p>,</span> <span class=n>yA</span><span class=p>),</span> <span class=n>tail</span><span class=o>=</span><span class=ss>:right</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c># 9.133589555477498e-5</span>
+</span></span><span class=line><span class=cl><span class=n>pvalue</span><span class=p>(</span><span class=n>ApproximateMannWhitneyUTest</span><span class=p>(</span><span class=n>xB</span><span class=p>,</span> <span class=n>yB</span><span class=p>),</span> <span class=n>tail</span><span class=o>=</span><span class=ss>:right</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c># 7.968955844033115e-6</span>
+</span></span></code></pre></div><p>All three functions provide consistent results.
+For the pair <span class="math inline">\((\mathbf{x}_A, \mathbf{y}_A)\)</span>, we always have the expected p-value of <span class="math inline">\(\approx 9.1 \cdot 10^{-5}\)</span>.
+However, for the pair <span class="math inline">\((\mathbf{x}_B, \mathbf{y}_B)\)</span>,
+the returned p-value is <span class="math inline">\(\approx 8 \cdot 10^{-6}\)</span>.
+This result is 11.5 times smaller than the expected one!</p><h3 id=understanding-the-tie-correction>Understanding the tie correction</h3><p>In the above example, the difference between results may look like a bug in the implementation.
+However, it is actually expected that rounding leads to changes in p-values.
+To better understand this phenomenon, we review how rounding affects the distribution of the <span class="math inline">\(U\)</span> statistic values.
+For simplicity, let us consider two following distributions:</p><p><span class="math display">\[F = \mathcal{U}(0, 2), \quad G = \lfloor \mathcal{U}(0, 2) \rfloor.
+\]</span></p><p>Distribution <span class="math inline">\(F\)</span> is a uniform distribution on <span class="math inline">\([0;2]\)</span>,
+which is a continuous one and which (theoretically) does not produce tied observations.
+Distribution <span class="math inline">\(G\)</span> is a floored version of <span class="math inline">\(F\)</span>, which is essentially
+the &ldquo;fair&rdquo; <a href=https://en.wikipedia.org/wiki/Bernoulli_distribution>Bernoulli distribution</a> with <span class="math inline">\(p=0.5\)</span>
+(it produces <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> with equal probability, like for the fair coin flip).
+We also reduce the sample sizes to <span class="math inline">\(n=m=2\)</span>.</p><p>Next, we run a numerical simulation for <span class="math inline">\(F\)</span> and <span class="math inline">\(G\)</span>.
+In this simulation, we generate multiple sample pairs <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> of size <span class="math inline">\(2\)</span> from the given distribution,
+calculate the value of the <span class="math inline">\(U\)</span> statistic,
+and build the corresponding sample values.
+Here are the results:</p><table><thead><tr><th align=right>U</th><th align=right>0</th><th align=right>1</th><th align=right>2</th><th align=right>3</th><th align=right>4</th></tr></thead><tbody><tr><td align=right>F</td><td align=right>0.16(6)</td><td align=right>0.16(6)</td><td align=right>0.33(3)</td><td align=right>0.16(6)</td><td align=right>0.16(6)</td></tr><tr><td align=right>G</td><td align=right>0.063</td><td align=right>0.250</td><td align=right>0.374</td><td align=right>0.250</td><td align=right>0.063</td></tr></tbody></table><p>And here are the corresponding histograms:</p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/mw-confusing-tie-correction/img/nm2-light.png target=_blank alt=nm2><img src=/posts/mw-confusing-tie-correction/img/nm2-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/mw-confusing-tie-correction/img/nm2-dark.png target=_blank alt=nm2><img src=/posts/mw-confusing-tie-correction/img/nm2-dark.png width=800></a></div><p>As we can see, the transition from <span class="math inline">\(F\)</span> to <span class="math inline">\(G\)</span> (which is rounding) changes the actual distribution of the <span class="math inline">\(U\)</span> statistic.
+After rounding, the maximum value of <span class="math inline">\(U\)</span> becomes more extreme:
+the probability of <span class="math inline">\(U=4\)</span> decreases from <span class="math inline">\(\approx 0.167\)</span> to <span class="math inline">\(\approx 0.063\)</span>.
+Therefore, we can&rsquo;t apply the non-tied p-values estimators (both the exact one and the approximated one)
+to <span class="math inline">\(G\)</span> distribution.
+This happens because we lose some information during rounding.
+Indeed, let us consider the following pair of samples:</p><p><span class="math display">\[\mathbf{x}_A = \{ 1.3, 1.2 \},\quad \mathbf{y}_A = \{ 1.1, 0.1 \}.
+\]</span></p><p>For this situation, we have <span class="math inline">\(U_A = 4\)</span>.
+Now we consider a rounded version of this pair:</p><p><span class="math display">\[\mathbf{x}_B = \{ 1, 1 \},\quad \mathbf{y}_B = \{ 1, 0 \}.
+\]</span></p><p>For the rounded case, we have <span class="math inline">\(U_B = 3\)</span>, which is not extreme anymore.
+Therefore, the rounding changes the obtained <span class="math inline">\(U\)</span> value for a huge class of changes.
+As a result, the probability of obtaining <span class="math inline">\(U=4\)</span> decreases:
+this event becomes more extreme.</p><h3 id=controversialness-of-the-tie-correction>Controversialness of the tie correction</h3><p>When we have between-sample ties (e.g., <span class="math inline">\(x_1=y_1\)</span>), the need for the p-value adjustment looks reasonable.
+Indeed, if the underlying distribution is truly continuous and the true ties cannot exist,
+the loss of information is obvious.
+With infinite precision, we would get either <span class="math inline">\(x_1 < y_1\)</span> or <span class="math inline">\(x_1 > y_1\)</span>,
+but getting <span class="math inline">\(x_1=y_1\)</span> implies that we have less information about the data.
+This limits our ability to speculate about the true difference between the underlying distribution.</p><p>The impact of within-sample ties (e.g., <span class="math inline">\(x_1=x_2\)</span>) is more confusing
+since it doesn&rsquo;t affect the obtained value of the <span class="math inline">\(U\)</span> statistic.
+If we have only within-sample ties, and we know that these are &ldquo;false&rdquo; ties
+(since the underlying distribution is continuous and the &ldquo;true&rdquo; ties are impossible),
+why should we make any adjustments?
+To understand the tie correction for within-sample ties, we should recall that
+the p-value describes the &ldquo;unusualness&rdquo; of the results with the assumption that the null hypothesis is true.
+If the null hypothesis is actually true and both <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> come from the same distribution,
+we should not distinguish between-sample ties and within-sample ties, right?
+Here is one more quote that emphasizes the importance of accounting for within-sample ties:</p><blockquote><p>In certain situations involving tied observations there arises an ambiguity that is not always resolved correctly.
+Suppose that the treatment observations are 6, 6, 6, 9 and the control observations 1, 3, 4, 10,
+with large values of <span class="math inline">\(W_s\)</span> being significant.
+Since ties occur only among the treatment observations, no question arises concerning the value of <span class="math inline">\(W_s\)</span>.
+The treatment ranks are 4, 5, 6, 7 and the rank sum <span class="math inline">\(W_s\)</span> thus has the value 22.
+It is now tempting to compute the significance probability as in Sec. 2
+or obtain it from Table B to be 12/70 = .1714.
+On the other hand, the approach of the present section gives <span class="math inline">\(W_s^* = 22\)</span> and
+the significance probability 11/70 = .1571 [Prob. 45(i)].
+Which of these two values is correct?</p><p>Recalling the basis for such probability calculations,
+we see that the actual observations must be compared with all possible ways of assigning the eight numbers
+1, 3, 4, 6, 6, 6, 9, 10 to treatment and control.
+Many of these will split the three tied observations, assigning some to one group and some to the other,
+and in these cases the value of <span class="math inline">\(W_s\)</span> is not defined.
+Hence, there is no validity in the first approach, and the correct value of the significance probability is .1571.</p><p>&mdash; Lehmann, Erich Leo, and H. J. M. D’Abrera. &ldquo;Statistical methods based on ranks.&rdquo;
+Nonparametrics. San Francisco, CA, Holden-Day (1975).
+Page 20 (Section 4 &ldquo;The treatment of ties&rdquo;)</p></blockquote><p>While these arguments seem reasonable,
+the extreme case (non-overlapped samples with within-sample ties and without between-sample) still looks confusing.
+Since the within-sample ties do not affect the <span class="math inline">\(U\)</span> statistic value, and they are not &ldquo;true&rdquo; ties,
+why do we make the adjustments?
+I&rsquo;m not the only person who is confused by this situation.
+I have found the following quotes that advocate against acknowledging the within-sample ties
+(emphasis is mine):</p><blockquote><p>If the ties occur between two or more observations in the same group, the value of U <strong>is not affected</strong>.
+But if ties occur between two or more observations involving both groups, the value of U is affected.
+Although the effect is usually negligible,
+a correction for ties is available for use with the normal curve approximation which we employ for large sample.</p><p>&mdash; Sidney Siegel, Nonparametric statistics for the behavioral sciences (1956, McGraw-Hill), page 124</p></blockquote><blockquote><p>When ties occur only within the first or within the second group,
+they <strong>do not affect</strong> the outcome of the large-sample approximation.
+However, when there is at least one observation in the first group and at least one from the second
+that share a common rank, the asymptotic version of the WMW procedure is rendered too conservative.
+A correction for ties reduces the value of the denominator of the z statistic,
+and so renders the outcome of the WMW procedure less conservative
+(i.e., gives smaller p values) (Siegel and Castellan 1988).</p><p>&mdash; Bergmann, Reinhard, John Ludbrook, and Will P. J. M. Spooren.
+“Different Outcomes of the Wilcoxon-Mann-Whitney Test from Different Statistics Packages.”
+The American Statistician 54, no. 1 (February 2000): 72. <a href=https://doi.org/10.2307/2685616>https://doi.org/10.2307/2685616</a>, page 73</p></blockquote><p>These arguments also seem reasonable.
+But how do we separate the within-sample ties from the between-sample ties?
+Indeed, let us consider the following pair of samples:</p><p><span class="math display">\[\mathbf{x} = \{ 0, 0, 0, 2 \},\quad \mathbf{y} = \{ 0, 0, 1 \}.
+\]</span></p><p>Here we have a group of five tied zeros: three in <span class="math inline">\(x\)</span> and two in <span class="math inline">\(y\)</span>.
+The tie correction equation requires us to provide the total number of tied values in the group.
+If we want to ignore the within-sample ties, how should we apply the tie correction for such a case?</p><h3 id=inaccuracies-of-the-tie-correction>Inaccuracies of the tie correction</h3><p>The tie correction has one more problem.
+While it slightly improves the accuracy of the calculation,
+it doesn&rsquo;t always provide reliable results:</p><blockquote><p>A normal approximation is again available when m and n are not too small and
+the maximum proportion of observations tied at any value is not too close to 1.</p><p>&mdash; Lehmann, Erich Leo, and H. J. M. D’Abrera. &ldquo;Statistical methods based on ranks.&rdquo;
+Nonparametrics. San Francisco, CA, Holden-Day (1975).
+Page 20 (Section 4 &ldquo;The treatment of ties&rdquo;)</p></blockquote><p>Let us illustrate this problem with one more example:</p><p><span class="math display">\[F = \mathcal{U}(0, 1.05), \quad G = \lfloor \mathcal{U}(0, 1.05) \rfloor.
+\]</span></p><p>A random value from distribution <span class="math inline">\(G\)</span> is <span class="math inline">\(0\)</span> with probability <span class="math inline">\(20/21\)</span> and <span class="math inline">\(1\)</span> with probability <span class="math inline">\(1/21\)</span>,
+so the &ldquo;average&rdquo; proportion of tied values is quite close to <span class="math inline">\(1\)</span>.
+Let us generate multiple samples of size <span class="math inline">\(n=m=10\)</span> from these distributions.
+Here are the corresponding histograms:</p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/mw-confusing-tie-correction/img/nm10-light.png target=_blank alt=nm10><img src=/posts/mw-confusing-tie-correction/img/nm10-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/mw-confusing-tie-correction/img/nm10-dark.png target=_blank alt=nm10><img src=/posts/mw-confusing-tie-correction/img/nm10-dark.png width=800></a></div><p>Now let us focus on distribution <span class="math inline">\(G\)</span>.
+According to the simulation results, we have:</p><p><span class="math display">\[\mathbb{P}(U_F \geq 55) \approx 0.368,\quad \mathbb{P}(U_G \geq 55) \approx 0.264.
+\]</span></p><p>Now let us review a pair of samples for which <span class="math inline">\(U=55\)</span>:</p><p><span class="math display">\[\mathbf{x} = \{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0 \},\quad \mathbf{y} = \{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 \}.
+\]</span></p><p>Here is the Mann-Whitney U test result based on the normal approximation with the default tie correction:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=nf>wilcox.test</span><span class=p>(</span><span class=nf>c</span><span class=p>(</span><span class=m>1</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>            <span class=nf>c</span><span class=p>(</span><span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>            <span class=n>alternative</span> <span class=o>=</span> <span class=s>&#34;greater&#34;</span><span class=p>)</span><span class=o>$</span><span class=n>p.value</span>
+</span></span><span class=line><span class=cl><span class=c1># [1] 0.1840601</span>
+</span></span><span class=line><span class=cl><span class=c1># Warning message:</span>
+</span></span><span class=line><span class=cl><span class=c1># In wilcox.test.default(c(1, 0, 0, 0, 0, 0, 0, 0, 0, 0), c(0, 0,  :</span>
+</span></span><span class=line><span class=cl><span class=c1>#   cannot compute exact p-value with ties</span>
+</span></span></code></pre></div><p>The obtained p-value of <span class="math inline">\(\approx 0.184\)</span> is quite inaccurate.
+As we can see, the default tie correction is too aggressive:
+the observed p-value is noticeably less than the expected value of <span class="math inline">\(\approx 0.264\)</span>.</p><p>Thus, we have the following picture:</p><ul><li>If the number of ties is small,
+the tie correction for the normal approximation doesn&rsquo;t produce a noticeable result on the p-value.</li><li>If the number of ties is huge,
+the tie correction for the normal approximation is highly inaccurate.</li></ul><p>Hence, the actual usefulness of the default tie correction is questionable.</p><h3 id=avoiding-tie-correction>Avoiding tie correction</h3><p>Summarizing the above reasonings, the default tie correction doesn&rsquo;t work well in some cases.
+I believe that it is possible to come up with a better tie correction equation that acknowledges not only the total
+number of tied observations in the same group <span class="math inline">\(t_k\)</span>, but also the exact numbers of tied values in the current group
+that come from <span class="math inline">\(\mathbf{x}\)</span> and <span class="math inline">\(\mathbf{y}\)</span> independently.
+However, I would like to suggest another approach.</p><p>The best way to avoid problems with tie correction is to avoid situations in which we should apply the tie correction.
+I&rsquo;m <a href=https://aakinshin.net/posts/rethinking-type-i-ii-errors/>not a fan of testing the nil hypothesis</a>
+that states the difference between distributions is exactly zero.
+Instead, I advocate using tests that check
+that the true difference between distributions is larger than a reasonably chosen threshold
+(so-called practical significance tests, minimum-effect tests, equivalence tests, etc.).
+With such an approach,
+we can define the minimum effect size of interest <span class="math inline">\(\delta\)</span> as half of the resolution interval (or higher if needed).
+To apply such a test, we should use the classic Mann-Whitney U test for samples <span class="math inline">\(\mathbf{x}-\delta\)</span> and <span class="math inline">\(\mathbf{y}\)</span>.
+In this case, the between-sample tied values will be practically impossible.
+If the underlying distribution is supposed to be continuous,
+all the within-sample tied values are &ldquo;false&rdquo; ties and can be ignored.
+As a result, no ties correction is needed.</p></div><br><br><div class="flex flex-wrap justify-center items-center">The source code of this post and all the relevant files are&nbsp;<a href=https://github.com/AndreyAkinshin/aakinshin.net/tree/master/content/en/posts/2023/05/mw-confusing-tie-correction/index.md>available on GitHub</a>.</div><div class="flex flex-wrap justify-center items-center mb-5"><span>Share:</span><div class="text-4xl pl-3"><a href="https://www.reddit.com/submit?url=https%3a%2f%2faakinshin.net%2fposts%2fmw-confusing-tie-correction%2f&title=Confusing%20tie%20correction%20in%20the%20classic%20Mann-Whitney%20U%20test%20implementation" target=_blank title="Share on Reddit"><svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#reddit"/></svg></a></div><div class="text-4xl pl-3"><a href="https://twitter.com/intent/tweet?text=Confusing%20tie%20correction%20in%20the%20classic%20Mann-Whitney%20U%20test%20implementation&url=https%3a%2f%2faakinshin.net%2fposts%2fmw-confusing-tie-correction%2f&via=andrey_akinshin&related=andrey_akinshin" rel=nofollow target=_blank title="Share on Twitter"><svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></div><div class="text-4xl pl-3"><a href="https://news.ycombinator.com/submitlink?u=https%3a%2f%2faakinshin.net%2fposts%2fmw-confusing-tie-correction%2f" target=_blank title="Share on HackerNews"><svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#hacker-news"/></svg></a></div><div class="text-4xl pl-3"><a href="https://getpocket.com/save?url=https%3a%2f%2faakinshin.net%2fposts%2fmw-confusing-tie-correction%2f&title=Confusing%20tie%20correction%20in%20the%20classic%20Mann-Whitney%20U%20test%20implementation" target=_blank title="Add to Pocket"><svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#get-pocket"/></svg></a></div></div></div></div><script>var themeToggleDarkIcon=document.getElementById("theme-toggle-dark-icon"),themeToggleBtn,themeToggleLightIcon=document.getElementById("theme-toggle-light-icon");const imagesDark=document.querySelectorAll(".img-dark"),imagesLight=document.querySelectorAll(".img-light");localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?(themeToggleLightIcon.classList.remove("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")})):(themeToggleDarkIcon.classList.remove("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")})),themeToggleBtn=document.getElementById("theme-toggle"),themeToggleBtn.addEventListener("click",function(){themeToggleDarkIcon.classList.toggle("hidden"),themeToggleLightIcon.classList.toggle("hidden"),imagesLight.forEach(e=>{e.classList.toggle("hidden")}),imagesDark.forEach(e=>{e.classList.toggle("hidden")}),localStorage.getItem("color-theme")?localStorage.getItem("color-theme")==="light"?(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark")):(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):document.documentElement.classList.contains("dark")?(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark"))})</script><footer class="z-20 p-4 md:p-6 mt-3 w-full border-t border-gray-200 shadow flex items-center justify-center dark:border-gray-600 bg-white dark:bg-zinc-800"><span class="dark:text-gray-400 text-center">© 2013—2023 <span class=whitespace-nowrap>Andrey Akinshin</span></span><ul class="flex flex-wrap items-center px-4 mb-1"><li><a href=https://github.com/AndreyAkinshin><svg class="fai fai-link w-5 h-5"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a></li><li><a href=https://twitter.com/andrey_akinshin><svg class="fai fai-link w-5 h-5"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></li><li><a href=https://aakinshin.net/posts/index.xml><svg class="fai fai-link w-5 h-5"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a></li><li><a href=https://github.com/sponsors/AndreyAkinshin><svg class="fai fai-link w-5 h-5"><title>Support this blog</title><use xlink:href="/img/fa/all.svg#heart"/></svg></a></li></ul><div class=main-content><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></div></footer><script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js></script></body></html>
