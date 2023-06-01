@@ -21,7 +21,7 @@ the normalized weights are defined.</p><p>The Huggins-Roy&rsquo;s family is give
 \]</span></p><p>where <span class="math inline">\(n_z(\overline{\mathbf{w}})\)</span> is the number of zeros in <span class="math inline">\(\overline{\mathbf{w}}\)</span>.
 This approach is quite straightforward: we just omit elements with zero weights.</p><ul><li><span class="math inline">\(\beta = 1/2\)</span>:</li></ul><p><span class="math display">\[\operatorname{ESS}_{1/2}(\overline{\mathbf{w}}) = \Bigg( \sum_{i=1}^n \sqrt{\overline{w}_i} \Bigg)^2.
 \]</span></p><ul><li><span class="math inline">\(\beta = 1\)</span>:</li></ul><p><span class="math display">\[\operatorname{ESS}_{1}(\overline{\mathbf{w}}) =
-\operatorname{exp} \Bigg( -\sum_{i=1}^n \overline{w}_i \log \overline{w}_i \Bigg)^2.
+\operatorname{exp} \Bigg( -\sum_{i=1}^n \overline{w}_i \log \overline{w}_i \Bigg).
 \]</span></p><p>This approach is also known as <em>perplexity</em></p><ul><li><span class="math inline">\(\beta = 2\)</span>:</li></ul><p><span class="math display">\[\operatorname{ESS}_{2}(\overline{\mathbf{w}}) = \frac{1}{\sum_{i=1}^n \overline{w}_i^2 }.
 \]</span></p><p>This approach is often referenced as the Kish&rsquo;s effective sample size (see <a href=#Kish1965>[Kish1965]</a>).</p><ul><li><span class="math inline">\(\beta = \infty\)</span>:</li></ul><p><span class="math display">\[\operatorname{ESS}_{\infty}(\overline{\mathbf{w}}) =
 \frac{1}{\max [\overline{w}_1, \overline{w}_2, \ldots, \overline{w}_n] }.
