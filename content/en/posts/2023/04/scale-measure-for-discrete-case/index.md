@@ -108,7 +108,7 @@ The difference between $1/s$, $1/(s+\delta)$, and $1/\sqrt{s^2+\delta^2}$
 
 {{< imgld s >}}
 
-It seems that $s' = \sqrt{s^2 + \delta^2}$:
+It seems that $s' = \sqrt{s^2 + \delta^2}$ is the winner:
   it gives a neglectable impact on the final estimation for large values of $s$,
   and it provides a smoother transition towards $\delta$ around $s \approx 0$ than $s'=1+\delta$.
 
