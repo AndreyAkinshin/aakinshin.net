@@ -1,4 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 06 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Edgeworth expansion for the Mann-Whitney U test, Part 2: increased accuracy</title><link>https://aakinshin.net/posts/mw-edgeworth2/</link><pubDate>Tue, 06 Jun 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mw-edgeworth2/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/mw-edgeworth/">previous post&lt;/a>,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 13 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Introducing the defensive statistics</title><link>https://aakinshin.net/posts/defensive-statistics-intro/</link><pubDate>Tue, 13 Jun 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/defensive-statistics-intro/</guid><description>&lt;blockquote>
+&lt;p>Normal or approximately normal subjects are less useful objects of research than their pathological counterparts.&lt;/p>
+&lt;p>&amp;mdash; Sigmund Freud, &amp;ldquo;The Psychopathology of Everyday Life&amp;rdquo;&lt;/p>
+&lt;/blockquote>
+&lt;p>In the realm of software development, reliability is crucial.
+This is especially true when creating systems
+that automatically analyze performance measurements to maintain optimal application performance.
+To achieve the desired level of reliability, we need a set of statistical approaches
+that provide accurate and trustworthy results.
+These approaches must work even when faced with varying input data sets and multiple violated assumptions,
+including malformed and corrupted values.
+In this blog post, I introduce &amp;ldquo;Defensive Statistics&amp;rdquo; as an appropriate methodology for tackling this challenge.&lt;/p></description></item><item><title>Edgeworth expansion for the Mann-Whitney U test, Part 2: increased accuracy</title><link>https://aakinshin.net/posts/mw-edgeworth2/</link><pubDate>Tue, 06 Jun 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mw-edgeworth2/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/mw-edgeworth/">previous post&lt;/a>,
 we showed how the Edgeworth expansion can improve the accuracy of obtained p-values in the Mann-Whitney U test.
 However, we considered only the Edgeworth expansion to terms of order &lt;span class="math inline">\(1/m\)&lt;/span>.
 In this post, we explore how to improve the accuracyk of this approach using
