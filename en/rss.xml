@@ -1,4 +1,48 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 13 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Introducing the defensive statistics</title><link>https://aakinshin.net/posts/defensive-statistics-intro/</link><pubDate>Tue, 13 Jun 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/defensive-statistics-intro/</guid><description>&lt;blockquote>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 20 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Understanding the pitfalls of preferring the median over the mean</title><link>https://aakinshin.net/posts/median-vs-mean/</link><pubDate>Tue, 20 Jun 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/median-vs-mean/</guid><description>&lt;p>A common task in mathematical statistics is to aggregate a set of numbers &lt;span class="math inline">\(\mathbf{x} = \{ x_1, x_2, \ldots, x_n \}\)&lt;/span>
+to a single &amp;ldquo;average&amp;rdquo; value.
+Such a value is usually called &lt;em>central tendency&lt;/em>.
+There are multiple measures of central tendency.
+The most popular one is the &lt;em>arithmetic average&lt;/em> or the &lt;em>mean&lt;/em>:&lt;/p>
+&lt;p>&lt;span class="math display">\[\overline{\mathbf{x}} = \left( x_1 + x_2 + \ldots + x_n \right) / n.
+\]&lt;/span>&lt;/p>
+&lt;p>The mean is so popular not only thanks to its simplicity but also
+because it provides the best way to estimate the center of the perfect normal distribution.
+Unfortunately, the mean is not a robust measure.
+This means that a single extreme value &lt;span class="math inline">\(x_i\)&lt;/span> may distort the mean estimation and
+lead to a non-reproducible value that has nothing in common with the &amp;ldquo;expected&amp;rdquo; central tendency.
+The actual real-life distributions are never normal.
+They can be pretty close to the normal distribution, but only to a certain extent.
+Even small deviations from normality may produce occasional extreme outliers,
+which makes the mean an unreliable measure in the general case.&lt;/p>
+&lt;p>When people discover the danger of the mean, they start looking for a more robust measure of the central tendency.
+And the first obvious alternative is the sample median &lt;span class="math inline">\(\tilde{\mathbf{x}}\)&lt;/span>.
+The classic sample median is easy to calculate.
+First, you have to sort the sample.
+If the sample size &lt;span class="math inline">\(n\)&lt;/span> is odd, the median is the middle element in the sorted sample.
+If &lt;span class="math inline">\(n\)&lt;/span> is even, the median is the arithmetic average of the two middle elements in the sorted sample.
+The median is extremely robust: it provides a reasonable estimate
+even if almost half of the sample elements are corrupted.&lt;/p>
+&lt;p>For symmetric distributions (including the normal one), the true values of the mean and the median are the same.
+Once we discover the high robustness of the median, it may be tempting to always use the median instead of the mean.
+The median is often perceived as &amp;ldquo;something like the mean but with high resistance to outliers.&amp;rdquo;
+Indeed, what is the point of using the unreliable mean, if the median always provides a safer choice?
+Should we make the median our default option for the central tendency?&lt;/p>
+&lt;p>The answer is no.
+You should beware of any default options in mathematical statistics.
+All the measures are just tools, and each tool has its limitations and areas of applicability.
+A mindless transition from the mean to the median, regardless of the underlying distribution, is not a smart move.
+When we are picking a measure of central tendency to use,
+the first step should be reviewing the research goals:
+why do we need a measure of central tendency, and what are we going to do with the result?
+It&amp;rsquo;s impossible to make a rational decision on the statistical methods used without a clear understanding of the goals.
+Next, we should match the goals to the properties of available measures.&lt;/p>
+&lt;p>There are multiple practical issues with the median,
+but the most noticeable problem in practice is about its &lt;em>statistical efficiency&lt;/em>.
+Understanding this problem reveals the price of advanced robustness of the median.
+In this post, we discuss the concept of statistical efficiency,
+estimate the statistical efficiency of the mean and the median under different distributions,
+and consider the Hodges-Lehman estimator as a measure of central tendency
+that provides a better trade-off between robustness and efficiency.&lt;/p></description></item><item><title>Introducing the defensive statistics</title><link>https://aakinshin.net/posts/defensive-statistics-intro/</link><pubDate>Tue, 13 Jun 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/defensive-statistics-intro/</guid><description>&lt;blockquote>
 &lt;p>Normal or approximately normal subjects are less useful objects of research than their pathological counterparts.&lt;/p>
 &lt;p>&amp;mdash; Sigmund Freud, &amp;ldquo;The Psychopathology of Everyday Life&amp;rdquo;&lt;/p>
 &lt;/blockquote>
