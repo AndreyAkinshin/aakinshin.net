@@ -31,9 +31,9 @@
   {{ else }}
     {{ $description = .Site.Params.Description }}
   {{ end }}
-  {{ $description = trim $description " " }}
-  {{if gt (len $description) 158}}
-    {{ $description = print (substr $description 0 155) "..." }}
+  {{ $description = trim $description " \n" }}
+  {{if gt (len $description) 260 }}
+    {{ $description = print (substr $description 0 257) "..." }}
   {{end}}
   <meta name="description" content="{{ $description }}">
 
