@@ -79,8 +79,8 @@ figure_sampling_unif1 <- function() draw_sampling(df_sampling_unif, "Uniform", F
 figure_sampling_unif2 <- function() draw_sampling(df_sampling_unif, "Uniform", TRUE)
 figure_eff_norm1 <- function() draw_eff(df_eff_norm, "Gaussian", FALSE)
 figure_eff_norm2 <- function() draw_eff(df_eff_norm, "Gaussian", TRUE)
-figure_eff_unif1 <- function() draw_eff(df_eff_norm, "Uniform", FALSE)
-figure_eff_unif2 <- function() draw_eff(df_eff_norm, "Uniform", TRUE)
+figure_eff_unif1 <- function() draw_eff(df_eff_unif, "Uniform", FALSE)
+figure_eff_unif2 <- function() draw_eff(df_eff_unif, "Uniform", TRUE)
 
 # Plotting ---------------------------------------------------------------------
 regenerate_figures()
