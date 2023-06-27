@@ -1,4 +1,14 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 20 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Understanding the pitfalls of preferring the median over the mean</title><link>https://aakinshin.net/posts/median-vs-mean/</link><pubDate>Tue, 20 Jun 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/median-vs-mean/</guid><description>&lt;p>A common task in mathematical statistics is to aggregate a set of numbers &lt;span class="math inline">\(\mathbf{x} = \{ x_1, x_2, \ldots, x_n \}\)&lt;/span>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 27 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Joining modes of multimodal distributions</title><link>https://aakinshin.net/posts/joining-modes/</link><pubDate>Tue, 27 Jun 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/joining-modes/</guid><description>&lt;p>Multimodality of distributions is a severe issue in statistical analysis.
+Comparing two multimodal distributions is a tricky challenge.
+The degree of this challenge depends on the number of existing modes.
+Switching from unimodal models to multimodal ones
+can be a controversial decision, potentially causing more problems than solutions.
+Hence, if we dare to increase the complexity of the considering models,
+we should be sure that this is an essential necessity.
+Even when we confidently detect a truly multimodal distribution,
+a unimodal model could be an acceptable approximation if it is sufficiently close to the true distribution.
+The simplicity of a unimodal model may make it preferable, even if it is less accurate.
+Of course, the research goals should always be taken into account when the particular model choice is being made.&lt;/p></description></item><item><title>Understanding the pitfalls of preferring the median over the mean</title><link>https://aakinshin.net/posts/median-vs-mean/</link><pubDate>Tue, 20 Jun 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/median-vs-mean/</guid><description>&lt;p>A common task in mathematical statistics is to aggregate a set of numbers &lt;span class="math inline">\(\mathbf{x} = \{ x_1, x_2, \ldots, x_n \}\)&lt;/span>
 to a single &amp;ldquo;average&amp;rdquo; value.
 Such a value is usually called &lt;em>central tendency&lt;/em>.
 There are multiple measures of central tendency.
