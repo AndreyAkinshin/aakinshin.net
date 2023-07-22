@@ -38,7 +38,8 @@
       <a class="label-link my-1" href="https://www.oreilly.com/library/view/pro-net-benchmarking/9781484249413/">O’Reilly</a>
       <a class="label-link my-1" href="https://www.goodreads.com/book/show/45159905-pro-net-benchmarking">GoodReads</a>
       <a class="label-link my-1" href="https://www.researchgate.net/publication/334047447_Pro_NET_Benchmarking_The_Art_of_Performance_Measurement">ResearchGate</a>
-      <a class="label-link my-1" href="https://github.com/Apress/pro-.net-benchmarking">GitHub (Examples)</a>
+      <a class="label-link my-1" href="https://github.com/Apress/pro-.net-benchmarking">Examples (GitHub)</a>
+      <a class="label-link my-1" href="https://github.com/Apress/pro-.net-benchmarking/blob/master/errata.md">Errata (GitHub)</a>
     </div>
   </div>
 </div>
