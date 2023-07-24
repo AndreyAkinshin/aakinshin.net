@@ -46,7 +46,7 @@ As usual, it depends on our research goals: we should clearly define why we need
   and what kind of decisions we are going to make based on the obtained measurements.
 Once the goals are established, we can speculate on which measure of effect size to choose.
 However, as a rule of thumb, I recommend detecting multimodality phenomena
-  (e.g., using [the lowland multimodality detector](lowland-multimodality-detection))
+  (e.g., using [the lowland multimodality detector]({{< ref lowland-multimodality-detection >}}))
   and analyzing the individual modes separately.
 This approach can be tedious (especially in the case of non-trivial mode configuration),
   but it helps to achieve more reliable and trustworthy results.
