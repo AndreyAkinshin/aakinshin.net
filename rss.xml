@@ -1,4 +1,23 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 01 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Insidious implicit statistical assumptions</title><link>https://aakinshin.net/posts/insidious-assumptions/</link><pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/insidious-assumptions/</guid><description>&lt;p>Recently, I was rereading &amp;ldquo;Robust Statistics: The Approach Based on Influence Functions&amp;rdquo; by Frank Hampel et al.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 08 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Parametric, Nonparametric, Robust, and Defensive statistics</title><link>https://aakinshin.net/posts/parametric-nonparametric-robust-defensive/</link><pubDate>Tue, 08 Aug 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/parametric-nonparametric-robust-defensive/</guid><description>&lt;p>Recently, I started writing about &lt;a href="https://aakinshin.net/tags/ds/">defensive statistics&lt;/a>.
+The methodology allows having parametric assumptions,
+but it adjusts statistical methods so that they continue working even in the case
+of huge deviations from the declared assumptions.
+This idea sounds quite similar to nonparametric and robust statistics.
+In this post, I briefly explain the difference between different statistical methodologies.&lt;/p>
+&lt;div class="flex my-7 justify-center">
+&lt;a class="img-light hidden" href="https://aakinshin.net/posts/parametric-nonparametric-robust-defensive/img/compare-light.png" target="_blank" alt="compare">
+&lt;img
+src="https://aakinshin.net/posts/parametric-nonparametric-robust-defensive/img/compare-light.png"
+width='800'
+/>
+&lt;/a>
+&lt;a class="img-dark hidden" href="https://aakinshin.net/posts/parametric-nonparametric-robust-defensive/img/compare-dark.png" target="_blank" alt="compare">
+&lt;img
+src="https://aakinshin.net/posts/parametric-nonparametric-robust-defensive/img/compare-dark.png"
+width='800'
+/>
+&lt;/a>
+&lt;/div></description></item><item><title>Insidious implicit statistical assumptions</title><link>https://aakinshin.net/posts/insidious-assumptions/</link><pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/insidious-assumptions/</guid><description>&lt;p>Recently, I was rereading &amp;ldquo;Robust Statistics: The Approach Based on Influence Functions&amp;rdquo; by Frank Hampel et al.
 and I found this quote about the difference between robust and nonparametric statistics (page 9):&lt;/p>
 &lt;blockquote>
 &lt;p>Robust statistics considers the effects of only approximate fulfillment of assumptions,
