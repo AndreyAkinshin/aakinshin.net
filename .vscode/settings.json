@@ -1,5 +1,8 @@
 {
-    "workbench.colorTheme": "Kimbie Dark",
+    "window.autoDetectColorScheme": true,
+    "workbench.preferredDarkColorTheme": "Kimbie Dark",
+    "workbench.preferredLightColorTheme": "Solarized Light",
+    "workbench.colorTheme": "Solarized Light",
     "editor.rulers": [120],
     "cSpell.words": [
         "Akinshin",
@@ -9,6 +12,7 @@
         "Brunner",
         "changepoint",
         "changepoints",
+        "Cucconi",
         "Customizability",
         "discretization",
         "Doksum's",
@@ -90,5 +94,5 @@
         "zde",
         "zdemir"
     ],
-    "r.lsp.promptToInstall": false
+    "r.lsp.promptToInstall": false,
 }
