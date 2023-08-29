@@ -40,6 +40,8 @@ talks:
     links:
       - key: slides-web
         url: https://slides.aakinshin.net/dotnext2022/
+      - key: youtube
+        url: https://www.youtube.com/watch?v=Sakeh0J_HSE
       - key: script
         url: https://habr.com/en/company/jugru/blog/722342/
   - date: 2022-06-17
