@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 26 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Carling’s Modification of the Tukey's fences</title><link>https://aakinshin.net/posts/carling-outlier-detector/</link><pubDate>Tue, 26 Sep 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/carling-outlier-detector/</guid><description>&lt;p>Let us consider the classic problem of outlier detection in one-dimensional sample.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 03 Oct 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Weighted Hodges-Lehmann location estimator and mixture distributions</title><link>https://aakinshin.net/posts/whl-mixture/</link><pubDate>Tue, 03 Oct 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/whl-mixture/</guid><description>&lt;p>The classic non-weighted Hodges-Lehmann location estimator of a sample &lt;span class="math inline">\(\mathbf{x} = (x_1, x_2, \ldots, x_n)\)&lt;/span>
+is defined as follows:&lt;/p>
+&lt;p>&lt;span class="math display">\[\operatorname{HL}(\mathbf{x}) =
+\underset{1 \leq i \leq j \leq n}{\operatorname{median}} \left(\frac{x_i + x_j}{2} \right),
+\]&lt;/span>&lt;/p>
+&lt;p>where &lt;span class="math inline">\(\operatorname{median}\)&lt;/span> is the sample median.
+&lt;a href="https://aakinshin.net/posts/whl/">Previously&lt;/a>, we have defined a weighted version of the Hodges-Lehmann location estimator as follows:&lt;/p>
+&lt;p>&lt;span class="math display">\[\operatorname{WHL}(\mathbf{x}, \mathbf{w}) =
+\underset{1 \leq i \leq j \leq n}{\operatorname{wmedian}} \left(\frac{x_i + x_j}{2},\; w_i \cdot w_j \right),
+\]&lt;/span>&lt;/p>
+&lt;p>where &lt;span class="math inline">\(\mathbf{w} = (w_1, w_2, \ldots, w_n)\)&lt;/span> is the vector of weights,
+&lt;span class="math inline">\(\operatorname{wmedian}\)&lt;/span> is the &lt;a href="https://aakinshin.net/posts/preprint-wqe/">weighted median&lt;/a>.
+For simplicity, in the scope of the current post,
+Hyndman-Fan Type 7 quantile estimator is used as the base for the weighted median.&lt;/p>
+&lt;p>In this post, we consider a numerical simulation in which we compare sampling distribution of
+&lt;span class="math inline">\(\operatorname{HL}\)&lt;/span> and &lt;span class="math inline">\(\operatorname{WHL}\)&lt;/span> in a case of mixture distribution.&lt;/p></description></item><item><title>Carling’s Modification of the Tukey's fences</title><link>https://aakinshin.net/posts/carling-outlier-detector/</link><pubDate>Tue, 26 Sep 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/carling-outlier-detector/</guid><description>&lt;p>Let us consider the classic problem of outlier detection in one-dimensional sample.
 One of the most popular approaches is Tukey&amp;rsquo;s fences, that defines the following range:&lt;/p>
 &lt;p>&lt;span class="math display">\[[Q_1 - k(Q_3 - Q_1);\; Q_3 + k(Q_3 - Q_1)],
 \]&lt;/span>&lt;/p>
