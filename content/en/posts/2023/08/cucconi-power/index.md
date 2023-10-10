@@ -28,7 +28,7 @@ In this post, we briefly show the equations behind the Cucconi test and
 
 Let $\mathbf{x} = (x_1, x_2, \ldots, x_n)$ and $\mathbf{y} = (y_1, y_2, \ldots, y_m)$ be random samples.
 Let $N=n+m$.
-Let $\mathbf{S} = (S_1, S_2, \ldots, S_j)$ be a vector of $\mathbf{y}$ ranks
+Let $\mathbf{S} = (S_1, S_2, \ldots, S_m)$ be a vector of $\mathbf{y}$ ranks
   in the pooled sample $(\mathbf{x}, \mathbf{y})$.
 The Cucconi test statistic is defined as follows:
 
