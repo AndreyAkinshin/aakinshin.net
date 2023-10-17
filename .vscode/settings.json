@@ -2,7 +2,7 @@
     "window.autoDetectColorScheme": true,
     "workbench.preferredDarkColorTheme": "Kimbie Dark",
     "workbench.preferredLightColorTheme": "Solarized Light",
-    "workbench.colorTheme": "Solarized Light",
+    "workbench.colorTheme": "Kimbie Dark",
     "editor.rulers": [120],
     "cSpell.words": [
         "Akinshin",
