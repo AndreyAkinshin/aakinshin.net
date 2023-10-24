@@ -70,7 +70,7 @@ We can make the following observation:
   This test is often mistakenly declared as a test for medians or a test for stochastic greatness.
   Note that while in the above simulation, both distributions are stochastic equal,
     the statistical power of the Mann-Whitney U test is higher than $\alpha = 0.05$ for large $n$, $\sigma$.
-  We will discuss this phenomenon in one of the future posts.
+  We will discuss this phenomenon in [one of the future posts]({{< ref mw-heteroscedasticity >}}).
 * **Ansari-Bradley test:** this is the only actually suitable test for our problem.
   The statistical power starts at $\alpha = 0.05$ for $\sigma = 1$ (as it should)
     and increases while $\sigma$ increases.
