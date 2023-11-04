@@ -9,7 +9,7 @@ else
 fi
 
 HUGO_VER="v0.102.3-patched2"
-TW_VER="v3.3.1"
+TW_VER="v3.3.5"
 
 ARCH=$(arch)
 
