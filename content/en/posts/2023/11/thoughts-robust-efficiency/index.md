@@ -12,7 +12,7 @@ features:
 Statistical efficiency is an essential characteristic,
   which has to be taken into account when we choose between different estimators.
 When the underlying distribution is a normal one or at least light-tailed,
-  evaluation of the statistical efficiency typically doesn't have any problems.
+  evaluation of the statistical efficiency typically is not so hard.
 However, when the underlying distribution is a heavy-tailed one, problems appear.
 The statistical efficiency is usually expressed via the mean squared error or via variance, which are not robust.
 Therefore, heavy-tailedness may lead to distorted or even infinite efficiency, which is quite impractical.
@@ -49,7 +49,7 @@ Before we build such a picture, let us recall some of the popular dispersion est
 
 * Standard Deviation (Variance) - non-robust
 * Median Absolute Deviation - not so efficient, assumes symmetry
-* Shamos Estimator Median: $(|X_i-X_j|_{i < j}) \cdot C_1$ - interesting option
+* Shamos Estimator: $\operatorname{Median}(|X_i-X_j|_{i < j}) \cdot C_1$ - interesting option
 * Rousseeuw–Croux Qn estimator: $\operatorname{Quantile}(|X_i-X_j|_{i < j}, 0.25) \cdot C_2$ - interesting option
 
 Two listed interesting options operate with 25th and 50th quantiles of the $|X_i-X_j|_{i < j}$ distribution.
@@ -62,4 +62,6 @@ Such distributions could be compared stochastically:
   of the sampling distribution is stochastically less for the first estimator compared to the second one.
 
 In future posts,
-  I will share some more specific examples of how these speculations can be applied to real-life analysis.
+  I will share some more specific examples of how these speculations can be applied to real-life analysis:
+
+* {{< link robust-eff-median-hl >}}
