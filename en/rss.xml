@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 21 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Resistance to the low-density regions: the Hodges-Lehmann location estimator based on the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/rldr-hlhd/</link><pubDate>Tue, 21 Nov 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/rldr-hlhd/</guid><description>&lt;p>Previously, I have discussed the topic of the &lt;a href="https://aakinshin.net/tags/research-rldr/">resistance to the low-density regions&lt;/a>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 28 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Sporadic noise problem in change point detection</title><link>https://aakinshin.net/posts/sporadic-noise-problem/</link><pubDate>Tue, 28 Nov 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/sporadic-noise-problem/</guid><description>&lt;p>We consider a problem of change point detection at the end of a time series.
+Let us say that we systematically monitor readings of an indicator,
+and we want to react to noticeable changes in the measured values as fast as possible.
+When there are no changes in the underlying distribution,
+any alerts about detected change points should be considered false positives.
+Typically, in such problems,
+we consider the &lt;a href="https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables">i.i.d.&lt;/a>
+assumption that claims that in the absence of change points,
+all the measurements are independent and identically distributed.
+Such an assumption significantly simplifies the mathematical model,
+but unfortunately, it is rarely fully satisfied in real life.
+If we want to build a reliable change point detection system,
+it is important to be aware of possible real-life artifacts that introduce deviations from the declared model.
+In this problem, I discuss the problem of the sporadic noise.&lt;/p></description></item><item><title>Resistance to the low-density regions: the Hodges-Lehmann location estimator based on the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/rldr-hlhd/</link><pubDate>Tue, 21 Nov 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/rldr-hlhd/</guid><description>&lt;p>Previously, I have discussed the topic of the &lt;a href="https://aakinshin.net/tags/research-rldr/">resistance to the low-density regions&lt;/a>
 of various estimators including &lt;a href="https://aakinshin.net/posts/rldr-hl/">the Hodges-Lehmann location estimator&lt;/a> (&lt;span class="math inline">\(\operatorname{HL}\)&lt;/span>).
 In general, &lt;span class="math inline">\(\operatorname{HL}\)&lt;/span> is a great estimator with great statistical efficiency and a decent breakdown point.
 Unfortunately, it has low resistance to the low-density regions around
