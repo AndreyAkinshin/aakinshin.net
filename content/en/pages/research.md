@@ -108,7 +108,7 @@ The latest work is dedicated to the central regulatory circuit of the morphogene
 I was working on this project with fellows from
   [Sobolev Institute of Mathematics SB RAS](https://en.wikipedia.org/wiki/Sobolev_Institute_of_Mathematics) and
   [Institute of Cytology and Genetics SB RAS](https://www.icgbio.ru/en/).
-It was also the primary research topic of my Ph.D. thesis
+It was also the primary research topic of my PhD thesis
   "Mathematical and numerical modeling of gene network artificial regulatory circuits."
 
 **Selected publications:**

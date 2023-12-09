@@ -53,11 +53,7 @@
   <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
   [JetBrains](https://www.jetbrains.com/)
 
-  * *11/2022–Present:* Senior Performance Engineer
-
-  **Projects**
-  * [Rider](https://www.jetbrains.com/rider/):
-    A cross-platform .NET IDE based on the IntelliJ platform and ReSharper<br />
+  * *11/2022–Present:* Senior Performance Engineer (.NET Department)
 
 </section>
 
@@ -65,7 +61,7 @@
 <section>
   <h3 id="science">Science</h3>
 
-  *Ph.D. in Mathematics and Computer Science*
+  *PhD in Mathematics and Computer Science (since 2013)*
   <br /><br />
 
   <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
@@ -127,8 +123,8 @@
   
   * *09/2006–06/2011:* Student, specialty <a href="http://www.altstu.ru/entrant/speciality/0026/">230105</a> “Software for Computers and Automated System”.<br />
   Honours degree, 5.0 GPA, AltSTU student of the year 2009, head of the group.
-  * *08/2011–12/2013:* Ph.D. student, specialty: <a href="https://vak.gov.by/node/1080">05.13.18</a> “Mathematical modeling, numeric methods, and software systems”.<br />
-  Ph.D. thesis <a href="https://dlib.rsl.ru/01005540613">“Mathematical and numerical modeling of gene network artificial regulatory circuits”</a><br />
+  * *08/2011–12/2013:* PhD student, specialty: <a href="https://vak.gov.by/node/1080">05.13.18</a> “Mathematical modeling, numeric methods, and software systems”.<br />
+  PhD thesis <a href="https://dlib.rsl.ru/01005540613">“Mathematical and numerical modeling of gene network artificial regulatory circuits”</a><br />
   (defended in <a href="https://icmmg.nsc.ru/en">Institute of Computational Mathematics and Mathematical Geophysics SB RAS</a>, December 2013).
 </section>
 
@@ -136,7 +132,7 @@
 <section>
   <h3 id="certificates">Certificates and Awards</h3>
 
-  **[Microsoft MVP (Most Valuable Professional)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)**
+  **[Microsoft MVP (Most Valuable Professional)](https://mvp.microsoft.com/)**
   * 2015
   * 2016
   * 2017-2018

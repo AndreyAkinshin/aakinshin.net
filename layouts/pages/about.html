@@ -61,18 +61,6 @@
       <use xlink:href="/img/fa/all.svg#linkedin-in"></use>
     </svg>
   </a>
-  <a href="https://www.amazon.com/Andrey-Akinshin/e/B07QYFMFHY">
-    <svg class="fai fai-link">
-      <title>Amazon</title>
-      <use xlink:href="/img/fa/all.svg#amazon"></use>
-    </svg>
-  </a>
-  <a href="http://www.goodreads.com/AndreyAkinshin">
-    <svg class="fai fai-link">
-      <title>GoodReads</title>
-      <use xlink:href="/img/fa/all.svg#goodreads"></use>
-    </svg>
-  </a>
   <a href='{{ ((.Site.GetPage "/posts").OutputFormats.Get "rss").Permalink }}'>
     <svg class="fai fai-link">
       <title>RSS</title>
@@ -97,10 +85,10 @@
   <a href="#publications">{{ i18n "publications" }} ({{ len .Site.Data.gen.publications_en.item }})</a> <b>|</b>
   <a href="#talks">{{ i18n "publicTalks" }} ({{ len .Site.Data.gen.talks_en.item }})</a> <b>|</b>
   <a href="#posts">{{ i18n "posts" }} ({{ len (where .Site.RegularPages "Section" "posts") }})</a> <b>|</b>
-  <a href="#media">{{ i18n "media" }} ({{ len .Site.Data.gen.media_en.item }})</a> <b>|</b>
-  <a href="#open-source">{{ i18n "openSource" }}</a> <br />
+  <a href="#media">{{ i18n "media" }} ({{ len .Site.Data.gen.media_en.item }})</a> <br />
 
   {{ i18n "experience" }}:
+  <a href="#open-source">{{ i18n "openSource" }}</a> <b>|</b>
   <a href="#enterprise">{{ i18n "enterpriseProgramming" }}</a> <b>|</b>
   <a href="#science">{{ i18n "scienceActivities" }}</a> <b>|</b>
   <a href="#competitive">{{ i18n "competitiveProgramming" }}</a> <b>|</b>

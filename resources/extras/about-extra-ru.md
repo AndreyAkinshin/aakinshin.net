@@ -53,11 +53,7 @@
   <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>
   [JetBrains](https://www.jetbrains.com/)
 
-  * *11/2022–Сейчас:* Senior Performance Engineer
-
-  **Проекты**
-  * [Rider](https://www.jetbrains.com/rider/):
-    Кроссплатформенная .NET IDE на базе IntelliJ platform и ReSharper
+  * *11/2022–Сейчас:* Senior Performance Engineer (.NET Department)
 
 </section>
 
@@ -133,7 +129,7 @@
 <section>
   <h3 id="certificates">Сертификаты и награды</h3>
 
-  **[Microsoft MVP (Most Valuable Professional)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)**
+  **[Microsoft MVP (Most Valuable Professional)](https://mvp.microsoft.com/)**
   * 2015
   * 2016
   * 2017-2018

@@ -21,7 +21,7 @@ url: /ru/about
   (кроссплатформенная .NET IDE, основанная на платформе [IntelliJ](https://www.jetbrains.com/idea/) и [ReSharper](https://www.jetbrains.com/resharper/)).
 Он также
   бывший член программного комитета конференции [DotNext](https://dotnext.ru/),
-  [бывший Microsoft .NET MVP](https://mvp.microsoft.com/en-us/PublicProfile/5001348),
+  [бывший Microsoft .NET MVP](https://mvp.microsoft.com/),
   серебрянный медалист [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest).
 
 Андрей имеет степень [к.ф.-м.н.](https://dlib.rsl.ru/01005540613).
