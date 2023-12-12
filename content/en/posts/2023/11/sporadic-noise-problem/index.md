@@ -6,6 +6,7 @@ tags:
 - mathematics
 - statistics
 - research
+- cpd
 features:
 - math
 ---
