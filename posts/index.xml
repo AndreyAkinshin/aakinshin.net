@@ -1,4 +1,31 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 12 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Two-pass change point detection for temporary interval condensation</title><link>https://aakinshin.net/posts/two-pass-cpd/</link><pubDate>Tue, 12 Dec 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/two-pass-cpd/</guid><description>&lt;p>When we choose a change point detection algorithm, the most important thing is to clearly understand
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 19 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Finite-sample Gaussian efficiency: Shamos vs. Rousseeuw-Croux Qn scale estimators</title><link>https://aakinshin.net/posts/shamos-vs-qn/</link><pubDate>Tue, 19 Dec 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/shamos-vs-qn/</guid><description>&lt;p>&lt;a href="https://aakinshin.net/posts/qad-vs-rc/">Previously&lt;/a>, we compared the finite-sample Gaussian efficiency of
+the Rousseeuw-Croux scale estimators and the QAD estimator.
+In this post, we compare the finite-sample Gaussian efficiency of the Shamos scale estimator
+and the Rousseeuw-Croux &lt;span class="math inline">\(Q_n\)&lt;/span> scale estimator.
+This is a particularly interesting comparison.
+In the famous &amp;ldquo;Alternatives to the Median Absolute Deviation&amp;rdquo; (1993) paper by Peter J. Rousseeuw and Christophe Croux,
+the authors presented &lt;span class="math inline">\(Q_n\)&lt;/span> as an improved version of the Shamos estimator.
+Both estimators are based on the set of pairwise absolute differences between the elements of the sample.
+The Shamos estimator takes the median of this set and, therefore,
+has the asymptotic breakdown point of &lt;span class="math inline">\(\approx 29\%\)&lt;/span>
+and the asymptotic Gaussian efficiency of &lt;span class="math inline">\(\approx 86\%\)&lt;/span>.
+&lt;span class="math inline">\(Q_n\)&lt;/span> takes the first quartile of this set and, therefore,
+has the asymptotic breakdown point of &lt;span class="math inline">\(\approx 50\%\)&lt;/span> (like the median)
+and the asymptotic Gaussian efficiency of &lt;span class="math inline">\(\approx 82\%\)&lt;/span>.
+It sounds like a good deal: we trade &lt;span class="math inline">\(4\%\)&lt;/span> of the asymptotic Gaussian efficiency
+for &lt;span class="math inline">\(21\%\)&lt;/span> of the asymptotic breakdown point.
+What could possibly stop us from using &lt;span class="math inline">\(Q_n\)&lt;/span> everywhere instead of the Shamos estimator?&lt;/p>
+&lt;p>Well, here is a trick.
+The breakdown point of &lt;span class="math inline">\(29\%\)&lt;/span> is actually a practically reasonable value.
+If more than &lt;span class="math inline">\(29\%\)&lt;/span> of the sample are outliers, we should probably consider them not as outliers but as a separate mode.
+Such a situation should be handled by a multimodality detector and lead us to a different approach.
+The usage of dispersion estimators in the case of multimodal distributions is potentially misleading.
+When such a multimodality diagnostic scheme is used, there is no practical need for a higher breakdown point.&lt;/p>
+&lt;p>Thus, the breakdown point of &lt;span class="math inline">\(50\%\)&lt;/span> is not so impressive property of &lt;span class="math inline">\(Q_n\)&lt;/span>.
+Meanwhile, the drop in Gaussian efficiency is not so enjoyable.
+&lt;span class="math inline">\(4\%\)&lt;/span> may sound like a negligible difference, but it is only the asymptotic value.
+In real life, we typically tend to work with finite samples.
+Let us explore the actual finite-sample Gaussian efficiency values of these estimators.&lt;/p></description></item><item><title>Two-pass change point detection for temporary interval condensation</title><link>https://aakinshin.net/posts/two-pass-cpd/</link><pubDate>Tue, 12 Dec 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/two-pass-cpd/</guid><description>&lt;p>When we choose a change point detection algorithm, the most important thing is to clearly understand
 why we want to detect the change points.
 The knowledge of the final business goals is essential.
 In this post, I show a simple example of how a business requirement can be translated into algorithm adjustments.&lt;/p></description></item><item><title>Inconsistent violin plots</title><link>https://aakinshin.net/posts/inconsistent-violin-plots/</link><pubDate>Tue, 05 Dec 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/inconsistent-violin-plots/</guid><description>&lt;p>The usefulness and meaningfulness of the &lt;a href="https://en.wikipedia.org/wiki/Violin_plot">violin plots&lt;/a> are dubious
