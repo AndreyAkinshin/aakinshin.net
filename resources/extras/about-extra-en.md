@@ -2,7 +2,7 @@
   <h3 id="enterprise">Enterprise programming</h3>
 
   **Favorite languages:** C\#, Kotlin, R, LaTeX<br />
-  **Specialization:** performance, benchmarking, algorithms, mathematics
+  **Specialization:** performance, benchmarking, statistics, algorithms
   <br /><br />
 
   <svg class="fai"><use xlink:href="/img/fa/all.svg#building"></use></svg>

@@ -33,6 +33,7 @@ namespace DataProcessor.OpenSource
         public OpenSourceRepoGroup ParseRepoGroup(YamlMappingNode yaml) => new OpenSourceRepoGroup
         {
             Role = GetStr(yaml, "role"),
+            Sort = GetStr(yaml, "sort"),
             Repos = ParseRepos(yaml)
         };
 

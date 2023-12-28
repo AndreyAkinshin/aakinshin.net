@@ -1,14 +1,28 @@
 github:
-  - role: Project Lead
+  - role: Active
     repos:
       - url: dotnet/BenchmarkDotNet
         title: Powerful .NET library for benchmarking
-  - role: Owner
-    repos:
       - url: AndreyAkinshin/perfolizer
         title: Performance analysis toolkit
+      - url: AndreyAkinshin/aakinshin.net
+        title: aakinshin.net (Source code)
       - url: AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template
         title: LaTeX-template for russian PhD thesis
+  - role: Research Papers
+    repos:
+      - url: AndreyAkinshin/paper-wqe
+        title: Weighted quantile estimators
+      - url: AndreyAkinshin/paper-frc
+        title: Finite-sample Rousseeuw-Croux scale estimators
+      - url: AndreyAkinshin/paper-qad
+        title: Quantile absolute deviation
+      - url: AndreyAkinshin/paper-mad-factors
+        title: Finite-sample bias-correction factors for the median absolute deviation
+      - url: AndreyAkinshin/paper-thdqe
+        title: Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width
+  - role: Archive
+    repos:
       - url: AndreyAkinshin/ggwaterfall
         title: R package with functions for drawing density and frequency trail waterfall plots
       - url: AndreyAkinshin/ProblemBook.NET
@@ -17,20 +31,24 @@ github:
         title: Explorer of CultureInfo instances in .NET
       - url: AndreyAkinshin/InteropDotNet
         title: Cross-platform AnyCPU P/Invoke for .NET
-      - url: AndreyAkinshin/aakinshin.net
-        title: aakinshin.net (Source code)
       - url: AndreyAkinshin/knockout-mvc
         title: Knockout.js wrapper for ASP.NET
       - url: AndreyAkinshin/CourseraDspWorkbook
         title: Workbook for Coursera DSP course
-  - role: Contributor
+      - url: AndreyAkinshin/BlittableStructs
+        title: Blittable .NET structs
+  - role: Random experiments
+    repos:
+      - url: AndreyAkinshin/GitHubActionsPerfStability
+        title: Basic CPU-bound, Memory-bound, and Disk-bound benchmarks
+      - url: AndreyAkinshin/pwLLL
+        title: Shiny app that builds 3D phase portraits of a piecewise linear LLL-system
+      - url: AndreyAkinshin/clock-bmal1
+        title: "CLOCK:BMAL1 Circadian Oscillator Model"
+  - role: Memorable contributions
     repos:
       - url: dotnet/runtime
-        title: .NET is a cross-platform runtime and libraries, for cloud, IoT and desktop apps. It includes a garbage collector, JIT compiler, primitive data types and class libraries
-      - url: dotnet/coreclr
-        title: This repo contains the .NET Core runtime, called CoreCLR, and the base library, called System.Private.Corelib (or mscorlib)
-      - url: dotnet/corefx
-        title: This repo contains the .NET Core foundational libraries, called CoreFX. It includes classes for collections, file systems, console, XML, async and many others
+        title: .NET is a cross-platform runtime for cloud, mobile, desktop, and IoT apps
       - url: JetBrains/intellij-community
         title: IntelliJ IDEA Community Edition
       - url: mono/mono
@@ -41,18 +59,19 @@ github:
         title: A better date and time API for .NET
       - url: charlesw/tesseract
         title: A .NET wrapper for tesseract-ocr
-      - url: tmyroadctfig/twaindotnet
-        title: .NET API for TWAIN
       - url: Code52/pretzel
         title: A site generation tool (and then some) for .NET platforms
-      - url: chocolatey/chocolatey.org
-        title: Chocolatey.org
+  - role: Random contributions
+    sort: url
+    repos:
+      - url: tmyroadctfig/twaindotnet
+        title: .NET API for TWAIN
       - url: jjrdk/ArchiMetrics
         title: Various code analysis tools for C#
       - url: finagle/finch
         title: Scala combinator library for building Finagle HTTP services
       - url: GitbookIO/gitbook
-        title:  Modern documentation format and toolchain using Git and Markdown
+        title: Modern documentation format and toolchain using Git and Markdown
       - url: overthecs/overthecs.github.io
         title: Source code of OverAPI
       - url: yihui/knitr-examples
@@ -63,13 +82,13 @@ github:
         title: A .NET wrapper for Vimeo API v3.0
       - url: dotnet/docs
         title: This repository contains .NET Documentation
-      - url: mono/linker
+      - url: dotnet/linker
         title: Mono linker
       - url: JetBrains/ideolog
         title: Interactive viewer for '.log' files
       - url: JetBrains/resharper-unity
         title: Unity support for both ReSharper and Rider
-      - url: traff/pty4j
+      - url: JetBrains/pty4j
         title: Pty for Java
       - url: nwillc/ksvg
         title: A Multiplatform Kotlin SVG image DSL
@@ -77,3 +96,23 @@ github:
         title: Script that converts LiveLib reading list to csv
       - url: facebook/react-native
         title: A framework for building native apps with React
+      - url: obsidian-tasks-group/obsidian-tasks
+        title: Task management for the Obsidian knowledge base
+      - url: Lakens/statistical_inferences
+        title: "Repository for the textbook 'Improving Your Statistical Inferences' by Daniel Lakens"
+      - url: Nukesor/pueue
+        title: Manage your shell commands
+      - url: scipy/scipy
+        title: SciPy library main repository
+      - url: papis/papis
+        title: document and bibliography manager
+      - url: JetBrains/rd
+        title: Reactive Distributed communication framework
+      - url: JetBrains/azure-tools-for-intellij
+        title: Azure Toolkit for JetBrains Rider
+      - url: adamsitnik/awesome-dot-net-performance
+        title: A curated list of awesome .NET Performance-related stuff
+      - url: dotnet/wpf
+        title: .NET Core UI framework for building Windows desktop applications
+      - url: JetBrains/clrstack
+        title: Tool for capture stack traces for .NET application

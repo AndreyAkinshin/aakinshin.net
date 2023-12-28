@@ -13,15 +13,20 @@ namespace DataProcessor.OpenSource
             var builder = new StringBuilder();
             builder.AppendLine("Indexer = false");
             builder.AppendLine();
-            
+
             foreach (var repoGroup in groups)
             {
-                foreach (var repo in repoGroup.Repos)
+                var repos = repoGroup.Repos;
+                if (repoGroup.Sort != null && repoGroup.Sort.Equals("url", StringComparison.OrdinalIgnoreCase))
+                    repos.Sort((x, y) => string.Compare(x.Url, y.Url, StringComparison.Ordinal));
+                foreach (var repo in repos)
                 {
                     var href = "https://github.com/" + repo.Url;
                     var caption = GetHtmlCaption(repo);
                     var hrefCommit = href + "/commits?author=AndreyAkinshin";
-                    var html = $"<a href='{href}'>{caption}</a> (<a href='{hrefCommit}'>commits</a>)<br /><i>{repo.Title}</i>";
+                    var html = $"<a href='{href}'>{caption}</a> " +
+                               $"(<a href='{hrefCommit}'>commits</a>) " +
+                               $"<i>{repo.Title}</i>";
 
                     builder.AppendLine("[[item]]");
                     builder.AppendLine($"Group = \"{repoGroup.Role}\"");
@@ -44,7 +49,7 @@ namespace DataProcessor.OpenSource
 
         private static string GetHtmlCaption(OpenSourceRepo openSourceRepo)
         {
-            var parts = openSourceRepo.Url.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+            var parts = openSourceRepo.Url.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
             return parts[0] + "/<b>" + parts[1] + "</b>";
         }
     }

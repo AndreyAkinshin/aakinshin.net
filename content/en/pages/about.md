@@ -7,8 +7,8 @@ url: about
 <div class="[&>p]:m-0 [&>p]:indent-6">
 
 Andrey Akinshin is
-  a [software developer](https://github.com/AndreyAkinshin/) and a [statistician]({{< ref research >}}/#statistics),
-  an author of [blog posts](#posts) and [papers](#publications) about mathematics and programming,
+  a [software developer](https://github.com/AndreyAkinshin/) and a [mathematician]({{< ref research >}}),
+  an author of [blog posts](#posts) and [papers](#publications) about statistics and programming,
   a [conference speaker](#talks).
 He is
   a PhD,
