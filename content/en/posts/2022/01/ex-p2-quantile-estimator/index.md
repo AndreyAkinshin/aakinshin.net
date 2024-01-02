@@ -48,7 +48,7 @@ For the first $n$ observations, these real values are defined as follows:
 The paper suggests simple logic that invalidates all of these values on each new observation.
 
 Now let's consider the extended P² quantile estimator (see [[Raatikainen1987]](#Raatikainen1987))
-  that estimates $m$ quantile values $p_0, p_1, \ldots, p_{n-1}$.
+  that estimates $m$ quantile values $p_0, p_1, \ldots, p_{m-1}$.
 In order to do it, we need $2m+3$ markers: $m+2$ principle markers and $m+1$ middle markers.
 These markers are defined as follows:
 
