@@ -37,14 +37,10 @@ github:
         title: Workbook for Coursera DSP course
       - url: AndreyAkinshin/BlittableStructs
         title: Blittable .NET structs
-  - role: Random experiments
-    repos:
-      - url: AndreyAkinshin/GitHubActionsPerfStability
-        title: Basic CPU-bound, Memory-bound, and Disk-bound benchmarks
       - url: AndreyAkinshin/pwLLL
         title: Shiny app that builds 3D phase portraits of a piecewise linear LLL-system
       - url: AndreyAkinshin/clock-bmal1
-        title: "CLOCK:BMAL1 Circadian Oscillator Model"
+        title: "Shiny app for CLOCK:BMAL1 Circadian Oscillator Model"
   - role: Memorable contributions
     repos:
       - url: dotnet/runtime
@@ -116,3 +112,7 @@ github:
         title: .NET Core UI framework for building Windows desktop applications
       - url: JetBrains/clrstack
         title: Tool for capture stack traces for .NET application
+      - url: octokit/octokit.net
+        title: A GitHub API client library for .NET
+      - url: gui-cs/Terminal.Gui
+        title: Cross Platform Terminal UI toolkit for .NET
