@@ -1,0 +1,583 @@
+Indexer = true
+
+[[item]]
+Group = "2023"
+Html = "<i>Andrey Akinshin</i> <span title=''>“Weighted quantile estimators”</span> (2023) // arXiv. DOI:&nbsp;<a href='https://doi.org/10.48550/arXiv.2304.07265'>10.48550/arXiv.2304.07265</a>"
+Project = "statistics"
+Index = 36
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Article"
+  [[item.badge]]
+  Label = "Preprint"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.48550/arXiv.2304.07265"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#arxiv'></use></svg> arXiv"
+  Url = "https://arxiv.org/abs/2304.07265"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF"
+  Url = "https://arxiv.org/pdf/2304.07265.pdf"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#github'></use></svg> GitHub"
+  Url = "https://github.com/AndreyAkinshin/paper-wqe"
+[[item]]
+Group = "2023"
+Html = "<i> V. P. Golubyatnikov, A. A. Akinshin, N. B. Ayupova, L. S. Minushkina</i> <span title=''>“Stratifications and foliations in phase portraits of gene network models”</span> (2023) // Vavilov Journal of Genetics and Breeding. Publisher: Institute of Cytology and Genetics, SB RAS. Vol.&nbsp;26. No&nbsp;8. Pp.&nbsp;758–764. DOI:&nbsp;<a href='https://doi.org/10.18699/vjgb-22-91'>10.18699/vjgb-22-91</a>"
+Project = "gene-networks"
+Index = 35
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Article"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.18699/vjgb-22-91"
+[[item]]
+Group = "2022"
+Html = "<i>Andrey Akinshin</i> <span title=''>“Finite-sample Rousseeuw-Croux scale estimators”</span> (2022) // arXiv. DOI:&nbsp;<a href='https://doi.org/10.48550/arXiv.2209.12268'>10.48550/arXiv.2209.12268</a>"
+Project = "statistics"
+Index = 34
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Article"
+  [[item.badge]]
+  Label = "Preprint"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.48550/arXiv.2209.12268"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#arxiv'></use></svg> arXiv"
+  Url = "https://arxiv.org/abs/2209.12268"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF"
+  Url = "https://arxiv.org/pdf/2209.12268.pdf"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#github'></use></svg> GitHub"
+  Url = "https://github.com/AndreyAkinshin/paper-frc"
+[[item]]
+Group = "2022"
+Html = "<i>Andrey Akinshin</i> <span title=''>“Quantile absolute deviation”</span> (2022) // arXiv. DOI:&nbsp;<a href='https://doi.org/10.48550/ARXIV.2208.13459'>10.48550/ARXIV.2208.13459</a>"
+Project = "statistics"
+Index = 33
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Article"
+  [[item.badge]]
+  Label = "Preprint"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.48550/ARXIV.2208.13459"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#arxiv'></use></svg> arXiv"
+  Url = "https://arxiv.org/abs/2208.13459"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF"
+  Url = "https://arxiv.org/pdf/2208.13459.pdf"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#github'></use></svg> GitHub"
+  Url = "https://github.com/AndreyAkinshin/paper-qad"
+[[item]]
+Group = "2022"
+Html = "<i>A. A. Akinshin, N. B. Ayupova, V. P. Golubyatnikov, N. E. Kirillova, O. A. Podkolodnaya, N. L. Podkolodnyy</i> <span title='For a model of a circadian oscillator presented in the form of a 6-dimensional nonlinear dynamical system, conditions of uniqueness of an equilibrium point and conditions of existence of a periodic trajectory (cycle) are established. A client-server application is developed to perform numerical experiments with this model on a cloud server and to visualize the results of these experiments.'>“On a Numerical Model of a Circadian Oscillator”</span> (2022) // Numerical Analysis and Applications. Vol.&nbsp;15. No&nbsp;3. Pp.&nbsp;187-196. DOI:&nbsp;<a href='https://doi.org/10.1134/S1995423922030016'>10.1134/S1995423922030016</a>"
+Project = "gene-networks"
+Index = 32
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Article"
+  [[item.badge]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#wos'></use></svg> Web of Science"
+  [[item.badge]]
+  Label = "Springer"
+  [[item.badge]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#scopus'></use></svg> Scopus"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.1134/S1995423922030016"
+  [[item.link]]
+  Label = "Link"
+  Url = "https://rdcu.be/cUri9"
+[[item]]
+Group = "2022"
+Html = "<i>V. Golubyatnikov, A. Akinshin, N. Ayupova, N. Kirillova, N. Podkolodnyy, O. Podkolodnaya</i> <span title=''>“Mathematical and numerical modelling of the circadian oscillator”</span> (2022) // Bioinformatics of Genome Regulation and Structure/Systems Biology (BGRS/SB-2022). Pp.&nbsp;1096–1096. DOI:&nbsp;<a href='https://doi.org/10.18699/SBB-2022-657'>10.18699/SBB-2022-657</a>"
+Project = "gene-networks"
+Index = 31
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.18699/SBB-2022-657"
+[[item]]
+Group = "2022"
+Html = "<i>Andrey Akinshin</i> <span title=''>“Finite-sample bias-correction factors for the median absolute deviation based on the Harrell-Davis quantile estimator and its trimmed modification”</span> (2022) // arXiv. DOI:&nbsp;<a href='https://doi.org/10.48550/ARXIV.2207.12005'>10.48550/ARXIV.2207.12005</a>"
+Project = "statistics"
+Index = 30
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Article"
+  [[item.badge]]
+  Label = "Preprint"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.48550/ARXIV.2207.12005"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#arxiv'></use></svg> arXiv"
+  Url = "https://arxiv.org/abs/2207.12005"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF"
+  Url = "https://arxiv.org/pdf/2207.12005.pdf"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#github'></use></svg> GitHub"
+  Url = "https://github.com/AndreyAkinshin/paper-mad-factors"
+[[item]]
+Group = "2022"
+Html = "<i>Andrey Akinshin</i> <span title='Traditional quantile estimators that are based on one or two order statistics are a common way to estimate distribution quantiles based on the given samples. These estimators are robust, but their statistical efficiency is not always good enough. A more efficient alternative is the Harrell-Davis quantile estimator which uses a weighted sum of all order statistics. Whereas this approach provides more accurate estimations for the light-tailed distributions, it’s not robust. To be able to customize the tradeoff between statistical efficiency and robustness, we could consider a trimmed modification of the Harrell-Davis quantile estimator. In this approach, we discard order statistics with low weights according to the highest density interval of the beta distribution.'>“Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width”</span> (2022) // Communications in Statistics - Simulation and Computation. Publisher: Taylor & Francis. Pp.&nbsp;1-11. DOI:&nbsp;<a href='https://doi.org/10.1080/03610918.2022.2050396'>10.1080/03610918.2022.2050396</a>"
+Project = "statistics"
+Index = 29
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Article"
+  [[item.badge]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#wos'></use></svg> Web of Science"
+  [[item.badge]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#scopus'></use></svg> Scopus"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.1080/03610918.2022.2050396"
+  [[item.link]]
+  Label = "Link"
+  Url = "https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#arxiv'></use></svg> arXiv"
+  Url = "https://arxiv.org/abs/2111.11776"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF"
+  Url = "https://arxiv.org/pdf/2111.11776.pdf"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#github'></use></svg> GitHub"
+  Url = "https://github.com/AndreyAkinshin/paper-thdqe"
+[[item]]
+Group = "2021"
+Html = "<i>Andrey Akinshin, Gil Goldman, Yosef Yomdin</i> <span title='We consider a reconstruction problem for “spike-train” sig nals F of the a priori known form F ( x ) = ∑ d j =1 a j $&#92;delta$ ( x − x j ) , from their moments m k ( F ) = ∫ x k F ( x ) dx. We assume m k ( F ) to be known for k = 0 , 1 , . . . , 2 d − 1 , with an absolute error not exceeding ǫ {&#92;textgreater} 0. This problem is essentially equivalent to solving the Prony system ∑ d j =1 a j x k j = m k ( F ) , k = 0 , 1 , . . . , 2 d − 1 . We study the “geometry of error amplification” in reconstruc tion of F from m k ( F ) , in situations where the nodes x 1 , . . . , x d near-collide, i.e. form a cluster of size h ≪ 1. We show that in this case error amplification is governed by the “Prony leaves” S q F, in the parameter space of signals F , along which the first q + 1 moments remain constant. On this base we produce accurate , up to the constants, lower and upper bounds on the worst case r econstruction error, and show how the Prony leaves can help in improving rec onstruction accuracy.'>“Geometry of error amplification in solving the Prony system with near-colliding nodes”</span> (2021) // Mathematics of Computation. Vol.&nbsp;90. No&nbsp;327. Pp.&nbsp;267–302. DOI:&nbsp;<a href='https://doi.org/10.1090/mcom/3571'>10.1090/mcom/3571</a>"
+Project = "signal-processing"
+Index = 28
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Article"
+  [[item.badge]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#wos'></use></svg> Web of Science"
+  [[item.badge]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#scopus'></use></svg> Scopus"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.1090/mcom/3571"
+  [[item.link]]
+  Label = "Publons"
+  Url = "https://publons.com/publon/39312469/"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#arxiv'></use></svg> arXiv"
+  Url = "https://arxiv.org/abs/1701.04058"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF"
+  Url = "https://arxiv.org/pdf/1701.04058.pdf"
+[[item]]
+Group = "2020"
+Html = "<i>T.A. Bukharina, A.A. Akinshin, V.P. Golubyatnikov, D.P. Furman</i> <span title=''>“A Model of one central regulatory circuit”</span> (2020) // The Twelfth International Multiconference 'Bioinformatics of genome regulation and structure/systems biology (BGRS/SB-2020)'. Publisher: Institute of Cytology and Genetics, Siberian Branch of the Russian Academy of Sciences, Novosibirsk State University. Pp.&nbsp;143–144. DOI:&nbsp;<a href='https://doi.org/10.18699/BGRS/SB-2020-090'>10.18699/BGRS/SB-2020-090</a>"
+Project = "gene-networks"
+Index = 27
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.18699/BGRS/SB-2020-090"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF"
+  Url = "https://publ.icgbio.ru/wp-content/uploads/2020/07/BGRS2020_15.07-144-145.pdf"
+[[item]]
+Group = "2020"
+Html = "<i>T. A. Bukharina, A. A. Akinshin, V. P. Golubyatnikov, D. P. Furman</i> <span title='The results are presented of mathematical and computer simulation of the functioning of the central regulatory circuit (CRC) which is the system integrator of the gene networks ofmorphogenesis of Drosophila mechanoreceptors. The main element of the CRC is represented bythe complex of Achaete-Scute (AS-C) genes, the main genes of the mechanoreceptor morphogenesis.The content level of the proteins encoded by the AS-Cgenes is a determining factor for initiating the development of a mechanoreceptor. We carried outa comparative study of the CRC behavior under normal conditions and in the presence ofmutational changes in the Achaete-Scute complex. Theresults of simulation are in good accord with the available biological data.'>“Mathematical and Numerical Models of the Central Regulatory Circuit of the Morphogenesis System of Drosophila”</span> (2020) // Journal of Applied and Industrial Mathematics. Vol.&nbsp;14. No&nbsp;2. Pp.&nbsp;249-255. DOI:&nbsp;<a href='https://doi.org/10.1134/S1990478920020040'>10.1134/S1990478920020040</a>"
+Project = "gene-networks"
+Index = 26
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Article"
+  [[item.badge]]
+  Label = "Springer"
+  [[item.badge]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#scopus'></use></svg> Scopus"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.1134/S1990478920020040"
+  [[item.link]]
+  Label = "Link"
+  Url = "https://rdcu.be/b5yyl"
+  [[item.link]]
+  Label = "Springer"
+  Url = "https://link.springer.com/article/10.1134/S1990478920020040"
+[[item]]
+Group = "2019"
+Html = "<i>Andrey Akinshin</i> <span title=''>“Pro .NET Benchmarking”</span> (2019) // Publisher: Apress. ISBN:&nbsp;978-1-4842-4940-6. Pp.&nbsp;662. DOI:&nbsp;<a href='https://doi.org/10.1007/978-1-4842-4941-3'>10.1007/978-1-4842-4941-3</a>"
+Project = "benchmarking"
+Index = 25
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Book"
+  [[item.badge]]
+  Label = "Springer"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.1007/978-1-4842-4941-3"
+  [[item.link]]
+  Label = "Springer"
+  Url = "https://link.springer.com/book/10.1007/978-1-4842-4941-3"
+  [[item.link]]
+  Label = "Apress"
+  Url = "https://www.apress.com/us/book/9781484249406"
+[[item]]
+Group = "2017"
+Html = "<i>Andrey Akinshin</i> <span title=''>“The hard world of microbenchmarking”</span> (2017) // Logeek Magazine. Vol.&nbsp;3. Pp.&nbsp;10–15."
+Project = "benchmarking"
+Index = 24
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Article"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF"
+  Url = "https://career.luxoft.com/upload/iblock/74f/2283_b2e_logeek_magazine_3_a4_2017_02_27_net.pdf"
+[[item]]
+Group = "2017"
+Html = "<i>Andrey Akinshin, Gil Goldman, Vladimir Golubyatnikov, Yosef Yomdin</i> <span title='We consider a signal reconstruction problem for signals {&#92;$}F{&#92;$} of the form {&#92;$} F(x)=&#92;backslashsum_{&#92;{}j=1{&#92;}}{&#92;^{}}{&#92;{}d{&#92;}}a_{&#92;{}j{&#92;}}&#92;backslashdelta&#92;backslashleft(x-x_{&#92;{}j{&#92;}}&#92;backslashright),{&#92;$} from their moments {&#92;$}m_k(F)=&#92;backslashint x{&#92;^{}}kF(x)dx.{&#92;$} We assume {&#92;$}m_k(F){&#92;$} to be known for {&#92;$}k=0,1,&#92;backslashldots,N,{&#92;$} with an absolute error not exceeding {&#92;$}&#92;backslashepsilon {&#92;textgreater} 0{&#92;$}. We study the 'geometry of error amplification' in reconstruction of {&#92;$}F{&#92;$} from {&#92;$}m_k(F),{&#92;$} in situations where two neighboring nodes {&#92;$}x_i{&#92;$} and {&#92;$}x_{&#92;{}i+1{&#92;}}{&#92;$} near-collide, i.e {&#92;$}x_{&#92;{}i+1{&#92;}}-x_i=h &#92;backslashll 1{&#92;$}. We show that the error amplification is governed by certain algebraic curves {&#92;$}S_{&#92;{}F,i{&#92;}},{&#92;$} in the parameter space of signals {&#92;$}F{&#92;$}, along which the first three moments {&#92;$}m_0,m_1,m_2{&#92;$} remain constant.'>“Accuracy of reconstruction of spike-trains with two near-colliding nodes”</span> (2017) // 7th International Conference on Complex Analysis and Dynamical Systems (CA&DS VII). Vol.&nbsp;699. Pp.&nbsp;1–17. DOI:&nbsp;<a href='https://doi.org/10.1090/conm/699/14078'>10.1090/conm/699/14078</a>"
+Project = "signal-processing"
+Index = 23
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+  [[item.badge]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#wos'></use></svg> Web of Science"
+  [[item.badge]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#scopus'></use></svg> Scopus"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.1090/conm/699/14078"
+  [[item.link]]
+  Label = "Publons"
+  Url = "https://publons.com/publon/34688522/"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#arxiv'></use></svg> arXiv"
+  Url = "https://arxiv.org/abs/1701.01482"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF"
+  Url = "https://arxiv.org/pdf/1701.01482.pdf"
+[[item]]
+Group = "2016"
+Html = "<i>A.A. Akinshin, V. P. Golubyatnikov, M.V. Kazantsev</i> <span title=''>“On discrete structures in phase portraits of some non-linear dynamical systems”</span> (2016) // Siberian Electronic Mathematical Reports. Vol.&nbsp;13. Pp.&nbsp;A.23–A.24. DOI:&nbsp;<a href='https://doi.org/10.17377/semi.2016.13.020'>10.17377/semi.2016.13.020</a>"
+Project = "gene-networks"
+Index = 22
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.17377/semi.2016.13.020"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF"
+  Url = "http://semr.math.nsc.ru/v13/a1-41.pdf"
+[[item]]
+Group = "2015"
+Html = "<i>A.A. Akinshin, M.V. Kazantsev</i> <span title='Existence and location of periodical trajectories are important properties of multi-dimensional dynamical systems. In particular, this relates to systems that model gene networks. We can reduce the areas where cyclic trajectories may be located due to analysis of some discrete structures describing the dynamical system, such as state transition diagrams'>“State transition diagrams in hypothetical models of cyclic gene networks functioning”</span> (2015) // 5th International Young Scientists School “System Biology and Bioinformatics”. Novosibirsk. Pp.&nbsp;1."
+Project = "gene-networks"
+Index = 21
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+  [[item.link]]
+  Label = "Conference site"
+  Url = "http://conf.nsc.ru/SBB2015/en"
+[[item]]
+Group = "2015"
+Html = "<i>A. Akinshin, D. Batenkov, Y. Yomdin</i> <span title='We consider Fourier reconstruction problem for signals F, which are linear combinations of shifted delta-functions. We assume the Fourier transform of F to be known on the frequency interval [-N,N], with an absolute error not exceeding e {&#92;textgreater} 0. We give an absolute lower bound (which is valid with any reconstruction method) for the 'worst case' reconstruction error of F in situations where the nodes (i.e. the positions of the shifted delta-functions in F) are known to form an l elements cluster of a size h {&#92;textless}{&#92;textless} 1. Using 'decimation' reconstruction algorithm we provide an upper bound for the reconstruction error, essentially of the same form as the lower one. Roughly, our main result states that for N*h of order of (2l-1)-st root of e the worst case reconstruction error of the cluster nodes is of the same order as h, and hence the inside configuration of the cluster nodes (in the worst case scenario) cannot be reconstructed at all. On the other hand, decimation algorithm reconstructs F with the accuracy of order of 2l-st root of e.'>“Accuracy of spike-train Fourier reconstruction for colliding nodes”</span> (2015) // Sampling Theory and Applications (SampTA), 2015 International Conference on. Publisher: IEEE. Washington, DC. ISBN:&nbsp;978-1-4673-7353-1. No&nbsp;264. Pp.&nbsp;617–621. DOI:&nbsp;<a href='https://doi.org/10.1109/SAMPTA.2015.7148965'>10.1109/SAMPTA.2015.7148965</a>"
+Project = "signal-processing"
+Index = 20
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+  [[item.badge]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#wos'></use></svg> Web of Science"
+  [[item.badge]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#scopus'></use></svg> Scopus"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.1109/SAMPTA.2015.7148965"
+  [[item.link]]
+  Label = "IEEE"
+  Url = "http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7148965"
+  [[item.link]]
+  Label = "Publons"
+  Url = "https://publons.com/publon/14766954/"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#arxiv'></use></svg> arXiv"
+  Url = "https://arxiv.org/abs/1502.06932"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF"
+  Url = "https://arxiv.org/pdf/1502.06932.pdf"
+[[item]]
+Group = "2015"
+Html = "<i>Andrey Akinshin</i> <span title='This book is intended for.NET developers who want to use the MVVM design pattern to create powerful client-side JavaScript linked to server-side C{&#92;#} logic. Basic experience with ASP.NET, Razor, and creating web applications is needed. Since this book is not a C{&#92;#} or JavaScript tutorial, you should have basic knowledge of these programming languages.'>“Getting Started with Knockout.js for .NET Developers”</span> (2015) // Publisher: PacktPub. ISBN:&nbsp;978-1783984008. Pp.&nbsp;188."
+Index = 19
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Book"
+  [[item.link]]
+  Label = "PacktPub"
+  Url = "https://www.packtpub.com/application-development/getting-started-knockoutjs-net-developers"
+[[item]]
+Group = "2014"
+Html = "<i>A. A. Akinshin, T. A. Bukharina, D. P. Furman, V. P. Golubyatnikov</i> <span title=''>“A model of one biological 2-cells complex”</span> (2014) // Geometry days in Novosibirsk - 2014: Abstracts of the International Conference. Novosibirsk. ISBN:&nbsp;978-5-86134-145-5. Pp.&nbsp;85–86."
+Project = "gene-networks"
+Index = 18
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+[[item]]
+Group = "2014"
+Html = "<i>A. A. Akinshin, T. A. Bukharina, D. P. Furman, V. P. Golubyatnikov</i> <span title=''>“An Extended Model of D. Melanogaster Machrochaete Morphogenesis Gene Network”</span> (2014) // International Conference «Mathematical Modeling and High Performance Computing in Bioinformatics, Biomedicine and Biotechnology». Pp.&nbsp;10."
+Project = "gene-networks"
+Index = 17
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+  [[item.link]]
+  Label = "Conference site"
+  Url = "http://conf.nsc.ru/mmhpc2014/"
+[[item]]
+Group = "2014"
+Html = "<i>A. A. Akinshin, T. A. Bukharina, D. P. Furman, V. P. Golubyatnikov</i> <span title=''>“Modeling of Two-Cells Complex in Morphogenesis of D. Melanogaster Mechanoreceptors”</span> (2014) // International Conference «Mathematical Modeling and High Performance Computing in Bioinformatics, Biomedicine and Biotechnology». Pp.&nbsp;11."
+Project = "gene-networks"
+Index = 16
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+[[item]]
+Group = "2014"
+Html = "<i>A. A. Akinshin, V. P. Golubyatnikov, V. A. Likhoshvai</i> <span title='Gene networks are sets of genes functioning in a coordinated manner. Their major components are the biopolymers DNA, RNA, and proteins. In this paper, we consider a small network with several genes (they can be considered standalone) and observe the concentration of the corresponding proteins. Researching the dynamic behavior of gene networks is a complicated problem. Therefore, we research the principles of their functioning on special hypothetical model objects. These models can be described by a nonlinear differential system. Symmetry is a very important property of living systems. The phenomenon of symmetry can be observed in completely different biological models. The analysis of gene networks model symmetry allows us to construct special methods to solve such standard problems as the problem of existence and stability of attractors, to build the graphical representation of the gene network phase portraits, to determine equilibrium points, to simulate trajectory, etc. Also we performed computer modeling and conducted simulation experiments with our models in R language to verify obtained results.'>“Symmetry in gene network models”</span> (2014) // The 12th Bioinformatics Research and Education Workshop. Bielefeld, Germany. Center for Biotechnology — CeBiTec. Pp.&nbsp;1–5."
+Project = "gene-networks"
+Index = 15
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+  [[item.link]]
+  Label = "Conference site"
+  Url = "http://wiki.techfak.uni-bielefeld.de/didy/brew"
+[[item]]
+Group = "2014"
+Html = "<i>A. A. Akinshin, T. A. Bukharina, D. P. Furman, V. P. Golubyatnikov</i> <span title='We consider the phase portrait of a 6-dimensional nonlinear dynamical system considered as a model of an early stage of morphogenesis of D. melanogaster, i.e., appearance of its parental cell in the proneural cluster. Sufficient conditions of existence of two stable equilibrium points of this system are described, and biological interpretation is given.'>“Mathematical modeling of interaction of two cells in proneural cluster of D.mealnogaster (In Russian)”</span> (2014) // Vestnik NSU [NSU Herald]. Novosibirsk. Vol.&nbsp;14. No&nbsp;4. Pp.&nbsp;3-10."
+Project = "gene-networks"
+Index = 14
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Article"
+  [[item.link]]
+  Label = "MathNet"
+  Url = "http://www.mathnet.ru/php/archive.phtml?wshow=paper&jrnid=vngu&paperid=350&option_lang=eng"
+[[item]]
+Group = "2013"
+Html = "<i>A. A. Akinshin, V. P. Golubyatnikov</i> <span title=''>“Oscillating trajectories in some nonlinear dynamical systems”</span> (2013) // International Conference «Differential Equations. Function Spaces. Approximation Theory». Novosibirsk. IM SB RAS. Pp.&nbsp;311."
+Project = "gene-networks"
+Index = 13
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+[[item]]
+Group = "2013"
+Html = "<i>A. A. Akinshin</i> <span title=''>“Analysis of phase portraits in some gene networks models”</span> (2013) // 5th International Young Scientists School “System Biology and Bioinformatics”. Pp.&nbsp;27."
+Project = "gene-networks"
+Index = 12
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+[[item]]
+Group = "2013"
+Html = "<i>A. A. Akinshin</i> <span title='Gene networks are sets of genes functioning in a coordinated manner, their major components are the biopolymers DNA, RNA, and proteins. In this work, we consider a small network with several genes (they can be considered standalone) and observe the concentration of the corresponding proteins. Studying the dynamic behavior of gene networks is a complicated problem. Therefore, we research the principles of their functioning on special hypothetical model. These models can be describe by nonlinear system of differential equations. We are very interested in the questions on existence and stability of attractors in such models. Particular attention is paid to some multidimensional symmetric systems with negative and positive feedbacks. These systems are studied with a specially developed algorithm, which reduces them to a single equation with delayed argument. Cycles in this equation searched by Andronov-Hopf theorem and stability analyzes using the first Lyapunov coefficient. Computer modelling and numerical experiments with our models has been implemented in our special computer program called PhasePortraitAnalyzer. The mathematical core is developed in R, and the interface part is created using C{&#92;#} + WPF. Its software can build the graphical representation of the gene networks phase portraits, search equilibrium points, simulate the trajectory and perform other calculations for analyzing the target system. We can prove the correctness of the numerical solutions using some theorems on topology of the models.'>“Numerical analysis of gene networks models”</span> (2013) // 8th FEBS Congress, Saint Petersburg, Russia, July 6-11, 2013. Vol.&nbsp;280. Pp.&nbsp;547. DOI:&nbsp;<a href='https://doi.org/10.1111/febs.12396'>10.1111/febs.12396</a>"
+Project = "gene-networks"
+Index = 11
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+  [[item.badge]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#wos'></use></svg> Web of Science"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.1111/febs.12396"
+  [[item.link]]
+  Label = "Web of Science"
+  Url = "https://apps.webofknowledge.com/full_record.do?product=UA&search_mode=GeneralSearch&qid=1&SID=U1kYDgZoTuCyURIaqPx&page=1&doc=4"
+  [[item.link]]
+  Label = "Publons"
+  Url = "https://publons.com/publon/34688524/"
+[[item]]
+Group = "2013"
+Html = "<i>A. A. Akinshin, V. P. Golubyatnikov, V. A. Likhoshvai</i> <span title=''>“Mathematical and computational models of gene networks functioning”</span> (2013) // The 11th Bioinformatics Research and Education Workshop. Berlin, Germany. Computational Molecular Biology Department, Max Planck Institute for Molecular Genetics and IMPRS-CBSC."
+Project = "gene-networks"
+Index = 10
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+  [[item.link]]
+  Label = "Conference site"
+  Url = "http://cmb.molgen.mpg.de/brew2013/"
+[[item]]
+Group = "2013"
+Html = "<i>A. A. Akinshin</i> <span title='We study the occurrence of Andronov-Hopf bifurcation cycles in a neighborhood of stationary points of nonlinear delay equations: we formulate conditions for the existence of a bifurcation, find the bifurcation values, and analyze the stability of the bifurcation cycles.'>“Andronov-Hopf bifurcation for some nonlinear delay equations (In Russian)”</span> (2013) // Sibirskii Zhurnal Industrial'noi Matematiki [Siberian Journal of Industrial Mathematics]. Novosibirsk. Vol.&nbsp;XVI. No&nbsp;55. Pp.&nbsp;3–15."
+Project = "gene-networks"
+Index = 9
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Article"
+  [[item.link]]
+  Label = "RSCI"
+  Url = "http://elibrary.ru/item.asp?id=20379316"
+  [[item.link]]
+  Label = "MathNet"
+  Url = "http://www.mathnet.ru/php/archive.phtml?wshow=paper&jrnid=sjim&paperid=788&option_lang=eng"
+[[item]]
+Group = "2013"
+Html = "<i>A. A. Akinshin, V. P. Golubyatnikov, I. V. Golubyatnikov</i> <span title=''>“On some multidimensional models of gene network functioning”</span> (2013) // Journal of Applied and Industrial Mathematics. Publisher: Springer US. Vol.&nbsp;7. No&nbsp;3. Pp.&nbsp;296–301. DOI:&nbsp;<a href='https://doi.org/10.1134/S1990478913030022'>10.1134/S1990478913030022</a>"
+Project = "gene-networks"
+Index = 8
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Article"
+  [[item.badge]]
+  Label = "Springer"
+  [[item.badge]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#scopus'></use></svg> Scopus"
+  [[item.link]]
+  Label = "DOI"
+  Url = "https://dx.doi.org/10.1134/S1990478913030022"
+  [[item.link]]
+  Label = "RSCI"
+  Url = "http://elibrary.ru/item.asp?id=20455452"
+  [[item.link]]
+  Label = "Springer"
+  Url = "http://link.springer.com/article/10.1134/S1990478913030022"
+[[item]]
+Group = "2012"
+Html = "<i>A. A. Akinshin, V. P. Golubyatnikov</i> <span title=''>“Non-uniqueness of cycles in gene networks models”</span> (2012) // The eighth international conference on bioinformatics of genome regulation and structure / systems biology. ISBN:&nbsp;978-5-91291-011. Pp.&nbsp;28."
+Project = "gene-networks"
+Index = 7
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF"
+  Url = "http://www.bionet.nsc.ru/meeting/bgrs2012/BGRS2012_Proceedings.pdf"
+[[item]]
+Group = "2012"
+Html = "<i>A. A. Akinshin, V. P. Golubyatnikov, Yu. A. Gaidov, I. V. Golubyatnikov</i> <span title=''>“Unstable cycles in gene networks models”</span> (2012) // The eighth international conference on bioinformatics of genome regulation and structure / systems biology. ISBN:&nbsp;978-5-91291-011. Pp.&nbsp;29."
+Project = "gene-networks"
+Index = 6
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF"
+  Url = "http://www.bionet.nsc.ru/meeting/bgrs2012/BGRS2012_Proceedings.pdf"
+[[item]]
+Group = "2012"
+Html = "<i>A. A. Akinshin, V. P. Golubyatnikov</i> <span title=''>“On Nonuniqueness of Cycles in Dissipative Dynamical Systems of Chemical Kinetics”</span> (2012) // VI-th international conference Solitons, Collapses and Turbulence: Achievements, Developments and Perspectives.. Pp.&nbsp;71–72."
+Project = "gene-networks"
+Index = 5
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF"
+  Url = "http://conf.nsc.ru/files/conferences/sct2012/abstracts/114645/128115/Golubyatnikov.pdf"
+[[item]]
+Group = "2012"
+Html = "<i>A. A. Akinshin</i> <span title=''>“Computer analysis of phase portraits in gene networks models”</span> (2012) // Abstracts of Young scientist's school “Bioinformatics ans systems biology”. Pp.&nbsp;13."
+Project = "gene-networks"
+Index = 4
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+[[item]]
+Group = "2012"
+Html = "<i>A. A. Akinshin</i> <span title=''>“Research of discrete structures in some cyclic dynamical systems (In Russian)”</span> (2012) // Polzunovskiy Vestnik [Polzunov Herald]. Barnaul. Vol.&nbsp;4. Pp.&nbsp;214–218."
+Project = "gene-networks"
+Index = 3
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Article"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF"
+  Url = "http://elib.altstu.ru/elib/books/Files/pv2012_04/pdf/214akinshin.pdf"
+  [[item.link]]
+  Label = "RSCI"
+  Url = "http://elibrary.ru/item.asp?id=18947027"
+[[item]]
+Group = "2012"
+Html = "<i>A. A. Akinshin, V. P. Golubyatnikov</i> <span title='We show non-uniqueness of cycles in phase portraits of some odd-dimensional nonlinear dynamical systems considered as models of gene networks regulated by negative feedbacks. We find geometric and analytic characteristics of these cycles and construct a graph, which describes qualitative behavior of trajectories of these dynamical systems.'>“Geometric characteristics of cycles in some symmetric dynamical systems (In Russian)”</span> (2012) // Vestnik NSU [NSU Herald]. Series “Mathematics, mechanics, and informatics'”. Novosibirsk. Vol.&nbsp;12. No&nbsp;2. Pp.&nbsp;3–12."
+Project = "gene-networks"
+Index = 2
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Article"
+  [[item.link]]
+  Label = "RSCI"
+  Url = "http://elibrary.ru/item.asp?id=18756520"
+  [[item.link]]
+  Label = "MathNet"
+  Url = "http://www.mathnet.ru/php/archive.phtml?wshow=paper&jrnid=vngu&paperid=114&option_lang=eng"
+[[item]]
+Group = "2011"
+Html = "<i>A. A. Akinshin, V. P. Golubyatnikov, I. V. Golubyatnikov</i> <span title='We find conditions of existence of stable cycles in some models of gene networks regulated by negative feedbacks and by simple combinations of negative and positive feedbacks. Special algorithms and programs for numerical simulations of these results are elaborated as well.'>“Mathematical and numerical modeling of gene network functioning”</span> (2011) // International Conference “Modern Problems of Mathematics, Informatics and Bioinformatics”, devoted to the 100th anniversary of professor Alexei A. Lyapunov. Novosibirsk. ISBN:&nbsp;978-5-905569-03-6. Pp.&nbsp;81."
+Project = "gene-networks"
+Index = 1
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Inproceedings"
+  [[item.link]]
+  Label = "Conference site"
+  Url = "http://conf.nsc.ru/Lyap-100/ru/reportview/48237"
+  [[item.link]]
+  Label = "<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF"
+  Url = "http://conf.nsc.ru/files/conferences/Lyap-100/89299/Program-Thezises.pdf"

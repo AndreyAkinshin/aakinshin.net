@@ -1,0 +1,262 @@
+Indexer = true
+
+[[item]]
+Group = "2022"
+Html = "<a href='https://www.youtube.com/watch?v=uGWJO8yKUs4'>Интервью с Андреем Акиньшиным (DotNext 2022 Spring)</a><br /> <i>DotNext, 27 июня 2022</i>"
+Index = 24
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Интервью"
+  [[item.badge]]
+  Label = "Видео (YouTube)"
+
+[[item]]
+Group = "2022"
+Html = "<a href='https://habr.com/ru/company/piter/blog/598175/'>Книга «Профессиональный бенчмарк: искусство измерения производительности»</a><br /> <i>Хабрахабр, 24 февраля 2022</i>"
+Index = 23
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Текст"
+
+[[item]]
+Group = "2022"
+Html = "<a href='https://habr.com/ru/company/jugru/blog/599927/'>Подводные камни бенчмаркинга в .NET: фрагмент книги Андрея Акиньшина</a><br /> <i>Хабрахабр, 19 января 2022</i>"
+Index = 22
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Текст"
+
+[[item]]
+Group = "2021"
+Html = "<a href='https://www.youtube.com/watch?v=osfbZejc3i0'>TwitterSpaces with Andrey Akinshin</a><br /> <i>Easyperf Twitter Spaces, 05 декабря 2021</i>"
+Index = 21
+  [[item.badge]]
+  Label = "EN"
+  [[item.badge]]
+  Label = "Подкаст"
+  [[item.badge]]
+  Label = "Аудио"
+
+[[item]]
+Group = "2021"
+Html = "<a href='https://www.youtube.com/watch?v=e71JcFnqTXY'>Интервью с Андреем Акиньшиным (DotNext 2021 Moscow)</a><br /> <i>DotNext, 21 октября 2021</i>"
+Index = 20
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Интервью"
+  [[item.badge]]
+  Label = "Видео (YouTube)"
+
+[[item]]
+Group = "2021"
+Html = "<a href='https://anchor.fm/radiodotnet/episodes/DotNext-2021-Piter-eueko5'>RadioDotNet-026: DotNext 2021 Piter</a><br /> <i>RadioDotNet, 08 апреля 2021</i>"
+Index = 19
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Подкаст"
+  [[item.badge]]
+  Label = "Аудио"
+
+[[item]]
+Group = "2020"
+Html = "<a href='https://anchor.fm/radiodotnet/episodes/RadioDotNet-017-emdcjb'>RadioDotNet-017: DotNext 2020 Moscow</a><br /> <i>RadioDotNet, 13 ноября 2020</i>"
+Index = 18
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Подкаст"
+  [[item.badge]]
+  Label = "Аудио"
+
+[[item]]
+Group = "2020"
+Html = "<a href='https://habr.com/en/post/513194/'>Тесты на статистическую значимость — это чудовищно ущербный инструмент</a><br /> <i>Хабрахабр, 30 июля 2020</i>"
+Index = 17
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Интервью"
+  [[item.badge]]
+  Label = "Текст"
+
+[[item]]
+Group = "2020"
+Html = "<a href='https://habr.com/en/post/512872/'>Если ты видишь статью, что язык Х быстрее, чем язык Y – можешь закрывать статью</a><br /> <i>Хабрахабр, 28 июля 2020</i>"
+Index = 16
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Интервью"
+  [[item.badge]]
+  Label = "Текст"
+
+[[item]]
+Group = "2020"
+Html = "<a href='https://www.youtube.com/watch?v=NnXTljsClsg'>Мы обречены #12 / Андрей Акиньшин — бенчмарки, перфоманс, производительный код</a><br /> <i>Мы обречены, 23 июля 2020</i>"
+Index = 15
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Интервью"
+  [[item.badge]]
+  Label = "Видео (YouTube)"
+
+[[item]]
+Group = "2020"
+Html = "<a href='https://www.youtube.com/watch?v=_hp2ZcgCjqU'>Барная стойка #1 / Андрей Акиньшин</a><br /> <i>Барная стойка, 04 июня 2020</i>"
+Index = 14
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Интервью"
+  [[item.badge]]
+  Label = "Видео (YouTube)"
+
+[[item]]
+Group = "2020"
+Html = "<a href='https://anchor.fm/radiodotnet/episodes/RadioDotNet-006-eberjk'>RadioDotNet-006: DotNext 2020 Piter</a><br /> <i>RadioDotNet, 12 марта 2020</i>"
+Index = 13
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Подкаст"
+  [[item.badge]]
+  Label = "Аудио"
+
+[[item]]
+Group = "2020"
+Html = "<a href='https://habr.com/en/company/jugru/blog/486712/'>“Типичная ошибка — бездумно бенчмаркать всё подряд”: интервью с Андреем Акиньшиным о бенчмаркинге</a><br /> <i>Хабрахабр, 04 февраля 2020</i>"
+Index = 12
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Интервью"
+  [[item.badge]]
+  Label = "Текст"
+
+[[item]]
+Group = "2019"
+Html = "<a href='https://anchor.fm/radiodotnet/episodes/RadioDotNet-003-e79m6t'>RadioDotNet-003: DotNext 2019 Moscow</a><br /> <i>RadioDotNet, 12 октября 2019</i>"
+Index = 11
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Подкаст"
+  [[item.badge]]
+  Label = "Аудио"
+
+[[item]]
+Group = "2019"
+Html = "<a href='https://anchor.fm/radiodotnet/episodes/RadioDotNet-000-e6a860'>RadioDotNet-000: DotNext 2019 Piter</a><br /> <i>RadioDotNet, 13 мая 2019</i>"
+Index = 10
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Подкаст"
+  [[item.badge]]
+  Label = "Аудио"
+
+[[item]]
+Group = "2017"
+Html = "<a href='https://razborpoletov.com/2017/12/episode-146.html'>Episode 146 — Сложности Performance-тестирования в потустороннем мире</a><br /> <i>Разбор Полётов, 05 декабря 2017</i>"
+Index = 9
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Подкаст"
+  [[item.badge]]
+  Label = "Аудио"
+
+[[item]]
+Group = "2017"
+Html = "<a href='https://habr.com/en/company/jugru/blog/325178/'>Оптимизация по памяти: сложно, но порой необходимо</a><br /> <i>Хабрахабр, 30 марта 2017</i>"
+Index = 8
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Интервью"
+  [[item.badge]]
+  Label = "Текст"
+
+[[item]]
+Group = "2017"
+Html = "<a href='https://habr.com/en/company/it_people/blog/324352/'>Как перестать ходить на конференции участником и начать выступать? Советы от Андрея Акиньшина</a><br /> <i>Хабрахабр, 20 марта 2017</i>"
+Index = 7
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Интервью"
+  [[item.badge]]
+  Label = "Текст"
+
+[[item]]
+Group = "2017"
+Html = "<a href='https://habr.com/en/company/jugru/blog/320648/'>Разбор доклада Андрея Акиньшина про арифметику</a><br /> <i>Хабрахабр, 02 февраля 2017</i>"
+Index = 6
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Обзор"
+  [[item.badge]]
+  Label = "Текст"
+
+[[item]]
+Group = "2016"
+Html = "<a href='https://habr.com/en/company/jugru/blog/316436/'>«Хаос в .NET-мире — разумная цена за скорость развития платформы»: интервью с Андреем Акиньшиным (JetBrains)</a><br /> <i>Хабрахабр, 07 декабря 2016</i>"
+Index = 5
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Интервью"
+  [[item.badge]]
+  Label = "Текст"
+
+[[item]]
+Group = "2016"
+Html = "<a href='https://razborpoletov.com/2016/11/episode-121.html'>Episode 121 — JVM vs CLR: Чужой не против Хищника!</a><br /> <i>Разбор Полётов, 30 ноября 2016</i>"
+Index = 4
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Подкаст"
+  [[item.badge]]
+  Label = "Аудио"
+
+[[item]]
+Group = "2016"
+Html = "<a href='https://habr.com/en/company/jugru/blog/301754/'>«Мы стараемся, чтобы User Experience не отличался в разных операционках» — Интервью с разработчиками Rider из JetBrains</a><br /> <i>Хабрахабр, 26 мая 2016</i>"
+Index = 3
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Интервью"
+  [[item.badge]]
+  Label = "Текст"
+
+[[item]]
+Group = "2016"
+Html = "<a href='https://habr.com/en/company/jugru/blog/283516/'>.NET-разработка: девять вопросов взрослым</a><br /> <i>Хабрахабр, 13 мая 2016</i>"
+Index = 2
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Интервью"
+  [[item.badge]]
+  Label = "Текст"
+
+[[item]]
+Group = "2015"
+Html = "<a href='http://nbj.ru/publs/upgrade-modernizatsija-i-razvitie/2015/01/13/pasport-my-tebja-znaem/index.html'>Паспорт, мы тебя знаем!</a><br /> <i>Национальный банковский журнал, 13 января 2015</i>"
+Index = 1
+  [[item.badge]]
+  Label = "RU"
+  [[item.badge]]
+  Label = "Интервью"
+  [[item.badge]]
+  Label = "Текст"
+
