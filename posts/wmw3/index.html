@@ -1,0 +1,130 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Mathematics,Statistics,Research,Research: Weighted Mann-Whitney U test,Mann-Whitney U-test"><title>Weighted Mann-Whitney U test, Part 3 | Andrey Akinshin</title><meta name=description content="I continue building a weighted version of the Mann–Whitney \(U\) test. While previously suggested approach feel promising, I don&amp;rsquo;t like the usage of Bootstrap to obtain the \(p\)-value. It is always better to have a deterministic and exact approach wh..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><script>localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")</script><link href=https://aakinshin.net/css/main.min.7748cd40c7f2f841cbbd37537f783d52d954e3efdc8673a15babd858bf8c359f.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body><nav><div class="container flex flex-wrap items-center justify-between mx-auto max-w-6xl h-12 px-6"><div class="flex items-center justify-start justify-self-start"><div class="flex nav-item h-12 w-12 items-center justify-center"><a class=text-white href=https://aakinshin.net/><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/posts/>Posts</a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/research/>Research</a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/about/>About</a></div></div><button id=theme-toggle type=button title="Alt+Click to match OS color theme" class="nav-item p-3 content-center justify-self-end"><svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001.0 1010.586 10.586z"/></svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1A1 1 0 119 4V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707A1 1 0 1113.536 5.05l.707-.707a1 1 0 011.414.0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707A1 1 0 004.343 5.757l.707.707zm1.414 8.486-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"/></svg></button></div></nav><div class="main container mx-auto max-w-6xl px-6"><div class=main-post><h1 class=blog-post-title id=post-title>Weighted Mann-Whitney U test, Part 3</h1><div class="flex flex-wrap justify-start items-center"><svg class="fai text-accent-l dark:text-front-d"><title>Date</title><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2024-01-30>January 30, 2024</time><svg class="fai ml-3 text-accent-l dark:text-front-d"><title>Tags</title><use xlink:href="/img/fa/all.svg#tag"/></svg><div class="flex flex-wrap gap-y-1"><a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/research-wmw/>Research: Weighted Mann-Whitney U test</a>
+<a class=label-link href=https://aakinshin.net/tags/mann-whitney/>Mann-Whitney U-test</a></div></div><br><div class=main-content><p>I continue building a weighted version of the Mann–Whitney <span class="math inline">\(U\)</span> test.
+While <a href=https://aakinshin.net/posts/wmw1/>previously suggested approach</a> feel promising,
+I don&rsquo;t like the usage of Bootstrap to obtain the <span class="math inline">\(p\)</span>-value.
+It is always better to have a deterministic and exact approach where it&rsquo;s possible.
+I still don&rsquo;t know how to solve it in general case,
+but it seems that I&rsquo;ve obtained a reasonable solution for some specific cases.
+The current version of the approach still has issues and
+requires additional correction factors in some cases and additional improvements.
+However, it passes my minimal requirements, so it is worth trying to continue developing this idea.
+In this post, I share the description of the weighted approach and provide numerical examples.</p><h3 id=classic-mannwhitney-u-test>Classic Mann–Whitney <span class="math inline">\(U\)</span> test</h3><p>We consider the one-sided Mann-Whitney U test that compares two samples <span class="math inline">\(\mathbf{x}\)</span> and <span class="math inline">\(\mathbf{y}\)</span>:</p><p><span class="math display">\[\mathbf{x} = ( x_1, x_2, \ldots, x_n ), \quad
+\mathbf{y} = ( y_1, y_2, \ldots, y_m ).
+\]</span></p><p>The <span class="math inline">\(U\)</span> statistic for this test is defined as follows:</p><p><span class="math display">\[U(x, y) = \sum_{i=1}^n \sum_{j=1}^m S(x_i, y_j),\quad
+S(a,b) = \begin{cases}
+1, & \text{if } a > b, \\
+0.5, & \text{if } a = b, \\
+0, & \text{if } a < b.
+\end{cases}
+\]</span></p><p>The <span class="math inline">\(p\)</span>-value is obtained based on the distribution of the <span class="math inline">\(U\)</span> statistic.
+First, we discuss the non-weighted case, and only then continue with the fast implementation.</p><h3 id=weighted-mannwhitney-u-test>Weighted Mann–Whitney <span class="math inline">\(U\)</span> test</h3><p>For the weighted version of the test, we assign vectors of weights
+<span class="math inline">\(\mathbf{w}\)</span> and <span class="math inline">\(\mathbf{v}\)</span> for <span class="math inline">\(\mathbf{x}\)</span> and <span class="math inline">\(\mathbf{y}\)</span> respectively.</p><p><span class="math display">\[\mathbf{w} = ( w_1, w_2, \ldots, w_n ), \quad
+\mathbf{v} = ( v_1, v_2, \ldots, v_m ),
+\]</span></p><p>where <span class="math inline">\(w_i \geq 0\)</span>, <span class="math inline">\(v_j \geq 0\)</span>, <span class="math inline">\(\sum w_i > 0\)</span>, <span class="math inline">\(\sum v_j > 0\)</span>.</p><p>Let us consider the normalized versions of the weight vectors:</p><p><span class="math display">\[\overline{\mathbf{w}} = ( \overline{w}_1, \overline{w}_2, \ldots, \overline{w}_n ), \quad
+\overline{\mathbf{v}} = ( \overline{v}_1, \overline{v}_2, \ldots, \overline{v}_m ),
+\]</span></p><p><span class="math display">\[\overline{w}_i = \frac{w_i}{\sum_{k=1}^n w_k},\quad
+\overline{v}_j = \frac{v_j}{\sum_{k=1}^m v_k}.
+\]</span></p><p>To define the weighted versions of the sample sizes, we use
+<a href=https://aakinshin.net/posts/kish-ess-weighted-quantiles/>Kish&rsquo;s effective sample size</a>:</p><p><span class="math display">\[n^\star = \frac{\Big( \sum_{i=1}^n w_i \Big)^2}{\sum_{i=1}^n w_i^2 },\quad
+m^\star = \frac{\Big( \sum_{j=1}^m v_i \Big)^2}{\sum_{j=1}^m v_i^2 }.
+\]</span></p><p>Let us introduce the weighted version of the <span class="math inline">\(U\)</span> statistic.
+I suggest using the following approach:</p><p><span class="math display">\[U^\star(\mathbf{x}, \mathbf{y}, \mathbf{w}, \mathbf{v}) =
+n^\star m^\star \cdot
+\sum_{i=1}^n \sum_{j=1}^m S(x_i, y_j) \cdot \overline{w}_i \cdot \overline{v}_j.
+\]</span></p><p>Essentially, we used two tricks here:</p><ul><li>We multiply each term <span class="math inline">\(S(x_i, y_j)\)</span> by <span class="math inline">\(\overline{w}_i \cdot \overline{v}_j\)</span>
+in order to acknowledge the weights
+similarly to the weighted <a href=https://aakinshin.net/posts/whl/>Hodges-Lehmann location estimator</a>.</li><li>We normalize the final result by acknowledging the effective sample sizes.
+While the original <span class="math inline">\(U\)</span> statistic is in <span class="math inline">\([0; nm]\)</span>, the weighted version is in <span class="math inline">\([0; n^\star m^\star]\)</span>. TODO</li></ul><h3 id=classic-mannwhitney-u-test-implementation>Classic Mann–Whitney <span class="math inline">\(U\)</span> test: implementation</h3><p>Now, let&rsquo;s discuss the implementation.
+First of all, I want to share my preferences for implementing the classic version.
+There are two ways to estimate the <span class="math inline">\(p\)</span>-value: the exact one and the approximate one.</p><p>The classic approach based on the recurrence equation <span class="math inline">\(p_{n,m}(u) = p_{n-1,m}(u - m) + p_{n,m-1}(u)\)</span>
+is very slow and requires <span class="math inline">\(\mathcal{O}(n m)\)</span> memory.
+While it&rsquo;s used in almost all standard implementations of the Mann–Whitney <span class="math inline">\(U\)</span> test,
+it&rsquo;s too inefficient in practice.
+Fortunately, now we the <a href=https://aakinshin.net/posts/mw-loeffler/>Andreas Löffler&rsquo;s implementation</a>
+that allows us to calculate the exact <span class="math inline">\(p\)</span>-value much faster
+using <span class="math inline">\(\mathcal{O}(u)\)</span> memory (worst case <span class="math inline">\(\mathcal{O}(nm)\)</span>).
+It is defined as follows:</p><p><span class="math display">\[p_{n,m}(u) = \frac{1}{u} \sum_{i=0}^{u-1} p_{n,m}(i) \cdot \sigma_{n,m}(u - i),
+\]</span></p><p><span class="math display">\[\sigma_{n,m}(u) = \sum_{u \operatorname{mod} d} \varepsilon_d d,\quad\textrm{where}\;
+\varepsilon_d = \begin{cases}
+1, & \textrm{where}\; 1 \leq d \leq n, \\
+0, & \textrm{else}, \\
+-1, & \textrm{where}\; m+1 \leq d \leq m+n.
+\end{cases}
+\]</span></p><p>In some cases, we can&rsquo;t use the exact algorithm because it&rsquo;s too computationally expensive.
+It corresponds to two primary cases.
+The first one is about large sample sizes.
+The limitation for the classic exact implementation is much stricter than for Löffler&rsquo;s algorithm,
+but even Löffler&rsquo;s algorithm has a reasonable maximum.
+The second one is about middle values of the <span class="math inline">\(U\)</span> statistic for medium sample sizes
+(in this case, the computation time may be high, and approximation may provide good accuracy).</p><p>The classic normal approximation is too inaccurate:
+it may produce errors of <a href=https://aakinshin.net/posts/r-mann-whitney-incorrect-p-value/>incredible magnitude</a>.
+Fortunately, we have the <a href=https://aakinshin.net/posts/mw-edgeworth2/>Edgeworth expansion</a>,
+which greatly increases the approximation accuracy.</p><p>The Edgeworth expansion extends the normal approximation approach,
+which based on the normal distribution <span class="math inline">\(\mathcal{N}(\mu_U, \sigma_U^2)\)</span>
+defined by the following parameters:</p><p><span class="math display">\[\mu_U = \frac{nm}{2},\quad
+\sigma_U = \sqrt{\frac{nm(n+m+1)}{12}}.
+\]</span></p><p>The <span class="math inline">\(z\)</span>-score is calculated with the continuity correction:</p><p><span class="math display">\[z = \frac{U - \mu_U \pm 0.5}{\sigma_U},
+\]</span></p><p>The <span class="math inline">\(p\)</span>-value is defined as follows (assuming the Edgeworth expansion to terms of order <span class="math inline">\(1/m^2\)</span>):</p><p><span class="math display">\[p_{E7}(z) = \Phi(z) + e^{(3)} \varphi^{(3)}(z) + e^{(5)} \varphi^{(5)}(z) + e^{(7)} \varphi^{(7)}(z),
+\]</span></p><p>where</p><p><span class="math display">\[e^{(3)} = \frac{1}{4!}\left( \frac{\mu_4}{\mu_2^2} - 3 \right),\quad
+e^{(5)} = \frac{1}{6!}\left( \frac{\mu_6}{\mu_2^3} - 15\frac{\mu_4}{\mu_2^2} + 30 \right),\quad
+e^{(7)} = \frac{35}{8!}\left( \frac{\mu_4}{\mu_2^2} - 3 \right)^2,
+\]</span></p><p><span class="math display">\[\mu_2 = \frac{nm(n+m+1)}{12},
+\]</span></p><p><span class="math display">\[\mu_4 = \frac{mn(m+n+1)}{240} \bigl(
+5(m^2 n + m n^2) - 2(m^2 + n^2) + 3mn - (2m + n)
+\bigr),
+\]</span></p><p><span class="math display">\[\begin{split}
+\mu_6 = \frac{mn(m+n+1)}{4032} \bigl(
+35m^2 n^2 (m^2 + n^2) +
+70 m^3 n^3 -
+42 mn (m^3 + n^3) -
+14 m^2 n^2 (m + n) +\\
++ 16 (m^4 + n^4) -
+52 mn (m^2 + n^2) -
+43 m^2 n^2 +
+32 (m^3 + n^3) +\\
++ 14 mn (m + n) +
+8 (m^2 + n^2) +
+16 mn -
+8 (m + n)
+\bigr),
+\end{split}
+\]</span></p><p><span class="math display">\[\varphi^{(k)}(z) = -\varphi(z) H_k(z),
+\]</span></p><p><span class="math display">\[H_3(z) = z^3 - 3z,
+\]</span></p><p><span class="math display">\[H_5(z) = z^5 - 10z^3 + 15z,
+\]</span></p><p><span class="math display">\[H_7(z) = z^7 - 21z^5 + 105z^3 - 105z.
+\]</span></p><p>The switch between the exact and approximate implementations should acknowledge the business requirements:
+I recommended using the approximation only if the exact implementation has insufficient performance.</p><p>The <a href=https://aakinshin.net/posts/mw-confusing-tie-correction/>tie correction</a> may be neglected;
+I recommended to avoid using <a href=https://aakinshin.net/posts/rethinking-type-i-ii-errors/>the nil hypothesis</a>,
+and use the minimum-effect approach with a threshold that prevents between-sample tied values.</p><h3 id=weighted-mannwhitney-u-test-implementation>Weighted Mann–Whitney <span class="math inline">\(U\)</span> test: implementation</h3><p>It is time to build a weighted version of the previously presented implementation approach.</p><p>We start with the exact version.
+One may assume that we can reuse the distribution of the <span class="math inline">\(U\)</span> statistics in the non-weighted case.
+The obvious problem here is that
+the weighted sample sizes <span class="math inline">\(n^\star\)</span> and <span class="math inline">\(m^\star\)</span>
+and the <span class="math inline">\(U\)</span> statistic itself are not integers.
+As the easiest way to build a weighted version, I suggest just using the rounded values.
+For a small accuracy improvement, we can use a linear interpolation between
+values rounded up and down.</p><p>The Edgeworth expansion can be easily extended to the weighted case
+by replacing <span class="math inline">\(n\)</span>, <span class="math inline">\(m\)</span>, and <span class="math inline">\(U\)</span> with <span class="math inline">\(n^\star\)</span>, <span class="math inline">\(m^\star\)</span>, and <span class="math inline">\(U^\star\)</span> respectively.</p><h3 id=numerical-simulations>Numerical simulations</h3><p>I have performed a few experiments to check how this approach works in practice.
+Primarily, I compared various weighted samples with uniform weighted and
+exponential weights parametrized by the half-life (HL).
+For each experiment, I&rsquo;ve generated two distributions of the <span class="math inline">\(U\)</span> statistic:
+one using the classic Mann–Whitney <span class="math inline">\(U\)</span> test and effective sample sizes;
+another one using the suggested weighted approach.
+Next, I present density plots of these distributions, as well as Doksum&rsquo;s shift quantile plots.
+Note that the density plot may have a different scale on the Y-axis due to the continuation process
+(the classic Mann–Whitney produces a discrete distribution, while the weighted version is continuous).
+The results of some selected experiments are presented below.</p><p><strong>Uniform weights, <span class="math inline">\(n = m = 10\)</span>:</strong><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/wmw3/img/unif10-light.png target=_blank alt=unif10><img src=/posts/wmw3/img/unif10-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/wmw3/img/unif10-dark.png target=_blank alt=unif10><img src=/posts/wmw3/img/unif10-dark.png width=800></a></div></p><p><strong>Uniform weights, <span class="math inline">\(n = m = 30\)</span>:</strong><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/wmw3/img/unif30-light.png target=_blank alt=unif30><img src=/posts/wmw3/img/unif30-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/wmw3/img/unif30-dark.png target=_blank alt=unif30><img src=/posts/wmw3/img/unif30-dark.png width=800></a></div></p><p><strong>Exponential weights (HL=11.455) vs. Uniform weights, <span class="math inline">\(n = 50\)</span>, <span class="math inline">\(m = 5\)</span>:</strong><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/wmw3/img/exp5-light.png target=_blank alt=exp5><img src=/posts/wmw3/img/exp5-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/wmw3/img/exp5-dark.png target=_blank alt=exp5><img src=/posts/wmw3/img/exp5-dark.png width=800></a></div></p><p><strong>Exponential weights (HL=11.455) vs. Uniform weights, <span class="math inline">\(n = 50\)</span>, <span class="math inline">\(m = 4\)</span>:</strong><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/wmw3/img/exp4-light.png target=_blank alt=exp4><img src=/posts/wmw3/img/exp4-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/wmw3/img/exp4-dark.png target=_blank alt=exp4><img src=/posts/wmw3/img/exp4-dark.png width=800></a></div></p><p><strong>Exponential weights (HL=11.455) vs. Uniform weights, <span class="math inline">\(n = 50\)</span>, <span class="math inline">\(m = 2\)</span>:</strong><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/wmw3/img/exp3-light.png target=_blank alt=exp3><img src=/posts/wmw3/img/exp3-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/wmw3/img/exp3-dark.png target=_blank alt=exp3><img src=/posts/wmw3/img/exp3-dark.png width=800></a></div></p><p><strong>Exponential weights (HL=11.455) vs. Uniform weights, <span class="math inline">\(n = 50\)</span>, <span class="math inline">\(m = 2\)</span>:</strong><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/wmw3/img/exp2-light.png target=_blank alt=exp2><img src=/posts/wmw3/img/exp2-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/wmw3/img/exp2-dark.png target=_blank alt=exp2><img src=/posts/wmw3/img/exp2-dark.png width=800></a></div></p><p><strong>Exponential weights (HL=3.189) vs. Exponential weights (HL=5.154), <span class="math inline">\(n=m=20\)</span>:</strong><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/wmw3/img/exp_exp-light.png target=_blank alt=exp_exp><img src=/posts/wmw3/img/exp_exp-light.png width=800></a>
+<a class="img-dark hidden" href=/posts/wmw3/img/exp_exp-dark.png target=_blank alt=exp_exp><img src=/posts/wmw3/img/exp_exp-dark.png width=800></a></div></p><p>According to my observations,
+the approximation of the weighted version with the classic Mann–Whitney <span class="math inline">\(U\)</span>-statistics distribution
+is quite accurate for large effective sample sizes.
+However, it might be inaccurate for small, effective sample sizes.</p><h3 id=next-steps>Next steps</h3><p>This approach looks promising, but additional steps are required:</p><ul><li>Linear interpolation: we should find a proper way to handle non-integer effective sample sizes</li><li>Small sample size correction: the suggested approach works only for reasonably large effective sample sizes;
+for small sample sizes, the approximation is not accurate; additional correction is needed</li><li>Power analysis: we should check</li></ul></div><br><br></div></div><script>var themeToggleDarkIcon=document.getElementById("theme-toggle-dark-icon"),themeToggleBtn,themeToggleLightIcon=document.getElementById("theme-toggle-light-icon");const imagesDark=document.querySelectorAll(".img-dark"),imagesLight=document.querySelectorAll(".img-light");localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?(themeToggleLightIcon.classList.remove("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")})):(themeToggleDarkIcon.classList.remove("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")}));function toggleTheme(e){e?(document.documentElement.classList.add("dark"),themeToggleLightIcon.classList.remove("hidden"),themeToggleDarkIcon.classList.add("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")}),imagesLight.forEach(e=>{e.classList.add("hidden")})):(document.documentElement.classList.remove("dark"),themeToggleDarkIcon.classList.remove("hidden"),themeToggleLightIcon.classList.add("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")}),imagesDark.forEach(e=>{e.classList.add("hidden")}))}themeToggleBtn=document.getElementById("theme-toggle"),themeToggleBtn.addEventListener("click",function(){themeToggleDarkIcon.classList.toggle("hidden"),themeToggleLightIcon.classList.toggle("hidden"),imagesLight.forEach(e=>{e.classList.toggle("hidden")}),imagesDark.forEach(e=>{e.classList.toggle("hidden")}),event.altKey?(localStorage.removeItem("color-theme"),toggleTheme(window.matchMedia("(prefers-color-scheme: dark)").matches)):localStorage.getItem("color-theme")?localStorage.getItem("color-theme")==="light"?(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark")):(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):document.documentElement.classList.contains("dark")?(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark"))}),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",e=>{if(localStorage.getItem("color-theme")===null){const t=e.matches?"dark":"light";toggleTheme(t==="dark")}})</script><footer class="z-20 p-4 md:p-6 mt-3 w-full border-t border-gray-200 shadow flex items-center justify-center dark:border-gray-600 bg-white dark:bg-zinc-800"><span class="dark:text-gray-400 text-center">© 2013—2024 <span class=whitespace-nowrap>Andrey Akinshin</span></span><ul class="flex flex-wrap items-center px-4 mb-1"><li><a href=https://github.com/AndreyAkinshin><svg class="fai fai-link w-5 h-5"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a></li><li><a href=https://twitter.com/andrey_akinshin><svg class="fai fai-link w-5 h-5"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></li><li><a href=https://aakinshin.net/posts/index.xml><svg class="fai fai-link w-5 h-5"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a></li></ul><div class=main-content><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></div></footer><script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js></script></body></html>
