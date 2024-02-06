@@ -1,0 +1,84 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Mathematics,Statistics,Research,Thoughts"><title>Degrees of practical significance | Andrey Akinshin</title><meta name=description content="Let&amp;rsquo;s say we have two data samples, and we want to check if there is a difference between them. If we are talking about any kind of difference, the answer is most probably yes. It&amp;rsquo;s highly unlikely that two random samples are identical. Even if ..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><script>localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")</script><link href=https://aakinshin.net/css/main.min.7748cd40c7f2f841cbbd37537f783d52d954e3efdc8673a15babd858bf8c359f.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body><nav><div class="container flex flex-wrap items-center justify-between mx-auto max-w-6xl h-12 px-6"><div class="flex items-center justify-start justify-self-start"><div class="flex nav-item h-12 w-12 items-center justify-center"><a class=text-white href=https://aakinshin.net/><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/posts/>Posts</a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/research/>Research</a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/about/>About</a></div></div><button id=theme-toggle type=button title="Alt+Click to match OS color theme" class="nav-item p-3 content-center justify-self-end"><svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001.0 1010.586 10.586z"/></svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1A1 1 0 119 4V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707A1 1 0 1113.536 5.05l.707-.707a1 1 0 011.414.0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707A1 1 0 004.343 5.757l.707.707zm1.414 8.486-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"/></svg></button></div></nav><div class="main container mx-auto max-w-6xl px-6"><div class=main-post><h1 class=blog-post-title id=post-title>Degrees of practical significance</h1><div class="flex flex-wrap justify-start items-center"><svg class="fai text-accent-l dark:text-front-d"><title>Date</title><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2024-02-06>February 6, 2024</time><svg class="fai ml-3 text-accent-l dark:text-front-d"><title>Tags</title><use xlink:href="/img/fa/all.svg#tag"/></svg><div class="flex flex-wrap gap-y-1"><a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/thoughts/>Thoughts</a></div></div><br><div class=main-content><p>Let&rsquo;s say we have two data samples, and we want to check if there is a difference between them.
+If we are talking about any kind of difference, the answer is most probably yes.
+It&rsquo;s highly unlikely that two random samples are identical.
+Even if they are, there are still chances that we observe such a situation by accident,
+and there is a difference in the underlying distributions.
+Therefore, the discussion about the existence of any kind of difference is not meaningful.</p><p>To make more meaningful insights, researchers often talk about statistical significance.
+The approach can also be misleading.
+If the sample size is large enough, we are almost always able to detect even a neglectable difference
+and obtain a statistically significant result for any pair of distributions.
+On the other hand, a huge difference can be declared insignificant if the sample size is small.
+While the concept is interesting and well-researched, it rarely matches the actual research goal.
+I strongly believe that we should <em>not</em> test for the nil hypothesis (checking if the true difference is <em>exactly</em> zero).</p><p>Here, we can switch from statistical significance to practical significance.
+We are supposed to define a threshold (e.g., in terms of minimum effect size)
+for the difference that is meaningful for the research.
+This approach has more chances to be aligned with the research goals.
+However, it is also not always satisfying enough.
+We should keep in mind that hypothesis testing often arises in the context of decision-making problems.
+In some cases, we can do exploration research in which we just want to have a better understanding of the world.
+However, in most cases, we do not perform calculations just because we are curious;
+we often want to make a decision based on the results.
+And this is the most crucial moment.
+It should always be the starting point in any research project.
+First of all, we should clearly describe the possible decisions and their preconditions.
+When we start doing that, we can discover that not all the practically significant outcomes are equally significant.
+If different practically significant results may lead to different decisions,
+we should define the proper classification in advance during the research design stage.
+The dichotomy of &ldquo;practically significant&rdquo; vs. &ldquo;not practically significant&rdquo;
+may conceal important problem aspects and lead to a wrong decision.</p><p>In this post, I would like to discuss the degrees of practical significance and
+show an example of how important it is for some problems.</p><p>My primary research field is the software performance measurements.
+Let us say we develop an application, and one of its crucial features is performance.
+The customers pay for the application mainly because it&rsquo;s blazingly fast.
+If we deteriorate the performance, the customers will be dissatisfied and may go away to our competitors.
+Therefore, we care about performance,
+and we set up performance testing that automatically detects performance degradation.
+A reliable performance testing system is extremely tricky to implement,
+but we should keep in mind that it is only half of the job.
+Let us say we have confidently detected a performance degradation, what should we do next?</p><p>First of all, we should understand the reference baseline.
+Let us say that the current version of the application takes ≈1.0..1.5 seconds to start.
+Now, a developer has implemented a new cool feature,
+and the performance tests were able to detect an actual 3ms startup time degradation.
+What should we do about it?
+We may say that 3ms is a negligible degradation and we can silently ignore it.
+Yeah, such small degradations may sum up and lead to a noticeable performance drop in the long run,
+but it is better to handle such problems with another workflow.
+For example, we can introduce a systematic monthly check of the overall performance
+and start an optimization campaign if we observe an unacceptable performance drop.
+But if we block any 3ms degradation, we can significantly slow down the development process.
+Developers write new code, this code takes time, and we should expect occasional performance erosion.</p><p>Now, let us say that the degradation is about 50ms.
+In this case, it&rsquo;s much more noticeable for the given ≈1.0..1.5 seconds baseline.
+Still, it can be OK to merge such a change, but we may want to be aware of such a change.
+Therefore, we can automatically accept the change, but we should notify the developer about the performance degradation.
+Yes, we slow down the application, but at least we are aware of it, and we make a conscious decision.</p><p>Now, let us say that the degradation is about 2 seconds.
+In this case, it&rsquo;s a huge degradation.
+It feels reasonable to not just send an alert about it but also to automatically block the merge,
+so that it&rsquo;s physically impossible to accidentally introduce such a regression.
+To make things more interesting, let us say that it is a security patch for a zero-day vulnerability.
+If we treat security seriously, we may want to accept the patch despite the performance degradation.
+This leads us to the idea that we need a way to work around the merge block and explicitly say
+&ldquo;Yes, we are aware of the degradation, but we consciously accept it.&rdquo;</p><p>Now, let us say that the degradation is about 5 hours.
+Such a change in startup time (from 1 second to 5 hours) makes the application unusable.
+It&rsquo;s irrelevant how important the patch is; the majority of the customers will not wait for 5 hours.
+We must find other ways to handle the underlying issue; the degradation of such magnitude is unacceptable.</p><p>All the above threshold values are arbitrary, and they are presented for the sake of the example.
+However, it gives the idea of various possible decisions based on the degradation magnitude:</p><ul><li>Allow merge; silent ignore</li><li>Allow merge; send an alert</li><li>Block merge; provide an option to bypass it</li><li>Block merge; no way to bypass it</li></ul><p>While all of the above degradation may be both statistically and practically significant,
+we should consider different decision-making strategies for different situations.</p><p>In other problems, we may consider another classification of degrees of practical significance.
+My main idea is that we should first focus on what we are going to do with the research outcome.
+We should design a proper research protocol in advance,
+and only after that we can discuss possible approaches for statistical analysis.
+Without a clear understanding of the goals,
+we don&rsquo;t have a validation procedure that helps evaluate possible analysis approaches.
+If you observe a long discussion on topics like
+&ldquo;Should we use the Bayesian or frequentist approach?&rdquo;,
+&ldquo;Should we use the significance level of 0.05 or 0.01?&rdquo;,
+or &ldquo;Should we calculate the confidence interval with confidence level of 95% or 99%?&rdquo;,
+it is most likely a sign of the absence of clear research goals.
+When the goals are properly defined, all of these disputes can often be easily resolved:
+we should just check which approach is more aligned with the goals.
+Ideally, it should be a mechanical procedure that does not require a subjective opinion.
+If one experiences troubles with such a decision, one should probably take another look at the goals.</p><p>Sometimes, it can be quite challenging to define the goals properly.
+Reflecting on degrees of practical significance can help to adjust the focus of attention
+and find places for possible improvements.</p></div><br><br></div></div><script>var themeToggleDarkIcon=document.getElementById("theme-toggle-dark-icon"),themeToggleBtn,themeToggleLightIcon=document.getElementById("theme-toggle-light-icon");const imagesDark=document.querySelectorAll(".img-dark"),imagesLight=document.querySelectorAll(".img-light");localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?(themeToggleLightIcon.classList.remove("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")})):(themeToggleDarkIcon.classList.remove("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")}));function toggleTheme(e){e?(document.documentElement.classList.add("dark"),themeToggleLightIcon.classList.remove("hidden"),themeToggleDarkIcon.classList.add("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")}),imagesLight.forEach(e=>{e.classList.add("hidden")})):(document.documentElement.classList.remove("dark"),themeToggleDarkIcon.classList.remove("hidden"),themeToggleLightIcon.classList.add("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")}),imagesDark.forEach(e=>{e.classList.add("hidden")}))}themeToggleBtn=document.getElementById("theme-toggle"),themeToggleBtn.addEventListener("click",function(){themeToggleDarkIcon.classList.toggle("hidden"),themeToggleLightIcon.classList.toggle("hidden"),imagesLight.forEach(e=>{e.classList.toggle("hidden")}),imagesDark.forEach(e=>{e.classList.toggle("hidden")}),event.altKey?(localStorage.removeItem("color-theme"),toggleTheme(window.matchMedia("(prefers-color-scheme: dark)").matches)):localStorage.getItem("color-theme")?localStorage.getItem("color-theme")==="light"?(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark")):(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):document.documentElement.classList.contains("dark")?(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark"))}),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",e=>{if(localStorage.getItem("color-theme")===null){const t=e.matches?"dark":"light";toggleTheme(t==="dark")}})</script><footer class="z-20 p-4 md:p-6 mt-3 w-full border-t border-gray-200 shadow flex items-center justify-center dark:border-gray-600 bg-white dark:bg-zinc-800"><span class="dark:text-gray-400 text-center">© 2013—2024 <span class=whitespace-nowrap>Andrey Akinshin</span></span><ul class="flex flex-wrap items-center px-4 mb-1"><li><a href=https://github.com/AndreyAkinshin><svg class="fai fai-link w-5 h-5"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a></li><li><a href=https://twitter.com/andrey_akinshin><svg class="fai fai-link w-5 h-5"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></li><li><a href=https://aakinshin.net/posts/index.xml><svg class="fai fai-link w-5 h-5"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a></li></ul><div class=main-content><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></div></footer><script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+="has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js></script></body></html>
