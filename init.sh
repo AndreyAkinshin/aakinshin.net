@@ -8,10 +8,15 @@ else
   TARGET_DIR="./bin"
 fi
 
+HUGO_URL_BASE="https://github.com/gohugoio/hugo/releases/download"
+TW_URL_BASE="https://github.com/tailwindlabs/tailwindcss/releases/download"
+
 HUGO_VER="0.122.0"
-TW_VER="v3.3.5"
+TW_VER="3.4.1"
 
 ARCH=$(arch)
+HUGO_ARCH="$ARCH"
+TW_ARCH="$ARCH"
 
 if [ "$ARCH" == "x86_64" ]; then
   HUGO_ARCH="amd64"
@@ -24,11 +29,11 @@ fi
 
 if [ "$(uname)" == "Darwin" ]
 then
-  HUGO_URL="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VER}/hugo_${HUGO_VER}_darwin-universal.tar.gz"
-  TW_URL="https://github.com/tailwindlabs/tailwindcss/releases/download/${TW_VER}/tailwindcss-macos-${TW_ARCH}"
+  HUGO_URL="${HUGO_URL_BASE}/v${HUGO_VER}/hugo_${HUGO_VER}_darwin-universal.tar.gz"
+  TW_URL="${TW_URL_BASE}/v${TW_VER}/tailwindcss-macos-${TW_ARCH}"
 else
-  HUGO_URL="https://github.com/gohugoio/hugo/releases/download/v${HUGO_VER}/hugo_${HUGO_VER}_linux-${HUGO_ARCH}.tar.gz"
-  TW_URL="https://github.com/tailwindlabs/tailwindcss/releases/download/${TW_VER}/tailwindcss-linux-${TW_ARCH}"
+  HUGO_URL="${HUGO_URL_BASE}/v${HUGO_VER}/hugo_${HUGO_VER}_linux-${HUGO_ARCH}.tar.gz"
+  TW_URL="${TW_URL_BASE}/v${TW_VER}/tailwindcss-linux-${TW_ARCH}"
 fi
 
 wget "$HUGO_URL" -O "$TARGET_DIR/hugo.tar.gz"
