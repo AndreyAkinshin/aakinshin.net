@@ -14,14 +14,16 @@ hasCJKLanguage = false
 [languages]
   [languages.en]
   title = "Andrey Akinshin"
-  description = "Andrey Akinshin's blog"
   weight = 1
   contentDir = "content/en"
+    [languages.en.params]
+    description = "Andrey Akinshin's blog"
   [languages.ru]
   title = "Андрей Акиньшин"
-  description = "Блог Андрея Акиньшина"
   weight = 2
   contentDir = "content/ru"
+    [languages.ru.params]
+    description = "Блог Андрея Акиньшина"
 
 [markup]
   [markup.goldmark]
@@ -29,6 +31,12 @@ hasCJKLanguage = false
       hardWraps = false
       unsafe = true
       xHTML = true
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [['\\[', '\\]'], ['$$', '$$']]
+          inline = [['$', '$']]
   [markup.highlight]
     codeFences = true
     lineNos = false
@@ -42,7 +50,6 @@ hasCJKLanguage = false
 [outputs]
   home = ["HTML"]
   section = ["HTML", "RSS"]
-  taxonomyTerm = ["HTML"]
   taxonomy = ["HTML"]
 
 [taxonomies]
