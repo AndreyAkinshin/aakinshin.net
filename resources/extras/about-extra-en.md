@@ -96,10 +96,10 @@
     Final of Russian Olympiad in Informatics [ROI 2006](http://neerc.ifmo.ru/school/archive/2005-2006/ru-olymp-roi-2006-standings.html) (Kislovodsk)<br />
   * *04/2008:*
     Certified participant at
-    [ACM International Collegiate Programming Contest 2008](http://icpc.baylor.edu/community/results-2008) (Canada)<br />
+    [ACM International Collegiate Programming Contest 2008](https://cphof.org/standings/icpc/2008) (Canada)<br />
   * *04/2009:*
     Silver medal at
-    [ACM International Collegiate Programming Contest 2009](http://icpc.baylor.edu/community/results-2009) (Sweden)<br />
+    [ACM International Collegiate Programming Contest 2009](https://cphof.org/standings/icpc/2009) (Sweden)<br />
 </section>
 
 <hr />

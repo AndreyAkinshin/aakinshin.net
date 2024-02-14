@@ -1,0 +1,3 @@
+---
+title: Median Absolute Deviation
+---

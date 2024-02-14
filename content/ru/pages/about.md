@@ -22,7 +22,7 @@ url: /ru/about
 Он также
   бывший член программного комитета конференции [DotNext](https://dotnext.ru/),
   [бывший Microsoft .NET MVP](https://mvp.microsoft.com/),
-  серебрянный медалист [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest).
+  серебрянный медалист [ACM ICPC](https://cphof.org/profile/icpc:Andrey%20Akinshin).
 
 Андрей имеет степень [к.ф.-м.н.](https://dlib.rsl.ru/01005540613).
 Его текущая область научных интересов — математическая статистика.

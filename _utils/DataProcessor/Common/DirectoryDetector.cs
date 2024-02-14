@@ -33,5 +33,8 @@ namespace DataProcessor.Common
         
         public static string GetDataGenDirectory()
             => Path.Combine(GetDataDirectory(), "gen");
+
+        public static string GetPapersDirectory()
+            => Path.Combine(GetRootDirectory(), "content", "en", "papers");
     }
 }

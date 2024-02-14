@@ -11,7 +11,7 @@ fi
 HUGO_URL_BASE="https://github.com/gohugoio/hugo/releases/download"
 TW_URL_BASE="https://github.com/tailwindlabs/tailwindcss/releases/download"
 
-HUGO_VER="0.122.0"
+HUGO_VER="0.123.3"
 TW_VER="3.4.1"
 
 ARCH=$(arch)

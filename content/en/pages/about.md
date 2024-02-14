@@ -19,6 +19,6 @@ Previously, he was
   a [postdoc]({{< ref research >}}/#signal-processing) at the
     [Weizmann Institute of Science](https://www.weizmann.ac.il/),
   a [Microsoft .NET MVP](https://mvp.microsoft.com/),
-  an [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest) medalist.
+  an [ACM ICPC](https://cphof.org/profile/icpc:Andrey%20Akinshin) medalist.
 
 </div>

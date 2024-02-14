@@ -18,7 +18,6 @@
     {{ partial "blog-post-meta.html" . }}
     <br>
     {{ .Summary | safeHTML }}
-    <br />
     <a href='{{ .RelPermalink }}'>{{ i18n "readMore" }}</a><br /><br />
     <hr />
   </div>

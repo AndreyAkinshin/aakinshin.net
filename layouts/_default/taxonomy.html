@@ -1,9 +1,27 @@
 {{ define "main" }}
 
-<h1>{{ i18n "postsAbout" }} {{ .Title }}</h1>
+{{ $posts := where .Pages "Section" "posts" }}
+{{ $books := where .Pages "Section" "books" }}
+{{ $papers := where .Pages "Section" "papers" }}
 
-<div class="main-content">
-{{ partial "posts-by-years.html" .Pages }}
-</div>
+<h1>{{ .Title }}</h1>
+
+{{ if $posts }}
+<hr />
+<h3>{{ i18n "posts" }}</h3>
+{{ partial "posts-by-years.html" $posts }}
+{{ end }}
+
+{{ if $books }}
+<hr />
+<h3 id="books">Library / Books</h3>
+{{ partial "library-list.html" $books }}
+{{ end }}
+
+{{ if $papers }}
+<hr />
+<h3 id="papers">Library / Papers</h3>
+{{ partial "library-list.html" $papers }}
+{{ end }}
 
 {{ end }}

@@ -11,7 +11,14 @@ namespace DataProcessor.Publications
         public static string GetProperty(this PublicationEntry entry, string name) =>
             entry.Properties.ContainsKey(name.ToLowerInvariant()) ? entry.Properties[name.ToLowerInvariant()] : "";
 
-        public static int GetYear(this PublicationEntry entry) => int.Parse(entry.GetProperty("year"));
+        public static int GetYear(this PublicationEntry entry)
+        {
+            var year = entry.GetProperty("year");
+            if (!string.IsNullOrWhiteSpace(year))
+                return int.Parse(year);
+            return int.Parse(entry.GetProperty("date").Split('-').First());
+        }
+
         public static string GetTitle(this PublicationEntry entry) => entry.GetProperty("title");
         public static string GetPublisher(this PublicationEntry entry) => entry.GetProperty("publisher");
         public static string GetAddress(this PublicationEntry entry) => entry.GetProperty("address");
@@ -34,7 +41,7 @@ namespace DataProcessor.Publications
         {
             var urls = new List<string>();
             foreach (var (key, value) in entry.Properties)
-                if (key.ToLowerInvariant().StartsWith("url") || key.ToLowerInvariant().StartsWith("custom-url"))
+                if (key.ToLowerInvariant().Equals("url") || key.ToLowerInvariant().StartsWith("custom-url"))
                     urls.AddRange(value.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
 
             return urls.ToArray();
@@ -43,10 +50,37 @@ namespace DataProcessor.Publications
         public static string GetProject(this PublicationEntry entry) => entry.GetProperty("custom-project");
 
         public static string[] GetTags(this PublicationEntry entry) => entry.GetProperty("custom-tags")
-            .Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
         public static PublicationEntryAuthor[] GetAuthors(this PublicationEntry entry) =>
             PublicationEntryAuthor.Parse(entry.GetProperty("author"));
+
+        public static PublicationEntryAuthor[] GetEditors(this PublicationEntry entry) =>
+            PublicationEntryAuthor.Parse(entry.GetProperty("editor"));
+
+        public static string GetNiceKey(this PublicationEntry entry)
+        {
+            var authors = entry.GetAuthors().Concat(entry.GetEditors());
+            var author = authors.First();
+            var name = author.LastName.Split(' ').First();
+            if (name.Length == 1)
+                name = author.FirstName.Split(' ').First();
+            name = name
+                .Replace("*", "")
+                .Replace("á", "a")
+                .Replace("ô", "o")
+                .ToLowerInvariant();
+            return name + entry.GetYear();
+        }
+
+        public static string GetHashId(this PublicationEntry entry)
+        {
+            var doi = entry.GetDoi();
+            if (!string.IsNullOrWhiteSpace(doi))
+                return doi;
+            return entry.GetTitle() +
+                   string.Join("+", entry.GetAuthors().Select(author => author.FirstName + author.LastName));
+        }
 
         public static IList<PublicationEntry> WithYear(this IEnumerable<PublicationEntry> entries, int year) =>
             entries.Where(it => GetYear(it) == year).ToList();
@@ -58,11 +92,14 @@ namespace DataProcessor.Publications
         public static string ToHtml(this IEnumerable<PublicationEntryAuthor> authors) =>
             "<i>" + string.Join(", ", authors.Select(it => $"{it.FirstName} {it.LastName}")) + "</i>";
 
+        public static string ToText(this IEnumerable<PublicationEntryAuthor> authors) =>
+            string.Join(", ", authors.Select(it => $"{it.FirstName} {it.LastName}"));
+
         public static string ToHtml(this PublicationEntry entry)
         {
             var lang = entry.OutputLanguage;
             var builder = new StringBuilder();
-            builder.Append(entry.GetAuthors().ToHtml());
+            builder.Append(entry.GetAuthors().Concat(entry.GetEditors()).ToHtml());
             builder.Append(' ');
             builder.Append($"<span title=\"{entry.GetAbstract()}\">");
             builder.Append(Resolve(lang, "“", "«"));
@@ -81,7 +118,7 @@ namespace DataProcessor.Publications
                 var publisher = entry.GetPublisher();
                 if (publisher.ToLowerInvariant() == "arxiv")
                     builder.Append(" " + publisher + ".");
-                else 
+                else
                     builder.Append($" {Resolve(lang, "Publisher", "Издательство")}: " + publisher + ".");
             }
 
@@ -101,48 +138,9 @@ namespace DataProcessor.Publications
                 builder.Append($" DOI:&nbsp;<a href='https://doi.org/{entry.GetDoi()}'>{entry.GetDoi()}</a>");
             if (entry.GetArchivePrefix().ToLowerInvariant() == "arxiv" && entry.GetEPrint() != "")
                 builder.Append($" <a href='https://arxiv.org/abs/{entry.GetEPrint()}'>arXiv:{entry.GetEPrint()}</a>");
-            
+
             if (builder.ToString().EndsWith("//"))
                 builder.Remove(builder.Length - 2, 2);
-
-            var urls = entry.GetUrls();
-            bool isVak = entry.GetTags().Contains("Vak");
-            if (urls.Any() || isVak)
-            {
-                // builder.Append(" //");
-                // foreach (var url in urls)
-                // {
-                //     var title = Resolve(lang, "Link", "Ссылка");
-                //     if (url.EndsWith(".pdf"))
-                //         title = "Pdf";
-                //     else if (url.Contains("ieeexplore.ieee.org"))
-                //         title = "IEEE";
-                //     else if (url.Contains("apps.webofknowledge.com"))
-                //         title = "Web of Science";
-                //     else if (url.Contains("www.scopus.com"))
-                //         title = "Scopus";
-                //     else if (url.Contains("elibrary.ru"))
-                //         title = Resolve(lang, "RSCI", "РИНЦ");
-                //     else if (url.Contains("mathnet.ru"))
-                //         title = "MathNet";
-                //     else if (url.Contains("link.springer.com"))
-                //         title = "Springer";
-                //     else if (url.Contains("www.packtpub.com"))
-                //         title = "PacktPub";
-                //     else if (url.Contains("conf.nsc.ru") || url.Contains("uni-bielefeld.de") ||
-                //              url.Contains("cmb.molgen.mpg.de") || url.Contains("sites.google.com"))
-                //         title = Resolve(lang, "Conference site", "Сайт конференции");
-                //     else if (url.Contains("authorea"))
-                //         title = url.Substring(url.IndexOf("authorea.com", StringComparison.Ordinal)).TrimEnd('/');
-                //     else if (url.Contains("scholar.google.ru"))
-                //         title = "Google Scholar";
-                //     builder.AppendLine($" <a href=\"{url}\">[{title}]</a>");
-                // }
-
-                // if (isVak)
-                // builder.AppendLine(Resolve(lang, " [VAK]", " [ВАК]"));
-            }
-
             return builder.ToString();
         }
 
@@ -243,21 +241,23 @@ namespace DataProcessor.Publications
                     if (isWoS)
                     {
                         builder.AppendLine("  [[item.badge]]");
-                        builder.AppendLine($"  Label = \"<svg class='fai'><use xlink:href='/img/fa/all.svg#wos'></use></svg> Web of Science\"");
+                        builder.AppendLine(
+                            $"  Label = \"<svg class='fai'><use xlink:href='/img/fa/all.svg#wos'></use></svg> Web of Science\"");
                     }
-                    
+
                     bool isSpringer = entry.GetTags().Contains("Springer");
                     if (isSpringer)
                     {
                         builder.AppendLine("  [[item.badge]]");
                         builder.AppendLine($"  Label = \"Springer\"");
                     }
-                    
+
                     bool isScopus = entry.GetTags().Contains("Scopus");
                     if (isScopus)
                     {
                         builder.AppendLine("  [[item.badge]]");
-                        builder.AppendLine($"  Label = \"<svg class='fai'><use xlink:href='/img/fa/all.svg#scopus'></use></svg> Scopus\"");
+                        builder.AppendLine(
+                            $"  Label = \"<svg class='fai'><use xlink:href='/img/fa/all.svg#scopus'></use></svg> Scopus\"");
                     }
 
                     bool isPreprint = entry.GetTags().Contains("Preprint");
@@ -319,14 +319,16 @@ namespace DataProcessor.Publications
                                 .TrimEnd('/');
                         else if (url.Contains("scholar.google."))
                             title = "Google Scholar";
+
                         builder.AppendLine("  [[item.link]]");
                         builder.AppendLine($"  Label = \"{title}\"");
-                        builder.AppendLine($"  Url = \"{url}\"");
+                        builder.AppendLine($"  Url = \"{url.Replace("\\", "\\\\")}\"");
 
                         if (url.Contains("arxiv"))
                         {
                             builder.AppendLine("  [[item.link]]");
-                            builder.AppendLine($"  Label = \"<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF\"");
+                            builder.AppendLine(
+                                $"  Label = \"<svg class='fai'><use xlink:href='/img/fa/all.svg#file-pdf'></use></svg> PDF\"");
                             builder.AppendLine($"  Url = \"{url.Replace("/abs/", "/pdf/") + ".pdf"}\"");
                         }
                     }

@@ -11,10 +11,10 @@ namespace DataProcessor.Publications
         {
             var listEn = PublicationEntry.ReadAll( PublicationLanguage.English,"Akinshin.En.bib", "Akinshin.InRussian.bib", "Akinshin.Translation.bib");
             var listRu = PublicationEntry.ReadAll(PublicationLanguage.Russian,"Akinshin.En.bib", "Akinshin.Ru.bib", "Akinshin.Translation.bib");
-            
-            var tomlEn = listEn.ToToml();            
+
+            var tomlEn = listEn.ToToml();
             var tomlRu = listRu.ToToml(PublicationLanguage.Russian);
-                        
+
             var dataGenDirectory = DirectoryDetector.GetDataGenDirectory();
             if (!Directory.Exists(dataGenDirectory))
                 Directory.CreateDirectory(dataGenDirectory);

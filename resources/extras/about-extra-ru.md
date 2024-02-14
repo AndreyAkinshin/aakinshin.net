@@ -96,10 +96,10 @@
     Всероссийская олимпиада школьников по информатике [РОИ 2006](http://neerc.ifmo.ru/school/archive/2005-2006/ru-olymp-roi-2006-standings.html) (Кисловодск)<br />
   * *04/2008:*
     Сертифицированный участник,
-    [Чемпионат мира по программированию ACM ICPC 2008](http://icpc.baylor.edu/community/results-2008) (Канада)<br />
+    [Чемпионат мира по программированию ACM ICPC 2008](https://cphof.org/standings/icpc/2008) (Канада)<br />
   * *04/2009:*
     Серебряная медаль,
-    [Чемпионат мира по программированию ACM ICPC 2009](http://icpc.baylor.edu/community/results-2009) (Швеция)<br />
+    [Чемпионат мира по программированию ACM ICPC 2009](https://cphof.org/standings/icpc/2009) (Швеция)<br />
 </section>
 
 <hr />

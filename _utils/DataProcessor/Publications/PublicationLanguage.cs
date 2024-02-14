@@ -1,6 +1,6 @@
 namespace DataProcessor.Publications
 {
-    internal enum PublicationLanguage
+    public enum PublicationLanguage
     {
         Russian,
         English

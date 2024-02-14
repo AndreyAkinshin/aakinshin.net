@@ -38,7 +38,13 @@
     @apply border self-center mx-auto mb-3;
   }
   th, td {
-    @apply border p-2
+    @apply border p-2;
+  }
+  table.meta-table {
+    @apply border-none ml-1;
+  }
+  .meta-table td {
+    @apply border-none p-1;
   }
   blockquote {
     @apply border-shadow-l dark:border-shadow-d;
@@ -75,7 +81,7 @@
     @apply whitespace-nowrap;
   }
   .nav-item {
-    @apply text-white hover:bg-back-accent-hover-l dark:hover:bg-back-accent-hover-d;
+    @apply text-white hover:bg-back-accent-hover-l dark:hover:bg-back-accent-hover-d text-xs xs:text-base px-1 xs:px-3;
   }
   /*** paginator ***/
   .paginator {
@@ -117,6 +123,9 @@
   }
   .label-link .fai {
     @apply pl-1 pb-1 pb-0.5 h-[1.5em] w-[1.5em];
+  }
+  .rating-icon {
+    @apply inline-flex h-[1.4em] w-[1.4em] pb-[0.2em] fill-current;
   }
   /*** Chroma ***/
   .chroma {

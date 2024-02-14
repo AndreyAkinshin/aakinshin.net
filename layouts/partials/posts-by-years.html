@@ -1,7 +1,8 @@
+{{ $posts := where . "Section" "posts" }}
 {{ $counter := newScratch }}
 {{ $counter.Set "value" (len .) }}
-{{ range .ByPublishDate.Reverse.GroupByDate "2006" }}
-    <h2>{{ .Key }}</h2>
+{{ range $posts.ByPublishDate.Reverse.GroupByDate "2006" }}
+    <h4>{{ .Key }}</h4>
     <ol reversed start="{{ $counter.Get "value" }}">
     {{ range .Pages }}
         <li><a href="{{ .Permalink }}">{{ .Title }}</a> <i>({{- partial "date-short.html" . -}})</i></li>

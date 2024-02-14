@@ -2,13 +2,13 @@ github:
   - role: Active
     repos:
       - url: dotnet/BenchmarkDotNet
-        title: Powerful .NET library for benchmarking
+        title: Powerful .NET library for benchmarking | ≈10K stars | 26M+ downloads
       - url: AndreyAkinshin/perfolizer
-        title: Performance analysis toolkit
+        title: Performance analysis toolkit | 22M+ downloads
       - url: AndreyAkinshin/aakinshin.net
         title: aakinshin.net (Source code)
       - url: AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template
-        title: LaTeX-template for russian PhD thesis
+        title: LaTeX-template for Russian PhD thesis
   - role: Research Papers
     repos:
       - url: AndreyAkinshin/paper-wqe

@@ -57,3 +57,6 @@ hasCJKLanguage = false
 
 [permalinks]
   posts = "/posts/:filename/"
+  books = "/library/books/:filename/"
+  papers = "/library/papers/:filename/"
+  quotes = "/library/quotes/:filename/"

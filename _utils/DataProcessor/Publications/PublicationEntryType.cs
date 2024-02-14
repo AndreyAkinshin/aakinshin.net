@@ -1,11 +1,14 @@
 namespace DataProcessor.Publications
 {
-    internal enum PublicationEntryType
+    public enum PublicationEntryType
     {
         Inproceedings,
+        Incollection,
         TechReport,
         Book,
         Article,
-        PhdThesis
+        PhdThesis,
+        Misc,
+        Manual
     }
 }
