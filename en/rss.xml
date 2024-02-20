@@ -1,4 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 13 Feb 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Simplifying adjustments of confidence levels and practical significance thresholds</title><link>https://aakinshin.net/posts/adjust-confidence-levels-and-practical-significance/</link><pubDate>Tue, 13 Feb 2024 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/adjust-confidence-levels-and-practical-significance/</guid><description>&lt;p>Translation of the buisness goals to the actual parameters of the statistical procedure is a non-trivial task.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Andrey Akinshin</title><link>https://aakinshin.net/posts/</link><description>Recent content in Posts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 20 Feb 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Case study: a city social survey</title><link>https://aakinshin.net/posts/cs-social-survey/</link><pubDate>Tue, 20 Feb 2024 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/cs-social-survey/</guid><description>&lt;p>Imagine a city mayor considering a project offering to build parks in several neighborhoods.
+It can be a good budget investment since it can potentially increase the happiness level of the citizens.
+However, it is just a hypothesis: if parks do not impact happiness,
+it is worth considering other city renovation projects.
+It makes sense to perform a pilot experiment before spending the budget on all the parks.
+The mayor is thinking about the following plan:
+pick a random neighborhood,
+survey the citizens to measure their happiness,
+build a park,
+survey the citizens again,
+compare the survey results,
+make a decision about the further parks in other neighborhoods.
+Someone is needed to design the survey and draw the conclusion.&lt;/p>
+&lt;p>Let us explore possible approaches to perform such a study.
+These artificial examples are not guidelines
+but rather simplified illustrations of possible mindsets presented as lists of thoughts.
+In this demonstration, we mainly focus on the attitude to the research process rather than on the technical details.
+All the examples are based on real stories.&lt;/p></description></item><item><title>Simplifying adjustments of confidence levels and practical significance thresholds</title><link>https://aakinshin.net/posts/adjust-confidence-levels-and-practical-significance/</link><pubDate>Tue, 13 Feb 2024 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/adjust-confidence-levels-and-practical-significance/</guid><description>&lt;p>Translation of the buisness goals to the actual parameters of the statistical procedure is a non-trivial task.
 The degree of non-triviality increases if we should adjust several parameters at the same time.
 In this post, we consider a problem of simultaneous choice
 of the confidence level and the practical significance threshold.

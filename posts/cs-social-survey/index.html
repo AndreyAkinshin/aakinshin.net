@@ -1,0 +1,109 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.103.0-DEV"><meta name=author content="Andrey Akinshin"><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content="Mathematics,Statistics,Research,Thoughts"><title>Case study: a city social survey | Andrey Akinshin</title><meta name=description content="Imagine a city mayor considering a project offering to build parks in several neighborhoods. It can be a good budget investment since it can potentially increase the happiness level of the citizens. However, it is just a hypothesis: if parks do not impact h..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><script>localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")</script><link href=https://aakinshin.net/css/main.min.7748cd40c7f2f841cbbd37537f783d52d954e3efdc8673a15babd858bf8c359f.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body><nav><div class="container flex flex-wrap items-center justify-between mx-auto max-w-6xl h-12 px-6"><div class="flex items-center justify-start justify-self-start"><div class="flex nav-item h-12 w-12 items-center justify-center"><a class=text-white href=https://aakinshin.net/><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/posts/>Posts</a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/research/>Research</a></div><div class="flex nav-item h-12 items-center"><a class="px-3 text-white" href=https://aakinshin.net/about/>About</a></div></div><button id=theme-toggle type=button title="Alt+Click to match OS color theme" class="nav-item p-3 content-center justify-self-end"><svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001.0 1010.586 10.586z"/></svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1A1 1 0 119 4V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707A1 1 0 1113.536 5.05l.707-.707a1 1 0 011.414.0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707A1 1 0 004.343 5.757l.707.707zm1.414 8.486-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"/></svg></button></div></nav><div class="main container mx-auto max-w-6xl px-6"><div class=main-post><h1 class=blog-post-title id=post-title>Case study: a city social survey</h1><div class="flex flex-wrap justify-start items-center"><svg class="fai text-accent-l dark:text-front-d"><title>Date</title><use xlink:href="/img/fa/all.svg#calendar-days"/></svg><time datetime=2024-02-20>February 20, 2024</time><svg class="fai ml-3 text-accent-l dark:text-front-d"><title>Tags</title><use xlink:href="/img/fa/all.svg#tag"/></svg><div class="flex flex-wrap gap-y-1"><a class=label-link href=https://aakinshin.net/tags/mathematics/>Mathematics</a>
+<a class=label-link href=https://aakinshin.net/tags/statistics/>Statistics</a>
+<a class=label-link href=https://aakinshin.net/tags/research/>Research</a>
+<a class=label-link href=https://aakinshin.net/tags/thoughts/>Thoughts</a></div></div><br><div class=main-content><p>Imagine a city mayor considering a project offering to build parks in several neighborhoods.
+It can be a good budget investment since it can potentially increase the happiness level of the citizens.
+However, it is just a hypothesis: if parks do not impact happiness,
+it is worth considering other city renovation projects.
+It makes sense to perform a pilot experiment before spending the budget on all the parks.
+The mayor is thinking about the following plan:
+pick a random neighborhood,
+survey the citizens to measure their happiness,
+build a park,
+survey the citizens again,
+compare the survey results,
+make a decision about the further parks in other neighborhoods.
+Someone is needed to design the survey and draw the conclusion.</p><p>Let us explore possible approaches to perform such a study.
+These artificial examples are not guidelines
+but rather simplified illustrations of possible mindsets presented as lists of thoughts.
+In this demonstration, we mainly focus on the attitude to the research process rather than on the technical details.
+All the examples are based on real stories.</p><p>We start with a straightforward approach:</p><ol><li>Design a survey with a single question:
+&ldquo;Evaluate your happiness level on a scale from 1 to 1000.&rdquo;</li><li>Select a random sample of 100 citizens from the target neighborhood.</li><li>Survey them one month before and one month after the park construction.</li><li>Calculate the arithmetic means of the happiness level in both surveys.</li><li>Present the results so that the mayor can decide
+if the &ldquo;after-park&rdquo; mean is noticeably higher than the &ldquo;before-park&rdquo; mean.</li><li>Get the paycheque for the excellently performed job.</li></ol><p>Now let us expore how we can proceed.</p><h3 id=technical-approach>Technical approach</h3><ul><li>The initial plan has a problem: Step 5 involves a subjective decision of the mayor, which can biased.
+The mayor can have an intuition-based personal preference for the desired outcome.
+Even if there is no intention to cheat, the mayor&rsquo;s brain has embedded cognitive bias.
+If the mayor enjoys walking in the parks,
+the difference &ldquo;before-park: 495; after-park: 505&rdquo; may be considered as important.
+If the mayor recently heard complaints about the lack of hospitals,
+the difference &ldquo;before-park: 450; after-park: 550&rdquo; may lead to a conclusion
+&ldquo;the impact is not large enough; let us build a hospital instead.&rdquo;<br>Once the mayor gets the survey results and starts thinking about the obtained numbers,
+the decision-making process is compromised!
+To prevent this from happening, a <em>research protocol</em> is needed!
+Such a protocol should be designed in advance to avoid the cognitive bias effects.<br>Since the goal is obviously trivial,
+the mayor can just choose the minimum value of the &ldquo;important&rdquo; difference in advance (e.g., 50).
+The researcher is appreciated for the valuable scientific advice on psychology
+and for creating an actual research protocol.</li><li>The current procedure does not use statistical methods.
+The classic statistical textbooks claim that a null hypothesis significance test is needed.
+Since the distribution of the happiness levels is most likely normal,
+the Student&rsquo;s t-test is a good choice.<br>This test takes two samples of survey results as input and produces a p-value as output.
+The obtained p-value is supposed to be compared with the predefined significance level.
+The value of 0.05 is the most frequently used option,
+which is time-tested, having proven its reliability over many years.
+If the p-value is less than 0.05, the difference is declared statistically significant,
+and the mayor can continue building the parks.<br>Now, the actual scientific statistical tools are used.</li><li>If the normality assumption is not satisfied, the Student&rsquo;s t-test is not applicable.
+This problem can be solved by using nonparametric statistics.
+In this statistical paradigm, the Mann-Whitney U test is the most popular choice.
+It is not trivial to implement the test by hand,
+but there are existing popular open-source statistical frameworks with ready-to-use implementations.
+The implementations obviously do not have bugs because the frameworks are popular and open-source.
+Indeed, if they had bugs, someone would have already found them, reported them, and fixed them.<br>The idea of using nonparametric statistics is absolutely brilliant
+since it gives additional protection against deviations from normality.</li><li>There is no evaluation of the test power.
+The problem of underpowered research is well-known in the statistical community.
+The power of 80% is the common convention and can be safely used by default.<br>Unfortunately, the function to calculate the power does not take power as one of the parameters.
+The power calculation is not an obvious task to perform.
+Fortunately, it is not actually needed for the current research.
+The sample size of 100 is decently large, and the research is obviously not underpowered.<br>Now, the mayor is confident that the research is powerful enough.</li><li>The current plan focuses on statistical significance rather than on practical significance.
+And the problem is quite practical, so the practical significance is actually needed.<br>Indeed, with such a large sample size, even a small difference can be declared as statistically significant!
+Previously, there was a good idea of introducing a threshold for meaningful differences.
+This idea was lost when the statistical testing was introduced.
+It makes sense to check that the &ldquo;after-park&rdquo; average happiness level
+is not just statistically larger than the &ldquo;before-park&rdquo; average
+but meaningfully larger.
+The threshold parameter of the Mann-Whitney U test should be changed from 0 to 50.</li><li>The p-value should be banned; the Neyman-Pearson paradigm is outdated.
+Likelihood paradigm should be used!
+The new target statistic is the Bayesian factor, which shows how
+&ldquo;the true difference is more than 50&rdquo; is more likely than
+&ldquo;the true difference is less than 50&rdquo;.
+If it is three times more likely, the park project should be continued.</li><li>The likelihoods are not good enough on their own; Bayesian statistics should be used.
+People like parks, so our priors should be biased towards the positive outcomes.
+Acknowledging the priors allows us to improve the accuracy of the research significantly.</li><li>Bayesian statistics are strange and inconvenient.
+Also, it would be nice to have control over the false-positive rate
+since it is hopefully not the last project in the researcher&rsquo;s career.
+The Nayman-Pearson paradigm is that bad and still can be used.<br>Thanks to the researcher&rsquo;s experience, it was possible not to be fooled by the marginal Bayesian statistics,
+which do not even provide false-positive rate control.</li><li>After the wall, it would still be nice to perform the power analysis.
+It is obvious why the Mann-Whitney U test does not have the power parameter.
+There is a fundamental statistical trade-off between
+the false-positive rate,
+the false-negative rate,
+the effect size,
+and the sample size.
+The sample size is 100, the false-positive rate is 0.05,
+and the effect size is expressed as the difference threshold of 50.
+The power actually defines the false-negative rate, which is the last parameter.
+When three other parameters are fixed, the power is also implicitly fixed.
+However, we can adjust the sample size to achieve the desired power of 80% (and the false-positive rate of 0.20).
+The target sample size can be obtained via numerical simulations.</li><li>The difference threshold of 50 is arbitrary; it should be consciously chosen.</li><li>The power of 80% is also arbitrary; we should somehow justify it.</li><li>The alpha level of 0.05 is too large; we should use 0.01, 0.005, or even 0.001.</li><li>The absolute difference is not appropriate since 50 can be small in comparison to dispersion.
+The Cohen&rsquo;s d should be used as a measure of the effect size.</li><li>Cohen&rsquo;s d is not robust and too sensitive to the outliers.
+Robust effect size alternatives should be considered.</li><li>The power should not be evaluated against a single effect size threshold value.
+The whole power curve should be explored.</li><li>If the samples have equal means but different variances,
+the Mann-Whitney U test is not fully applicable.
+Such a case should be handled.</li><li>If all the people in the &ldquo;after-park&rdquo; sample report 1000 as the happiness level,
+the dispersion can be zero, and the effect size is not defined.
+Such a case should be handled.</li><li>The focus should be on estimating the most probable difference value.
+The Hodges-Lehmann location estimator should be used as the natural extension of the Mann-Whitney U test.</li><li>The 95% confidence intervals should be calculated for the Hodges-Lehmann location estimations.</li><li>The 95% is an arbitrary value; the confidence level should be consciously chosen.</li><li>Outliers should be detected and filtered out.</li><li>The Mann-Whitney U test is not correctly implemented.
+The Edgeworth expansion should be used to improve the accuracy instead of the normal approximation.</li><li>The Loefller algorithm should be used to improve the calculation speed.</li><li>It is more reliable to introduce various thresholds for the absolute, relative, and effect size scales.</li><li>&mldr;</li></ul><h3 id=thinking-approach>Thinking approach</h3><ul><li>Why do we care about the happiness level?
+What are the expected practical outcomes of the increase in happiness level?
+Typically, sincere altruism does not cover 100% of the actual goals.
+Maybe the mayor wants to be reelected next year?
+Then, we should focus on the political views of the citizens rather than on the happiness level.
+What are the formal criteria of the actual state of the city we want to achieve?</li><li>What are the other social renovation projects?
+Why is the focus on the parks only?
+If it is only one of the possible options,
+it is more reasonable to compare all the projects instead of a separate park evaluation.</li><li>Are all the neighborhoods the same?
+Can we actually reuse an experience of one neighborhood for others?</li><li>Are we actually interested in the increase of the &ldquo;average&rdquo; happiness level across all the citizens?
+Maybe we should ignore people who are already happy enough and focus only on the unhappy ones.</li><li>What are the other factors that can affect the citizens during the pilot experiment?</li><li>We can&rsquo;t perform such a survey only online: a sample of people who participate in the internet surveys is biased.
+The true park fans should be discovered offline and surveyed in person.
+So, we should hire people who would survey the citizens on the streets.
+What is the budget of the survey, and what is the maximum sample size we can afford?</li><li>&mldr;</li></ul><p>These and many other questions are supposed to be clarified before we start designing the research procedure.
+Properly described business goals with an available method validation procedure
+make the design stage straightforward and mechanical without chasing the tail.</p></div><br><br></div></div><script>var themeToggleDarkIcon=document.getElementById("theme-toggle-dark-icon"),themeToggleBtn,themeToggleLightIcon=document.getElementById("theme-toggle-light-icon");const imagesDark=document.querySelectorAll(".img-dark"),imagesLight=document.querySelectorAll(".img-light");localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?(themeToggleLightIcon.classList.remove("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")})):(themeToggleDarkIcon.classList.remove("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")}));function toggleTheme(e){e?(document.documentElement.classList.add("dark"),themeToggleLightIcon.classList.remove("hidden"),themeToggleDarkIcon.classList.add("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")}),imagesLight.forEach(e=>{e.classList.add("hidden")})):(document.documentElement.classList.remove("dark"),themeToggleDarkIcon.classList.remove("hidden"),themeToggleLightIcon.classList.add("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")}),imagesDark.forEach(e=>{e.classList.add("hidden")}))}themeToggleBtn=document.getElementById("theme-toggle"),themeToggleBtn.addEventListener("click",function(){themeToggleDarkIcon.classList.toggle("hidden"),themeToggleLightIcon.classList.toggle("hidden"),imagesLight.forEach(e=>{e.classList.toggle("hidden")}),imagesDark.forEach(e=>{e.classList.toggle("hidden")}),event.altKey?(localStorage.removeItem("color-theme"),toggleTheme(window.matchMedia("(prefers-color-scheme: dark)").matches)):localStorage.getItem("color-theme")?localStorage.getItem("color-theme")==="light"?(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark")):(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):document.documentElement.classList.contains("dark")?(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark"))}),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",e=>{if(localStorage.getItem("color-theme")===null){const t=e.matches?"dark":"light";toggleTheme(t==="dark")}})</script><footer class="z-20 p-4 md:p-6 mt-3 w-full border-t border-gray-200 shadow flex items-center justify-center dark:border-gray-600 bg-white dark:bg-zinc-800"><span class="dark:text-gray-400 text-center">© 2013—2024 <span class=whitespace-nowrap>Andrey Akinshin</span></span><ul class="flex flex-wrap items-center px-4 mb-1"><li><a href=https://github.com/AndreyAkinshin><svg class="fai fai-link w-5 h-5"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a></li><li><a href=https://twitter.com/andrey_akinshin><svg class="fai fai-link w-5 h-5"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></li><li><a href=https://aakinshin.net/posts/index.xml><svg class="fai fai-link w-5 h-5"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a></li></ul><div class=main-content><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></div></footer></body></html>
