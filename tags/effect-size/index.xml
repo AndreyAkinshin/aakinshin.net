@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Effect Size on Andrey Akinshin</title><link>https://aakinshin.net/tags/effect-size/</link><description>Recent content in Effect Size on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 22 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/effect-size/index.xml" rel="self" type="application/rss+xml"/><item><title>Calculating gamma effect size for samples with zero median absolute deviation</title><link>https://aakinshin.net/posts/zero-mad-gamma-es/</link><pubDate>Tue, 22 Jun 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/zero-mad-gamma-es/</guid><description>&lt;p>In previous posts, I discussed the &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/">gamma effect size&lt;/a>
+which is a Cohen&amp;rsquo;s d-consistent nonparametric and robust measure of the effect size.
+Also, I discussed &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size2/">various ways to customize this metric&lt;/a>
+and adjust it to different kinds of business requirements.
+In this post, I want to briefly cover one more corner case that requires special adjustments.
+We are going to discuss the situation when the median absolute deviation is zero.&lt;/p></description></item><item><title>Customization of the nonparametric Cohen's d-consistent effect size</title><link>https://aakinshin.net/posts/nonparametric-effect-size2/</link><pubDate>Tue, 08 Jun 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/nonparametric-effect-size2/</guid><description>&lt;p>One year ago, I publish a post called &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/">Nonparametric Cohen&amp;#39;s d-consistent effect size&lt;/a>.
+During this year, I got a lot of internal and external feedback from
+my own statistical experiments and
+&lt;a href="https://twitter.com/ViljamiSairanen/status/1400457118340108293">people&lt;/a>
+&lt;a href="https://sherbold.github.io/autorank/autorank/">who&lt;/a>
+&lt;a href="https://github.com/Ramon-Diaz/Thesis-Project/blob/85df6b11050c7e05c4394d873585f701a7e3f32e/_util.py#L100">tried&lt;/a>
+to use the suggested approach.
+It seems that the nonparametric version of Cohen&amp;rsquo;s d works much better with real-life not-so-normal data.
+While the classic Cohen&amp;rsquo;s d based on
+the non-robust arithmetic mean and
+the &lt;a href="https://aakinshin.net/posts/misleading-stddev/">non-robust standard deviation&lt;/a>
+can be easily &lt;a href="https://aakinshin.net/posts/cohend-and-outliers/">corrupted by a single outlier&lt;/a>,
+my approach is much more resistant to unexpected extreme values.
+Also, it allows exploring
+&lt;a href="https://aakinshin.net/posts/comparing-distributions-using-gamma-es/">the difference between specific quantiles of considered samples&lt;/a>,
+which can be useful in the non-parametric case.&lt;/p>
+&lt;p>However, I wasn&amp;rsquo;t satisfied with the results of all of my experiments.
+While I still like the basic idea
+(replace the mean with the median; replace the standard deviation with the median absolute deviation),
+it turned out that the final results heavily depend on the used quantile estimator.
+To be more specific, the original Harrell-Davis quantile estimator is not always optimal;
+in most cases, it&amp;rsquo;s better to replace it with its &lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">trimmed&lt;/a> modification.
+However, the particular choice of the quantile estimators depends on the situation.
+Also, the consistency constant for the median absolute deviation
+should be adjusted according to the current sample size and the used quantile estimator.
+Of course, it also can be replaced by other dispersion estimators
+that can be used as consistent estimators of the standard deviation.&lt;/p>
+&lt;p>In this post, I want to get a brief overview of possible customizations of the suggested metrics.&lt;/p></description></item><item><title>Comparing distribution quantiles using gamma effect size</title><link>https://aakinshin.net/posts/comparing-distributions-using-gamma-es/</link><pubDate>Tue, 02 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/comparing-distributions-using-gamma-es/</guid><description>&lt;p>There are several ways to describe the difference between two distributions.
+Here are a few examples:&lt;/p>
+&lt;ul>
+&lt;li>Effect sizes based on differences between means (e.g., Cohen&amp;rsquo;s d, Glass&amp;rsquo; Δ, Hedges&amp;rsquo; g)&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/shift-and-ratio-functions/">The shift and ration functions&lt;/a> that
+estimate differences between matched quantiles.&lt;/li>
+&lt;/ul>
+&lt;p>In one of the previous post, I &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/">described&lt;/a>
+the gamma effect size which is defined not for the mean but for quantiles.
+In this post, I want to share a few case studies that demonstrate
+how the suggested metric combines the advantages of the above approaches.&lt;/p></description></item><item><title>A single outlier could completely distort your Cohen's d value</title><link>https://aakinshin.net/posts/cohend-and-outliers/</link><pubDate>Tue, 26 Jan 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/cohend-and-outliers/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Effect_size#Cohen's_d">Cohen&amp;rsquo;s d&lt;/a> is a popular way to estimate
+the &lt;a href="https://en.wikipedia.org/wiki/Effect_size">effect size&lt;/a> between two samples.
+It works excellent for perfectly normal distributions.
+Usually, people think that slight deviations from normality
+shouldn&amp;rsquo;t produce a noticeable impact on the result.
+Unfortunately, it&amp;rsquo;s not always true.
+In fact, a single outlier value can completely distort the result even in large samples.&lt;/p>
+&lt;p>In this post, I will present some illustrations for this problem and will show how to fix it.&lt;/p></description></item><item><title>Nonparametric Cohen's d-consistent effect size</title><link>https://aakinshin.net/posts/nonparametric-effect-size/</link><pubDate>Thu, 25 Jun 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/nonparametric-effect-size/</guid><description>&lt;p>&lt;strong>Update: the second part of this post is available &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size2/">here&lt;/a>.&lt;/strong>&lt;/p>
+&lt;p>The effect size is a common way to describe a difference between two distributions.
+When these distributions are normal, one of the most popular approaches to express the effect size is &lt;a href="https://en.wikipedia.org/wiki/Effect_size#Cohen's_d">Cohen&amp;rsquo;s d&lt;/a>.
+Unfortunately, it doesn&amp;rsquo;t work great for non-normal distributions.&lt;/p>
+&lt;p>In this post, I will show a robust Cohen&amp;rsquo;s d-consistent effect size formula for nonparametric distributions.&lt;/p>
+
+
+
+
+
+&lt;div class="row">
+&lt;div class="mx-auto">
+ &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/img/blackboard.png" target="_blank" alt="blackboard">
+ &lt;img
+ class="mx-auto d-block img-fluid"
+ width='800'
+ src="https://aakinshin.net/posts/nonparametric-effect-size/img/blackboard.png" />
+ &lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br /></description></item></channel></rss>

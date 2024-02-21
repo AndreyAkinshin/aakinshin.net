@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Research: Unbiased median absolute deviation on Andrey Akinshin</title><link>https://aakinshin.net/tags/research-unbiased-mad/</link><description>Recent content in Research: Unbiased median absolute deviation on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 26 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/research-unbiased-mad/index.xml" rel="self" type="application/rss+xml"/><item><title>Preprint announcement: 'Finite-sample bias-correction factors for the median absolute deviation based on the Harrell-Davis quantile estimator and its trimmed modification'</title><link>https://aakinshin.net/posts/preprint-mad-factors/</link><pubDate>Tue, 26 Jul 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/preprint-mad-factors/</guid><description>&lt;p>I have just published a preprint of a paper
+&amp;lsquo;Finite-sample bias-correction factors for the median absolute deviation based on the Harrell-Davis quantile estimator and its trimmed modification&amp;rsquo;.
+It&amp;rsquo;s based on a series of my &lt;a href="https://aakinshin.net/tags/research-unbiased-mad/">research notes&lt;/a>
+that I have been writing since February 2021.&lt;/p>
+&lt;p>The paper preprint is available on arXiv:
+&lt;a href="https://arxiv.org/abs/2207.12005">arXiv:2207.12005 [stat.ME]&lt;/a>.
+The paper source code is available on GitHub:
+&lt;a href="https://github.com/AndreyAkinshin/paper-mad-factors">AndreyAkinshin/paper-mad-factors&lt;/a>.
+You can cite it as follows:&lt;/p>
+&lt;ul>
+&lt;li>Andrey Akinshin (2022)
+&amp;ldquo;Finite-sample bias-correction factors for the median absolute deviation based on the Harrell-Davis quantile estimator and its trimmed modification,&amp;rdquo;
+&lt;a href="https://arxiv.org/abs/2207.12005">arXiv:2207.12005&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Abstract:&lt;/p>
+&lt;blockquote>
+&lt;p>The median absolute deviation is a widely used robust measure of statistical dispersion.
+Using a scale constant, we can use it as an asymptotically consistent estimator for the standard deviation under normality.
+For finite samples, the scale constant should be corrected in order to obtain an unbiased estimator.
+The bias-correction factor depends on the sample size and the median estimator.
+When we use the traditional sample median, the factor values are well known,
+but this approach does not provide optimal statistical efficiency.
+In this paper, we present the bias-correction factors for the median absolute deviation
+based on the Harrell-Davis quantile estimator and its trimmed modification
+which allow us to achieve better statistical efficiency of the standard deviation estimations.
+The obtained estimators are especially useful for samples with a small number of elements.&lt;/p>
+&lt;/blockquote></description></item><item><title>Unbiased median absolute deviation for n=2</title><link>https://aakinshin.net/posts/unbiased-mad-n2/</link><pubDate>Tue, 26 Apr 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/unbiased-mad-n2/</guid><description>&lt;p>I already covered the topic of the unbiased median deviation based on
+&lt;a href="https://aakinshin.net/posts/unbiased-mad/">the traditional sample median&lt;/a>,
+&lt;a href="https://aakinshin.net/posts/unbiased-mad-hd/">the Harrell-Davis quantile estimator&lt;/a>, and
+&lt;a href="https://aakinshin.net/posts/unbiased-mad-thd/">the trimmed Harrell-Davis quantile estimator&lt;/a>.
+In all the posts, the values of bias-correction factors were evaluated using the Monte-Carlo simulation.
+In this post, we calculate the exact value of the bias-correction factor for two-element samples.&lt;/p></description></item><item><title>Unbiased median absolute deviation based on the trimmed Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/unbiased-mad-thd/</link><pubDate>Tue, 08 Feb 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/unbiased-mad-thd/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> ($\operatorname{MAD}$)
+is a robust measure of scale.
+For a sample $x = \{ x_1, x_2, \ldots, x_n \}$, it&amp;rsquo;s defined as follows:&lt;/p>
+$$
+\operatorname{MAD}_n = C_n \cdot \operatorname{median}(|x - \operatorname{median}(x)|)
+$$
+&lt;p>where $\operatorname{median}$ is a median estimator, $C_n$ is a scale factor.
+Using the right scale factor, we can use $\operatorname{MAD}$ as a consistent estimator
+for the estimation of the standard deviation under the normal distribution.
+For huge samples, we can use the asymptotic value of $C_n$ which is&lt;/p>
+$$
+C_\infty = \dfrac{1}{\Phi^{-1}(3/4)} \approx 1.4826022185056.
+$$
+&lt;p>For small samples, we should use adjusted values $C_n$ which depend on the sample size.
+However, $C_n$ depends not only on the sample size but also on the median estimator.
+I have already covered how to obtain this values for
+&lt;a href="https://aakinshin.net/posts/unbiased-mad/">the traditional median estimator&lt;/a> and
+&lt;a href="https://aakinshin.net/posts/unbiased-mad-hd/">the Harrell-Davis median estimator&lt;/a>.
+It&amp;rsquo;s time to get the $C_n$ values for
+&lt;a href="https://aakinshin.net/posts/preprint-thdqe/">the trimmed Harrell-Davis median estimator&lt;/a>.&lt;/p></description></item><item><title>Unbiased median absolute deviation based on the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/unbiased-mad-hd/</link><pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/unbiased-mad-hd/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> ($\textrm{MAD}$)
+is a robust measure of scale.
+In the previous post, I &lt;a href="https://aakinshin.net/posts/unbiased-mad/">showed&lt;/a>
+how to use the &lt;a href="https://en.wikipedia.org/wiki/Bias_of_an_estimator">unbiased&lt;/a>
+version of the $\textrm{MAD}$ estimator
+as a robust alternative to the standard deviation.
+&amp;ldquo;Unbiasedness&amp;rdquo; means that such estimator&amp;rsquo;s expected value equals the true value of the standard deviation.
+Unfortunately, there is such thing as the &lt;a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff">bias–variance tradeoff&lt;/a>:
+when we remove the bias of the $\textrm{MAD}$ estimator,
+we increase its variance and mean squared error ($\textrm{MSE}$).&lt;/p>
+&lt;p>In this post, I want to suggest a more &lt;a href="https://en.wikipedia.org/wiki/Efficiency_(statistics)">efficient&lt;/a>
+unbiased $\textrm{MAD}$ estimator.
+It&amp;rsquo;s also a consistent estimator for the standard deviation, but it has smaller $\textrm{MSE}$.
+To build this estimator,
+we should replace the classic &amp;ldquo;straightforward&amp;rdquo; median estimator with the Harrell-Davis quantile estimator
+and adjust bias-correction factors.
+Let&amp;rsquo;s discuss this approach in detail.&lt;/p></description></item><item><title>Unbiased median absolute deviation</title><link>https://aakinshin.net/posts/unbiased-mad/</link><pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/unbiased-mad/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> ($\textrm{MAD}$)
+is a robust measure of scale.
+For distribution $X$, it can be calculated as follows:&lt;/p>
+$$
+\textrm{MAD} = C \cdot \textrm{median}(|X - \textrm{median}(X)|)
+$$
+&lt;p>where $C$ is a constant scale factor.
+This metric can be used as a robust alternative to the standard deviation.
+If we want to use the $\textrm{MAD}$ as a &lt;a href="https://en.wikipedia.org/wiki/Consistent_estimator">consistent estimator&lt;/a>
+for the standard deviation under the normal distribution,
+we should set&lt;/p>
+$$
+C = C_{\infty} = \dfrac{1}{\Phi^{-1}(3/4)} \approx 1.4826022185056.
+$$
+&lt;p>where $\Phi^{-1}$ is the quantile function of the standard normal distribution
+(or the inverse of the cumulative distribution function).
+If $X$ is the normal distribution, we get $\textrm{MAD} = \sigma$ where $\sigma$ is the standard deviation.&lt;/p>
+&lt;p>Now let&amp;rsquo;s consider a sample $x = \{ x_1, x_2, \ldots x_n \}$.
+Let&amp;rsquo;s denote the median absolute deviation for a sample of size $n$ as $\textrm{MAD}_n$.
+The corresponding equation looks similar to the definition of $\textrm{MAD}$ for a distribution:&lt;/p>
+$$
+\textrm{MAD}_n = C_n \cdot \textrm{median}(|x - \textrm{median}(x)|).
+$$
+&lt;p>Let&amp;rsquo;s assume that $\textrm{median}$ is the straightforward definition of the median
+(if $n$ is odd, the median is the middle element of the sorted sample,
+if $n$ is even, the median is the arithmetic average of the two middle elements of the sorted sample).
+We still can use $C_n = C_{\infty}$ for extremely large sample sizes.
+However, for small $n$, $\textrm{MAD}_n$ becomes a &lt;a href="https://en.wikipedia.org/wiki/Bias_of_an_estimator">biased estimator&lt;/a>.
+If we want to get an unbiased version, we should adjust the value of $C_n$.&lt;/p>
+&lt;p>In this post, we look at the possible approaches and learn the way to get the exact value of $C_n$
+that makes $\textrm{MAD}_n$ unbiased estimator of the median absolute deviation for any $n$.&lt;/p></description></item></channel></rss>

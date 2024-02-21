@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dynamical systems on Andrey Akinshin</title><link>https://aakinshin.net/tags/dynamical-systems/</link><description>Recent content in Dynamical systems on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 17 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/dynamical-systems/index.xml" rel="self" type="application/rss+xml"/><item><title>Dynamical System Case Study 2 (Piecewise linear LLL-system)</title><link>https://aakinshin.net/posts/dscs2/</link><pubDate>Sun, 17 Jul 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/dscs2/</guid><description>&lt;p>We consider the following dynamical system:&lt;/p>
+$$
+\begin{cases}
+ \dot{x}_1 = L(a_1, k_1, x_3) - k_1 x_1,\\
+ \dot{x}_2 = L(a_2, k_2, x_1) - k_2 x_2,\\
+ \dot{x}_3 = L(a_3, k_3, x_2) - k_3 x_3,
+\end{cases}
+$$
+&lt;p>where $L$ is a piecewise linear function:&lt;/p>
+$$
+L(a, k, x) = \begin{cases}
+ak &amp; \quad \textrm{for}\; 0 \leq x \leq 1,\\
+0 &amp; \quad \textrm{for}\; 1 &lt; x.
+\end{cases}
+$$
+&lt;p>In this case study, we build a &lt;a href="https://shiny.rstudio.com/">Shiny&lt;/a> application that draws 3D phase portraits of this system for various sets of input parameters.&lt;/p>
+
+
+
+
+
+
+
+
+&lt;div class="flex my-7 justify-center">
+ &lt;a class="img-light hidden" href="https://aakinshin.net/posts/dscs2/img/screen-light.png" target="_blank" alt="screen">
+ &lt;img
+ src="https://aakinshin.net/posts/dscs2/img/screen-light.png" 
+ width='800'
+ />
+ &lt;/a>
+ &lt;a class="img-dark hidden" href="https://aakinshin.net/posts/dscs2/img/screen-dark.png" target="_blank" alt="screen">
+ &lt;img
+ src="https://aakinshin.net/posts/dscs2/img/screen-dark.png" 
+ width='800'
+ />
+ &lt;/a>
+&lt;/div></description></item><item><title>Dynamical System Case Study 1 (symmetric 3d system)</title><link>https://aakinshin.net/posts/dscs1/</link><pubDate>Sun, 05 Jun 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/dscs1/</guid><description>&lt;p>Let&amp;rsquo;s consider the following dynamical system:&lt;/p>
+$$
+\begin{cases}
+ \dot{x}_1 = f(x_3) - x_1,\\
+ \dot{x}_2 = f(x_1) - x_2,\\
+ \dot{x}_3 = f(x_2) - x_3,
+\end{cases}
+$$
+&lt;p>where $f(x) = \alpha / (1+x^m)$ is a Hill function.
+In this case study, we explore the phase portrait of this system for $\alpha = 18,\; m = 3$.&lt;/p></description></item></channel></rss>

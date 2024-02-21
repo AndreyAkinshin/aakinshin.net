@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VCS on Андрей Акиньшин</title><link>https://aakinshin.net/ru/tags/vcs/</link><description>Recent content in VCS on Андрей Акиньшин</description><generator>Hugo -- gohugo.io</generator><language>ru</language><lastBuildDate>Wed, 19 Jun 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/ru/tags/vcs/index.xml" rel="self" type="application/rss+xml"/><item><title>Материалы по Git</title><link>https://aakinshin.net/ru/posts/git-links/</link><pubDate>Wed, 19 Jun 2013 00:00:00 +0000</pubDate><guid>https://aakinshin.net/ru/posts/git-links/</guid><description>&lt;p class="center">
+ &lt;img src="https://aakinshin.net/img/posts/git/links/front.png" />
+&lt;/p>
+&lt;p>Основные:&lt;/p>
+&lt;ul>
+	&lt;li>
+		&lt;a href="http://git-scm.com/book">Pro Git [EN]&lt;/a>
+	&lt;/li>
+	&lt;li>
+		&lt;a href="http://git-scm.com/book/ru">Pro Git [RU]&lt;/a>
+	&lt;/li>
+	&lt;li>
+		&lt;a href="http://marklodato.github.io/visual-git-guide/index-ru.html">Git: наглядная справка [RU]&lt;/a>
+	&lt;/li>
+	&lt;li>
+		&lt;a href="http://marklodato.github.io/visual-git-guide/index-en.html">Git: наглядная справка [EN]&lt;/a>
+	&lt;/li>
+	&lt;li>
+		&lt;a href="https://www.kernel.org/pub/software/scm/git/docs/user-manual.html">Git User’s Manual [EN]&lt;/a>
+	&lt;/li>
+	&lt;li>
+		&lt;a href="http://www-cs-students.stanford.edu/~blynn/gitmagic/index.html">Git magic [EN]&lt;/a>
+	&lt;/li>
+	&lt;li>
+		&lt;a href="http://www-cs-students.stanford.edu/~blynn/gitmagic/intl/ru/">Волшебство Git [RU]&lt;/a>
+	&lt;/li>
+&lt;/ul>
+Интерактивные обучалки:
+&lt;ul>
+	&lt;li>
+		&lt;a href="http://githowto.com/ru">Git How To [RU]&lt;/a>
+	&lt;/li>
+	&lt;li>
+		&lt;a href="http://githowto.com">Git How To [EN]&lt;/a>
+	&lt;/li>
+	&lt;li>
+		&lt;a href="http://try.github.io/">Try Git [EN]&lt;/a>
+	&lt;/li>
+	&lt;li>
+		&lt;a href="http://pcottle.github.io/learnGitBranching/">LearnGitBranching [EN]&lt;/a>
+	&lt;/li>
+&lt;/ul></description></item><item><title>Просмотр истории коммитов в Git</title><link>https://aakinshin.net/ru/posts/git-log/</link><pubDate>Wed, 19 Jun 2013 00:38:00 +0700</pubDate><guid>https://aakinshin.net/ru/posts/git-log/</guid><description>&lt;p>Изучение истории коммитов — важная составляющая работы с репозиторием. Увы, ввиду ветвления с этой историей не всегда просто разобраться. Обычно я для этой цели пользуюсь различными визуальными оболочками, но не всегда есть такая возможность. Временами приходится пользоваться средствами консоли, а именно командой
+&lt;a href="https://www.kernel.org/pub/software/scm/git/docs/git-log.html">git log&lt;/a>. Основы работы с этой командой можно почитать в чудесной книге
+&lt;a href="http://git-scm.com/book/ru/%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D1%8B-Git-%D0%9F%D1%80%D0%BE%D1%81%D0%BC%D0%BE%D1%82%D1%80-%D0%B8%D1%81%D1%82%D0%BE%D1%80%D0%B8%D0%B8-%D0%BA%D0%BE%D0%BC%D0%BC%D0%B8%D1%82%D0%BE%D0%B2">ProGit&lt;/a>
+.
+&lt;code>git log&lt;/code>
+имеет множество различных полезных параметров. Рассмотрим несколько примеров их использования.&lt;/p>
+&lt;h3 id="древовидный-вид">Древовидный вид&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">git log --graph --abbrev-commit --decorate --date&lt;span class="o">=&lt;/span>relative --format&lt;span class="o">=&lt;/span>format:&lt;span class="s1">&amp;#39;%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)&amp;#39;&lt;/span> --all
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Выводим полный граф коммитов c сокращёнными хешами, ссылками на коммиты и относительной датой. Используемый формат: синий сокращённый хеш коммита, зелёная дата, белые сообщение и автор, жёлтые ссылки на коммит.&lt;/p>
+&lt;p class="center">
+ &lt;img src="https://aakinshin.net/img/posts/git/log/git-log1.png" />
+&lt;/p></description></item></channel></rss>

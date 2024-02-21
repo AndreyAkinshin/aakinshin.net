@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Normality on Andrey Akinshin</title><link>https://aakinshin.net/tags/normality/</link><description>Recent content in Normality on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 09 Oct 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/normality/index.xml" rel="self" type="application/rss+xml"/><item><title>Normality is a myth</title><link>https://aakinshin.net/posts/normality/</link><pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/normality/</guid><description>&lt;p>In many statistical papers, you can find the following phrase: &amp;ldquo;assuming that we have a normal distribution.&amp;rdquo;
+Probably, you saw plots of the normal distribution density function in some statistics textbooks,
+it looks like this:&lt;/p>
+
+
+
+
+
+
+
+
+&lt;div class="flex my-7 justify-center">
+ &lt;a class="img-light hidden" href="https://aakinshin.net/posts/normality/img/normal-light.png" target="_blank" alt="normal">
+ &lt;img
+ src="https://aakinshin.net/posts/normality/img/normal-light.png" 
+ width='800'
+ />
+ &lt;/a>
+ &lt;a class="img-dark hidden" href="https://aakinshin.net/posts/normality/img/normal-dark.png" target="_blank" alt="normal">
+ &lt;img
+ src="https://aakinshin.net/posts/normality/img/normal-dark.png" 
+ width='800'
+ />
+ &lt;/a>
+&lt;/div>
+
+
+&lt;p>The normal distribution is a pretty user-friendly mental model when we are trying to interpret the statistical metrics
+like mean and standard deviation.
+However, it may also be an insidious and misleading model when your distribution is not normal.
+There is a great sentence in the &lt;a href="https://doi.org/10.1093/biomet/34.3-4.209">&amp;ldquo;Testing for normality&amp;rdquo;&lt;/a> paper by R.C. Geary, 1947 (the quote was found &lt;a href="https://garstats.wordpress.com/2019/06/17/myth/">here&lt;/a>):&lt;/p>
+&lt;blockquote>
+&lt;p>Normality is a myth; there never was, and never will be, a normal distribution.&lt;/p>
+&lt;/blockquote>
+&lt;p>I 100% agree with this statement.
+At least, if you are working with performance distributions
+(that are based on the multiple iterations of your benchmarks that measure the performance metrics of your applications),
+you should forget about normality.
+That&amp;rsquo;s how a typical performance distribution looks like
+(I built the below picture based on a real benchmark that measures the load time of assemblies
+when we open the &lt;a href="https://github.com/OrchardCMS/Orchard">Orchard&lt;/a> solution in &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a> on Linux):&lt;/p>
+
+
+
+
+
+
+
+
+&lt;div class="flex my-7 justify-center">
+ &lt;a class="img-light hidden" href="https://aakinshin.net/posts/normality/img/performance-light.png" target="_blank" alt="performance">
+ &lt;img
+ src="https://aakinshin.net/posts/normality/img/performance-light.png" 
+ width='800'
+ />
+ &lt;/a>
+ &lt;a class="img-dark hidden" href="https://aakinshin.net/posts/normality/img/performance-dark.png" target="_blank" alt="performance">
+ &lt;img
+ src="https://aakinshin.net/posts/normality/img/performance-dark.png" 
+ width='800'
+ />
+ &lt;/a>
+&lt;/div></description></item><item><title>Wilcox on normality</title><link>https://aakinshin.net/library/quotes/8c71defc-488a-4b1e-a360-f0b37f77de12/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://aakinshin.net/library/quotes/8c71defc-488a-4b1e-a360-f0b37f77de12/</guid><description>To begin, distributions are never normal. For some this seems obvious, hardly worth mentioning, but an aphorism given by Cramér (1946) and attributed to the mathematician Poincaré remains relevant: “Everyone believes in the [normal] law of errors, the experimenters because they think it is a mathematical theorem, the mathematicians because they think it is an experimental fact.”</description></item></channel></rss>
