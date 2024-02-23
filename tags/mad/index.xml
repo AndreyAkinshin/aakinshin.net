@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Median Absolute Deviation on Andrey Akinshin</title><link>https://aakinshin.net/tags/mad/</link><description>Recent content in Median Absolute Deviation on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 22 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/mad/index.xml" rel="self" type="application/rss+xml"/><item><title>Calculating gamma effect size for samples with zero median absolute deviation</title><link>https://aakinshin.net/posts/zero-mad-gamma-es/</link><pubDate>Tue, 22 Jun 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/zero-mad-gamma-es/</guid><description>&lt;p>In previous posts, I discussed the &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/">gamma effect size&lt;/a>
+which is a Cohen&amp;rsquo;s d-consistent nonparametric and robust measure of the effect size.
+Also, I discussed &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size2/">various ways to customize this metric&lt;/a>
+and adjust it to different kinds of business requirements.
+In this post, I want to briefly cover one more corner case that requires special adjustments.
+We are going to discuss the situation when the median absolute deviation is zero.&lt;/p></description></item><item><title>Customization of the nonparametric Cohen's d-consistent effect size</title><link>https://aakinshin.net/posts/nonparametric-effect-size2/</link><pubDate>Tue, 08 Jun 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/nonparametric-effect-size2/</guid><description>&lt;p>One year ago, I publish a post called &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/">Nonparametric Cohen&amp;#39;s d-consistent effect size&lt;/a>.
+During this year, I got a lot of internal and external feedback from
+my own statistical experiments and
+&lt;a href="https://twitter.com/ViljamiSairanen/status/1400457118340108293">people&lt;/a>
+&lt;a href="https://sherbold.github.io/autorank/autorank/">who&lt;/a>
+&lt;a href="https://github.com/Ramon-Diaz/Thesis-Project/blob/85df6b11050c7e05c4394d873585f701a7e3f32e/_util.py#L100">tried&lt;/a>
+to use the suggested approach.
+It seems that the nonparametric version of Cohen&amp;rsquo;s d works much better with real-life not-so-normal data.
+While the classic Cohen&amp;rsquo;s d based on
+the non-robust arithmetic mean and
+the &lt;a href="https://aakinshin.net/posts/misleading-stddev/">non-robust standard deviation&lt;/a>
+can be easily &lt;a href="https://aakinshin.net/posts/cohend-and-outliers/">corrupted by a single outlier&lt;/a>,
+my approach is much more resistant to unexpected extreme values.
+Also, it allows exploring
+&lt;a href="https://aakinshin.net/posts/comparing-distributions-using-gamma-es/">the difference between specific quantiles of considered samples&lt;/a>,
+which can be useful in the non-parametric case.&lt;/p>
+&lt;p>However, I wasn&amp;rsquo;t satisfied with the results of all of my experiments.
+While I still like the basic idea
+(replace the mean with the median; replace the standard deviation with the median absolute deviation),
+it turned out that the final results heavily depend on the used quantile estimator.
+To be more specific, the original Harrell-Davis quantile estimator is not always optimal;
+in most cases, it&amp;rsquo;s better to replace it with its &lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">trimmed&lt;/a> modification.
+However, the particular choice of the quantile estimators depends on the situation.
+Also, the consistency constant for the median absolute deviation
+should be adjusted according to the current sample size and the used quantile estimator.
+Of course, it also can be replaced by other dispersion estimators
+that can be used as consistent estimators of the standard deviation.&lt;/p>
+&lt;p>In this post, I want to get a brief overview of possible customizations of the suggested metrics.&lt;/p></description></item><item><title>Dispersion exponential smoothing</title><link>https://aakinshin.net/posts/dispersion-exponential-smoothing/</link><pubDate>Tue, 11 May 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/dispersion-exponential-smoothing/</guid><description>&lt;p>In this &lt;a href="https://aakinshin.net/posts/quantile-exponential-smoothing/">previous post&lt;/a>,
+I showed how to apply exponential smoothing to quantiles
+using the &lt;a href="https://aakinshin.net/posts/weighted-quantiles/">weighted Harrell-Davis quantile estimator&lt;/a>.
+This technique allows getting smooth and stable moving median estimations.
+In this post, I&amp;rsquo;m going to discuss how to use the same approach
+to estimate moving dispersion.&lt;/p></description></item><item><title>Unbiased median absolute deviation based on the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/unbiased-mad-hd/</link><pubDate>Tue, 16 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/unbiased-mad-hd/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> ($\textrm{MAD}$)
+is a robust measure of scale.
+In the previous post, I &lt;a href="https://aakinshin.net/posts/unbiased-mad/">showed&lt;/a>
+how to use the &lt;a href="https://en.wikipedia.org/wiki/Bias_of_an_estimator">unbiased&lt;/a>
+version of the $\textrm{MAD}$ estimator
+as a robust alternative to the standard deviation.
+&amp;ldquo;Unbiasedness&amp;rdquo; means that such estimator&amp;rsquo;s expected value equals the true value of the standard deviation.
+Unfortunately, there is such thing as the &lt;a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff">bias–variance tradeoff&lt;/a>:
+when we remove the bias of the $\textrm{MAD}$ estimator,
+we increase its variance and mean squared error ($\textrm{MSE}$).&lt;/p>
+&lt;p>In this post, I want to suggest a more &lt;a href="https://en.wikipedia.org/wiki/Efficiency_(statistics)">efficient&lt;/a>
+unbiased $\textrm{MAD}$ estimator.
+It&amp;rsquo;s also a consistent estimator for the standard deviation, but it has smaller $\textrm{MSE}$.
+To build this estimator,
+we should replace the classic &amp;ldquo;straightforward&amp;rdquo; median estimator with the Harrell-Davis quantile estimator
+and adjust bias-correction factors.
+Let&amp;rsquo;s discuss this approach in detail.&lt;/p></description></item><item><title>Unbiased median absolute deviation</title><link>https://aakinshin.net/posts/unbiased-mad/</link><pubDate>Tue, 09 Feb 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/unbiased-mad/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> ($\textrm{MAD}$)
+is a robust measure of scale.
+For distribution $X$, it can be calculated as follows:&lt;/p>
+$$
+\textrm{MAD} = C \cdot \textrm{median}(|X - \textrm{median}(X)|)
+$$
+&lt;p>where $C$ is a constant scale factor.
+This metric can be used as a robust alternative to the standard deviation.
+If we want to use the $\textrm{MAD}$ as a &lt;a href="https://en.wikipedia.org/wiki/Consistent_estimator">consistent estimator&lt;/a>
+for the standard deviation under the normal distribution,
+we should set&lt;/p>
+$$
+C = C_{\infty} = \dfrac{1}{\Phi^{-1}(3/4)} \approx 1.4826022185056.
+$$
+&lt;p>where $\Phi^{-1}$ is the quantile function of the standard normal distribution
+(or the inverse of the cumulative distribution function).
+If $X$ is the normal distribution, we get $\textrm{MAD} = \sigma$ where $\sigma$ is the standard deviation.&lt;/p>
+&lt;p>Now let&amp;rsquo;s consider a sample $x = \{ x_1, x_2, \ldots x_n \}$.
+Let&amp;rsquo;s denote the median absolute deviation for a sample of size $n$ as $\textrm{MAD}_n$.
+The corresponding equation looks similar to the definition of $\textrm{MAD}$ for a distribution:&lt;/p>
+$$
+\textrm{MAD}_n = C_n \cdot \textrm{median}(|x - \textrm{median}(x)|).
+$$
+&lt;p>Let&amp;rsquo;s assume that $\textrm{median}$ is the straightforward definition of the median
+(if $n$ is odd, the median is the middle element of the sorted sample,
+if $n$ is even, the median is the arithmetic average of the two middle elements of the sorted sample).
+We still can use $C_n = C_{\infty}$ for extremely large sample sizes.
+However, for small $n$, $\textrm{MAD}_n$ becomes a &lt;a href="https://en.wikipedia.org/wiki/Bias_of_an_estimator">biased estimator&lt;/a>.
+If we want to get an unbiased version, we should adjust the value of $C_n$.&lt;/p>
+&lt;p>In this post, we look at the possible approaches and learn the way to get the exact value of $C_n$
+that makes $\textrm{MAD}_n$ unbiased estimator of the median absolute deviation for any $n$.&lt;/p></description></item><item><title>Case study: Accuracy of the MAD estimation using the Harrell-Davis quantile estimator (Gumbel distribution)</title><link>https://aakinshin.net/posts/cs-mad-hd-gumbel/</link><pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/cs-mad-hd-gumbel/</guid><description>&lt;p>In some of my previous posts, I used
+the &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> (MAD)
+to describe the distribution dispersion:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/">DoubleMAD outlier detector based on the Harrell-Davis quantile estimator&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/">Nonparametric Cohen&amp;rsquo;s d-consistent effect size&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/qad/">Quantile absolute deviation: estimating statistical dispersion around quantiles&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>The MAD estimation depends on the chosen median estimator:
+we may get different MAD values with different median estimators.
+To get better accuracy,
+I always encourage readers to use the Harrell-Davis quantile estimator
+instead of the classic Type 7 quantile estimator.&lt;/p>
+&lt;p>In this case study, I decided to compare these two quantile estimators using
+the &lt;a href="https://en.wikipedia.org/wiki/Gumbel_distribution">Gumbel distribution&lt;/a>
+(it&amp;rsquo;s a good model for slightly right-skewed distributions).
+According to the performed Monte Carlo simulation,
+the Harrell-Davis quantile estimator always has better accuracy:&lt;/p>
+
+
+
+
+
+
+
+
+&lt;div class="flex my-7 justify-center">
+ &lt;a class="img-light hidden" href="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-light.png" target="_blank" alt="summary">
+ &lt;img
+ src="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-light.png" 
+ width='800'
+ />
+ &lt;/a>
+ &lt;a class="img-dark hidden" href="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-dark.png" target="_blank" alt="summary">
+ &lt;img
+ src="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-dark.png" 
+ width='800'
+ />
+ &lt;/a>
+&lt;/div></description></item><item><title>Quantile absolute deviation: estimating statistical dispersion around quantiles</title><link>https://aakinshin.net/posts/qad/</link><pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qad/</guid><description>&lt;p>There are many different metrics for &lt;a href="https://en.wikipedia.org/wiki/Statistical_dispersion">statistical dispersion&lt;/a>.
+The most famous one is the &lt;a href="https://en.wikipedia.org/wiki/Standard_deviation">standard deviation&lt;/a>.
+The standard deviation is the most popular way to describe the spread around the mean when
+you work with normally distributed data.
+However, if you work with non-normal distributions, this metric may be misleading.&lt;/p>
+&lt;p>In the world of non-parametric distributions,
+the most common measure of &lt;a href="https://en.wikipedia.org/wiki/Central_tendency">central tendency&lt;/a> is the median.
+For the median, you can describe dispersion using the
+&lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation around the median&lt;/a> (MAD).
+It works great if the median is the only &lt;a href="https://en.wikipedia.org/wiki/Summary_statistics">summary statistic&lt;/a> that you care about.
+However, if you work with multimodal distributions
+(they can be detected using the &lt;a href="https://aakinshin.net/posts/lowland-multimodality-detection/">lowland multimodality detector&lt;/a>),
+you may be interested in other quantiles as well.
+So, it makes sense to learn how to describe dispersion around the given quantile.
+Which metric should we choose?&lt;/p>
+&lt;p>Recently, I came up with a great solution to this problem.
+We can generalize the median absolute deviation into the quantile absolute deviation (QAD) around the given quantile based on the Harrell-Davis quantile estimator.
+I will show how to calculate it, how to interpret it, and how to get insights about distribution properties
+from images like this one:&lt;/p>
+
+
+
+
+
+
+
+
+&lt;div class="flex my-7 justify-center">
+ &lt;a class="img-light hidden" href="https://aakinshin.net/posts/qad/img/modal5-light.png" target="_blank" alt="modal5">
+ &lt;img
+ src="https://aakinshin.net/posts/qad/img/modal5-light.png" 
+ width='800'
+ />
+ &lt;/a>
+ &lt;a class="img-dark hidden" href="https://aakinshin.net/posts/qad/img/modal5-dark.png" target="_blank" alt="modal5">
+ &lt;img
+ src="https://aakinshin.net/posts/qad/img/modal5-dark.png" 
+ width='800'
+ />
+ &lt;/a>
+&lt;/div></description></item><item><title>Nonparametric Cohen's d-consistent effect size</title><link>https://aakinshin.net/posts/nonparametric-effect-size/</link><pubDate>Thu, 25 Jun 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/nonparametric-effect-size/</guid><description>&lt;p>&lt;strong>Update: the second part of this post is available &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size2/">here&lt;/a>.&lt;/strong>&lt;/p>
+&lt;p>The effect size is a common way to describe a difference between two distributions.
+When these distributions are normal, one of the most popular approaches to express the effect size is &lt;a href="https://en.wikipedia.org/wiki/Effect_size#Cohen's_d">Cohen&amp;rsquo;s d&lt;/a>.
+Unfortunately, it doesn&amp;rsquo;t work great for non-normal distributions.&lt;/p>
+&lt;p>In this post, I will show a robust Cohen&amp;rsquo;s d-consistent effect size formula for nonparametric distributions.&lt;/p>
+
+
+
+
+
+&lt;div class="row">
+&lt;div class="mx-auto">
+ &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/img/blackboard.png" target="_blank" alt="blackboard">
+ &lt;img
+ class="mx-auto d-block img-fluid"
+ width='800'
+ src="https://aakinshin.net/posts/nonparametric-effect-size/img/blackboard.png" />
+ &lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br /></description></item><item><title>DoubleMAD outlier detector based on the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/</link><pubDate>Mon, 22 Jun 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/</guid><description>&lt;p>Outlier detection is an important step in data processing.
+Unfortunately, if the distribution is not normal (e.g., right-skewed and heavy-tailed), it&amp;rsquo;s hard to choose
+a robust outlier detection algorithm that will not be affected by tricky distribution properties.
+During the last several years, I tried many different approaches, but I was not satisfied with their results.
+Finally, I found an algorithm to which I have (almost) no complaints.
+It&amp;rsquo;s based on the &lt;em>double median absolute deviation&lt;/em> and the &lt;em>Harrell-Davis quantile estimator&lt;/em>.
+In this post, I will show how it works and why it&amp;rsquo;s better than some other approaches.&lt;/p></description></item></channel></rss>
