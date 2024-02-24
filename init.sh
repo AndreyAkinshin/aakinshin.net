@@ -42,3 +42,7 @@ wget "$TW_URL" -O "$TARGET_DIR/tailwind"
 
 chmod +x "$TARGET_DIR/hugo"
 chmod +x "$TARGET_DIR/tailwind"
+
+ln -sf ./hugo/content/en ./content
+ln -sf ~/Dropbox/Notes/Workbenches/Research/drafts/ ./hugo/content/en/posts/drafts
+ln -sf ~/Dropbox/Notes/Workbenches/Research/drafts/wip ./wip

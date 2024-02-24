@@ -1,0 +1,99 @@
+<table class="meta-table">
+  {{ .Scratch.Set "authors" "" }}
+  {{ if .Params.Authors }}
+    {{ .Scratch.Set "authors" .Params.Authors }}
+  {{ else }}
+    {{ if .Params.Source }}
+      {{ $source := .Site.GetPage .Params.Source }}
+      {{ if $source }}
+        {{ .Scratch.Set "authors" $source.Params.Authors }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
+  {{ with .Scratch.Get "authors" }}
+  <tr>
+    <td>
+      {{ if eq (len .) 1 }}
+      Author
+      {{ else }}
+      Authors
+      {{ end }}
+    </td>
+    <td>
+      <div class="flex flex-wrap gap-y-1">
+        {{ range . }}
+          <span class="label">{{ . }}</span>
+        {{ end }}
+      </div>
+    </td>
+  </tr>
+  {{ end }}
+
+  {{ if .Params.Year }}
+  <tr>
+    <td>
+      Year
+    </td>
+    <td>
+      <span class="label">{{ .Params.Year }}</span>
+    </td>
+  </tr>
+  {{ end }}
+
+  {{ if .Params.Doi }}
+  <tr>
+    <td>
+      DOI:
+    </td>
+    <td>
+      <a class="label-link" href="https://dx.doi.org/{{ .Params.Doi }}">{{ .Params.Doi }}</a>
+    </td>
+  </tr>
+  {{ end }}
+
+  {{ if or .Params.GoodReads .Params.Urls }}
+  <tr>
+    <td>
+      Links
+    </td>
+    <td>
+      {{ if .Params.GoodReads }}
+        <a class="label-link" href="https://www.goodreads.com/book/show/{{ .Params.GoodReads }}">GoodReads</a>
+      {{ end }}
+      {{ range .Params.Urls }}
+        <a class="label-link" href="{{ . }}">Link</a>
+      {{ end }}
+    </td>
+  </tr>
+  {{ end }}
+
+  {{ if .Params.source }}
+  <tr>
+    <td>
+      Source
+    </td>
+    <td>
+      {{ $page := .Site.GetPage .Params.source }}
+      <a class="label-link" href="{{ $page.Permalink }}">{{ $page.Title }}</a>
+    </td>
+  </tr>
+  {{ end }}
+
+  {{ if (.GetTerms "tags") }}
+  <tr>
+    <td>
+      Tags
+    </td>
+    <td>
+      <div class="flex flex-wrap gap-y-1">
+        {{ range (.GetTerms "tags") }}
+          <a class="label-link" href="{{ .Permalink }}">{{ .Title }}</a>
+        {{ end }}
+      </div>
+    </td>
+  </tr>
+  {{ end }}
+
+</table>
+<hr />

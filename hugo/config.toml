@@ -1,0 +1,62 @@
+baseURL = "https://aakinshin.net/"
+languageCode = "en-us"
+title = "Andrey Akinshin"
+
+summaryLength = 300
+buildFuture = true
+
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+hasCJKLanguage = false
+
+[params]
+  publicBaseURL = "https://aakinshin.net"
+[languages]
+  [languages.en]
+  title = "Andrey Akinshin"
+  weight = 1
+  contentDir = "content/en"
+    [languages.en.params]
+    description = "Andrey Akinshin's blog"
+  [languages.ru]
+  title = "Андрей Акиньшин"
+  weight = 2
+  contentDir = "content/ru"
+    [languages.ru.params]
+    description = "Блог Андрея Акиньшина"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      hardWraps = false
+      unsafe = true
+      xHTML = true
+    [markup.goldmark.extensions]
+      [markup.goldmark.extensions.passthrough]
+        enable = true
+        [markup.goldmark.extensions.passthrough.delimiters]
+          block = [['\\[', '\\]'], ['$$', '$$']]
+          inline = [['$', '$']]
+  [markup.highlight]
+    codeFences = true
+    lineNos = false
+    lineNumbersInTable = false
+    noClasses = false
+  [markup.tableOfContents]
+    endLevel = 4
+    ordered = false
+    startLevel = 2
+
+[outputs]
+  home = ["HTML"]
+  section = ["HTML", "RSS"]
+  taxonomy = ["HTML"]
+
+[taxonomies]
+  tag = "tags"
+
+[permalinks]
+  posts = "/posts/:filename/"
+  books = "/library/books/:filename/"
+  papers = "/library/papers/:filename/"
+  quotes = "/library/quotes/:filename/"

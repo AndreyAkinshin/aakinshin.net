@@ -1,0 +1,8 @@
+{{ $filename := .Get 0 }}
+{{ $file := $.Page.Resources.GetMatch (printf "src/%s*" $filename) }}
+
+{{ $filename_split := split $filename "." }}
+{{ $filename_ext := index $filename_split 1 }}
+{{ $lang := lower $filename_ext }}
+
+{{ (print "```" $lang "\n" $file.Content "\n```") | markdownify }}

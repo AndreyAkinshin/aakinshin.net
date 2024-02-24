@@ -1,0 +1,177 @@
+{{ define "main" }}
+
+<div>
+<h1 style="margin-bottom: -15px;">{{ i18n "andreyAkinshin" }}</h1>
+<div id="about-profiles" style="font-size: 200%;">
+  <a href="https://github.com/AndreyAkinshin">
+    <svg class="fai fai-link">
+      <title>GitHub</title>
+      <use xlink:href="/img/fa/all.svg#github"></use>
+    </svg>
+  </a>
+  <a href="https://twitter.com/andrey_akinshin">
+    <svg class="fai fai-link">
+      <title>Twitter</title>
+      <use xlink:href="/img/fa/all.svg#twitter"></use>
+    </svg>
+  </a>
+  {{ if eq .Site.Language.Lang "ru" }}
+  <a href="https://www.youtube.com/channel/UCk25QhN-9_wwkqyeapuCh9w">
+    <svg class="fai fai-link">
+      <title>YouTube</title>
+      <use xlink:href="/img/fa/all.svg#youtube"></use>
+    </svg>
+  </a>
+  {{ end }}
+  <a href="https://scholar.google.com/citations?hl=en&user=rYVl83IAAAAJ&view_op=list_works&sortby=pubdate">
+    <svg class="fai fai-link">
+      <title>Google Scholar</title>
+      <use xlink:href="/img/fa/all.svg#graduation-cap"></use>
+    </svg>
+  </a>
+  <a href="https://www.researchgate.net/profile/Andrey_Akinshin">
+    <svg class="fai fai-link">
+      <title>ResearchGate</title>
+      <use xlink:href="/img/fa/all.svg#researchgate"></use>
+    </svg>
+  </a>
+  <a href="https://orcid.org/0000-0003-3553-9367">
+    <svg class="fai fai-link">
+      <title>ORCID</title>
+      <use xlink:href="/img/fa/all.svg#orcid"></use>
+    </svg>
+  </a>
+  <a href="http://stackoverflow.com/users/184842/AndreyAkinshin">
+    <svg class="fai fai-link">
+      <title>StackOverflow</title>
+      <use xlink:href="/img/fa/all.svg#stack-overflow"></use>
+    </svg>
+  </a>
+  {{ if eq .Site.Language.Lang "ru" }}
+  <a href="http://habrahabr.ru/users/dreamwalker">
+    <svg class="fai fai-link">
+      <title>Habrahabr</title>
+      <use xlink:href="/img/fa/all.svg#circle-h"></use>
+    </svg>
+  </a>
+  {{ end }}
+  <a href="http://www.linkedin.com/in/AndreyAkinshin">
+    <svg class="fai fai-link">
+      <title>LinkedIn</title>
+      <use xlink:href="/img/fa/all.svg#linkedin-in"></use>
+    </svg>
+  </a>
+  <a href='{{ ((.Site.GetPage "/posts").OutputFormats.Get "rss").Permalink }}'>
+    <svg class="fai fai-link">
+      <title>RSS</title>
+      <use xlink:href="/img/fa/all.svg#rss"></use>
+    </svg>
+  </a>
+</div>
+<a href="mailto:andrey.akinshin@gmail.com">andrey.akinshin@gmail.com</a>
+<hr />
+
+<div class="main-content">
+{{ .Content }}
+</div>
+
+<div id="about" class="main-content">
+
+<hr />
+<section>
+  <h2>{{ i18n "content" }}</h2>
+
+  {{ i18n "activities" }}:
+  <a href="#publications">{{ i18n "publications" }} ({{ len .Site.Data.gen.publications_en.item }})</a> <b>|</b>
+  <a href="#talks">{{ i18n "publicTalks" }} ({{ len .Site.Data.gen.talks_en.item }})</a> <b>|</b>
+  <a href="#posts">{{ i18n "posts" }} ({{ len (where .Site.RegularPages "Section" "posts") }})</a> <b>|</b>
+  <a href="#media">{{ i18n "media" }} ({{ len .Site.Data.gen.media_en.item }})</a> <br />
+
+  {{ i18n "experience" }}:
+  <a href="#open-source">{{ i18n "openSource" }}</a> <b>|</b>
+  <a href="#enterprise">{{ i18n "enterpriseProgramming" }}</a> <b>|</b>
+  <a href="#science">{{ i18n "scienceActivities" }}</a> <b>|</b>
+  <a href="#competitive">{{ i18n "competitiveProgramming" }}</a> <b>|</b>
+  <a href="#teaching">{{ i18n "teaching" }}</a> <br />
+  
+  {{ i18n "background" }}:
+  <a href="#education">{{ i18n "education" }}</a> <b>|</b>
+  <a href="#certificates">{{ i18n "certificates" }}</a> <br />
+
+</section>
+<hr />
+
+<section>
+  <h2 id="publications">{{ i18n "publications" }}</h2>
+  {{ partial "about/items" (dict "context" . "name" "publications") }}
+  <br />
+  <p>
+    {{ i18n "myErdosNumber" | safeHTML }}: 4
+    (<a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/1061721">Andrey Akinshin</a>
+     →
+     <a href="https://mathscinet.ams.org/mathscinet-getitem?mr=3716100">MR3716100</a>
+     →
+     <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/185690">Yosef Yomdin</a>
+     →
+     <a href="https://mathscinet.ams.org/mathscinet-getitem?mr=2232733">MR2232733</a>
+     →
+     <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/190389">Matatyahu Rubin</a>
+     →
+     <a href="https://mathscinet.ams.org/mathscinet-getitem?mr=1786142">MR1786142</a>
+     →
+     <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/39270">Robert Bonnet</a>
+     →
+     <a href="https://mathscinet.ams.org/mathscinet-getitem?mr=373945">MR0373945</a>
+     →
+     <a href="https://mathscinet.ams.org/mathscinet/MRAuthorID/189017">Paul Erdős</a>)
+  </p>
+  <p>
+    ORCID: <a href="https://orcid.org/0000-0003-3553-9367">0000-0003-3553-9367</a><br />
+    Scopus AuthorID: <a href="https://www.scopus.com/authid/detail.uri?authorId=56826126900">56826126900</a><br />
+    Web of Science ResearcherID: <a href="https://www.webofscience.com/wos/author/record/2102893">ABB-9171-2020</a><br />
+    {{ if eq .Site.Language.Lang "ru" }}
+    Science Index: <a href="https://www.elibrary.ru/author_items.asp?authorid=676806">676806</a><br />
+    MathNet: <a href="http://www.mathnet.ru/php/person.phtml?personid=79053">79053</a><br />
+    {{ end }}
+    Google Scholar: <a href="https://scholar.google.com/citations?hl=en&user=rYVl83IAAAAJ&view_op=list_works&sortby=pubdate">rYVl83IAAAAJ</a><br />
+    ResearchGate: <a href="https://www.researchgate.net/profile/Andrey_Akinshin">Andrey_Akinshin</a><br />
+    arXiv: <a href="https://arxiv.org/a/akinshin_a_1.html">akinshin_a_1</a><br />  
+  </p>
+</section>
+<hr />
+
+<section>
+  <h2 id="talks">{{ i18n "publicTalks" }}</h2>
+  {{ partial "about/items" (dict "context" . "name" "talks") }}
+</section>
+<hr />
+
+<section>
+  <h2 id="posts">{{ i18n "posts" }}</h2>
+  {{ partial "english-post-message.html" . }}
+  {{ partial "about/posts" . }}
+</section>
+<hr />
+
+<section>
+  <h2 id="media">{{ i18n "media" }}</h2>
+  {{ partial "about/items" (dict "context" . "name" "media") }}
+</section>
+<hr />
+
+<section>
+  <h2 id="open-source">{{ i18n "openSource" }}</h2>
+  <svg class="fai text-lg mb-1 mr-0 pr-0"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"></use></svg>
+  <b>GitHub:</b>
+  <a href="https://github.com/AndreyAkinshin/">github.com/AndreyAkinshin</a>
+  <br />
+  {{ partial "about/items" (dict "context" . "name" "opensource") }}
+</section>
+<hr />
+
+{{ readFile (printf "/resources/extras/about-extra-%s.md" .Site.Language.Lang) | markdownify }}
+
+</div>
+
+</div>
+{{ end }}

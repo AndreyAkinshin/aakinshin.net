@@ -1,0 +1,26 @@
+{{ $filename := cond .IsNamedParams (.Get "frames") (.Get 0) }}
+{{ $message := (.Get 1) }}
+{{ $defaultWidth := 600 }}
+{{ $defaultHeight := 600 }}
+
+{{ $image := $.Page.Resources.GetMatch (printf "frames/%s*" $filename) }}
+
+<div class="mx-auto justify-center flex">
+  <button id="frame-{{ (.Get 0) }}-button" class="label-link">{{ $message }}</button>
+  <iframe id="frame-{{ (.Get 0) }}"
+          class="mx-auto hidden"
+          width='{{ if (.Get "width") }}{{ .Get "width"}}{{ else }}{{ $defaultWidth }}{{ end }}'
+          height='{{ if (.Get "height") }}{{ .Get "height"}}{{ else }}{{ $defaultHeight }}{{ end }}'>
+  </iframe>
+</div>
+<br />
+
+<script>
+  document.getElementById("frame-{{ (.Get 0) }}-button").addEventListener("click", function() {
+    const button = document.getElementById("frame-{{ (.Get 0) }}-button");
+    const frame = document.getElementById("frame-{{ (.Get 0) }}");
+    button.classList.add("hidden");
+    frame.classList.remove("hidden");
+    frame.src = "{{ $image.RelPermalink }}";
+  });
+</script>

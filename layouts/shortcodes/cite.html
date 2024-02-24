@@ -1,5 +1,0 @@
-{{ with .Site.GetPage (.Get 0) }}<a href="{{ .Permalink }}">[{{ .File.BaseFileName }}]</a>{{ end }}
-{{ $page := .Site.GetPage (.Get 0) }}
-{{ with $page }}
-  {{ $.Page.Scratch.Add "citations" . }}
-{{ end }}

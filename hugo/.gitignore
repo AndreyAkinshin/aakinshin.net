@@ -1,0 +1,12 @@
+# Hugo
+.hugo_build.lock
+
+# Generated files
+data/gen/
+content/en/posts/drafts
+assets/css/main.css
+public/
+
+# R
+.RData
+.Rhistory

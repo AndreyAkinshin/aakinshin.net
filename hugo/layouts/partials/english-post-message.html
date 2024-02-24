@@ -1,0 +1,11 @@
+{{ if eq .Site.Language.Lang "ru" }}
+    {{ if .IsTranslated }}
+        {{ range .Translations }}
+            {{ if eq .Lang "en"}}
+            <div class="my-5 px-5 py-2 rounded border border-alert-frame-l dark:border-alert-frame-d hover:bg-orange-200 dark:hover:bg-orange-900">
+                <a style="font-size:150%" class="text-alert-text-l dark:text-alert-text-d" href="{{ .Permalink }}">Последние посты доступны только в английской версии блога</a>
+              </div>
+            {{ end }}
+        {{ end }}
+    {{ end }}
+{{ end }}

@@ -1,30 +1,12 @@
 # VSCode
 .history
 
-# Generated files
-data/gen/
-public/
-content/en/posts/drafts
-assets/css/main.css
-
 # Binaries
 bin/
 
-# JetBrains
-.idea
-
-# .NET
-[Bb]in
-[Dd]ebug*/
-obj/
-[Rr]elease*/
-
-# R
-.RData
-.Rhistory
-
-# Misc
+# macOS
 .DS_Store
-.hugo_build.lock
-resources/_gen
-work/
+
+# Symlinks
+content
+wip

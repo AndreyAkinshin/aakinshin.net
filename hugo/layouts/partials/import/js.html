@@ -1,0 +1,4 @@
+{{ $baseName := . }}
+{{ $name := printf "js/%s.js" $baseName }}
+{{ $js := resources.Get $name | minify | fingerprint }}
+<script src="{{ $js.Permalink }}"></script>

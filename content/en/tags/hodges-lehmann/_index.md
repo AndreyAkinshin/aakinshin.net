@@ -1,3 +1,0 @@
----
-title: Hodges-Lehmann estimator
----

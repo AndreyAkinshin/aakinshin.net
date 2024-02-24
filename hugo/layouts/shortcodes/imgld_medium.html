@@ -1,0 +1,27 @@
+{{ $filename := cond .IsNamedParams (.Get "src") (.Get 0) }}
+{{ $defaultWidth := 600 }}
+
+{{ $imageDark := $.Page.Resources.GetMatch (printf "img/%s-dark*" $filename) }}
+{{ $imageLight := $.Page.Resources.GetMatch (printf "img/%s-light*" $filename) }}
+
+<div class="row">
+<div class="mx-auto">
+  <a href="{{ $imageLight.RelPermalink }}" target="_blank" class="imgldlink" alt="{{ $filename }}">
+    <picture>
+      <source
+        theme='dark'
+        srcset="{{ $imageDark.RelPermalink }}"
+        media="(prefers-color-scheme: dark)">
+      <source
+        theme='light'
+        srcset="{{ $imageLight.RelPermalink }}"
+        media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+      <img
+        class="mx-auto d-block img-fluid"
+        width='{{ if (.Get "width") }}{{ .Get "width"}}{{ else }}{{ $defaultWidth }}{{ end }}'
+        src="{{ $imageLight.RelPermalink }}">
+    </picture>
+  </a>
+</div>
+</div>
+<br />

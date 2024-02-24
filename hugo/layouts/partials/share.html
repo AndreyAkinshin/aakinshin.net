@@ -1,0 +1,10 @@
+{{ $title := .Title }}
+{{ $url := .Permalink }}
+
+<div class="flex flex-wrap justify-center items-center mb-5">
+  <span>{{ i18n "share" }}:</span>
+  <div class="text-4xl pl-3"><a href="https://www.reddit.com/submit?url={{ $url }}&title={{ $title }}" target="_blank" title="Share on Reddit"><svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#reddit"></use></svg></a></div>
+  <div class="text-4xl pl-3"><a href="https://twitter.com/intent/tweet?text={{ $title }}&url={{ $url }}&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#twitter"></use></svg></a></div>
+  <div class="text-4xl pl-3"><a href="https://news.ycombinator.com/submitlink?u={{ $url }}" target="_blank" title="Share on HackerNews"><svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#hacker-news"></use></svg></a></div>
+  <div class="text-4xl pl-3"><a href="https://getpocket.com/save?url={{ $url }}&title={{ $title }}" target="_blank" title="Add to Pocket"><svg class="fai fai-link"><use xlink:href="/img/fa/all.svg#get-pocket"></use></svg></a></div>
+</div>

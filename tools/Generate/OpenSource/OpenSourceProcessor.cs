@@ -1,0 +1,23 @@
+using Common.Io;
+using Common.Utils;
+using Generate.Common;
+
+namespace Generate.OpenSource;
+
+public class OpenSourceProcessor
+{
+    public void Run()
+    {
+        var openSource = OpenSourceDataProvider.ReadOpenSource();
+
+        var tomlEn = OpenSourceFormatter.Instance.ToToml(openSource.En);
+        var tomlRu = OpenSourceFormatter.Instance.ToToml(openSource.Ru);
+
+        var dataGenDirectory = FileSystem.DataGen;
+        if (!Directory.Exists(dataGenDirectory))
+            Directory.CreateDirectory(dataGenDirectory);
+
+        File.WriteAllText(Path.Combine(dataGenDirectory, "opensource_en.toml"), tomlEn);
+        File.WriteAllText(Path.Combine(dataGenDirectory, "opensource_ru.toml"), tomlRu);
+    }
+}

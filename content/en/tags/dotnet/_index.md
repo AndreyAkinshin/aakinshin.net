@@ -1,4 +1,0 @@
----
-title: ".NET"
-featured: true
----

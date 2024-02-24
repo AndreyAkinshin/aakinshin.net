@@ -1,3 +1,0 @@
----
-title: Change point detection
----
