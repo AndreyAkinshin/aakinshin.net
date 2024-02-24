@@ -28,7 +28,7 @@ I already discussed
   winsorization of the Harrell-Davis quantile estimator in detail in my [previous post]({{< ref winsorized-hdqe >}}).
 Let's briefly recall the main idea.
 For sample $x = \{ x_1, x_2, \ldots, x_n \}$,
-  the Harrell-Davis quantile estimator ([[Harrell1982]](#Harrell1982))
+  the Harrell-Davis quantile estimator ({{< link harrell1982 >}})
   estimates the $p^\textrm{th}$ quantile using the following equation:
 
 $$

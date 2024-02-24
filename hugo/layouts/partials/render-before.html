@@ -1,0 +1,6 @@
+{{ with .Params.Rating }}
+  <svg class="rating-icon">
+    <title>Rating: {{ . }}</title>
+    <use xlink:href="/img/fa/all.svg#rating-{{ . }}"></use>
+  </svg>
+{{ end }}

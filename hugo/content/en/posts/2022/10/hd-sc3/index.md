@@ -16,7 +16,7 @@ In this post, I build these sensitivity curves for some additional distributions
 
 <!--more-->
 
-The classic Harrell-Davis quantile estimator (see [[Harrell1982]](#Harrell1982)) is defined as follows:
+The classic Harrell-Davis quantile estimator (see {{< link harrell1982 >}}) is defined as follows:
 
 $$
 Q_{\operatorname{HD}}(p) = \sum_{i=1}^{n} W_{\operatorname{HD},i} \cdot x_{(i)},\quad

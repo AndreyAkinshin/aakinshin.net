@@ -39,7 +39,7 @@ In the scope of this post, we use the traditional sample median
    if $n$ is even, the median is the arithmetic average of the two middle elements of the sorted sample).
 The $C_n$ scale factors allow using $\operatorname{MAD}$ and $\operatorname{Shamos}$ consistent estimators
   for the standard deviation under the normal distribution.
-The corresponding values of $C_n$ for both dispersion estimators could be found in [[Park2020]](#Park2020).
+The corresponding values of $C_n$ for both dispersion estimators could be found in {{< link park2020 >}}.
 
 ### Simulation study
 
@@ -66,7 +66,7 @@ Let's start with the Normal distribution:
 {{< imgld normal-20 >}}
 
 As we can see from the plots, $\operatorname{Shamos}$ has higher statistical efficiency than $\operatorname{MAD}$.
-Also, thanks to the $C_n$ scale factors from [[Park2020]](#Park2020),
+Also, thanks to the $C_n$ scale factors from {{< link park2020 >}},
   the expected value of both estimators is $1$, which makes them a robust replacement
   for the unbiased standard deviation.
 

@@ -1,18 +1,21 @@
 ---
 title: "The Search for Significance: A Few Peculiarities in the Distribution of P Values in Experimental Psychology Literature"
-authors:
-- Michał Krawczyk
-- Daniele Fanelli
 year: 2015
 doi: 10.1371/journal.pone.0127872
 urls:
 - "https://dx.plos.org/10.1371/journal.pone.0127872"
+authors:
+- Michał Krawczyk
+- Daniele Fanelli
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Michał Krawczyk, Daniele Fanelli</i> <span title="">“The Search for Significance: A Few Peculiarities in the Distribution of P Values in Experimental Psychology Literature”</span> (2015) // PLOS ONE. Vol.&nbsp;10. No&nbsp;6. Pp.&nbsp;e0127872. DOI:&nbsp;<a href='https://doi.org/10.1371/journal.pone.0127872'>10.1371/journal.pone.0127872</a>
+## Reference
+
+> <i>Michał Krawczyk, Daniele Fanelli</i> “The Search for Significance: A Few Peculiarities in the Distribution of P Values in Experimental Psychology Literature” (2015) // PLOS ONE. Vol.&nbsp;10. No&nbsp;6. Pp.&nbsp;e0127872. DOI:&nbsp;<a href='https://doi.org/10.1371/journal.pone.0127872'>10.1371/journal.pone.0127872</a>
 
 ## Bib
 
@@ -33,6 +36,6 @@ tags:
   month = {jun},
   year = {2015},
   note = {ZSCC: NoCitationData[s0]},
-  pages = {e0127872},
+  pages = {e0127872}
 }
 ```

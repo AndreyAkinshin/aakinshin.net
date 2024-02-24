@@ -1,17 +1,20 @@
 ---
-title: "spatstat.geom: Geometrical Functionality of the 'spatstat' Family"
-authors:
-- Adrian Baddeley
-- Rolf Turner
+title: "Spatstat.geom: Geometrical Functionality of the 'spatstat' Family"
 year: 2022
 urls:
 - "https://cran.r-project.org/web/packages/spatstat.geom/index.html"
+authors:
+- Adrian Baddeley
+- Rolf Turner
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Adrian Baddeley, Rolf Turner,  others</i> <span title="">“spatstat.geom: Geometrical Functionality of the 'spatstat' Family”</span> (2022) 
+## Reference
+
+> <i>Adrian Baddeley, Rolf Turner,  others</i> “spatstat.geom: Geometrical Functionality of the 'spatstat' Family” (2022) 
 
 ## Bib
 
@@ -21,6 +24,6 @@ tags:
   author = {Adrian Baddeley and Rolf Turner and others},
   year = {2022},
   note = {R package version 2.4-0},
-  url = {https://cran.r-project.org/web/packages/spatstat.geom/index.html},
+  url = {https://cran.r-project.org/web/packages/spatstat.geom/index.html}
 }
 ```

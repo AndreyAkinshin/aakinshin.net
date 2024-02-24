@@ -1,23 +1,26 @@
 ---
-title: "The earth is flat (p>0.05): significance thresholds and the crisis of unreplicable research"
-authors:
-- Valentin Amrhein
-- Fränzi Korner-Nievergelt
-- Tobias Roth
+title: "The Earth is Flat (p>0.05): Significance Thresholds and the Crisis of Unreplicable Research"
 year: 2017
 doi: 10.7717/peerj.3544
 urls:
 - "https://peerj.com/articles/3544"
+authors:
+- Valentin Amrhein
+- Fränzi Korner-Nievergelt
+- Tobias Roth
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Valentin Amrhein, Fränzi Korner-Nievergelt, Tobias Roth</i> <span title="The widespread use of ‘statistical significance’ as a license for making a claim of a scientific finding leads to considerable distortion of the scientific process (according to the American Statistical Association). We review why degrading">“The earth is flat (p\textgreater0.05): significance thresholds and the crisis of unreplicable research”</span> (2017) // PeerJ. Vol.&nbsp;5. Pp.&nbsp;e3544. DOI:&nbsp;<a href='https://doi.org/10.7717/peerj.3544'>10.7717/peerj.3544</a>
+## Reference
+
+> <i>Valentin Amrhein, Fränzi Korner-Nievergelt, Tobias Roth</i> “The earth is flat (p\textgreater0.05): significance thresholds and the crisis of unreplicable research” (2017) // PeerJ. Vol.&nbsp;5. Pp.&nbsp;e3544. DOI:&nbsp;<a href='https://doi.org/10.7717/peerj.3544'>10.7717/peerj.3544</a>
 
 ## Abstract
 
-The widespread use of ‘statistical significance’ as a license for making a claim of a scientific finding leads to considerable distortion of the scientific process (according to the American Statistical Association). We review why degrading
+> The widespread use of ‘statistical significance’ as a license for making a claim of a scientific finding leads to considerable distortion of the scientific process (according to the American Statistical Association). We review why degrading
 
 ## Bib
 
@@ -37,6 +40,6 @@ The widespread use of ‘statistical significance’ as a license for making a c
   month = {jul},
   year = {2017},
   note = {ZSCC: 0000098},
-  pages = {e3544},
+  pages = {e3544}
 }
 ```

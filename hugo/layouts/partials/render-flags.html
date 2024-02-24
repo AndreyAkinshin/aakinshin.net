@@ -1,0 +1,74 @@
+{{ $slug := "" }}
+{{ with .File }}
+  {{ if eq .BaseFileName "index" }}
+    {{ $slug = .Dir | path.BaseName }}
+  {{ else }}
+    {{ $slug = .BaseFileName }}
+  {{ end }}
+{{ end }}
+{{ $page := . }}
+{{ $current := index .Site.Data.gen.relations $slug }}
+
+{{ $hasQuotes := false }}
+{{ if $current.quotes }}
+  {{ $hasQuotes = true }}
+{{ end }}
+
+{{ $content := trim .Content " " }}
+{{ $hasContent := false }}
+{{ if ne (len $content) 0 }}
+  {{ $hasContent = true }}
+{{ end }}
+{{ $hasNotesBook := and $hasContent (eq .Type "books")}}
+{{ $hasNotesOthers := .Params.HasNotes }}
+{{ $hasNotes := or $hasNotesBook $hasNotesOthers }}
+
+{{ $icons := slice }}
+{{ with (.GetTerms "tags") }}
+  {{ range . }}
+    {{ if .Params.Icon }}
+      {{ if not (in $icons .Params.Icon) }}
+        {{ $icons = $icons | append .Params.Icon }}
+      {{ end }}
+    {{ end }}
+  {{ end}}
+{{ end}}
+
+{{ if $hasNotes }}
+<svg class="rating-icon">
+  <title>Has notes</title>
+  <use xlink:href="/img/fa/all.svg#note"></use>
+</svg>
+{{ end }}
+
+{{ if $hasQuotes }}
+<span class="label" title="Quotes: {{- len $current.quotes -}}">
+  <svg class="rating-icon"><use xlink:href="/img/fa/all.svg#quote"></use></svg>
+  {{- len $current.quotes -}}
+</span>
+{{ end }}
+
+{{ if $current.links }}
+<span class="label" title="References: {{- len $current.links -}}">
+  <svg class="rating-icon"><use xlink:href="/img/fa/all.svg#reference"></use></svg>
+  {{- len $current.links -}}
+</span>
+{{ end }}
+
+{{ if $current.backlinks }}
+<span class="label" title="Backlinks: {{- len $current.backlinks -}}">
+  <svg class="rating-icon"><use xlink:href="/img/fa/all.svg#backlink"></use></svg>
+  {{- len $current.backlinks -}}
+</span>
+{{ end }}
+
+{{ range (.GetTerms "tags") }}
+{{ if .Params.Icon }}
+<a href="{{ .Permalink }}">
+<svg class="rating-icon">
+  <title>{{- .Title -}}</title>
+  <use xlink:href="/img/fa/all.svg#{{ .Params.Icon }}"></use>
+</svg>
+</a>
+{{ end }}
+{{ end }}

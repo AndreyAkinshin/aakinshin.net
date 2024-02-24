@@ -1,10 +1,10 @@
 ---
-title: "Research projects"
+title: "Research Projects"
 layout: "page"
 url: research
 ---
 
-# Research projects
+# My Research Projects
 
 <div class="flex flex-wrap gap-y-1 mb-5">
 <a class="label-link" href="https://scholar.google.com/citations?hl=en&user=rYVl83IAAAAJ&view_op=list_works&sortby=pubdate">
@@ -33,12 +33,13 @@ Scopus
 </a>
 </div>
 
-This page aggregates results from some of my research projects:
 
-* [Statistical performance analysis](#statistics)
-* [Software benchmarking](#benchmarking)
-* [Mathematical models of gene networks](#gene-networks)
-* [Digital signal processing](#signal-processing)
+<div class="flex flex-wrap gap-y-1 mb-5">
+<a class="label-link" href="#statistics">Statistical performance analysis</a>
+<a class="label-link" href="#benchmarking">Software benchmarking</a>
+<a class="label-link" href="#gene-networks">Mathematical models of gene networks</a>
+<a class="label-link" href="#signal-processing">Digital signal processing</a>
+</div>
 
 ---
 
@@ -73,9 +74,9 @@ This project aims to provide a set of reliable tools and approaches for software
 
 Since 2013, I have been working on developing
   [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)
-  (9K+ [GitHub stars](https://github.com/dotnet/BenchmarkDotNet/stargazers),
-   19K+ [dependent GitHub projects](https://github.com/dotnet/BenchmarkDotNet/network/dependents?package_id=UGFja2FnZS0xNTY3MzExMzE%3D),
-   24M+ [NuGet downloads](https://www.nuget.org/packages/BenchmarkDotNet/)).
+  (≈10K [GitHub stars](https://github.com/dotnet/BenchmarkDotNet/stargazers),
+   ≈20K [dependent GitHub projects](https://github.com/dotnet/BenchmarkDotNet/network/dependents?package_id=UGFja2FnZS0xNTY3MzExMzE%3D),
+   26M+ [NuGet downloads](https://www.nuget.org/packages/BenchmarkDotNet/)).
 This .NET library helps to transform methods into benchmarks,
   track their performance,
   and share reproducible measurement experiments.

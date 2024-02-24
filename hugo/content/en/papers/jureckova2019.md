@@ -1,16 +1,19 @@
 ---
-title: "Robust statistical methods with R"
+title: Robust Statistical Methods with R
+year: 2019
 authors:
 - Jana Jureckova
 - Jan Picek
 - Martin Schindler
-year: 2019
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Jana Jureckova, Jan Picek, Martin Schindler</i> <span title="">“Robust statistical methods with R”</span> (2019) // Publisher: Taylor \& Francis. ISBN:&nbsp;978-1-1380-3536-2.
+## Reference
+
+> <i>Jana Jureckova, Jan Picek, Martin Schindler</i> “Robust statistical methods with R” (2019) // Publisher: Taylor \& Francis. ISBN:&nbsp;978-1-1380-3536-2.
 
 ## Bib
 
@@ -21,6 +24,6 @@ tags:
   year = {2019},
   edition = {2},
   publisher = {Taylor \& Francis},
-  isbn = {978-1-1380-3536-2},
+  isbn = {978-1-1380-3536-2}
 }
 ```

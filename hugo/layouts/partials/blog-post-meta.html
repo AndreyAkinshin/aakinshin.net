@@ -9,7 +9,12 @@
   <div class="flex flex-wrap gap-y-1">
   {{ with (.GetTerms "tags") }}
   {{ range . }}
-    <a class="label-link" href="{{ .Permalink }}">{{ .Title }}</a>
+    <a class="label-link" href="{{ .Permalink }}">
+      {{ if .Params.Icon }}
+        {{ partial "svg.html" .Params.Icon }}
+      {{ end }}
+      {{ .Title | strings.Title }}
+    </a>
   {{ end }}
   </div>
 {{ end }}

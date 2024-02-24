@@ -1,10 +1,12 @@
 ---
 title: "Models: Attract Women Through Honesty"
-authors:
-- Mark Manson
 year: 2011
 goodreads: 12633800
-rating: 3
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1375568311i/12633800.jpg"
+authors:
+- Mark Manson
 tags:
 - Self-help
+rating: 3
+hasNotes: false
 ---

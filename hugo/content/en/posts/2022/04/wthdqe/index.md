@@ -34,7 +34,7 @@ We assume that all sample elements are sorted ($x_1 \leq x_2 \leq \ldots \leq x_
   we could treat the $i^\textrm{th}$ element $x_i$ as the $i^\textrm{th}$ order statistic $x_{(i)}$.
 Based on the given sample, we want to build an estimation of the $p^\textrm{th}$ quantile $Q(p)$.
 
-The classic Harrell-Davis quantile estimator (see [[Harrell1982]](#Harrell1982)) suggests the following approach:
+The classic Harrell-Davis quantile estimator (see {{< link harrell1982 >}}) suggests the following approach:
 
 $$
 Q_{\operatorname{HD}}(p) = \sum_{i=1}^{n} W_{\operatorname{HD},i} \cdot x_i,\quad

@@ -1,16 +1,19 @@
 ---
-title: "Nonparametric statistics: theory and methods"
+title: "Nonparametric statistics: Theory and Methods"
+year: 2018
 authors:
-- J. V. Deshpande
+- J V Deshpande
 - Uttara Naik-Nimbalkar
 - Isha Dewan
-year: 2018
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>J. V. Deshpande, Uttara Naik-Nimbalkar, Isha Dewan</i> <span title="">“Nonparametric statistics: theory and methods”</span> (2018) // Publisher: World Scientific. New Jersey. ISBN:&nbsp;978-981-4663-57-1.
+## Reference
+
+> <i>J V Deshpande, Uttara Naik-Nimbalkar, Isha Dewan</i> “Nonparametric statistics: theory and methods” (2018) // Publisher: World Scientific. New Jersey. ISBN:&nbsp;978-981-4663-57-1.
 
 ## Bib
 
@@ -21,8 +24,8 @@ tags:
   isbn = {978-981-4663-57-1},
   shorttitle = {Nonparametric statistics},
   publisher = {World Scientific},
-  author = {Deshpande, J. V. and Naik-Nimbalkar, Uttara and Dewan, Isha},
+  author = {Deshpande, J V and Naik-Nimbalkar, Uttara and Dewan, Isha},
   year = {2018},
-  keywords = {Distribution (Probability theory), Nonparametric statistics},
+  keywords = {Distribution (Probability theory), Nonparametric statistics}
 }
 ```

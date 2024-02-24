@@ -11,7 +11,7 @@ fi
 HUGO_URL_BASE="https://github.com/gohugoio/hugo/releases/download"
 TW_URL_BASE="https://github.com/tailwindlabs/tailwindcss/releases/download"
 
-HUGO_VER="0.123.3"
+HUGO_VER="0.123.7"
 TW_VER="3.4.1"
 
 ARCH=$(arch)
@@ -42,7 +42,3 @@ wget "$TW_URL" -O "$TARGET_DIR/tailwind"
 
 chmod +x "$TARGET_DIR/hugo"
 chmod +x "$TARGET_DIR/tailwind"
-
-ln -sf ./hugo/content/en ./content
-ln -sf ~/Dropbox/Notes/Workbenches/Research/drafts/ ./hugo/content/en/posts/drafts
-ln -sf ~/Dropbox/Notes/Workbenches/Research/drafts/wip ./wip

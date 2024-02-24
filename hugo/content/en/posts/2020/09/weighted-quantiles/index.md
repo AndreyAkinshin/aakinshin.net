@@ -117,13 +117,13 @@ In this post, we consider two estimator kinds:
 * **The Type 7 quantile estimator**  
   It's the most popular quantile estimator which is used by default in
     R, Julia, NumPy, Excel (`PERCENTILE`, `PERCENTILE.INC`), Python (`inclusive` method).
-  We call it "Type 7" according to notation from [[Hyndman1996]](#Hyndman1996), 
+  We call it "Type 7" according to notation from {{< link hyndman1996 >}}, 
     where Rob J. Hyndman and Yanan Fan described nine quantile algorithms which are used in statistical computer packages.
 * **The Harrell-Davis quantile estimator**  
   It's my favorite option in real life because
     it's more efficient than classic quantile estimators based on linear interpolation,
     and it provides more reliable estimations on small samples.
-  This quantile estimator is described in [[Harrell1982]](#Harrell1982).
+  This quantile estimator is described in {{< link harrell1982 >}}.
 
 ### Weighted Harrell-Davis quantile estimator
 

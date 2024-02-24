@@ -1,16 +1,20 @@
 ---
 title: "DescTools: Tools for Descriptive Statistics"
-authors:
-- Signorell Andri
 year: 2022
 urls:
 - "https://cran.r-project.org/web/packages/DescTools/index.html"
+- "https://cran.r-project.org/web/packages/DescTools/DescTools.pdf"
+authors:
+- Signorell Andri
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Signorell Andri,  others</i> <span title="">“DescTools: Tools for Descriptive Statistics”</span> (2022) 
+## Reference
+
+> <i>Signorell Andri,  others</i> “DescTools: Tools for Descriptive Statistics” (2022) 
 
 ## Bib
 
@@ -21,5 +25,6 @@ tags:
   year = {2022},
   note = {R package version 0.99.46},
   url = {https://cran.r-project.org/web/packages/DescTools/index.html},
+  custom-url-pdf = {https://cran.r-project.org/web/packages/DescTools/DescTools.pdf}
 }
 ```

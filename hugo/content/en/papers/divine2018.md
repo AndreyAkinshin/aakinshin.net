@@ -1,20 +1,23 @@
 ---
-title: "The Wilcoxon–Mann–Whitney Procedure Fails as a Test of Medians"
-authors:
-- George W. Divine
-- H. James Norton
-- Anna E. Barón
-- Elizabeth Juarez-Colunga
+title: The Wilcoxon–Mann–Whitney Procedure Fails as a Test of Medians
 year: 2018
 doi: 10.1080/00031305.2017.1305291
 urls:
 - "https://www.tandfonline.com/doi/full/10.1080/00031305.2017.1305291"
+authors:
+- George W Divine
+- H James Norton
+- Anna E Barón
+- Elizabeth Juarez-Colunga
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>George W. Divine, H. James Norton, Anna E. Barón, Elizabeth Juarez-Colunga</i> <span title="">“The Wilcoxon–Mann–Whitney Procedure Fails as a Test of Medians”</span> (2018) // The American Statistician. Vol.&nbsp;72. No&nbsp;3. Pp.&nbsp;278–286. DOI:&nbsp;<a href='https://doi.org/10.1080/00031305.2017.1305291'>10.1080/00031305.2017.1305291</a>
+## Reference
+
+> <i>George W Divine, H James Norton, Anna E Barón, Elizabeth Juarez-Colunga</i> “The Wilcoxon–Mann–Whitney Procedure Fails as a Test of Medians” (2018) // The American Statistician. Vol.&nbsp;72. No&nbsp;3. Pp.&nbsp;278–286. DOI:&nbsp;<a href='https://doi.org/10.1080/00031305.2017.1305291'>10.1080/00031305.2017.1305291</a>
 
 ## Bib
 
@@ -29,9 +32,9 @@ tags:
   number = {3},
   urldate = {2023-10-22},
   journal = {The American Statistician},
-  author = {Divine, George W. and Norton, H. James and Barón, Anna E. and Juarez-Colunga, Elizabeth},
+  author = {Divine, George W and Norton, H James and Barón, Anna E and Juarez-Colunga, Elizabeth},
   month = {jul},
   year = {2018},
-  pages = {278--286},
+  pages = {278--286}
 }
 ```

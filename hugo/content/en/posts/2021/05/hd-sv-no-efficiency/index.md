@@ -37,7 +37,7 @@ The relative efficiency value depends on five parameters:
 
 In this case study, we are going to compare three target quantile estimators:
 
-(1) The **Harrell-Davis (HD)** quantile estimator ([[Harrell1982]](#Harrell1982)):
+(1) The **Harrell-Davis (HD)** quantile estimator ({{< link harrell1982 >}}):
 
 $$
 Q_\textrm{HD}(p) = \sum_{i=1}^{n} W_{i} \cdot x_{(i)}, \quad
@@ -49,7 +49,7 @@ where
   $I_t(a, b)$ denotes the [regularized incomplete beta function](https://en.wikipedia.org/wiki/Beta_function#Incomplete_beta_function),
   $x_{(i)}$ is the $i^\textrm{th}$ [order statistics](https://en.wikipedia.org/wiki/Order_statistic).
 
-(2) The [**Sfakianakis-Verginis (SV)** quantile estimators]({{< ref sfakianakis-verginis-quantile-estimator >}}) ([[Sfakianakis2008]](#Sfakianakis2008)):
+(2) The [**Sfakianakis-Verginis (SV)** quantile estimators]({{< ref sfakianakis-verginis-quantile-estimator >}}) ({{< link sfakianakis2008 >}}):
 
 $$
 \begin{split}
@@ -65,7 +65,7 @@ $$
 where $B_i = B(i; n, p)$ is probability mass function of the binomial distribution $B(n, p)$,
   $X_{(i)}$ are order statistics of sample $X$.
 
-(3) The [**Navruz-Özdemir (NO)** quantile estimator]({{< ref navruz-ozdemir-quantile-estimator>}}) ([[Navruz2020]](#Navruz2020)):
+(3) The [**Navruz-Özdemir (NO)** quantile estimator]({{< ref navruz-ozdemir-quantile-estimator>}}) ({{< link navruz2020 >}}):
 
 $$
 \begin{split}
@@ -83,7 +83,7 @@ The conventional baseline quantile estimator in such simulations is
   the traditional quantile estimator that is defined as
   a linear combination of two subsequent order statistics.
 To be more specific, we are going to use the Type 7 quantile estimator from the Hyndman-Fan classification or
-  HF7 ([[Hyndman1996]](#Hyndman1996)).
+  HF7 ({{< link hyndman1996 >}}).
 It can be expressed as follows (assuming one-based indexing):
 
 $$

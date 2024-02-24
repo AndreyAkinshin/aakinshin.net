@@ -5,7 +5,7 @@ tags:
 - mathematics
 - statistics
 - research
-- cpd
+- Change Point Detection
 features:
 - math
 ---

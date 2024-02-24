@@ -8,5 +8,5 @@ bin/
 .DS_Store
 
 # Symlinks
-content
-wip
+/content
+/wip

@@ -1,16 +1,19 @@
 ---
-title: "Theory-testing in psychology and physics: A methodological paradox"
-authors:
-- Paul E Meehl
+title: "Theory-Testing in Psychology and physics: A Methodological Paradox"
 year: 1967
 urls:
 - "https://meehl.umn.edu/sites/meehl.umn.edu/files/files/074theorytestingparadox.pdf"
+authors:
+- Paul E Meehl
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Paul E Meehl</i> <span title="">“Theory-testing in psychology and physics: A methodological paradox”</span> (1967) // Philosophy of science. Publisher: Cambridge University Press. Vol.&nbsp;34. No&nbsp;2. Pp.&nbsp;103–115.
+## Reference
+
+> <i>Paul E Meehl</i> “Theory-testing in psychology and physics: A methodological paradox” (1967) // Philosophy of science. Publisher: Cambridge University Press. Vol.&nbsp;34. No&nbsp;2. Pp.&nbsp;103–115.
 
 ## Bib
 
@@ -24,6 +27,6 @@ tags:
   number = {2},
   pages = {103--115},
   year = {1967},
-  publisher = {Cambridge University Press},
+  publisher = {Cambridge University Press}
 }
 ```

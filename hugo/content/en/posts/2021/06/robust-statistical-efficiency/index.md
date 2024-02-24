@@ -38,12 +38,12 @@ In this post, I want to share numerical simulations
 
 We are going to compare four quantile estimators:
 
-* `hf7`: the traditional quantile estimator (also known as the Hyndman-Fan Type 7, see [[Hyndman1996]](#Hyndman1996))
-* `hd`: the Harrell-Davis quantile estimator (see [[Harrell1982]](#Harrell1982))
+* `hf7`: the traditional quantile estimator (also known as the Hyndman-Fan Type 7, see {{< link hyndman1996 >}})
+* `hd`: the Harrell-Davis quantile estimator (see {{< link harrell1982 >}})
 * `sv1`: the first [Sfakianakis-Verginis quantile estimator]({{< ref sfakianakis-verginis-quantile-estimator>}})
-    (see [[Sfakianakis2008]](#Sfakianakis2008))
+    (see {{< link sfakianakis2008 >}})
 * `no`: the [Navruz-Özdemir quantile estimator]({{< ref navruz-ozdemir-quantile-estimator>}})
-    (see [[Navruz2020]](#Navruz2020))
+    (see {{< link navruz2020 >}})
 
 With these estimators, we are going to estimate the median of the following distributions:
 

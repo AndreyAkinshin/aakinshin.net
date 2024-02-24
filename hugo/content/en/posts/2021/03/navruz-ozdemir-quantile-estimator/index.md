@@ -96,7 +96,7 @@ $$
 
 ### The Navruz-Özdemir quantile estimator
 
-In [[Sfakianakis2008]](#Sfakianakis2008), Michael E. Sfakianakis and Dimitris G. Verginis described
+In {{< link sfakianakis2008 >}}, Michael E. Sfakianakis and Dimitris G. Verginis described
   three options to choose $Q'_p$:
 
 $$
@@ -120,13 +120,13 @@ $$
 \end{split}
 $$
 
-In [[Navruz2020]](#Navruz2020), Gözde Navruz and A. Fırat Özdemir suggested another way to choose $Q'_{p,i}$:
+In {{< link navruz2020 >}}, Gözde Navruz and A. Fırat Özdemir suggested another way to choose $Q'_{p,i}$:
 
 $$
 \operatorname{NO}_p:\quad Q'_{p,i} = pX_{(i)} + (1-p) X_{(i+1)}
 $$
 
-Also, following [[Sfakianakis2008]](#Sfakianakis2008),
+Also, following {{< link sfakianakis2008 >}},
   they used the following assumptions for $Q'_{p,0}$ and $Q'_{p,n}$:
 
 $$
@@ -182,7 +182,7 @@ $$
 \end{split}
 $$
 
-In [[Navruz2020]](#Navruz2020), the estimator has slightly different representation:
+In {{< link navruz2020 >}}, the estimator has slightly different representation:
 
 $$
 \begin{split}

@@ -52,7 +52,7 @@ Typically, $\textrm{median}$ assumes the classic "straightforward" median estima
 * If $n$ is even, the median is the arithmetic average of the two middle elements of the sorted sample
 
 However, we can use other median estimators.
-Let's consider $\textrm{median}_{\textrm{HD}}$ which calculates the median using the Harrell-Davis quantile estimator (see [[Harrell1982]](#Harrell1982)):
+Let's consider $\textrm{median}_{\textrm{HD}}$ which calculates the median using the Harrell-Davis quantile estimator (see {{< link harrell1982 >}}):
 
 $$
 \textrm{median}_{\textrm{HD}}(x) = \sum_{i=1}^n W_i x_i, \quad
@@ -71,9 +71,9 @@ $$
 For finite values of $n$, we should use adjusted $C_n$ values.
 We already discussed these values for the straightforward median estimator in
   the [previous post]({{< ref unbiased-mad >}})
-  (this problem is well-covered in [[Park2020]](#Park2020)).
+  (this problem is well-covered in {{< link park2020 >}}).
 For $\textrm{median}_{\textrm{HD}}$, we should use another set of $C_n$ values.
-We reuse the approach from [[Hayes2014]](#Hayes2014) with the following notation:
+We reuse the approach from {{< link hayes2014 >}} with the following notation:
 
 $$
 C_n = \dfrac{1}{\hat{a}_n}
@@ -151,7 +151,7 @@ Here is a visualization of this table:
 
 ### Factors for huge n
 
-To build the equation for $n > 100$, we also continue the approach suggested in [[Hayes2014]](#Hayes2014) (pages 2208-2209)
+To build the equation for $n > 100$, we also continue the approach suggested in {{< link hayes2014 >}} (pages 2208-2209)
   and use the prediction equation of the following form:
 
 $$

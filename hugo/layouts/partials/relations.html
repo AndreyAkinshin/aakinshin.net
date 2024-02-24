@@ -1,0 +1,61 @@
+{{ $site := .site }}
+{{ $slug := "" }}
+{{ with .page.File }}
+  {{ if eq .BaseFileName "index" }}
+    {{ $slug = .Dir | path.BaseName }}
+  {{ else }}
+    {{ $slug = .BaseFileName }}
+  {{ end }}
+{{ end }}
+{{ $current := index .site.Data.gen.relations $slug }}
+
+{{ if $current }}
+
+  <hr />
+
+  {{ with $current.quotes }}
+    {{ $quotes := slice }}
+    {{ range . }}
+      {{ $quote := $site.GetPage . }}
+      {{ $quotes = $quotes | append $quote }}
+    {{ end }}
+
+    <h3 id="quotes">Quotes ({{ len $quotes }})</h3>
+    {{ range sort $quotes "Params.Page" }}
+      <h4><a href="{{ .Permalink }}">{{ .Title | strings.Title }}</a></h4>
+      {{ .Content }}
+      {{ if .Params.Page }}<i>Page {{ .Params.Page }}</i><br /><br />{{ end }}
+    {{ end }}
+  {{ end }}
+  
+  {{ with $current.links }}
+    <h3 id="references">References ({{ len . }})</h3>
+    <ol>
+    {{ range . }}
+      {{ $page := $site.GetPage . }}
+      {{ if $page }}
+      <li>
+        {{ partial "render-link-full.html" $page }}
+        {{ partial "render-flags.html" $page }}
+      </li>
+      {{ end }}
+    {{ end }}
+    </ol>
+  {{ end }}
+
+  {{ with $current.backlinks }}
+    <h3 id="backlinks">Backlinks ({{ len . }})</h3>
+    <ol>
+    {{ range . }}
+      {{ $page := $site.GetPage . }}
+      {{ if $page }}
+      <li>
+        {{ partial "render-link-full.html" $page }}
+        {{ partial "render-flags.html" $page }}
+      </li>
+      {{ end }}
+    {{ end }}
+    </ol>
+  {{ end }}
+
+{{ end }}

@@ -1,19 +1,22 @@
 ---
-title: "Medicine residents' understanding of the biostatistics and results in the medical literature"
+title: "Medicine residents' Understanding of the Biostatistics and Results in the Medical Literature"
+year: 2007
+doi: 10.1001/jama.298.9.1010
 authors:
 - Donna M Windish
 - Stephen J Huot
 - Michael L Green
-year: 2007
-doi: 10.1001/jama.298.9.1010
 tags:
 - Mathematics
 - Statistics
 - Medicine
 - Statistical Literacy
+hasNotes: false
 ---
 
-<i>Donna M Windish, Stephen J Huot, Michael L Green</i> <span title="">“Medicine residents' understanding of the biostatistics and results in the medical literature”</span> (2007) // Jama. Publisher: American Medical Association. Vol.&nbsp;298. No&nbsp;9. Pp.&nbsp;1010–1022. DOI:&nbsp;<a href='https://doi.org/10.1001/jama.298.9.1010'>10.1001/jama.298.9.1010</a>
+## Reference
+
+> <i>Donna M Windish, Stephen J Huot, Michael L Green</i> “Medicine residents' understanding of the biostatistics and results in the medical literature” (2007) // Jama. Publisher: American Medical Association. Vol.&nbsp;298. No&nbsp;9. Pp.&nbsp;1010–1022. DOI:&nbsp;<a href='https://doi.org/10.1001/jama.298.9.1010'>10.1001/jama.298.9.1010</a>
 
 ## Bib
 
@@ -27,6 +30,6 @@ tags:
   pages = {1010--1022},
   year = {2007},
   publisher = {American Medical Association},
-  doi = {10.1001/jama.298.9.1010},
+  doi = {10.1001/jama.298.9.1010}
 }
 ```

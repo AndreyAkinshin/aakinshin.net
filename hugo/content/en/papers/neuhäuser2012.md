@@ -1,14 +1,17 @@
 ---
-title: "Nonparametric statistical tests: a computational approach"
+title: "Nonparametric Statistical tests: A Computational Approach"
+year: 2012
 authors:
 - Markus Neuhäuser
-year: 2012
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Markus Neuhäuser</i> <span title="">“Nonparametric statistical tests: a computational approach”</span> (2012) // Publisher: CRC Press. Boca Raton, Fla.. ISBN:&nbsp;978-1-138-11410-4 978-1-4398-6703-7.
+## Reference
+
+> <i>Markus Neuhäuser</i> “Nonparametric statistical tests: a computational approach” (2012) // Publisher: CRC Press. Boca Raton, Fla.. ISBN:&nbsp;978-1-138-11410-4 978-1-4398-6703-7.
 
 ## Bib
 
@@ -22,6 +25,6 @@ tags:
   language = {eng},
   publisher = {CRC Press},
   author = {Neuhäuser, Markus},
-  year = {2012},
+  year = {2012}
 }
 ```

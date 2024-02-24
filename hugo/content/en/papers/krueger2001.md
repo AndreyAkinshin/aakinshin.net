@@ -1,14 +1,20 @@
 ---
-title: "Null hypothesis significance testing on the survival of a flawed method"
+title: Null Hypothesis Significance Testing on the Survival of a Flawed Method
+year: 2001
+doi: 10.1037/0003-066x.56.1.16
+urls:
+- "http://files.clps.brown.edu/jkrueger/journal_articles/krueger-2001-null.pdf"
 authors:
 - Krueger J
-year: 2001
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Krueger J</i> <span title="">“Null hypothesis significance testing on the survival of a flawed method”</span> (2001) // Am. Psychol.. Vol.&nbsp;56. Pp.&nbsp;16.
+## Reference
+
+> <i>Krueger J</i> “Null hypothesis significance testing on the survival of a flawed method” (2001) // Am. Psychol.. Vol.&nbsp;56. Pp.&nbsp;16. DOI:&nbsp;<a href='https://doi.org/10.1037/0003-066x.56.1.16'>10.1037/0003-066x.56.1.16</a>
 
 ## Bib
 
@@ -20,5 +26,7 @@ tags:
   author = {J, Krueger},
   year = {2001},
   pages = {16},
+  doi = {10.1037/0003-066x.56.1.16},
+  custom-url-pdf = {http://files.clps.brown.edu/jkrueger/journal_articles/krueger-2001-null.pdf}
 }
 ```

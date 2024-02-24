@@ -34,7 +34,7 @@ The relative efficiency value depends on five parameters:
 * Sample size $n$
 * Distribution
 
-Our target quantile estimator is the Harrell-Davis quantile estimator or HDQE ([[Harrell1982]](#Harrell1982)).
+Our target quantile estimator is the Harrell-Davis quantile estimator or HDQE ({{< link harrell1982 >}}).
 
 $$
 Q_{HD}(p) = \sum_{i=1}^{n} W_{i} \cdot x_{(i)}, \quad
@@ -50,7 +50,7 @@ The conventional baseline quantile estimator in such simulations is
   the traditional quantile estimator that is defined as
   a linear combination of two subsequent order statistics.
 To be more specific, we are going to use the Type 7 quantile estimator from the Hyndman-Fan classification or
-  HF7QE ([[Hyndman1996]](#Hyndman1996)).
+  HF7QE ({{< link hyndman1996 >}}).
 It can be expressed as follows (assuming one-based indexing):
 
 $$
@@ -73,7 +73,7 @@ The $\textrm{MSE}$ value depends on the sample size $n$, so it should be calcula
   each sample size value.
 
 Finally, we should choose the distributions for sample generation.
-Initially, I wanted to repeat the numerical experiment from [[Harrell1982]](#Harrell1982) (Section 3).
+Initially, I wanted to repeat the numerical experiment from {{< link harrell1982 >}} (Section 3).
 The authors used the generalized lambda distribution which is defined by its quantile function:
 
 $$

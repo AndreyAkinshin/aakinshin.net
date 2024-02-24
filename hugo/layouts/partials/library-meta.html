@@ -1,99 +1,188 @@
-<table class="meta-table">
-  {{ .Scratch.Set "authors" "" }}
-  {{ if .Params.Authors }}
-    {{ .Scratch.Set "authors" .Params.Authors }}
-  {{ else }}
-    {{ if .Params.Source }}
-      {{ $source := .Site.GetPage .Params.Source }}
-      {{ if $source }}
-        {{ .Scratch.Set "authors" $source.Params.Authors }}
+<div class="flex w-full">
+  <div class="flex-grow">
+    <table class="meta-table">
+      {{ with (.GetTerms "authors") }}
+      <tr>
+        <td>
+          {{ if eq (len .) 1 }} Author {{ else }} Authors {{ end }}
+        </td>
+        <td>
+          <div class="flex flex-wrap gap-y-1">
+            {{ range . }}
+            <a class="label-link" href="{{ .Permalink }}">{{ .Title | strings.Title }}</a>
+            {{ end }}
+          </div>
+        </td>
+      </tr>
       {{ end }}
-    {{ end }}
-  {{ end }}
 
-  {{ with .Scratch.Get "authors" }}
-  <tr>
-    <td>
-      {{ if eq (len .) 1 }}
-      Author
-      {{ else }}
-      Authors
+      {{ if .Params.Date }}
+      <tr>
+        <td>
+          Date
+        </td>
+        <td>
+          <span class="label">
+            {{ .Params.Date.Format "2006-01-02" }}
+            {{ if .Params.Date2 }}
+              ..
+              {{ .Params.Date2 | dateFormat "2006-01-02" }}
+            {{ end }}
+          </span>
+        </td>
+      </tr>
+      {{ else if .Params.Year }}
+      <tr>
+        <td>
+          Year
+        </td>
+        <td>
+          <span class="label">{{ .Params.Year }}</span>
+        </td>
+      </tr>
       {{ end }}
-    </td>
-    <td>
-      <div class="flex flex-wrap gap-y-1">
-        {{ range . }}
-          <span class="label">{{ . }}</span>
-        {{ end }}
-      </div>
-    </td>
-  </tr>
-  {{ end }}
 
-  {{ if .Params.Year }}
-  <tr>
-    <td>
-      Year
-    </td>
-    <td>
-      <span class="label">{{ .Params.Year }}</span>
-    </td>
-  </tr>
-  {{ end }}
-
-  {{ if .Params.Doi }}
-  <tr>
-    <td>
-      DOI:
-    </td>
-    <td>
-      <a class="label-link" href="https://dx.doi.org/{{ .Params.Doi }}">{{ .Params.Doi }}</a>
-    </td>
-  </tr>
-  {{ end }}
-
-  {{ if or .Params.GoodReads .Params.Urls }}
-  <tr>
-    <td>
-      Links
-    </td>
-    <td>
-      {{ if .Params.GoodReads }}
-        <a class="label-link" href="https://www.goodreads.com/book/show/{{ .Params.GoodReads }}">GoodReads</a>
+      {{ if .Params.Event }}
+      <tr>
+        <td>
+          Event
+        </td>
+        <td>
+          <span class="label">{{ .Params.Event }}</span>
+        </td>
       {{ end }}
-      {{ range .Params.Urls }}
-        <a class="label-link" href="{{ . }}">Link</a>
+
+      {{ if .Params.Location }}
+      <tr>
+        <td>
+          Location
+        </td>
+        <td>
+          <span class="label">{{ .Params.Location }}</span>
+        </td>
       {{ end }}
-    </td>
-  </tr>
-  {{ end }}
 
-  {{ if .Params.source }}
-  <tr>
-    <td>
-      Source
-    </td>
-    <td>
-      {{ $page := .Site.GetPage .Params.source }}
-      <a class="label-link" href="{{ $page.Permalink }}">{{ $page.Title }}</a>
-    </td>
-  </tr>
-  {{ end }}
+      {{ if .Params.WebUrl }}
+      <tr>
+        <td>
+          URL
+        </td>
+        <td>
+          <a class="label-link" href="{{ .Params.WebUrl }}">{{ .Params.WebUrl }}</a>
+        </td>
+      </tr>
+      {{ end }}
 
-  {{ if (.GetTerms "tags") }}
-  <tr>
-    <td>
-      Tags
-    </td>
-    <td>
-      <div class="flex flex-wrap gap-y-1">
-        {{ range (.GetTerms "tags") }}
-          <a class="label-link" href="{{ .Permalink }}">{{ .Title }}</a>
-        {{ end }}
-      </div>
-    </td>
-  </tr>
-  {{ end }}
+      {{ if .Params.Doi }}
+      <tr>
+        <td>
+          DOI
+        </td>
+        <td>
+          <a class="label-link" href="https://dx.doi.org/{{ .Params.Doi }}">{{ .Params.Doi }}</a>
+        </td>
+      </tr>
+      {{ end }}
 
-</table>
+      {{ if or .Params.GoodReads .Params.Urls }}
+      <tr>
+        <td>
+          Links
+        </td>
+        <td>
+          {{ if .Params.GoodReads }}
+          <a class="label-link" href="https://www.goodreads.com/book/show/{{ .Params.GoodReads }}">
+            {{ partial "svg.html" "goodreads" }}
+            GoodReads
+          </a>
+          {{ end }}
+          {{ range .Params.Urls }}
+          <a class="label-link" href="{{ . }}">Link</a>
+          {{ end }}
+        </td>
+      </tr>
+      {{ end }}
+
+      {{ if .Params.source }}
+      <tr>
+        <td>
+          Source
+        </td>
+        <td>
+          {{ $page := .Site.GetPage .Params.source }}
+          <a class="label-link" href="{{ $page.Permalink }}">{{ $page.Title | strings.Title }}</a>
+        </td>
+      </tr>
+      {{ end }}
+
+      {{ if (.GetTerms "tags") }}
+      <tr>
+        <td>
+          Tags
+        </td>
+        <td>
+          <div class="flex flex-wrap gap-y-1">
+            {{ range (.GetTerms "tags") }}
+            <a class="label-link" href="{{ .Permalink }}">
+              {{ if .Params.Icon }}
+              {{ partial "svg.html" .Params.Icon }}
+              {{ end }}
+              {{ .Title | strings.Title }}
+            </a>
+            {{ end }}
+          </div>
+        </td>
+      </tr>
+      {{ end }}
+
+      {{ if .Params.Rating }}
+      <tr>
+        <td>
+          Rating
+        </td>
+        <td>
+          <svg class="rating-icon" style="font-size: 150%;">
+            <title>Rating {{ .Params.Rating }}</title>
+            <use xlink:href="/img/fa/all.svg#rating-{{ .Params.Rating }}"></use>
+          </svg>
+        </td>
+      </tr>
+      {{ end }}
+
+      {{ if eq .Section "media" }}
+      <tr>
+        <td>
+          Attributes
+        </td>
+        <td>
+          {{ with .Params.ContentType }}
+            <span class="label">{{ . | strings.FirstUpper }}</span>
+          {{ end }}
+          {{ with .Params.ContentKind }}
+            <span class="label">{{ . | strings.FirstUpper }}</span>
+          {{ end }}
+        </td>
+      </tr>
+      {{ end }}
+
+      {{ if and (or (eq .Section "talks") (eq .Section "media")) (eq .Params.Language "ru") }}
+      <tr>
+        <td>
+          Language
+        </td>
+        <td>
+          <span class="label">Russian</span>
+        </td>
+      </tr>
+      {{ end }}
+    </table>
+  </div>
+
+  {{ with .Params.UrlCover }}
+  <div class="flex-none">
+    <img src="{{ . }}" style="height: 180px !important" />
+  </div>
+  {{ end }}
+</div>
+
 <hr />

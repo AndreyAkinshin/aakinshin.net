@@ -44,7 +44,7 @@ We assume that all sample elements are sorted ($x_1 \leq x_2 \leq \ldots \leq x_
   we could treat the $i^\textrm{th}$ element $x_i$ as the $i^\textrm{th}$ order statistic $x_{(i)}$.
 Based on the given sample, we want to build an estimation of the $p^\textrm{th}$ quantile $Q(p)$.
 
-The classic Harrell-Davis quantile estimator (see [[Harrell1982]](#Harrell1982)) suggests the following approach:
+The classic Harrell-Davis quantile estimator (see {{< link harrell1982 >}}) suggests the following approach:
 
 $$
 Q_{\operatorname{HD}}(p) = \sum_{i=1}^{n} W_{\operatorname{HD},i} \cdot x_i,\quad
@@ -131,7 +131,7 @@ And here are the results for $n \leq 100\,000$:
 
 As we can see, asymptotically both estimators converge to the same value which is $2 / \pi \approx 63.66%$.
 It makes sense: the Harrell-Davis median estimator is asymptotically consistent with the traditional sample median
-  (see [[Yoshizawa1985]](#Yoshizawa1985)).
+  (see {{< link yoshizawa1985 >}}).
 Since $Q_{\operatorname{STHD}}(0.5)$ is "between" these two estimators, it is expected that
   all of them converge to the same value.
 

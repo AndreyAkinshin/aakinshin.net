@@ -1,22 +1,22 @@
 ---
-title: "Implementation of efficient algorithm for changepoint detection: ED-PELT"
+title: "Implementation of an efficient algorithm for changepoint detection: ED-PELT"
 date: "2019-10-07"
 tags:
 - mathematics
 - statistics
-- cpd
+- Change Point Detection
 ---
 
 [Changepoint detection](https://en.wikipedia.org/wiki/Change_detection) is an important task that has a lot of applications.
 For example, I use it to detect changes in the [Rider](https://www.jetbrains.com/rider/) performance test suite.
 It's very important to detect not only performance degradations, but any kinds of performance changes
-  (e.g., the variance may increase, or a unimodal distribution may be split to several modes).
-You can see examples of such changes on the following picture (we change the color when a changepoint is detected):
+  (e.g., the variance may increase, or an unimodal distribution may be split into several modes).
+You can see examples of such changes in the following picture (we change the color when a changepoint is detected):
 
 {{< imgld edpelt >}}
 
 Unfortunately, it's pretty hard to write a reliable and fast algorithm for changepoint detection.
-Recently, I found a cool paper ([Haynes, K., Fearnhead, P. & Eckley, I.A. "A computationally efficient nonparametric approach for changepoint detection," Stat Comput (2017) 27: 1293](https://link.springer.com/article/10.1007/s11222-016-9687-5)) that describes the ED-PELT algorithm.
+Recently, I found a cool paper {{< link haynes2016 >}} that describes the ED-PELT algorithm.
 It has `O(N*log(N))` complexity and pretty good detection accuracy.
 The reference implementation can be used via the [changepoint.np](https://cran.r-project.org/web/packages/changepoint.np/index.html) R package.
 However, I can't use [R](https://www.r-project.org/) on our build server, so I decided to write my own C# implementation.
@@ -26,21 +26,21 @@ However, I can't use [R](https://www.r-project.org/) on our build server, so I d
 This implementation resolves the following problems:
 
 * **Portability**  
-  Below you can find a C# class which you can just copy-paste to your solution and play with it
+  Below you can find a C# class that you can just copy-paste to your solution and play with it
     (you don't have to install any NuGet packages and add other kinds of dependencies).
   If you are using another programming language, it should be pretty easy to port this code
-    (let me know if you write another implementation, I will add it to this blog post).
-  I tried to comment all the important steps, so you can understand what's going on under the hood
+    (let me know if you write another implementation, and I will add it to this blog post).
+  I tried to comment on all the important steps, so you can understand what's going on under the hood
     (it's highly recommended to read the original paper first)
     and customize the algorithm for your own needs.
 * **Performance**  
   Performance is one of the most important features of this algorithm.
-  I tried to make it as efficient as possible (keeping the code readability).
+  I tried to make it as efficient as possible (keeping the code readable).
   With the help of some simple optimizations, I got a C# implementation that works much faster than the original R package
     (even though the ED-PELT core implementation in this package was written in C).
 * **Better default parameters**  
   The algorithm has a parameter called `nquantiles`.
-  The paper recommends to use `4 * log(n)` as the default value, but the `changepoint.np` always use `nquantiles = 10`.
+  The paper recommends using `4 * log(n)` as the default value, but the `changepoint.np` always use `nquantiles = 10`.
   It leads to unreliable results for huge and small n values.
   When `n < 10`, `changepoint.np` works incorrectly,
     a PR with a bug fix can be found [here](https://github.com/AndrewC1998/changepoint-new/pull/1).

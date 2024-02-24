@@ -46,7 +46,7 @@ module.exports = {
         },
         'front-strong': {
           'l': colors.black,
-          'd': colors.zinc["300"],
+          'd': colors.zinc["400"],
         },
         'accent': {
           'l': colors.sky["600"],

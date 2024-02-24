@@ -1,18 +1,21 @@
 ---
-title: "A Survey of Outlier Detection Methodologies"
+title: A Survey of Outlier Detection Methodologies
+year: 2004
+doi: "10.1023/B:AIRE.0000045502.10941.a9"
+urls:
+- "http://link.springer.com/10.1023/B:AIRE.0000045502.10941.a9"
 authors:
 - Victoria Hodge
 - Jim Austin
-year: 2004
-doi: 10.1023/B:AIRE.0000045502.10941.a9
-urls:
-- "http://link.springer.com/10.1023/B:AIRE.0000045502.10941.a9"
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Victoria Hodge, Jim Austin</i> <span title="">“A Survey of Outlier Detection Methodologies”</span> (2004) // Artificial Intelligence Review. Vol.&nbsp;22. No&nbsp;2. Pp.&nbsp;85–126. DOI:&nbsp;<a href='https://doi.org/10.1023/B:AIRE.0000045502.10941.a9'>10.1023/B:AIRE.0000045502.10941.a9</a>
+## Reference
+
+> <i>Victoria Hodge, Jim Austin</i> “A Survey of Outlier Detection Methodologies” (2004) // Artificial Intelligence Review. Vol.&nbsp;22. No&nbsp;2. Pp.&nbsp;85–126. DOI:&nbsp;<a href='https://doi.org/10.1023/B:AIRE.0000045502.10941.a9'>10.1023/B:AIRE.0000045502.10941.a9</a>
 
 ## Bib
 
@@ -30,6 +33,6 @@ tags:
   author = {Hodge, Victoria and Austin, Jim},
   month = {oct},
   year = {2004},
-  pages = {85--126},
+  pages = {85--126}
 }
 ```

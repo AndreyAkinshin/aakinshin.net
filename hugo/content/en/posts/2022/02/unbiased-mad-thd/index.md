@@ -187,7 +187,7 @@ I have also calculated $C_n$ for some bigger sample sizes:
 | 4000 | 1.4828555508375267 |
 | 4500 | 1.4828287173605137 |
 
-Following the approach from [[Park2020]](#Park2020), we express $C_n$ using the following equation:
+Following the approach from {{< link park2020 >}}, we express $C_n$ using the following equation:
 
 $$
 C_n = \frac{1}{\Phi^{-1}(3/4) \cdot (1 - \alpha / n - \beta / n^2)}

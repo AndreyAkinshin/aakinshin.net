@@ -1,0 +1,43 @@
+{{ $pages := .pages }}
+{{ $site := .site }}
+
+{{ $sections := slice }}
+{{ $sectionTitles := slice }}
+{{ range .pages }}
+  {{ if not (in $sectionTitles .Section) }}
+    {{ $sectionTitles = $sectionTitles | append .Section }}
+    {{ $section := $site.GetPage .Section }}
+    {{ $sections = $sections | append $section }}
+  {{ end }}
+{{ end }}
+{{ $sections = sort $sections "Params.Order" }}
+
+{{ if gt (len $sections) 1 }}
+{{ range $sections }}
+  {{ $section := . }}
+  {{ $sectionPages := where $pages "Section" (lower $section.Title) }}
+
+  <a class="label-link" href="#{{ (lower .Title) }}">
+    {{ partial "svg.html" $section.Params.Icon }}
+    {{ $section.Title | strings.Title }}
+    ({{ len $sectionPages }})
+  </a>
+{{ end }}
+{{ end }}
+
+{{ range $sections }}
+  {{ $section := . }}
+  {{ $sectionPages := where $pages "Section" (lower .Title) }}
+  <h2 id="{{ lower .Title }}">
+    {{ if $section.Params.IsLibrary }}
+      <a href="/library/">Library</a> /
+    {{ end }}
+    <a href="{{ $section.Permalink }}">
+      {{- with $section.Params.Icon -}}{{- partial "svg-text.html" . -}}{{- end -}}{{- $section.Title | strings.Title -}}
+    </a>
+    ({{ len $sectionPages }})
+  </h2>
+
+  {{ $isCraft := not $section.Params.IsLibrary }}
+  {{ partial "page-list-content.html" (dict "pages" $sectionPages "isCraft" $isCraft) }}
+{{ end }}

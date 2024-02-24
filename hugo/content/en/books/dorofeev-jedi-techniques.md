@@ -1,12 +1,14 @@
 ---
-title: "Jedi techniques"
-authors:
-- Maksim Dorofeev
+title: Jedi Techniques
 year: 2017
 goodreads: 34656521
-language: Russian
-rating: 5
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1490108559i/34656521.jpg"
+authors:
+- Maksim Dorofeev
 tags:
 - Gtd
 - Self-help
+rating: 5
+language: Russian
+hasNotes: false
 ---

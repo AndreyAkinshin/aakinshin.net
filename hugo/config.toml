@@ -8,6 +8,7 @@ buildFuture = true
 defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = false
 hasCJKLanguage = false
+titleCaseStyle = "none"
 
 [params]
   publicBaseURL = "https://aakinshin.net"
@@ -54,9 +55,20 @@ hasCJKLanguage = false
 
 [taxonomies]
   tag = "tags"
+  author = "authors"
 
 [permalinks]
-  posts = "/posts/:filename/"
-  books = "/library/books/:filename/"
-  papers = "/library/papers/:filename/"
-  quotes = "/library/quotes/:filename/"
+  authors = "/library/authors/:slug/"
+  [permalinks.page]
+    posts = "/posts/:filename/"
+    talks = "/talks/:filename/"
+    books = "/library/books/:filename/"
+    papers = "/library/papers/:filename/"
+    quotes = "/library/quotes/:filename/"
+    web = "/library/web/:filename/"
+  [permalinks.section]
+    posts = "/posts/"
+    talks = "/talks/"
+    books = "/library/books/"
+    papers = "/library/papers/"
+    quotes = "/library/quotes/"

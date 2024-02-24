@@ -2,7 +2,18 @@
 
 <div class="main-post">
 
-<h1 class="blog-post-title" id="post-title">{{ .Title }}</h1>
+<h1 class="blog-post-title" id="post-title">
+  <a href="{{ (.Site.GetPage "library").Permalink }}">Library</a> /
+  {{ .Title | strings.Title }}
+  {{ if hasSuffix .Site.BaseURL ":1313/" }}
+  <a href="{{ .Site.BaseURL }}pdf/Papers/{{ .File.BaseFileName }}.pdf">
+    <svg class="fai fai-link">
+      <title>PDF</title>
+      <use xlink:href="/img/fa/all.svg#file-pdf"></use>
+    </svg>
+  </a>
+  {{ end }}
+</h1>
 
 {{ partial "library-meta.html" . }}
 
@@ -10,16 +21,7 @@
 {{ .Content }}
 
 
-{{ $slug := .Params.slug | default (.File.BaseFileName | default .File.Dir) }}
-{{ $quotes := where (where .Site.Pages "Section" "quotes") "Params.source" $slug }}
-{{ if $quotes }}
-  <hr />
-  <h3>Quotes</h3>
-  {{ range $quotes }}
-  <h4><a href="{{ .Permalink }}">{{ .Title }}</a></h4>
-  {{ .Content }}
-  {{ end }}
-{{ end }}
+{{ partial "relations.html" (dict "page" . "site" $.Site ) }}
 
 </div>
 

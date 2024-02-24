@@ -59,5 +59,5 @@ The inconsistency inside the violin plot is just an example of a more general pi
 If some parts of the research are based on sample quantiles and other parts are based on density estimations,
   the results may be inconsistent.
 One of the possible workarounds for this issue is the usage of
-  [quantile-respectful density estimation based on the Harrell-Davis quantile estimator]({{< ref qrde-hd>}}),
+  [quantile-respectful density estimation based on the Harrell-Davis quantile estimator]({{< ref qrde-hd >}}),
   which gives a consistent pair of density and quantile estimators.

@@ -23,7 +23,7 @@ We also compare it with the efficiency of the Harrell-Davis quantile estimator.
 
 The Hodges-Lehmann median estimator is defined as the sample median of all pair-wise averages of the given sample.
 However, there are various ways to define an explicit formula.
-Following an approach from [[Park2020]](#Park2020), we consider three options:
+Following an approach from {{< link park2020 >}}, we consider three options:
 
 $$
 \operatorname{HL}_1 = \underset{i < j}{\operatorname{median}}\Big(\frac{x_i + x_j}{2}\Big),\quad

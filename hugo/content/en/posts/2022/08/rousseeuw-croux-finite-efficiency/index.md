@@ -27,7 +27,7 @@ In this post, we perform a simulation study in order to obtain the actual finite
 
 ### Introduction
 
-The $S_n$ and $Q_n$ estimators are presented in [[Rousseeuw1993]](#Rousseeuw1993).
+The $S_n$ and $Q_n$ estimators are presented in {{< link rousseeuw1993 >}}.
 For a sample $x = \{ x_1, x_2, \ldots, x_n \}$, they are defined as follows:
 
 $$

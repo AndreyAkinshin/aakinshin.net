@@ -1,11 +1,13 @@
 ---
-title: "Never Split the Difference: Negotiating as if Your Life Depended on It"
-authors:
-- Chris Voss
+title: "Never Split the Difference: Negotiating as If Your Life Depended on It"
 year: 2023
 goodreads: 123857637
-rating: 6
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1680014152i/123857637.jpg"
+authors:
+- Chris Voss
 tags:
 - Psychology
 - Communications
+rating: 6
+hasNotes: false
 ---

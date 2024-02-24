@@ -77,7 +77,7 @@ I would like to share an approach that I use to compare various test procedures.
 Instead of focusing on separate numbers for specific effect sizes,
   I evaluate the whole function that describes the dependency of the positive detection rate on the actual effect size.
 Sometimes, such a function is referenced as the
-  *power curve by effect size* (e.g., see [[Bartlett2022]](#Bartlett2022)).
+  *power curve by effect size* (e.g., see {{< link bartlett2022 >}}).
 
 Let me demonstrate this approach using a classic example.
 We compare two samples from two normal distributions $\mathcal{N}(\mu_1, 1)$ and $\mathcal{N}(\mu_2, 1)$
@@ -137,11 +137,3 @@ For $n=100$, the maximum observed difference of $\approx 0.02$ appears for $d = 
 While the suggested approach of analyzing the power curves is more complicated than the classic Type I/II error rate
   (it forces you to consider the whole function instead of two numbers),
   I believe that it reduces the level of misleadingness and helps to improve the testing procedure design.
-
-### References
-
-* <b id="Bartlett2022">[Bartlett2022]</b>  
-  Bartlett, James E., and Sarah J. Charles.
-  "Power to the People: A Beginner’s Tutorial to Power Analysis using jamovi."
-  Meta-Psychology 6 (2022).  
-  DOI: [10.15626/MP.2021.3078](http://dx.doi.org/10.15626/MP.2021.3078)

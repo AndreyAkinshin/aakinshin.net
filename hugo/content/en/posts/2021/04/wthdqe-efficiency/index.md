@@ -35,7 +35,7 @@ The relative efficiency value depends on five parameters:
 * Sample size $n$
 * Distribution
 
-Our target quantile estimator is the Harrell-Davis (HD) quantile estimator ([[Harrell1982]](#Harrell1982)).
+Our target quantile estimator is the Harrell-Davis (HD) quantile estimator ({{< link harrell1982 >}}).
 
 $$
 Q_{HD}(p) = \sum_{i=1}^{n} W_{i} \cdot x_{(i)}, \quad
@@ -54,7 +54,7 @@ The conventional baseline quantile estimator in such simulations is
   the traditional quantile estimator that is defined as
   a linear combination of two subsequent order statistics.
 To be more specific, we are going to use the Type 7 quantile estimator from the Hyndman-Fan classification or
-  HF7 ([[Hyndman1996]](#Hyndman1996)).
+  HF7 ({{< link hyndman1996 >}}).
 It can be expressed as follows (assuming one-based indexing):
 
 $$

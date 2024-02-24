@@ -1,3 +1,4 @@
 ---
 title: Philosophy
+icon: philosophy
 ---

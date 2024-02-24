@@ -1,10 +1,12 @@
 ---
-title: "The Tombs of Atuan"
-authors:
-- Ursula K. Le Guin
+title: The Tombs of Atuan
 year: 2001
 goodreads: 13662
-rating: 4
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1659761935i/13662.jpg"
+authors:
+- Ursula K. Le Guin
 tags:
 - Fiction
+rating: 4
+hasNotes: false
 ---

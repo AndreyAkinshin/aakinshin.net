@@ -1,23 +1,26 @@
 ---
-title: "Time-Efficient Algorithms for Robust Estimators of Location, Scale, Symmetry, and Tail heaviness"
-authors:
-- Wouter Gelade
-- Vincenzo Verardi
-- Catherine Vermandele
+title: Time-Efficient Algorithms for Robust Estimators of Location, Scale, Symmetry, and Tail Heaviness
 year: 2015
 doi: 10.1177/1536867X1501500105
 urls:
 - "http://journals.sagepub.com/doi/10.1177/1536867X1501500105"
+authors:
+- Wouter Gelade
+- Vincenzo Verardi
+- Catherine Vermandele
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Wouter Gelade, Vincenzo Verardi, Catherine Vermandele</i> <span title="The analysis of the empirical distribution of univariate data often includes the computation of location, scale, skewness, and tail-heaviness measures, which are estimates of specific parameters of the underlying population distribution. Several measures are available, but they differ by Gaussian efficiency, robustness regarding outliers, and meaning in the case of asymmetric distributions. In this article, we briefly compare, for each type of parameter (location, scale, skewness, and tail heaviness), the “classical” estimator based on (centered) moments of the empirical distribution, an estimator based on specific quantiles of the distribution, and an estimator based on pairwise comparisons of the observations. This last one always performs better than the other estimators, particularly in terms of robustness, but it requires a heavy computation time of an order of n">“Time-Efficient Algorithms for Robust Estimators of Location, Scale, Symmetry, and Tail heaviness”</span> (2015) // The Stata Journal: Promoting communications on statistics and Stata. Vol.&nbsp;15. No&nbsp;1. Pp.&nbsp;77–94. DOI:&nbsp;<a href='https://doi.org/10.1177/1536867X1501500105'>10.1177/1536867X1501500105</a>
+## Reference
+
+> <i>Wouter Gelade, Vincenzo Verardi, Catherine Vermandele</i> “Time-Efficient Algorithms for Robust Estimators of Location, Scale, Symmetry, and Tail heaviness” (2015) // The Stata Journal: Promoting communications on statistics and Stata. Vol.&nbsp;15. No&nbsp;1. Pp.&nbsp;77–94. DOI:&nbsp;<a href='https://doi.org/10.1177/1536867X1501500105'>10.1177/1536867X1501500105</a>
 
 ## Abstract
 
-The analysis of the empirical distribution of univariate data often includes the computation of location, scale, skewness, and tail-heaviness measures, which are estimates of specific parameters of the underlying population distribution. Several measures are available, but they differ by Gaussian efficiency, robustness regarding outliers, and meaning in the case of asymmetric distributions. In this article, we briefly compare, for each type of parameter (location, scale, skewness, and tail heaviness), the “classical” estimator based on (centered) moments of the empirical distribution, an estimator based on specific quantiles of the distribution, and an estimator based on pairwise comparisons of the observations. This last one always performs better than the other estimators, particularly in terms of robustness, but it requires a heavy computation time of an order of n
+> The analysis of the empirical distribution of univariate data often includes the computation of location, scale, skewness, and tail-heaviness measures, which are estimates of specific parameters of the underlying population distribution. Several measures are available, but they differ by Gaussian efficiency, robustness regarding outliers, and meaning in the case of asymmetric distributions. In this article, we briefly compare, for each type of parameter (location, scale, skewness, and tail heaviness), the “classical” estimator based on (centered) moments of the empirical distribution, an estimator based on specific quantiles of the distribution, and an estimator based on pairwise comparisons of the observations. This last one always performs better than the other estimators, particularly in terms of robustness, but it requires a heavy computation time of an order of n
 
 ## Bib
 
@@ -36,6 +39,6 @@ The analysis of the empirical distribution of univariate data often includes the
   author = {Gelade, Wouter and Verardi, Vincenzo and Vermandele, Catherine},
   month = {apr},
   year = {2015},
-  pages = {77--94},
+  pages = {77--94}
 }
 ```

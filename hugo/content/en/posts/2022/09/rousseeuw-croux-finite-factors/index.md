@@ -28,7 +28,7 @@ In this post, we provide refined values of these constants with higher accuracy.
 
 ### Introduction
 
-The $S_n$ and $Q_n$ estimators are presented in [[Rousseeuw1993]](#Rousseeuw1993).
+The $S_n$ and $Q_n$ estimators are presented in {{< link rousseeuw1993 >}}.
 For a sample $x = \{ x_1, x_2, \ldots, x_n \}$, they are defined as follows:
 
 $$
@@ -53,7 +53,7 @@ where
 * $k = \binom{\lfloor n / 2 \rfloor + 1}{2}$,
 * ${}_{(k)}$ is the $k^\textrm{th}$ order statistic.
 
-In [[Croux1992]](#Croux1992)), rough approximations of $c_n$ and $d_n$ are given.
+In {{< link croux1992 >}}), rough approximations of $c_n$ and $d_n$ are given.
 The values for $n \leq 9$ are presented in the following table:
 
 | n | $c_n$ | $d_n$ |

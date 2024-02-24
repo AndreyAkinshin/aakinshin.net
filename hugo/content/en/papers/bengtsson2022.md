@@ -1,16 +1,19 @@
 ---
 title: "matrixStats: Functions that Apply to Rows and Columns of Matrices (and to Vectors)"
-authors:
-- Henrik Bengtsson
 year: 2022
 urls:
 - "https://cran.r-project.org/web/packages/matrixStats/index.html"
+authors:
+- Henrik Bengtsson
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Henrik Bengtsson,  others</i> <span title="">“matrixStats: Functions that Apply to Rows and Columns of Matrices (and to Vectors)”</span> (2022) 
+## Reference
+
+> <i>Henrik Bengtsson,  others</i> “matrixStats: Functions that Apply to Rows and Columns of Matrices (and to Vectors)” (2022) 
 
 ## Bib
 
@@ -20,6 +23,6 @@ tags:
   author = {Henrik Bengtsson and others},
   year = {2022},
   note = {R package version 0.62.0},
-  url = {https://cran.r-project.org/web/packages/matrixStats/index.html},
+  url = {https://cran.r-project.org/web/packages/matrixStats/index.html}
 }
 ```

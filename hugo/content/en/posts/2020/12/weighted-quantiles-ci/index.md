@@ -74,7 +74,7 @@ I tried different variations of the above approaches,
   but I wasn't satisfied with the results.
 Based on my experience, the most optimal approach in terms of accuracy and performance
   is **the Maritz-Jarrett method** ([[Maritz1979]](#Maritz1979)).
-Also, it works as a natural extension of the Harrell-Davis quantile estimator ([[Harrell1982]](#Harrell1982))
+Also, it works as a natural extension of the Harrell-Davis quantile estimator ({{< link harrell1982 >}})
   which is my favorite way to estimate quantiles.
 Let's discuss how we can adopt the Maritz-Jarrett method to the weighted samples.
 
@@ -129,7 +129,7 @@ $$
 ### The weighted version of the Maritz-Jarrett method
 
 To adopt the Maritz-Jarrett method to the weighted samples,
-  we can use [the same trick]({{< ref weighted-quantiles >}}) we used for the Harrell-Davis quantile estimator (see [[Harrell1982]](#Harrell1982)).
+  we can use [the same trick]({{< ref weighted-quantiles >}}) we used for the Harrell-Davis quantile estimator (see {{< link harrell1982 >}}).
 First, we should replace the sample size by the weighted sample size using the [Kish's effective sample size]({{< ref kish-ess-weighted-quantiles >}}):
 
 $$

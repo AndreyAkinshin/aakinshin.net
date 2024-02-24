@@ -2,25 +2,17 @@
 
 <div class="main-post">
 
-<h1 class="blog-post-title" id="post-title">{{ .Title }}</h1>
+<h1 class="blog-post-title" id="post-title">
+  <a href="{{ (.Site.GetPage "library").Permalink }}">Library</a> /
+  {{ .Title | strings.Title }}
+</h1>
 
 {{ partial "library-meta.html" . }}
 
 <div class="main-content">
 {{ .Content }}
 
-
-{{ $slug := .Params.slug | default (.File.BaseFileName | default .File.Dir) }}
-{{ $quotes := where (where .Site.Pages "Section" "quotes") "Params.source" $slug }}
-{{ if $quotes }}
-  <hr />
-  <h3>Quotes</h3>
-  {{ range sort $quotes ".Params.Page" ".Title" }}
-  <h4><a href="{{ .Permalink }}">{{ .Title }}</a></h4>
-  {{ .Content }}
-  {{ if .Params.Page }}<i>Page {{ .Params.Page }}</i><br /><br />{{ end }}
-  {{ end }}
-{{ end }}
+{{ partial "relations.html" (dict "page" . "site" $.Site ) }}
 
 </div>
 

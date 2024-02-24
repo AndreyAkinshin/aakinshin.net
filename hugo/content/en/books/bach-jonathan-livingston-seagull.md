@@ -1,10 +1,12 @@
 ---
-title: "Jonathan Livingston Seagull"
-authors:
-- Richard Bach
+title: Jonathan Livingston Seagull
 year: 1970
 goodreads: 71728
-rating: 4
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1432222358i/71728.jpg"
+authors:
+- Richard Bach
 tags:
 - Fiction
+rating: 4
+hasNotes: false
 ---

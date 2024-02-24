@@ -1,17 +1,20 @@
 ---
 title: "Robust Statistics: Theory and Methods (With R)"
+year: 2019
 authors:
 - Ricardo A Maronna
 - R Douglas Martin
 - Victor J Yohai
-- Mat'ias Salibi'an-Barrera
-year: 2019
+- "Mat'ias Salibi'an-Barrera"
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Ricardo A Maronna, R Douglas Martin, Victor J Yohai, Mat\'\ias Salibi\'an-Barrera</i> <span title="">“Robust Statistics: Theory and Methods (With R)”</span> (2019) // Publisher: John Wiley \& Sons. ISBN:&nbsp;978-1-119-21468-7.
+## Reference
+
+> <i>Ricardo A Maronna, R Douglas Martin, Victor J Yohai, Mat\'\ias Salibi\'an-Barrera</i> “Robust Statistics: Theory and Methods (With R)” (2019) // Publisher: John Wiley \& Sons. ISBN:&nbsp;978-1-119-21468-7.
 
 ## Bib
 
@@ -23,6 +26,6 @@ tags:
   isbn = {978-1-119-21468-7},
   year = {2019},
   series = {Wiley Series in Probability and Statistics},
-  edition = {2},
+  edition = {2}
 }
 ```

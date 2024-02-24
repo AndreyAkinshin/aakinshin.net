@@ -32,7 +32,7 @@ In this post, we briefly discuss choosing a better initialization strategy to wo
 
 I assume that you have already read the [original post]({{< ref p2-quantile-estimator >}})
   and understand the approach behind P² quantile estimator.
-Once we observed the first five elements, the original paper [[Jain1985]](#Jain1985) suggests
+Once we observed the first five elements, the original paper {{< link jain1985 >}} suggests
   using the following initial values:
 
 $$

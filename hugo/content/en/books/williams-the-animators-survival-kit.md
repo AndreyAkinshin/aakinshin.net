@@ -1,10 +1,12 @@
 ---
 title: "The Animator's Survival Kit"
-authors:
-- Richard Williams
 year: 2001
 goodreads: 136091
-rating: 5
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1311991805i/136091.jpg"
+authors:
+- Richard Williams
 tags:
 - Drawing
+rating: 5
+hasNotes: false
 ---

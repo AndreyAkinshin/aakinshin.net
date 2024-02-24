@@ -1,14 +1,15 @@
 ---
 title: "The Art of Procrastination: A Guide to Effective Dawdling, Lollygagging and Postponing"
-authors:
-- John R. Perry
 year: 2012
 goodreads: 15699869
-rating: 5
+authors:
+- John R. Perry
 tags:
 - Philosophy
 - Self-Help
 - Psychology
 - Humor
 - Gtd
+rating: 5
+hasNotes: false
 ---

@@ -1,17 +1,24 @@
 ---
-title: "Algorithm 616: fast computation of the Hodges-Lehmann location estimator"
-authors:
-- John F. Monahan
+title: "Algorithm 616: Fast Computation of the Hodges-Lehmann Location Estimator"
 year: 1984
 doi: 10.1145/1271.319414
 urls:
 - "https://dl.acm.org/doi/10.1145/1271.319414"
+authors:
+- John F Monahan
 tags:
 - Mathematics
 - Statistics
+hasNotes: true
 ---
 
-<i>John F. Monahan</i> <span title="">“Algorithm 616: fast computation of the Hodges-Lehmann location estimator”</span> (1984) // ACM Transactions on Mathematical Software. Vol.&nbsp;10. No&nbsp;3. Pp.&nbsp;265–270. DOI:&nbsp;<a href='https://doi.org/10.1145/1271.319414'>10.1145/1271.319414</a>
+Relevant discussion in `DescTools`: https://github.com/AndriSignorell/DescTools/issues/97
+The algorithm was [implemented](https://github.com/AndriSignorell/DescTools/issues/97#issuecomment-1835747194)
+  in `v0.99.52`.
+
+## Reference
+
+> <i>John F Monahan</i> “Algorithm 616: fast computation of the Hodges-Lehmann location estimator” (1984) // ACM Transactions on Mathematical Software. Vol.&nbsp;10. No&nbsp;3. Pp.&nbsp;265–270. DOI:&nbsp;<a href='https://doi.org/10.1145/1271.319414'>10.1145/1271.319414</a>
 
 ## Bib
 
@@ -27,9 +34,9 @@ tags:
   number = {3},
   urldate = {2023-12-10},
   journal = {ACM Transactions on Mathematical Software},
-  author = {Monahan, John F.},
+  author = {Monahan, John F},
   month = {aug},
   year = {1984},
-  pages = {265--270},
+  pages = {265--270}
 }
 ```

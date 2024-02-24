@@ -1,11 +1,13 @@
 ---
 title: "The Tipping Point: How Little Things Can Make a Big Difference"
-authors:
-- Malcolm Gladwell
 year: 2000
 goodreads: 2612
-rating: 3
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1473396980i/2612.jpg"
+authors:
+- Malcolm Gladwell
 tags:
 - Psychology
 - Sociology
+rating: 3
+hasNotes: false
 ---

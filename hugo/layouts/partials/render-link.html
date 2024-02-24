@@ -1,0 +1,56 @@
+{{ $authors := slice }}
+{{ with (.GetTerms "authors") }}
+  {{ range . }}
+    {{ $authors = $authors | append . }}
+  {{ end }}
+{{ end}}
+{{ if .Params.Source }}
+  {{ $source := .Site.GetPage .Params.Source }}
+  {{ if $source }}
+    {{ with ($source.GetTerms "authors") }}
+      {{ range . }}
+        {{ $authors = $authors | append . }}
+      {{ end }}
+    {{ end}}
+  {{ end }}
+{{ end }}
+
+{{ $title := .Title }}
+{{ if not (eq .Section "posts") }}
+  {{ if in $title ":" }}
+    {{ $title = index (split $title ":") 0 }}
+  {{ end }}
+{{ end }}
+
+<a href="{{ .Permalink }}">
+  {{ if eq .Type "quotes" }}"{{ end }}
+  {{- $title | strings.Title -}}
+  {{ if eq .Type "quotes" }}"{{ end }}
+</a>
+
+{{ if or (or (eq .Type "posts") (eq .Type "web")) (or (eq .Type "talks") (eq .Type "media")) }}
+  {{ if .Date }}
+    ({{ .Date.Format "2006-01-02" }})
+  {{ else if .Params.Year }}
+    ({{ .Params.Year }})
+  {{ end }}
+{{ end }}
+
+{{ $type := .Type }}
+{{ if .Params.IsLibrary }}
+  {{ if .Params.Year }}({{ .Params.Year }}{{ if .Params.Language }}, In {{ .Params.Language }}{{ end }}){{ end }}
+  {{ with $authors }}
+    by
+    {{ if gt (len .) 1 }}
+        {{ range $index, $author := first 1 . }}{{ if $index }}, {{ end }}<a href="{{ $author.Permalink }}">{{ $author.Title }}</a>{{ end }}
+        et al.
+    {{ else }}
+        {{ range $index, $author := . }}{{ if $index }}, {{ end }}<a href="{{ $author.Permalink }}">{{ $author.Title }}</a>{{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ if or (eq $type "talks") (eq $type "media") }}
+  / {{ .Params.Event }} {{ .Params.ContentHost }}
+  {{ if eq .Params.Language "ru" }}(In Russian){{ end }}
+{{ end }}

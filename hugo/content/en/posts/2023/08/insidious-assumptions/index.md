@@ -10,7 +10,7 @@ features:
 - math
 ---
 
-Recently, I was rereading "Robust Statistics: The Approach Based on Influence Functions" by Frank Hampel et al.
+Recently, I was rereading {{< link hampel1986 >}}
   and I found this quote about the difference between robust and nonparametric statistics (page 9):
 
 > Robust statistics considers the effects of only approximate fulfillment of assumptions,

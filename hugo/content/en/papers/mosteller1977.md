@@ -1,23 +1,26 @@
 ---
-title: "Data analysis and regression. A second course in statistics"
+title: Data Analysis and regression. A Second Course in Statistics
+year: 1977
 authors:
 - Frederick Mosteller
 - John W Tukey
-year: 1977
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Frederick Mosteller, John W Tukey</i> <span title="">“Data analysis and regression. A second course in statistics”</span> (1977) // Addison-Wesley series in behavioral science: quantitative methods.
+## Reference
+
+> <i>Frederick Mosteller, John W Tukey</i> “Data analysis and regression. A second course in statistics” (1977) // Addison-Wesley series in behavioral science: quantitative methods.
 
 ## Bib
 
 ```bib
-@Article{mosteller1977,
+@Book{mosteller1977,
   title = {Data analysis and regression. A second course in statistics},
   author = {Mosteller, Frederick and Tukey, John W},
   journal = {Addison-Wesley series in behavioral science: quantitative methods},
-  year = {1977},
+  year = {1977}
 }
 ```

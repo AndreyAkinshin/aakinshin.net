@@ -1,14 +1,16 @@
 ---
 title: Robust Statistics
+year: 2009
+goodreads: 1074716
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1180761288i/1074716.jpg"
 authors:
 - Peter J. Huber
 - Elvezio Ronchetti
-year: 2009
-goodreads: 1074716
-rating: 4
 tags:
 - Mathematics
 - Statistics
+rating: 4
+hasNotes: true
 ---
 
 It is one of the pioneer books in the field: the first edition was published in 1981.

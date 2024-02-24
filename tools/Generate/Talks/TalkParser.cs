@@ -57,6 +57,7 @@ public class TalkParser : YamlParser
         Title = GetStr(yaml, "title"),
         Location = GetStr(yaml, "location"),
         Lang = GetStr(yaml, "lang"),
+        Abstract = GetStr(yaml, "abstract"),
         Year = GetDate(yaml, "date")?.Year ?? GetInt(yaml, "year"),
         Links = GetLinks(yaml, "links")
     };

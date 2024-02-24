@@ -31,14 +31,14 @@ $$
   \underset{1 \leq i \leq n;\; 1 \leq j \leq m}{\operatorname{median}}\Big(y_j - x_i\Big).
 $$
 
-It was suggested in [[Hodges1963]](#Hodges1963) and [[Sen1963]](#Sen1963).
+It was suggested in {{< link hodges1963 >}} and {{< link sen1963 >}}.
 
 ### Confidence Interval
 
 Once we get a shift estimation $\hat{\Delta}$, we may want to also get a confidence interval for this estimation.
-[[Hodges1963]](#Hodges1963) doesn't contain any mention of confidence intervals.
-[[Sen1963]](#Sen1963) includes a discussion about confidence interval, but it's quite vague.
-Recently, I have found a nice straightforward approach for getting CIs (see [[Deshpande2018]](#Deshpande2018), 7.11.2).
+{{< link hodges1963 >}} doesn't contain any mention of confidence intervals.
+{{< link sen1963 >}} includes a discussion about confidence interval, but it's quite vague.
+Recently, I have found a nice straightforward approach for getting CIs (see {{< link deshpande2018 >}}, 7.11.2).
 Let's calculate all the pairwise differences $y_j-x_i$, sort them and denote the result as
   $d = \{ d_1, d_2, \ldots, d_{nm} \}$.
 Next, we define the required confidence interval with confidence level $\alpha$ as $[d_l, d_u]$ where

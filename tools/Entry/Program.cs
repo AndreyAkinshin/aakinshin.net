@@ -1,8 +1,5 @@
-﻿using Common.Papers;
-using Common.Publications;
-using Generate.Media;
-using Generate.OpenSource;
-using Generate.Talks;
+﻿using Common.Utils;
+using Generate;
 
 namespace Entry;
 
@@ -12,34 +9,62 @@ internal class Program
     {
         if (args.Length == 0)
         {
-            Error("No verb specified.");
+            Logger.Error("No verb specified.");
             return -1;
         }
 
-        if (args[0] == "import" && args.Length > 1)
+        var runner = Runner.Instance;
+
+        if (args.Length == 1)
         {
-            PublicationImporter.Instance.Import(args[1]);
-            return 0;
+            switch (args[0])
+            {
+                case "update":
+                case "u":
+                    runner.Update();
+                    return 0;
+                case "download":
+                    runner.Download();
+                    return 0;
+                case "fetch":
+                case "f":
+                    new GlobalStorage().FetchAsync().Wait();
+                    return 0;
+            }
         }
 
-        if (args[0] == "generate" || args[0] == "gen")
+        if (args.Length == 2)
         {
-            new TalkProcessor().Run();
-            new MediaProcessor().Run();
-            new PublicationProcessor().Run();
-            new OpenSourceProcessor().Run();
-            PaperStorage.Refresh();
-            return 0;
+            switch (args[0])
+            {
+                case "import":
+                    runner.ImportBib(args[1]);
+                    return 0;
+                case "doi":
+                    runner.Doi(args[1]);
+                    return 0;
+                case "quote":
+                case "q":
+                    runner.Quote(args[1]);
+                    return 0;
+                case "web":
+                case "w":
+                    runner.Web(args[1]);
+                    return 0;
+            }
         }
 
-        Error("Unknown verb: " + args[0]);
+        if (args.Length == 3)
+        {
+            switch (args[0])
+            {
+                case "rename":
+                    runner.Rename(args[1], args[2]);
+                    return 0;
+            }
+        }
+
+        Logger.Error("Unknown verb: " + args[0]);
         return -1;
-    }
-
-    private static void Error(string message)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.Error.WriteLine(message);
-        Console.ResetColor();
     }
 }

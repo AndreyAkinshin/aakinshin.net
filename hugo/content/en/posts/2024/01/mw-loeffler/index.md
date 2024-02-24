@@ -38,14 +38,14 @@ It's much faster than the classic approach, and it requires only $\mathcal{O}(n+
 ### The algorithm idea
 
 Let us say we compare two samples of sizes $n$ and $m$, and the Mann-Whitney U statistic value is $u$.
-To obtain the p-value, we need $p_{n,m}(u)$ (see [[Mann1947]](#Mann1947), page 51),
+To obtain the p-value, we need $p_{n,m}(u)$ (see {{< link mann1947 >}}, page 51),
   which is typically defined using the following recurrent equation:
 
 $$
 p_{n,m}(u) = p_{n-1,m}(u - m) + p_{n,m-1}(u).
 $$
 
-In [[Löffler1982]](#Loeffler1982), Andreas Löffler derives an alternative recurrent equation:
+In {{< link loeffler1982 >}}, Andreas Löffler derives an alternative recurrent equation:
 
 $$
 p_{n,m}(u) = \frac{1}{u} \sum_{i=0}^{u-1} p_{n,m}(i) \cdot \sigma_{n,m}(u - i),
@@ -91,22 +91,9 @@ public long[] MannWhitneyLoeffler(int n, int m, int u)
 ### Further reading
 
 For a better understanding of the suggested approach, I recommend reading the original papers:
-  [[Mann1947]](#Mann1947) and [[Löffler1982]](#Loeffler1982).
+  {{< link mann1947 >}} and {{< link loeffler1982 >}}.
 Also, it is worth reading the corresponding discussion about the adoption of this approach in R and SciPy:
 
 * [r-devel mailing list discussion (2024-January/083124)](https://stat.ethz.ch/pipermail/r-devel/2024-January/083124.html)
 * [R 18655: Enhancements to `*wilcox` functions for large population sizes](https://bugs.r-project.org/show_bug.cgi?id=18655)
 * [SciPy discussion](https://github.com/scipy/scipy/pull/4933#issuecomment-1898082691)
-
-### References
-
-* <b id="Mann1947">[Mann1947]</b>  
-  Mann, H. B., and D. R. Whitney.
-  “On a Test of Whether One of Two Random Variables Is Stochastically Larger than the Other.”
-  The Annals of Mathematical Statistics 18, no. 1 (March 1947): 50–60.  
-  DOI: [10.1214/aoms/1177730491](https://dx.doi.org/10.1214/aoms/1177730491)
-* <b id="Loeffler1982">[Löffler1982]</b>  
-  Andreas Löffler.
-  “Über eine Partition der nat. Zahlen und ihre Anwendung beim U-Test” (1982).  
-  [Original PDF (In German)](https://upload.wikimedia.org/wikipedia/commons/f/f5/LoefflerWilcoxonMannWhitneyTest.pdf)  
-  [English translation](https://upload.wikimedia.org/wikipedia/de/1/19/MannWhitney_151102.pdf)

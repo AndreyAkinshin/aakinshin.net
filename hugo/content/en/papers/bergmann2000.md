@@ -1,19 +1,22 @@
 ---
-title: "Different Outcomes of the Wilcoxon-Mann-Whitney Test from Different Statistics Packages"
-authors:
-- Reinhard Bergmann
-- John Ludbrook
-- Will P. J. M. Spooren
+title: Different Outcomes of the Wilcoxon-Mann-Whitney Test from Different Statistics Packages
 year: 2000
 doi: 10.2307/2685616
 urls:
 - "https://www.jstor.org/stable/2685616?origin=crossref"
+authors:
+- Reinhard Bergmann
+- John Ludbrook
+- Will P J M Spooren
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Reinhard Bergmann, John Ludbrook, Will P. J. M. Spooren</i> <span title="">“Different Outcomes of the Wilcoxon-Mann-Whitney Test from Different Statistics Packages”</span> (2000) // The American Statistician. Vol.&nbsp;54. No&nbsp;1. Pp.&nbsp;72. DOI:&nbsp;<a href='https://doi.org/10.2307/2685616'>10.2307/2685616</a>
+## Reference
+
+> <i>Reinhard Bergmann, John Ludbrook, Will P J M Spooren</i> “Different Outcomes of the Wilcoxon-Mann-Whitney Test from Different Statistics Packages” (2000) // The American Statistician. Vol.&nbsp;54. No&nbsp;1. Pp.&nbsp;72. DOI:&nbsp;<a href='https://doi.org/10.2307/2685616'>10.2307/2685616</a>
 
 ## Bib
 
@@ -27,9 +30,9 @@ tags:
   number = {1},
   urldate = {2023-05-03},
   journal = {The American Statistician},
-  author = {Bergmann, Reinhard and Ludbrook, John and Spooren, Will P. J. M.},
+  author = {Bergmann, Reinhard and Ludbrook, John and Spooren, Will P J M},
   month = {feb},
   year = {2000},
-  pages = {72},
+  pages = {72}
 }
 ```

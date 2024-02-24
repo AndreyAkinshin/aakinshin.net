@@ -1,17 +1,20 @@
 ---
-title: "Truth, Damn Truth, and Statistics"
-authors:
-- Paul F. Velleman
+title: Truth, Damn Truth, and Statistics
 year: 2008
 doi: 10.1080/10691898.2008.11889565
 urls:
 - "https://www.tandfonline.com/doi/full/10.1080/10691898.2008.11889565"
+authors:
+- Paul F Velleman
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Paul F. Velleman</i> <span title="">“Truth, Damn Truth, and Statistics”</span> (2008) // Journal of Statistics Education. Vol.&nbsp;16. No&nbsp;2. Pp.&nbsp;7. DOI:&nbsp;<a href='https://doi.org/10.1080/10691898.2008.11889565'>10.1080/10691898.2008.11889565</a>
+## Reference
+
+> <i>Paul F Velleman</i> “Truth, Damn Truth, and Statistics” (2008) // Journal of Statistics Education. Vol.&nbsp;16. No&nbsp;2. Pp.&nbsp;7. DOI:&nbsp;<a href='https://doi.org/10.1080/10691898.2008.11889565'>10.1080/10691898.2008.11889565</a>
 
 ## Bib
 
@@ -26,9 +29,9 @@ tags:
   number = {2},
   urldate = {2023-02-04},
   journal = {Journal of Statistics Education},
-  author = {Velleman, Paul F.},
+  author = {Velleman, Paul F},
   month = {jul},
   year = {2008},
-  pages = {7},
+  pages = {7}
 }
 ```

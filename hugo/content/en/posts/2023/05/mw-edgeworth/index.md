@@ -37,7 +37,6 @@ The Mann-Whitney U test statistic, U, is defined as follows:
 
 $$
 U(x, y) = \sum_{i=1}^n \sum_{j=1}^m S(x_i, y_j),\quad
-
 S(a,b) = \begin{cases}
 1,   & \text{if } a > b, \\
 0.5, & \text{if } a = b, \\
@@ -80,7 +79,7 @@ It tends to overestimate the p-values, especially for extreme U values,
 A more accurate approximation can be obtained using the Edgeworth expansion.
 The idea is to refine the Normal approximation by adding corrective terms
   that depend on the higher moments of the distribution.
-In this post, we use the Edgeworth expansion from [[Bean2004]](#Bean2004).
+In this post, we use the Edgeworth expansion from {{< link bean2004 >}}.
 It is given by:
 
 $$
@@ -134,12 +133,3 @@ Thus, it enhances the reliability and validity of the Mann-Whitney U test result
 So, the next time you perform a Mann-Whitney U test,
   consider using the Edgeworth expansion to approximate your p-values.
 You might find it to be a much more reliable and precise way to draw conclusions from your data.
-
-### References
-
-* <b id="Bean2004">[Bean2004]</b>  
-  Raphaël Bean, Sorana Froda, and Constance Van Eeden.
-  “The Normal, Edgeworth, Saddlepoint and Uniform Approximations to the Wilcoxon–Mann–Whitney Null-Distribution:
-    A Numerical Comparison.”
-  Journal of Nonparametric Statistics 16, no. 1–2 (February 2004): 279–88.  
-  DOI: [10.1080/10485250310001622677](https://doi.org/10.1080/10485250310001622677)

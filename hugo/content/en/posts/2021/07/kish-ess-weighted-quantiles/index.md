@@ -44,7 +44,7 @@ $$
 n_\textrm{eff/norm} = \dfrac{\sum_{i=1}^n w_i}{\max_{i=1}^{n} w_i}.
 $$
 
-In [[Kish1965]](#Kish1965), there is a better way to estimate the effective sample size:
+In {{< link kish1965 >}}, there is a better way to estimate the effective sample size:
 
 $$
 n_\textrm{eff/kish} = \frac{\Big( \sum_{i=1}^n w_i \Big)^2}{\sum_{i=1}^n w_i^2 }.

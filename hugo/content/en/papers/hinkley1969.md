@@ -1,14 +1,18 @@
 ---
-title: "On the ratio of two correlated normal random variables"
-authors:
-- Hinkley D. V
+title: On the Ratio of Two Correlated Normal Random Variables
 year: 1969
+doi: 10.2307/2334671
+authors:
+- Hinkley D V
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Hinkley D. V</i> <span title="">“On the ratio of two correlated normal random variables”</span> (1969) // Biometrika. Vol.&nbsp;56. Pp.&nbsp;635.
+## Reference
+
+> <i>Hinkley D V</i> “On the ratio of two correlated normal random variables” (1969) // Biometrika. Vol.&nbsp;56. Pp.&nbsp;635. DOI:&nbsp;<a href='https://doi.org/10.2307/2334671'>10.2307/2334671</a>
 
 ## Bib
 
@@ -17,8 +21,9 @@ tags:
   title = {On the ratio of two correlated normal random variables},
   volume = {56},
   journal = {Biometrika},
-  author = {V, Hinkley D.},
+  author = {V, Hinkley D},
   year = {1969},
   pages = {635},
+  doi = {10.2307/2334671}
 }
 ```

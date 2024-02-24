@@ -128,7 +128,7 @@ Let's double-check that our calculations are correct.
 Below you can see an R script that generates 1000 random samples from the Gumbel distribution
   with $\mu = 0,\; \beta = 1$ (1000 elements in each sample).
 Next, it calculates the MAD estimation for each sample using the Harrell-Davis quantile estimator
-  for the median estimations (see [[Harrell1982]](#Harrell1982)).
+  for the median estimations (see {{< link harrell1982 >}}).
 After that, it calculates the median of all MAD estimations and prints the result.
 
 {{< src "simulation.R" >}}

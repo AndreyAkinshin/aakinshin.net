@@ -1,14 +1,17 @@
 ---
-title: "Statistical significance and effect size reporting: Portrait of a possible future"
+title: "Statistical Significance and Effect Size reporting: Portrait of a Possible Future"
+year: 1998
 authors:
 - Thompson B
-year: 1998
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Thompson B</i> <span title="">“Statistical significance and effect size reporting: Portrait of a possible future”</span> (1998) // Res. Schools. Vol.&nbsp;5. Pp.&nbsp;33.
+## Reference
+
+> <i>Thompson B</i> “Statistical significance and effect size reporting: Portrait of a possible future” (1998) // Res. Schools. Vol.&nbsp;5. Pp.&nbsp;33.
 
 ## Bib
 
@@ -19,6 +22,6 @@ tags:
   journal = {Res. Schools},
   author = {B, Thompson},
   year = {1998},
-  pages = {33},
+  pages = {33}
 }
 ```

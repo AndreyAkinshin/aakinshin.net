@@ -2,10 +2,10 @@
 {{ $lang := .Site.Language.Lang | default "en" }}
 <html lang="{{ $lang }}">
   {{ partial "head.html" . }}
-  <body>
+  <body class="flex flex-col min-h-screen">
     {{ partial "nav.html" . }}
 
-    <div class="main container mx-auto max-w-6xl px-6">
+    <div class="main container mx-auto max-w-6xl px-6 flex-grow">
       {{ block "main" . }}{{ end }}
     </div>
 

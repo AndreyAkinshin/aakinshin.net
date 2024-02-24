@@ -1,0 +1,39 @@
+{{ define "main" }}
+<div class="main-content">
+
+{{ $books := where .Site.RegularPages "Section" "books" }}
+{{ $papers := where .Site.RegularPages "Section" "papers" }}
+{{ $web := where .Site.RegularPages "Section" "web" }}
+{{ $quotes := where .Site.RegularPages "Section" "quotes" }}
+
+<h2>Library</h2>
+
+I enjoy the concept of having a personal library, but keeping a physical one is challenging.
+So, I’ve created a virtual library.
+This page contains a list of some stuff I’ve read with occasional notes and reviews.
+The current list is <i>terribly incomplete</i>, but I’m slowly expanding it using my old archive notes.
+<br /><br />
+
+<div class="flex flex-wrap gap-y-1 mb-3">
+  <a class="label-link" href="#books">{{ partial "svg.html" "book" }}Books ({{ len $books }})</a>
+  <a class="label-link" href="#papers">{{ partial "svg.html" "paper" }}Papers ({{ len $papers }})</a>
+  <a class="label-link" href="#web">{{ partial "svg.html" "paper" }}Web ({{ len $web }})</a>
+  <a class="label-link" href="#quotes">{{ partial "svg.html" "quote" }}Quotes ({{ len $quotes }})</a>
+</div>
+
+<div class="flex flex-wrap gap-y-1">
+  <a class="label-link" href="{{ (.Site.GetPage "philosophy").Permalink }}">{{ partial "svg.html" "philosophy" }} Philosophy</a>
+  <a class="label-link" href="{{ (.Site.GetPage "psychology").Permalink }}">{{ partial "svg.html" "psychology" }} Psychology</a>
+  <a class="label-link" href="{{ (.Site.GetPage "biography").Permalink }}">{{ partial "svg.html" "biography" }} Biography</a>
+  <a class="label-link" href="{{ (.Site.GetPage "mathematics").Permalink }}">{{ partial "svg.html" "math" }} Mathematics</a>
+  <a class="label-link" href="{{ (.Site.GetPage "fiction").Permalink }}">{{ partial "svg.html" "fiction" }} Fiction</a>
+  <a class="label-link" href="{{ (.Site.GetPage "science-audit").Permalink }}">{{ partial "svg.html" "audit" }} Science Audit</a>
+</div>
+
+{{ partial "page-list.html" (dict "site" $.Site "pages" $books) }}
+{{ partial "page-list.html" (dict "site" $.Site "pages" $papers) }}
+{{ partial "page-list.html" (dict "site" $.Site "pages" $web) }}
+{{ partial "page-list.html" (dict "site" $.Site "pages" $quotes) }}
+
+</div>
+{{ end }}

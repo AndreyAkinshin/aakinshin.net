@@ -34,7 +34,7 @@ Based on the given sample, we want to build an estimation of the $p^\textrm{th}$
 The traditional way to do this is to use a single order statistic
   or a linear combination of two subsequent order statistics.
 This approach could be implemented in various ways.
-A classification of the most popular implementations could be found in [[Hyndman1996]](#Hyndman1996).
+A classification of the most popular implementations could be found in {{< link hyndman1996 >}}.
 In this paper, Rob J. Hyndman and Yanan Fan describe nine types of traditional quantile estimators
   which are used in statistical computer packages.
 The most popular approach in this taxonomy is Type 7 which is used by default in R, Julia, NumPy, and Excel:
@@ -48,7 +48,7 @@ Traditional quantile estimators have simple implementations and a good robustnes
 However, their statistical efficiency is not always good enough:
   the obtained estimations could noticeably differ from the true distribution quantile values.
 The gap between the estimated and true values could be decreased by increasing the number of used order statistics.
-In [[Harrell1982]](#Harrell1982), Frank E. Harrell and C. E. Davis suggest estimating quantiles using
+In {{< link harrell1982 >}}, Frank E. Harrell and C. E. Davis suggest estimating quantiles using
   a weighted sum of all order statistics:
 
 $$

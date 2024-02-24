@@ -1,16 +1,19 @@
 ---
-title: "Nonparametric statistical inference"
+title: Nonparametric Statistical Inference
+year: 2020
+doi: 10.1201/9781315110479
 authors:
 - Jean Dickinson Gibbons
 - Subhabrata Chakraborti
-year: 2020
-doi: 10.1201/9781315110479
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Jean Dickinson Gibbons, Subhabrata Chakraborti</i> <span title="">“Nonparametric statistical inference”</span> (2020) // Publisher: CRC press. ISBN:&nbsp;9781138087446. DOI:&nbsp;<a href='https://doi.org/10.1201/9781315110479'>10.1201/9781315110479</a>
+## Reference
+
+> <i>Jean Dickinson Gibbons, Subhabrata Chakraborti</i> “Nonparametric statistical inference” (2020) // Publisher: CRC press. ISBN:&nbsp;9781138087446. DOI:&nbsp;<a href='https://doi.org/10.1201/9781315110479'>10.1201/9781315110479</a>
 
 ## Bib
 
@@ -22,6 +25,6 @@ tags:
   ed = {6},
   publisher = {CRC press},
   isbn = {9781138087446},
-  doi = {10.1201/9781315110479},
+  doi = {10.1201/9781315110479}
 }
 ```

@@ -1,13 +1,30 @@
 {{ define "main" }}
 
-<h1>{{ .Title }}</h1>
+<h1>{{ .Title | strings.Title }}</h1>
 
 <ul>
+
 {{ range .Data.Terms.ByCount }}
+  {{- if .Page.Params.Icon -}}
   <li>
-    <a  href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
-    <i>({{ .Count }})</i>
+    <a href="{{ .Page.RelPermalink }}">
+      {{- partial "svg-text.html" .Page.Params.Icon -}}
+      {{- .Page.Title -}}
+    </a>
+    ({{ .Count }})
   </li>
+  {{- end -}}
+{{ end }}
+
+{{ range .Data.Terms.ByCount }}
+  {{- if not .Page.Params.Icon -}}
+  <li>
+    <a href="{{ .Page.RelPermalink }}">
+      {{- .Page.Title -}}
+    </a>
+    ({{ .Count }})
+  </li>
+  {{- end -}}
 {{ end }}
 </ul>
 

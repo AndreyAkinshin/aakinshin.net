@@ -1,17 +1,20 @@
 ---
-title: "Performing high-powered studies efficiently with sequential analyses: Sequential analyses"
-authors:
-- Daniël Lakens
+title: "Performing high-powered Studies Efficiently with Sequential analyses: Sequential Analyses"
 year: 2014
 doi: 10.1002/ejsp.2023
 urls:
 - "http://doi.wiley.com/10.1002/ejsp.2023"
+authors:
+- Daniël Lakens
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Daniël Lakens</i> <span title="">“Performing high-powered studies efficiently with sequential analyses: Sequential analyses”</span> (2014) // European Journal of Social Psychology. Vol.&nbsp;44. No&nbsp;7. Pp.&nbsp;701–710. DOI:&nbsp;<a href='https://doi.org/10.1002/ejsp.2023'>10.1002/ejsp.2023</a>
+## Reference
+
+> <i>Daniël Lakens</i> “Performing high-powered studies efficiently with sequential analyses: Sequential analyses” (2014) // European Journal of Social Psychology. Vol.&nbsp;44. No&nbsp;7. Pp.&nbsp;701–710. DOI:&nbsp;<a href='https://doi.org/10.1002/ejsp.2023'>10.1002/ejsp.2023</a>
 
 ## Bib
 
@@ -31,6 +34,6 @@ tags:
   month = {dec},
   year = {2014},
   note = {ZSCC: 0000167},
-  pages = {701--710},
+  pages = {701--710}
 }
 ```

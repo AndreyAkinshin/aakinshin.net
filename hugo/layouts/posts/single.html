@@ -2,7 +2,7 @@
 
 <div class="main-post">
 
-<h1 class="blog-post-title" id="post-title">{{ .Title }}</h1>
+<h1 class="blog-post-title" id="post-title">{{ .Title | strings.Title }}</h1>
 
 {{ partial "blog-post-meta.html" . }}
 
@@ -14,9 +14,7 @@
 {{ .Content }}
 </div>
 
-<br /><br />
-{{/*  {{ partial "github-source.html" . }}  */}}
-{{/*  {{ partial "share.html" . }}  */}}
+{{ partial "relations.html" (dict "page" . "site" $.Site ) }}
 
 </div>
 

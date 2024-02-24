@@ -9,6 +9,7 @@ public class Talk
     public string Title { get; set; }
     public string Location { get; set; }
     public string Lang { get; set; }
+    public string Abstract { get; set; }
     public int Year { get; set; }
     public List<TalkLink> Links { get; set; }
     public TalkLink GetLink(string key) => Links.FirstOrDefault(l => l.Key == key);

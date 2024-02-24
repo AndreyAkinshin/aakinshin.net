@@ -1,11 +1,13 @@
 ---
 title: Utopia
-authors:
-- Thomas More
 year: 1516
 goodreads: 18414
-rating: 4
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1388190168i/18414.jpg"
+authors:
+- Thomas More
 tags:
 - Philosophy
 - Fiction
+rating: 4
+hasNotes: false
 ---

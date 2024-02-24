@@ -1,14 +1,17 @@
 ---
-title: "Estimating the ratio of medians: Theory and applications"
+title: "Estimating the Ratio of medians: Theory and Applications"
+year: 1996
 authors:
 - Robert Martin Jr Price
-year: 1996
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Robert Martin Jr Price</i> <span title="">“Estimating the ratio of medians: Theory and applications”</span> (1996) 
+## Reference
+
+> <i>Robert Martin Jr Price</i> “Estimating the ratio of medians: Theory and applications” (1996) 
 
 ## Bib
 
@@ -17,6 +20,6 @@ tags:
   title = {Estimating the ratio of medians: Theory and applications},
   school = {University of Wyoming},
   author = {Price, Robert Martin Jr},
-  year = {1996},
+  year = {1996}
 }
 ```

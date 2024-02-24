@@ -69,6 +69,4 @@ In this post, I briefly explain the difference between different statistical met
 
 ### Notes
 
-The front picture was inspired by Figure 5 (Page 7) from
-  ["Robust Statistics: The Approach Based on Influence Functions"](https://onlinelibrary.wiley.com/doi/book/10.1002/9781118186435)
-  by Frank Hampel et al.
+The front picture was inspired by Figure 5 (Page 7) from {{< link hampel1986 >}}.

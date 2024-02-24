@@ -1,13 +1,15 @@
 ---
 title: "Statistics Done Wrong: The Woefully Complete Guide"
-authors:
-- Alex Reinhart
 year: 2015
 goodreads: 23241062
-rating: 6
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1422216326i/23241062.jpg"
+authors:
+- Alex Reinhart
 tags:
 - Mathematics
 - Statistics
-- Wrong Statistics
+- Science Audit
 - Statistical Literacy
+rating: 6
+hasNotes: false
 ---

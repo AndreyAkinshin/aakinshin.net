@@ -5,14 +5,15 @@ talks:
   - date: 2023-05-16
     event: Techorama 2023 Belgium
     event-type: conference
-    title: "BenchmarkDotNet: State of the art"
+    title: "BenchmarkDotNet State of the art"
     location: Belgium, Antwerp
     lang: en
+    abstract: "Performance is a feature. But it's hard to measure it right, especially when it comes to micro-benchmarking. BenchmarkDotNet has become the most popular .NET benchmarking library. But how does it actually work? What problems does it solve? Why do the most respected .NET performance experts trust it? Join the authors to learn about all the features, advantages and limitations."
     links:
       - key: event
         url: https://techorama.be/
       - key: talk
-        url: https://techorama.be/agenda/session/benchmarkdotnet-state-of-the-art/
+        url: https://techorama-2023-be.sessionize.com/session/427317
   ######################################################################################################################
   # 2022
   ######################################################################################################################

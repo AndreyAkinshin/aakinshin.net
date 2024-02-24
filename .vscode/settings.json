@@ -4,6 +4,10 @@
     "workbench.preferredLightColorTheme": "Solarized Light",
     "workbench.colorTheme": "Kimbie Dark",
     "editor.rulers": [120],
+    "markdownlint.config": {
+        "MD036": false,
+        "MD027": false
+      },
     "cSpell.words": [
         "Akinshin",
         "Alexandrescu",

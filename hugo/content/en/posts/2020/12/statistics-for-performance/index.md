@@ -326,7 +326,7 @@ Let's say you want to analyze the history of your performance values and find mo
   the form of the underlying distribution was changed.
 For this problem, you need a [change point detection](https://en.wikipedia.org/wiki/Change_detection) (CPD) algorithm.
 
-There are a lot of different CPD algorithms (e.g., you can find a good overview in ["Selective review of offline change point detection methods](https://arxiv.org/pdf/1801.00718.pdf)):
+There are a lot of different CPD algorithms (e.g., you can find a good overview in {{< link truong2020 >}}:
 
 {{< img cpd-overview >}}
 
@@ -334,7 +334,7 @@ From all the algorithms I tried, I found the only one that satisfied me in terms
   (an implementation can be found [here]({{< ref edpelt >}})).
 Unfortunately, it didn't work well on long time-series with a high number of change points.
 So, I came up with my own algorithm called *RqqPelt*.
-I didn't write a post/paper about it yet, but you can try it yourself with the help of [perfolizer](https://github.com/AndreyAkinshin/perfolizer#changepoint-detection).
+I haven't written a post/paper about it yet, but you can try it yourself with the help of [perfolizer](https://github.com/AndreyAkinshin/perfolizer#changepoint-detection).
 
 References:
 

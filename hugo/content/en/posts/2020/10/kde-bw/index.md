@@ -182,7 +182,7 @@ Here are a few examples of existing selectors:
   * ...
 * **Plug-in methods**
   * **Park and Marron method** ([[Park1990]](#Park1990))
-  * **Sheather and Jones method** ([[Sheather1991]](#Sheather1991))
+  * **Sheather and Jones method** ({{< link sheather1991 >}})
   * **Hall method** ([[Hall1991]](#Hall1991))
   * **Taylor bootstrap method** ([[Taylor1989]](#Taylor1989))
   * **Modifications of the Taylor bootstrap method** ([[Faraway1990]](#Faraway1990), [[Hall1990]](#Hall1990), [[Cao1993]](#Cao1993))

@@ -1,12 +1,14 @@
 ---
 title: "The Miracle of Mindfulness: An Introduction to the Practice of Meditation"
-authors:
-- Thich Nhat Hanh
 year: 1999
 goodreads: 95747
-rating: 4
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1320448079i/95747.jpg"
+authors:
+- Thich Nhat Hanh
 tags:
 - Meditation
 - Buddhism
 - Philosophy
+rating: 4
+hasNotes: false
 ---

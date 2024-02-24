@@ -48,9 +48,9 @@ Our goal is to build a robust effect size formula that works the same way for no
 
 There are some existing nonparametric effect size measures, but most of them are clamped (they have fixed lower and upper bounds):
 
-* Cliff's Delta ([[Cliff1993]](#Cliff1993)): $ [-1; 1] $
-* Vargha-Delaney A ([[Vargha2000]](#Vargha2000)): $ [0; 1] $
-* Wilcox's Q ([[Wilcox2019]](#Wilcox2019)): $ [0; 1] $
+* Cliff's Delta ({{< link cliff1993 >}}): $ [-1; 1] $
+* Vargha-Delaney A ({{< link vargha2000 >}}): $ [0; 1] $
+* Wilcox's Q ({{< link wilcox2019 >}}): $ [0; 1] $
 
 Let's consider the two following cases of nonoverlapped distribution pairs:
 
@@ -72,12 +72,12 @@ It would be nice to have an effect size measure that highlights this difference.
 ### Quantiles and the shift function
 
 When we compare two nonparametric distributions, it's a good idea to track differences for all quantile values.
-We can do it via the [shift function](/posts/shift-and-ratio-functions/) ([[Doksum1974]](#Doksum1974), [[Doksum1976]](#Doksum1976)):
+We can do it via the [shift function](/posts/shift-and-ratio-functions/) ({{< link doksum1974 >}}, {{< link doksum1976 >}}):
 
 {{< imgld compare4 >}}
 
 It shows the absolute shift for each quantile.
-The [efficiency](https://en.wikipedia.org/wiki/Efficiency_(statistics)) of the shift function can be improved with the help of *the Harrell-Davis quantile estimator* ([[Harrell1982]](#Harrell1982)).
+The [efficiency](https://en.wikipedia.org/wiki/Efficiency_(statistics)) of the shift function can be improved with the help of *the Harrell-Davis quantile estimator* ({{< link harrell1982 >}}).
 
 Unfortunately, the raw shift function can't be used as the effect size because it heavily depends on the distribution dispersion.
 Without it, we can't say if the shift values are large or small.

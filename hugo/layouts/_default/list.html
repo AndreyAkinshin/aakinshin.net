@@ -1,13 +1,3 @@
 {{ define "main" }}
-
-<h1>{{ .Title }}</h1>
-
-{{ range .Pages.ByPublishDate.Reverse }}
-<p>
-  <a href="{{ .Permalink }}">{{ .Title }}</a>
-  <br />
-  {{ partial "blog-post-meta.html" . }}
-</p>
-{{ end }}
-
+{{ partial "page-list.html" (dict "site" $.Site "pages" .Pages) }}
 {{ end }}

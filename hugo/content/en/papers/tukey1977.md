@@ -1,14 +1,17 @@
 ---
-title: "Exploratory data analysis"
+title: Exploratory Data Analysis
+year: 1977
 authors:
 - John W Tukey
-year: 1977
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>John W Tukey,  others</i> <span title="">“Exploratory data analysis”</span> (1977) // Publisher: Reading, MA. Vol.&nbsp;2.
+## Reference
+
+> <i>John W Tukey,  others</i> “Exploratory data analysis” (1977) // Publisher: Reading, MA. Vol.&nbsp;2.
 
 ## Bib
 
@@ -18,6 +21,6 @@ tags:
   author = {Tukey, John W and others},
   volume = {2},
   year = {1977},
-  publisher = {Reading, MA},
+  publisher = {Reading, MA}
 }
 ```

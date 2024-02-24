@@ -1,0 +1,46 @@
+{{ $pages := .pages }}
+{{ $isCraft := .isCraft }}
+
+{{ if .isCraft }}
+
+  {{ $sortedPages := slice }}
+  {{ range $pages }}
+    {{ $page := . }}
+    {{ $sortKey := "" }}
+
+    {{ if $page.Params.Year }}
+      {{ $sortKey = printf "%d-01-01" $page.Params.Year }}
+    {{ end }}
+    {{ if $page.Params.Date }}
+      {{ $sortKey = $page.Params.Date | dateFormat "2006-01-02" }}
+    {{ end }}
+    {{ $sortedPages = $sortedPages | append (dict "Page" $page "SortKey" $sortKey) }}
+    
+  {{ end }}
+  {{ $sortedPages = sort $sortedPages "SortKey" "desc" }}
+
+  {{ $counter := newScratch }}
+  {{ $counter.Set "value" (len $pages) }}
+  <ol reversed start="{{ $counter.Get "value" }}">
+    {{ range $sortedPages }}
+      <li>
+        {{ partial "render-link-full.html" .Page }}
+        {{ partial "render-flags.html" .Page }}
+      </li>
+      {{ $counter.Set "value" (add ($counter.Get "value") -1) }}
+    {{ end }}
+  </ol>
+
+{{ else }}
+
+  <ol>
+    {{ range sort $pages "Params.Rating" "desc" "Title" }}
+      <li>
+        {{ partial "render-before.html" . }}
+        {{ partial "render-link.html" . }}
+        {{ partial "render-flags.html" . }}
+      </li>
+    {{ end }}
+  </ol>
+
+{{ end }}

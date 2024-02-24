@@ -1,16 +1,19 @@
 ---
-title: "Descriptive statistics for nonparametric models III: Dispersion"
+title: "Descriptive Statistics for Nonparametric Models III: Dispersion"
+year: 1976
+doi: 10.1007/978-1-4614-1412-4_44
 authors:
 - Peter J Bickel
 - Erich L Lehmann
-year: 1976
-doi: 10.1007/978-1-4614-1412-4_44
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Peter J Bickel, Erich L Lehmann</i> <span title="">“Descriptive statistics for nonparametric models III: Dispersion”</span> (1976) // The Annals of Statistics. Vol.&nbsp;4. Pp.&nbsp;1139–1158. DOI:&nbsp;<a href='https://doi.org/10.1007/978-1-4614-1412-4_44'>10.1007/978-1-4614-1412-4_44</a>
+## Reference
+
+> <i>Peter J Bickel, Erich L Lehmann</i> “Descriptive statistics for nonparametric models III: Dispersion” (1976) // The Annals of Statistics. Vol.&nbsp;4. Pp.&nbsp;1139–1158. DOI:&nbsp;<a href='https://doi.org/10.1007/978-1-4614-1412-4_44'>10.1007/978-1-4614-1412-4_44</a>
 
 ## Bib
 
@@ -22,6 +25,6 @@ tags:
   volume = {4},
   pages = {1139--1158},
   year = {1976},
-  doi = {10.1007/978-1-4614-1412-4_44},
+  doi = {10.1007/978-1-4614-1412-4_44}
 }
 ```

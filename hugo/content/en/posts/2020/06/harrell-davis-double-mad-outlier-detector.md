@@ -141,7 +141,7 @@ The last sample value 3000 is an outlier.
 We got 20 as the median value "by chance" because the first group contains one number more than the second group with the outlier.
 The true median of the population is most likely somewhere between 20 and 501.
 
-This problem can be resolved with the help of the Harrell-Davis quantile estimator ([[Harrell1982]](#Harrell1982)).
+This problem can be resolved with the help of the Harrell-Davis quantile estimator ({{< link harrell1982 >}}).
 It defines estimation for th $ p^{\textrm{th}} $ quantile as follows:
 
 $$

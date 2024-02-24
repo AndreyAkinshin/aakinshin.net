@@ -28,7 +28,7 @@ Let's start with a simple case when both $X$ and $Y$ are the standard normal dis
 Since distributions are equal, they have equal quantile functions: $Q_X=Q_Y$.
 Thus $Q_Y(p)-Q_X(p)$ is zero for all $p$ values.
 Here is the corresponding [Doksum's shift function]({{< ref shift-and-ratio-functions >}})
-  (see [[Doksum1974]](#Doksum1974)):
+  (see {{< link doksum1974 >}}):
 
 {{< imgld shift1 >}}
 

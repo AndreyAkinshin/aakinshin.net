@@ -4,15 +4,14 @@ date: 2022-07-19
 tags:
 - mathematics
 - statistics
-- cpd
+- Change Point Detection
 features:
 - math
 ---
 
 [Change point detection](https://en.wikipedia.org/wiki/Change_detection) is a popular task in various disciplines.
 There are many algorithms that solve this problem.
-For example,
-  in [Selective review of offline change point detection methods (2020)](https://arxiv.org/abs/1801.00718v3),
+For example, in {{< link truong2020>}},
   the authors presented a classification of different approaches and discussed 35 algorithms.
 However, not all the algorithms fit all the situations.
 
@@ -66,7 +65,7 @@ Next, we discuss some advanced challenges that should be properly solved.
 ### Change point classification
 
 There are various types of changes.
-When we start looking for change points, typically we expected to find
+When we start looking for change points, typically we expect to find
   accelerations (performance becomes better) or
   degradations (performance becomes worse).
 Unfortunately, in real life, not all the changes could be unambiguously classified as accelerations or degradations.
@@ -74,7 +73,7 @@ Let's look at the following picture:
 
 {{< imgld classification >}}
 
-On the third plot, a unimodal distribution is split into two modes.
+On the third plot, an unimodal distribution is split into two modes.
 It means that one part of a distribution accelerated and the other one degraded.
 It's a common effect in the performance world that could appear due to various reasons
   like trade-off changes (e.g., changes in a caching strategy) or
@@ -89,7 +88,7 @@ What kind of changes do we want to be aware of?
 Not all the change points are equally important.
 If we automatically discover hundreds or thousands of changes,
   we don't always have the physical ability to review all of them.
-Therefore, we need some ranking strategy so that we could present only the most important and critical changes.
+Therefore, we need some ranking strategy so that we can present only the most important and critical changes.
 In addition to external business requirements,
   we may consider introducing two following properties of each change point:
 
@@ -122,12 +121,12 @@ Let's consider the following plot:
 
 {{< imgld metadata >}}
 
-This plot combine the measurements from the main branch and all the other feature branches.
+This plot combines the measurements from the main branch and all the other feature branches.
 Typically, we have a small number of measurements in the main branch which is not always enough
   to reliably detect change points.
 We could extend the data set with measurements from the feature branches in order to obtain more reliable conclusions.
 Unfortunately, this trick reduces the detection accuracy.
-Indeed, once a change happened in the main branch, some feature branches based on the obsolete commits
+Indeed, once a change happens in the main branch, some feature branches based on the obsolete commits
   may produce "old-style" measurements.
 It leads to a situation where we can say that we have an obvious change here,
   but we can't reliably detect its exact location.

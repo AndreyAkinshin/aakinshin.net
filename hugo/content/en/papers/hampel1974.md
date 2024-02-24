@@ -1,15 +1,18 @@
 ---
-title: "The influence curve and its role in robust estimation"
-authors:
-- Frank R Hampel
+title: The Influence Curve and Its Role in Robust Estimation
 year: 1974
 doi: 10.2307/2285666
+authors:
+- Frank R Hampel
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Frank R Hampel</i> <span title="">“The influence curve and its role in robust estimation”</span> (1974) // Journal of the american statistical association. Publisher: Taylor \& Francis. Vol.&nbsp;69. No&nbsp;346. Pp.&nbsp;383–393. DOI:&nbsp;<a href='https://doi.org/10.2307/2285666'>10.2307/2285666</a>
+## Reference
+
+> <i>Frank R Hampel</i> “The influence curve and its role in robust estimation” (1974) // Journal of the american statistical association. Publisher: Taylor \& Francis. Vol.&nbsp;69. No&nbsp;346. Pp.&nbsp;383–393. DOI:&nbsp;<a href='https://doi.org/10.2307/2285666'>10.2307/2285666</a>
 
 ## Bib
 
@@ -23,6 +26,6 @@ tags:
   pages = {383--393},
   year = {1974},
   publisher = {Taylor \& Francis},
-  doi = {10.2307/2285666},
+  doi = {10.2307/2285666}
 }
 ```

@@ -1,36 +1,44 @@
 <nav>
   <div class="container flex flex-wrap items-center justify-between mx-auto max-w-6xl h-12 px-2 xs:px-6">
     <div class="flex items-center justify-start justify-self-start">
-      <div class="flex nav-item h-12 w-12 items-center justify-center">
-        {{ if eq .Site.Language.Lang "ru" }}
-        <a class="text-white" href='{{ (.Site.GetPage "/pages/about.md").Permalink }}'><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#house-chimney"></use></svg></a>
-        {{ end }}
-        {{ if eq .Site.Language.Lang "en" }}
-        <a class="text-white" href="{{ .Site.Home.Permalink }}"><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#house-chimney"></use></svg></a>
-        {{ end }}
-      </div>
-      <div class="flex nav-item h-12 items-center">
-        <a class="text-white" href='{{ (.Site.GetPage "/posts").Permalink }}'>{{ i18n "posts" }}</a>
-      </div>
       {{ if eq .Site.Language.Lang "en" }}
+
+      <div class="flex nav-item h-12 w-12 items-center justify-center">
+        <a class="text-white" href="{{ .Site.Home.Permalink }}"><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#house-chimney"></use></svg></a>
+      </div>
       <div class="flex nav-item h-12 items-center">
-        <a class="text-white" href='{{ (.Site.GetPage "/pages/research.md").Permalink }}'>{{ i18n "research" }}</a>
+        <a class="text-white" href='{{ (.Site.GetPage "/feed").Permalink }}'>Feed</a>
       </div>
       <div class="flex nav-item h-12 items-center">
         <a class="text-white" href='{{ (.Site.GetPage "/pages/library.md").Permalink }}'>Library</a>
       </div>
-      {{ end }}
+      <div class="flex nav-item h-12 items-center">
+        <a class="text-white" href='{{ (.Site.GetPage "/pages/research.md").Permalink }}'>{{ i18n "research" }}</a>
+      </div>
       <div class="flex nav-item h-12 items-center">
         <a class="text-white" href='{{ (.Site.GetPage "/pages/about.md").Permalink }}'>{{ i18n "about" }}</a>
+      </div>
+      <div class="flex nav-item h-12 items-center">
+        <a class="text-white" href='{{ (.Site.GetPage "pages/search.md").Permalink }}'>
+          <svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#magnifying-glass"></use></svg>
+        </a>
+      </div>
+
+      {{ else }}
+
+      <div class="flex nav-item h-12 w-12 items-center justify-center">
+        <a class="text-white" href='{{ (.Site.GetPage "/pages/about.md").Permalink }}'><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#house-chimney"></use></svg></a>
       </div>
       {{ if .IsTranslated }}
       {{ if eq .Site.Language.Lang "ru" }}
       {{ range .Translations }}
       <div class="flex nav-item h-12 items-center">
-        <a class="text-white" href='{{ .Permalink }}'>{{ upper .Lang }}</a>
+        <a class="text-white" href='{{ .Permalink }}'>English version</a>
       </div>
       {{ end }}
       {{ end }}
+      {{ end }}
+
       {{ end }}
     </div>
 

@@ -1,13 +1,15 @@
 ---
 title: Introduction to Robust Estimation and Hypothesis Testing
-authors:
-- Rand R. Wilcox
 year: 2021
 goodreads: 12086837
-rating: 5
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1349077578i/12086837.jpg"
+authors:
+- Rand R. Wilcox
 tags:
 - Mathematics
 - Statistics
+rating: 5
+hasNotes: true
 ---
 
 The topic of robust statistics claims to be practical.

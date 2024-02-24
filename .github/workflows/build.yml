@@ -18,6 +18,11 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: Setup Hugo and Tailwindcss
         run: ./init.sh
 
@@ -30,9 +35,9 @@ jobs:
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: hugo/public
-          GIT_CONFIG_NAME: Andrey Akinshin
-          GIT_CONFIG_EMAIL: andrey.akinshin@gmail.com
-          CLEAN: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: hugo/public
+          git-config-name: Andrey Akinshin
+          git-config-email: andrey.akinshin@gmail.com
+          clean: true

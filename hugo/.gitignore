@@ -6,6 +6,7 @@ data/gen/
 content/en/posts/drafts
 assets/css/main.css
 public/
+static/pdf
 
 # R
 .RData

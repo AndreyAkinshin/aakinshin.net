@@ -1,10 +1,12 @@
 ---
 title: "\"Surely You're Joking, Mr. Feynman!\": Adventures of a Curious Character"
-authors:
-- Richard P. Feynman
 year: 1985
 goodreads: 35167685
-rating: 6
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1504936953i/35167685.jpg"
+authors:
+- Richard P Feynman
 tags:
 - Biography
+rating: 6
+hasNotes: false
 ---

@@ -1,0 +1,19 @@
+{{ define "main" }}
+
+<div class="main-post">
+
+<h1 class="blog-post-title" id="post-title">
+  <a href="{{ (.Site.GetPage "library").Permalink }}">Library</a> /
+  {{ .Title | strings.Title }}
+</h1>
+
+{{ partial "library-meta.html" . }}
+
+<div class="main-content">
+{{ .Content }}
+{{ partial "relations.html" (dict "page" . "site" $.Site ) }}
+</div>
+
+</div>
+
+{{ end }}

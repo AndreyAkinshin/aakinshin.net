@@ -1,16 +1,19 @@
 ---
-title: "modi: Multivariate outlier detection and imputation for incomplete survey data"
-authors:
-- Beat Hulliger
+title: "Modi: Multivariate Outlier Detection and Imputation for Incomplete Survey Data"
 year: 2018
 urls:
 - "https://cran.r-project.org/web/packages/modi/index.html"
+authors:
+- Beat Hulliger
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Beat Hulliger</i> <span title="">“modi: Multivariate outlier detection and imputation for incomplete survey data”</span> (2018) 
+## Reference
+
+> <i>Beat Hulliger</i> “modi: Multivariate outlier detection and imputation for incomplete survey data” (2018) 
 
 ## Bib
 
@@ -20,6 +23,6 @@ tags:
   author = {Beat Hulliger},
   year = {2018},
   note = {R package version 0.1.0},
-  url = {https://cran.r-project.org/web/packages/modi/index.html},
+  url = {https://cran.r-project.org/web/packages/modi/index.html}
 }
 ```

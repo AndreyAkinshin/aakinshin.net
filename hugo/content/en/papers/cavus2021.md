@@ -1,19 +1,22 @@
 ---
-title: "Penalized power approach to compare the power of the tests when Type I error probabilities are different"
-authors:
-- Mustafa Cavus
-- Berna Yazici
-- Ahmet Sezer
+title: Penalized Power Approach to Compare the Power of the Tests When Type I Error Probabilities Are Different
 year: 2021
 doi: 10.1080/03610918.2019.1588310
 urls:
 - "https://www.tandfonline.com/doi/full/10.1080/03610918.2019.1588310"
+authors:
+- Mustafa Cavus
+- Berna Yazici
+- Ahmet Sezer
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Mustafa Cavus, Berna Yazici, Ahmet Sezer</i> <span title="">“Penalized power approach to compare the power of the tests when Type I error probabilities are different”</span> (2021) // Communications in Statistics - Simulation and Computation. Vol.&nbsp;50. No&nbsp;7. Pp.&nbsp;1912–1926. DOI:&nbsp;<a href='https://doi.org/10.1080/03610918.2019.1588310'>10.1080/03610918.2019.1588310</a>
+## Reference
+
+> <i>Mustafa Cavus, Berna Yazici, Ahmet Sezer</i> “Penalized power approach to compare the power of the tests when Type I error probabilities are different” (2021) // Communications in Statistics - Simulation and Computation. Vol.&nbsp;50. No&nbsp;7. Pp.&nbsp;1912–1926. DOI:&nbsp;<a href='https://doi.org/10.1080/03610918.2019.1588310'>10.1080/03610918.2019.1588310</a>
 
 ## Bib
 
@@ -31,6 +34,6 @@ tags:
   author = {Cavus, Mustafa and Yazici, Berna and Sezer, Ahmet},
   month = {jul},
   year = {2021},
-  pages = {1912--1926},
+  pages = {1912--1926}
 }
 ```

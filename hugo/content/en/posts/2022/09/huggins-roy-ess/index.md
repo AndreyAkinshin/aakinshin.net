@@ -51,8 +51,8 @@ $$
   \Bigg( \sum_{i=1}^n \overline{w}_i^\beta \Bigg)^{\frac{1}{1 - \beta}}.
 $$
 
-This family is proposed in [[Huggins2019]](#Huggins2019) and discussed in
-  [[Elvira2021]](#Elvira2021) and [[Elvira2022]](#Elvira2022).
+This family is proposed in {{< link huggins2019 >}} and discussed in
+  [[Elvira2021]](#Elvira2021) and {{< link elvira2022 >}}.
 
 In order to understand this approach, let's consider several special cases.
 
@@ -86,7 +86,7 @@ $$
 \operatorname{ESS}_{2}(\overline{\mathbf{w}}) = \frac{1}{\sum_{i=1}^n \overline{w}_i^2 }.
 $$
 
-This approach is often referenced as the Kish's effective sample size (see [[Kish1965]](#Kish1965)).
+This approach is often referenced as the Kish's effective sample size (see {{< link kish1965 >}}).
 
 * $\beta = \infty$:
 

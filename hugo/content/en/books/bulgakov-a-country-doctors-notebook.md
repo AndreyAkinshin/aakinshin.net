@@ -1,10 +1,12 @@
 ---
 title: "A Country Doctor's Notebook"
-authors:
-- Mikhail Bulgakov
 year: 1925
 goodreads: 897363
-rating: 5
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1331655799i/897363.jpg"
+authors:
+- Mikhail Bulgakov
 tags:
 - Fiction
+rating: 5
+hasNotes: false
 ---

@@ -1,17 +1,20 @@
 ---
-title: "Robust statistics: the approach based on influence functions"
+title: "Robust statistics: The Approach Based on Influence Functions"
+year: 1986
 authors:
 - Frank R. Hampel
 - Elevezio M. Ronchetti
 - Peter J. Rousseeuw
 - Werner A. Stahel
-year: 1986
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Frank R. Hampel, Elevezio M. Ronchetti, Peter J. Rousseeuw, Werner A. Stahel</i> <span title="">“Robust statistics: the approach based on influence functions”</span> (1986) // Publisher: Wiley. New York. ISBN:&nbsp;978-0-471-73577-9.
+## Reference
+
+> <i>Frank R. Hampel, Elevezio M. Ronchetti, Peter J. Rousseeuw, Werner A. Stahel</i> “Robust statistics: the approach based on influence functions” (1986) // Publisher: Wiley. New York. ISBN:&nbsp;978-0-471-73577-9.
 
 ## Bib
 
@@ -26,6 +29,6 @@ tags:
   language = {eng},
   publisher = {Wiley},
   editor = {Hampel, Frank R. and Ronchetti, Elevezio M. and Rousseeuw, Peter J. and Stahel, Werner A.},
-  year = {1986},
+  year = {1986}
 }
 ```

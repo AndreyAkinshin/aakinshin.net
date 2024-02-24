@@ -52,10 +52,10 @@ Let's also calculate the median and the $95^{\textrm{th}}$ percentile using thre
 * **Type 7 quantile estimator**  
   It's the most popular quantile estimator which is used by default in
     R, Julia, NumPy, Excel (`PERCENTILE`, `PERCENTILE.INC`), Python (`inclusive` method).
-  We call it "Type 7" according to notation from [[Hyndman1996]](#Hyndman1996), 
+  We call it "Type 7" according to notation from {{< link hyndman1996 >}}, 
     where Rob J. Hyndman and Yanan Fan described nine quantile algorithms which are used in statistical computer packages.
 * **The Harrell-Davis quantile estimator**  
-  A quantile estimator that is described in [[Harrell1982]](#Harrell1982).
+  A quantile estimator that is described in {{< link harrell1982 >}}.
   It's more efficient, and it provides more reliable estimations.
 * **KDE-based quantile estimator**  
   Quantile values that are obtained from the kernel density estimation instead of the original sample.

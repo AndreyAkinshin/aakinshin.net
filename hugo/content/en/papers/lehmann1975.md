@@ -1,15 +1,18 @@
 ---
-title: "Nonparametrics: statistical methods based on ranks"
-authors:
-- Erich L. Lehmann
-- H. J. M. D'Abrera
+title: "Nonparametrics: Statistical Methods Based on Ranks"
 year: 1975
+authors:
+- Erich L Lehmann
+- "H J M D'Abrera"
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Erich L. Lehmann, H. J. M. D'Abrera</i> <span title="">“Nonparametrics: statistical methods based on ranks”</span> (1975) // Publisher: Holden-Day [u.a.]. San Francisco. ISBN:&nbsp;978-0-07-037073-9.
+## Reference
+
+> <i>Erich L Lehmann, H J M D'Abrera</i> “Nonparametrics: statistical methods based on ranks” (1975) // Publisher: Holden-Day [u.a.]. San Francisco. ISBN:&nbsp;978-0-07-037073-9.
 
 ## Bib
 
@@ -22,7 +25,7 @@ tags:
   shorttitle = {Nonparametrics},
   language = {eng},
   publisher = {Holden-Day [u.a.]},
-  author = {Lehmann, Erich L. and D'Abrera, H. J. M.},
-  year = {1975},
+  author = {Lehmann, Erich L and D'Abrera, H J M},
+  year = {1975}
 }
 ```

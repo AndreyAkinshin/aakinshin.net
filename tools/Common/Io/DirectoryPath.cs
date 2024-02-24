@@ -28,6 +28,14 @@ public class DirectoryPath(string fullPath) : IEquatable<DirectoryPath>
         return files.Select(path => new FilePath(path));
     }
 
+    public IEnumerable<FilePath> EnumerateFilesRecursively(string searchPattern = "")
+    {
+        var files = searchPattern.IsBlank()
+            ? Directory.EnumerateFiles(FullPath, "*", SearchOption.AllDirectories)
+            : Directory.EnumerateFiles(FullPath, searchPattern, SearchOption.AllDirectories);
+        return files.Select(path => new FilePath(path));
+    }
+
     public DirectoryPath EnsureExists()
     {
         if (Exists)

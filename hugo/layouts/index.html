@@ -14,7 +14,7 @@
 {{ range $paginator.Pages }}
 {{ if eq .Type "posts" }}
   <div>
-    <h2><a href='{{ .RelPermalink }}'>{{ .Title }}</a></h2>
+    <h2><a href='{{ .RelPermalink }}'>{{ .Title | strings.Title }}</a></h2>
     {{ partial "blog-post-meta.html" . }}
     <br>
     {{ .Summary | safeHTML }}

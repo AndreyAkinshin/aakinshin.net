@@ -1,1 +1,15 @@
-{{ with .Site.GetPage (.Get 0) }}<a href="{{ .Permalink }}">{{ .Title }}</a>{{ end }}
+{{- with .Site.GetPage (.Get 0) -}}
+<a href="{{ .Permalink }}">
+  {{- $key := .Title | strings.Title -}}
+  {{- $key = index (split $key ":") 0 -}}
+  {{- if eq .Type "papers" -}}
+    {{- $key = .File.BaseFileName -}}
+  {{- end -}}
+
+  {{- $section := .Site.GetPage .Section -}}
+  {{- with $section.Params.Icon -}}
+    {{- partial "svg.html" . -}}
+  {{- end -}}
+  {{- $key -}}
+</a>
+{{- end -}}

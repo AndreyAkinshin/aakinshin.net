@@ -1,15 +1,20 @@
 ---
-title: "Standard Methods for Point Estimation of Indicators on Social Exclusion and Poverty using the R Package laeken"
+title: Standard Methods for Point Estimation of Indicators on Social Exclusion and Poverty Using the R Package Laeken
+year: 2011
+urls:
+- "https://cran.r-project.org/web/packages/laeken/vignettes/laeken-standard.pdf"
 authors:
 - Matthias Templ
 - Andreas Alfons
-year: 2011
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Matthias Templ, Andreas Alfons</i> <span title="">“Standard Methods for Point Estimation of Indicators on Social Exclusion and Poverty using the R Package laeken”</span> (2011) 
+## Reference
+
+> <i>Matthias Templ, Andreas Alfons</i> “Standard Methods for Point Estimation of Indicators on Social Exclusion and Poverty using the R Package laeken” (2011) 
 
 ## Bib
 
@@ -18,5 +23,6 @@ tags:
   title = {Standard Methods for Point Estimation of Indicators on Social Exclusion and Poverty using the R Package laeken},
   author = {Templ, Matthias and Alfons, Andreas},
   year = {2011},
+  custom-url-pdf = {https://cran.r-project.org/web/packages/laeken/vignettes/laeken-standard.pdf}
 }
 ```

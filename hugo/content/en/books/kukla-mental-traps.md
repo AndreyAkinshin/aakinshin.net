@@ -1,11 +1,13 @@
 ---
 title: "Mental Traps: The Overthinker's Guide to a Happier Life"
-authors:
-- André Kukla
 year: 2006
 goodreads: 1813069
-rating: 3
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1320512706i/1813069.jpg"
+authors:
+- André Kukla
 tags:
 - Psychology
 - Self-help
+rating: 3
+hasNotes: false
 ---

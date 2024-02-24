@@ -144,7 +144,7 @@ However, the result table is asymmetric:
 The final stage of the P² quantile estimator suggest adjusting
   non-extreme marker heights ($q_i$) and positions ($n_i$) for $i \in \{ 1, 2, 3\} $
   (see the [algorithm description]({{< ref "p2-quantile-estimator#marker-invalidation" >}})
-  and the original paper [[Jain1985]](#Jain1985) for details):
+  and the original paper {{< link jain1985 >}} for details):
 
 ```cs
 for (i = 1; i <= 3; i++)

@@ -22,7 +22,7 @@ In this post, we briefly discuss the approach from this paper and how we can imp
 
 ### The extended P² quantile estimator
 
-The [P² quantile estimator]({{< ref p2-quantile-estimator >}}) (see [[Jain1985]](#Jain1985))
+The [P² quantile estimator]({{< ref p2-quantile-estimator >}}) (see {{< link jain1985 >}})
   that estimates the $p^\textrm{th}$ quantile suggest maintaining a list of five markers:
 
 * $q_0$: The minimum
@@ -47,7 +47,7 @@ For the first $n$ observations, these real values are defined as follows:
 
 The paper suggests simple logic that invalidates all of these values on each new observation.
 
-Now let's consider the extended P² quantile estimator (see [[Raatikainen1987]](#Raatikainen1987))
+Now let's consider the extended P² quantile estimator (see {{< link raatikainen1987 >}})
   that estimates $m$ quantile values $p_0, p_1, \ldots, p_{m-1}$.
 In order to do it, we need $2m+3$ markers: $m+2$ principle markers and $m+1$ middle markers.
 These markers are defined as follows:
@@ -70,7 +70,7 @@ The marker invalidation logic matches the
 ### Initialization strategy
 
 Now let's discuss the initialization strategy.
-The paper [[Raatikainen1987]](#Raatikainen1987) has the following paragraph:
+The paper {{< link raatikainen1987 >}} has the following paragraph:
 
 > The initialization of the algorithm requires $2m+3$ observations.
 > These observations are sorted and used as the initial heights of the markers, $q_i=x_{(i)}$.

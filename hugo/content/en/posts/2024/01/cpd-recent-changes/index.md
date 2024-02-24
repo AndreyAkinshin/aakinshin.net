@@ -5,6 +5,7 @@ tags:
 - mathematics
 - statistics
 - research
+- Change Point Detection
 features:
 - math
 ---
@@ -73,7 +74,7 @@ Truncating the left sample to around 50 data points should suffice
 
 The choice of algorithm for this task depends on specific needs and contexts.
 There are numerous CPD algorithms available, each with its strengths and trade-offs.
-A good comparison of various CPD algorithms can be found in [[Truong2018]](#Truong2018).
+A good comparison of various CPD algorithms can be found in {{< link truong2020 >}}.
 The key is to select one that aligns well with the nature of the data and the required sensitivity to recent shifts.
 
 ### Conclusion
@@ -91,10 +92,3 @@ By employing a dual approach that combines fast algorithms for the entire series
   with more precise methods for the end segment, we can enhance our ability to detect recent changes efficiently.
 This strategy ensures that we are not only well-informed about historical shifts in our data
   but also agile in responding to emerging trends and anomalies.
-
-### References
-
-* <b id="Truong2018">[Truong2018]</b>  
-  Charles Truong, Laurent Oudre, Nicolas Vayatis (2018)
-  *Selective review of offline change point detection methods*  
-  [arXiv:1801.00718v3](https://arxiv.org/abs/1801.00718v3)

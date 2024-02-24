@@ -6,6 +6,7 @@ public enum PublicationEntryType
     Incollection,
     TechReport,
     Book,
+    Inbook,
     Article,
     PhdThesis,
     Misc,

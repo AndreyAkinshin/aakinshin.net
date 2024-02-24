@@ -34,7 +34,7 @@ Let's learn how to implement a moving version of such estimators using
 ### The Hyndman-Fan classification
 
 There are many different quantile estimators.
-In [[Hyndman1996]](#Hyndman1996), Rob Hyndman and Yanan Fan have described
+In {{< link hyndman1996 >}}, Rob Hyndman and Yanan Fan have described
   nine estimators that are used in popular statistical packages.
 They are based on a single order statistic or on linear interpolation
   of two subsequent order statistics.
@@ -123,7 +123,7 @@ If you use C#, you can take an implementation from
 
 In this post, we improved the Hardle-Steiger method ([[Hardle1995]](#Hardle1995)).
 Now it's able to estimate any moving quantiles
-  using any of the equations described in the Hyndman-Fan classification ([[Hyndman1996]](#Hyndman1996)).
+  using any of the equations described in the Hyndman-Fan classification ({{< link hyndman1996 >}}).
 The suggested approach has the following characteristics ($L$ is the window size):
 
 * Memory: $O(L)$

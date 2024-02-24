@@ -1,14 +1,19 @@
 ---
-title: "A statistical distribution function of wide applicability"
+title: A Statistical Distribution Function of Wide Applicability
+year: 1951
+urls:
+- "https://hal.science/hal-03112318/document"
 authors:
 - Weibull W
-year: 1951
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Weibull W</i> <span title="">“A statistical distribution function of wide applicability”</span> (1951) // ASME J. Appl. Mech., Trans. Am. Soc. Mech. Eng.. Vol.&nbsp;18. Pp.&nbsp;293.
+## Reference
+
+> <i>Weibull W</i> “A statistical distribution function of wide applicability” (1951) // ASME J. Appl. Mech., Trans. Am. Soc. Mech. Eng.. Vol.&nbsp;18. Pp.&nbsp;293.
 
 ## Bib
 
@@ -20,5 +25,6 @@ tags:
   author = {W, Weibull},
   year = {1951},
   pages = {293},
+  custom-url-pdf = {https://hal.science/hal-03112318/document}
 }
 ```

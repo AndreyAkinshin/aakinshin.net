@@ -1,16 +1,20 @@
 ---
-title: "On testing the equality between interquartile ranges"
+title: On Testing the Equality Between Interquartile Ranges
+year: 2023
+doi: 10.1007/s00180-023-01415-8
 authors:
 - Luca Greco
 - George Luta
 - Rand Wilcox
-year: 2023
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Luca Greco, George Luta, Rand Wilcox</i> <span title="">“On testing the equality between interquartile ranges”</span> (2023) 
+## Reference
+
+> <i>Luca Greco, George Luta, Rand Wilcox</i> “On testing the equality between interquartile ranges” (2023) // DOI:&nbsp;<a href='https://doi.org/10.1007/s00180-023-01415-8'>10.1007/s00180-023-01415-8</a>
 
 ## Bib
 
@@ -19,5 +23,6 @@ tags:
   title = {On testing the equality between interquartile ranges},
   author = {Greco, Luca and Luta, George and Wilcox, Rand},
   year = {2023},
+  doi = {10.1007/s00180-023-01415-8}
 }
 ```

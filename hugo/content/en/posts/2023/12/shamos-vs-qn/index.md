@@ -10,7 +10,7 @@ features:
 ---
 
 [Previously]({{< ref qad-vs-rc >}}), we compared the finite-sample Gaussian efficiency of
-  the Rousseeuw-Croux scale estimators and the QAD estimator.
+  the [Rousseeuw-Croux scale estimators]({{< ref rousseeuw1993 >}}) and the QAD estimator.
 In this post, we compare the finite-sample Gaussian efficiency of the Shamos scale estimator
   and the Rousseeuw-Croux $Q_n$ scale estimator.
 This is a particularly interesting comparison.
@@ -73,13 +73,3 @@ Here are the values for $3 \leq n \leq 20$:
 Based on these observations,
   it seems that the Shamos estimator has a higher potential to be practically useful than $Q_n$
   (especially on small samples!).
-
-### References
-
-* Shamos, Michael Ian. Geometry and statistics: Problems at the interface.
-  Carnegie-Mellon University. Department of Computer Science, 1976.
-* Rousseeuw, Peter J., and Christophe Croux.
-  “Alternatives to the Median Absolute Deviation.”
-  Journal of the American Statistical Association 88, no. 424 (December 1, 1993): 1273–83.  
-  DOI: [10.1080/01621459.1993.10476408](https://dx.doi.org/10.1080/01621459.1993.10476408)
-

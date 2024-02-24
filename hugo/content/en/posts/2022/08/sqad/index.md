@@ -53,7 +53,7 @@ $$
 $$
 
 As for $\Q$, we consider the traditional quantile estimator $\QHF$
-  (Type 7 in the Hyndman-Fan taxonomy, see [[Hyndman1996]](#Hyndman1996)).
+  (Type 7 in the Hyndman-Fan taxonomy, see {{< link hyndman1996 >}}).
 
 ### Efficiency vs. robustness
 
@@ -124,7 +124,7 @@ $$
 
 There is no need to introduce a scale constant:
   the asymptotic expected value of $\SQAD$ for the normal distribution is 1
-  (since the sample quantile are Fisher-consistent for the distribution quantiles when $f(p)>0$ (see Theorem 8.5.1 in [[Arnold2008]](#Arnold2008)),
+  (since the sample quantile are Fisher-consistent for the distribution quantiles when $f(p)>0$ (see Theorem 8.5.1 in {{< link arnold2008 >}}),
   $\SQAD$ is Fisher-consistent for the standard deviation):
 
 $$

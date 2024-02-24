@@ -1,0 +1,18 @@
+{{- with .Site.GetPage (.Get 0) -}}
+
+  <blockquote>
+    {{ .Content | replaceRE "<blockquote>|</blockquote>" "" | safeHTML }}
+    —
+    {{ with (.GetTerms "authors") }}
+      {{ range $index, $author := . }}{{ if $index }}, {{ end }}<a href="{{ $author.Permalink }}">{{ $author.Title }}</a>{{ end }}
+    {{ end }}
+    {{ with .Params.SourceTitle }}
+      <i>{{ . }}</i>
+    {{ end }}
+    {{ if .Params.Year }}
+      ({{ .Params.Year }})
+    {{ end }}
+    /
+    <a href="{{ .Permalink }}">{{ .Title }}</a>
+  </blockquote>
+{{- end -}}

@@ -1,14 +1,19 @@
 ---
-title: "Some practical guidelines for effective sample-size determination"
-authors:
-- Lenth R. V
+title: Some Practical Guidelines for Effective sample-size Determination
 year: 2001
+urls:
+- "https://stat.uiowa.edu/sites/stat.uiowa.edu/files/techrep/tr303.pdf"
+authors:
+- Lenth R V
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Lenth R. V</i> <span title="">“Some practical guidelines for effective sample-size determination”</span> (2001) // Am. Stat.. Vol.&nbsp;55. Pp.&nbsp;187.
+## Reference
+
+> <i>Lenth R V</i> “Some practical guidelines for effective sample-size determination” (2001) // Am. Stat.. Vol.&nbsp;55. Pp.&nbsp;187.
 
 ## Bib
 
@@ -17,8 +22,9 @@ tags:
   title = {Some practical guidelines for effective sample-size determination},
   volume = {55},
   journal = {Am. Stat.},
-  author = {V, Lenth R.},
+  author = {V, Lenth R},
   year = {2001},
   pages = {187},
+  custom-url-pdf = {https://stat.uiowa.edu/sites/stat.uiowa.edu/files/techrep/tr303.pdf}
 }
 ```

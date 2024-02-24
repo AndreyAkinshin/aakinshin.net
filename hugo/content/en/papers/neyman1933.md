@@ -1,41 +1,33 @@
 ---
-title: "The testing of statistical hypotheses in relation to probabilities a priori"
-authors:
-- J. Neyman
-- E. S. Pearson
+title: On the Problem of the Most Efficient Tests of Statistical Hypotheses
 year: 1933
-doi: 10.1017/S030500410001152X
-urls:
-- "https://www.cambridge.org/core/product/identifier/S030500410001152X/type/journal_article"
+doi: 10.1098/rsta.1933.0009
+authors:
+- Jerzy Neyman
+- Egon Sharpe Pearson
 tags:
 - Mathematics
 - Statistics
+- NHST
+hasNotes: false
 ---
 
-<i>J. Neyman, E. S. Pearson</i> <span title="In a recent paper we have discussed certain general principles underlying the determination of the most efficient tests of statistical hypotheses, but the method of approach did not involve any detailed consideration of the question of">“The testing of statistical hypotheses in relation to probabilities a priori”</span> (1933) // Mathematical Proceedings of the Cambridge Philosophical Society. Vol.&nbsp;29. No&nbsp;4. Pp.&nbsp;492–510. DOI:&nbsp;<a href='https://doi.org/10.1017/S030500410001152X'>10.1017/S030500410001152X</a>
+## Reference
 
-## Abstract
-
-In a recent paper we have discussed certain general principles underlying the determination of the most efficient tests of statistical hypotheses, but the method of approach did not involve any detailed consideration of the question of
+> <i>Jerzy Neyman, Egon Sharpe Pearson</i> “On the problem of the most efficient tests of statistical hypotheses” (1933) // Philosophical Transactions of the Royal Society of London. Series A, Containing Papers of a Mathematical or Physical Character. Publisher: The Royal Society London. Vol.&nbsp;231. No&nbsp;694-706. Pp.&nbsp;289–337. DOI:&nbsp;<a href='https://doi.org/10.1098/rsta.1933.0009'>10.1098/rsta.1933.0009</a>
 
 ## Bib
 
 ```bib
 @Article{neyman1933,
-  title = {The testing of statistical hypotheses in relation to probabilities a priori},
-  volume = {29},
-  issn = {0305-0041, 1469-8064},
-  url = {https://www.cambridge.org/core/product/identifier/S030500410001152X/type/journal_article},
-  doi = {10.1017/S030500410001152X},
-  abstract = {In a recent paper we have discussed certain general principles underlying the determination of the most efficient tests of statistical hypotheses, but the method of approach did not involve any detailed consideration of the question of},
-  language = {en},
-  number = {4},
-  urldate = {2020-01-07},
-  journal = {Mathematical Proceedings of the Cambridge Philosophical Society},
-  author = {Neyman, J. and Pearson, E. S.},
-  month = {oct},
+  title = {On the problem of the most efficient tests of statistical hypotheses},
+  author = {Neyman, Jerzy and Pearson, Egon Sharpe},
+  journal = {Philosophical Transactions of the Royal Society of London. Series A, Containing Papers of a Mathematical or Physical Character},
+  volume = {231},
+  number = {694-706},
+  pages = {289--337},
   year = {1933},
-  note = {ZSCC: 0000446},
-  pages = {492--510},
+  publisher = {The Royal Society London},
+  doi = {10.1098/rsta.1933.0009}
 }
 ```

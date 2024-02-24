@@ -50,7 +50,7 @@ If the second distribution is a scaled version of the first one ($k\cdot Y = X$)
 
 ### Bhattacharyya's scale ratio estimator
 
-In [[Bhattacharyya1977]](#Bhattacharyya1977), a similar idea is considered.
+In {{< link bhattacharyya1977 >}}, a similar idea is considered.
 However, the paper investigates not the ratio of random variables but the ratio of their scale parameters.
 This approach is shift-invariant and, therefore, ignores the actual absolute values of the random variables.
 In Section 2, the author specifies an assumption of zero medians for both distributions:

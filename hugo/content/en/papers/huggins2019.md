@@ -1,21 +1,25 @@
 ---
-title: "Sequential Monte Carlo as approximate sampling: bounds, adaptive resampling via $\\infty$-ESS, and an application to particle Gibbs"
+title: "Sequential Monte Carlo as Approximate sampling: Bounds, Adaptive Resampling via infinity-ESS, and an Application to Particle Gibbs"
+year: 2019
+arxiv: 1503.00966
 authors:
 - Jonathan H Huggins
 - Daniel M Roy
-year: 2019
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Jonathan H Huggins, Daniel M Roy</i> <span title="">“Sequential Monte Carlo as approximate sampling: bounds, adaptive resampling via $\infty$-ESS, and an application to particle Gibbs”</span> (2019) // Bernoulli. Publisher: Bernoulli Society for Mathematical Statistics and Probability. Vol.&nbsp;25. No&nbsp;1. Pp.&nbsp;584–622.
+## Reference
+
+> <i>Jonathan H Huggins, Daniel M Roy</i> “Sequential Monte Carlo as approximate sampling: bounds, adaptive resampling via infinity-ESS, and an application to particle Gibbs” (2019) // Bernoulli. Publisher: Bernoulli Society for Mathematical Statistics and Probability. Vol.&nbsp;25. No&nbsp;1. Pp.&nbsp;584–622.
 
 ## Bib
 
 ```bib
 @Article{huggins2019,
-  title = {Sequential Monte Carlo as approximate sampling: bounds, adaptive resampling via $\infty$-ESS, and an application to particle Gibbs},
+  title = {Sequential Monte Carlo as approximate sampling: bounds, adaptive resampling via infinity-ESS, and an application to particle Gibbs},
   author = {Huggins, Jonathan H and Roy, Daniel M},
   journal = {Bernoulli},
   volume = {25},
@@ -23,5 +27,6 @@ tags:
   pages = {584--622},
   year = {2019},
   publisher = {Bernoulli Society for Mathematical Statistics and Probability},
+  arxiv = {1503.00966}
 }
 ```

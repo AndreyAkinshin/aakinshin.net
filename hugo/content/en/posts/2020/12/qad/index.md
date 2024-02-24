@@ -58,7 +58,7 @@ In the scope of this post, there is no need to be consistent with other dispersi
 When people use the $\mathcal{MAD}$, they usually forget to pay attention to the quantile estimator that
  is used to calculate the median.
 Meanwhile, the quantile estimator heavily affects the [efficiency](https://en.wikipedia.org/wiki/Efficiency_(statistics)) of the final version.
-For further discussion, let's use the Harrell-Davis quantile estimator ([[Harrell1982]](#Harrell1982))
+For further discussion, let's use the Harrell-Davis quantile estimator ({{< link harrell1982 >}})
   because it's one of the most smooth and efficient options.
 
 One of the most important properties of the $\mathcal{MAD}$ you should know:

@@ -12,6 +12,11 @@ public static class CollectionExtensions
     return string.Join(separator, values);
   }
 
+  public static string JoinToString<T>(this IEnumerable<T> values, string separator, Func<T, string> format)
+  {
+    return string.Join(separator, values.Select(format));
+  }
+
   public static string JoinToString<T>(this IEnumerable<T> values, char separator)
   {
     return string.Join(separator, values);

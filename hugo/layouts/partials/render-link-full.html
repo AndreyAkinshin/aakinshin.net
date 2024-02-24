@@ -1,0 +1,10 @@
+{{ $section := (.Site.GetPage .Section) }}
+<a href="{{ $section.Permalink }}" title="Library / {{ .Section | strings.Title }}">
+  {{ if $section.Params.Icon }}
+    {{ partial "svg.html" $section.Params.Icon }}
+  {{ else }}
+    {{ .Section | strings.Title }}
+  {{ end }}
+</a>
+{{ if $section.Params.Icon }}{{ else}} / {{ end }}
+{{ partial "render-link.html" . }}

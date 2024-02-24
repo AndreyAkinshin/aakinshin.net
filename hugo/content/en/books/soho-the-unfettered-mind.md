@@ -1,11 +1,13 @@
 ---
 title: "The Unfettered Mind: Writings of the Zen Master to the Sword Master"
-authors:
-- Takuan Soho
 year: 1988
 goodreads: 863239
-rating: 4
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1348870927i/863239.jpg"
+authors:
+- Takuan Soho
 tags:
 - Philosophy
 - Buddhism
+rating: 4
+hasNotes: false
 ---

@@ -152,7 +152,7 @@ $$
 $$
 
 In this post, we are going to apply it only for the median (we need only $\gamma_{0.5}$).
-In order to improve the accuracy, we use the Harrell-Davis quantile estimator ([[Harrell1982]](#Harrell1982))
+In order to improve the accuracy, we use the Harrell-Davis quantile estimator ({{< link harrell1982 >}})
   to estimate the median ($Q_{0.5}$) and the median absolute deviation ($\mathcal{MAD}_x$, $\mathcal{MAD}_y$).
 The consistency constant $C$ for $\mathcal{MAD}$ equals $1.4826$, which makes $\mathcal{MAD}$ a consistent estimator for the standard deviation estimation.
 

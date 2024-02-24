@@ -1,3 +1,4 @@
 ---
-title: Philosophy
+title: Psychology
+icon: psychology
 ---

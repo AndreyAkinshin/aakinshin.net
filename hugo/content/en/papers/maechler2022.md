@@ -1,18 +1,21 @@
 ---
-title: "robustbase: Basic Robust Statistics"
+title: "Robustbase: Basic Robust Statistics"
+year: 2022
+urls:
+- "https://cran.r-project.org/web/packages/robustbase/index.html"
 authors:
 - Martin Maechler
 - Peter Rousseeuw
 - Christophe Croux
-year: 2022
-urls:
-- "https://cran.r-project.org/web/packages/robustbase/index.html"
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Martin Maechler, Peter Rousseeuw, Christophe Croux</i> <span title="">“robustbase: Basic Robust Statistics”</span> (2022) 
+## Reference
+
+> <i>Martin Maechler, Peter Rousseeuw, Christophe Croux</i> “robustbase: Basic Robust Statistics” (2022) 
 
 ## Bib
 
@@ -24,6 +27,6 @@ tags:
   month = {4},
   day = {2},
   note = {R package version 0.95-0},
-  url = {https://cran.r-project.org/web/packages/robustbase/index.html},
+  url = {https://cran.r-project.org/web/packages/robustbase/index.html}
 }
 ```

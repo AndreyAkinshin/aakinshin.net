@@ -1,13 +1,14 @@
+using System.Diagnostics;
 using System.Text;
 using Common.Io;
-using Common.Utils;
 
 namespace Common.Publications;
 
+[DebuggerDisplay("{Key}")]
 public class PublicationEntry
 {
     public PublicationEntryType Type { get; }
-    public string Key { get; }
+    public string Key { get; set; }
     public PublicationLanguage OutputLanguage { get; }
     public Dictionary<string, string> Properties { get; }
 
@@ -23,56 +24,27 @@ public class PublicationEntry
     public string FormatBib()
     {
         var builder = new StringBuilder();
-        builder.AppendLine($"@{Type}{{{this.GetNiceKey()},");
-        foreach (var property in Properties)
-            if (property.Key != "file")
-                builder.AppendLine($"  {property.Key} = {{{property.Value.Trim()}}},");
+        builder.AppendLine($"@{Type}{{{Key},");
+        var printedProperties = Properties.Where(property => property.Key != "file").ToList();
+        for (var index = 0; index < printedProperties.Count; index++)
+        {
+            var property = printedProperties[index];
+            var name = property.Key;
+            var value = property.Value.Trim();
+            if (name == "title")
+                value = value
+                    .TrimEnd('.')
+                    .Replace("  ", " ");
+            builder.Append($"  {name} = {{{value}}}");
+            builder.AppendLine(index == printedProperties.Count - 1 ? "" : ",");
+        }
+
         builder.AppendLine("}");
         return builder.ToString().TrimEnd();
     }
 
-    public string FormatYaml(string[] tags)
-    {
-        var title = this.GetTitle()
-            .Replace("\\&\\#039;", "'")
-            .Replace("\\&", "&")
-            .Replace("\\textgreater", ">")
-            .Replace("\\textless", "<")
-            .Replace("\\", "\\\\")
-            .Replace("\"", "\\\"");
-
-        var builder = new StringBuilder();
-        builder.AppendLine("---");
-        builder.AppendLine("title: \"" + title + "\"");
-        builder.AppendLine("authors:");
-        foreach (var author in this.GetAuthors().Concat(this.GetEditors()))
-        {
-            var authorText = author.ToText();
-            if (authorText == "others")
-                continue;
-            builder.AppendLine("- " + authorText);
-        }
-
-        builder.AppendLine("year: " + this.GetYear());
-        if (!string.IsNullOrEmpty(this.GetDoi()))
-            builder.AppendLine("doi: " + this.GetDoi());
-        if (this.GetUrls().Any())
-        {
-            builder.AppendLine("urls:");
-            foreach (var url in this.GetUrls())
-                builder.AppendLine("- \"" + url.Replace("\"", "\\\"") + "\"");
-        }
-
-        if (tags.Any())
-        {
-            builder.AppendLine("tags:");
-            foreach (var tag in tags)
-                builder.AppendLine($"- {tag}");
-        }
-
-        builder.AppendLine("---");
-        return builder.ToString().TrimEnd();
-    }
+    public static PublicationEntry Read(string text) =>
+        Read(PublicationLanguage.English, new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(text))));
 
     public static PublicationEntry Read(PublicationLanguage outputLanguage, StreamReader reader)
     {

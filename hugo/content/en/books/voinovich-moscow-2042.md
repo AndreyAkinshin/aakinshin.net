@@ -1,12 +1,14 @@
 ---
 title: Moscow 2042
-authors:
-- Vladimir Voinovich
 year: 1987
 goodreads: 74399
-rating: 5
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1347593949i/74399.jpg"
+authors:
+- Vladimir Voinovich
 tags:
 - Fiction
 - Dystopia
 - Humor
+rating: 5
+hasNotes: false
 ---

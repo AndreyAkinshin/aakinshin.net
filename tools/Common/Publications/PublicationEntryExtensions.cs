@@ -1,4 +1,5 @@
 using System.Text;
+using Common.Extensions;
 using Common.Utils;
 
 namespace Common.Publications;
@@ -28,8 +29,11 @@ public static class PublicationEntryExtensions
     public static string GetBookTitle(this PublicationEntry entry) => entry.GetProperty("booktitle");
     public static string GetIsbn(this PublicationEntry entry) => entry.GetProperty("isbn");
     public static string GetDoi(this PublicationEntry entry) => entry.GetProperty("doi");
+    public static string GetArxiv(this PublicationEntry entry) => entry.GetProperty("arxiv");
     public static string GetArchivePrefix(this PublicationEntry entry) => entry.GetProperty("archivePrefix");
     public static string GetEPrint(this PublicationEntry entry) => entry.GetProperty("eprint");
+    public static string GetCustomPdfUrl(this PublicationEntry entry) => entry.GetProperty("custom-url-pdf");
+    public static string GetMainUrl(this PublicationEntry entry) => entry.GetProperty("url");
 
     public static PublicationLanguage GetLanguage(this PublicationEntry entry) =>
         entry.GetProperty("language").StartsWith("ru") ? PublicationLanguage.Russian : PublicationLanguage.English;
@@ -58,13 +62,21 @@ public static class PublicationEntryExtensions
     public static string GetNiceKey(this PublicationEntry entry)
     {
         var authors = entry.GetAuthors().Concat(entry.GetEditors());
-        var author = authors.First();
+        var author = authors.FirstOrDefault();
+        if (author == null)
+            return "d" +
+                   new string(entry.GetDoi().Where(char.IsLetterOrDigit).ToArray()).ToLower() +
+                   "_" +
+                   entry.GetYear();
+
         var name = author.LastName.Split(' ').First();
         if (name.Length == 1)
             name = author.FirstName.Split(' ').First();
         name = name
             .Replace("*", "")
+            .Replace("ö", "oe")
             .Replace("á", "a")
+            .Replace("ń", "n")
             .Replace("ô", "o")
             .ToLowerInvariant();
         return name + entry.GetYear();
@@ -72,11 +84,12 @@ public static class PublicationEntryExtensions
 
     public static string GetHashId(this PublicationEntry entry)
     {
-        var doi = entry.GetDoi();
+        var doi = entry.GetDoi().ToLowerInvariant();
         if (!string.IsNullOrWhiteSpace(doi))
             return doi;
-        return entry.GetTitle() +
-               string.Join("+", entry.GetAuthors().Select(author => author.FirstName + author.LastName));
+        var id = entry.GetTitle() +
+                 string.Join("+", entry.GetAuthors().Select(author => author.FirstName + author.LastName));
+        return id.ToLowerInvariant();
     }
 
     public static IList<PublicationEntry> WithYear(this IEnumerable<PublicationEntry> entries, int year) =>
@@ -98,11 +111,9 @@ public static class PublicationEntryExtensions
         var builder = new StringBuilder();
         builder.Append(entry.GetAuthors().Concat(entry.GetEditors()).ToHtml());
         builder.Append(' ');
-        builder.Append($"<span title=\"{entry.GetAbstract()}\">");
         builder.Append(Resolve(lang, "“", "«"));
         builder.Append(entry.GetTitle());
         builder.Append(Resolve(lang, "”", "»"));
-        builder.Append("</span>");
         if (entry.GetYear() != 0)
             builder.Append(" (" + entry.GetYear() + ")");
         builder.Append(" //");

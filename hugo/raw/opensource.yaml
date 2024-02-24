@@ -2,7 +2,7 @@ github:
   - role: Active
     repos:
       - url: dotnet/BenchmarkDotNet
-        title: Powerful .NET library for benchmarking | ≈10K stars | 26M+ downloads
+        title: Powerful .NET library for benchmarking | ≈10K stars | ≈20K dependent repos | 26M+ downloads
       - url: AndreyAkinshin/perfolizer
         title: Performance analysis toolkit | 22M+ downloads
       - url: AndreyAkinshin/aakinshin.net

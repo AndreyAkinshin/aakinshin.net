@@ -1,10 +1,12 @@
 ---
 title: "Powerful: Building a Culture of Freedom and Responsibility"
-authors:
-- Patty McCord
 year: 2018
 goodreads: 36417234
-rating: 4
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1508080358i/36417234.jpg"
+authors:
+- Patty McCord
 tags:
 - Business
+rating: 4
+hasNotes: false
 ---

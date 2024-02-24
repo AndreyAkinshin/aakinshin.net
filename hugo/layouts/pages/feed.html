@@ -1,0 +1,14 @@
+{{ define "main" }}
+<div class="main-content">
+
+{{ $posts := where .Site.RegularPages "Section" "posts" }}
+{{ $talks := where .Site.RegularPages "Section" "talks" }}
+{{ $media := where .Site.RegularPages "Section" "media" }}
+{{ $myWork := (index .Site.Taxonomies.tags "my own work").Pages }}
+{{ $pages := append (append $posts $talks) (append $media $myWork) }}
+
+<h2>Feed of my blog posts, papers, and public talks</h2>
+{{ partial "page-list-content.html" (dict "pages" $pages "isCraft" true) }}
+
+</div>
+{{ end }}

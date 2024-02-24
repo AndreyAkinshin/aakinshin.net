@@ -1,17 +1,20 @@
 ---
-title: "Monte Carlo methods in statistical mechanics: foundations and new algorithms"
-authors:
-- Alan Sokal
+title: "Monte Carlo Methods in Statistical mechanics: Foundations and New Algorithms"
 year: 1997
 doi: 10.1007/978-1-4899-0319-8_6
 urls:
 - "https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=0bfe9e3db30605fe2d4d26e1a288a5e2997e7225"
+authors:
+- Alan Sokal
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Alan Sokal</i> <span title="">“Monte Carlo methods in statistical mechanics: foundations and new algorithms”</span> (1997) // Functional integration: Basics and applications. Publisher: Springer. Pp.&nbsp;131–192. DOI:&nbsp;<a href='https://doi.org/10.1007/978-1-4899-0319-8_6'>10.1007/978-1-4899-0319-8_6</a>
+## Reference
+
+> <i>Alan Sokal</i> “Monte Carlo methods in statistical mechanics: foundations and new algorithms” (1997) // Functional integration: Basics and applications. Publisher: Springer. Pp.&nbsp;131–192. DOI:&nbsp;<a href='https://doi.org/10.1007/978-1-4899-0319-8_6'>10.1007/978-1-4899-0319-8_6</a>
 
 ## Bib
 
@@ -24,6 +27,6 @@ tags:
   doi = {10.1007/978-1-4899-0319-8_6},
   pages = {131--192},
   year = {1997},
-  publisher = {Springer},
+  publisher = {Springer}
 }
 ```

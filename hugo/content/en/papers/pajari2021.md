@@ -1,19 +1,22 @@
 ---
-title: "Probabilistic evaluation of quantile estimators"
-authors:
-- Matti Pajari
-- Maria Tikanmäki
-- Lasse Makkonen
+title: Probabilistic Evaluation of Quantile Estimators
 year: 2021
 doi: 10.1080/03610926.2019.1696975
 urls:
 - "https://www.tandfonline.com/doi/full/10.1080/03610926.2019.1696975"
+authors:
+- Matti Pajari
+- Maria Tikanmäki
+- Lasse Makkonen
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Matti Pajari, Maria Tikanmäki, Lasse Makkonen</i> <span title="">“Probabilistic evaluation of quantile estimators”</span> (2021) // Communications in Statistics - Theory and Methods. Vol.&nbsp;50. No&nbsp;14. Pp.&nbsp;3319–3337. DOI:&nbsp;<a href='https://doi.org/10.1080/03610926.2019.1696975'>10.1080/03610926.2019.1696975</a>
+## Reference
+
+> <i>Matti Pajari, Maria Tikanmäki, Lasse Makkonen</i> “Probabilistic evaluation of quantile estimators” (2021) // Communications in Statistics - Theory and Methods. Vol.&nbsp;50. No&nbsp;14. Pp.&nbsp;3319–3337. DOI:&nbsp;<a href='https://doi.org/10.1080/03610926.2019.1696975'>10.1080/03610926.2019.1696975</a>
 
 ## Bib
 
@@ -31,6 +34,6 @@ tags:
   author = {Pajari, Matti and Tikanmäki, Maria and Makkonen, Lasse},
   month = {jul},
   year = {2021},
-  pages = {3319--3337},
+  pages = {3319--3337}
 }
 ```

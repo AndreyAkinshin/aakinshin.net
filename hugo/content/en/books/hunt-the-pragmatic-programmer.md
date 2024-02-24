@@ -1,10 +1,12 @@
 ---
 title: "The Pragmatic Programmer: From Journeyman to Master"
-authors:
-- Andy Hunt
 year: 1999
 goodreads: 4099
-rating: 5
+urlCover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1401432508i/4099.jpg"
+authors:
+- Andy Hunt
 tags:
 - Programming
+rating: 5
+hasNotes: false
 ---

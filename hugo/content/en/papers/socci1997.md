@@ -1,16 +1,21 @@
 ---
-title: "The rectified Gaussian distribution"
+title: The Rectified Gaussian Distribution
+year: 1997
+urls:
+- "https://proceedings.neurips.cc/paper/1997/file/28fc2782ea7ef51c1104ccf7b9bea13d-Paper.pdf"
 authors:
 - Nicholas Socci
 - Daniel Lee
 - H Sebastian Seung
-year: 1997
 tags:
 - Mathematics
 - Statistics
+hasNotes: false
 ---
 
-<i>Nicholas Socci, Daniel Lee, H Sebastian Seung</i> <span title="">“The rectified Gaussian distribution”</span> (1997) // Advances in neural information processing systems. Vol.&nbsp;10.
+## Reference
+
+> <i>Nicholas Socci, Daniel Lee, H Sebastian Seung</i> “The rectified Gaussian distribution” (1997) // Advances in neural information processing systems. Vol.&nbsp;10.
 
 ## Bib
 
@@ -21,5 +26,6 @@ tags:
   journal = {Advances in neural information processing systems},
   volume = {10},
   year = {1997},
+  custom-url-pdf = {https://proceedings.neurips.cc/paper/1997/file/28fc2782ea7ef51c1104ccf7b9bea13d-Paper.pdf}
 }
 ```

@@ -1,14 +1,20 @@
 ---
-title: "Statistical power: An historical introduction"
+title: "Statistical power: An Historical Introduction"
+year: 2007
+urls:
+- "https://www.tqmp.org/RegularArticles/vol03-2/p028/p028.pdf"
 authors:
 - Descôteaux J
-year: 2007
 tags:
 - Mathematics
 - Statistics
+- Statistical power
+hasNotes: false
 ---
 
-<i>Descôteaux J</i> <span title="">“Statistical power: An historical introduction”</span> (2007) // Tutor. Quant. Methods Psychol.. Vol.&nbsp;3. Pp.&nbsp;28.
+## Reference
+
+> <i>Descôteaux J</i> “Statistical power: An historical introduction” (2007) // Tutor. Quant. Methods Psychol.. Vol.&nbsp;3. Pp.&nbsp;28.
 
 ## Bib
 
@@ -20,5 +26,6 @@ tags:
   author = {J, Descôteaux},
   year = {2007},
   pages = {28},
+  custom-url-pdf = {https://www.tqmp.org/RegularArticles/vol03-2/p028/p028.pdf}
 }
 ```

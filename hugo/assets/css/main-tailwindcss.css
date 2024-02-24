@@ -50,7 +50,7 @@
     @apply border-shadow-l dark:border-shadow-d;
     @apply bg-back2-l dark:bg-back2-d;
     @apply border-l-8;
-    @apply ml-4 my-4 px-4 py-2;
+    @apply ml-4 my-4 px-4 py-4;
   }
   strong {
     @apply text-front-strong-l dark:text-front-strong-d;
@@ -159,6 +159,29 @@ code.has-jax {
 /*** Chroma ***/
 pre.chroma code {
   font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", "Liberation Mono", Menlo, Monaco, Consolas, monospace !important;
+}
+
+/*** pagefind ***/
+.pagefind-ui {
+  margin-block-start: var(--flow-space,1em);
+  --pagefind-ui-primary: var(--color-fg);
+  --pagefind-ui-text: var(--color-fg);
+  --pagefind-ui-background: var(--color-bg);
+  --pagefind-ui-border: var(--color-fg);
+  --pagefind-ui-tag: var(--color-primary);
+  --pagefind-ui-border-radius: var(--border-radius);
+}
+.pagefind-ui__result {
+  padding: 0px !important;
+}
+.pagefind-ui__message {
+  padding: 0px !important;
+}
+.pagefind-ui__drawer {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 0px;
+  padding-bottom: 5px;
 }
 
 /* Background */ .chroma { background-color: #ffffff }

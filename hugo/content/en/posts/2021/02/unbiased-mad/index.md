@@ -83,16 +83,16 @@ Let's review some papers and look at different approaches to find the optimal sc
 
 ### Literature overview
 
-One of the first mentions of the median absolute deviation can be found in [[Hampel1974]](#Hampel1974).
+One of the first mentions of the median absolute deviation can be found in {{< link hampel1974 >}}.
 In this paper, Frank R Hampel introduced $\textrm{MAD}$ as a robust measure of scale
   (attributed to Gauss).
 I have found four papers that describe unbiased versions:
-  [[Croux1992]](#Croux1992), [[Williams2011]](#Williams2011), [[Hayes2014]](#Hayes2014), and [[Park2020]](#Park2020).
+  {{< link croux1992 >}}, {{< link williams2011 >}}, {{< link hayes2014 >}}, and {{< link park2020 >}}.
 Let's briefly discuss approaches from these papers.
 
 #### The Croux-Rousseeuw approach
 
-In [[Croux1992]](#Croux1992), Christophe Croux and Peter J. Rousseeuw
+In {{< link croux1992 >}}, Christophe Croux and Peter J. Rousseeuw
   described an unbiased version of $\textrm{MAD}$.
 They suggested using the following equations:
 
@@ -121,7 +121,7 @@ $$
 
 #### The Williams approach
 
-In [[Williams2011]](#Williams2011), Dennis C. Williams improved this approach.
+In {{< link williams2011 >}}, Dennis C. Williams improved this approach.
 Firstly, he provided updated $b_n$ values for small $n$:
 
 |    n | $b_n$ by Croux | $b_n$ by Williams |
@@ -153,7 +153,7 @@ In his paper, he applied the above equation only to *Shorth*
 
 #### The Hayes approach
 
-Next, in [[Hayes2014]](#Hayes2014), Kevin Hayes suggested another kind of prediction equation for $n \geq 9$:
+Next, in {{< link hayes2014 >}}, Kevin Hayes suggested another kind of prediction equation for $n \geq 9$:
 
 $$
 C_n = \dfrac{1}{\hat{a}_n}
@@ -175,7 +175,7 @@ Here are the suggested constants:
 
 #### The Park-Kim-Wang approach
 
-Finally, in [[Park2020]](#Park2020), Chanseok Park, Haewon Kim, and Min Wang aggregated all of the previous results.
+Finally, in {{< link park2020 >}}, Chanseok Park, Haewon Kim, and Min Wang aggregated all of the previous results.
 They used the following form of the main equation:
 
 $$
@@ -183,13 +183,13 @@ C_n = \dfrac{1}{\Phi^{-1}(3/4) \cdot (1+A_n)}
 $$
 
 For $n > 100$, they suggested two approaches.
-The first one is based on [[Hayes2014]](#Hayes2014) (the same equation for both odd and even $n$ values):
+The first one is based on {{< link hayes2014 >}} (the same equation for both odd and even $n$ values):
 
 $$
 A_n = -\dfrac{0.76213}{n} - \dfrac{0.86413}{n^2}
 $$
 
-The second one is based on [[Williams2011]](#Williams2011):
+The second one is based on {{< link williams2011 >}}:
 
 $$
 A_n = -0.804168866 \cdot n^{-1.008922}
@@ -198,7 +198,7 @@ $$
 Both approaches produce almost identical results, so it doesn't actually matter which one to use.
 
 For $2 \leq n \leq 100$, they suggested to use predefined constants:
-  (the below values are based on Table A2 from [[Park2020]](#Park2020)):
+  (the below values are based on Table A2 from {{< link park2020 >}}):
 
 |    n |    $C_n$ |    n |    $C_n$ |
 | ---: | -------: | ---: | -------: |
@@ -259,7 +259,7 @@ Here is the corresponding plot:
 
 ### Conclusion
 
-Currently, my tool-of-choice is the approach from [[Park2020]](#Park2020)].
+Currently, my tool-of-choice is the approach from {{< link park2020 >}}].
 I verified all the predefined constants and equations from the paper using numerical simulations.
 I can confirm that the suggested approach produces
   a reliable estimate of the unbiased median absolute deviation $\textrm{MAD}_n$.

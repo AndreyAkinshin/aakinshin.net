@@ -1,2 +1,2 @@
 {{ $posts := (where .Site.RegularPages "Section" "posts")}}
-{{ partial "posts-by-years.html" $posts }}
+{{ partial "page-list.html" (dict "site" $.Site "pages" $posts) }}

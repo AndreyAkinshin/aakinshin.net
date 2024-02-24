@@ -70,7 +70,7 @@ Consider the straightforward way to calculate the sample median for a sample of 
 
 This rule gives us the median value of the sample, but it doesn't provide an accurate estimation of the population median.
 Meanwhile, there are other quantile estimators that have better accuracy.
-One of my favorite options is the Harrell-Davis quantile estimator (see [[Harrell1982]](#Harrell1982)).
+One of my favorite options is the Harrell-Davis quantile estimator (see {{< link harrell1982 >}}).
 Here is the estimation for $p^\textrm{th}$ quantile:
 
 $$
