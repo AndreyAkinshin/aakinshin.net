@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Disassembly on Andrey Akinshin</title><link>https://aakinshin.net/tags/disassembly/</link><description>Recent content in Disassembly on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 10 Apr 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/disassembly/index.xml" rel="self" type="application/rss+xml"/><item><title>Cross-runtime .NET disassembly with BenchmarkDotNet</title><link>https://aakinshin.net/posts/dotnet-crossruntime-disasm/</link><pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/dotnet-crossruntime-disasm/</guid><description>&lt;p>&lt;a href="https://github.com/dotnet/BenchmarkDotNet">BenchmarkDotNet&lt;/a> is a cool tool for benchmarking.
+It has a lot of useful features that help you with performance investigations.
+However, you can use these features even if you are not actually going to benchmark something.
+One of these features is &lt;code>DisassemblyDiagnoser&lt;/code>.
+It shows you a disassembly listing of your code for all required runtimes.
+In this post, I will show you how to get disassembly listing for .NET Framework, .NET Core, and Mono with one click!
+You can do it with a very small code snippet like this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cs" data-lang="cs">&lt;span class="line">&lt;span class="cl">&lt;span class="na">[DryCoreJob, DryMonoJob, DryClrJob(Platform.X86)]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">[DisassemblyDiagnoser]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">public&lt;/span> &lt;span class="k">class&lt;/span> &lt;span class="nc">IntroDisasm&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na"> [Benchmark]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">public&lt;/span> &lt;span class="kt">double&lt;/span> &lt;span class="n">Sum&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">double&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="m">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="m">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="p">&amp;lt;&lt;/span> &lt;span class="m">64&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">++)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span> &lt;span class="p">+=&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">res&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>

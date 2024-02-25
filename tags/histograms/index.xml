@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Histograms on Andrey Akinshin</title><link>https://aakinshin.net/tags/histograms/</link><description>Recent content in Histograms on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 20 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/histograms/index.xml" rel="self" type="application/rss+xml"/><item><title>Misleading histograms</title><link>https://aakinshin.net/posts/misleading-histograms/</link><pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/misleading-histograms/</guid><description>&lt;p>Below you see two histograms.
+What could you say about them?&lt;/p>
+
+
+
+
+
+
+
+
+&lt;div class="flex my-7 justify-center">
+ &lt;a class="img-light hidden" href="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-light.svg" target="_blank" alt="hist-riddle">
+ &lt;img
+ src="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-light.svg" 
+ width='800'
+ />
+ &lt;/a>
+ &lt;a class="img-dark hidden" href="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-dark.svg" target="_blank" alt="hist-riddle">
+ &lt;img
+ src="https://aakinshin.net/posts/misleading-histograms/img/hist-riddle-dark.svg" 
+ width='800'
+ />
+ &lt;/a>
+&lt;/div>
+
+
+&lt;p>Most likely, you say that the first histogram is based on a uniform distribution,
+and the second one is based on a multimodal distribution with four modes.
+Although this is not obvious from the plots,
+both histograms are based on the same sample:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cs" data-lang="cs">&lt;span class="line">&lt;span class="cl">&lt;span class="m">20.13&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">19.94&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">20.03&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">20.06&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">20.04&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">19.98&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">20.15&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">19.99&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">20.20&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">19.99&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">20.13&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">20.22&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">19.86&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">19.97&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">19.98&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">20.06&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="m">29.97&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">29.73&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">29.75&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">30.13&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">29.96&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">29.82&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">29.98&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">30.12&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">30.18&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">29.95&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">29.97&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">29.82&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">30.04&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">29.93&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">30.04&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">30.07&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="m">40.10&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">39.93&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">40.05&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">39.82&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">39.92&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">39.91&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">39.75&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">40.00&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">40.02&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">39.96&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">40.07&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">39.92&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">39.86&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">40.04&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">39.91&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">40.14&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="m">49.95&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">50.06&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">50.03&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">49.92&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">50.15&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">50.06&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">50.00&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">50.02&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">50.06&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">50.00&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">49.70&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">50.02&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">49.96&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">50.01&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">50.05&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">50.13&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Thus, the only difference between histograms is the offset!&lt;/p>
+&lt;p>Visualization is a simple way to understand the shape of your data.
+Unfortunately, this way may easily become a slippery slope.
+In the &lt;a href="https://aakinshin.net/posts/kde-bw/">previous post&lt;/a>, I have shown how density plots may deceive you when the bandwidth is poorly chosen.
+Today, we talk about histograms and why you can&amp;rsquo;t trust them in the general case.&lt;/p></description></item></channel></rss>

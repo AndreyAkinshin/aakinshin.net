@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Exponential Smoothing on Andrey Akinshin</title><link>https://aakinshin.net/tags/exponential-smoothing/</link><description>Recent content in Exponential Smoothing on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 11 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/exponential-smoothing/index.xml" rel="self" type="application/rss+xml"/><item><title>Dispersion exponential smoothing</title><link>https://aakinshin.net/posts/dispersion-exponential-smoothing/</link><pubDate>Tue, 11 May 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/dispersion-exponential-smoothing/</guid><description>&lt;p>In this &lt;a href="https://aakinshin.net/posts/quantile-exponential-smoothing/">previous post&lt;/a>,
+I showed how to apply exponential smoothing to quantiles
+using the &lt;a href="https://aakinshin.net/posts/weighted-quantiles/">weighted Harrell-Davis quantile estimator&lt;/a>.
+This technique allows getting smooth and stable moving median estimations.
+In this post, I&amp;rsquo;m going to discuss how to use the same approach
+to estimate moving dispersion.&lt;/p></description></item><item><title>Quantile exponential smoothing</title><link>https://aakinshin.net/posts/quantile-exponential-smoothing/</link><pubDate>Tue, 04 May 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/quantile-exponential-smoothing/</guid><description>&lt;p>One of the popular problems in time series analysis is estimating the moving &amp;ldquo;average&amp;rdquo; value.
+Let&amp;rsquo;s define the &amp;ldquo;average&amp;rdquo; as a central tendency metric like the mean or the median.
+When we talk about the moving value, we assume that we are interested in
+the average value &amp;ldquo;at the end&amp;rdquo; of the time series
+instead of the average of all available observations.&lt;/p>
+&lt;p>One of the most straightforward approaches to estimate the moving average is the &lt;em>simple moving mean&lt;/em>.
+Unfortunately, this approach is not robust: outliers can instantly spoil the evaluated mean value.
+As an alternative, we can consider &lt;em>simple moving median&lt;/em>.
+I already discussed a few of such methods:
+&lt;a href="https://aakinshin.net/posts/mp2-quantile-estimator/">the MP² quantile estimator&lt;/a> and
+&lt;a href="https://aakinshin.net/posts/partitioning-heaps-quantile-estimator2/">a moving quantile estimator based on partitioning heaps&lt;/a>
+(a modification of the Hardle-Steiger method).
+When we talk about &lt;em>simple moving averages&lt;/em>, we typically assume
+that we estimate the average value over the last $k$ observations ($k$ is the &lt;em>window size&lt;/em>).
+This approach is also known as &lt;em>unweighted moving averages&lt;/em> because
+all target observations have the same weight.&lt;/p>
+&lt;p>As an alternative to the simple moving average, we can also consider the &lt;em>weighted moving average&lt;/em>.
+In this case, we assign a weight for each observation and aggregate the whole time series according to these weights.
+A famous example of such a weight function is &lt;em>exponential smoothing&lt;/em>.
+And the simplest form of exponential smoothing is the &lt;em>exponentially weighted moving mean&lt;/em>.
+This approach estimates the weighted moving mean using exponentially decreasing weights.
+Switching from the simple moving mean to the exponentially weighted moving mean provides some benefits
+in terms of smoothness and estimation efficiency.&lt;/p>
+&lt;p>Although exponential smoothing has advantages over the simple moving mean,
+it still estimates the mean value which is not robust.
+We can improve the robustness of this approach if we reuse the same idea for weighted moving quantiles.
+It&amp;rsquo;s possible because the quantiles also can be estimated for weighted samples.
+In one of my previous posts, I &lt;a href="https://aakinshin.net/posts/weighted-quantiles/">showed&lt;/a> how to adapt
+the Hyndman-Fan Type 7 and Harrell-Davis quantile estimators to the weighted samples.
+In this post, I&amp;rsquo;m going to show how we can use this technique to estimate
+the weighted moving quantiles using exponentially decreasing weights.&lt;/p></description></item></channel></rss>

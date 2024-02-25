@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>BenchmarkDotNet on Andrey Akinshin</title><link>https://aakinshin.net/tags/benchmarkdotnet/</link><description>Recent content in BenchmarkDotNet on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 10 Apr 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/benchmarkdotnet/index.xml" rel="self" type="application/rss+xml"/><item><title>Cross-runtime .NET disassembly with BenchmarkDotNet</title><link>https://aakinshin.net/posts/dotnet-crossruntime-disasm/</link><pubDate>Tue, 10 Apr 2018 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/dotnet-crossruntime-disasm/</guid><description>&lt;p>&lt;a href="https://github.com/dotnet/BenchmarkDotNet">BenchmarkDotNet&lt;/a> is a cool tool for benchmarking.
+It has a lot of useful features that help you with performance investigations.
+However, you can use these features even if you are not actually going to benchmark something.
+One of these features is &lt;code>DisassemblyDiagnoser&lt;/code>.
+It shows you a disassembly listing of your code for all required runtimes.
+In this post, I will show you how to get disassembly listing for .NET Framework, .NET Core, and Mono with one click!
+You can do it with a very small code snippet like this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cs" data-lang="cs">&lt;span class="line">&lt;span class="cl">&lt;span class="na">[DryCoreJob, DryMonoJob, DryClrJob(Platform.X86)]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">[DisassemblyDiagnoser]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">public&lt;/span> &lt;span class="k">class&lt;/span> &lt;span class="nc">IntroDisasm&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na"> [Benchmark]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">public&lt;/span> &lt;span class="kt">double&lt;/span> &lt;span class="n">Sum&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">double&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="m">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="m">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="p">&amp;lt;&lt;/span> &lt;span class="m">64&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">++)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span> &lt;span class="p">+=&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">res&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>BenchmarkDotNet v0.10.14</title><link>https://aakinshin.net/posts/bdn-v0_10_14/</link><pubDate>Mon, 09 Apr 2018 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/bdn-v0_10_14/</guid><description>&lt;p>BenchmarkDotNet v0.10.14 has been released! This release includes:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Per-method parameterization&lt;/strong> (&lt;a href="http://benchmarkdotnet.org/Advanced/Arguments.htm">Read more&lt;/a>)&lt;/li>
+&lt;li>&lt;strong>Console histograms and multimodal disribution detection&lt;/strong> (&lt;a href="https://aakinshin.net/posts/dotnet-crossruntime-disasm/">Read more&lt;/a>)&lt;/li>
+&lt;li>&lt;strong>Many improvements for Mono disassembly support on Windows&lt;/strong> (A blog post is coming soon)&lt;/li>
+&lt;li>&lt;strong>Many bugfixes&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>In the &lt;a href="https://github.com/dotnet/BenchmarkDotNet/issues?q=milestone:v0.10.14">v0.10.14&lt;/a> scope,
+8 issues were resolved and 11 pull requests where merged.
+This release includes 47 commits by 8 contributors.&lt;/p></description></item><item><title>BenchmarkDotNet v0.10.13</title><link>https://aakinshin.net/posts/bdn-v0_10_13/</link><pubDate>Fri, 02 Mar 2018 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/bdn-v0_10_13/</guid><description>&lt;p>BenchmarkDotNet v0.10.13 has been released! This release includes:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Mono Support for DisassemblyDiagnoser:&lt;/strong>
+Now you can easily get an assembly listing not only on .NET Framework/.NET Core, but also on Mono.
+It works on Linux, macOS, and Windows (Windows requires installed cygwin with &lt;code>obj&lt;/code> and &lt;code>as&lt;/code>).
+(See &lt;a href="https://github.com/dotnet/BenchmarkDotNet/issues/541">#541&lt;/a>)&lt;/li>
+&lt;li>&lt;strong>Support ANY CoreFX and CoreCLR builds:&lt;/strong>
+BenchmarkDotNet allows the users to run their benchmarks against ANY CoreCLR and CoreFX builds.
+You can compare your local build vs MyGet feed or Debug vs Release or one version vs another.
+(See &lt;a href="https://github.com/dotnet/BenchmarkDotNet/issues/651">#651&lt;/a>)&lt;/li>
+&lt;li>&lt;strong>C# 7.2 support&lt;/strong>
+(See &lt;a href="https://github.com/dotnet/BenchmarkDotNet/issues/643">#643&lt;/a>)&lt;/li>
+&lt;li>&lt;strong>.NET 4.7.1 support&lt;/strong>
+(See &lt;a href="https://github.com/dotnet/BenchmarkDotNet/commit/28aa946a9a277b6c2b1166af0397134b02bedf2d">28aa94&lt;/a>)&lt;/li>
+&lt;li>&lt;strong>Support Visual Basic project files (.vbroj) targeting .NET Core&lt;/strong>
+(See &lt;a href="https://github.com/dotnet/BenchmarkDotNet/issues/626">#626&lt;/a>)&lt;/li>
+&lt;li>&lt;strong>DisassemblyDiagnoser now supports generic types&lt;/strong>
+(See &lt;a href="https://github.com/dotnet/BenchmarkDotNet/issues/640">#640&lt;/a>)&lt;/li>
+&lt;li>&lt;strong>Now it&amp;rsquo;s possible to benchmark both Mono and .NET Core from the same app&lt;/strong>
+(See &lt;a href="https://github.com/dotnet/BenchmarkDotNet/issues/653">#653&lt;/a>)&lt;/li>
+&lt;li>&lt;strong>Many bug fixes&lt;/strong>
+(See details below)&lt;/li>
+&lt;/ul></description></item><item><title>BenchmarkDotNet v0.10.12</title><link>https://aakinshin.net/posts/bdn-v0_10_12/</link><pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/bdn-v0_10_12/</guid><description>&lt;p>BenchmarkDotNet v0.10.12 has been released! This release includes:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Improved DisassemblyDiagnoser:&lt;/strong>
+BenchmarkDotNet contains an embedded disassembler so that it can print assembly code for all benchmarks;
+it&amp;rsquo;s not easy, but the disassembler evolves in every release.&lt;/li>
+&lt;li>&lt;strong>Improved MemoryDiagnoser:&lt;/strong>
+it has a better precision level, and it takes less time to evaluate memory allocations in a benchmark.&lt;/li>
+&lt;li>&lt;strong>New TailCallDiagnoser:&lt;/strong>
+now you get notifications when JIT applies the tail call optimizations to your methods.&lt;/li>
+&lt;li>&lt;strong>Better environment info:&lt;/strong>
+when your share performance results, it&amp;rsquo;s very important to share information about your environment.
+The library generates the environment summary for you by default.
+Now it contains information about the amount of physical CPU, physical cores, and logic cores.
+If you run a benchmark on a virtual machine, you will get the name of the hypervisor
+(e.g., Hyper-V, VMware, or VirtualBox).&lt;/li>
+&lt;li>&lt;strong>Better summary table:&lt;/strong>
+one of the greatest features of BenchmarkDotNet is the summary table.
+It shows all important information about results in a compact and understandable form.
+Now it has better customization options: you can display relative performance of different environments
+(e.g., compare .NET Framework and .NET Core) and group benchmarks by categories.&lt;/li>
+&lt;li>&lt;strong>New GC settings:&lt;/strong> now we support &lt;code>NoAffinitize&lt;/code>, &lt;code>HeapAffinitizeMask&lt;/code>, &lt;code>HeapCount&lt;/code>.&lt;/li>
+&lt;li>Other minor improvements and bug fixes&lt;/li>
+&lt;/ul></description></item><item><title>BenchmarkDotNet v0.10.10</title><link>https://aakinshin.net/posts/bdn-v0_10_10/</link><pubDate>Fri, 03 Nov 2017 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/bdn-v0_10_10/</guid><description>&lt;p>BenchmarkDotNet v0.10.10 has been released!
+This release includes many new features like Disassembly Diagnoser, ParamsSources, .NET Core x86 support, Environment variables, and more!&lt;/p></description></item><item><title>Reflecting on performance testing</title><link>https://aakinshin.net/posts/reflecting-on-performance-testing/</link><pubDate>Tue, 01 Aug 2017 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/reflecting-on-performance-testing/</guid><description>&lt;p>Performance is an important feature for many projects.
+Unfortunately, it&amp;rsquo;s an all too common situation when a developer accidentally spoils the performance adding some new code.
+After a series of such incidents, people often start to think about performance regression testing.&lt;/p>
+&lt;p>As developers, we write unit tests all the time.
+These tests check that our business logic work as designed and that new features don&amp;rsquo;t break existing code.
+It looks like a good idea to write some perf tests as well, which will verify that we don&amp;rsquo;t have any performance regressions.&lt;/p>
+&lt;p>Turns out this is harder than it sounds.
+A lot of developers don&amp;rsquo;t write perf tests at all.
+Some teams write perf tests, but almost all of them use their own infrastructure for analysis
+(which is not a bad thing in general because it&amp;rsquo;s usually designed for specific projects and requirements).
+There are a lot of books about test-driven development (TDD),
+but there are no books about performance-driven development (PDD).
+There are well-known libraries for unit-testing (like xUnit/NUnit/MSTest for .NET),
+but there are almost no libraries for performance regression testing.
+Yeah, of course, there are &lt;em>some&lt;/em> libraries which you can use.
+But there are troubles with &lt;em>well-known all recognized&lt;/em> libraries, approaches, and tools.
+Ask your colleagues about it: some of them will give you different answers, the rest of them will start Googling it.&lt;/p>
+&lt;p>There is no common understanding of what performance testing should look like.
+This situation exists because it&amp;rsquo;s really hard to develop a solution which solves &lt;em>all problems&lt;/em> for &lt;em>all kind of projects&lt;/em>.
+However, it doesn&amp;rsquo;t mean that we shouldn&amp;rsquo;t try.
+And we should try, we should share our experience and discuss best practices.&lt;/p></description></item><item><title>Measuring Performance Improvements in .NET Core with BenchmarkDotNet (Part 1)</title><link>https://aakinshin.net/posts/stephen-toub-benchmarks-part1/</link><pubDate>Fri, 09 Jun 2017 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/stephen-toub-benchmarks-part1/</guid><description>&lt;p>A few days ago &lt;a href="https://github.com/stephentoub">Stephen Toub&lt;/a> published a great post
+at the &lt;a href="https://blogs.msdn.microsoft.com/dotnet/">Microsoft .NET Blog&lt;/a>:
+&lt;a href="https://blogs.msdn.microsoft.com/dotnet/2017/06/07/performance-improvements-in-net-core/">Performance Improvements in .NET Core&lt;/a>.
+He showed some significant performance changes in .NET Core 2.0 Preview 1 (compared with .NET Framework 4.7).
+The .NET Core uses RyuJIT for generating assembly code.
+When I first tried RyuJIT (e.g.,
+&lt;a href="https://blogs.msdn.microsoft.com/dotnet/2014/02/27/ryujit-ctp2-getting-ready-for-prime-time/">CTP2&lt;/a>,
+&lt;a href="https://blogs.msdn.microsoft.com/clrcodegeneration/2014/10/30/ryujit-ctp5-getting-closer-to-shipping-and-with-better-simd-support/">CTP5&lt;/a>, 2014),
+I wasn&amp;rsquo;t excited about this: the preview versions had some bugs, and it worked slowly on my applications.
+However, the idea of a rethought and open-source JIT-compiler was a huge step forward and investment in the future.
+RyuJIT had been developed very actively in recent years: not only by Microsoft but with the help of the community.
+I&amp;rsquo;m still not happy about the generated assembly code in some methods, but I have to admit that the RyuJIT (as a part of .NET Core) works pretty well today:
+it shows a good performance level not only on artificial benchmarks but also on real user code.
+Also, there are a lot of changes
+not only in &lt;a href="https://github.com/dotnet/coreclr">dotnet/coreclr&lt;/a> (the .NET Core runtime),
+but also in &lt;a href="https://github.com/dotnet/corefx">dotnet/corefx&lt;/a> (the .NET Core foundational libraries).
+It&amp;rsquo;s very nice to watch how the community helps to optimize well-used classes which have not changed for years.&lt;/p>
+&lt;p>Now let&amp;rsquo;s talk about benchmarks.
+For the demonstration, Stephen wrote a set of handwritten benchmarks.
+A few people (in
+&lt;a href="https://blogs.msdn.microsoft.com/dotnet/2017/06/07/performance-improvements-in-net-core/#comments">comments&lt;/a> and on &lt;a href="https://news.ycombinator.com/item?id=14507936">HackerNews&lt;/a>)
+asked about &lt;a href="https://github.com/dotnet/BenchmarkDotNet">BenchmarkDotNet&lt;/a> regarding these samples (as a better tool for performance measurements).
+So, I decided to try all these benchmarks on BenchmarkDotNet.&lt;/p>
+&lt;p>In this post, we will discuss
+how can BenchmarkDotNet help in such performance investigations,
+which benchmarking approaches (and when) are better to use,
+and how can we improve these measurements.&lt;/p></description></item><item><title>BenchmarkDotNet v0.10.7</title><link>https://aakinshin.net/posts/bdn-v0_10_7/</link><pubDate>Mon, 05 Jun 2017 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/bdn-v0_10_7/</guid><description>&lt;p>BenchmarkDotNet v0.10.7 has been released.
+In this post, I will briefly cover the following features:&lt;/p>
+&lt;ul>
+&lt;li>LINQPad support&lt;/li>
+&lt;li>Filters and categories&lt;/li>
+&lt;li>Updated Setup/Cleanup attributes&lt;/li>
+&lt;li>Better Value Types support&lt;/li>
+&lt;li>Building Sources on Linux&lt;/li>
+&lt;/ul></description></item></channel></rss>

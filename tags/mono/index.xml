@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mono on Andrey Akinshin</title><link>https://aakinshin.net/tags/mono/</link><description>Recent content in Mono on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 20 May 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/mono/index.xml" rel="self" type="application/rss+xml"/><item><title>How ListSeparator Depends on Runtime and Operating System</title><link>https://aakinshin.net/posts/how-listseparator-depends-on-runtime-and-operating-system/</link><pubDate>Wed, 20 May 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/how-listseparator-depends-on-runtime-and-operating-system/</guid><description>&lt;p>&lt;em>This blog post was &lt;a href="https://blog.jetbrains.com/dotnet/2020/05/20/listseparator-depends-runtime-operating-system/">originally posted&lt;/a> on &lt;a href="https://blog.jetbrains.com/dotnet/">JetBrains .NET blog&lt;/a>.&lt;/em>&lt;/p>
+&lt;p>In the two previous blog posts from this series, we discussed how socket errors and socket orders depend on the runtime and operating systems. For some, it may be obvious that some things are indeed specific to the operating system or the runtime, but often these issues come as a surprise and are only discovered when running our code on different systems.
+An interesting example that may bite us at runtime is using &lt;code>ListSeparator&lt;/code> in our code. It should give us a common separator for list elements in a string. But is it really common?
+Let&amp;rsquo;s start our investigation by printing &lt;code>ListSeparator&lt;/code> for the Russian language:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cs" data-lang="cs">&lt;span class="line">&lt;span class="cl">&lt;span class="n">Console&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">WriteLine&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">new&lt;/span> &lt;span class="n">CultureInfo&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;ru-ru&amp;#34;&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">TextInfo&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ListSeparator&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>On Windows, you will get the same result for .NET Framework, .NET Core, and Mono: the &lt;code>ListSeparator&lt;/code> is &lt;code>;&lt;/code> (a semicolon). You will also get a semicolon on Mono+Unix. However, on .NET Core+Unix, you will get a &lt;a href="https://en.wikipedia.org/wiki/Non-breaking_space">non-breaking space&lt;/a>.&lt;/p></description></item><item><title>How Sorting Order Depends on Runtime and Operating System</title><link>https://aakinshin.net/posts/how-sorting-order-depends-on-runtime-and-operating-system/</link><pubDate>Wed, 13 May 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/how-sorting-order-depends-on-runtime-and-operating-system/</guid><description>&lt;p>&lt;em>This blog post was &lt;a href="https://blog.jetbrains.com/dotnet/2020/05/13/sorting-order-depends-runtime-operating-system/">originally posted&lt;/a> on &lt;a href="https://blog.jetbrains.com/dotnet/">JetBrains .NET blog&lt;/a>.&lt;/em>&lt;/p>
+&lt;p>In &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a>, we have unit tests that enumerate files in your project and dump a sorted list of these files. In one of our test projects, we had the following files: &lt;code>jquery-1.4.1.js&lt;/code>, &lt;code>jquery-1.4.1.min.js&lt;/code>, &lt;code>jquery-1.4.1-vsdoc.js&lt;/code>. On Windows, .NET Framework, .NET Core, and Mono produce the same sorted list:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">jquery-1.4.1.js
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">jquery-1.4.1.min.js
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">jquery-1.4.1-vsdoc.js
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>How Socket Error Codes Depend on Runtime and Operating System</title><link>https://aakinshin.net/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/</link><pubDate>Mon, 27 Apr 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/how-socket-error-codes-depend-on-runtime-and-operating-system/</guid><description>&lt;p>&lt;em>This blog post was &lt;a href="https://blog.jetbrains.com/dotnet/2020/04/27/socket-error-codes-depend-runtime-operating-system/">originally posted&lt;/a> on &lt;a href="https://blog.jetbrains.com/dotnet/">JetBrains .NET blog&lt;/a>.&lt;/em>&lt;/p>
+&lt;p>&lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a> consists of several processes that send messages to each other via sockets. To ensure the reliability of the whole application, it&amp;rsquo;s important to properly handle all the socket errors. In our codebase, we had the following code which was adopted from &lt;a href="https://github.com/mono/debugger-libs/blob/master/Mono.Debugging.Soft/SoftDebuggerSession.cs#L273">Mono Debugger Libs&lt;/a> and helps us communicate with debugger processes:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cs" data-lang="cs">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">protected&lt;/span> &lt;span class="k">virtual&lt;/span> &lt;span class="kt">bool&lt;/span> &lt;span class="n">ShouldRetryConnection&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">Exception&lt;/span> &lt;span class="n">ex&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="n">attemptNumber&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">var&lt;/span> &lt;span class="n">sx&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">ex&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="n">SocketException&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">sx&lt;/span> &lt;span class="p">!=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">sx&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ErrorCode&lt;/span> &lt;span class="p">==&lt;/span> &lt;span class="m">10061&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="c1">//connection refused&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In the case of a failed connection because of a “ConnectionRefused” error, we are retrying the connection attempt. It works fine with .NET Framework and Mono. However, once we migrated to .NET Core, this method no longer correctly detects the &amp;ldquo;connection refused&amp;rdquo; situation on Linux and macOS. If we open the &lt;code>SocketException&lt;/code> &lt;a href="https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.socketexception?view=netframework-4.8">documentation&lt;/a>, we will learn that this class has three different properties with error codes:&lt;/p>
+&lt;ul>
+	&lt;li>&lt;code>SocketError SocketErrorCode&lt;/code>: Gets the error code that is associated with this exception.&lt;/li>
+	&lt;li>&lt;code>int ErrorCode&lt;/code>: Gets the error code that is associated with this exception.&lt;/li>
+	&lt;li>&lt;code>int NativeErrorCode&lt;/code>: Gets the Win32 error code associated with this exception.&lt;/li>
+&lt;/ul>
+What's the difference between these properties? Should we expect different values on different runtimes or different operating systems? Which one should we use in production? Why do we have problems with &lt;code>ShouldRetryConnection&lt;/code> on .NET Core? Let's figure it all out!</description></item><item><title>Analyzing distribution of Mono GC collections</title><link>https://aakinshin.net/posts/mono-gc-collects/</link><pubDate>Tue, 20 Feb 2018 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mono-gc-collects/</guid><description>&lt;p>Sometimes I want to understand the GC performance impact on an application quickly.
+I know that there are many powerful diagnostic tools and approaches,
+but I&amp;rsquo;m a fan of the &amp;ldquo;right tool for the job&amp;rdquo; idea.
+In simple cases, I prefer simple noninvasive approaches which provide a quick way
+to get an overview of the current situation
+(if everything is terrible, I always can switch to an advanced approach).
+Today I want to share with you my favorite way to quickly get statistics
+of GC pauses in Mono and generate nice plots like this:&lt;/p>
+
+
+
+
+
+&lt;div class="row">
+&lt;div class="mx-auto">
+ &lt;a href="https://aakinshin.net/posts/mono-gc-collects/img/plot-64.png" target="_blank" alt="plot-64">
+ &lt;img
+ class="mx-auto d-block img-fluid"
+ width='800'
+ src="https://aakinshin.net/posts/mono-gc-collects/img/plot-64.png" />
+ &lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br /></description></item><item><title>65535 interfaces ought to be enough for anybody</title><link>https://aakinshin.net/posts/mono-and-65535interfaces/</link><pubDate>Tue, 14 Feb 2017 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mono-and-65535interfaces/</guid><description>&lt;p>It was a bright, sunny morning.
+There were no signs of trouble.
+I came to work, opened Slack, and received many messages from my coworkers about failed tests.&lt;/p>
+&lt;div class="mx-auto">
+ &lt;img class="mx-auto d-block" width="800" src="https://aakinshin.net/img/posts/dotnet/mono-and-65535interfaces/front.png" />
+&lt;/div>
+&lt;p>After a few hours of investigation, the situation became clear:&lt;/p>
+&lt;ul>
+&lt;li>I&amp;rsquo;m responsible for the unit tests subsystem in &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a>, and only tests from this subsystem were failing.&lt;/li>
+&lt;li>I didn&amp;rsquo;t commit anything to the subsystem for a week because I worked with a local branch.
+Other developers also didn&amp;rsquo;t touch this code.&lt;/li>
+&lt;li>The unit tests subsystem is completely independent.
+It&amp;rsquo;s hard to imagine a situation when only the corresponded tests would fail, thousands of other tests pass, and there are no changes in the source code.&lt;/li>
+&lt;li>&lt;code>git blame&lt;/code> helped to find the &amp;ldquo;bad commit&amp;rdquo;: it didn&amp;rsquo;t include anything suspicious, only a few additional classes in other subsystems.&lt;/li>
+&lt;li>Only tests on Linux and MacOS were red.
+On Windows, everything was ok.&lt;/li>
+&lt;li>Stacktraces in failed tests were completely random.
+We had a new stack trace in each test from different subsystems.
+There was no connection between these stack traces, unit tests source code, and the changes in the &amp;ldquo;bad commit.&amp;rdquo;
+There was no clue where we should look for a problem.&lt;/li>
+&lt;/ul>
+&lt;p>So, what was special about this &amp;ldquo;bad commit&amp;rdquo;? Spoiler: after these changes, we sometimes have more than 65535 interface implementations at runtime.&lt;/p></description></item><item><title>A bug story about named mutex on Mono</title><link>https://aakinshin.net/posts/namedmutex-on-mono/</link><pubDate>Mon, 13 Feb 2017 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/namedmutex-on-mono/</guid><description>&lt;p>When you write some multithreading magic on .NET,
+you can use a cool synchronization primitive called &lt;a href="https://msdn.microsoft.com/en-us/library/system.threading.mutex(v=vs.110).aspx">Mutex&lt;/a>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cs" data-lang="cs">&lt;span class="line">&lt;span class="cl">&lt;span class="kt">var&lt;/span> &lt;span class="n">mutex&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">Mutex&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;Global\\MyNamedMutex&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You also can make it &lt;a href="https://msdn.microsoft.com/en-us/library/f55ddskf(v=vs.110).aspx">named&lt;/a> (and share the mutex between processes)
+which works perfectly on Windows:&lt;/p>
+&lt;div class="mx-auto">
+ &lt;img class="mx-auto d-block" width="600" src="https://aakinshin.net/img/posts/dotnet/namedmutex-on-mono/front.png" />
+&lt;/div>
+&lt;p>However, today the .NET Framework is cross-platform, so this code should work on any operation system.
+What will happen if you use named mutex on Linux or MacOS with the help of Mono or CoreCLR?
+Is it possible to create some tricky bug based on this case?
+Of course, it does.
+Today I want to tell you a story about such bug in &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a> which was a headache for several weeks.&lt;/p></description></item><item><title>About UTF-8 conversions in Mono</title><link>https://aakinshin.net/posts/mono-utf8-conversions/</link><pubDate>Mon, 10 Nov 2014 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mono-utf8-conversions/</guid><description>&lt;p>This post is a logical continuation of the Jon Skeet&amp;rsquo;s blog post &lt;a href="http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string">“When is a string not a string?”&lt;/a>. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.&lt;/p>
+&lt;h3 id="experiment-1-compilation">Experiment 1: Compilation&lt;/h3>
+&lt;p>Let&amp;rsquo;s take the Jon&amp;rsquo;s code with a small modification. We will just add &lt;code>text&lt;/code> null check in &lt;code>DumpString&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cs" data-lang="cs">&lt;span class="line">&lt;span class="cl">&lt;span class="k">using&lt;/span> &lt;span class="nn">System&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">using&lt;/span> &lt;span class="nn">System.ComponentModel&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">using&lt;/span> &lt;span class="nn">System.Text&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">using&lt;/span> &lt;span class="nn">System.Linq&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">[Description(Value)]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">class&lt;/span> &lt;span class="nc">Test&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">const&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="n">Value&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="s">&amp;#34;X\ud800Y&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">static&lt;/span> &lt;span class="k">void&lt;/span> &lt;span class="n">Main&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">var&lt;/span> &lt;span class="n">description&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">DescriptionAttribute&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="k">typeof&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Test&lt;/span>&lt;span class="p">).&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">GetCustomAttributes&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">typeof&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">DescriptionAttribute&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">)[&lt;/span>&lt;span class="m">0&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">DumpString&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Attribute&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">description&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Description&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">DumpString&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Constant&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Value&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">static&lt;/span> &lt;span class="k">void&lt;/span> &lt;span class="n">DumpString&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">string&lt;/span> &lt;span class="n">name&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="n">text&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Console&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Write&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;{0}: &amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">name&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">text&lt;/span> &lt;span class="p">!=&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">var&lt;/span> &lt;span class="n">utf16&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">text&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Select&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">c&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">((&lt;/span>&lt;span class="kt">uint&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="n">c&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">ToString&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;x4&amp;#34;&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Console&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">WriteLine&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Join&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34; &amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">utf16&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Console&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">WriteLine&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;null&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>

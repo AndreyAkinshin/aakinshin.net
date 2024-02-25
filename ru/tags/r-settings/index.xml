@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>R-Settings on Андрей Акиньшин</title><link>https://aakinshin.net/ru/tags/r-settings/</link><description>Recent content in R-Settings on Андрей Акиньшин</description><generator>Hugo -- gohugo.io</generator><language>ru</language><lastBuildDate>Mon, 03 Jun 2013 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/ru/tags/r-settings/index.xml" rel="self" type="application/rss+xml"/><item><title>Rprofile — кастомизируем рабочее окружение</title><link>https://aakinshin.net/ru/posts/r-rprofile/</link><pubDate>Mon, 03 Jun 2013 00:00:00 +0000</pubDate><guid>https://aakinshin.net/ru/posts/r-rprofile/</guid><description>&lt;p>Давайте поговорим о задании окружения в R. Для этой цели имеется два волшебных файла:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>Rprofile.site&lt;/code> — глобальный файл настроек для всех сессий. Путь в Windows: &lt;code>c:\Program Files\R\R-x.y.z\etc\Rprofile.site&lt;/code>, путь в Linux: &lt;code>/etc/R/Rprofile.site&lt;/code>.&lt;/li>
+&lt;li>&lt;code>.Rprofile&lt;/code> — локальный файл настроек для текущей сессии. Лежит в домашней директории пользователя.&lt;/li>
+&lt;/ul>
+&lt;p>Эти файлы строятся единообразно, в них можно задать глобальные настройки окружения и объявить две полезных функции:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>.First &amp;lt;- function() { ... }&lt;/code> — функция, которая запускается в начале R-сессии&lt;/li>
+&lt;li>&lt;code>.Last &amp;lt;- function() { ... }&lt;/code> — функция, которая запускается в конце R-сессии&lt;/li>
+&lt;/ul>
+&lt;p>На Stackoverflow &lt;a href="http://stackoverflow.com/questions/1189759/expert-r-users-whats-in-your-rprofile">можно посмотреть&lt;/a> какие .Rprofile-файлы используют люди. Взглянем, что же можно полезного сделать в таком файле на небольших примерах.&lt;/p></description></item></channel></rss>

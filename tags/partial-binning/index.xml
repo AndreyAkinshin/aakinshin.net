@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Partial Binning on Andrey Akinshin</title><link>https://aakinshin.net/tags/partial-binning/</link><description>Recent content in Partial Binning on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 29 Jun 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/partial-binning/index.xml" rel="self" type="application/rss+xml"/><item><title>Partial binning compression of performance series</title><link>https://aakinshin.net/posts/partial-binning-compression/</link><pubDate>Tue, 29 Jun 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/partial-binning-compression/</guid><description>&lt;p>Let&amp;rsquo;s start with a problem from real life.
+Imagine we have thousands of application components that should be initialized.
+We care about the total initialization time of the whole application,
+so we want to automatically track the slowest components using a continuous integration (CI) system.
+The easiest way to do it is to measure the initialization time of each component in each CI build
+and save all the measurements to a database.
+Unfortunately, if the total number of components is huge, the overall artifact size may be quite extensive.
+Thus, this approach may introduce an unwanted negative impact on the database size and data processing time.&lt;/p>
+&lt;p>However, we don&amp;rsquo;t actually need all the measurements.
+We want to track only the slowest components.
+Typically, it&amp;rsquo;s possible to introduce a reasonable threshold that defines such components.
+For example, we can say that all components that are initialized in less than 1ms are &amp;ldquo;fast enough,&amp;rdquo;
+so there is no need to know the exact initialization time for them.
+Since these time values are insignificant, we can just omit all the measurements below the given thresholds.
+This allows to significantly reduce the data traffic without losing any important information.&lt;/p>
+&lt;p>The suggested trick can be named &lt;em>partial binning compression&lt;/em>.
+Indeed, we introduce a single bin (perform &lt;em>binning&lt;/em>) and
+omit all the values inside this bin (perform &lt;em>compression&lt;/em>).
+On the other hand, we don&amp;rsquo;t build an honest histogram since we keep all the raw values outside the given bin
+(the binning is &lt;em>partial&lt;/em>).&lt;/p>
+&lt;p>Let&amp;rsquo;s discuss a few aspects of using partial binning compression.&lt;/p></description></item></channel></rss>

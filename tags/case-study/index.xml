@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Case study on Andrey Akinshin</title><link>https://aakinshin.net/tags/case-study/</link><description>Recent content in Case study on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 17 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/case-study/index.xml" rel="self" type="application/rss+xml"/><item><title>Dynamical System Case Study 2 (Piecewise linear LLL-system)</title><link>https://aakinshin.net/posts/dscs2/</link><pubDate>Sun, 17 Jul 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/dscs2/</guid><description>&lt;p>We consider the following dynamical system:&lt;/p>
+$$
+\begin{cases}
+ \dot{x}_1 = L(a_1, k_1, x_3) - k_1 x_1,\\
+ \dot{x}_2 = L(a_2, k_2, x_1) - k_2 x_2,\\
+ \dot{x}_3 = L(a_3, k_3, x_2) - k_3 x_3,
+\end{cases}
+$$
+&lt;p>where $L$ is a piecewise linear function:&lt;/p>
+$$
+L(a, k, x) = \begin{cases}
+ak &amp; \quad \textrm{for}\; 0 \leq x \leq 1,\\
+0 &amp; \quad \textrm{for}\; 1 &lt; x.
+\end{cases}
+$$
+&lt;p>In this case study, we build a &lt;a href="https://shiny.rstudio.com/">Shiny&lt;/a> application that draws 3D phase portraits of this system for various sets of input parameters.&lt;/p>
+
+
+
+
+
+
+
+
+&lt;div class="flex my-7 justify-center">
+ &lt;a class="img-light hidden" href="https://aakinshin.net/posts/dscs2/img/screen-light.png" target="_blank" alt="screen">
+ &lt;img
+ src="https://aakinshin.net/posts/dscs2/img/screen-light.png" 
+ width='800'
+ />
+ &lt;/a>
+ &lt;a class="img-dark hidden" href="https://aakinshin.net/posts/dscs2/img/screen-dark.png" target="_blank" alt="screen">
+ &lt;img
+ src="https://aakinshin.net/posts/dscs2/img/screen-dark.png" 
+ width='800'
+ />
+ &lt;/a>
+&lt;/div></description></item><item><title>The expected number of takes from a discrete distribution before observing the given element</title><link>https://aakinshin.net/posts/expected-discrete-takes/</link><pubDate>Tue, 21 Jun 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/expected-discrete-takes/</guid><description>&lt;p>Let&amp;rsquo;s consider a discrete distribution $X$ defined by its probability mass function $p_X(x)$.
+We randomly take elements from $X$ until we observe the given element $x_0$.
+What&amp;rsquo;s the expected number of takes in this process?&lt;/p>
+&lt;p>This classic statistical problem could be solved in various ways.
+I would like to share one of my favorite approaches that involves the derivative of the series
+$\sum_{n=0}^\infty x^n$.&lt;/p></description></item><item><title>Dynamical System Case Study 1 (symmetric 3d system)</title><link>https://aakinshin.net/posts/dscs1/</link><pubDate>Sun, 05 Jun 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/dscs1/</guid><description>&lt;p>Let&amp;rsquo;s consider the following dynamical system:&lt;/p>
+$$
+\begin{cases}
+ \dot{x}_1 = f(x_3) - x_1,\\
+ \dot{x}_2 = f(x_1) - x_2,\\
+ \dot{x}_3 = f(x_2) - x_3,
+\end{cases}
+$$
+&lt;p>where $f(x) = \alpha / (1+x^m)$ is a Hill function.
+In this case study, we explore the phase portrait of this system for $\alpha = 18,\; m = 3$.&lt;/p></description></item><item><title>Expected value of the maximum of two standard half-normal distributions</title><link>https://aakinshin.net/posts/expected-max-half-normal/</link><pubDate>Tue, 10 May 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/expected-max-half-normal/</guid><description>&lt;p>Let $X_1, X_2$ be &lt;a href="https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables">i.i.d.&lt;/a>
+random variables that follow the standard normal distribution $\mathcal{N}(0,1^2)$.
+In the &lt;a href="https://aakinshin.net/posts/expected-min-half-normal/">previous post&lt;/a>,
+I have found the expected value of $\min(|X_1|, |X_2|)$.
+Now it&amp;rsquo;s time to find the value of $Z = \max(|X_1|, |X_2|)$.&lt;/p></description></item><item><title>Expected value of the minimum of two standard half-normal distributions</title><link>https://aakinshin.net/posts/expected-min-half-normal/</link><pubDate>Tue, 03 May 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/expected-min-half-normal/</guid><description>&lt;p>Let $X_1, X_2$ be &lt;a href="https://en.wikipedia.org/wiki/Independent_and_identically_distributed_random_variables">i.i.d.&lt;/a>
+random variables that follow the standard normal distribution $\mathcal{N}(0,1^2)$.
+One day I wondered, what is the expected value of $Z = \min(|X_1|, |X_2|)$?
+It turned out to be a fun exercise.
+Let&amp;rsquo;s solve it together!&lt;/p></description></item><item><title>Case study: Accuracy of the MAD estimation using the Harrell-Davis quantile estimator (Gumbel distribution)</title><link>https://aakinshin.net/posts/cs-mad-hd-gumbel/</link><pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/cs-mad-hd-gumbel/</guid><description>&lt;p>In some of my previous posts, I used
+the &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> (MAD)
+to describe the distribution dispersion:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://aakinshin.net/posts/harrell-davis-double-mad-outlier-detector/">DoubleMAD outlier detector based on the Harrell-Davis quantile estimator&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/">Nonparametric Cohen&amp;rsquo;s d-consistent effect size&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/qad/">Quantile absolute deviation: estimating statistical dispersion around quantiles&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>The MAD estimation depends on the chosen median estimator:
+we may get different MAD values with different median estimators.
+To get better accuracy,
+I always encourage readers to use the Harrell-Davis quantile estimator
+instead of the classic Type 7 quantile estimator.&lt;/p>
+&lt;p>In this case study, I decided to compare these two quantile estimators using
+the &lt;a href="https://en.wikipedia.org/wiki/Gumbel_distribution">Gumbel distribution&lt;/a>
+(it&amp;rsquo;s a good model for slightly right-skewed distributions).
+According to the performed Monte Carlo simulation,
+the Harrell-Davis quantile estimator always has better accuracy:&lt;/p>
+
+
+
+
+
+
+
+
+&lt;div class="flex my-7 justify-center">
+ &lt;a class="img-light hidden" href="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-light.png" target="_blank" alt="summary">
+ &lt;img
+ src="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-light.png" 
+ width='800'
+ />
+ &lt;/a>
+ &lt;a class="img-dark hidden" href="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-dark.png" target="_blank" alt="summary">
+ &lt;img
+ src="https://aakinshin.net/posts/cs-mad-hd-gumbel/img/summary-dark.png" 
+ width='800'
+ />
+ &lt;/a>
+&lt;/div></description></item><item><title>Performance exercise: Division</title><link>https://aakinshin.net/posts/perfex-div/</link><pubDate>Mon, 26 Dec 2016 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/perfex-div/</guid><description>&lt;p>In the previous post, we &lt;a href="https://aakinshin.net/en/blog/dotnet/perfex-min/">discussed&lt;/a> the performance space of the minimum function
+which was implemented via a simple ternary operator and with the help of bit magic.
+Now we continue to talk about performance and bit hacks.
+In particular, we will divide a positive number by three:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cs" data-lang="cs">&lt;span class="line">&lt;span class="cl">&lt;span class="kt">uint&lt;/span> &lt;span class="n">Div3Simple&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">uint&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="n">n&lt;/span> &lt;span class="p">/&lt;/span> &lt;span class="m">3&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">uint&lt;/span> &lt;span class="n">Div3BitHacks&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">uint&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">uint&lt;/span>&lt;span class="p">)((&lt;/span>&lt;span class="n">n&lt;/span> &lt;span class="p">*&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">ulong&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="m">0xAAAAAAAB&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">&amp;gt;&amp;gt;&lt;/span> &lt;span class="m">33&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>As usual, it&amp;rsquo;s hard to say which method is faster in advanced because the performance depends on the environment.
+Here are some interesting results:&lt;/p>
+&lt;table class="table table-sm">
+ &lt;tr> &lt;th>&lt;/th> &lt;th>Simple&lt;/th> &lt;th>BitHacks&lt;/th> &lt;/tr>
+ &lt;tr> &lt;th>LegacyJIT-x86&lt;/th> &lt;td class="norm">≈8.3ns&lt;/td> &lt;td class="fast">≈2.6ns&lt;/td> &lt;/tr>
+ &lt;tr> &lt;th>LegacyJIT-x64&lt;/th> &lt;td class="fast">≈2.6ns&lt;/td> &lt;td class="fast">≈1.7ns&lt;/td> &lt;/tr>
+ &lt;tr> &lt;th>RyuJIT-x64 &lt;/th> &lt;td class="norm">≈6.9ns&lt;/td> &lt;td class="fast">≈1.5ns&lt;/td> &lt;/tr>
+ &lt;tr> &lt;th>Mono4.6.2-x86&lt;/th> &lt;td class="norm">≈8.5ns&lt;/td> &lt;td class="slow">≈14.4ns&lt;/td> &lt;/tr>
+ &lt;tr> &lt;th>Mono4.6.2-x64&lt;/th> &lt;td class="norm">≈8.3ns&lt;/td> &lt;td class="fast">≈2.8ns&lt;/td> &lt;/tr>
+&lt;/table></description></item></channel></rss>

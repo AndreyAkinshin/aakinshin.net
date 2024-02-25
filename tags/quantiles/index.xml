@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Quantiles on Andrey Akinshin</title><link>https://aakinshin.net/tags/quantiles/</link><description>Recent content in Quantiles on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 06 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/quantiles/index.xml" rel="self" type="application/rss+xml"/><item><title>Using Kish's effective sample size with weighted quantiles</title><link>https://aakinshin.net/posts/kish-ess-weighted-quantiles/</link><pubDate>Tue, 06 Jul 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/kish-ess-weighted-quantiles/</guid><description>&lt;p>In my previous posts, I described how to calculate
+&lt;a href="https://aakinshin.net/posts/weighted-quantiles/">weighted quantiles&lt;/a> and
+their &lt;a href="https://aakinshin.net/posts/weighted-quantiles-ci/">confidence intervals&lt;/a>
+using the Harrell-Davis quantile estimator.
+This powerful technique allows applying
+&lt;a href="https://aakinshin.net/posts/quantile-exponential-smoothing/">quantile exponential smoothing&lt;/a> and
+&lt;a href="https://aakinshin.net/posts/dispersion-exponential-smoothing/">dispersion exponential smoothing&lt;/a> for
+time series in order to get its moving properties.&lt;/p>
+&lt;p>When we work with weighted samples, we need a way to calculate the
+&lt;a href="https://en.wikipedia.org/wiki/Effective_sample_size">effective samples size&lt;/a>.
+Previously, I used the sum of all weights normalized by the maximum weight.
+In most cases, it worked OK.&lt;/p>
+&lt;p>Recently, &lt;a href="https://www.soz.unibe.ch/about_us/people/prof_dr_jann_ben/index_eng.html">Ben Jann&lt;/a> pointed out
+that it would be better to use the Kish&amp;rsquo;s formula to calculate the effective sample size.
+In this post, you find the formula and a few numerical simulations that illustrate the actual impact of
+the underlying sample size formula.&lt;/p></description></item><item><title>Quantile absolute deviation: estimating statistical dispersion around quantiles</title><link>https://aakinshin.net/posts/qad/</link><pubDate>Tue, 01 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qad/</guid><description>&lt;p>There are many different metrics for &lt;a href="https://en.wikipedia.org/wiki/Statistical_dispersion">statistical dispersion&lt;/a>.
+The most famous one is the &lt;a href="https://en.wikipedia.org/wiki/Standard_deviation">standard deviation&lt;/a>.
+The standard deviation is the most popular way to describe the spread around the mean when
+you work with normally distributed data.
+However, if you work with non-normal distributions, this metric may be misleading.&lt;/p>
+&lt;p>In the world of non-parametric distributions,
+the most common measure of &lt;a href="https://en.wikipedia.org/wiki/Central_tendency">central tendency&lt;/a> is the median.
+For the median, you can describe dispersion using the
+&lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation around the median&lt;/a> (MAD).
+It works great if the median is the only &lt;a href="https://en.wikipedia.org/wiki/Summary_statistics">summary statistic&lt;/a> that you care about.
+However, if you work with multimodal distributions
+(they can be detected using the &lt;a href="https://aakinshin.net/posts/lowland-multimodality-detection/">lowland multimodality detector&lt;/a>),
+you may be interested in other quantiles as well.
+So, it makes sense to learn how to describe dispersion around the given quantile.
+Which metric should we choose?&lt;/p>
+&lt;p>Recently, I came up with a great solution to this problem.
+We can generalize the median absolute deviation into the quantile absolute deviation (QAD) around the given quantile based on the Harrell-Davis quantile estimator.
+I will show how to calculate it, how to interpret it, and how to get insights about distribution properties
+from images like this one:&lt;/p>
+
+
+
+
+
+
+
+
+&lt;div class="flex my-7 justify-center">
+ &lt;a class="img-light hidden" href="https://aakinshin.net/posts/qad/img/modal5-light.png" target="_blank" alt="modal5">
+ &lt;img
+ src="https://aakinshin.net/posts/qad/img/modal5-light.png" 
+ width='800'
+ />
+ &lt;/a>
+ &lt;a class="img-dark hidden" href="https://aakinshin.net/posts/qad/img/modal5-dark.png" target="_blank" alt="modal5">
+ &lt;img
+ src="https://aakinshin.net/posts/qad/img/modal5-dark.png" 
+ width='800'
+ />
+ &lt;/a>
+&lt;/div></description></item><item><title>P² quantile estimator: estimating the median without storing values</title><link>https://aakinshin.net/posts/p2-quantile-estimator/</link><pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator/</guid><description>&lt;p>&lt;strong>Update: the estimator accuracy could be improved using a bunch of &lt;a href="https://aakinshin.net/tags/research-p2qe/">patches&lt;/a>.&lt;/strong>&lt;/p>
+&lt;p>Imagine that you are implementing performance telemetry in your application.
+There is an operation that is executed millions of times, and you want to get its &amp;ldquo;average&amp;rdquo; duration.
+It&amp;rsquo;s not a good idea to use the arithmetic mean because the obtained value can be easily spoiled by outliers.
+It&amp;rsquo;s much better to use the median which is one of the most robust ways to describe the average.&lt;/p>
+&lt;p>The straightforward median estimation approach requires storing all the values.
+In our case, it&amp;rsquo;s a bad idea to keep all the values because it will significantly increase the memory footprint.
+Such telemetry is harmful because it may become a new bottleneck instead of monitoring the actual performance.&lt;/p>
+&lt;p>Another way to get the median value is to use a sequential quantile estimator
+(also known as an online quantile estimator or a streaming quantile estimator).
+This is an algorithm that allows calculating the median value (or any other quantile value)
+using a fixed amount of memory.
+Of course, it provides only an approximation of the real median value,
+but it&amp;rsquo;s usually enough for typical telemetry use cases.&lt;/p>
+&lt;p>In this post, I will show one of the simplest sequential quantile estimators that is called the P² quantile estimator
+(or the Piecewise-Parabolic quantile estimator).&lt;/p></description></item><item><title>The median absolute deviation value of the Gumbel distribution</title><link>https://aakinshin.net/posts/gumbel-mad/</link><pubDate>Tue, 06 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/gumbel-mad/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Gumbel_distribution">Gumbel distribution&lt;/a> is not only a useful model in the &lt;a href="https://en.wikipedia.org/wiki/Extreme_value_theory">extreme value theory&lt;/a>,
+but it&amp;rsquo;s also a nice example of a slightly right-skewed distribution (skewness $\approx 1.14$).
+Here is its density plot:&lt;/p>
+
+
+
+
+
+
+&lt;div class="row">
+&lt;div class="mx-auto">
+ &lt;a href="https://aakinshin.net/posts/gumbel-mad/img/gumbel-light.svg" target="_blank" class="imgldlink" alt="gumbel">
+ &lt;picture>
+ &lt;source
+ theme='dark'
+ srcset="https://aakinshin.net/posts/gumbel-mad/img/gumbel-dark.svg"
+ media="(prefers-color-scheme: dark)">
+ &lt;source
+ theme='light'
+ srcset="https://aakinshin.net/posts/gumbel-mad/img/gumbel-light.svg"
+ media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+ &lt;img
+ class="mx-auto d-block img-fluid"
+ width='600'
+ src="https://aakinshin.net/posts/gumbel-mad/img/gumbel-light.svg">
+ &lt;/picture>
+ &lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br />
+&lt;p>In some of my statistical experiments, I like to use the Gumbel distribution as a sample generator for hypothesis checking or unit tests.
+I also prefer the &lt;a href="https://en.wikipedia.org/wiki/Median_absolute_deviation">median absolute deviation&lt;/a> (MAD) over the standard deviation as a measure of dispersion because it&amp;rsquo;s more robust in the case of non-parametric distributions.
+Numerical hypothesis verification often requires the exact value of the median absolute deviation of the original distribution.
+I didn&amp;rsquo;t find this value in the reference tables, so I decided to do another exercise and derive it myself.
+In this post, you will find a short derivation and the result (spoiler: the exact value is &lt;code>0.767049251325708 * β&lt;/code>).
+The general approach of the MAD derivation is common for most distributions, so it can be easily reused.&lt;/p></description></item><item><title>Weighted quantile estimators</title><link>https://aakinshin.net/posts/weighted-quantiles/</link><pubDate>Tue, 29 Sep 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/weighted-quantiles/</guid><description>&lt;p>&lt;strong>Update 2021-07-06:
+the approach was updated using the &lt;a href="https://aakinshin.net/posts/kish-ess-weighted-quantiles/">Kish&amp;rsquo;s effective sample size&lt;/a>.&lt;/strong>&lt;/p>
+&lt;p>In this post, I will show how to calculate weighted quantile estimates and how to use them in practice.&lt;/p>
+&lt;p>Let&amp;rsquo;s start with a problem from real life.
+Imagine that you measure the total duration of a unit test executed daily on a CI server.
+Every day you get a single number that corresponds to the test duration from the latest revision for this day:&lt;/p>
+
+
+
+
+
+
+&lt;div class="row">
+&lt;div class="mx-auto">
+ &lt;a href="https://aakinshin.net/posts/weighted-quantiles/img/moving1-light.svg" target="_blank" class="imgldlink" alt="moving1">
+ &lt;picture>
+ &lt;source
+ theme='dark'
+ srcset="https://aakinshin.net/posts/weighted-quantiles/img/moving1-dark.svg"
+ media="(prefers-color-scheme: dark)">
+ &lt;source
+ theme='light'
+ srcset="https://aakinshin.net/posts/weighted-quantiles/img/moving1-light.svg"
+ media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+ &lt;img
+ class="mx-auto d-block img-fluid"
+ width='600'
+ src="https://aakinshin.net/posts/weighted-quantiles/img/moving1-light.svg">
+ &lt;/picture>
+ &lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br />
+&lt;p>You collect a history of such measurements for 100 days.
+Now you want to describe the &amp;ldquo;actual&amp;rdquo; distribution of the performance measurements.&lt;/p>
+&lt;p>However, for the latest &amp;ldquo;actual&amp;rdquo; revision, you have only a single measurement, which is not enough to build a distribution.
+Also, you can&amp;rsquo;t build a distribution based on the last N measurements because they can contain change points that will spoil your results.
+So, what you really want to do is to use all the measurements, but older values should have a lower impact on the final distribution form.&lt;/p>
+&lt;p>Such a problem can be solved using the weighted quantiles!
+This powerful approach can be applied to any time series regardless of the domain area.
+In this post, we learn how to calculate and apply weighted quantiles.&lt;/p></description></item></channel></rss>

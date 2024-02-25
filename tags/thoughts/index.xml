@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Thoughts on Andrey Akinshin</title><link>https://aakinshin.net/tags/thoughts/</link><description>Recent content in Thoughts on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 20 Feb 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/thoughts/index.xml" rel="self" type="application/rss+xml"/><item><title>Case study: a city social survey</title><link>https://aakinshin.net/posts/cs-social-survey/</link><pubDate>Tue, 20 Feb 2024 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/cs-social-survey/</guid><description>&lt;p>Imagine a city mayor considering a project offering to build parks in several neighborhoods.
+It can be a good budget investment since it can potentially increase the happiness level of the citizens.
+However, it is just a hypothesis: if parks do not impact happiness,
+it is worth considering other city renovation projects.
+It makes sense to perform a pilot experiment before spending the budget on all the parks.
+The mayor is thinking about the following plan:
+pick a random neighborhood,
+survey the citizens to measure their happiness,
+build a park,
+survey the citizens again,
+compare the survey results,
+make a decision about the further parks in other neighborhoods.
+Someone is needed to design the survey and draw the conclusion.&lt;/p>
+&lt;p>Let us explore possible approaches to perform such a study.
+These artificial examples are not guidelines
+but rather simplified illustrations of possible mindsets presented as lists of thoughts.
+In this demonstration, we mainly focus on the attitude to the research process rather than on the technical details.
+All the examples are based on real stories.&lt;/p></description></item><item><title>Degrees of practical significance</title><link>https://aakinshin.net/posts/practical-significance-degrees/</link><pubDate>Tue, 06 Feb 2024 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/practical-significance-degrees/</guid><description>&lt;p>Let&amp;rsquo;s say we have two data samples, and we want to check if there is a difference between them.
+If we are talking about any kind of difference, the answer is most probably yes.
+It&amp;rsquo;s highly unlikely that two random samples are identical.
+Even if they are, there are still chances that we observe such a situation by accident,
+and there is a difference in the underlying distributions.
+Therefore, the discussion about the existence of any kind of difference is not meaningful.&lt;/p>
+&lt;p>To make more meaningful insights, researchers often talk about statistical significance.
+The approach can also be misleading.
+If the sample size is large enough, we are almost always able to detect even a neglectable difference
+and obtain a statistically significant result for any pair of distributions.
+On the other hand, a huge difference can be declared insignificant if the sample size is small.
+While the concept is interesting and well-researched, it rarely matches the actual research goal.
+I strongly believe that we should &lt;em>not&lt;/em> test for the nil hypothesis (checking if the true difference is &lt;em>exactly&lt;/em> zero).&lt;/p>
+&lt;p>Here, we can switch from statistical significance to practical significance.
+We are supposed to define a threshold (e.g., in terms of minimum effect size)
+for the difference that is meaningful for the research.
+This approach has more chances to be aligned with the research goals.
+However, it is also not always satisfying enough.
+We should keep in mind that hypothesis testing often arises in the context of decision-making problems.
+In some cases, we can do exploration research in which we just want to have a better understanding of the world.
+However, in most cases, we do not perform calculations just because we are curious;
+we often want to make a decision based on the results.
+And this is the most crucial moment.
+It should always be the starting point in any research project.
+First of all, we should clearly describe the possible decisions and their preconditions.
+When we start doing that, we can discover that not all the practically significant outcomes are equally significant.
+If different practically significant results may lead to different decisions,
+we should define the proper classification in advance during the research design stage.
+The dichotomy of &amp;ldquo;practically significant&amp;rdquo; vs. &amp;ldquo;not practically significant&amp;rdquo;
+may conceal important problem aspects and lead to a wrong decision.&lt;/p>
+&lt;p>In this post, I would like to discuss the degrees of practical significance and
+show an example of how important it is for some problems.&lt;/p></description></item><item><title>Eclectic statistics</title><link>https://aakinshin.net/posts/eclectic-statistics/</link><pubDate>Tue, 16 Jan 2024 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/eclectic-statistics/</guid><description>&lt;p>In the world of mathematical statistics, there is a constant confrontation between adepts of different paradigms.
+This is a constant source of confusion for many researchers who struggle to pick out the proper approach to follow.
+For example, how to choose between the frequentist and Bayesian approaches?
+Since these paradigms may produce inconsistent results
+(e.g., see &lt;a href="https://en.wikipedia.org/wiki/Lindley%27s_paradox">Lindley&amp;rsquo;s paradox&lt;/a>),
+some choice has to be made.
+The easiest way to conduct research is to pick a single paradigm and stick to it.
+The right way to conduct research is to carefully think.&lt;/p></description></item><item><title>Thoughts on automatic statistical methods and broken assumptions</title><link>https://aakinshin.net/posts/thoughts-on-broken-assumptions/</link><pubDate>Tue, 05 Sep 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thoughts-on-broken-assumptions/</guid><description>In the old times of applied statistics existence, all statistical experiments used to be performed by hand. In manual investigations, an investigator is responsible not only for interpreting the research results but also for the applicability validation of the used statistical approaches. Nowadays, more and more data processing is performed automatically on enormously huge data sets. Due to the extraordinary number of data samples, it is often almost impossible to verify each output individually using human eyes. Unfortunately, since we typically have no full control over the input data, we cannot guarantee certain assumptions that are required by classic statistical methods. These assumptions can be violated not only due to real-life phenomena we were not aware of during the experiment design stage, but also due to data corruption. In such corner cases, we may get misleading results, wrong automatic decisions, unacceptably high Type I/II error rates, or even a program crash because of a division by zero or another invalid operation. If we want to make an automatic analysis system reliable and trustworthy, the underlying mathematical procedures should correctly process malformed data.
+The normality assumption is probably the most popular one. There are well-known methods of robust statistics that focus only on slight deviations from normality and the appearance of extreme outliers. However, it is only a violation of one specific consequence from the normality assumption: light-tailedness. In practice, this sub-assumption is often interpreted as &amp;ldquo;the probability of observing extremely large outliers is negligible.&amp;rdquo; Meanwhile, there are other implicit derived sub-assumptions: continuity (we do not expect tied values in the input samples), symmetry (we do not expect highly-skewed distributions), unimodality (we do not expect multiple modes), nondegeneracy (we do not expect all sample values to be equal), sample size sufficiency (we do not expect extremely small samples like single-element samples), and others.</description></item><item><title>Rethinking Type I/II error rates with power curves</title><link>https://aakinshin.net/posts/rethinking-type-i-ii-errors/</link><pubDate>Tue, 11 Apr 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/rethinking-type-i-ii-errors/</guid><description>&lt;p>When it comes to the analysis of a statistical significance test design,
+many people tend to overfocus purely on the Type I error rate.
+Those who are aware of the importance of power analysis
+often stop at expressing the Type II error rate as a single number.
+It is better than nothing, but such an approach always confuses me.&lt;/p>
+&lt;p>Let us say that the declared Type II error rate is 20% (or the declared statistical power is 80%).
+What does it actually mean?
+If the sample size and the significance level (or any other significance criteria) are given,
+the Type II error rate is a function of the effect size.
+When we express the Type II error rate as a single number,
+we always (implicitly or explicitly) assume the target effect size.
+In most cases, it is an arbitrary number
+that is somehow chosen to reflect our expectations of the &amp;ldquo;reasonable&amp;rdquo; effect size.
+However, the actual Type II error rate and the corresponding statistical power
+depend on the actual effect size that we do not know.
+Some researchers estimate the Type II error rate / statistical power using the measured effect size,
+but it does not make a lot of sense since
+it does not provide new information in addition to the measured effect size or p-value.
+In reality, we have high statistical power (low Type II error rate) for large effect sizes
+and low statistical power (high Type II error rate) for small effect sizes.
+Without the knowledge of the actual effect size (which we do not have),
+the Type II error rate expressed as a single number mostly describes this arbitrarily chosen expected effect size,
+rather than the actual properties of our statistical test.&lt;/p></description></item><item><title>Thoughts about outlier removal and ozone holes</title><link>https://aakinshin.net/posts/outliers-ozon-holes/</link><pubDate>Tue, 31 Jan 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/outliers-ozon-holes/</guid><description>&lt;p>Imagine you work with some data and assume that the underlying distribution is approximately normal.
+In such cases, the data analysis typically involves non-robust statistics like the mean and the standard deviation.
+While these metrics are highly efficient under normality, they make the analysis procedure fragile:
+a single extreme value can corrupt all the results.
+You may not expect any significant outliers, but you can never be 100% sure.
+To avoid unexpected surprises and ensure the reliability of the results,
+it may be tempting to automatically exclude all outliers from the collected samples.
+While this approach is widely adopted, it conceals an essential part of the obtained data
+and can lead to fallacious conclusions.&lt;/p>
+&lt;p>Let me recite a classic story about ozone holes,
+which is typically used to illustrate the danger of blind outlier removal:&lt;/p></description></item></channel></rss>

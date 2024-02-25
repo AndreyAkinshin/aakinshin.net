@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bias Correction on Andrey Akinshin</title><link>https://aakinshin.net/tags/bias-correction/</link><description>Recent content in Bias Correction on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 06 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/bias-correction/index.xml" rel="self" type="application/rss+xml"/><item><title>Finite-sample bias correction factors for Rousseeuw-Croux scale estimators</title><link>https://aakinshin.net/posts/rousseeuw-croux-finite-factors/</link><pubDate>Tue, 06 Sep 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/rousseeuw-croux-finite-factors/</guid><description>&lt;p>The Rousseeuw-Croux scale estimators $S_n$ and $Q_n$
+are &lt;a href="https://aakinshin.net/posts/rousseeuw-croux-finite-efficiency/">efficient&lt;/a> alternatives to the median absolute deviation ($\operatorname{MAD}_n$).
+While all three estimators have the same breakdown point of $50\%$,
+$S_n$ and $Q_n$ have higher statistical efficiency than $\operatorname{MAD}_n$.
+The asymptotic Gaussian efficiency values of $\operatorname{MAD}_n$, $S_n$, and $Q_n$
+are $37\%$, $58\%$, and $82\%$ respectively.&lt;/p>
+&lt;p>Using scale constants, we can make $S_n$ and $Q_n$ consistent estimators for the standard deviation under normality.
+The asymptotic values of these constants are well-known.
+However, for finite-samples, only approximated scale constants are known.
+In this post, we provide refined values of these constants with higher accuracy.&lt;/p></description></item></channel></rss>

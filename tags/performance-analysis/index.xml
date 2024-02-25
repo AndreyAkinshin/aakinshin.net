@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Performance Analysis on Andrey Akinshin</title><link>https://aakinshin.net/tags/performance-analysis/</link><description>Recent content in Performance Analysis on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 15 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/performance-analysis/index.xml" rel="self" type="application/rss+xml"/><item><title>Statistical approaches for performance analysis</title><link>https://aakinshin.net/posts/statistics-for-performance/</link><pubDate>Tue, 15 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/statistics-for-performance/</guid><description>&lt;p>Software performance is a complex discipline that requires knowledge in different areas
+from benchmarking to the internals of modern runtimes, operating systems, and hardware.
+Surprisingly, the most difficult challenges in performance analysis are not about programming,
+they are about mathematical statistics!&lt;/p>
+&lt;p>Many software developers can drill into performance problems and implement excellent optimizations,
+but they are not always know how to correctly verify these optimizations.
+This may not look like a problem in the case of a single performance investigation.
+However, the situation became worse when developers try to set up an infrastructure that
+should automatically find performance problems or prevent degradations from merging.
+In order to make such an infrastructure reliable and useful,
+it&amp;rsquo;s crucial to achieve an extremely low false-positive rate (otherwise, it&amp;rsquo;s not trustable)
+and be able to detect most of the degradations (otherwise, it&amp;rsquo;s not so useful).
+It&amp;rsquo;s not easy if you don&amp;rsquo;t know which statistical approaches should be used.
+If you try to google it, you may find thousands of papers about statistics,
+but only a small portion of them really works in practice.&lt;/p>
+&lt;p>In this post, I want to share some approaches that I use for performance analysis in everyday life.
+I have been analyzing performance distributions for the last seven years,
+and I have found a lot of approaches, metrics, and tricks which nice to have
+in your statistical toolbox.
+I would not say that all of them are must have to know,
+but they can definitely help you to improve the reliability of your statistical checks
+in different problems of performance analysis.
+Consider the below list as a letter to a younger version of myself with a brief list of topics that are good to learn.&lt;/p></description></item></channel></rss>

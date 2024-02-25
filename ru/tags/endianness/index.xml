@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Endianness on Андрей Акиньшин</title><link>https://aakinshin.net/ru/tags/endianness/</link><description>Recent content in Endianness on Андрей Акиньшин</description><generator>Hugo -- gohugo.io</generator><language>ru</language><lastBuildDate>Wed, 29 Oct 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/ru/tags/endianness/index.xml" rel="self" type="application/rss+xml"/><item><title>Endianness в .NET</title><link>https://aakinshin.net/ru/posts/endianness/</link><pubDate>Wed, 29 Oct 2014 00:00:00 +0000</pubDate><guid>https://aakinshin.net/ru/posts/endianness/</guid><description>&lt;table class="table-ok">
+ &lt;tr>
+ &lt;td valign="top">
+ &lt;div class="separator" style="clear: both; text-align: center;">
+ &lt;img src="https://aakinshin.net/img/posts/dotnet/endianness/front.png" alt="Endian funny image" style="margin: 0 2em 1em 0;" />
+ &lt;/div>
+ &lt;/td>
+ &lt;td valign="top">
+ &lt;p>Рассмотрим простую задачку: что выведет следующий код?&lt;/p>
+&lt;pre class="prettyprint lang-cs">
+[StructLayout(LayoutKind.Explicit)]
+struct UInt16Wrapper
+{
+ [FieldOffset(0)]
+ public UInt16 Value;
+ [FieldOffset(0)]
+ public Byte Byte1;
+ [FieldOffset(1)]
+ public Byte Byte2;
+}
+void Main()
+{
+ var uint16 = new UInt16Wrapper();
+ uint16.Value = 1 + 2 * 256;
+ Console.WriteLine(uint16.Byte1);
+ Console.WriteLine(uint16.Byte2);
+}
+&lt;/pre>
+ &lt;/td>
+ &lt;/tr>
+&lt;/table>
+&lt;p>Полагаю, что внимательный читатель должен обратить внимание на название поста и дать правильный ответ: «зависит». Сегодня мы немного поговорим о том, как в .NET обстоят дела с порядком байтов.&lt;/p></description></item></channel></rss>

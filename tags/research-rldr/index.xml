@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Research: Resistance to the low-density regions on Andrey Akinshin</title><link>https://aakinshin.net/tags/research-rldr/</link><description>Recent content in Research: Resistance to the low-density regions on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 21 Nov 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/research-rldr/index.xml" rel="self" type="application/rss+xml"/><item><title>Resistance to the low-density regions: the Hodges-Lehmann location estimator based on the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/rldr-hlhd/</link><pubDate>Tue, 21 Nov 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/rldr-hlhd/</guid><description>&lt;p>Previously, I have discussed the topic of the &lt;a href="https://aakinshin.net/tags/research-rldr/">resistance to the low-density regions&lt;/a>
+of various estimators including &lt;a href="https://aakinshin.net/posts/rldr-hl/">the Hodges-Lehmann location estimator&lt;/a> ($\operatorname{HL}$).
+In general, $\operatorname{HL}$ is a great estimator with great statistical efficiency and a decent breakdown point.
+Unfortunately, it has low resistance to the low-density regions around
+$29^\textrm{th}$ and $71^\textrm{th}$ percentiles, which may cause troubles in the case of multimodal distributions.
+I am trying to find a modification of $\operatorname{HL}$
+that performs almost the same as the original $\operatorname{HL}$, but has increased resistance.
+One of the ideas I had was using the Harrell-Davis quantile estimator
+instead of the sample median to evaluate $\operatorname{HL}$.
+Regrettably, this idea did not turn out to be successful:
+such an estimator has a resistance function similar to the original $\operatorname{HL}$.
+I believe that it is important to share negative results, and therefore this post contains a bunch of plots,
+which illustrate results of relevant numerical simulations.&lt;/p></description></item><item><title>Resistance to the low-density regions: the Hodges-Lehmann location estimator</title><link>https://aakinshin.net/posts/rldr-hl/</link><pubDate>Tue, 13 Dec 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/rldr-hl/</guid><description>&lt;p>In the previous posts, I discussed the concept of a resistance function
+that shows the sensitivity of the given estimator to the low-density regions.
+I already showed how this function behaves for &lt;a href="https://aakinshin.net/posts/rldr-mean-median/">the mean, the sample median&lt;/a>,
+and &lt;a href="https://aakinshin.net/posts/rldr-hdmedian/">the Harrell-Davis median&lt;/a>.
+In this post, I explore this function for the Hodges-Lehmann location estimator.&lt;/p></description></item><item><title>Resistance to the low-density regions: the Harrell-Davis median</title><link>https://aakinshin.net/posts/rldr-hdmedian/</link><pubDate>Tue, 22 Nov 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/rldr-hdmedian/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/rldr-mean-median/">previous post&lt;/a>,
+we defined the resistance function that show sensitivity of the given estimator
+to the low-density regions.
+We also showed the resistance function plots for the mean and the sample median.
+In this post, we explore corresponding plots for the Harrell-Davis median.&lt;/p></description></item><item><title>Resistance to the low-density regions: the mean and the median</title><link>https://aakinshin.net/posts/rldr-mean-median/</link><pubDate>Tue, 15 Nov 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/rldr-mean-median/</guid><description>&lt;p>When we discuss resistant statistics, we typically assume resistance to extreme values.
+However, extreme values are not the only problem source
+that can violate usual assumptions about expected metric distribution.
+The low-density regions which often arise in multimodal distributions
+can also corrupt the results of the statistical analysis.
+In this post, I discuss this problem and introduce a measure of resistance to low-density regions.&lt;/p></description></item></channel></rss>
