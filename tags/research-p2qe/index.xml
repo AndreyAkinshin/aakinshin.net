@@ -26,9 +26,9 @@ This extended version was suggested in the paper
 In this post, we briefly discuss the approach from this paper and how we can improve its implementation.&lt;/p></description></item><item><title>P² quantile estimator marker adjusting order</title><link>https://aakinshin.net/posts/p2-quantile-estimator-adjusting-order/</link><pubDate>Tue, 11 Jan 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-adjusting-order/</guid><description>&lt;p>I have already written a few blog posts about the P² quantile estimator
 (which is a sequential estimator that uses $O(1)$ memory):&lt;/p>
 &lt;ul>
-&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">P² quantile estimator: estimating the median without storing values&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/">P² quantile estimator rounding issue&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-initialization/">P² quantile estimator initialization strategy&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">P² Quantile Estimator: Estimating the Median without Storing Values&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/">P² Quantile Estimator Rounding Issue&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-initialization/">P² Quantile Estimator Initialization Strategy&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;p>In this post, we continue improving the P² implementation
 so that it gives better estimations for streams with a small number of elements.&lt;/p></description></item><item><title>P² quantile estimator initialization strategy</title><link>https://aakinshin.net/posts/p2-quantile-estimator-initialization/</link><pubDate>Tue, 04 Jan 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-initialization/</guid><description>&lt;p>&lt;strong>Update: the estimator accuracy could be improved using a bunch of &lt;a href="https://aakinshin.net/tags/research-p2qe/">patches&lt;/a>.&lt;/strong>&lt;/p>
@@ -36,8 +36,8 @@ so that it gives better estimations for streams with a small number of elements.
 Thus, for the given sequence of numbers, it allows estimating quantiles without storing values.
 I have already written a few blog posts about it:&lt;/p>
 &lt;ul>
-&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">P² quantile estimator: estimating the median without storing values&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/">P² quantile estimator rounding issue&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">P² Quantile Estimator: Estimating the Median without Storing Values&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/">P² Quantile Estimator Rounding Issue&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;p>I tried this estimator in various contexts, and it shows pretty decent results.
 However, recently I stumbled on a corner case:
