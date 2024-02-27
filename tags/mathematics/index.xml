@@ -1,4 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mathematics on Andrey Akinshin</title><link>https://aakinshin.net/tags/mathematics/</link><description>Recent content in Mathematics on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 20 Feb 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/mathematics/index.xml" rel="self" type="application/rss+xml"/><item><title>Case study: a city social survey</title><link>https://aakinshin.net/posts/cs-social-survey/</link><pubDate>Tue, 20 Feb 2024 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/cs-social-survey/</guid><description>&lt;p>Imagine a city mayor considering a project offering to build parks in several neighborhoods.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mathematics on Andrey Akinshin</title><link>https://aakinshin.net/tags/mathematics/</link><description>Recent content in Mathematics on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 27 Feb 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/mathematics/index.xml" rel="self" type="application/rss+xml"/><item><title>The Effect Existence, Its Magnitude, and the Goals</title><link>https://aakinshin.net/posts/effect-magnitude-goals/</link><pubDate>Tue, 27 Feb 2024 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/effect-magnitude-goals/</guid><description>&lt;p>If you are curious if something impacts something else, the answer is probably &amp;ldquo;yes.&amp;rdquo;
+Does that indicator depend on those factors?
+Yes, it does.
+If we change this thing, would it affect &amp;hellip;?
+Yes, it would.
+If a person takes this pill, could it cause a non-exactly-zero change in the body?
+Yes, the presence of the pill is already a change that can always be detected with the right amount of effort.&lt;/p>
+&lt;p>One may argue that in some cases (assuming the list of specific cases is presented), zero effect does exist.
+For a moment, let us pretend that it is true.
+Now, let us imagine a parallel universe, which is the same as ours but with the presence of the effect.
+Unfortunately, the effect is so small that our tools are not sophisticated enough to detect it.
+Imagine being put into one of these worlds, but you don&amp;rsquo;t know which one.
+How do you determine the existence of the effect?
+Of course, you can improve the resolution of the measurement tools via new scientific discoveries,
+but with the current state of technology, the absence of the effect cannot be checked.
+Therefore, it is always safer to assume that the effect exists, keeping in mind that it can be negligible.
+Let us accept this assumption and continue if it is absolute truth.&lt;/p></description></item><item><title>Case study: a city social survey</title><link>https://aakinshin.net/posts/cs-social-survey/</link><pubDate>Tue, 20 Feb 2024 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/cs-social-survey/</guid><description>&lt;p>Imagine a city mayor considering a project offering to build parks in several neighborhoods.
 It can be a good budget investment since it can potentially increase the happiness level of the citizens.
 However, it is just a hypothesis: if parks do not impact happiness,
 it is worth considering other city renovation projects.
