@@ -123,7 +123,7 @@ This idea looks so simple and natural that I was sure that it must have already 
 However, when I started to search for it, it turned out that it was not as easy as I expected.
 Moreover, some papers attribute this idea to Bhattacharyya, which is not accurate.
 In this post, we discuss the difference between these two approaches.&lt;/p></description></item><item><title>Finite-sample Gaussian efficiency: Shamos vs. Rousseeuw-Croux Qn scale estimators</title><link>https://aakinshin.net/posts/shamos-vs-qn/</link><pubDate>Tue, 19 Dec 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/shamos-vs-qn/</guid><description>&lt;p>&lt;a href="https://aakinshin.net/posts/qad-vs-rc/">Previously&lt;/a>, we compared the finite-sample Gaussian efficiency of
-the Rousseeuw-Croux scale estimators and the QAD estimator.
+the &lt;a href="https://aakinshin.net/library/papers/rousseeuw1993/">Rousseeuw-Croux scale estimators&lt;/a> and the QAD estimator.
 In this post, we compare the finite-sample Gaussian efficiency of the Shamos scale estimator
 and the Rousseeuw-Croux $Q_n$ scale estimator.
 This is a particularly interesting comparison.
