@@ -1,804 +1,1159 @@
 <!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.123.3"><meta name=author content='Andrey Akinshin'><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content><title>Papers | Andrey Akinshin</title>
-<meta name=description content="Andrey Akinshin's blog"><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><script>localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")</script><link href=https://aakinshin.net/css/main.min.25504b87a17cfaf1c000a5bcca42b1c4888fa4efc097d640d9139388b3e67e55.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body><nav><div class="container flex flex-wrap items-center justify-between mx-auto max-w-6xl h-12 px-2 xs:px-6"><div class="flex items-center justify-start justify-self-start"><div class="flex nav-item h-12 w-12 items-center justify-center"><a class=text-white href=https://aakinshin.net/><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/posts/>Posts</a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/research/>Research</a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/library/>Library</a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/about/>About</a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/search/><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#magnifying-glass"/></svg></a></div></div><button id=theme-toggle type=button title="Alt+Click to match OS color theme" class="nav-item p-3 content-center justify-self-end"><svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001.0 1010.586 10.586z"/></svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1A1 1 0 119 4V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707A1 1 0 1113.536 5.05l.707-.707a1 1 0 011.414.0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707A1 1 0 004.343 5.757l.707.707zm1.414 8.486-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"/></svg></button></div></nav><div class="main container mx-auto max-w-6xl px-6"><h2 id=papers><a href=/library/>Library</a> /
+<meta name=description content="Andrey Akinshin's blog"><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><script>localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")</script><link href=https://aakinshin.net/css/main.min.5108205eaabc89b26ffd82359e0fe4fb2b5e8c9825e57ed51687cc18a3c75b9b.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body><nav><div class="container flex flex-wrap items-center justify-between mx-auto max-w-6xl h-12 px-2 xs:px-6"><div class="flex items-center justify-start justify-self-start"><div class="flex nav-item h-12 w-12 items-center justify-center"><a class=text-white href=https://aakinshin.net/><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/posts/>Posts</a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/research/>Research</a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/library/>Library</a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/about/>About</a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/search/><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#magnifying-glass"/></svg></a></div></div><button id=theme-toggle type=button title="Alt+Click to match OS color theme" class="nav-item p-3 content-center justify-self-end"><svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001.0 1010.586 10.586z"/></svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1A1 1 0 119 4V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707A1 1 0 1113.536 5.05l.707-.707a1 1 0 011.414.0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707A1 1 0 004.343 5.757l.707.707zm1.414 8.486-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"/></svg></button></div></nav><div class="main container mx-auto max-w-6xl px-6"><h2 id=papers><a href=/library/>Library</a> /
 Papers</h2><ol><li><a href=https://aakinshin.net/library/papers/lanzante2005/>A Cautionary Note on the Use of Error Bars
-</a>(2005)
+</a>(2005)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-John R Lanzante<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/fritz2012/>A Comprehensive Review of Reporting Practices in Psychological Journals: Are Effect Sizes Really Enough?
-</a>(2012)
+<a href=https://aakinshin.net/library/authors/john-r-lanzante/>John R Lanzante</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/fritz2012/>A Comprehensive Review of Reporting Practices in Psychological Journals
+</a>(2012)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-Astrid Fritz, Thomas Scherndl
-et al.<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/watson2009/>A Cosmetic ‘Anti-Ageing’ Product Improves Photoaged Skin: A Double-Blind, Randomized Controlled Trial
-</a>(2009)
+<a href=https://aakinshin.net/library/authors/astrid-fritz/>Astrid Fritz</a>, <a href=https://aakinshin.net/library/authors/thomas-scherndl/>Thomas Scherndl</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/watson2009/>A Cosmetic ‘Anti-Ageing’ Product Improves Photoaged Skin
+</a>(2009)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-REB Watson, S Ogden
-et al.<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg></li><li><a href=https://aakinshin.net/library/papers/wilson1992/>A Critical Review of Menstrual Synchrony Research
-</a>(1992)
+<a href=https://aakinshin.net/library/authors/reb-watson/>REB Watson</a>, <a href=https://aakinshin.net/library/authors/s-ogden/>S Ogden</a>
+et al.
+<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/debunked/><svg class="rating-icon"><title>Debunked</title><use xlink:href="/img/fa/all.svg#fail"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/wilson1992/>A Critical Review of Menstrual Synchrony Research
+</a>(1992)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-H WILSON</li><li><a href=https://aakinshin.net/library/papers/vargha2000/>A Critique and Improvement of the "CL" Common Language Effect Size Statistics of McGraw and Wong
-</a>(2000)
+<a href=https://aakinshin.net/library/authors/h-wilson/>H WILSON</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/critical-review/><svg class="rating-icon"><title>Critical Review</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/vargha2000/>A Critique and Improvement of the "CL" Common Language Effect Size Statistics of McGraw and Wong
+</a>(2000)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-András Vargha, Harold D Delaney
-et al.</li><li><a href=https://aakinshin.net/library/papers/goodman2008/>A Dirty Dozen: Twelve P-Value Misconceptions
-</a>(2008)
+<a href=https://aakinshin.net/library/authors/andr%C3%A1s-vargha/>András Vargha</a>, <a href=https://aakinshin.net/library/authors/harold-d-delaney/>Harold D Delaney</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/goodman2008/>A Dirty Dozen
+</a>(2008)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-Steven Goodman<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/arnold2008/>A First Course in Order Statistics
-</a>(2008)
+<a href=https://aakinshin.net/library/authors/steven-goodman/>Steven Goodman</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/medicine/><svg class="rating-icon"><title>Medicine</title><use xlink:href="/img/fa/all.svg#medicine"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/arnold2008/>A First Course in Order Statistics
+</a>(2008)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-Barry C Arnold, N Balakrishnan
-et al.</li><li><a href=https://aakinshin.net/library/papers/huberty2002/>A History of Effect Size Indices
-</a>(2002)
+<a href=https://aakinshin.net/library/authors/barry-c-arnold/>Barry C Arnold</a>, <a href=https://aakinshin.net/library/authors/n-balakrishnan/>N Balakrishnan</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/huberty2002/>A History of Effect Size Indices
+</a>(2002)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-Carl J Huberty<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/dekking2005/>A Modern Introduction to Probability and Statistics: Understanding Why and How
-</a>(2005)
+<a href=https://aakinshin.net/library/authors/carl-j-huberty/>Carl J Huberty</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/dekking2005/>A Modern Introduction to Probability and Statistics
+</a>(2005)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-Frederik Michel Dekking, Cornelis Kraaikamp
-et al.</li><li><a href=https://aakinshin.net/library/papers/harrell1982/>A New Distribution-Free Quantile Estimator
-</a>(1982)
+<a href=https://aakinshin.net/library/authors/frederik-michel-dekking/>Frederik Michel Dekking</a>, <a href=https://aakinshin.net/library/authors/cornelis-kraaikamp/>Cornelis Kraaikamp</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/harrell1982/>A New Distribution-Free Quantile Estimator
+</a>(1982)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-Frank E Harrell, C E Davis</li><li><a href=https://aakinshin.net/library/papers/sfakianakis2008/>A New Family of Nonparametric Quantile Estimators
-</a>(2008)
+<a href=https://aakinshin.net/library/authors/frank-e-harrell/>Frank E Harrell</a>, <a href=https://aakinshin.net/library/authors/c-e-davis/>C E Davis</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/endorsed/><svg class="rating-icon"><title>Endorsed</title><use xlink:href="/img/fa/all.svg#endorsed"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/sfakianakis2008/>A New Family of Nonparametric Quantile Estimators
+</a>(2008)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-Michael E Sfakianakis, Dimitris G Verginis</li><li><a href=https://aakinshin.net/library/papers/navruz2020/>A New Quantile Estimator with Weights Based on a Subsampling Approach
-</a>(2020)
+<a href=https://aakinshin.net/library/authors/michael-e-sfakianakis/>Michael E Sfakianakis</a>, <a href=https://aakinshin.net/library/authors/dimitris-g-verginis/>Dimitris G Verginis</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/navruz2020/>A New Quantile Estimator with Weights Based on a Subsampling Approach
+</a>(2020)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-G"ozde Navruz, A Firat "Ozdemir</li><li><a href=https://aakinshin.net/library/papers/maritz1978/>A Note on Estimating the Variance of the Sample Median
-</a>(1978)
+<a href=https://aakinshin.net/library/authors/gozde-navruz/>G"ozde Navruz</a>, <a href=https://aakinshin.net/library/authors/a-firat-ozdemir/>A Firat "Ozdemir</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/maritz1978/>A Note on Estimating the Variance of the Sample Median
+</a>(1978)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-JS Maritz, RG Jarrett</li><li><a href=https://aakinshin.net/library/papers/rosenkranz2010/>A Note on the Hodges–Lehmann Estimator
+<a href=https://aakinshin.net/library/authors/js-maritz/>JS Maritz</a>, <a href=https://aakinshin.net/library/authors/rg-jarrett/>RG Jarrett</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/rosenkranz2010/>A Note on the Hodges–Lehmann Estimator
+</a>(2010)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/gerd-k-rosenkranz/>Gerd K Rosenkranz</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/cohen1992/>A Power Primer
+</a>(1992)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/jacob-cohen/>Jacob Cohen</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/wolters2018/>A Practical Implementation of Weighted Kernel Density Estimation for Handling Shape Constraints
+</a>(2018)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/mark-anthony-wolters/>Mark Anthony Wolters</a>, <a href=https://aakinshin.net/library/authors/willard-john-braun/>Willard John Braun</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/sheather1991/>A Reliable Data-Based Bandwidth Selection Method for Kernel Density Estimation
+</a>(1991)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/simon-j-sheather/>Simon J Sheather</a>, <a href=https://aakinshin.net/library/authors/michael-c-jones/>Michael C Jones</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/wilcox2019/>A Robust Nonparametric Measure of Effect Size Based on an Analog of Cohen's D, Plus Inferences about the Median of the Typical Difference
+</a>(2019)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/rand-wilcox/>Rand Wilcox</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/tarr2012/>A Robust Scale Estimator Based on Pairwise Means
+</a>(2012)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/garth-tarr/>Garth Tarr</a>, <a href=https://aakinshin.net/library/authors/samuel-m%C3%BCller/>Samuel Müller</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/hill1975/>A Simple General Approach to Inference about the Tail of a Distribution
+</a>(1975)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/bruce-m-hill/>Bruce M Hill</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/fatima2013/>A Simple Generalisation of the Hill Estimator
+</a>(2013)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/m-f%C3%A1tima-brilhante/>M Fátima Brilhante</a>, <a href=https://aakinshin.net/library/authors/m-ivette-gomes/>M Ivette Gomes</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/weibull1951/>A Statistical Distribution Function of Wide Applicability
+</a>(1951)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/weibull-w/>Weibull W</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/zimbardo1973/>A Study of Prisoners and Guards in a Simulated Prison
+</a>(1973)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/philip-zimbardo/>Philip Zimbardo</a>, <a href=https://aakinshin.net/library/authors/craig-haney/>Craig Haney</a>
+et al.
+<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg>
+<a href=https://aakinshin.net/tags/psychology/><svg class="rating-icon"><title>Psychology</title><use xlink:href="/img/fa/all.svg#psychology"/></svg>
+</a><a href=https://aakinshin.net/tags/debunked/><svg class="rating-icon"><title>Debunked</title><use xlink:href="/img/fa/all.svg#fail"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/hodge2004/>A Survey of Outlier Detection Methodologies
+</a>(2004)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/victoria-hodge/>Victoria Hodge</a>, <a href=https://aakinshin.net/library/authors/jim-austin/>Jim Austin</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/ly2017/>A Tutorial on Fisher Information
+</a>(2017)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/alexander-ly/>Alexander Ly</a>, <a href=https://aakinshin.net/library/authors/maarten-marsman/>Maarten Marsman</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/froda2000/>A Uniform Saddlepoint Expansion for the Null-Distribution of the Wilcoxon-Mann-Whitney Statistic
+</a>(2000)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/sorana-froda/>Sorana Froda</a>, <a href=https://aakinshin.net/library/authors/constance-van-eeden/>Constance Van Eeden</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/monahan1984/>Algorithm 616
+</a>(1984)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/john-f-monahan/>John F Monahan</a>
+<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/gelman1999/>All Maps of Parameter Estimates Are Misleading
+</a>(1999)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/andrew-gelman/>Andrew Gelman</a>, <a href=https://aakinshin.net/library/authors/phillip-n-price/>Phillip N Price</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/rousseeuw1993/>Alternatives to the Median Absolute Deviation
+</a>(1993)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/peter-j-rousseeuw/>Peter J Rousseeuw</a>, <a href=https://aakinshin.net/library/authors/christophe-croux/>Christophe Croux</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/algina2005/>An Alternative to Cohen's Standardized Mean Difference Effect Size
+</a>(2005)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/algina-j/>Algina J</a>, <a href=https://aakinshin.net/library/authors/keselman-h-j/>Keselman H J</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/blume2019/>An Introduction to Second-Generation \Textitp -Values
+</a>(2019)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/jeffrey-d-blume/>Jeffrey D Blume</a>, <a href=https://aakinshin.net/library/authors/robert-a-greevy/>Robert a Greevy</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/yoshizawa1985/>Asymptotic Equivalence of the Harrell-Davis Median Estimator and the Sample Median
+</a>(1985)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/carl-n-yoshizawa/>Carl N Yoshizawa</a>, <a href=https://aakinshin.net/library/authors/pranab-k-sen/>Pranab K Sen</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/wang2007/>Bandwidth Selection for Weighted Kernel Density Estimation
+</a>(2007)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/bin-wang/>Bin Wang</a>, <a href=https://aakinshin.net/library/authors/xiaofeng-wang/>Xiaofeng Wang</a>
+<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/milgram1963/>Behavioral Study of Obedience
+</a>(1963)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/stanley-milgram/>Stanley Milgram</a>
+<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg>
+<a href=https://aakinshin.net/tags/psychology/><svg class="rating-icon"><title>Psychology</title><use xlink:href="/img/fa/all.svg#psychology"/></svg>
+</a><a href=https://aakinshin.net/tags/flawed/><svg class="rating-icon"><title>Flawed</title><use xlink:href="/img/fa/all.svg#problem"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/gauss1816/>Bestimmung Der Genauigkeit Der Beobachtungen
+</a>(1816)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/carl-friedrich-gauss/>Carl Friedrich Gauss</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/matthews2018/>Beyond ‘Significance’
+</a>(2018)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/robert-a-j-matthews/>Robert a J Matthews</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/peng2014/>Beyond Cohen's D
+</a>(2014)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/chao-ying-joanne-peng/>Chao-Ying Joanne Peng</a>, <a href=https://aakinshin.net/library/authors/li-ting-chen/>Li-Ting Chen</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/bogaert2006/>Biological Versus Nonbiological Older Brothers and Men’s Sexual Orientation
+</a>(2006)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/anthony-f-bogaert/>Anthony F Bogaert</a>
+<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/debunked/><svg class="rating-icon"><title>Debunked</title><use xlink:href="/img/fa/all.svg#fail"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/maxwell1993/>Bivariate Median Splits and Spurious Statistical Significance
+</a>(1993)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/scott-e-maxwell/>Scott E Maxwell</a>, <a href=https://aakinshin.net/library/authors/harold-d-delaney/>Harold D Delaney</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/russell2013/>Book Review. Gina Perry. Behind the Shock Machine
+</a>(2013)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/nestar-russell/>Nestar Russell</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/mcgee2018/>Case for Omitting Tied Observations in the Two-Sample T-Test and the Wilcoxon-Mann-Whitney Test
+</a>(2018)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/monnie-mcgee/>Monnie McGee</a>, <a href=https://aakinshin.net/library/authors/david-fardo/>David Fardo</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/darlington1973/>Comparing Two Groups by Simple Graphs
+</a>(1973)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/darlington-r-b/>Darlington R B</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/wilcox2014/>Comparing Two Independent Groups via the Lower and Upper Quantiles
+</a>(2014)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/rand-r-wilcox/>Rand R Wilcox</a>, <a href=https://aakinshin.net/library/authors/david-m-erceg-hurn/>David M Erceg-Hurn</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/ledesma2009/>Computing Effect Size Measures with Vista
+</a>(2009)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/ledesma-r-d/>Ledesma R D</a>, <a href=https://aakinshin.net/library/authors/macbeth-g/>Macbeth G</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/arachchige2019/>Confidence Intervals for Median Absolute Deviations
+</a>(2019)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/chandima-n-p-g-arachchige/>Chandima N P G Arachchige</a>, <a href=https://aakinshin.net/library/authors/luke-a-prendergast/>Luke a Prendergast</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/gardner1986/>Confidence Intervals Rather Than P Values
+</a>(1986)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/m-j-gardner/>M J Gardner</a>, <a href=https://aakinshin.net/library/authors/d-g-altman/>D G Altman</a>
+<svg class="rating-icon"><title>Quotes: 2</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/medicine/><svg class="rating-icon"><title>Medicine</title><use xlink:href="/img/fa/all.svg#medicine"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/peng2006/>Confidence Regions for High Quantiles of a Heavy Tailed Distribution
+</a>(2006)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/liang-peng/>Liang Peng</a>, <a href=https://aakinshin.net/library/authors/yongcheng-qi/>Yongcheng Qi</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/hubbard2003/>Confusion over Measures of Evidence (P's) Versus Errors (Alpha's) in Classical Statistical Testing
+</a>(2003)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/raymond-hubbard/>Raymond Hubbard</a>, <a href=https://aakinshin.net/library/authors/maria-jesus-bayarri/>Mar'ia Jes'us Bayarri</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/fedorov2008/>Consequences of Dichotomization
+</a>(2008)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/valerii-fedorov/>Valerii Fedorov</a>, <a href=https://aakinshin.net/library/authors/frank-mannino/>Frank Mannino</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 2</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/ioannidis2005a/>Contradicted and Initially Stronger Effects in Highly Cited Clinical Research
+</a>(2005)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/john-p-a-ioannidis/>John P a Ioannidis</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/benjamini1995/>Controlling the False Discovery Rate
+</a>(1995)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/yoav-benjamini/>Yoav Benjamini</a>, <a href=https://aakinshin.net/library/authors/yosef-hochberg/>Yosef Hochberg</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/hedges2007/>Correcting a Significance Test for Clustering
+</a>(2007)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/larry-v-hedges/>Larry v Hedges</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/mosteller1977/>Data Analysis and Regression. a Second Course in Statistics
+</a>(1977)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/frederick-mosteller/>Frederick Mosteller</a>, <a href=https://aakinshin.net/library/authors/john-w-tukey/>John W Tukey</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/texier2019/>Debunking the Stanford Prison Experiment
+</a>(2019)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/thibault-le-texier/>Thibault Le Texier</a>
+<a href=https://aakinshin.net/tags/psychology/><svg class="rating-icon"><title>Psychology</title><use xlink:href="/img/fa/all.svg#psychology"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/brembs2013/>Deep Impact
+</a>(2013)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/bj%C3%B6rn-brembs/>Björn Brembs</a>, <a href=https://aakinshin.net/library/authors/katherine-button/>Katherine Button</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/bickel1976/>Descriptive Statistics for Nonparametric Models III
+</a>(1976)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/peter-j-bickel/>Peter J Bickel</a>, <a href=https://aakinshin.net/library/authors/erich-l-lehmann/>Erich L Lehmann</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/andri2022/>DescTools
+</a>(2022)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/signorell-andri/>Signorell Andri</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/jamalzadeh2010/>Developing Effect Sizes for Non-Normal Data in Two-SampleComparison Studies
+</a>(2010)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/amin-jamalzadeh/>Amin Jamalzadeh</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/bergmann2000/>Different Outcomes of the Wilcoxon-Mann-Whitney Test from Different Statistics Packages
+</a>(2000)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/reinhard-bergmann/>Reinhard Bergmann</a>, <a href=https://aakinshin.net/library/authors/john-ludbrook/>John Ludbrook</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/sedlmeier1989/>Do Studies of Statistical Power Have an Effect on the Power of Studies?
+</a>(1989)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/peter-sedlmeier/>Peter Sedlmeier</a>, <a href=https://aakinshin.net/library/authors/gerd-gigerenzer/>Gerd Gigerenzer</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/psychology/><svg class="rating-icon"><title>Psychology</title><use xlink:href="/img/fa/all.svg#psychology"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/cliff1993/>Dominance Statistics
+</a>(1993)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/cliff-n/>Cliff N</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/ioannidis2005b/>Early Extreme Contradictory Estimates May Appear in Published Research
+</a>(2005)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/john-pa-ioannidis/>John PA Ioannidis</a>, <a href=https://aakinshin.net/library/authors/thomas-a-trikalinos/>Thomas a Trikalinos</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/campbell1982/>Editorial
+</a>(1982)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/j.-p.-campbell/>J. P. Campbell</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/fidler2004/>Editors Can Lead Researchers to Confidence Intervals
+</a>(2004)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/fiona-fidler/>Fiona Fidler</a>, <a href=https://aakinshin.net/library/authors/neil-thomason/>Neil Thomason</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/grissom2012/>Effect Sizes for Research
+</a>(2012)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/robert-j-grissom/>Robert J Grissom</a>, <a href=https://aakinshin.net/library/authors/john-j-kim/>John J Kim</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/d101186174562151168_2010/>Efficacy of N-3 Polyunsaturated Fatty Acids and Feasibility of Optimizing Preventive Strategies in Patients at High Cardiovascular Risk
 </a>(2010)
+<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg>
+<a href=https://aakinshin.net/tags/medicine/><svg class="rating-icon"><title>Medicine</title><use xlink:href="/img/fa/all.svg#medicine"/></svg>
+</a><a href=https://aakinshin.net/tags/incorrect/><svg class="rating-icon"><title>Incorrect</title><use xlink:href="/img/fa/all.svg#problem"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/doksum1974/>Empirical Probability Plots and Statistical Inference for Nonlinear Models in the Two-Sample Case
+</a>(1974)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-Gerd K Rosenkranz</li><li><a href=https://aakinshin.net/library/papers/cohen1992/>A Power Primer
-</a>(1992)
+<a href=https://aakinshin.net/library/authors/kjell-doksum/>Kjell Doksum</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/nieuwenhuis2011/>Erroneous Analyses of Interactions in Neuroscience
+</a>(2011)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-Jacob Cohen</li><li><a href=https://aakinshin.net/library/papers/wolters2018/>A Practical Implementation of Weighted Kernel Density Estimation for Handling Shape Constraints
-</a>(2018)
+<a href=https://aakinshin.net/library/authors/sander-nieuwenhuis/>Sander Nieuwenhuis</a>, <a href=https://aakinshin.net/library/authors/birte-u-forstmann/>Birte U Forstmann</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/hodges1963/>Estimates of Location Based on Rank Tests
+</a>(1963)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-Mark Anthony Wolters, Willard John Braun</li><li><a href=https://aakinshin.net/library/papers/sheather1991/>A Reliable Data-Based Bandwidth Selection Method for Kernel Density Estimation
-</a>(1991)
+<a href=https://aakinshin.net/library/authors/j-l-hodges/>J L Hodges</a>, <a href=https://aakinshin.net/library/authors/e-l-lehmann/>E L Lehmann</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/primo2007/>Estimating the Impact of State Policies and Institutions with Mixed-Level Data
+</a>(2007)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-Simon J Sheather, Michael C Jones</li><li><a href=https://aakinshin.net/library/papers/wilcox2019/>A Robust Nonparametric Measure of Effect Size Based on an Analog of Cohen's D, Plus Inferences about the Median of the Typical Difference
-</a>(2019)
+<a href=https://aakinshin.net/library/authors/david-m-primo/>David M Primo</a>, <a href=https://aakinshin.net/library/authors/matthew-l-jacobsmeier/>Matthew L Jacobsmeier</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/price1996/>Estimating the Ratio of Medians
+</a>(1996)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-Rand Wilcox</li><li><a href=https://aakinshin.net/library/papers/tarr2012/>A Robust Scale Estimator Based on Pairwise Means
-</a>(2012)
+<a href=https://aakinshin.net/library/authors/robert-martin-jr-price/>Robert Martin Jr Price</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/alfons2013/>Estimation of Social Exclusion Indicators from Complex Surveys
+</a>(2013)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-Garth Tarr, Samuel Müller
-et al.</li><li><a href=https://aakinshin.net/library/papers/hill1975/>A Simple General Approach to Inference about the Tail of a Distribution
-</a>(1975)
+<a href=https://aakinshin.net/library/authors/andreas-alfons/>Andreas Alfons</a>, <a href=https://aakinshin.net/library/authors/matthias-templ/>Matthias Templ</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/padgett1982/>Estimation of the Ratio of Scale Parameters in the Two Sample Problem with Arbitrary Right Censorship
+</a>(1982)<br>&nbsp;&nbsp;&nbsp;&nbsp;
 by
-Bruce M Hill</li><li><a href=https://aakinshin.net/library/papers/fatima2013/>A Simple Generalisation of the Hill Estimator
+<a href=https://aakinshin.net/library/authors/w-j-padgett/>W J Padgett</a>, <a href=https://aakinshin.net/library/authors/l-j-wei/>L J Wei</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/abbaszadeh2013/>Evaluation of Watermelons Texture Using Their Vibration Responses
+</a>(2013)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/rouzbeh-abbaszadeh/>Rouzbeh Abbaszadeh</a>, <a href=https://aakinshin.net/library/authors/ali-rajabipour/>Ali Rajabipour</a>
+et al.
+<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/incorrect/><svg class="rating-icon"><title>Incorrect</title><use xlink:href="/img/fa/all.svg#problem"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/tukey1977/>Exploratory Data Analysis
+</a>(1977)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/john-w-tukey/>John W Tukey</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/simmons2011/>False-Positive Psychology
+</a>(2011)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/joseph-p-simmons/>Joseph P Simmons</a>, <a href=https://aakinshin.net/library/authors/leif-d-nelson/>Leif D Nelson</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 3</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/alexandrescu2017/>Fast Deterministic Selection
+</a>(2017)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/andrei-alexandrescu/>Andrei Alexandrescu</a>, <a href=https://aakinshin.net/library/authors/costas-s.-iliopoulos/>Costas S. Iliopoulos</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/smirnov2014/>Fast Highly Efficient and Robust One-Step M-Estimators of Scale Based on Qn
+</a>(2014)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/pavel-o-smirnov/>Pavel O Smirnov</a>, <a href=https://aakinshin.net/library/authors/georgy-l-shevlyakov/>Georgy L Shevlyakov</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/cafaro2021/>Fast Online Computation of the Q N Estimator with Applications to the Detection of Outliers in Data Streams
+</a>(2021)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/massimo-cafaro/>Massimo Cafaro</a>, <a href=https://aakinshin.net/library/authors/catiuscia-melle/>Catiuscia Melle</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/williams2011/>Finite Sample Correction Factors for Several Simple Robust Estimators of Normal Standard Deviation
+</a>(2011)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/dennis-c-williams/>Dennis C Williams</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/hayes2014/>Finite-Sample Bias-Correction Factors for the Median Absolute Deviation
+</a>(2014)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/kevin-hayes/>Kevin Hayes</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/david1995/>First (?) Occurrence of Common Terms in Mathematical Statistics
+</a>(1995)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/h-a-david/>H a David</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/cahan2011/>First among Others? Cohen's D vs. Alternative Standardized Mean Group Difference Measures
+</a>(2011)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/cahan-s/>Cahan S</a>, <a href=https://aakinshin.net/library/authors/gamliel-e/>Gamliel E</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/perezgonzalez2015/>Fisher, Neyman-Pearson or NHST? a Tutorial for Teaching Data Testing
+</a>(2015)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/jose-d-perezgonzalez/>Jose D Perezgonzalez</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/hedges1993/>Gender Differences in Variability in Intellectual Abilities
+</a>(1993)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/hedges-l-v/>Hedges L V</a>, <a href=https://aakinshin.net/library/authors/friedman-l/>Friedman L</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/shamos1976/>Geometry and Statistics
+</a>(1976)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/michael-ian-shamos/>Michael Ian Shamos</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/chambers1983/>Graphical Methods for Data Analysis
+</a>(1983)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/john-m-chambers/>John M Chambers</a>, <a href=https://aakinshin.net/library/authors/william-s-cleveland/>William S Cleveland</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/tressoldi2013/>High Impact = High Statistical Standards? Not Necessarily So
+</a>(2013)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/patrizio-e-tressoldi/>Patrizio E Tressoldi</a>, <a href=https://aakinshin.net/library/authors/david-giofr%C3%A9/>David Giofré</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/mccormack2013/>How Confidence Intervals Become Confusion Intervals
+</a>(2013)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/james-mccormack/>James McCormack</a>, <a href=https://aakinshin.net/library/authors/ben-vandermeer/>Ben Vandermeer</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 3</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/grieve2015/>How to Test Hypotheses if You Must
+</a>(2015)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/andrew-p-grieve/>Andrew P Grieve</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/reinhart2014/>Huff and Puff
+</a>(2014)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/alex-reinhart/>Alex Reinhart</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/smith1987/>Impact of Multiple Comparisons in Randomized Clinical Trials
+</a>(1987)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/david-gary-smith/>David Gary Smith</a>, <a href=https://aakinshin.net/library/authors/john-clemens/>John Clemens</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/tsang2009/>Inadequate Statistical Power to Detect Clinically Significant Differences in Adverse Event Rates in Randomized Controlled Trials
+</a>(2009)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/ruth-tsang/>Ruth Tsang</a>, <a href=https://aakinshin.net/library/authors/lindsey-colley/>Lindsey Colley</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/todd2001/>Interim Analyses and Sequential Designs in Phase III Studies
+</a>(2001)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/susan-todd/>Susan Todd</a>, <a href=https://aakinshin.net/library/authors/anne-whitehead/>Anne Whitehead</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/medicine/><svg class="rating-icon"><title>Medicine</title><use xlink:href="/img/fa/all.svg#medicine"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/kulinskaya2006/>Interval Estimates of Weighted Effect Sizes in the One-Way Heteroscedastic ANOVA
+</a>(2006)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/kulinskaya-e/>Kulinskaya E</a>, <a href=https://aakinshin.net/library/authors/staudte-r-g/>Staudte R G</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/park2020/>Investigation of Finite-Sample Properties of Robust Location and Scale Estimators
+</a>(2020)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/chanseok-park/>Chanseok Park</a>, <a href=https://aakinshin.net/library/authors/haewon-kim/>Haewon Kim</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/lakens2018/>Justify Your Alpha
+</a>(2018)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/daniel-lakens/>Daniel Lakens</a>, <a href=https://aakinshin.net/library/authors/federico-g-adolfi/>Federico G Adolfi</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/bland2009/>Keep Young and Beautiful
+</a>(2009)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/martin-bland/>Martin Bland</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/critical-review/><svg class="rating-icon"><title>Critical Review</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/guillamon1998/>Kernel Density Estimation Using Weighted Data
+</a>(1998)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/a-guillamon/>A Guillamon</a>, <a href=https://aakinshin.net/library/authors/j-navarro/>J Navarro</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/alfons2021/>Laeken
+</a>(2021)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/andreas-alfons/>Andreas Alfons</a>, <a href=https://aakinshin.net/library/authors/josef-holzer/>Josef Holzer</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/siontis2011/>Magnitude of Effects in Clinical Trials Published in High-Impact General Medical Journals
+</a>(2011)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/konstantinos-cm-siontis/>Konstantinos CM Siontis</a>, <a href=https://aakinshin.net/library/authors/evangelos-evangelou/>Evangelos Evangelou</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/hart2001/>Mann-Whitney Test Is Not Just a Test of Medians
+</a>(2001)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/a-hart/>A Hart</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/kasuya2001/>Mann–Whitney U Test When Variances Are Unequal
+</a>(2001)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/eiiti-kasuya/>Eiiti Kasuya</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/bengtsson2022/>MatrixStats
+</a>(2022)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/henrik-bengtsson/>Henrik Bengtsson</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/wilcox2011/>Measuring Effect Size
+</a>(2011)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/wilcox-r-r/>Wilcox R R</a>, <a href=https://aakinshin.net/library/authors/tian-t-s/>Tian T S</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/john2012/>Measuring the Prevalence of Questionable Research Practices with Incentives for Truth Telling
+</a>(2012)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/leslie-k-john/>Leslie K John</a>, <a href=https://aakinshin.net/library/authors/george-loewenstein/>George Loewenstein</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/windish2007/>Medicine Residents' Understanding of the Biostatistics and Results in the Medical Literature
+</a>(2007)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/donna-m-windish/>Donna M Windish</a>, <a href=https://aakinshin.net/library/authors/stephen-j-huot/>Stephen J Huot</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/medicine/><svg class="rating-icon"><title>Medicine</title><use xlink:href="/img/fa/all.svg#medicine"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/mcclintock1971/>Menstrual Synchrony and Suppression
+</a>(1971)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/martha-k-mcclintock/>Martha K McClintock</a>
+<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/medicine/><svg class="rating-icon"><title>Medicine</title><use xlink:href="/img/fa/all.svg#medicine"/></svg>
+</a><a href=https://aakinshin.net/tags/debunked/><svg class="rating-icon"><title>Debunked</title><use xlink:href="/img/fa/all.svg#fail"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/mayer2022/>MetricsWeighted
+</a>(2022)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/michael-mayer/>Michael Mayer</a>, <a href=https://aakinshin.net/library/authors/christian-lorentzen/>Christian Lorentzen</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/gigerenzer2004/>Mindless Statistics
+</a>(2004)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/gerd-gigerenzer/>Gerd Gigerenzer</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/hulliger2018/>Modi
+</a>(2018)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/beat-hulliger/>Beat Hulliger</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/fleming1980/>Modified Kolmogorov–Smirnov Test Procedures with Applications to Arbitrarily Right-Censored Data
+</a>(1980)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/fleming-t-r/>Fleming T R</a>, <a href=https://aakinshin.net/library/authors/ofallon-j-r/>O'Fallon J R</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/sokal1997/>Monte Carlo Methods in Statistical Mechanics
+</a>(1997)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/alan-sokal/>Alan Sokal</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/wasserstein2019/>Moving to a World beyond “P&lt;0.05”
+</a>(2019)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/ronald-l-wasserstein/>Ronald L Wasserstein</a>, <a href=https://aakinshin.net/library/authors/allen-l-schirm/>Allen L Schirm</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/matthews2019/>Moving towards the Post P&lt;0.05 Era via the Analysis of Credibility
+</a>(2019)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/robert-a-j-matthews/>Robert a J Matthews</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/d101056nejmoa1205409_2013/>N–3 Fatty Acids in Patients with Multiple Cardiovascular Risk Factors
 </a>(2013)
-by
-M Fátima Brilhante, M Ivette Gomes
-et al.</li><li><a href=https://aakinshin.net/library/papers/weibull1951/>A Statistical Distribution Function of Wide Applicability
-</a>(1951)
-by
-Weibull W</li><li><a href=https://aakinshin.net/library/papers/zimbardo1973/>A Study of Prisoners and Guards in a Simulated Prison
-</a>(1973)
-by
-Philip Zimbardo, Craig Haney
-et al.<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg></li><li><a href=https://aakinshin.net/library/papers/hodge2004/>A Survey of Outlier Detection Methodologies
-</a>(2004)
-by
-Victoria Hodge, Jim Austin</li><li><a href=https://aakinshin.net/library/papers/ly2017/>A Tutorial on Fisher Information
-</a>(2017)
-by
-Alexander Ly, Maarten Marsman
-et al.</li><li><a href=https://aakinshin.net/library/papers/froda2000/>A Uniform Saddlepoint Expansion for the Null-Distribution of the Wilcoxon-Mann-Whitney Statistic
-</a>(2000)
-by
-Sorana Froda, Constance Van Eeden</li><li><a href=https://aakinshin.net/library/papers/monahan1984/>Algorithm 616: Fast Computation of the Hodges-Lehmann Location Estimator
-</a>(1984)
-by
-John F Monahan<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg></li><li><a href=https://aakinshin.net/library/papers/gelman1999/>All Maps of Parameter Estimates Are Misleading
-</a>(1999)
-by
-Andrew Gelman, Phillip N Price<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/rousseeuw1993/>Alternatives to the Median Absolute Deviation
-</a>(1993)
-by
-Peter J Rousseeuw, Christophe Croux</li><li><a href=https://aakinshin.net/library/papers/algina2005/>An Alternative to Cohen's Standardized Mean Difference Effect Size: A Robust Parameter and Confidence Interval in the Two Independent Groups Case
-</a>(2005)
-by
-Algina J, Keselman H J
-et al.</li><li><a href=https://aakinshin.net/library/papers/blume2019/>An Introduction to Second-Generation \Textitp -Values
-</a>(2019)
-by
-Jeffrey D Blume, Robert A Greevy
-et al.</li><li><a href=https://aakinshin.net/library/papers/yoshizawa1985/>Asymptotic Equivalence of the Harrell-Davis Median Estimator and the Sample Median
-</a>(1985)
-by
-Carl N Yoshizawa, Pranab K Sen
-et al.</li><li><a href=https://aakinshin.net/library/papers/wang2007/>Bandwidth Selection for Weighted Kernel Density Estimation
-</a>(2007)
-by
-Bin Wang, Xiaofeng Wang<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg></li><li><a href=https://aakinshin.net/library/papers/milgram1963/>Behavioral Study of Obedience
-</a>(1963)
-by
-Stanley Milgram<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg></li><li><a href=https://aakinshin.net/library/papers/gauss1816/>Bestimmung Der Genauigkeit Der Beobachtungen
-</a>(1816)
-by
-Carl Friedrich Gauss</li><li><a href=https://aakinshin.net/library/papers/matthews2018/>Beyond ‘Significance’: Principles and Practice of the Analysis of Credibility
-</a>(2018)
-by
-Robert A J Matthews</li><li><a href=https://aakinshin.net/library/papers/peng2014/>Beyond Cohen's D: Alternative Effect Size Measures for Between-Subject Designs
-</a>(2014)
-by
-Chao-Ying Joanne Peng, Li-Ting Chen</li><li><a href=https://aakinshin.net/library/papers/bogaert2006/>Biological Versus Nonbiological Older Brothers and Men’s Sexual Orientation
-</a>(2006)
-by
-Anthony F Bogaert<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg></li><li><a href=https://aakinshin.net/library/papers/maxwell1993/>Bivariate Median Splits and Spurious Statistical Significance
-</a>(1993)
-by
-Scott E Maxwell, Harold D Delaney<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/russell2013/>Book Review. Gina Perry. Behind the Shock Machine: The Untold Story of the Notorious Milgram Psychology Experiments
-</a>(2013)
-by
-Nestar Russell</li><li><a href=https://aakinshin.net/library/papers/mcgee2018/>Case for Omitting Tied Observations in the Two-Sample T-Test and the Wilcoxon-Mann-Whitney Test
-</a>(2018)
-by
-Monnie McGee, David Fardo</li><li><a href=https://aakinshin.net/library/papers/darlington1973/>Comparing Two Groups by Simple Graphs
-</a>(1973)
-by
-Darlington R B</li><li><a href=https://aakinshin.net/library/papers/wilcox2014/>Comparing Two Independent Groups via the Lower and Upper Quantiles
-</a>(2014)
-by
-Rand R Wilcox, David M Erceg-Hurn
-et al.</li><li><a href=https://aakinshin.net/library/papers/ledesma2009/>Computing Effect Size Measures with Vista
-</a>(2009)
-by
-Ledesma R D, Macbeth G
-et al.</li><li><a href=https://aakinshin.net/library/papers/arachchige2019/>Confidence Intervals for Median Absolute Deviations
-</a>(2019)
-by
-Chandima N P G Arachchige, Luke A Prendergast</li><li><a href=https://aakinshin.net/library/papers/gardner1986/>Confidence Intervals Rather Than P Values: Estimation Rather Than Hypothesis Testing
-</a>(1986)
-by
-M J Gardner, D G Altman<svg class="rating-icon"><title>Quotes: 2</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/peng2006/>Confidence Regions for High Quantiles of a Heavy Tailed Distribution
-</a>(2006)
-by
-Liang Peng, Yongcheng Qi</li><li><a href=https://aakinshin.net/library/papers/hubbard2003/>Confusion over Measures of Evidence (P's) Versus Errors ($\Alpha$'s) in Classical Statistical Testing
-</a>(2003)
-by
-Raymond Hubbard, Mar'ia Jes'us Bayarri<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/fedorov2008/>Consequences of Dichotomization
-</a>(2008)
-by
-Valerii Fedorov, Frank Mannino
-et al.<svg class="rating-icon"><title>Quotes: 2</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/ioannidis2005a/>Contradicted and Initially Stronger Effects in Highly Cited Clinical Research
-</a>(2005)
-by
-John P A Ioannidis<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/benjamini1995/>Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing
-</a>(1995)
-by
-Yoav Benjamini, Yosef Hochberg</li><li><a href=https://aakinshin.net/library/papers/hedges2007/>Correcting a Significance Test for Clustering
-</a>(2007)
-by
-Larry V Hedges</li><li><a href=https://aakinshin.net/library/papers/mosteller1977/>Data Analysis and Regression. a Second Course in Statistics
-</a>(1977)
-by
-Frederick Mosteller, John W Tukey</li><li><a href=https://aakinshin.net/library/papers/texier2019/>Debunking the Stanford Prison Experiment
-</a>(2019)
-by
-Thibault Le Texier</li><li><a href=https://aakinshin.net/library/papers/brembs2013/>Deep Impact: Unintended Consequences of Journal Rank
-</a>(2013)
-by
-Björn Brembs, Katherine Button
-et al.<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/bickel1976/>Descriptive Statistics for Nonparametric Models III: Dispersion
-</a>(1976)
-by
-Peter J Bickel, Erich L Lehmann</li><li><a href=https://aakinshin.net/library/papers/andri2022/>DescTools: Tools for Descriptive Statistics
-</a>(2022)
-by
-Signorell Andri</li><li><a href=https://aakinshin.net/library/papers/jamalzadeh2010/>Developing Effect Sizes for Non-Normal Data in Two-SampleComparison Studies
-</a>(2010)
-by
-Amin Jamalzadeh</li><li><a href=https://aakinshin.net/library/papers/bergmann2000/>Different Outcomes of the Wilcoxon-Mann-Whitney Test from Different Statistics Packages
-</a>(2000)
-by
-Reinhard Bergmann, John Ludbrook
-et al.</li><li><a href=https://aakinshin.net/library/papers/sedlmeier1989/>Do Studies of Statistical Power Have an Effect on the Power of Studies?
-</a>(1989)
-by
-Peter Sedlmeier, Gerd Gigerenzer<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/cliff1993/>Dominance Statistics: Ordinal Analyses to Answer Ordinal Questions
-</a>(1993)
-by
-Cliff N</li><li><a href=https://aakinshin.net/library/papers/ioannidis2005b/>Early Extreme Contradictory Estimates May Appear in Published Research: The Proteus Phenomenon in Molecular Genetics Research and Randomized Trials
-</a>(2005)
-by
-John PA Ioannidis, Thomas A Trikalinos<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/campbell1982/>Editorial: Some Remarks from the Outgoing Editor
-</a>(1982)
-by
-J. P. Campbell<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/fidler2004/>Editors Can Lead Researchers to Confidence Intervals
-</a>(2004)
-by
-Fiona Fidler, Neil Thomason
-et al.<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/grissom2012/>Effect Sizes for Research: Univariate and Multivariate Applications
-</a>(2012)
-by
-Robert J Grissom, John J Kim</li><li><a href=https://aakinshin.net/library/papers/doksum1974/>Empirical Probability Plots and Statistical Inference for Nonlinear Models in the Two-Sample Case
-</a>(1974)
-by
-Kjell Doksum</li><li><a href=https://aakinshin.net/library/papers/nieuwenhuis2011/>Erroneous Analyses of Interactions in Neuroscience: A Problem of Significance
-</a>(2011)
-by
-Sander Nieuwenhuis, Birte U Forstmann
-et al.<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/hodges1963/>Estimates of Location Based on Rank Tests
-</a>(1963)
-by
-J L Hodges, E L Lehmann</li><li><a href=https://aakinshin.net/library/papers/primo2007/>Estimating the Impact of State Policies and Institutions with Mixed-Level Data
-</a>(2007)
-by
-David M Primo, Matthew L Jacobsmeier
-et al.</li><li><a href=https://aakinshin.net/library/papers/price1996/>Estimating the Ratio of Medians: Theory and Applications
-</a>(1996)
-by
-Robert Martin Jr Price</li><li><a href=https://aakinshin.net/library/papers/alfons2013/>Estimation of Social Exclusion Indicators from Complex Surveys: The R Package Laeken
-</a>(2013)
-by
-Andreas Alfons, Matthias Templ</li><li><a href=https://aakinshin.net/library/papers/padgett1982/>Estimation of the Ratio of Scale Parameters in the Two Sample Problem with Arbitrary Right Censorship
-</a>(1982)
-by
-W J Padgett, L J Wei</li><li><a href=https://aakinshin.net/library/papers/abbaszadeh2013/>Evaluation of Watermelons Texture Using Their Vibration Responses
-</a>(2013)
-by
-Rouzbeh Abbaszadeh, Ali Rajabipour
-et al.<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg></li><li><a href=https://aakinshin.net/library/papers/tukey1977/>Exploratory Data Analysis
-</a>(1977)
-by
-John W Tukey</li><li><a href=https://aakinshin.net/library/papers/simmons2011/>False-Positive Psychology: Undisclosed Flexibility in Data Collection and Analysis Allows Presenting Anything as Significant
-</a>(2011)
-by
-Joseph P Simmons, Leif D Nelson
-et al.<svg class="rating-icon"><title>Quotes: 3</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/alexandrescu2017/>Fast Deterministic Selection
-</a>(2017)
-by
-Andrei Alexandrescu, Costas S. Iliopoulos
-et al.</li><li><a href=https://aakinshin.net/library/papers/smirnov2014/>Fast Highly Efficient and Robust One-Step M-Estimators of Scale Based on Qn
-</a>(2014)
-by
-Pavel O Smirnov, Georgy L Shevlyakov</li><li><a href=https://aakinshin.net/library/papers/cafaro2021/>Fast Online Computation of the Q N Estimator with Applications to the Detection of Outliers in Data Streams
-</a>(2021)
-by
-Massimo Cafaro, Catiuscia Melle
-et al.</li><li><a href=https://aakinshin.net/library/papers/williams2011/>Finite Sample Correction Factors for Several Simple Robust Estimators of Normal Standard Deviation
-</a>(2011)
-by
-Dennis C Williams</li><li><a href=https://aakinshin.net/library/papers/hayes2014/>Finite-Sample Bias-Correction Factors for the Median Absolute Deviation
-</a>(2014)
-by
-Kevin Hayes</li><li><a href=https://aakinshin.net/library/papers/david1995/>First (?) Occurrence of Common Terms in Mathematical Statistics
-</a>(1995)
-by
-H A David</li><li><a href=https://aakinshin.net/library/papers/cahan2011/>First among Others? Cohen's D vs. Alternative Standardized Mean Group Difference Measures
-</a>(2011)
-by
-Cahan S, Gamliel E</li><li><a href=https://aakinshin.net/library/papers/perezgonzalez2015/>Fisher, Neyman-Pearson or NHST? a Tutorial for Teaching Data Testing
-</a>(2015)
-by
-Jose D Perezgonzalez</li><li><a href=https://aakinshin.net/library/papers/hedges1993/>Gender Differences in Variability in Intellectual Abilities: A Reanalysis of Feingold's Results
-</a>(1993)
-by
-Hedges L V, Friedman L</li><li><a href=https://aakinshin.net/library/papers/shamos1976/>Geometry and Statistics: Problems at the Interface
-</a>(1976)
-by
-Michael Ian Shamos</li><li><a href=https://aakinshin.net/library/papers/chambers1983/>Graphical Methods for Data Analysis
-</a>(1983)
-by
-John M Chambers, William S Cleveland
-et al.</li><li><a href=https://aakinshin.net/library/papers/tressoldi2013/>High Impact = High Statistical Standards? Not Necessarily So
-</a>(2013)
-by
-Patrizio E Tressoldi, David Giofré
-et al.<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/mccormack2013/>How Confidence Intervals Become Confusion Intervals
-</a>(2013)
-by
-James McCormack, Ben Vandermeer
-et al.<svg class="rating-icon"><title>Quotes: 3</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/grieve2015/>How to Test Hypotheses if You Must
-</a>(2015)
-by
-Andrew P Grieve</li><li><a href=https://aakinshin.net/library/papers/reinhart2014/>Huff and Puff
-</a>(2014)
-by
-Alex Reinhart</li><li><a href=https://aakinshin.net/library/papers/smith1987/>Impact of Multiple Comparisons in Randomized Clinical Trials
-</a>(1987)
-by
-David Gary Smith, John Clemens
-et al.</li><li><a href=https://aakinshin.net/library/papers/tsang2009/>Inadequate Statistical Power to Detect Clinically Significant Differences in Adverse Event Rates in Randomized Controlled Trials
-</a>(2009)
-by
-Ruth Tsang, Lindsey Colley
-et al.</li><li><a href=https://aakinshin.net/library/papers/todd2001/>Interim Analyses and Sequential Designs in Phase III Studies
-</a>(2001)
-by
-Susan Todd, Anne Whitehead
-et al.</li><li><a href=https://aakinshin.net/library/papers/kulinskaya2006/>Interval Estimates of Weighted Effect Sizes in the One-Way Heteroscedastic ANOVA
-</a>(2006)
-by
-Kulinskaya E, Staudte R G</li><li><a href=https://aakinshin.net/library/papers/park2020/>Investigation of Finite-Sample Properties of Robust Location and Scale Estimators
-</a>(2020)
-by
-Chanseok Park, Haewon Kim
-et al.</li><li><a href=https://aakinshin.net/library/papers/lakens2018/>Justify Your Alpha
-</a>(2018)
-by
-Daniel Lakens, Federico G Adolfi
-et al.</li><li><a href=https://aakinshin.net/library/papers/bland2009/>Keep Young and Beautiful: Evidence for an “Anti-Aging” Product?
-</a>(2009)
-by
-Martin Bland</li><li><a href=https://aakinshin.net/library/papers/guillamon1998/>Kernel Density Estimation Using Weighted Data
-</a>(1998)
-by
-A Guillamon, J Navarro
-et al.</li><li><a href=https://aakinshin.net/library/papers/alfons2021/>Laeken: Estimation of Indicators on Social Exclusion and Poverty
-</a>(2021)
-by
-Andreas Alfons, Josef Holzer
-et al.</li><li><a href=https://aakinshin.net/library/papers/siontis2011/>Magnitude of Effects in Clinical Trials Published in High-Impact General Medical Journals
-</a>(2011)
-by
-Konstantinos CM Siontis, Evangelos Evangelou
-et al.<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/hart2001/>Mann-Whitney Test Is Not Just a Test of Medians: Differences in Spread Can Be Important
-</a>(2001)
-by
-A Hart</li><li><a href=https://aakinshin.net/library/papers/kasuya2001/>Mann–Whitney U Test When Variances Are Unequal
-</a>(2001)
-by
-Eiiti Kasuya</li><li><a href=https://aakinshin.net/library/papers/bengtsson2022/>MatrixStats: Functions That Apply to Rows and Columns of Matrices (And to Vectors)
-</a>(2022)
-by
-Henrik Bengtsson</li><li><a href=https://aakinshin.net/library/papers/wilcox2011/>Measuring Effect Size: A Robust Heteroscedastic Approach for Two or More Groups
-</a>(2011)
-by
-Wilcox R R, Tian T S</li><li><a href=https://aakinshin.net/library/papers/john2012/>Measuring the Prevalence of Questionable Research Practices with Incentives for Truth Telling
-</a>(2012)
-by
-Leslie K John, George Loewenstein
-et al.<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/windish2007/>Medicine Residents' Understanding of the Biostatistics and Results in the Medical Literature
-</a>(2007)
-by
-Donna M Windish, Stephen J Huot
-et al.</li><li><a href=https://aakinshin.net/library/papers/mcclintock1971/>Menstrual Synchrony and Suppression
-</a>(1971)
-by
-Martha K McClintock<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg></li><li><a href=https://aakinshin.net/library/papers/mayer2022/>MetricsWeighted: Weighted Metrics, Scoring Functions and Performance Measures for Machine Learning
-</a>(2022)
-by
-Michael Mayer, Christian Lorentzen</li><li><a href=https://aakinshin.net/library/papers/gigerenzer2004/>Mindless Statistics
-</a>(2004)
-by
-Gerd Gigerenzer</li><li><a href=https://aakinshin.net/library/papers/hulliger2018/>Modi: Multivariate Outlier Detection and Imputation for Incomplete Survey Data
-</a>(2018)
-by
-Beat Hulliger</li><li><a href=https://aakinshin.net/library/papers/fleming1980/>Modified Kolmogorov–Smirnov Test Procedures with Applications to Arbitrarily Right-Censored Data
-</a>(1980)
-by
-Fleming T R, O'Fallon J R
-et al.</li><li><a href=https://aakinshin.net/library/papers/sokal1997/>Monte Carlo Methods in Statistical Mechanics: Foundations and New Algorithms
-</a>(1997)
-by
-Alan Sokal<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/wasserstein2019/>Moving to a World beyond “P&lt;0.05”
-</a>(2019)
-by
-Ronald L Wasserstein, Allen L Schirm
-et al.</li><li><a href=https://aakinshin.net/library/papers/matthews2019/>Moving towards the Post P&lt;0.05 Era via the Analysis of Credibility
-</a>(2019)
-by
-Robert A J Matthews</li><li><a href=https://aakinshin.net/library/papers/bennett2009/>Neural Correlates of Interspecies Perspective Taking in the Post-Mortem Atlantic Salmon: An Argument for Multiple Comparisons Correction
-</a>(2009)
-by
-Craig M Bennett, Michael B Miller
-et al.<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg></li><li><a href=https://aakinshin.net/library/papers/strogatz2015/>Nonlinear Dynamics and Chaos: With Applications to Physics, Biology, Chemistry, and Engineering
-</a>(2015)
-by
-Steven H Strogatz</li><li><a href=https://aakinshin.net/library/papers/doksum1995/>Nonparametric Estimation of Global Functionals and a Measure of the Explanatory Power of Covariates in Regression
-</a>(1995)
-by
-Doksum K A, Samarov A</li><li><a href=https://aakinshin.net/library/papers/bhattacharyya1977/>Nonparametric Estimation of Ratio of Scale Parameters
-</a>(1977)
-by
-Helen T Bhattacharyya</li><li><a href=https://aakinshin.net/library/papers/gibbons2020/>Nonparametric Statistical Inference
-</a>(2020)
-by
-Jean Dickinson Gibbons, Subhabrata Chakraborti</li><li><a href=https://aakinshin.net/library/papers/neuh%C3%A4user2012/>Nonparametric Statistical Tests: A Computational Approach
-</a>(2012)
-by
-Markus Neuhäuser</li><li><a href=https://aakinshin.net/library/papers/deshpande2018/>Nonparametric Statistics: Theory and Methods
-</a>(2018)
-by
-J V Deshpande, Uttara Naik-Nimbalkar
-et al.</li><li><a href=https://aakinshin.net/library/papers/lehmann1975/>Nonparametrics: Statistical Methods Based on Ranks
-</a>(1975)
-by
-Erich L Lehmann, H J M D'Abrera</li><li><a href=https://aakinshin.net/library/papers/krueger2001/>Null Hypothesis Significance Testing on the Survival of a Flawed Method
-</a>(2001)
-by
-Krueger J</li><li><a href=https://aakinshin.net/library/papers/daniell1920/>Observations Weighted According to Order
-</a>(1920)
-by
-PJ Daniell</li><li><a href=https://aakinshin.net/library/papers/gelman2009/>Of Beauty, Sex, and Power: Statistical Challenges in Estimating Small Effects
-</a>(2009)
-by
-A Gelman, D Weakliem<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/anderson2009/>On a Simple Measure of Dominance
-</a>(2009)
-by
-Anderson C L, Berry J C</li><li><a href=https://aakinshin.net/library/papers/mann1947/>On a Test of Whether One of Two Random Variables Is Stochastically Larger Than the Other
-</a>(1947)
-by
-H B Mann, D R Whitney</li><li><a href=https://aakinshin.net/library/papers/schenker2001/>On Judging the Significance of Differences by Examining the Overlap between Confidence Intervals
-</a>(2001)
-by
-Nathaniel Schenker, Jane F Gentleman<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/gastwirth1966/>On Robust Procedures
-</a>(1966)
-by
-Joseph L Gastwirth</li><li><a href=https://aakinshin.net/library/papers/chaubey2023/>On Some Non Parametric Estimators of the Quantile Density Function for a Stationary Associated Process
-</a>(2023)
-by
-Yogendra P Chaubey, Isha Dewan
-et al.</li><li><a href=https://aakinshin.net/library/papers/greco2023/>On Testing the Equality between Interquartile Ranges
-</a>(2023)
-by
-Luca Greco, George Luta
-et al.</li><li><a href=https://aakinshin.net/library/papers/sen1963/>On the Estimation of Relative Potency in Dilution (-Direct) Assays by Distribution-Free Methods
-</a>(1963)
-by
-Pranab Kumar Sen</li><li><a href=https://aakinshin.net/library/papers/fisher1922/>On the Mathematical Foundations of Theoretical Statistics
-</a>(1922)
-by
-Ronald A Fisher</li><li><a href=https://aakinshin.net/library/papers/choi1994/>On the Medians of Gamma Distributions and an Equation of Ramanujan
-</a>(1994)
-by
-Kwok Pui Choi</li><li><a href=https://aakinshin.net/library/papers/neyman1933/>On the Problem of the Most Efficient Tests of Statistical Hypotheses
-</a>(1933)
-by
-Jerzy Neyman, Egon Sharpe Pearson<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/hinkley1969/>On the Ratio of Two Correlated Normal Random Variables
-</a>(1969)
-by
-Hinkley D V</li><li><a href=https://aakinshin.net/library/papers/david2003/>Order Statistics
-</a>(2003)
-by
-Herbert A David, Haikady N Nagaraja</li><li><a href=https://aakinshin.net/library/papers/bhattacharya2019/>Outlier Detection and a Tail-Adjusted Boxplot Based on Extreme Value Theory
-</a>(2019)
-by
-Shrijita Bhattacharya, Jan Beirlant</li><li><a href=https://aakinshin.net/library/papers/goodman1993/>P Values, Hypothesis Tests, and Likelihood: Implications for Epidemiology of a Neglected Historical Debate
-</a>(1993)
-by
-Steven N Goodman<svg class="rating-icon"><title>Quotes: 2</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/meehl1989/>Paul E. Meehl (Autobiography)
-</a>(1989)
-by
-Paul E Meehl, G Lindzey<svg class="rating-icon"><title>Quotes: 6</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/cavus2021/>Penalized Power Approach to Compare the Power of the Tests When Type I Error Probabilities Are Different
-</a>(2021)
-by
-Mustafa Cavus, Berna Yazici
-et al.</li><li><a href=https://aakinshin.net/library/papers/ospina2019/>Performance of Some Estimators of Relative Variability
-</a>(2019)
-by
-Raydonal Ospina, Fernando Marmolejo-Ramos</li><li><a href=https://aakinshin.net/library/papers/lakens2014/>Performing High-Powered Studies Efficiently with Sequential Analyses: Sequential Analyses
-</a>(2014)
-by
-Daniël Lakens</li><li><a href=https://aakinshin.net/library/papers/doksum1976/>Plotting with Confidence – Graphical Comparisons of 2 Populations
-</a>(1976)
-by
-Doksum K A, Sievers G L</li><li><a href=https://aakinshin.net/library/papers/isen1987/>Positive Affect Facilitates Creative Problem Solving
-</a>(1987)
-by
-Alice M Isen, Kimberly A Daubman
-et al.</li><li><a href=https://aakinshin.net/library/papers/button2013/>Power Failure: Why Small Sample Size Undermines the Reliability of Neuroscience
-</a>(2013)
-by
-Katherine S Button, John P A Ioannidis
-et al.<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/bartlett2022/>Power to the People: A Beginner’s Tutorial to Power Analysis Using Jamovi
-</a>(2022)
-by
-James Bartlett, Sarah Charles</li><li><a href=https://aakinshin.net/library/papers/fisher1938/>Presidential Address by Professor R.A. Fisher
-</a>(1938)
-by
-RA Fisher<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/pajari2021/>Probabilistic Evaluation of Quantile Estimators
-</a>(2021)
-by
-Matti Pajari, Maria Tikanmäki
-et al.</li><li><a href=https://aakinshin.net/library/papers/grissom1994/>Probability of the Superior Outcome of One Treatment over Another
-</a>(1994)
-by
-Grissom R J</li><li><a href=https://aakinshin.net/library/papers/wilk1968/>Probability Plotting Methods for the Analysis of Data
-</a>(1968)
-by
-Wilk M B, Gnanadesikan R</li><li><a href=https://aakinshin.net/library/papers/hurlbert1984/>Pseudoreplication and the Design of Ecological Field Experiments
-</a>(1984)
-by
-Stuart H Hurlbert<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/kroodsma2001/>Pseudoreplication in Playback Experiments
-</a>(2001)
-by
-Donald E Kroodsma, Bruce E Byers
-et al.<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/heffner1996/>Pseudoreplication Revisited
-</a>(1996)
-by
-Robert A Heffner, Mark J Butler
-et al.</li><li><a href=https://aakinshin.net/library/papers/elson2023/>Psychological Measures Aren’t Toothbrushes
-</a>(2023)
-by
-Malte Elson, Ian Hussey
+<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg>
+<a href=https://aakinshin.net/tags/medicine/><svg class="rating-icon"><title>Medicine</title><use xlink:href="/img/fa/all.svg#medicine"/></svg>
+</a><a href=https://aakinshin.net/tags/endorsed/><svg class="rating-icon"><title>Endorsed</title><use xlink:href="/img/fa/all.svg#endorsed"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/bennett2009/>Neural Correlates of Interspecies Perspective Taking in the Post-Mortem Atlantic Salmon
+</a>(2009)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/craig-m-bennett/>Craig M Bennett</a>, <a href=https://aakinshin.net/library/authors/michael-b-miller/>Michael B Miller</a>
+et al.
+<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/strogatz2015/>Nonlinear Dynamics and Chaos
+</a>(2015)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/steven-h-strogatz/>Steven H Strogatz</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/doksum1995/>Nonparametric Estimation of Global Functionals and a Measure of the Explanatory Power of Covariates in Regression
+</a>(1995)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/doksum-k-a/>Doksum K A</a>, <a href=https://aakinshin.net/library/authors/samarov-a/>Samarov A</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/bhattacharyya1977/>Nonparametric Estimation of Ratio of Scale Parameters
+</a>(1977)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/helen-t-bhattacharyya/>Helen T Bhattacharyya</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/gibbons2020/>Nonparametric Statistical Inference
+</a>(2020)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/jean-dickinson-gibbons/>Jean Dickinson Gibbons</a>, <a href=https://aakinshin.net/library/authors/subhabrata-chakraborti/>Subhabrata Chakraborti</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/neuh%C3%A4user2012/>Nonparametric Statistical Tests
+</a>(2012)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/markus-neuh%C3%A4user/>Markus Neuhäuser</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/deshpande2018/>Nonparametric Statistics
+</a>(2018)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/j-v-deshpande/>J v Deshpande</a>, <a href=https://aakinshin.net/library/authors/uttara-naik-nimbalkar/>Uttara Naik-Nimbalkar</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/lehmann1975/>Nonparametrics
+</a>(1975)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/erich-l-lehmann/>Erich L Lehmann</a>, <a href=https://aakinshin.net/library/authors/h-j-m-dabrera/>H J M D'Abrera</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/krueger2001/>Null Hypothesis Significance Testing on the Survival of a Flawed Method
+</a>(2001)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/krueger-j/>Krueger J</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/daniell1920/>Observations Weighted According to Order
+</a>(1920)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/pj-daniell/>PJ Daniell</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/gelman2009/>Of Beauty, Sex, and Power
+</a>(2009)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/a-gelman/>A Gelman</a>, <a href=https://aakinshin.net/library/authors/d-weakliem/>D Weakliem</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/anderson2009/>On a Simple Measure of Dominance
+</a>(2009)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/anderson-c-l/>Anderson C L</a>, <a href=https://aakinshin.net/library/authors/berry-j-c/>Berry J C</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/mann1947/>On a Test of Whether One of Two Random Variables Is Stochastically Larger Than the Other
+</a>(1947)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/h-b-mann/>H B Mann</a>, <a href=https://aakinshin.net/library/authors/d-r-whitney/>D R Whitney</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/schenker2001/>On Judging the Significance of Differences by Examining the Overlap between Confidence Intervals
+</a>(2001)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/nathaniel-schenker/>Nathaniel Schenker</a>, <a href=https://aakinshin.net/library/authors/jane-f-gentleman/>Jane F Gentleman</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/gastwirth1966/>On Robust Procedures
+</a>(1966)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/joseph-l-gastwirth/>Joseph L Gastwirth</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/chaubey2023/>On Some Non Parametric Estimators of the Quantile Density Function for a Stationary Associated Process
+</a>(2023)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/yogendra-p-chaubey/>Yogendra P Chaubey</a>, <a href=https://aakinshin.net/library/authors/isha-dewan/>Isha Dewan</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/greco2023/>On Testing the Equality between Interquartile Ranges
+</a>(2023)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/luca-greco/>Luca Greco</a>, <a href=https://aakinshin.net/library/authors/george-luta/>George Luta</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/sen1963/>On the Estimation of Relative Potency in Dilution (-Direct) Assays by Distribution-Free Methods
+</a>(1963)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/pranab-kumar-sen/>Pranab Kumar Sen</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/fisher1922/>On the Mathematical Foundations of Theoretical Statistics
+</a>(1922)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/ronald-a-fisher/>Ronald a Fisher</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/choi1994/>On the Medians of Gamma Distributions and an Equation of Ramanujan
+</a>(1994)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/kwok-pui-choi/>Kwok Pui Choi</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/neyman1933/>On the Problem of the Most Efficient Tests of Statistical Hypotheses
+</a>(1933)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/jerzy-neyman/>Jerzy Neyman</a>, <a href=https://aakinshin.net/library/authors/egon-sharpe-pearson/>Egon Sharpe Pearson</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/hinkley1969/>On the Ratio of Two Correlated Normal Random Variables
+</a>(1969)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/hinkley-d-v/>Hinkley D V</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/david2003/>Order Statistics
+</a>(2003)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/herbert-a-david/>Herbert a David</a>, <a href=https://aakinshin.net/library/authors/haikady-n-nagaraja/>Haikady N Nagaraja</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/bhattacharya2019/>Outlier Detection and a Tail-Adjusted Boxplot Based on Extreme Value Theory
+</a>(2019)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/shrijita-bhattacharya/>Shrijita Bhattacharya</a>, <a href=https://aakinshin.net/library/authors/jan-beirlant/>Jan Beirlant</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/goodman1993/>P Values, Hypothesis Tests, and Likelihood
+</a>(1993)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/steven-n-goodman/>Steven N Goodman</a>
+<svg class="rating-icon"><title>Quotes: 2</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/meehl1989/>Paul E. Meehl (Autobiography)
+</a>(1989)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/paul-e-meehl/>Paul E Meehl</a>, <a href=https://aakinshin.net/library/authors/g-lindzey/>G Lindzey</a>
+<svg class="rating-icon"><title>Quotes: 6</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/biography/><svg class="rating-icon"><title>Biography</title><use xlink:href="/img/fa/all.svg#biography"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/cavus2021/>Penalized Power Approach to Compare the Power of the Tests When Type I Error Probabilities Are Different
+</a>(2021)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/mustafa-cavus/>Mustafa Cavus</a>, <a href=https://aakinshin.net/library/authors/berna-yazici/>Berna Yazici</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/ospina2019/>Performance of Some Estimators of Relative Variability
+</a>(2019)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/raydonal-ospina/>Raydonal Ospina</a>, <a href=https://aakinshin.net/library/authors/fernando-marmolejo-ramos/>Fernando Marmolejo-Ramos</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/lakens2014/>Performing High-Powered Studies Efficiently with Sequential Analyses
+</a>(2014)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/dani%C3%ABl-lakens/>Daniël Lakens</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/doksum1976/>Plotting with Confidence – Graphical Comparisons of 2 Populations
+</a>(1976)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/doksum-k-a/>Doksum K A</a>, <a href=https://aakinshin.net/library/authors/sievers-g-l/>Sievers G L</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/isen1987/>Positive Affect Facilitates Creative Problem Solving
+</a>(1987)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/alice-m-isen/>Alice M Isen</a>, <a href=https://aakinshin.net/library/authors/kimberly-a-daubman/>Kimberly a Daubman</a>
+et al.
+<a href=https://aakinshin.net/tags/psychology/><svg class="rating-icon"><title>Psychology</title><use xlink:href="/img/fa/all.svg#psychology"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/button2013/>Power Failure
+</a>(2013)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/katherine-s-button/>Katherine S Button</a>, <a href=https://aakinshin.net/library/authors/john-p-a-ioannidis/>John P a Ioannidis</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/psychology/><svg class="rating-icon"><title>Psychology</title><use xlink:href="/img/fa/all.svg#psychology"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/bartlett2022/>Power to the People
+</a>(2022)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/james-bartlett/>James Bartlett</a>, <a href=https://aakinshin.net/library/authors/sarah-charles/>Sarah Charles</a>
+<a href=https://aakinshin.net/tags/psychology/><svg class="rating-icon"><title>Psychology</title><use xlink:href="/img/fa/all.svg#psychology"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/fisher1938/>Presidential Address by Professor R.A. Fisher
+</a>(1938)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/ra-fisher/>RA Fisher</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/pajari2021/>Probabilistic Evaluation of Quantile Estimators
+</a>(2021)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/matti-pajari/>Matti Pajari</a>, <a href=https://aakinshin.net/library/authors/maria-tikanm%C3%A4ki/>Maria Tikanmäki</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/grissom1994/>Probability of the Superior Outcome of One Treatment over Another
+</a>(1994)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/grissom-r-j/>Grissom R J</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/wilk1968/>Probability Plotting Methods for the Analysis of Data
+</a>(1968)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/wilk-m-b/>Wilk M B</a>, <a href=https://aakinshin.net/library/authors/gnanadesikan-r/>Gnanadesikan R</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/hurlbert1984/>Pseudoreplication and the Design of Ecological Field Experiments
+</a>(1984)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/stuart-h-hurlbert/>Stuart H Hurlbert</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/kroodsma2001/>Pseudoreplication in Playback Experiments
+</a>(2001)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/donald-e-kroodsma/>Donald E Kroodsma</a>, <a href=https://aakinshin.net/library/authors/bruce-e-byers/>Bruce E Byers</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/heffner1996/>Pseudoreplication Revisited
+</a>(1996)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/robert-a-heffner/>Robert a Heffner</a>, <a href=https://aakinshin.net/library/authors/mark-j-butler/>Mark J Butler</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/elson2023/>Psychological Measures Aren’t Toothbrushes
+</a>(2023)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/malte-elson/>Malte Elson</a>, <a href=https://aakinshin.net/library/authors/ian-hussey/>Ian Hussey</a>
 et al.<svg class="rating-icon"><title>Quotes: 3</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/vul2009/>Puzzlingly High Correlations in FMRI Studies of Emotion, Personality, and Social Cognition
-</a>(2009)
-by
-Edward Vul, Christine Harris
-et al.</li><li><a href=https://aakinshin.net/library/papers/li1996/>Quantile Comparison Functions in Two-Sample Problems, with Application to Comparisons of Diagnostic Markers
-</a>(1996)
-by
-Gang Li, C R Tiwari
-et al.</li><li><a href=https://aakinshin.net/library/papers/montori2005/>Randomized Trials Stopped Early for Benefit: A Systematic Review
-</a>(2005)
-by
-Victor M Montori, P J Devereaux
-et al.<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/handcock2022/>Reldist: Relative Distribution Methods
-</a>(2022)
-by
-Mark S Handcock</li><li><a href=https://aakinshin.net/library/papers/belia2005/>Researchers Misunderstand Confidence Intervals and Standard Error Bars
-</a>(2005)
-by
-Sarah Belia, Fiona Fidler
-et al.<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/elvira2022/>Rethinking the Effective Sample Size
-</a>(2022)
-by
-V Elvira, L Martino
-et al.</li><li><a href=https://aakinshin.net/library/papers/arachchige2020/>Robust Analogs to the Coefficient of Variation
-</a>(2020)
-by
-Chandima N P G Arachchige, Luke A Prendergast
-et al.</li><li><a href=https://aakinshin.net/library/papers/wooff2013/>Robust and Scale-Free Effect Sizes for Non-Normal Two-Sample Comparisons, with Applications in E-Commerce
-</a>(2013)
-by
-David A Wooff, Amin Jamalzadeh</li><li><a href=https://aakinshin.net/library/papers/andrews2016/>Robust Estimates of Location Survey and Advances
-</a>(2016)
-by
-David F Andrews, Frank R Hampel</li><li><a href=https://aakinshin.net/library/papers/lax1985/>Robust Estimators of Scale: Finite-Sample Performance in Long-Tailed Symmetric Distributions
-</a>(1985)
-by
-David A Lax</li><li><a href=https://aakinshin.net/library/papers/rousseeuw1987/>Robust Regression and Outlier Detection
-</a>(1987)
-by
-Peter J Rousseeuw, Annick M Leroy</li><li><a href=https://aakinshin.net/library/papers/jureckova2019/>Robust Statistical Methods with R
-</a>(2019)
-by
-Jana Jureckova, Jan Picek
-et al.</li><li><a href=https://aakinshin.net/library/papers/huber2009/>Robust Statistics
-</a>(2009)
-by
-Peter J Huber, Elvezio M Ronchetti</li><li><a href=https://aakinshin.net/library/papers/hampel1986/>Robust Statistics: The Approach Based on Influence Functions
-</a>(1986)
-by
-Frank R. Hampel, Elevezio M. Ronchetti
-et al.</li><li><a href=https://aakinshin.net/library/papers/maronna2019/>Robust Statistics: Theory and Methods (With R)
-</a>(2019)
-by
-Ricardo A Maronna, R Douglas Martin
-et al.</li><li><a href=https://aakinshin.net/library/papers/maechler2022/>Robustbase: Basic Robust Statistics
-</a>(2022)
-by
-Martin Maechler, Peter Rousseeuw
-et al.</li><li><a href=https://aakinshin.net/library/papers/hyndman1996/>Sample Quantiles in Statistical Packages
-</a>(1996)
-by
-Rob J Hyndman, Yanan Fan</li><li><a href=https://aakinshin.net/library/papers/maxwell2008/>Sample Size Planning for Statistical Power and Accuracy in Parameter Estimation
-</a>(2008)
-by
-Scott E Maxwell, Ken Kelley
-et al.<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/blume2018/>Second-Generation P-Values: Improved Rigor, Reproducibility, & Transparency in Statistical Analyses
-</a>(2018)
-by
-Jeffrey D Blume, Lucy D’Agostino McGowan
-et al.</li><li><a href=https://aakinshin.net/library/papers/baszczynska2010/>Selected Methods of Interval Estimation of the Median. the Analysis of Accuracy of Estimation
-</a>(2010)
-by
-Aleksandra Baszczyńska, Dorota Pekasiewicz</li><li><a href=https://aakinshin.net/library/papers/truong2020/>Selective Review of Offline Change Point Detection Methods
-</a>(2020)
-by
-Charles Truong, Laurent Oudre
-et al.</li><li><a href=https://aakinshin.net/library/papers/huggins2019/>Sequential Monte Carlo as Approximate Sampling: Bounds, Adaptive Resampling via $\Infty$-ESS, and an Application to Particle Gibbs
-</a>(2019)
-by
-Jonathan H Huggins, Daniel M Roy</li><li><a href=https://aakinshin.net/library/papers/raatikainen1987/>Simultaneous Estimation of Several Percentiles
-</a>(1987)
-by
-Kimmo E E Raatikainen</li><li><a href=https://aakinshin.net/library/papers/doksum1977/>Some Graphical Methods in Statistics: A Review and Some Extensions
-</a>(1977)
-by
-Doksum K A</li><li><a href=https://aakinshin.net/library/papers/lenth2001/>Some Practical Guidelines for Effective Sample-Size Determination
-</a>(2001)
-by
-Lenth R V</li><li><a href=https://aakinshin.net/library/papers/baddeley2022/>Spatstat.geom: Geometrical Functionality of the 'Spatstat' Family
-</a>(2022)
-by
-Adrian Baddeley, Rolf Turner</li><li><a href=https://aakinshin.net/library/papers/gorman2001/>Spherical Horses and Shared Toothbrushes: Lessons Learned from a Workshop on Scientific and Technological Thinking
-</a>(2001)
-by
-Michael E Gorman, Alexandra Kincannon
-et al.<svg class="rating-icon"><title>Quotes: 3</title><use xlink:href="/img/fa/all.svg#quote"/></svg><svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg></li><li><a href=https://aakinshin.net/library/papers/templ2011/>Standard Methods for Point Estimation of Indicators on Social Exclusion and Poverty Using the R Package Laeken
-</a>(2011)
-by
-Matthias Templ, Andreas Alfons</li><li><a href=https://aakinshin.net/library/papers/geyer2007/>Stat 5102 Notes: Nonparametric Tests and Confidence Intervals
-</a>(2007)
-by
-Charles J Geyer</li><li><a href=https://aakinshin.net/library/papers/taleb2020/>Statistical Consequences of Fat Tails: Real World Preasymptotics, Epistemology, and Applications
-</a>(2020)
-by
-Nassim Nicholas Taleb</li><li><a href=https://aakinshin.net/library/papers/iii1975/>Statistical Inference Using Extreme Order Statistics
-</a>(1975)
-by
-James Pickands Iii</li><li><a href=https://aakinshin.net/library/papers/anderson2013/>Statistical Literacy of Obstetrics-Gynecology Residents
-</a>(2013)
-by
-Britta L Anderson, Sterling Williams
-et al.<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/fisher1956/>Statistical Methods and Scientific Inference
-</a>(1956)
-by
-Ronald A Fisher</li><li><a href=https://aakinshin.net/library/papers/fisher1950/>Statistical Methods for Research Workers
-</a>(1950)
-by
-Ronald Aylmer Fisher<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/horton2005/>Statistical Methods in the Journal
-</a>(2005)
-by
-Nicholas J Horton, Suzanne S Switzer<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/bedard2007/>Statistical Power of Negative Randomized Controlled Trials Presented at American Society for Clinical Oncology Annual Meetings
-</a>(2007)
-by
-Philippe L Bedard, Monika K Krzyzanowska
-et al.<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/moher1994/>Statistical Power, Sample Size, and Their Reporting in Randomized Controlled Trials
-</a>(1994)
-by
-D Moher, C Dulberg
-et al.<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/descoteaux2007/>Statistical Power: An Historical Introduction
-</a>(2007)
-by
-Descôteaux J</li><li><a href=https://aakinshin.net/library/papers/keselman1998/>Statistical Practices of Educational Researchers: An Analysis of Their ANOVA, MANOVA, and ANCOVA Analyses
-</a>(1998)
-by
-Keselman H J, Huberty C J
-et al.</li><li><a href=https://aakinshin.net/library/papers/cumming2007/>Statistical Reform in Psychology: Is Anything Changing?
-</a>(2007)
-by
-Geoff Cumming, Fiona Fidler
-et al.</li><li><a href=https://aakinshin.net/library/papers/thompson1998/>Statistical Significance and Effect Size Reporting: Portrait of a Possible Future
-</a>(1998)
-by
-Thompson B</li><li><a href=https://aakinshin.net/library/papers/greenland2016/>Statistical Tests, P Values, Confidence Intervals, and Power: A Guide to Misinterpretations
-</a>(2016)
-by
-Sander Greenland, Stephen J Senn
-et al.</li><li><a href=https://aakinshin.net/library/papers/bassler2010/>Stopping Randomized Trials Early for Benefit and Estimation of Treatment Effects Systematic Review and Meta-Regression Analysis
-</a>(2010)
-by
-Dirk Bassler<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/stigler1973/>Studies in the History of Probability and Statistics. XXXII: Laplace, Fisher and the Discovery of the Concept of Sufficiency
-</a>(1973)
-by
-Stephen M Stigler</li><li><a href=https://aakinshin.net/library/papers/hemenway1997/>Survey Research and Self-Defense Gun Use: An Explanation of Extreme Overestimates
-</a>(1997)
-by
-David Hemenway<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/kish1965/>Survey Sampling
-</a>(1965)
-by
-L Kish</li><li><a href=https://aakinshin.net/library/papers/kruschke2018/>The Bayesian New Statistics: Hypothesis Testing, Estimation, Meta-Analysis, and Power Analysis from a Bayesian Perspective
-</a>(2018)
-by
-John K Kruschke, Torrin M Liddell</li><li><a href=https://aakinshin.net/library/papers/brown1987/>The Beta Error and Sample Size Determination in Clinical Trials in Emergency Medicine
-</a>(1987)
-by
-Charles G Brown, Gabor D Kelen
-et al.<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/aaronson2020/>The Busy Beaver Frontier
-</a>(2020)
-by
-Scott Aaronson</li><li><a href=https://aakinshin.net/library/papers/gelman2006/>The Difference between “Significant” and “Not Significant” Is Not Itself Statistically Significant
-</a>(2006)
-by
-Andrew Gelman, Hal Stern</li><li><a href=https://aakinshin.net/library/papers/amrhein2017/>The Earth Is Flat (P>0.05): Significance Thresholds and the Crisis of Unreplicable Research
-</a>(2017)
-by
-Valentin Amrhein, Fränzi Korner-Nievergelt
-et al.</li><li><a href=https://aakinshin.net/library/papers/cohen1994/>The Earth Is Round (P &lt; .05)
-</a>(1994)
-by
-Jacob Cohen<svg class="rating-icon"><title>Quotes: 4</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/hauer2004/>The Harm Done by Tests of Significance
-</a>(2004)
-by
-Ezra Hauer<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/hampel1974/>The Influence Curve and Its Role in Robust Estimation
-</a>(1974)
-by
-Frank R Hampel</li><li><a href=https://aakinshin.net/library/papers/adell2005/>The Median of the Poisson Distribution
-</a>(2005)
-by
-Jos'e A Adell, P Jodr'a</li><li><a href=https://aakinshin.net/library/papers/wainer2007/>The Most Dangerous Equation
-</a>(2007)
-by
-Howard Wainer<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/bean2004/>The Normal, Edgeworth, Saddlepoint and Uniform Approximations to the Wilcoxon–Mann–Whitney Null-Distribution: A Numerical Comparison
-</a>(2004)
-by
-Raphaël Bean, Sorana Froda
-et al.</li><li><a href=https://aakinshin.net/library/papers/andrade2019/>The P Value and Statistical Significance: Misunderstandings, Explanations, Challenges, and Alternatives
-</a>(2019)
-by
-Chittaranjan Andrade</li><li><a href=https://aakinshin.net/library/papers/holmgren1995/>The P-P Plot as a Method of Comparing Treatment Effects
-</a>(1995)
-by
-Holmgren E C</li><li><a href=https://aakinshin.net/library/papers/jain1985/>The P² Algorithm for Dynamic Calculation of Quantiles and Histograms without Storing Observations
-</a>(1985)
-by
-Raj Jain, Imrich Chlamtac</li><li><a href=https://aakinshin.net/library/papers/tukey1991/>The Philosophy of Multiple Comparisons
-</a>(1991)
-by
-John W Tukey<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/lazic2010/>The Problem of Pseudoreplication in Neuroscientific Studies: Is It Affecting Your Analysis?
-</a>(2010)
-by
-Stanley E Lazic<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/socci1997/>The Rectified Gaussian Distribution
-</a>(1997)
-by
-Nicholas Socci, Daniel Lee
-et al.</li><li><a href=https://aakinshin.net/library/papers/krawczyk2015/>The Search for Significance: A Few Peculiarities in the Distribution of P Values in Experimental Psychology Literature
-</a>(2015)
-by
-Michał Krawczyk, Daniele Fanelli</li><li><a href=https://aakinshin.net/library/papers/cohen1962/>The Statistical Power of Abnormal-Social Psychological Research: A Review
-</a>(1962)
-by
-Jacob Cohen<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/murray1988/>The Task of a Statistical Referee
-</a>(1988)
-by
-G D Murray<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/divine2018/>The Wilcoxon–Mann–Whitney Procedure Fails as a Test of Medians
-</a>(2018)
-by
-George W Divine, H James Norton
-et al.</li><li><a href=https://aakinshin.net/library/papers/meehl1978/>Theoretical Risks and Tabular Asterisks: Sir Karl, Sir Ronald, and the Slow Progress of Soft Psychology
-</a>(1978)
-by
-Paul E Meehl<svg class="rating-icon"><title>Quotes: 3</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/meehl1967/>Theory-Testing in Psychology and Physics: A Methodological Paradox
-</a>(1967)
-by
-Paul E Meehl<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/cohen1990/>Things I Have Learned (So Far)
-</a>(1990)
-by
-Jacob Cohen</li><li><a href=https://aakinshin.net/library/papers/gelade2015/>Time-Efficient Algorithms for Robust Estimators of Location, Scale, Symmetry, and Tail Heaviness
-</a>(2015)
-by
-Wouter Gelade, Vincenzo Verardi
-et al.</li><li><a href=https://aakinshin.net/library/papers/croux1992/>Time-Efficient Algorithms for Two Highly Robust Estimators of Scale
-</a>(1992)
-by
-Christophe Croux, Peter J Rousseeuw
-et al.</li><li><a href=https://aakinshin.net/library/papers/goodman1999/>Toward Evidence-Based Medical Statistics. 1: The P Value Fallacy
-</a>(1999)
-by
-Steven N Goodman<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/gross2010/>Trial Factors for the Look Elsewhere Effect in High Energy Physics
-</a>(2010)
-by
-Eilam Gross, Ofer Vitells<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg></li><li><a href=https://aakinshin.net/library/papers/velleman2008/>Truth, Damn Truth, and Statistics
-</a>(2008)
-by
-Paul F Velleman</li><li><a href=https://aakinshin.net/library/papers/loeffler1982/>Über Eine Partition Der Nat. Zahlen Und Ihre Anwendung Beim U-Test
-</a>(1982)
-by
-Andreas Löffler</li><li><a href=https://aakinshin.net/library/papers/wilson2007/>Understanding Power and Rules of Thumb for Determining Sample Sizes
-</a>(2007)
-by
-Wilson Van Voorhis C R, Morgan B L</li><li><a href=https://aakinshin.net/library/papers/fanelli2013/>US Studies May Overestimate Effect Sizes in Softer Research
-</a>(2013)
-by
-Daniele Fanelli, John PA Ioannidis</li><li><a href=https://aakinshin.net/library/papers/rider1960/>Variance of the Median of Small Samples from Several Special Populations
-</a>(1960)
-by
-Paul R Rider</li><li><a href=https://aakinshin.net/library/papers/vul2012/>Voodoo and Circularity Errors
-</a>(2012)
-by
-Edward Vul, Hal Pashler</li><li><a href=https://aakinshin.net/library/papers/conroy2012/>What Hypotheses Do “Nonparametric” Two-Group Tests Actually Test?
-</a>(2012)
-by
-Ronán M Conroy</li><li><a href=https://aakinshin.net/library/papers/figueiredo2013/>When Is Statistical Significance Not Significant?
-</a>(2013)
-by
-Dalson Britto Figueiredo Filho, Ranulfo Paranhos
-et al.</li><li><a href=https://aakinshin.net/library/papers/thompson1999/>Why “Encouraging” Effect Size Reporting Is Not Working: The Etiology of Researcher Resistance to Changing Practices
-</a>(1999)
-by
-Bruce Thompson</li><li><a href=https://aakinshin.net/library/papers/ioannidis2008/>Why Most Discovered True Associations Are Inflated
-</a>(2008)
-by
-John P A Ioannidis<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg></li><li><a href=https://aakinshin.net/library/papers/ioannidis2005/>Why Most Published Research Findings Are False
-</a>(2005)
-by
-John PA Ioannidis<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg><svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg></li><li><a href=https://aakinshin.net/library/papers/yang2006/>Women Do Not Synchronize Their Menstrual Cycles
-</a>(2006)
-by
-Zhengwei Yang, Jeffrey C Schank</li></ol></div><script>var themeToggleDarkIcon=document.getElementById("theme-toggle-dark-icon"),themeToggleBtn,themeToggleLightIcon=document.getElementById("theme-toggle-light-icon");const imagesDark=document.querySelectorAll(".img-dark"),imagesLight=document.querySelectorAll(".img-light");localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?(themeToggleLightIcon.classList.remove("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")})):(themeToggleDarkIcon.classList.remove("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")}));function toggleTheme(e){e?(document.documentElement.classList.add("dark"),themeToggleLightIcon.classList.remove("hidden"),themeToggleDarkIcon.classList.add("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")}),imagesLight.forEach(e=>{e.classList.add("hidden")})):(document.documentElement.classList.remove("dark"),themeToggleDarkIcon.classList.remove("hidden"),themeToggleLightIcon.classList.add("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")}),imagesDark.forEach(e=>{e.classList.add("hidden")}))}themeToggleBtn=document.getElementById("theme-toggle"),themeToggleBtn.addEventListener("click",function(){themeToggleDarkIcon.classList.toggle("hidden"),themeToggleLightIcon.classList.toggle("hidden"),imagesLight.forEach(e=>{e.classList.toggle("hidden")}),imagesDark.forEach(e=>{e.classList.toggle("hidden")}),event.altKey?(localStorage.removeItem("color-theme"),toggleTheme(window.matchMedia("(prefers-color-scheme: dark)").matches)):localStorage.getItem("color-theme")?localStorage.getItem("color-theme")==="light"?(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark")):(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):document.documentElement.classList.contains("dark")?(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark"))}),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",e=>{if(localStorage.getItem("color-theme")===null){const t=e.matches?"dark":"light";toggleTheme(t==="dark")}})</script><footer class="z-20 p-4 md:p-6 mt-3 w-full border-t border-gray-200 shadow flex items-center justify-center dark:border-gray-600 bg-white dark:bg-zinc-800"><span class="dark:text-gray-400 text-center">© 2013—2024 <span class=whitespace-nowrap>Andrey Akinshin</span></span><ul class="flex flex-wrap items-center px-4 mb-1"><li><a href=https://github.com/AndreyAkinshin><svg class="fai fai-link w-5 h-5"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a></li><li><a href=https://twitter.com/andrey_akinshin><svg class="fai fai-link w-5 h-5"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></li><li><a href=https://aakinshin.net/posts/index.xml><svg class="fai fai-link w-5 h-5"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a></li></ul><div class=main-content><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></div></footer></body></html>
+</a>(2009)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/edward-vul/>Edward Vul</a>, <a href=https://aakinshin.net/library/authors/christine-harris/>Christine Harris</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/li1996/>Quantile Comparison Functions in Two-Sample Problems, with Application to Comparisons of Diagnostic Markers
+</a>(1996)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/gang-li/>Gang Li</a>, <a href=https://aakinshin.net/library/authors/c-r-tiwari/>C R Tiwari</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/montori2005/>Randomized Trials Stopped Early for Benefit
+</a>(2005)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/victor-m-montori/>Victor M Montori</a>, <a href=https://aakinshin.net/library/authors/p-j-devereaux/>P J Devereaux</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/handcock2022/>Reldist
+</a>(2022)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/mark-s-handcock/>Mark S Handcock</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/belia2005/>Researchers Misunderstand Confidence Intervals and Standard Error Bars
+</a>(2005)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/sarah-belia/>Sarah Belia</a>, <a href=https://aakinshin.net/library/authors/fiona-fidler/>Fiona Fidler</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/elvira2022/>Rethinking the Effective Sample Size
+</a>(2022)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/v-elvira/>V Elvira</a>, <a href=https://aakinshin.net/library/authors/l-martino/>L Martino</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/arachchige2020/>Robust Analogs to the Coefficient of Variation
+</a>(2020)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/chandima-n-p-g-arachchige/>Chandima N P G Arachchige</a>, <a href=https://aakinshin.net/library/authors/luke-a-prendergast/>Luke a Prendergast</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/wooff2013/>Robust and Scale-Free Effect Sizes for Non-Normal Two-Sample Comparisons, with Applications in E-Commerce
+</a>(2013)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/david-a-wooff/>David a Wooff</a>, <a href=https://aakinshin.net/library/authors/amin-jamalzadeh/>Amin Jamalzadeh</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/andrews2016/>Robust Estimates of Location Survey and Advances
+</a>(2016)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/david-f-andrews/>David F Andrews</a>, <a href=https://aakinshin.net/library/authors/frank-r-hampel/>Frank R Hampel</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/lax1985/>Robust Estimators of Scale
+</a>(1985)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/david-a-lax/>David a Lax</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/rousseeuw1987/>Robust Regression and Outlier Detection
+</a>(1987)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/peter-j-rousseeuw/>Peter J Rousseeuw</a>, <a href=https://aakinshin.net/library/authors/annick-m-leroy/>Annick M Leroy</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/jureckova2019/>Robust Statistical Methods with R
+</a>(2019)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/jana-jureckova/>Jana Jureckova</a>, <a href=https://aakinshin.net/library/authors/jan-picek/>Jan Picek</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/huber2009/>Robust Statistics
+</a>(2009)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/peter-j-huber/>Peter J Huber</a>, <a href=https://aakinshin.net/library/authors/elvezio-m-ronchetti/>Elvezio M Ronchetti</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/hampel1986/>Robust Statistics
+</a>(1986)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/frank-r.-hampel/>Frank R. Hampel</a>, <a href=https://aakinshin.net/library/authors/elevezio-m.-ronchetti/>Elevezio M. Ronchetti</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/maronna2019/>Robust Statistics
+</a>(2019)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/ricardo-a-maronna/>Ricardo a Maronna</a>, <a href=https://aakinshin.net/library/authors/r-douglas-martin/>R Douglas Martin</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/maechler2022/>Robustbase
+</a>(2022)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/martin-maechler/>Martin Maechler</a>, <a href=https://aakinshin.net/library/authors/peter-rousseeuw/>Peter Rousseeuw</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/hyndman1996/>Sample Quantiles in Statistical Packages
+</a>(1996)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/rob-j-hyndman/>Rob J Hyndman</a>, <a href=https://aakinshin.net/library/authors/yanan-fan/>Yanan Fan</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/maxwell2008/>Sample Size Planning for Statistical Power and Accuracy in Parameter Estimation
+</a>(2008)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/scott-e-maxwell/>Scott E Maxwell</a>, <a href=https://aakinshin.net/library/authors/ken-kelley/>Ken Kelley</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/blume2018/>Second-Generation P-Values
+</a>(2018)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/jeffrey-d-blume/>Jeffrey D Blume</a>, <a href=https://aakinshin.net/library/authors/lucy-dagostino-mcgowan/>Lucy D’Agostino McGowan</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/baszczynska2010/>Selected Methods of Interval Estimation of the Median. the Analysis of Accuracy of Estimation
+</a>(2010)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/aleksandra-baszczy%C5%84ska/>Aleksandra Baszczyńska</a>, <a href=https://aakinshin.net/library/authors/dorota-pekasiewicz/>Dorota Pekasiewicz</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/truong2020/>Selective Review of Offline Change Point Detection Methods
+</a>(2020)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/charles-truong/>Charles Truong</a>, <a href=https://aakinshin.net/library/authors/laurent-oudre/>Laurent Oudre</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/huggins2019/>Sequential Monte Carlo as Approximate Sampling
+</a>(2019)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/jonathan-h-huggins/>Jonathan H Huggins</a>, <a href=https://aakinshin.net/library/authors/daniel-m-roy/>Daniel M Roy</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/raatikainen1987/>Simultaneous Estimation of Several Percentiles
+</a>(1987)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/kimmo-e-e-raatikainen/>Kimmo E E Raatikainen</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/doksum1977/>Some Graphical Methods in Statistics
+</a>(1977)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/doksum-k-a/>Doksum K A</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/lenth2001/>Some Practical Guidelines for Effective Sample-Size Determination
+</a>(2001)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/lenth-r-v/>Lenth R V</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/baddeley2022/>Spatstat.geom
+</a>(2022)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/adrian-baddeley/>Adrian Baddeley</a>, <a href=https://aakinshin.net/library/authors/rolf-turner/>Rolf Turner</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/gorman2001/>Spherical Horses and Shared Toothbrushes
+</a>(2001)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/michael-e-gorman/>Michael E Gorman</a>, <a href=https://aakinshin.net/library/authors/alexandra-kincannon/>Alexandra Kincannon</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 3</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg>
+<a href=https://aakinshin.net/tags/philosophy/><svg class="rating-icon"><title>Philosophy</title><use xlink:href="/img/fa/all.svg#philosophy"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/templ2011/>Standard Methods for Point Estimation of Indicators on Social Exclusion and Poverty Using the R Package Laeken
+</a>(2011)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/matthias-templ/>Matthias Templ</a>, <a href=https://aakinshin.net/library/authors/andreas-alfons/>Andreas Alfons</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/geyer2007/>Stat 5102 Notes
+</a>(2007)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/charles-j-geyer/>Charles J Geyer</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/taleb2020/>Statistical Consequences of Fat Tails
+</a>(2020)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/nassim-nicholas-taleb/>Nassim Nicholas Taleb</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/iii1975/>Statistical Inference Using Extreme Order Statistics
+</a>(1975)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/james-pickands-iii/>James Pickands Iii</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/anderson2013/>Statistical Literacy of Obstetrics-Gynecology Residents
+</a>(2013)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/britta-l-anderson/>Britta L Anderson</a>, <a href=https://aakinshin.net/library/authors/sterling-williams/>Sterling Williams</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/medicine/><svg class="rating-icon"><title>Medicine</title><use xlink:href="/img/fa/all.svg#medicine"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/fisher1956/>Statistical Methods and Scientific Inference
+</a>(1956)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/ronald-a-fisher/>Ronald a Fisher</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/fisher1950/>Statistical Methods for Research Workers
+</a>(1950)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/ronald-aylmer-fisher/>Ronald Aylmer Fisher</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/horton2005/>Statistical Methods in the Journal
+</a>(2005)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/nicholas-j-horton/>Nicholas J Horton</a>, <a href=https://aakinshin.net/library/authors/suzanne-s-switzer/>Suzanne S Switzer</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/bedard2007/>Statistical Power of Negative Randomized Controlled Trials Presented at American Society for Clinical Oncology Annual Meetings
+</a>(2007)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/philippe-l-bedard/>Philippe L Bedard</a>, <a href=https://aakinshin.net/library/authors/monika-k-krzyzanowska/>Monika K Krzyzanowska</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/medicine/><svg class="rating-icon"><title>Medicine</title><use xlink:href="/img/fa/all.svg#medicine"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/moher1994/>Statistical Power, Sample Size, and Their Reporting in Randomized Controlled Trials
+</a>(1994)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/d-moher/>D Moher</a>, <a href=https://aakinshin.net/library/authors/c-dulberg/>C Dulberg</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/descoteaux2007/>Statistical Power
+</a>(2007)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/desc%C3%B4teaux-j/>Descôteaux J</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/keselman1998/>Statistical Practices of Educational Researchers
+</a>(1998)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/keselman-h-j/>Keselman H J</a>, <a href=https://aakinshin.net/library/authors/huberty-c-j/>Huberty C J</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/cumming2007/>Statistical Reform in Psychology
+</a>(2007)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/geoff-cumming/>Geoff Cumming</a>, <a href=https://aakinshin.net/library/authors/fiona-fidler/>Fiona Fidler</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/thompson1998/>Statistical Significance and Effect Size Reporting
+</a>(1998)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/thompson-b/>Thompson B</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/greenland2016/>Statistical Tests, P Values, Confidence Intervals, and Power
+</a>(2016)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/sander-greenland/>Sander Greenland</a>, <a href=https://aakinshin.net/library/authors/stephen-j-senn/>Stephen J Senn</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/bassler2010/>Stopping Randomized Trials Early for Benefit and Estimation of Treatment Effects Systematic Review and Meta-Regression Analysis
+</a>(2010)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/dirk-bassler/>Dirk Bassler</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/stigler1973/>Studies in the History of Probability and Statistics. XXXII
+</a>(1973)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/stephen-m-stigler/>Stephen M Stigler</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/hemenway1997/>Survey Research and Self-Defense Gun Use
+</a>(1997)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/david-hemenway/>David Hemenway</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/kish1965/>Survey Sampling
+</a>(1965)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/l-kish/>L Kish</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/kruschke2018/>The Bayesian New Statistics
+</a>(2018)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/john-k-kruschke/>John K Kruschke</a>, <a href=https://aakinshin.net/library/authors/torrin-m-liddell/>Torrin M Liddell</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/brown1987/>The Beta Error and Sample Size Determination in Clinical Trials in Emergency Medicine
+</a>(1987)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/charles-g-brown/>Charles G Brown</a>, <a href=https://aakinshin.net/library/authors/gabor-d-kelen/>Gabor D Kelen</a>
+et al.
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/medicine/><svg class="rating-icon"><title>Medicine</title><use xlink:href="/img/fa/all.svg#medicine"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/aaronson2020/>The Busy Beaver Frontier
+</a>(2020)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/scott-aaronson/>Scott Aaronson</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/gelman2006/>The Difference between “Significant” and “Not Significant” Is Not Itself Statistically Significant
+</a>(2006)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/andrew-gelman/>Andrew Gelman</a>, <a href=https://aakinshin.net/library/authors/hal-stern/>Hal Stern</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg>
+</a><a href=https://aakinshin.net/tags/critical-review/><svg class="rating-icon"><title>Critical Review</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/amrhein2017/>The Earth Is Flat (P>0.05)
+</a>(2017)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/valentin-amrhein/>Valentin Amrhein</a>, <a href=https://aakinshin.net/library/authors/fr%C3%A4nzi-korner-nievergelt/>Fränzi Korner-Nievergelt</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/cohen1994/>The Earth Is Round (P &lt; .05)
+</a>(1994)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/jacob-cohen/>Jacob Cohen</a>
+<svg class="rating-icon"><title>Quotes: 4</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/hauer2004/>The Harm Done by Tests of Significance
+</a>(2004)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/ezra-hauer/>Ezra Hauer</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/hampel1974/>The Influence Curve and Its Role in Robust Estimation
+</a>(1974)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/frank-r-hampel/>Frank R Hampel</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/adell2005/>The Median of the Poisson Distribution
+</a>(2005)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/jose-a-adell/>Jos'e a Adell</a>, <a href=https://aakinshin.net/library/authors/p-jodra/>P Jodr'a</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/wainer2007/>The Most Dangerous Equation
+</a>(2007)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/howard-wainer/>Howard Wainer</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/bean2004/>The Normal, Edgeworth, Saddlepoint and Uniform Approximations to the Wilcoxon–Mann–Whitney Null-Distribution
+</a>(2004)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/rapha%C3%ABl-bean/>Raphaël Bean</a>, <a href=https://aakinshin.net/library/authors/sorana-froda/>Sorana Froda</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/andrade2019/>The P Value and Statistical Significance
+</a>(2019)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/chittaranjan-andrade/>Chittaranjan Andrade</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/holmgren1995/>The P-P Plot as a Method of Comparing Treatment Effects
+</a>(1995)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/holmgren-e-c/>Holmgren E C</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/jain1985/>The P² Algorithm for Dynamic Calculation of Quantiles and Histograms without Storing Observations
+</a>(1985)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/raj-jain/>Raj Jain</a>, <a href=https://aakinshin.net/library/authors/imrich-chlamtac/>Imrich Chlamtac</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/tukey1991/>The Philosophy of Multiple Comparisons
+</a>(1991)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/john-w-tukey/>John W Tukey</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/lazic2010/>The Problem of Pseudoreplication in Neuroscientific Studies
+</a>(2010)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/stanley-e-lazic/>Stanley E Lazic</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/socci1997/>The Rectified Gaussian Distribution
+</a>(1997)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/nicholas-socci/>Nicholas Socci</a>, <a href=https://aakinshin.net/library/authors/daniel-lee/>Daniel Lee</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/krawczyk2015/>The Search for Significance
+</a>(2015)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/micha%C5%82-krawczyk/>Michał Krawczyk</a>, <a href=https://aakinshin.net/library/authors/daniele-fanelli/>Daniele Fanelli</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/cohen1962/>The Statistical Power of Abnormal-Social Psychological Research
+</a>(1962)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/jacob-cohen/>Jacob Cohen</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/psychology/><svg class="rating-icon"><title>Psychology</title><use xlink:href="/img/fa/all.svg#psychology"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/murray1988/>The Task of a Statistical Referee
+</a>(1988)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/g-d-murray/>G D Murray</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/divine2018/>The Wilcoxon–Mann–Whitney Procedure Fails as a Test of Medians
+</a>(2018)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/george-w-divine/>George W Divine</a>, <a href=https://aakinshin.net/library/authors/h-james-norton/>H James Norton</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/meehl1978/>Theoretical Risks and Tabular Asterisks
+</a>(1978)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/paul-e-meehl/>Paul E Meehl</a>
+<svg class="rating-icon"><title>Quotes: 3</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/psychology/><svg class="rating-icon"><title>Psychology</title><use xlink:href="/img/fa/all.svg#psychology"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/meehl1967/>Theory-Testing in Psychology and Physics
+</a>(1967)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/paul-e-meehl/>Paul E Meehl</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/cohen1990/>Things I Have Learned (So Far)
+</a>(1990)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/jacob-cohen/>Jacob Cohen</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/gelade2015/>Time-Efficient Algorithms for Robust Estimators of Location, Scale, Symmetry, and Tail Heaviness
+</a>(2015)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/wouter-gelade/>Wouter Gelade</a>, <a href=https://aakinshin.net/library/authors/vincenzo-verardi/>Vincenzo Verardi</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/croux1992/>Time-Efficient Algorithms for Two Highly Robust Estimators of Scale
+</a>(1992)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/christophe-croux/>Christophe Croux</a>, <a href=https://aakinshin.net/library/authors/peter-j-rousseeuw/>Peter J Rousseeuw</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/goodman1999/>Toward Evidence-Based Medical Statistics. 1
+</a>(1999)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/steven-n-goodman/>Steven N Goodman</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/gross2010/>Trial Factors for the Look Elsewhere Effect in High Energy Physics
+</a>(2010)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/eilam-gross/>Eilam Gross</a>, <a href=https://aakinshin.net/library/authors/ofer-vitells/>Ofer Vitells</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/velleman2008/>Truth, Damn Truth, and Statistics
+</a>(2008)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/paul-f-velleman/>Paul F Velleman</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/loeffler1982/>Über Eine Partition Der Nat. Zahlen Und Ihre Anwendung Beim U-Test
+</a>(1982)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/andreas-l%C3%B6ffler/>Andreas Löffler</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/wilson2007/>Understanding Power and Rules of Thumb for Determining Sample Sizes
+</a>(2007)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/wilson-van-voorhis-c-r/>Wilson Van Voorhis C R</a>, <a href=https://aakinshin.net/library/authors/morgan-b-l/>Morgan B L</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/fanelli2013/>US Studies May Overestimate Effect Sizes in Softer Research
+</a>(2013)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/daniele-fanelli/>Daniele Fanelli</a>, <a href=https://aakinshin.net/library/authors/john-pa-ioannidis/>John PA Ioannidis</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/rider1960/>Variance of the Median of Small Samples from Several Special Populations
+</a>(1960)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/paul-r-rider/>Paul R Rider</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/vul2012/>Voodoo and Circularity Errors
+</a>(2012)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/edward-vul/>Edward Vul</a>, <a href=https://aakinshin.net/library/authors/hal-pashler/>Hal Pashler</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/conroy2012/>What Hypotheses Do “Nonparametric” Two-Group Tests Actually Test?
+</a>(2012)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/ron%C3%A1n-m-conroy/>Ronán M Conroy</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/figueiredo2013/>When Is Statistical Significance Not Significant?
+</a>(2013)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/dalson-britto-figueiredo-filho/>Dalson Britto Figueiredo Filho</a>, <a href=https://aakinshin.net/library/authors/ranulfo-paranhos/>Ranulfo Paranhos</a>
+et al.
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/thompson1999/>Why “Encouraging” Effect Size Reporting Is Not Working
+</a>(1999)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/bruce-thompson/>Bruce Thompson</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/ioannidis2008/>Why Most Discovered True Associations Are Inflated
+</a>(2008)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/john-p-a-ioannidis/>John P a Ioannidis</a>
+<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/ioannidis2005/>Why Most Published Research Findings Are False
+</a>(2005)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/john-pa-ioannidis/>John PA Ioannidis</a>
+<svg class="rating-icon"><title>Quotes: 1</title><use xlink:href="/img/fa/all.svg#quote"/></svg>
+<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/wrong-statistics/><svg class="rating-icon"><title>Wrong Statistics</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/yang2006/>Women Do Not Synchronize Their Menstrual Cycles
+</a>(2006)<br>&nbsp;&nbsp;&nbsp;&nbsp;
+by
+<a href=https://aakinshin.net/library/authors/zhengwei-yang/>Zhengwei Yang</a>, <a href=https://aakinshin.net/library/authors/jeffrey-c-schank/>Jeffrey C Schank</a>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/critical-review/><svg class="rating-icon"><title>Critical Review</title><use xlink:href="/img/fa/all.svg#investigation"/></svg></a></li></ol></div><script>var themeToggleDarkIcon=document.getElementById("theme-toggle-dark-icon"),themeToggleBtn,themeToggleLightIcon=document.getElementById("theme-toggle-light-icon");const imagesDark=document.querySelectorAll(".img-dark"),imagesLight=document.querySelectorAll(".img-light");localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?(themeToggleLightIcon.classList.remove("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")})):(themeToggleDarkIcon.classList.remove("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")}));function toggleTheme(e){e?(document.documentElement.classList.add("dark"),themeToggleLightIcon.classList.remove("hidden"),themeToggleDarkIcon.classList.add("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")}),imagesLight.forEach(e=>{e.classList.add("hidden")})):(document.documentElement.classList.remove("dark"),themeToggleDarkIcon.classList.remove("hidden"),themeToggleLightIcon.classList.add("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")}),imagesDark.forEach(e=>{e.classList.add("hidden")}))}themeToggleBtn=document.getElementById("theme-toggle"),themeToggleBtn.addEventListener("click",function(){themeToggleDarkIcon.classList.toggle("hidden"),themeToggleLightIcon.classList.toggle("hidden"),imagesLight.forEach(e=>{e.classList.toggle("hidden")}),imagesDark.forEach(e=>{e.classList.toggle("hidden")}),event.altKey?(localStorage.removeItem("color-theme"),toggleTheme(window.matchMedia("(prefers-color-scheme: dark)").matches)):localStorage.getItem("color-theme")?localStorage.getItem("color-theme")==="light"?(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark")):(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):document.documentElement.classList.contains("dark")?(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark"))}),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",e=>{if(localStorage.getItem("color-theme")===null){const t=e.matches?"dark":"light";toggleTheme(t==="dark")}})</script><footer class="z-20 p-4 md:p-6 mt-3 w-full border-t border-gray-200 shadow flex items-center justify-center dark:border-gray-600 bg-white dark:bg-zinc-800"><span class="dark:text-gray-400 text-center">© 2013—2024 <span class=whitespace-nowrap>Andrey Akinshin</span></span><ul class="flex flex-wrap items-center px-4 mb-1"><li><a href=https://github.com/AndreyAkinshin><svg class="fai fai-link w-5 h-5"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a></li><li><a href=https://twitter.com/andrey_akinshin><svg class="fai fai-link w-5 h-5"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></li><li><a href=https://aakinshin.net/posts/index.xml><svg class="fai fai-link w-5 h-5"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a></li></ul><div class=main-content><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></div></footer><script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+=" has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js></script></body></html>

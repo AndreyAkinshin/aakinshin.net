@@ -26,7 +26,9 @@ In this post, I briefly explain the difference between different statistical met
  width='800'
  />
  &lt;/a>
-&lt;/div></description></item><item><title>Insidious implicit statistical assumptions</title><link>https://aakinshin.net/posts/insidious-assumptions/</link><pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/insidious-assumptions/</guid><description>&lt;p>Recently, I was rereading &lt;a href="https://aakinshin.net/library/papers/hampel1986/">[hampel1986]&lt;/a>
+&lt;/div></description></item><item><title>Insidious implicit statistical assumptions</title><link>https://aakinshin.net/posts/insidious-assumptions/</link><pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/insidious-assumptions/</guid><description>&lt;p>Recently, I was rereading &lt;a href="https://aakinshin.net/library/papers/hampel1986/">&lt;svg class="rating-icon">
+ &lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#paper">&lt;/use>
+&lt;/svg>hampel1986&lt;/a>
 and I found this quote about the difference between robust and nonparametric statistics (page 9):&lt;/p>
 &lt;blockquote>
 &lt;p>Robust statistics considers the effects of only approximate fulfillment of assumptions,

@@ -17,7 +17,7 @@ which is a Cohen&amp;rsquo;s d-consistent nonparametric and robust measure of th
 Also, I discussed &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size2/">various ways to customize this metric&lt;/a>
 and adjust it to different kinds of business requirements.
 In this post, I want to briefly cover one more corner case that requires special adjustments.
-We are going to discuss the situation when the median absolute deviation is zero.&lt;/p></description></item><item><title>Customization of the nonparametric Cohen's d-consistent effect size</title><link>https://aakinshin.net/posts/nonparametric-effect-size2/</link><pubDate>Tue, 08 Jun 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/nonparametric-effect-size2/</guid><description>&lt;p>One year ago, I publish a post called &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/">(Nonparametric Cohen&amp;#39;s D-Consistent Effect Size)&lt;/a>.
+We are going to discuss the situation when the median absolute deviation is zero.&lt;/p></description></item><item><title>Customization of the nonparametric Cohen's d-consistent effect size</title><link>https://aakinshin.net/posts/nonparametric-effect-size2/</link><pubDate>Tue, 08 Jun 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/nonparametric-effect-size2/</guid><description>&lt;p>One year ago, I publish a post called &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/">Nonparametric Cohen&amp;#39;s D-Consistent Effect Size&lt;/a>.
 During this year, I got a lot of internal and external feedback from
 my own statistical experiments and
 &lt;a href="https://twitter.com/ViljamiSairanen/status/1400457118340108293">people&lt;/a>
