@@ -669,7 +669,7 @@ c_4(n) = \sqrt{\frac{2}{n-1}} \cdot \frac{\Gamma\left(\frac{n}{2}\right)}{\Gamma
 $$
 &lt;p>When we define finite-sample bias-correction factors for a robust standard deviation replacement,
 we should choose which kind of consistency we need.
-In this post, I briefly explore available options.&lt;/p></description></item><item><title>Thoughts about outlier removal and ozone holes</title><link>https://aakinshin.net/posts/outliers-ozon-holes/</link><pubDate>Tue, 31 Jan 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/outliers-ozon-holes/</guid><description>&lt;p>Imagine you work with some data and assume that the underlying distribution is approximately normal.
+In this post, I briefly explore available options.&lt;/p></description></item><item><title>Debunking the tale about outlier removal and ozone holes</title><link>https://aakinshin.net/posts/outliers-ozon-holes/</link><pubDate>Tue, 31 Jan 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/outliers-ozon-holes/</guid><description>&lt;p>Imagine you work with some data and assume that the underlying distribution is approximately normal.
 In such cases, the data analysis typically involves non-robust statistics like the mean and the standard deviation.
 While these metrics are highly efficient under normality, they make the analysis procedure fragile:
 a single extreme value can corrupt all the results.
@@ -678,7 +678,7 @@ To avoid unexpected surprises and ensure the reliability of the results,
 it may be tempting to automatically exclude all outliers from the collected samples.
 While this approach is widely adopted, it conceals an essential part of the obtained data
 and can lead to fallacious conclusions.&lt;/p>
-&lt;p>Let me recite a classic story about ozone holes,
+&lt;p>Let me recite a classic story about ozone holes from &lt;a href="https://aakinshin.net/library/papers/kandel1990/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#paper">&lt;/use>&lt;/svg>kandel1990&lt;/a>,
 which is typically used to illustrate the danger of blind outlier removal:&lt;/p></description></item><item><title>Nonparametric effect size: Cohen's d vs. Glass's delta</title><link>https://aakinshin.net/posts/gamma-es-cohen-glass/</link><pubDate>Tue, 24 Jan 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/gamma-es-cohen-glass/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/tags/research-gamma-es/">previous posts&lt;/a>,
 I discussed the idea of nonparametric effect size measures
 consistent with Cohen&amp;rsquo;s d under normality.
@@ -1105,8 +1105,7 @@ which allow us to achieve better statistical efficiency of the standard deviatio
 The obtained estimators are especially useful for samples with a small number of elements.&lt;/p>
 &lt;/blockquote></description></item><item><title>Challenges of change point detection in CI performance data</title><link>https://aakinshin.net/posts/cpd-perf-challenges/</link><pubDate>Tue, 19 Jul 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/cpd-perf-challenges/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Change_detection">Change point detection&lt;/a> is a popular task in various disciplines.
 There are many algorithms that solve this problem.
-For example,
-in &lt;a href="https://arxiv.org/abs/1801.00718v3">Selective review of offline change point detection methods (2020)&lt;/a>,
+For example, in &lt;a href="https://aakinshin.net/library/papers/truong2020/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#paper">&lt;/use>&lt;/svg>truong2020&lt;/a>,
 the authors presented a classification of different approaches and discussed 35 algorithms.
 However, not all the algorithms fit all the situations.&lt;/p>
 &lt;p>In this post, we consider the problem of change point detection in time series based on
@@ -1446,9 +1445,9 @@ This extended version was suggested in the paper
 In this post, we briefly discuss the approach from this paper and how we can improve its implementation.&lt;/p></description></item><item><title>P² quantile estimator marker adjusting order</title><link>https://aakinshin.net/posts/p2-quantile-estimator-adjusting-order/</link><pubDate>Tue, 11 Jan 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-adjusting-order/</guid><description>&lt;p>I have already written a few blog posts about the P² quantile estimator
 (which is a sequential estimator that uses $O(1)$ memory):&lt;/p>
 &lt;ul>
-&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>P² Quantile Estimator&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>P² Quantile Estimator Rounding Issue&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-initialization/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>P² Quantile Estimator Initialization Strategy&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>P² quantile estimator&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>P² quantile estimator rounding issue&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-initialization/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>P² quantile estimator initialization strategy&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;p>In this post, we continue improving the P² implementation
 so that it gives better estimations for streams with a small number of elements.&lt;/p></description></item><item><title>P² quantile estimator initialization strategy</title><link>https://aakinshin.net/posts/p2-quantile-estimator-initialization/</link><pubDate>Tue, 04 Jan 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-initialization/</guid><description>&lt;p>&lt;strong>Update: the estimator accuracy could be improved using a bunch of &lt;a href="https://aakinshin.net/tags/research-p2qe/">patches&lt;/a>.&lt;/strong>&lt;/p>
@@ -1456,8 +1455,8 @@ so that it gives better estimations for streams with a small number of elements.
 Thus, for the given sequence of numbers, it allows estimating quantiles without storing values.
 I have already written a few blog posts about it:&lt;/p>
 &lt;ul>
-&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>P² Quantile Estimator&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>P² Quantile Estimator Rounding Issue&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>P² quantile estimator&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>P² quantile estimator rounding issue&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;p>I tried this estimator in various contexts, and it shows pretty decent results.
 However, recently I stumbled on a corner case:
@@ -2006,7 +2005,7 @@ Unfortunately, discretization may produce strange phenomena like pseudo-multimod
 If we want to set up a reliable system that automatically analyzes such distributions,
 we should be aware of such problems so we could correctly handle them.&lt;/p>
 &lt;p>In this post, I want to share a few of discretization problems in real-life performance data sets
-(based on the &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a> performance tests).&lt;/p></description></item><item><title>Customization of the nonparametric Cohen's d-consistent effect size</title><link>https://aakinshin.net/posts/nonparametric-effect-size2/</link><pubDate>Tue, 08 Jun 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/nonparametric-effect-size2/</guid><description>&lt;p>One year ago, I publish a post called &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>Nonparametric Cohen&amp;#39;s D-Consistent Effect Size&lt;/a>.
+(based on the &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a> performance tests).&lt;/p></description></item><item><title>Customization of the nonparametric Cohen's d-consistent effect size</title><link>https://aakinshin.net/posts/nonparametric-effect-size2/</link><pubDate>Tue, 08 Jun 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/nonparametric-effect-size2/</guid><description>&lt;p>One year ago, I publish a post called &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>Nonparametric Cohen&amp;#39;s d-consistent effect size&lt;/a>.
 During this year, I got a lot of internal and external feedback from
 my own statistical experiments and
 &lt;a href="https://twitter.com/ViljamiSairanen/status/1400457118340108293">people&lt;/a>
@@ -3227,11 +3226,11 @@ when we open the &lt;a href="https://github.com/OrchardCMS/Orchard">Orchard&lt;/
  width='800'
  />
  &lt;/a>
-&lt;/div></description></item><item><title>Implementation of efficient algorithm for changepoint detection: ED-PELT</title><link>https://aakinshin.net/posts/edpelt/</link><pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/edpelt/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Change_detection">Changepoint detection&lt;/a> is an important task that has a lot of applications.
+&lt;/div></description></item><item><title>Implementation of an efficient algorithm for changepoint detection: ED-PELT</title><link>https://aakinshin.net/posts/edpelt/</link><pubDate>Mon, 07 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/edpelt/</guid><description>&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Change_detection">Changepoint detection&lt;/a> is an important task that has a lot of applications.
 For example, I use it to detect changes in the &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a> performance test suite.
 It&amp;rsquo;s very important to detect not only performance degradations, but any kinds of performance changes
-(e.g., the variance may increase, or a unimodal distribution may be split to several modes).
-You can see examples of such changes on the following picture (we change the color when a changepoint is detected):&lt;/p>
+(e.g., the variance may increase, or an unimodal distribution may be split into several modes).
+You can see examples of such changes in the following picture (we change the color when a changepoint is detected):&lt;/p>
 
 
 
@@ -3257,7 +3256,7 @@ You can see examples of such changes on the following picture (we change the col
 
 
 &lt;p>Unfortunately, it&amp;rsquo;s pretty hard to write a reliable and fast algorithm for changepoint detection.
-Recently, I found a cool paper (&lt;a href="https://link.springer.com/article/10.1007/s11222-016-9687-5">Haynes, K., Fearnhead, P. &amp;amp; Eckley, I.A. &amp;ldquo;A computationally efficient nonparametric approach for changepoint detection,&amp;rdquo; Stat Comput (2017) 27: 1293&lt;/a>) that describes the ED-PELT algorithm.
+Recently, I found a cool paper &lt;a href="https://aakinshin.net/library/papers/haynes2016/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#paper">&lt;/use>&lt;/svg>haynes2016&lt;/a> that describes the ED-PELT algorithm.
 It has &lt;code>O(N*log(N))&lt;/code> complexity and pretty good detection accuracy.
 The reference implementation can be used via the &lt;a href="https://cran.r-project.org/web/packages/changepoint.np/index.html">changepoint.np&lt;/a> R package.
 However, I can&amp;rsquo;t use &lt;a href="https://www.r-project.org/">R&lt;/a> on our build server, so I decided to write my own C# implementation.&lt;/p></description></item><item><title>A story about slow NuGet package browsing</title><link>https://aakinshin.net/posts/nuget-package-browsing/</link><pubDate>Tue, 08 May 2018 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/nuget-package-browsing/</guid><description>&lt;p>In &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a>, we have integration tests which interact with &lt;a href="https://api.nuget.org/">api.nuget.org&lt;/a>.
