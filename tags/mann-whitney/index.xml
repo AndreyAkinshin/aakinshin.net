@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mann-Whitney U-test on Andrey Akinshin</title><link>https://aakinshin.net/tags/mann-whitney/</link><description>Recent content in Mann-Whitney U-test on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 30 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/mann-whitney/index.xml" rel="self" type="application/rss+xml"/><item><title>Weighted Mann-Whitney U test, Part 3</title><link>https://aakinshin.net/posts/wmw3/</link><pubDate>Tue, 30 Jan 2024 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/wmw3/</guid><description>&lt;p>I continue building a weighted version of the Mann–Whitney $U$ test.
+While &lt;a href="https://aakinshin.net/posts/wmw1/">previously suggested approach&lt;/a> feel promising,
+I don&amp;rsquo;t like the usage of Bootstrap to obtain the $p$-value.
+It is always better to have a deterministic and exact approach where it&amp;rsquo;s possible.
+I still don&amp;rsquo;t know how to solve it in general case,
+but it seems that I&amp;rsquo;ve obtained a reasonable solution for some specific cases.
+The current version of the approach still has issues and
+requires additional correction factors in some cases and additional improvements.
+However, it passes my minimal requirements, so it is worth trying to continue developing this idea.
+In this post, I share the description of the weighted approach and provide numerical examples.&lt;/p></description></item><item><title>Andreas Löffler's implementation of the exact p-values calculations for the Mann-Whitney U test</title><link>https://aakinshin.net/posts/mw-loeffler/</link><pubDate>Tue, 23 Jan 2024 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mw-loeffler/</guid><description>&lt;p>Mann-Whitney is one of the most popular non-parametric statistical tests.
+Unfortunately, most test implementations in statistical packages are far from perfect.
+The exact p-value calculation is time-consuming and can be impractical for large samples.
+Therefore, most implementations automatically switch to the asymptotic approximation, which can be quite inaccurate.
+Indeed, the classic normal approximation could produce
+&lt;a href="https://aakinshin.net/posts/r-mann-whitney-incorrect-p-value/">enormous&lt;/a>
+&lt;a href="https://aakinshin.net/posts/python-mann-whitney-incorrect-p-value/">errors&lt;/a>.
+Thanks to the &lt;a href="https://aakinshin.net/posts/mw-edgeworth2/">Edgeworth expansion&lt;/a>, the accuracy can be improved,
+but it is still not always satisfactory enough.
+I prefer using the exact p-value calculation whenever possible.&lt;/p>
+&lt;p>The computational complexity of the exact p-value calculation using the classic recurrent equation
+suggested by Mann and Whitney is $\mathcal{O}(n^2 m^2)$ in terms of time and memory.
+It&amp;rsquo;s not a problem for small samples, but for medium-size samples,
+it is slow, and it has an extremely huge memory footprint.
+This gives us an unpleasant dilemma:
+either we use the exact p-value calculation (which is extremely time and memory-consuming),
+or we use the asymptotic approximation (which gives poor accuracy).&lt;/p>
+&lt;p>Last week, I got acquainted with a brilliant algorithm for the exact p-value calculation
+suggested by Andreas Löffler in 1982.
+It&amp;rsquo;s much faster than the classic approach, and it requires only $\mathcal{O}(n+m)$ memory.&lt;/p></description></item><item><title>Mann-Whitney U test and heteroscedasticity</title><link>https://aakinshin.net/posts/mw-heteroscedasticity/</link><pubDate>Tue, 24 Oct 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mw-heteroscedasticity/</guid><description>&lt;p>Mann-Whitney U test is a good nonparametric test, which mostly targets changes in locations.
+However, it doesn&amp;rsquo;t properly support all types of differences between the two distributions.
+Specifically, it poorly handles changes in variance.
+In this post, I briefly discuss its behavior in reaction to scaling a distribution without introducing location changes.&lt;/p></description></item><item><title>Weighted Mann-Whitney U test, Part 2</title><link>https://aakinshin.net/posts/wmw2/</link><pubDate>Tue, 22 Aug 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/wmw2/</guid><description>&lt;p>Previously, I &lt;a href="https://aakinshin.net/posts/wmw1/">suggested&lt;/a> a weighted version of the Mann–Whitney $U$ test.
+The distribution of the weighted normalized $U_\circ^\star$ can be obtained via bootstrap.
+However, it is always nice if we can come up with an exact solution for the statistic distribution or
+at least provide reasonable approximations.
+In this post, we start exploring this distribution.&lt;/p></description></item><item><title>Weighted Mann-Whitney U test, Part 1</title><link>https://aakinshin.net/posts/wmw1/</link><pubDate>Tue, 04 Jul 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/wmw1/</guid><description>&lt;p>Previously, I have discussed how to build weighted versions of various statistical methods.
+I have already covered weighted versions of
+&lt;a href="https://aakinshin.net/posts/preprint-wqe/">various quantile estimators&lt;/a> and
+&lt;a href="https://aakinshin.net/posts/whl/">the Hodges-Lehmann location estimator&lt;/a>.
+Such methods can be useful in various tasks like the support of weighted mixture distributions or exponential smoothing.
+In this post, I suggest a way to build a weighted version of the Mann-Whitney U test.&lt;/p></description></item><item><title>Edgeworth expansion for the Mann-Whitney U test, Part 2: increased accuracy</title><link>https://aakinshin.net/posts/mw-edgeworth2/</link><pubDate>Tue, 06 Jun 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mw-edgeworth2/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/mw-edgeworth/">previous post&lt;/a>,
+we showed how the Edgeworth expansion can improve the accuracy of obtained p-values in the Mann-Whitney U test.
+However, we considered only the Edgeworth expansion to terms of order $1/m$.
+In this post, we explore how to improve the accuracyk of this approach using
+the Edgeworth expansion to terms of order $1/m^2$.&lt;/p></description></item><item><title>Edgeworth expansion for the Mann-Whitney U test</title><link>https://aakinshin.net/posts/mw-edgeworth/</link><pubDate>Tue, 30 May 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mw-edgeworth/</guid><description>&lt;p>In &lt;a href="https://aakinshin.net/posts/r-mann-whitney-incorrect-p-value/">previous posts&lt;/a>,
+I have shown a severe drawback of the classic Normal approximation for the Mann-Whitney U test:
+under certain conditions, can lead to quite substantial p-value errors,
+distorting the significance level of the test.&lt;/p>
+&lt;p>In this post, we will explore the potential of the Edgeworth expansion
+as a more accurate alternative for approximating the distribution of the Mann-Whitney U statistic.&lt;/p></description></item><item><title>Confusing tie correction in the classic Mann-Whitney U test implementation</title><link>https://aakinshin.net/posts/mw-confusing-tie-correction/</link><pubDate>Tue, 23 May 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mw-confusing-tie-correction/</guid><description>&lt;p>In this post, we discuss the classic implementation of the Mann-Whitney U test for cases
+in which the considered samples contain tied values.
+This approach is used the same way in all the popular statistical packages.&lt;/p>
+&lt;p>Unfortunately, in some situations, this approach produces confusing p-values, which may be surprising for researchers
+who do not have a deep understanding of ties correction.
+Moreover, some statistical textbooks argue against the validity of the default tie correction.
+The controversialness and counterintuitiveness of this approach may become a severe issue which may lead
+to incorrect experiment design and flawed result interpretation.
+In order to prevent such problems, it is essential to clearly understand
+the actual impact of tied observations on the true p-value and
+the impact of tie correction on the approximated p-value estimation.
+In this post, we discuss the tie correction for the Mann-Whitney U test
+and review examples that illustrate potential problems.
+We also provide examples of the Mann-Whitney U test implementations from popular statistical packages:
+&lt;code>wilcox.test&lt;/code> from &lt;code>stats&lt;/code> (R),
+&lt;code>mannwhitneyu&lt;/code> from &lt;code>SciPy&lt;/code> (Python), and
+&lt;code>MannWhitneyUTest&lt;/code> from &lt;code>HypothesisTests&lt;/code> (Julia).
+At the end of the post, we discuss how to avoid possible problems related to the tie correction.&lt;/p></description></item><item><title>When Python's Mann-Whitney U test returns extremely distorted p-values</title><link>https://aakinshin.net/posts/python-mann-whitney-incorrect-p-value/</link><pubDate>Tue, 02 May 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/python-mann-whitney-incorrect-p-value/</guid><description>&lt;p>In the &lt;a href="https://aakinshin.net/posts/r-mann-whitney-incorrect-p-value/">previous post&lt;/a>,
+I have discussed a huge difference between p-values evaluated via the R implementation of
+the &lt;a href="https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test">Mann-Whitney U test&lt;/a>
+between the exact and asymptotic implementations.
+This issue is not unique only to R, it is relevant for other statistical packages in other languages as well.
+In this post, we review this problem in the Python package &lt;a href="https://scipy.org/">SciPy&lt;/a>.&lt;/p></description></item><item><title>When R's Mann-Whitney U test returns extremely distorted p-values</title><link>https://aakinshin.net/posts/r-mann-whitney-incorrect-p-value/</link><pubDate>Tue, 25 Apr 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/r-mann-whitney-incorrect-p-value/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test">Mann–Whitney U test&lt;/a>
+(also known as the Wilcoxon rank-sum test)
+is one of the most popular nonparametric statistical tests.
+In R, it can be accessed using
+the &lt;a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/wilcox.test.html">wilcox.test&lt;/a> function,
+which has been &lt;a href="https://github.com/wch/r-source/blob/tags/R-1-0/src/library/ctest/R/wilcox.test.R">available&lt;/a>
+since R 1.0.0 (February 2000).
+With its extensive adoption and long-standing presence in R,
+the &lt;code>wilcox.test&lt;/code> function has become a trusted tool for many researchers.
+But is it truly reliable, and to what extent can we rely on its accuracy by default?&lt;/p>
+&lt;p>In my work,
+I often encounter the task of comparing a large sample (e.g., of size 50+) with a small sample (e.g., of size 5).
+In some cases, the ranges of these samples do not overlap with each other,
+which is the extreme case of the Mann–Whitney U test: it gives the minimum possible p-value.
+In &lt;a href="https://aakinshin.net/posts/mann-whitney-min-stat-level/">one of the previous posts&lt;/a>,
+I presented the exact equation for such a p-value.
+If we compare two samples of sizes $n$ and $m$,
+the minimum p-value we can observe with the one-tailed Mann–Whitney U test is $1/C_{n+m}^n$.
+For example, if $n=50$ and $m=5$, we get $1/C_{55}^5 \approx 0.0000002874587$.
+Let&amp;rsquo;s check these calculations using R:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-r" data-lang="r">&lt;span class="line">&lt;span class="cl">&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="nf">wilcox.test&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="m">101&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="m">105&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="m">1&lt;/span>&lt;span class="o">:&lt;/span>&lt;span class="m">50&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">alternative&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;greater&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">$&lt;/span>&lt;span class="n">p.value&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">[1]&lt;/span> &lt;span class="m">0.0001337028&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The obtained p-value is $\approx 0.0001337028$, which is $\approx 465$ times larger than we expected!
+Have we discovered a critical bug in &lt;code>wilcox.test&lt;/code>?
+Can we now trust this function?
+Let&amp;rsquo;s find out!&lt;/p></description></item><item><title>Comparing statistical power of the Mann-Whitney U test and the Brunner-Munzel test</title><link>https://aakinshin.net/posts/power-mw-bm/</link><pubDate>Tue, 07 Mar 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/power-mw-bm/</guid><description>&lt;p>In this post, we perform a short numerical simulation to compare the statistical power
+of the Mann-Whitney U test and the Brunner-Munzel test under normality
+for various sample sizes and significance levels.&lt;/p></description></item><item><title>p-value distribution of the Mann–Whitney U test in the finite case</title><link>https://aakinshin.net/posts/mann-whitney-pvalue-distribution/</link><pubDate>Tue, 28 Feb 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mann-whitney-pvalue-distribution/</guid><description>&lt;p>When we work with null hypothesis significance testing and the null hypothesis is true,
+the distribution of observed p-value is asymptotically uniform.
+However, the distribution shape is not always uniform in the finite case.
+For example, when we work with rank-based tests like the Mann–Whitney U test,
+the distribution of the p-values is discrete with a limited set of possible values.
+This should be taken into account when we design a testing procedure for small samples
+and choose the significance level.&lt;/p>
+&lt;p>Previously, we already discussed the &lt;a href="https://aakinshin.net/posts/mann-whitney-min-stat-level/">minimum reasonable significance level&lt;/a>
+of the Mann-Whitney U test for small samples.
+In this post, we explore the full distribution of the p-values for this case.&lt;/p></description></item><item><title>Examples of the Mann–Whitney U test misuse cases</title><link>https://aakinshin.net/posts/mann-whitney-misuse/</link><pubDate>Tue, 14 Feb 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mann-whitney-misuse/</guid><description>&lt;p>The Mann–Whitney U test is one of the most popular nonparametric statistical tests.
+Its alternative hypothesis claims that one distribution is stochastically greater than the other.
+However, people often misuse this test and try to apply it to check
+if two nonparametric distributions are not identical
+or that there is a difference in distribution medians
+(while there are no additional assumptions on the shapes of the distributions).
+In this post, I show several cases in which the Mann–Whitney U test is not applicable
+for comparing two distributions.&lt;/p></description></item><item><title>Minimum meaningful statistical level for the Mann–Whitney U test</title><link>https://aakinshin.net/posts/mann-whitney-min-stat-level/</link><pubDate>Tue, 12 Apr 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mann-whitney-min-stat-level/</guid><description>&lt;p>The &lt;a href="https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test">Mann–Whitney U test&lt;/a> is one of the most popular
+nonparametric null hypothesis significance tests.
+However, like any statistical test, it has limitations.
+We should always carefully match them with our business requirements.
+In this post, we discuss how to properly choose the statistical level for the Mann–Whitney U test on small samples.&lt;/p>
+&lt;p>Let&amp;rsquo;s say we want to compare two samples $x = \{ x_1, x_2, \ldots, x_n \}$ and $y = \{ y_1, y_2, \ldots, y_m \}$
+using the one-sided Mann–Whitney U test.
+Sometimes, we don&amp;rsquo;t have an opportunity to gather enough data and we have to work with small samples.
+Imagine that the size of both samples is six: $n=m=6$.
+We want to set the statistical level $\alpha$ to $0.001$ (because we really don&amp;rsquo;t want to get false-positive results).
+Is it a valid requirement?
+In fact, the minimum p-value we can observe with $n=m=6$ is $\approx 0.001082$.
+Thus, with $\alpha = 0.001$, it&amp;rsquo;s impossible to get a positive result.
+Meanwhile, everything is correct from the technical point of view:
+since we can&amp;rsquo;t get any positive results, the false positive rate is exactly zero which is less than $0.001$.
+However, it&amp;rsquo;s definitely not something that we want: with this setup the test becomes useless because
+it always provides negative results regardless of the input data.&lt;/p>
+&lt;p>This brings an important question: what is the minimum meaningful statistical level
+that we can require for the one-sided Mann–Whitney U test knowing the sample sizes?&lt;/p></description></item></channel></rss>

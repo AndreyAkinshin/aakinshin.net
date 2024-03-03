@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Defensive statistics on Andrey Akinshin</title><link>https://aakinshin.net/tags/ds/</link><description>Recent content in Defensive statistics on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 05 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/ds/index.xml" rel="self" type="application/rss+xml"/><item><title>Thoughts on automatic statistical methods and broken assumptions</title><link>https://aakinshin.net/posts/thoughts-on-broken-assumptions/</link><pubDate>Tue, 05 Sep 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/thoughts-on-broken-assumptions/</guid><description>In the old times of applied statistics existence, all statistical experiments used to be performed by hand. In manual investigations, an investigator is responsible not only for interpreting the research results but also for the applicability validation of the used statistical approaches. Nowadays, more and more data processing is performed automatically on enormously huge data sets. Due to the extraordinary number of data samples, it is often almost impossible to verify each output individually using human eyes. Unfortunately, since we typically have no full control over the input data, we cannot guarantee certain assumptions that are required by classic statistical methods. These assumptions can be violated not only due to real-life phenomena we were not aware of during the experiment design stage, but also due to data corruption. In such corner cases, we may get misleading results, wrong automatic decisions, unacceptably high Type I/II error rates, or even a program crash because of a division by zero or another invalid operation. If we want to make an automatic analysis system reliable and trustworthy, the underlying mathematical procedures should correctly process malformed data.
+The normality assumption is probably the most popular one. There are well-known methods of robust statistics that focus only on slight deviations from normality and the appearance of extreme outliers. However, it is only a violation of one specific consequence from the normality assumption: light-tailedness. In practice, this sub-assumption is often interpreted as &amp;ldquo;the probability of observing extremely large outliers is negligible.&amp;rdquo; Meanwhile, there are other implicit derived sub-assumptions: continuity (we do not expect tied values in the input samples), symmetry (we do not expect highly-skewed distributions), unimodality (we do not expect multiple modes), nondegeneracy (we do not expect all sample values to be equal), sample size sufficiency (we do not expect extremely small samples like single-element samples), and others.</description></item><item><title>Parametric, Nonparametric, Robust, and Defensive statistics</title><link>https://aakinshin.net/posts/parametric-nonparametric-robust-defensive/</link><pubDate>Tue, 08 Aug 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/parametric-nonparametric-robust-defensive/</guid><description>&lt;p>Recently, I started writing about &lt;a href="https://aakinshin.net/tags/ds/">defensive statistics&lt;/a>.
+The methodology allows having parametric assumptions,
+but it adjusts statistical methods so that they continue working even in the case
+of huge deviations from the declared assumptions.
+This idea sounds quite similar to nonparametric and robust statistics.
+In this post, I briefly explain the difference between different statistical methodologies.&lt;/p>
+
+
+
+
+
+
+
+
+&lt;div class="flex my-7 justify-center">
+ &lt;a class="img-light hidden" href="https://aakinshin.net/posts/parametric-nonparametric-robust-defensive/img/compare-light.png" target="_blank" alt="compare">
+ &lt;img
+ src="https://aakinshin.net/posts/parametric-nonparametric-robust-defensive/img/compare-light.png" 
+ width='800'
+ />
+ &lt;/a>
+ &lt;a class="img-dark hidden" href="https://aakinshin.net/posts/parametric-nonparametric-robust-defensive/img/compare-dark.png" target="_blank" alt="compare">
+ &lt;img
+ src="https://aakinshin.net/posts/parametric-nonparametric-robust-defensive/img/compare-dark.png" 
+ width='800'
+ />
+ &lt;/a>
+&lt;/div></description></item><item><title>Insidious implicit statistical assumptions</title><link>https://aakinshin.net/posts/insidious-assumptions/</link><pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/insidious-assumptions/</guid><description>&lt;p>Recently, I was rereading &lt;a href="https://aakinshin.net/library/papers/hampel1986/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#paper">&lt;/use>&lt;/svg>hampel1986&lt;/a>
+and I found this quote about the difference between robust and nonparametric statistics (page 9):&lt;/p>
+&lt;blockquote>
+&lt;p>Robust statistics considers the effects of only approximate fulfillment of assumptions,
+while nonparametric statistics makes rather weak but nevertheless strict assumptions
+(such as continuity of distribution or independence).&lt;/p>
+&lt;/blockquote>
+&lt;p>This statement may sound obvious.
+Unfortunately, facts that are presumably obvious in general are not always so obvious at the moment.
+When a researcher works with specific types of distributions for a long time,
+the properties of these distributions may be transformed into implicit assumptions.
+This implicitness can be pretty dangerous.
+If an assumption is explicitly declared,
+it can become a starting point for a discussion on how to handle violations of this assumption.
+The implicit assumptions are hidden and
+therefore conceal potential issues in cases when the collected data do not meet our expectations.&lt;/p>
+&lt;p>A switch from parametric to nonparametric methods is sometimes perceived as a rejection of all assumptions.
+Such a perception can be hazardous.
+While the original parametric assumption is actually neglected,
+many researchers continue to act like the implicit consequences of this assumption are still valid.&lt;/p>
+&lt;p>Since normality is the most popular parametric assumption,
+I would like to briefly discuss connected implicit assumptions
+that are often perceived not as non-validated hypotheses, but as essential properties of the collected data.&lt;/p></description></item><item><title>Introducing the defensive statistics</title><link>https://aakinshin.net/posts/defensive-statistics-intro/</link><pubDate>Tue, 13 Jun 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/defensive-statistics-intro/</guid><description>&lt;blockquote>
+&lt;p>Normal or approximately normal subjects are less useful objects of research than their pathological counterparts.&lt;/p>
+&lt;p>&amp;mdash; Sigmund Freud, &amp;ldquo;The Psychopathology of Everyday Life&amp;rdquo;&lt;/p>
+&lt;/blockquote>
+&lt;p>In the realm of software development, reliability is crucial.
+This is especially true when creating systems
+that automatically analyze performance measurements to maintain optimal application performance.
+To achieve the desired level of reliability, we need a set of statistical approaches
+that provide accurate and trustworthy results.
+These approaches must work even when faced with varying input data sets and multiple violated assumptions,
+including malformed and corrupted values.
+In this blog post, I introduce &amp;ldquo;Defensive Statistics&amp;rdquo; as an appropriate methodology for tackling this challenge.&lt;/p></description></item></channel></rss>

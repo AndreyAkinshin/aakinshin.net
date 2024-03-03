@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Coverage on Andrey Akinshin</title><link>https://aakinshin.net/tags/coverage/</link><description>Recent content in Coverage on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 13 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/coverage/index.xml" rel="self" type="application/rss+xml"/><item><title>Estimating quantile confidence intervals: Maritz-Jarrett vs. jackknife</title><link>https://aakinshin.net/posts/maritz-jarrett-vs-jackknife/</link><pubDate>Tue, 13 Jul 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/maritz-jarrett-vs-jackknife/</guid><description>&lt;p>When it comes to estimating quantiles of the given sample,
+my estimator of choice is the Harrell-Davis quantile estimator
+(to be more specific, its &lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">trimmed version&lt;/a>).
+If I need to get a confidence interval for the obtained quantiles,
+I use the &lt;a href="https://aakinshin.net/posts/weighted-quantiles-ci/#the-maritz-jarrett-method">Maritz-Jarrett method&lt;/a>
+because it provides a &lt;a href="https://aakinshin.net/posts/quantile-ci-coverage/">decent coverage percentage&lt;/a>.
+Both approaches work pretty nicely together.&lt;/p>
+&lt;p>However, in the original paper by &lt;a href="https://doi.org/10.2307/2335999">Harrell and Davis (1982)&lt;/a>,
+the authors suggest using the jackknife variance estimator in order to get the confidence intervals.
+The obvious question here is which approach better: the Maritz-Jarrett method or the jackknife estimator?
+In this post, I perform a numerical simulation that compares both techniques using different distributions.&lt;/p></description></item><item><title>Coverage of quantile confidence intervals</title><link>https://aakinshin.net/posts/quantile-ci-coverage/</link><pubDate>Tue, 22 Dec 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/quantile-ci-coverage/</guid><description>&lt;p>There is a common &lt;a href="https://en.wikipedia.org/wiki/Confidence_interval#Misunderstandings">misunderstanding&lt;/a>
+that a 95% confidence interval is an interval that covers the true parameter value with 95% probability.
+Meanwhile, the correct definition assumes that
+the true parameter value will be covered by 95% of 95% confidence intervals &lt;em>in the long run&lt;/em>.
+These two statements sound similar, but there is a huge difference between them.
+95% in this context is not a property of a single confidence interval.
+Once you get a calculated interval, it may cover the true value (100% probability) or
+it may don&amp;rsquo;t cover it (0% probability).
+In fact, 95% is a &lt;em>prediction&lt;/em> about the percentage of &lt;em>future&lt;/em> confidence intervals
+that cover the true value &lt;em>in the long run&lt;/em>.&lt;/p>
+&lt;p>However, even if you know the correct definition, you still may experience some troubles.
+The first thing people usually forgot is the &amp;ldquo;long run&amp;rdquo; part.
+For example, if we collected 100 samples and calculated a 95% confidence interval of a parameter for each of them,
+we shouldn&amp;rsquo;t expect that 95 of these intervals cover the true parameter value.
+In fact, we can observe a situation when none of these intervals covers the true value.
+Of course, this is an unlikely event, but if you automatically perform thousands of different experiments,
+you will definitely get some extreme situations.&lt;/p>
+&lt;p>The second thing that may create trouble is the &amp;ldquo;prediction&amp;rdquo; part.
+If weather forecasters predicted that it will rain tomorrow, this does not mean that it will rain tomorrow.
+The same works for statistical predictions.
+The actual prediction reliability may depend on many factors.
+If you estimate confidence intervals around the mean for the normal distribution, you are most likely safe.
+However, if you estimate confidence intervals around quantiles for non-parametric distributions,
+you should care about the following things:&lt;/p>
+&lt;ul>
+&lt;li>The used approach to estimate confidence intervals&lt;/li>
+&lt;li>The underlying distribution&lt;/li>
+&lt;li>The sample size&lt;/li>
+&lt;li>The position of the target quantile&lt;/li>
+&lt;/ul>
+&lt;p>I &lt;a href="https://aakinshin.net/posts/weighted-quantiles-ci/">have already showed&lt;/a> how to estimate
+the confidence interval around the given quantile using the Maritz-Jarrett method.
+It&amp;rsquo;s time to verify the reliability of this approach.
+In this post, I&amp;rsquo;m going to show some Monte-Carlo simulations that evaluate the coverage percentage in different situations.&lt;/p></description></item></channel></rss>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Paper announcement on Andrey Akinshin</title><link>https://aakinshin.net/tags/paper-announcement/</link><description>Recent content in Paper announcement on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 18 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/paper-announcement/index.xml" rel="self" type="application/rss+xml"/><item><title>Preprint announcement: 'Weighted quantile estimators'</title><link>https://aakinshin.net/posts/preprint-wqe/</link><pubDate>Tue, 18 Apr 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/preprint-wqe/</guid><description>&lt;p>I have just published a preprint of a paper &amp;lsquo;Weighted quantile estimators&amp;rsquo;.
+It&amp;rsquo;s based on a series of my &lt;a href="https://aakinshin.net/tags/research-wqe/">research notes&lt;/a> that I have been writing since September 2020.&lt;/p>
+&lt;p>The paper preprint is available on arXiv:
+&lt;a href="https://arxiv.org/abs/2304.07265">arXiv:2304.07265 [stat.ME]&lt;/a>.
+The paper source code is available on GitHub:
+&lt;a href="https://github.com/AndreyAkinshin/paper-wqe">AndreyAkinshin/paper-wqe&lt;/a>.
+You can cite it as follows:&lt;/p>
+&lt;ul>
+&lt;li>Andrey Akinshin (2023)
+&amp;ldquo;Weighted quantile estimators&amp;rdquo;
+&lt;a href="https://arxiv.org/abs/2304.07265">arXiv:2304.07265&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Abstract:&lt;/p>
+&lt;blockquote>
+&lt;p>In this paper, we consider a generic scheme that allows building weighted versions of various quantile estimators,
+such as traditional quantile estimators based on linear interpolation of two order statistics,
+the Harrell-Davis quantile estimator and its trimmed modification.
+The obtained weighted quantile estimators are especially useful
+in the problem of estimating a distribution at the tail of a time series using quantile exponential smoothing.
+The presented approach can also be applied to other problems,
+such as quantile estimation of weighted mixture distributions.&lt;/p>
+&lt;/blockquote></description></item><item><title>Preprint announcement: 'Finite-sample Rousseeuw-Croux scale estimators'</title><link>https://aakinshin.net/posts/preprint-frc/</link><pubDate>Tue, 18 Oct 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/preprint-frc/</guid><description>&lt;p>Recently, I published a preprint of a paper &amp;lsquo;Finite-sample Rousseeuw-Croux scale estimators&amp;rsquo;.
+It&amp;rsquo;s based on a series of my &lt;a href="https://aakinshin.net/tags/research-frc/">research notes&lt;/a>.&lt;/p>
+&lt;p>The paper preprint is available on arXiv:
+&lt;a href="https://arxiv.org/abs/2209.12268">arXiv:2209.12268 [stat.ME]&lt;/a>.
+The paper source code is available on GitHub:
+&lt;a href="https://github.com/AndreyAkinshin/paper-frc">AndreyAkinshin/paper-frc&lt;/a>.
+You can cite it as follows:&lt;/p>
+&lt;ul>
+&lt;li>Andrey Akinshin (2022)
+&amp;ldquo;Finite-sample Rousseeuw-Croux scale estimators&amp;rdquo;
+&lt;a href="https://arxiv.org/abs/2209.12268">arXiv:2209.12268&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Abstract:&lt;/p>
+&lt;blockquote>
+&lt;p>The Rousseeuw-Croux $S_n$, $Q_n$ scale estimators and the median absolute deviation $\operatorname{MAD}_n$
+can be used as consistent estimators for the standard deviation under normality.
+All of them are highly robust: the breakdown point of all three estimators is $50\%$.
+However, $S_n$ and $Q_n$ are much more efficient than $\operatorname{MAD}_n$:
+their asymptotic Gaussian efficiency values are $58\%$ and $82\%$ respectively
+compared to $37\%$ for $\operatorname{MAD}_n$.
+Although these values look impressive, they are only asymptotic values.
+The actual Gaussian efficiency of $S_n$ and $Q_n$ for small sample sizes
+is noticeably lower than in the asymptotic case.&lt;/p>
+&lt;p>The original work by Rousseeuw and Croux (1993)
+provides only rough approximations of the finite-sample bias-correction factors for $S_n,\, Q_n$
+and brief notes on their finite-sample efficiency values.
+In this paper, we perform extensive Monte-Carlo simulations in order to obtain refined values of the
+finite-sample properties of the Rousseeuw-Croux scale estimators.
+We present accurate values of the bias-correction factors and Gaussian efficiency for small samples ($n \leq 100$)
+and prediction equations for samples of larger sizes.&lt;/p>
+&lt;/blockquote></description></item><item><title>Preprint announcement: 'Quantile absolute deviation'</title><link>https://aakinshin.net/posts/preprint-qad/</link><pubDate>Thu, 01 Sep 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/preprint-qad/</guid><description>&lt;p>I have just published a preprint of a paper &amp;lsquo;Quantile absolute deviation&amp;rsquo;.
+It&amp;rsquo;s based on a series of my &lt;a href="https://aakinshin.net/tags/research-qad/">research notes&lt;/a>
+that I have been writing since December 2020.&lt;/p>
+&lt;p>The paper preprint is available on arXiv:
+&lt;a href="https://arxiv.org/abs/2208.13459">arXiv:2208.13459 [stat.ME]&lt;/a>.
+The paper source code is available on GitHub:
+&lt;a href="https://github.com/AndreyAkinshin/paper-qad">AndreyAkinshin/paper-qad&lt;/a>.
+You can cite it as follows:&lt;/p>
+&lt;ul>
+&lt;li>Andrey Akinshin (2022)
+&amp;ldquo;Quantile absolute deviation&amp;rdquo;
+&lt;a href="https://arxiv.org/abs/2208.13459">arXiv:2208.13459&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Abstract:&lt;/p>
+&lt;blockquote>
+&lt;p>The median absolute deviation (MAD) is a popular robust measure of statistical dispersion.
+However, when it is applied to non-parametric distributions (especially multimodal, discrete, or heavy-tailed),
+lots of statistical inference issues arise.
+Even when it is applied to distributions with slight deviations from normality and these issues are not actual,
+the Gaussian efficiency of the MAD is only 37% which is not always enough.&lt;/p>
+&lt;p>In this paper, we introduce the &lt;em>quantile absolute deviation&lt;/em> (QAD) as a generalization of the MAD.
+This measure of dispersion provides a flexible approach to analyzing properties of non-parametric distributions.
+It also allows controlling the trade-off between robustness and statistical efficiency.
+We use the trimmed Harrell-Davis median estimator based on the highest density interval of the given width
+as a complimentary median estimator that gives
+increased finite-sample Gaussian efficiency compared to the sample median
+and a breakdown point matched to the QAD.&lt;/p>
+&lt;p>As a rule of thumb, we suggest using two new measures of dispersion
+called the &lt;em>standard QAD&lt;/em> and the &lt;em>optimal QAD&lt;/em>.
+They give 54% and 65% of Gaussian efficiency having breakdown points of 32% and 14% respectively.&lt;/p>
+&lt;/blockquote></description></item><item><title>Preprint announcement: 'Finite-sample bias-correction factors for the median absolute deviation based on the Harrell-Davis quantile estimator and its trimmed modification'</title><link>https://aakinshin.net/posts/preprint-mad-factors/</link><pubDate>Tue, 26 Jul 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/preprint-mad-factors/</guid><description>&lt;p>I have just published a preprint of a paper
+&amp;lsquo;Finite-sample bias-correction factors for the median absolute deviation based on the Harrell-Davis quantile estimator and its trimmed modification&amp;rsquo;.
+It&amp;rsquo;s based on a series of my &lt;a href="https://aakinshin.net/tags/research-unbiased-mad/">research notes&lt;/a>
+that I have been writing since February 2021.&lt;/p>
+&lt;p>The paper preprint is available on arXiv:
+&lt;a href="https://arxiv.org/abs/2207.12005">arXiv:2207.12005 [stat.ME]&lt;/a>.
+The paper source code is available on GitHub:
+&lt;a href="https://github.com/AndreyAkinshin/paper-mad-factors">AndreyAkinshin/paper-mad-factors&lt;/a>.
+You can cite it as follows:&lt;/p>
+&lt;ul>
+&lt;li>Andrey Akinshin (2022)
+&amp;ldquo;Finite-sample bias-correction factors for the median absolute deviation based on the Harrell-Davis quantile estimator and its trimmed modification,&amp;rdquo;
+&lt;a href="https://arxiv.org/abs/2207.12005">arXiv:2207.12005&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Abstract:&lt;/p>
+&lt;blockquote>
+&lt;p>The median absolute deviation is a widely used robust measure of statistical dispersion.
+Using a scale constant, we can use it as an asymptotically consistent estimator for the standard deviation under normality.
+For finite samples, the scale constant should be corrected in order to obtain an unbiased estimator.
+The bias-correction factor depends on the sample size and the median estimator.
+When we use the traditional sample median, the factor values are well known,
+but this approach does not provide optimal statistical efficiency.
+In this paper, we present the bias-correction factors for the median absolute deviation
+based on the Harrell-Davis quantile estimator and its trimmed modification
+which allow us to achieve better statistical efficiency of the standard deviation estimations.
+The obtained estimators are especially useful for samples with a small number of elements.&lt;/p>
+&lt;/blockquote></description></item><item><title>Publication announcement: 'Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width'</title><link>https://aakinshin.net/posts/pub-thdqe/</link><pubDate>Tue, 22 Mar 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/pub-thdqe/</guid><description>&lt;p>Since the beginning of previous year, I have been working on building a quantile estimator
+that provides an optimal trade-off between statistical efficiency and robustness.
+At the end of the year, I &lt;a href="https://aakinshin.net/posts/preprint-thdqe/">published&lt;/a> the corresponding preprint
+where I presented a description of such an estimator:
+&lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.
+The paper source code is available on GitHub:
+&lt;a href="https://github.com/AndreyAkinshin/paper-thdqe">AndreyAkinshin/paper-thdqe&lt;/a>.&lt;/p>
+&lt;p>Finally, the paper was published in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em>.
+You can cite it as follows:&lt;/p>
+&lt;ul>
+&lt;li>Andrey Akinshin (2022)
+&lt;em>Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width,&lt;/em>
+Communications in Statistics - Simulation and Computation,
+DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>&lt;/li>
+&lt;/ul></description></item><item><title>Preprint announcement: 'Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width'</title><link>https://aakinshin.net/posts/preprint-thdqe/</link><pubDate>Tue, 30 Nov 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/preprint-thdqe/</guid><description>&lt;p>&lt;strong>Update: the &lt;a href="https://aakinshin.net/posts/pub-thdqe/">final paper&lt;/a> was published in &lt;em>Communications in Statistics - Simulation and Computation&lt;/em> (DOI: &lt;a href="https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396">10.1080/03610918.2022.2050396&lt;/a>).&lt;/strong>&lt;/p>
+&lt;p>Since the beginning of this year, I have been working on building a quantile estimator
+that provides an optimal trade-off between statistical efficiency and robustness.
+Finally, I have built such an estimator.
+A paper preprint is available on arXiv:
+&lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776 [stat.ME]&lt;/a>.
+The paper source code is available on GitHub:
+&lt;a href="https://github.com/AndreyAkinshin/paper-thdqe">AndreyAkinshin/paper-thdqe&lt;/a>.
+You can cite it as follows:&lt;/p>
+&lt;ul>
+&lt;li>Andrey Akinshin (2021)
+Trimmed Harrell-Davis quantile estimator based on the highest density interval of the given width,
+&lt;a href="https://arxiv.org/abs/2111.11776">arXiv:2111.11776&lt;/a>&lt;/li>
+&lt;/ul></description></item></channel></rss>

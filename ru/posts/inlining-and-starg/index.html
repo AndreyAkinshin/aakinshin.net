@@ -1,0 +1,298 @@
+<!doctype html><html lang=ru><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.123.7"><meta name=author content='Андрей Акиньшин'><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content='.NET,C#,Inlining'><title>История про инлайнинг под JIT-x86 и starg | Андрей Акиньшин</title>
+<meta name=description content="Порой можно узнать много интересного во время чтения исходников .NET. Взглянем на конструктор типа Decimal из .NET Reference Source (mscorlib/system/decimal.cs,158):
+// Constructs a Decimal from an integer value. // public Decimal(int value) { // JIT today ..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><script>localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")</script><link href=https://aakinshin.net/css/main.min.d6826f88345af20c0769a313557ec1355465a3091b1f9869b936f2504c4dfe26.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/ru/posts/index.xml title="RSS Feed"></head><body class="flex flex-col min-h-screen"><nav><div class="container flex flex-wrap items-center justify-between mx-auto max-w-6xl h-12 px-2 xs:px-6"><div class="flex items-center justify-start justify-self-start"><div class="flex nav-item h-12 w-12 items-center justify-center"><a class=text-white href=https://aakinshin.net/ru/about/><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/ru/posts/>Посты</a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/ru/about/>Об авторе</a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/posts/inlining-and-starg/>EN</a></div><div class="flex nav-item h-12 items-center"><a class=text-white href><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#magnifying-glass"/></svg></a></div></div><button id=theme-toggle type=button title="Alt+Click to match OS color theme" class="nav-item p-3 content-center justify-self-end"><svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001.0 1010.586 10.586z"/></svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1A1 1 0 119 4V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707A1 1 0 1113.536 5.05l.707-.707a1 1 0 011.414.0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707A1 1 0 004.343 5.757l.707.707zm1.414 8.486-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"/></svg></button></div></nav><div class="main container mx-auto max-w-6xl px-6 flex-grow"><div class=main-post><h1 class=blog-post-title id=post-title>История про инлайнинг под JIT-x86 и starg</h1><div class="flex flex-wrap justify-start items-center"><svg class="fai text-accent-l dark:text-front-d"><title>Date</title><use xlink:href="/img/fa/all.svg#calendar-days"/></svg>
+<time datetime=2015-02-26>26 февраля 2015</time><svg class="fai ml-3 text-accent-l dark:text-front-d"><title>Tags</title><use xlink:href="/img/fa/all.svg#tag"/></svg><div class="flex flex-wrap gap-y-1"><a class=label-link href=https://aakinshin.net/ru/tags/dotnet/>.NET
+</a><a class=label-link href=https://aakinshin.net/ru/tags/cs/>C#
+</a><a class=label-link href=https://aakinshin.net/ru/tags/inlining/>Inlining</a></div></div><br><div class=main-content><p>Порой можно узнать много интересного во время чтения исходников .NET. Взглянем на конструктор типа <code>Decimal</code> из .NET Reference Source (<a href=http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158>mscorlib/system/decimal.cs,158</a>):</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=c1>// Constructs a Decimal from an integer value.</span>
+</span></span><span class=line><span class=cl><span class=p>//</span>
+</span></span><span class=line><span class=cl><span class=kd>public</span> <span class=n>Decimal</span><span class=p>(</span><span class=kt>int</span> <span class=k>value</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>//  JIT today can&#39;t inline methods that contains &#34;starg&#34; opcode.</span>
+</span></span><span class=line><span class=cl>    <span class=c1>//  For more details, see DevDiv Bugs 81184: x86 JIT CQ: Removing the inline striction of &#34;starg&#34;.</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>value_copy</span> <span class=p>=</span> <span class=k>value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>value_copy</span> <span class=p>&gt;=</span> <span class=m>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>flags</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>flags</span> <span class=p>=</span> <span class=n>SignMask</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>value_copy</span> <span class=p>=</span> <span class=p>-</span><span class=n>value_copy</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>lo</span> <span class=p>=</span> <span class=n>value_copy</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>mid</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>hi</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>В комментарии сказано, что если метод содержит IL-опкод <a href=https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx>starg</a>, то он не может быть заинлайнен под x86. Любопытно, не правда ли?</p><h3 id=исходники-jit>Исходники JIT</h3><p>Давайте разберёмся в ситуации. Заглянем в исходники JIT из CoreCLR. Фрагмент файла <a href=https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252>flowgraph.cpp</a></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=c1>// NetCF had some strict restrictions on inlining.  Specifically they</span>
+</span></span><span class=line><span class=cl><span class=c1>// would only inline methods that fit a specific pattern of loading</span>
+</span></span><span class=line><span class=cl><span class=c1>// arguments inorder, starting with zero, with no skipping, but not</span>
+</span></span><span class=line><span class=cl><span class=c1>// needing to load all of them.  Then a &#39;body&#39; section that could do</span>
+</span></span><span class=line><span class=cl><span class=c1>// anything besides control flow.  And a final ending ret opcode.</span>
+</span></span><span class=line><span class=cl><span class=c1>// Lastly they did not allow starg or ldarga.</span>
+</span></span><span class=line><span class=cl><span class=c1>// These simplifications allowed them to skip past the ldargs, when</span>
+</span></span><span class=line><span class=cl><span class=c1>// inlining, and just use the caller&#39;s EE stack as the callee&#39;s EE</span>
+</span></span><span class=line><span class=cl><span class=c1>// stack, after optionally popping a few &#39;arguments&#39; from the end.</span>
+</span></span><span class=line><span class=cl><span class=p>//</span>
+</span></span><span class=line><span class=cl><span class=c1>// stateNetCFQuirks is a simple state machine to track that state</span>
+</span></span><span class=line><span class=cl><span class=c1>// and allow us to match those restrictions.</span>
+</span></span><span class=line><span class=cl><span class=c1>// State -1 means we&#39;re not tracking (no quirks mode)</span>
+</span></span><span class=line><span class=cl><span class=c1>// State 0 though 0x0000FFFF tracks what the *next* ldarg should be</span>
+</span></span><span class=line><span class=cl><span class=c1>//    to match the pattern</span>
+</span></span><span class=line><span class=cl><span class=c1>// State 0x00010000 and above means we are in the &#39;body&#39; section and</span>
+</span></span><span class=line><span class=cl><span class=c1>//    thus no more ldarg&#39;s are allowed.</span>
+</span></span></code></pre></div><p>Комментарий гласит, что если метод содержит IL-команду <code>starg</code> или <code>ldarga</code>, то инлайнинг не выполнится. Почитаем код и убедимся, что это действительно так. Вскоре после комментария происходит выбор опкода:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>switch</span> <span class=p>(</span><span class=n>opcode</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// ...
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=nl>CEE_STARG</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=nl>CEE_STARG_S</span><span class=p>:</span>     <span class=k>goto</span> <span class=n>ARG_WRITE</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=nl>CEE_LDARGA</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=nl>CEE_LDARGA_S</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=nl>CEE_LDLOCA</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=nl>CEE_LDLOCA_S</span><span class=p>:</span>    <span class=k>goto</span> <span class=n>ADDR_TAKEN</span><span class=p>;</span>
+</span></span></code></pre></div><p>Случай с командой <code>starg</code> попроще, взглянем на него более внимательно:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=nl>ARG_WRITE</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>compIsForInlining</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=cp>#ifdef DEBUG
+</span></span></span><span class=line><span class=cl><span class=cp></span>                <span class=k>if</span> <span class=p>(</span><span class=n>verbose</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=p>{</span>
+</span></span><span class=line><span class=cl>                    <span class=n>printf</span><span class=p>(</span><span class=s>&#34;</span><span class=se>\n\n</span><span class=s>Inline expansion aborted due to opcode at offset [%02u] which writes to an argument</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                           <span class=n>codeAddr</span><span class=o>-</span><span class=n>codeBegp</span><span class=o>-</span><span class=mi>1</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=cp>#endif
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl>                <span class=cm>/* The inliner keeps the args as trees and clones them.  Storing the arguments breaks that
+</span></span></span><span class=line><span class=cl><span class=cm>                 * simplification.  To allow this, flag the argument as written to and spill it before
+</span></span></span><span class=line><span class=cl><span class=cm>                 * inlining.  That way the STARG in the inlinee is trivial. */</span>
+</span></span><span class=line><span class=cl>                <span class=n>inlineFailReason</span> <span class=o>=</span> <span class=s>&#34;Inlinee writes to an argument.&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=k>goto</span> <span class=n>InlineNever</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=k>else</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>noway_assert</span><span class=p>(</span><span class=n>sz</span> <span class=o>==</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>BYTE</span><span class=p>)</span> <span class=o>||</span> <span class=n>sz</span> <span class=o>==</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>WORD</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>                <span class=k>if</span> <span class=p>(</span><span class=n>codeAddr</span> <span class=o>&gt;</span> <span class=n>codeEndp</span> <span class=o>-</span> <span class=n>sz</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                <span class=k>goto</span> <span class=n>TOO_FAR</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>varNum</span> <span class=o>=</span> <span class=p>(</span><span class=n>sz</span> <span class=o>==</span> <span class=k>sizeof</span><span class=p>(</span><span class=n>BYTE</span><span class=p>))</span> <span class=o>?</span> <span class=n>getU1LittleEndian</span><span class=p>(</span><span class=n>codeAddr</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                                              <span class=o>:</span> <span class=n>getU2LittleEndian</span><span class=p>(</span><span class=n>codeAddr</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>                <span class=n>varNum</span> <span class=o>=</span> <span class=n>compMapILargNum</span><span class=p>(</span><span class=n>varNum</span><span class=p>);</span> <span class=c1>// account for possible hidden param
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl>                <span class=c1>// This check is only intended to prevent an AV.  Bad varNum values will later
+</span></span></span><span class=line><span class=cl><span class=c1></span>                <span class=c1>// be handled properly by the verifier.
+</span></span></span><span class=line><span class=cl><span class=c1></span>                <span class=k>if</span> <span class=p>(</span><span class=n>varNum</span> <span class=o>&lt;</span> <span class=n>lvaTableCnt</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>                    <span class=n>lvaTable</span><span class=p>[</span><span class=n>varNum</span><span class=p>].</span><span class=n>lvArgWrite</span> <span class=o>=</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=k>break</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span></code></pre></div><p>Действительно, всё выглядит так, что для опкода <code>starg</code> в конечном итоге выполнится <code>goto InlineNever</code>. В <code>DEBUG</code>-режиме мы также получим сообщение, что процесс инлайнинга был прерван.</p><p>Эта «фича» используется в других местах JIT-а. Взглянем на фрагмент файла <a href=https://raw.githubusercontent.com/dotnet/coreclr/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/importer.cpp>importer.cpp</a>:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=cm>/******************************************************************************
+</span></span></span><span class=line><span class=cl><span class=cm> Is this the original &#34;this&#34; argument to the call being inlined?
+</span></span></span><span class=line><span class=cl><span class=cm> 
+</span></span></span><span class=line><span class=cl><span class=cm> Note that we do not inline methods with &#34;starg 0&#34;, and so we do not need to
+</span></span></span><span class=line><span class=cl><span class=cm> worry about it.
+</span></span></span><span class=line><span class=cl><span class=cm>*/</span>
+</span></span></code></pre></div><h3 id=смотрим-на-decimal>Смотрим на Decimal</h3><p>Вернёмся к нашему конструктору класса <code>Decimal</code>, убедимся, что копирование параметра <code>value</code> в локальную переменную действительно помогает. Вооружимся <a href=http://ilspy.net/>ILSpy</a> и взглянем на IL-код нашего конструктора:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>// Methods
+</span></span><span class=line><span class=cl>.method public hidebysig specialname rtspecialname 
+</span></span><span class=line><span class=cl>  instance void .ctor (
+</span></span><span class=line><span class=cl>    int32 &#39;value&#39;
+</span></span><span class=line><span class=cl>  ) cil managed 
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>  .custom instance void __DynamicallyInvokableAttribute::.ctor() = (
+</span></span><span class=line><span class=cl>    01 00 00 00
+</span></span><span class=line><span class=cl>  )
+</span></span><span class=line><span class=cl>  // Method begins at RVA 0x222e8
+</span></span><span class=line><span class=cl>  // Code size 51 (0x33)
+</span></span><span class=line><span class=cl>  .maxstack 2
+</span></span><span class=line><span class=cl>  .locals init (
+</span></span><span class=line><span class=cl>    [0] int32
+</span></span><span class=line><span class=cl>  )
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  IL_0000: ldarg.1
+</span></span><span class=line><span class=cl>  IL_0001: stloc.0
+</span></span><span class=line><span class=cl>  IL_0002: ldloc.0
+</span></span><span class=line><span class=cl>  IL_0003: ldc.i4.0
+</span></span><span class=line><span class=cl>  IL_0004: blt.s IL_000f
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  IL_0006: ldarg.0
+</span></span><span class=line><span class=cl>  IL_0007: ldc.i4.0
+</span></span><span class=line><span class=cl>  IL_0008: stfld int32 System.Decimal::&#39;flags&#39;
+</span></span><span class=line><span class=cl>  IL_000d: br.s IL_001d
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  IL_000f: ldarg.0
+</span></span><span class=line><span class=cl>  IL_0010: ldc.i4 -2147483648
+</span></span><span class=line><span class=cl>  IL_0015: stfld int32 System.Decimal::&#39;flags&#39;
+</span></span><span class=line><span class=cl>  IL_001a: ldloc.0
+</span></span><span class=line><span class=cl>  IL_001b: neg
+</span></span><span class=line><span class=cl>  IL_001c: stloc.0
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  IL_001d: ldarg.0
+</span></span><span class=line><span class=cl>  IL_001e: ldloc.0
+</span></span><span class=line><span class=cl>  IL_001f: stfld int32 System.Decimal::lo
+</span></span><span class=line><span class=cl>  IL_0024: ldarg.0
+</span></span><span class=line><span class=cl>  IL_0025: ldc.i4.0
+</span></span><span class=line><span class=cl>  IL_0026: stfld int32 System.Decimal::mid
+</span></span><span class=line><span class=cl>  IL_002b: ldarg.0
+</span></span><span class=line><span class=cl>  IL_002c: ldc.i4.0
+</span></span><span class=line><span class=cl>  IL_002d: stfld int32 System.Decimal::hi
+</span></span><span class=line><span class=cl>  IL_0032: ret
+</span></span><span class=line><span class=cl>} // end of method Decimal::.ctor
+</span></span></code></pre></div><p>А что было бы, если бы мы не скопировали <code>value</code> в локальную переменную? Давайте проверим. Напишем простой код:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>class</span> <span class=nc>MyDecimal</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kd>private</span> <span class=kd>const</span> <span class=kt>int</span> <span class=n>SignMask</span>  <span class=p>=</span> <span class=k>unchecked</span><span class=p>((</span><span class=kt>int</span><span class=p>)</span><span class=m>0x80000000</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=kd>private</span> <span class=kt>int</span> <span class=n>flags</span><span class=p>,</span> <span class=n>hi</span><span class=p>,</span> <span class=n>lo</span><span class=p>,</span> <span class=n>mid</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=kd>public</span> <span class=n>MyDecimal</span><span class=p>(</span><span class=kt>int</span> <span class=k>value</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=k>value</span> <span class=p>&gt;=</span> <span class=m>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>flags</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>flags</span> <span class=p>=</span> <span class=n>SignMask</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>value</span> <span class=p>=</span> <span class=p>-</span><span class=k>value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>lo</span> <span class=p>=</span> <span class=k>value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>mid</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>hi</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Program</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=kd>static</span> <span class=k>void</span> <span class=n>Main</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>  <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Скомпилируем его:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>&gt;csc Program.cs /optimize
+</span></span><span class=line><span class=cl>Microsoft (R) Visual C# Compiler version 4.0.30319.33440
+</span></span><span class=line><span class=cl>for Microsoft (R) .NET Framework 4.5
+</span></span><span class=line><span class=cl>Copyright (C) Microsoft Corporation. All rights reserved.
+</span></span></code></pre></div><p>И взглянем на IL:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-txt data-lang=txt><span class=line><span class=cl>.class private auto ansi beforefieldinit MyDecimal
+</span></span><span class=line><span class=cl>  extends [mscorlib]System.Object
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>  // Fields
+</span></span><span class=line><span class=cl>  .field private static literal int32 SignMask = int32(-2147483648)
+</span></span><span class=line><span class=cl>  .field private int32 &#39;flags&#39;
+</span></span><span class=line><span class=cl>  .field private int32 hi
+</span></span><span class=line><span class=cl>  .field private int32 lo
+</span></span><span class=line><span class=cl>  .field private int32 mid
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  // Methods
+</span></span><span class=line><span class=cl>  .method public hidebysig specialname rtspecialname 
+</span></span><span class=line><span class=cl>    instance void .ctor (
+</span></span><span class=line><span class=cl>      int32 &#39;value&#39;
+</span></span><span class=line><span class=cl>    ) cil managed 
+</span></span><span class=line><span class=cl>  {
+</span></span><span class=line><span class=cl>    // Method begins at RVA 0x2050
+</span></span><span class=line><span class=cl>    // Code size 56 (0x38)
+</span></span><span class=line><span class=cl>    .maxstack 8
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    IL_0000: ldarg.0
+</span></span><span class=line><span class=cl>    IL_0001: call instance void [mscorlib]System.Object::.ctor()
+</span></span><span class=line><span class=cl>    IL_0006: ldarg.1
+</span></span><span class=line><span class=cl>    IL_0007: ldc.i4.0
+</span></span><span class=line><span class=cl>    IL_0008: blt.s IL_0013
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    IL_000a: ldarg.0
+</span></span><span class=line><span class=cl>    IL_000b: ldc.i4.0
+</span></span><span class=line><span class=cl>    IL_000c: stfld int32 MyDecimal::&#39;flags&#39;
+</span></span><span class=line><span class=cl>    IL_0011: br.s IL_0022
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    IL_0013: ldarg.0
+</span></span><span class=line><span class=cl>    IL_0014: ldc.i4 -2147483648
+</span></span><span class=line><span class=cl>    IL_0019: stfld int32 MyDecimal::&#39;flags&#39;
+</span></span><span class=line><span class=cl>    IL_001e: ldarg.1
+</span></span><span class=line><span class=cl>    IL_001f: neg
+</span></span><span class=line><span class=cl>    IL_0020: starg.s &#39;value&#39;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    IL_0022: ldarg.0
+</span></span><span class=line><span class=cl>    IL_0023: ldarg.1
+</span></span><span class=line><span class=cl>    IL_0024: stfld int32 MyDecimal::lo
+</span></span><span class=line><span class=cl>    IL_0029: ldarg.0
+</span></span><span class=line><span class=cl>    IL_002a: ldc.i4.0
+</span></span><span class=line><span class=cl>    IL_002b: stfld int32 MyDecimal::mid
+</span></span><span class=line><span class=cl>    IL_0030: ldarg.0
+</span></span><span class=line><span class=cl>    IL_0031: ldc.i4.0
+</span></span><span class=line><span class=cl>    IL_0032: stfld int32 MyDecimal::hi
+</span></span><span class=line><span class=cl>    IL_0037: ret
+</span></span><span class=line><span class=cl>  } // end of method MyDecimal::.ctor
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>} // end of class MyDecimal
+</span></span></code></pre></div><p>Как мы видим, в строчке <code>IL_0020</code> действительно вызывается команда <code>starg.a</code>. Подобный приём используется также в конструкторе, который принимает аргумент типа <code>long</code>:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=c1>// Constructs a Decimal from a long value.</span>
+</span></span><span class=line><span class=cl><span class=p>//</span>
+</span></span><span class=line><span class=cl><span class=kd>public</span> <span class=n>Decimal</span><span class=p>(</span><span class=kt>long</span> <span class=k>value</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>//  JIT today can&#39;t inline methods that contains &#34;starg&#34; opcode.</span>
+</span></span><span class=line><span class=cl>    <span class=c1>//  For more details, see DevDiv Bugs 81184: x86 JIT CQ: Removing the inline striction of &#34;starg&#34;.</span>
+</span></span><span class=line><span class=cl>    <span class=kt>long</span> <span class=n>value_copy</span> <span class=p>=</span> <span class=k>value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>value_copy</span> <span class=p>&gt;=</span> <span class=m>0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>flags</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>flags</span> <span class=p>=</span> <span class=n>SignMask</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>value_copy</span> <span class=p>=</span> <span class=p>-</span><span class=n>value_copy</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>lo</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)</span><span class=n>value_copy</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>mid</span> <span class=p>=</span> <span class=p>(</span><span class=kt>int</span><span class=p>)(</span><span class=n>value_copy</span> <span class=p>&gt;&gt;</span> <span class=m>32</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>hi</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h3 id=проверяем-возможности-jit>Проверяем возможности JIT</h3><p>Для полноты исследования осталось убедиться, что JIT действительно себя ведёт именно так. Напишем простой код для проверки:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=k>using</span> <span class=nn>System</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>using</span> <span class=nn>System.Runtime.CompilerServices</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>Program</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>static</span> <span class=k>void</span> <span class=n>Main</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kt>var</span> <span class=k>value</span> <span class=p>=</span> <span class=m>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>value</span> <span class=p>+=</span> <span class=n>SimpleMethod</span><span class=p>(</span><span class=m>0x11</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>value</span> <span class=p>+=</span> <span class=n>MethodWithStarg</span><span class=p>(</span><span class=m>0x12</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=k>value</span> <span class=p>+=</span> <span class=n>MethodWithStargAggressive</span><span class=p>(</span><span class=m>0x13</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=n>Console</span><span class=p>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=k>value</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>static</span> <span class=kt>int</span> <span class=n>SimpleMethod</span><span class=p>(</span><span class=kt>int</span> <span class=k>value</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>static</span> <span class=kt>int</span> <span class=n>MethodWithStarg</span><span class=p>(</span><span class=kt>int</span> <span class=k>value</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=k>value</span> <span class=p>&lt;</span> <span class=m>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>value</span> <span class=p>=</span> <span class=p>-</span><span class=k>value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=na>
+</span></span></span><span class=line><span class=cl><span class=na>    [MethodImpl(MethodImplOptions.AggressiveInlining)]</span>
+</span></span><span class=line><span class=cl>    <span class=kd>static</span> <span class=kt>int</span> <span class=n>MethodWithStargAggressive</span><span class=p>(</span><span class=kt>int</span> <span class=k>value</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=k>value</span> <span class=p>&lt;</span> <span class=m>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>value</span> <span class=p>=</span> <span class=p>-</span><span class=k>value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=k>value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Метод <code>SimpleMethod</code> очень маленький и будет заинлайнен. Метод <code>MethodWithStarg</code> имеет следующее IL-представление:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cs data-lang=cs><span class=line><span class=cl><span class=p>.</span><span class=n>method</span> <span class=kd>private</span> <span class=n>hidebysig</span> <span class=kd>static</span> 
+</span></span><span class=line><span class=cl>  <span class=n>int32</span> <span class=n>MethodWithStarg</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>int32</span> <span class=err>&#39;</span><span class=k>value</span><span class=err>&#39;</span>
+</span></span><span class=line><span class=cl>  <span class=p>)</span> <span class=n>cil</span> <span class=n>managed</span> 
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// Method begins at RVA 0x2086</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// Code size 10 (0xa)</span>
+</span></span><span class=line><span class=cl>  <span class=p>.</span><span class=n>maxstack</span> <span class=m>8</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>IL_0000</span><span class=p>:</span> <span class=n>ldarg</span><span class=p>.</span><span class=m>0</span>
+</span></span><span class=line><span class=cl>  <span class=n>IL_0001</span><span class=p>:</span> <span class=n>ldc</span><span class=p>.</span><span class=n>i4</span><span class=p>.</span><span class=m>0</span>
+</span></span><span class=line><span class=cl>  <span class=n>IL_0002</span><span class=p>:</span> <span class=n>bge</span><span class=p>.</span><span class=n>s</span> <span class=n>IL_0008</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>IL_0004</span><span class=p>:</span> <span class=n>ldarg</span><span class=p>.</span><span class=m>0</span>
+</span></span><span class=line><span class=cl>  <span class=n>IL_0005</span><span class=p>:</span> <span class=n>neg</span>
+</span></span><span class=line><span class=cl>  <span class=n>IL_0006</span><span class=p>:</span> <span class=n>starg</span><span class=p>.</span><span class=n>s</span> <span class=err>&#39;</span><span class=k>value</span><span class=err>&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>IL_0008</span><span class=p>:</span> <span class=n>ldarg</span><span class=p>.</span><span class=m>0</span>
+</span></span><span class=line><span class=cl>  <span class=n>IL_0009</span><span class=p>:</span> <span class=n>ret</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=c1>// end of method Program::MethodWithStarg</span>
+</span></span></code></pre></div><p>Данный код в строчке <code>IL_0006</code> содержит интересующую нас команду <code>starg.s</code>. Метод <code>MethodWithStargAggressive</code> имеет аналогичный код с той лишь разнице, что для него указан атрибут <code>[MethodImpl(MethodImplOptions.AggressiveInlining)]</code>. Взглянем на ассемблерный код под x86:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-asm data-lang=asm><span class=line><span class=cl><span class=err>008</span><span class=nf>A0050</span>  <span class=no>push</span>        <span class=no>ebp</span>  
+</span></span><span class=line><span class=cl><span class=mi>008</span><span class=no>A0051</span>  <span class=no>mov</span>         <span class=no>ebp</span><span class=p>,</span><span class=no>esp</span>  
+</span></span><span class=line><span class=cl><span class=mi>008</span><span class=no>A0053</span>  <span class=no>push</span>        <span class=no>esi</span>  
+</span></span><span class=line><span class=cl><span class=mi>008</span><span class=no>A0054</span>  <span class=no>mov</span>         <span class=no>ecx</span><span class=p>,</span><span class=mi>12</span><span class=no>h</span>  
+</span></span><span class=line><span class=cl><span class=mi>008</span><span class=no>A0059</span>  <span class=no>call</span>        <span class=no>dword</span> <span class=no>ptr</span> <span class=no>ds</span><span class=p>:[</span><span class=mi>7237</span><span class=no>BCh</span><span class=p>]</span>  <span class=c1>// MethodWithStarg
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=err>008</span><span class=nf>A005F</span>  <span class=no>add</span>         <span class=no>eax</span><span class=p>,</span><span class=mi>11</span><span class=no>h</span>  
+</span></span><span class=line><span class=cl><span class=mi>008</span><span class=no>A0062</span>  <span class=no>mov</span>         <span class=no>esi</span><span class=p>,</span><span class=no>eax</span>  
+</span></span><span class=line><span class=cl><span class=mi>008</span><span class=no>A0064</span>  <span class=no>mov</span>         <span class=no>ecx</span><span class=p>,</span><span class=mi>13</span><span class=no>h</span>  
+</span></span><span class=line><span class=cl><span class=mi>008</span><span class=no>A0069</span>  <span class=no>call</span>        <span class=no>dword</span> <span class=no>ptr</span> <span class=no>ds</span><span class=p>:[</span><span class=mi>7237</span><span class=no>C8h</span><span class=p>]</span>  <span class=c1>// MethodWithStargAggressive
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=err>008</span><span class=nf>A006F</span>  <span class=no>add</span>         <span class=no>esi</span><span class=p>,</span><span class=no>eax</span>  
+</span></span></code></pre></div><p>Эксперимент прошёл успешно. Метод <code>SimpleMethod</code> был заинлайнен, как и предполагалось. Метод <code>MethodWithStarg</code> не был заинлайнен, т. к. содержит IL-команду <code>starg.s</code>. Даже атрибут <code>[MethodImpl(MethodImplOptions.AggressiveInlining)]</code> не поспособствовал тому, чтобы инлайнинг был выполнен.</p><p>А теперь взглянем на ассемблерный код под x64:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-asm data-lang=asm><span class=line><span class=cl><span class=err>00007</span><span class=nf>FFCC8720094</span>  <span class=no>mov</span>         <span class=no>ecx</span><span class=p>,</span><span class=mi>36</span><span class=no>h</span>
+</span></span></code></pre></div><p>Как мы видим, JIT успешно выполнил инлайнинг всех методов и заранее предподсчитал результат.</p><h3 id=выводы>Выводы</h3><p>Для возможности инлайнинга методов необходимо выполнение ряда условий. JIT-x86 не может заинлайнить метод, в теле которого присутствуют IL-команды <code>starg</code> или <code>ldarga</code>, при этом даже <code>MethodImplOptions.AggressiveInlining</code> не в силах на это повлиять. Если вам критично, чтобы JIT мог выполнять инлайнинг, то порой придётся делать костыли, подобные тем, которые мы можем наблюдать в конструкторах класса <code>Decimal</code>.</p><h3 id=ссылки>Ссылки</h3><ul><li><a href=http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158>.NET Reference Source: Constructs a Decimal from an integer value</a></li><li><a href=https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252>CoreCLR, JIT sources: flowgraph.cpp (Feb 26, 2015)</a></li><li><a href=https://raw.githubusercontent.com/dotnet/coreclr/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/importer.cpp>CoreCLR, JIT sources: importer.cpp (Feb 26, 2015)</a></li><li><a href=https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx>MSDN: starg</a></li><li><a href=https://msdn.microsoft.com/library/system.reflection.emit.opcodes.ldarga.aspx>MSDN: ldarga</a></li><li><a href=http://stackoverflow.com/questions/26369163/net-local-variable-optimization>Stackoverflow: .NET local variable optimization</a></li></ul></div></div></div><script>var themeToggleDarkIcon=document.getElementById("theme-toggle-dark-icon"),themeToggleBtn,themeToggleLightIcon=document.getElementById("theme-toggle-light-icon");const imagesDark=document.querySelectorAll(".img-dark"),imagesLight=document.querySelectorAll(".img-light");localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?(themeToggleLightIcon.classList.remove("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")})):(themeToggleDarkIcon.classList.remove("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")}));function toggleTheme(e){e?(document.documentElement.classList.add("dark"),themeToggleLightIcon.classList.remove("hidden"),themeToggleDarkIcon.classList.add("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")}),imagesLight.forEach(e=>{e.classList.add("hidden")})):(document.documentElement.classList.remove("dark"),themeToggleDarkIcon.classList.remove("hidden"),themeToggleLightIcon.classList.add("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")}),imagesDark.forEach(e=>{e.classList.add("hidden")}))}themeToggleBtn=document.getElementById("theme-toggle"),themeToggleBtn.addEventListener("click",function(){themeToggleDarkIcon.classList.toggle("hidden"),themeToggleLightIcon.classList.toggle("hidden"),imagesLight.forEach(e=>{e.classList.toggle("hidden")}),imagesDark.forEach(e=>{e.classList.toggle("hidden")}),event.altKey?(localStorage.removeItem("color-theme"),toggleTheme(window.matchMedia("(prefers-color-scheme: dark)").matches)):localStorage.getItem("color-theme")?localStorage.getItem("color-theme")==="light"?(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark")):(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):document.documentElement.classList.contains("dark")?(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark"))}),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",e=>{if(localStorage.getItem("color-theme")===null){const t=e.matches?"dark":"light";toggleTheme(t==="dark")}})</script><footer class="z-20 p-4 md:p-6 mt-3 w-full border-t border-gray-200 shadow flex items-center justify-center dark:border-gray-600 bg-white dark:bg-zinc-800"><span class="dark:text-gray-400 text-center">© 2013—2024 <span class=whitespace-nowrap>Андрей Акиньшин</span></span><ul class="flex flex-wrap items-center px-4 mb-1"><li><a href=https://github.com/AndreyAkinshin><svg class="fai fai-link w-5 h-5"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a></li><li><a href=https://twitter.com/andrey_akinshin><svg class="fai fai-link w-5 h-5"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></li><li><a href=https://aakinshin.net/ru/posts/index.xml><svg class="fai fai-link w-5 h-5"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a></li></ul><div class=main-content><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></div></footer><script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+=" has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js></script></body></html>

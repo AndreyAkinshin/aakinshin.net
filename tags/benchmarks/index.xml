@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>benchmarks on Andrey Akinshin</title><link>https://aakinshin.net/tags/benchmarks/</link><description>Recent content in benchmarks on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 09 Jun 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/benchmarks/index.xml" rel="self" type="application/rss+xml"/><item><title>Measuring Performance Improvements in .NET Core with BenchmarkDotNet (Part 1)</title><link>https://aakinshin.net/posts/stephen-toub-benchmarks-part1/</link><pubDate>Fri, 09 Jun 2017 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/stephen-toub-benchmarks-part1/</guid><description>&lt;p>A few days ago &lt;a href="https://github.com/stephentoub">Stephen Toub&lt;/a> published a great post
+at the &lt;a href="https://blogs.msdn.microsoft.com/dotnet/">Microsoft .NET Blog&lt;/a>:
+&lt;a href="https://blogs.msdn.microsoft.com/dotnet/2017/06/07/performance-improvements-in-net-core/">Performance Improvements in .NET Core&lt;/a>.
+He showed some significant performance changes in .NET Core 2.0 Preview 1 (compared with .NET Framework 4.7).
+The .NET Core uses RyuJIT for generating assembly code.
+When I first tried RyuJIT (e.g.,
+&lt;a href="https://blogs.msdn.microsoft.com/dotnet/2014/02/27/ryujit-ctp2-getting-ready-for-prime-time/">CTP2&lt;/a>,
+&lt;a href="https://blogs.msdn.microsoft.com/clrcodegeneration/2014/10/30/ryujit-ctp5-getting-closer-to-shipping-and-with-better-simd-support/">CTP5&lt;/a>, 2014),
+I wasn&amp;rsquo;t excited about this: the preview versions had some bugs, and it worked slowly on my applications.
+However, the idea of a rethought and open-source JIT-compiler was a huge step forward and investment in the future.
+RyuJIT had been developed very actively in recent years: not only by Microsoft but with the help of the community.
+I&amp;rsquo;m still not happy about the generated assembly code in some methods, but I have to admit that the RyuJIT (as a part of .NET Core) works pretty well today:
+it shows a good performance level not only on artificial benchmarks but also on real user code.
+Also, there are a lot of changes
+not only in &lt;a href="https://github.com/dotnet/coreclr">dotnet/coreclr&lt;/a> (the .NET Core runtime),
+but also in &lt;a href="https://github.com/dotnet/corefx">dotnet/corefx&lt;/a> (the .NET Core foundational libraries).
+It&amp;rsquo;s very nice to watch how the community helps to optimize well-used classes which have not changed for years.&lt;/p>
+&lt;p>Now let&amp;rsquo;s talk about benchmarks.
+For the demonstration, Stephen wrote a set of handwritten benchmarks.
+A few people (in
+&lt;a href="https://blogs.msdn.microsoft.com/dotnet/2017/06/07/performance-improvements-in-net-core/#comments">comments&lt;/a> and on &lt;a href="https://news.ycombinator.com/item?id=14507936">HackerNews&lt;/a>)
+asked about &lt;a href="https://github.com/dotnet/BenchmarkDotNet">BenchmarkDotNet&lt;/a> regarding these samples (as a better tool for performance measurements).
+So, I decided to try all these benchmarks on BenchmarkDotNet.&lt;/p>
+&lt;p>In this post, we will discuss
+how can BenchmarkDotNet help in such performance investigations,
+which benchmarking approaches (and when) are better to use,
+and how can we improve these measurements.&lt;/p></description></item><item><title>LegacyJIT-x86 and first method call</title><link>https://aakinshin.net/posts/legacyjitx86-and-first-method-call/</link><pubDate>Mon, 04 Apr 2016 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/legacyjitx86-and-first-method-call/</guid><description>&lt;p>Today I tell you about one of my favorite benchmarks (this method doesn&amp;rsquo;t return a useful value, we need it only as an example):&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-cs" data-lang="cs">&lt;span class="line">&lt;span class="cl">&lt;span class="na">[Benchmark]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">public&lt;/span> &lt;span class="kt">string&lt;/span> &lt;span class="n">Sum&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">double&lt;/span> &lt;span class="n">a&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="m">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">b&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="m">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">var&lt;/span> &lt;span class="n">sw&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">Stopwatch&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="m">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="p">&amp;lt;&lt;/span> &lt;span class="m">10001&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">++)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">a&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">a&lt;/span> &lt;span class="p">+&lt;/span> &lt;span class="n">b&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="kt">string&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Format&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;{0}{1}&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">a&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">sw&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ElapsedMilliseconds&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>An interesting fact: if you call &lt;code>Stopwatch.GetTimestamp()&lt;/code> before the first call of the &lt;code>Sum&lt;/code> method, you improve &lt;code>Sum&lt;/code> performance several times (works only with LegacyJIT-x86).&lt;/p></description></item></channel></rss>

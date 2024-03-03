@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NuGet on Andrey Akinshin</title><link>https://aakinshin.net/tags/nuget/</link><description>Recent content in NuGet on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 08 May 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/nuget/index.xml" rel="self" type="application/rss+xml"/><item><title>A story about slow NuGet package browsing</title><link>https://aakinshin.net/posts/nuget-package-browsing/</link><pubDate>Tue, 08 May 2018 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/nuget-package-browsing/</guid><description>&lt;p>In &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a>, we have integration tests which interact with &lt;a href="https://api.nuget.org/">api.nuget.org&lt;/a>.
+Also, we have an internal service which monitors the performance of these tests.
+Two days ago, I noticed that some of these tests sometimes are running for too long.
+For example, &lt;code>nuget_NuGetTest_shouldUpgradeVersionForDotNetCore&lt;/code> usually takes around &lt;code>10 sec&lt;/code>.
+However, in some cases, it takes around &lt;code>110 sec&lt;/code>, &lt;code>210 sec&lt;/code>, or &lt;code>310 sec&lt;/code>:&lt;/p>
+
+
+
+
+
+&lt;div class="row">
+&lt;div class="mx-auto">
+ &lt;a href="https://aakinshin.net/posts/nuget-package-browsing/img/perf-chart.png" target="_blank" alt="perf-chart">
+ &lt;img
+ class="mx-auto d-block img-fluid"
+ width='800'
+ src="https://aakinshin.net/posts/nuget-package-browsing/img/perf-chart.png" />
+ &lt;/a>
+&lt;/div>
+&lt;/div>
+&lt;br />
+&lt;p>It looks very suspicious and increases the whole test suite duration.
+Also, our dashboard with performance degradations contains only such tests
+and some real degradations (which are introduced by the changes in our codebase) can go unnoticed.
+So, my colleagues and I decided to investigate it.&lt;/p></description></item><item><title>Why is NuGet search in Rider so fast?</title><link>https://aakinshin.net/posts/rider-nuget-search/</link><pubDate>Wed, 08 Feb 2017 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/rider-nuget-search/</guid><description>&lt;p>I&amp;rsquo;m the guy who develops the NuGet manager in &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a>.
+It&amp;rsquo;s not ready yet, there are some bugs here and there, but it already works pretty well.
+The feature which I am most proud of is smart and fast search:&lt;/p>
+&lt;div class="mx-auto">
+ &lt;img class="mx-auto d-block" width="400" src="https://aakinshin.net/img/posts/dotnet/rider-nuget-search/front.gif" />
+&lt;/div>
+&lt;p>Today I want to share with you some technical details about how it was implemented.&lt;/p></description></item><item><title>NuGet2 and a DirectorySeparatorChar bug</title><link>https://aakinshin.net/posts/nuget2-and-directoryseparatorchar/</link><pubDate>Mon, 06 Feb 2017 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/nuget2-and-directoryseparatorchar/</guid><description>&lt;p>In &lt;a href="https://www.jetbrains.com/rider/">Rider&lt;/a>, we care a lot about performance.
+I like to improve the application responsiveness and do interesting optimizations all the time.
+Rider is already well-optimized, and it&amp;rsquo;s often hard to make significant performance improvements, so usually I do micro-optimizations which do not have a very big impact on the whole application.
+However, sometimes it&amp;rsquo;s possible to improve the speed of a feature 100 times with just a few lines of code.&lt;/p>
+&lt;p>Rider is based on &lt;a href="https://www.jetbrains.com/resharper/">ReSharper&lt;/a>, so we have a lot of cool features out of the box.
+One of these features is &lt;a href="https://www.jetbrains.com/help/resharper/2016.3/Code_Analysis__Solution-Wide_Analysis.html">Solution-Wide Analysis&lt;/a>
+which lets you constantly keep track of issues in your solution.
+Sometimes, solution-wide analysis takes a lot of time to run because there are many files which should be analyzed.
+Of course, it works super fast on small and projects.&lt;/p>
+&lt;p>Let&amp;rsquo;s talk about a performance bug (&lt;a href="https://youtrack.jetbrains.com/issue/RIDER-3742">#RIDER-3742&lt;/a>) that we recently had.&lt;/p>
+&lt;ul>
+&lt;li>&lt;em>Repro:&lt;/em> Open Rider, create a new &amp;ldquo;ASP .NET MVC Application&amp;rdquo;, enable solution wide-analysis.&lt;/li>
+&lt;li>&lt;em>Expected:&lt;/em> The analysis should take 1 second.&lt;/li>
+&lt;li>&lt;em>Actual:&lt;/em> The analysis takes 1 second on Windows and &lt;strong>2 minutes&lt;/strong> on Linux and MacOS.&lt;/li>
+&lt;/ul></description></item></channel></rss>
