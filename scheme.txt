@@ -1,0 +1,11 @@
+Activities:
+
+1. Posts   [C ]
+2. Books   [ L]
+3. Papers  [CL]
+4. Web     [ L]
+5. Quotes  [ L]
+6. Talks   [C ]
+7. Media   [C ]
+8. Authors [ L]
+9. Tags    [CL]
