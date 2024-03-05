@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pragmatic Statistics on Andrey Akinshin</title><link>https://aakinshin.net/tags/pragmatic-statistics/</link><description>Recent content in Pragmatic Statistics on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 05 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/pragmatic-statistics/index.xml" rel="self" type="application/rss+xml"/><item><title>Pragmatic Statistics Manifesto</title><link>https://aakinshin.net/posts/pragmatic-statistics-manifesto/</link><pubDate>Tue, 05 Mar 2024 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/pragmatic-statistics-manifesto/</guid><description>&lt;p>Statistics is one of the most confusing, controversial, and depressing disciplines I know.
+So many different approaches, so many different opinions, so many arguments, so many person-years of wasted time,
+and so many flawed peer-reviewed papers.&lt;/p>
+&lt;p>What we want from statistics is an easy-to-use tool that would nudge us toward asking the right questions
+and then straightforwardly guide us on how to design proper and relevant statistical procedures.
+What we have is a bunch of vaguely described sets of strange equations,
+a few arbitrarily chosen magical numbers as thresholds,
+and no clear understanding of what to do.&lt;/p>
+&lt;p>In the scientific community, there are a lot of adherents of
+&lt;em>Frequentist&lt;/em> statistics (both Neyman-Pearson and Fisherian),
+&lt;em>Bayesian&lt;/em> statistics,
+&lt;em>Likelihood&lt;/em> statistics,
+&lt;em>Nonparametric&lt;/em> statistics,
+&lt;em>Robust&lt;/em> statistics,
+and many other statistics.
+And almost no one discusses &lt;em>Pragmatic&lt;/em> statistics.
+I feel like we really need something which is called &lt;em>Pragmatic&lt;/em> statistics.
+However, it should not be just a set of &amp;ldquo;blessed&amp;rdquo; approaches but rather a mindset.&lt;/p>
+&lt;p>Let me make an attempt to speculate on the principles
+that should form the foundation of the &lt;em>Pragmatic&lt;/em> statistics approach.
+In future posts, I will show how to apply these principles to solve real-world problems.&lt;/p></description></item></channel></rss>
