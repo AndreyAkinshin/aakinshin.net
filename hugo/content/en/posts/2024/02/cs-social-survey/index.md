@@ -1,5 +1,5 @@
 ---
-title: "Case study: a city social survey"
+title: "Case Study: A City Social Survey"
 date: 2024-02-20
 tags:
 - mathematics
