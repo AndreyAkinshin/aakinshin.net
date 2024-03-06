@@ -2,9 +2,10 @@
 title: Hodges-Lehmann ratio estimator vs. Bhattacharyya's scale ratio estimator
 date: 2023-12-26
 tags:
-- mathematics
-- statistics
-- research
+- Mathematics
+- Statistics
+- Research
+- Hodges-Lehmann Estimator
 features:
 - math
 ---

@@ -6,14 +6,15 @@ tags:
 - mathematics
 - statistics
 - research
-- hodges-lehmann
+- Hodges-Lehmann Estimator
 features:
 - math
 aliases:
 - hodgeslehmann-efficiency1
 ---
 
-In this post, we evaluate the relative statistical efficiency of the Hodges-Lehmann median estimator
+In this post, we evaluate the relative statistical efficiency of
+  the [Hodges-Lehmann median estimator]({{< ref hodges-lehmann-estimator >}})
   against the sample median under the normal distribution.
 We also compare it with the efficiency of the Harrell-Davis quantile estimator.
 
@@ -65,17 +66,6 @@ As we can see, for $n\geq 6$, all three versions of the Hodges-Lehmann median es
   outperform the Harrell-Davis quantile estimator in terms of relative statistical efficiency
   under the normal distribution.
 
-In the [next post]({{< ref hodges-lehmann-efficiency2 >}}), we perform more simulations study to get a better understanding of the properties
+In the [next post]({{< ref hodges-lehmann-efficiency2 >}}), we perform more simulations study
+  to get a better understanding of the properties
   of the Hodges-Lehmann median estimator.
-
-### References
-
-* <b id=Harrell1982>[Harrell1982]</b>  
-  Harrell, F.E. and Davis, C.E., 1982. A new distribution-free quantile estimator.
-  *Biometrika*, 69(3), pp.635-640.  
-  https://doi.org/10.2307/2335999 
-* <b id="Park2020">[Park2020]</b>  
-  Park, Chanseok, Haewon Kim, and Min Wang.
-  "Investigation of finite-sample properties of robust location and scale estimators."
-  Communications in Statistics-Simulation and Computation (2020): 1-27.  
-  https://doi.org/10.1080/03610918.2019.1699114

@@ -3,24 +3,24 @@ title: Improving quantile-respectful density estimation for discrete distributio
 description: "A discussion about quantile-respectful density estimation problems for distributions with discrete features"
 date: 2021-04-27
 tags:
-- mathematics
-- statistics
-- research
-- Quantile
+- Mathematics
+- Statistics
+- Research
+- Quantile Estimation
+- Density Estimation
 - QRDE
-- Density estimation
-- Discrete distribution
+- Discretization
 - Ties
 - Jittering
 features:
 - math
 ---
 
-In my previous posts, I already discussed the [problem]({{< ref kde-discrete >}}) that arise
-  when we try to build the kernel density estimation (KDE) for samples with ties.
+In my previous posts, I already discussed the [problem]({{< ref kde-discrete >}}) that arises
+  when we try to build kernel density estimation (KDE) for samples with ties.
 We may get such samples in real life from discrete or mixed discrete/continuous distributions.
 Even if the original distribution is continuous,
-  we may observe artificial sample discretization due to a limited resolution of the measuring tool.
+  we may observe artificial sample discretization due to the limited resolution of the measuring tool.
 Such discretization may lead to inaccurate density plots due to undersmoothing.
 The problem can be resolved using a nice technique called *jittering*.
 I also discussed [how to apply]({{< ref discrete-sample-jittering>}}) jittering to get a smoother version of KDE.
@@ -76,7 +76,7 @@ Since the quantile function doesn't have horizontal segments,
 Thus, the CDF is also a continuous and strictly increasing function.
 
 The PDF is the CDF derivative.
-Here is the PDF of the gumbel distribution $f_{\textrm{Gum}} = F'_{\textrm{Gum}}$:
+Here is the PDF of the Gumbel distribution $f_{\textrm{Gum}} = F'_{\textrm{Gum}}$:
 
 {{< imgld gumbel-pdf >}}
 
@@ -95,7 +95,7 @@ Now let's look at the CDF which is an inversion of the quantile function $F_{\te
 
 {{< imgld poisson-cdf >}}
 
-Since quantile function has horizontal segments,
+Since the quantile function has horizontal segments,
   the CDF is discontinuous at the integers.
 For discrete distributions, we typically use the probability mass function (PMF) instead of the PDF.
 Unlike the PDF, the PMF has a discrete argument, so it could be shown in the histogram form.
@@ -206,7 +206,7 @@ To fix the problem, we can use the jittering technique based on the Beta functio
 The suggested technique has the following advantages:
 
 * It doesn't involve randomization, so it produces the same result each time.
-* It preserves sample range: the minimum and the maximum value will not be corrupted.
+* It preserves the sample range: the minimum and the maximum value will not be corrupted.
 * It ensures high density near the original values
 
 If we apply jittering (based on the Beta function) to `x3`, we get the following sample:

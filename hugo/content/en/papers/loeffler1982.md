@@ -9,6 +9,7 @@ tags:
 - Mathematics
 - Statistics
 - Great
+- mann-whitney
 hasNotes: true
 ---
 

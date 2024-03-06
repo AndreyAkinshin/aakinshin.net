@@ -1,5 +1,5 @@
 ---
-title: "Research: Building trimmed Harrell-Davis quantile estimator"
+title: "[Research] Building trimmed Harrell-Davis quantile estimator"
 type: research
 message: "Update: this blog post is a part of research that aimed to build a statistically efficient and robust quantile estimator.
   A [paper with final results](/posts/pub-thdqe/) is available in *Communications in Statistics - Simulation and Computation* (DOI: [10.1080/03610918.2022.2050396](https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396)).

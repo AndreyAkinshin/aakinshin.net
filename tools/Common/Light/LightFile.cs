@@ -18,6 +18,7 @@ public interface ILightFile
 public abstract class LightFile<T>(T entry) : ILightFile where T : LightEntry
 {
     public T Entry { get; } = entry;
+    public string Id => Entry.Id;
 
     public FilePath FilePath => GetRoot().File(Entry.Id + ".md");
     public LightContent Content => Entry.Content;

@@ -3,10 +3,11 @@ title: "Plain-text summary notation for multimodal distributions"
 description: "In this post, we consider a plain-text notation for multimodal distributions that highlights modes and outliers"
 date: "2020-11-17"
 tags:
-- mathematics
-- statistics
-- research
-- Multimodality
+- Mathematics
+- Statistics
+- Research
+- Multimodality Detection
+- Multimodality Detection Based on Density
 - QRDE
 - Harrell-Davis quantile estimator
 - Outliers

@@ -9,7 +9,6 @@ namespace Generate.Papers;
 
 public class PaperFile(PaperEntry entry) : LightFile<PaperEntry>(entry)
 {
-    public string Id => Entry.Id;
     public void DownloadPdf() => DownloadPdfAsync().Wait();
 
     public async Task DownloadPdfAsync()

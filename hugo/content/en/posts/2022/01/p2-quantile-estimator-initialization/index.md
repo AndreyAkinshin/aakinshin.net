@@ -2,15 +2,16 @@
 title: P² quantile estimator initialization strategy
 date: 2022-01-04
 tags:
-- mathematics
-- statistics
-- research
-- research-p2qe
+- Mathematics
+- Statistics
+- Research
+- Quantile Estimators
+- P2 quantile estimator
 features:
 - math
 ---
 
-**Update: the estimator accuracy could be improved using a bunch of [patches]({{< ref research-p2qe >}}).**
+**Update: the estimator accuracy could be improved using a bunch of [patches]({{< ref p2-quantile-estimator >}}).**
 
 The P² quantile estimator is a sequential estimator that uses $O(1)$ memory.
 Thus, for the given sequence of numbers, it allows estimating quantiles without storing values.
@@ -334,11 +335,3 @@ Gumbel  P95 N8 :   5.51%  94.49%
 ```
 
 As we can see, the new "adaptive" strategy shows much better results than the classic one.
-
-### References
-
-* <b id="Jain1985">[Jain1985]</b>  
-  Jain, Raj, and Imrich Chlamtac.
-  "The P² algorithm for dynamic calculation of quantiles and histograms without storing observations."
-  Communications of the ACM 28, no. 10 (1985): 1076-1085.  
-  https://doi.org/10.1145/4372.4378

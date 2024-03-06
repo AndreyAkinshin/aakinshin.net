@@ -44,4 +44,4 @@ The introduced deep work and shallow work
 
 Most references are to online resources, not so much to scientific papers.
 
-In Chapter 1, there is a shallow discussion of {{< link leroy2009 >}}, but no notes about the effect size.
+There are shallow discussions of some papers like {{< link leroy2009 >}} and {{< link masicampo2011 >}}.

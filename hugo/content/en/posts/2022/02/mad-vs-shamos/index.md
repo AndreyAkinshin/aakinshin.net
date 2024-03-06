@@ -3,9 +3,10 @@ title: Median absolute deviation vs. Shamos estimator
 thumbnail: cauchy-10-light
 date: 2022-02-01
 tags:
-- mathematics
-- statistics
-- research
+- Mathematics
+- Statistics
+- Research
+- Shamos Estimator
 features:
 - math
 ---
@@ -23,7 +24,7 @@ In this post, we perform numerical simulations and
 
 For a sample $x = \{ x_1, x_2, \ldots, x_n \}$,
   the *median absolute deviation* ($\operatorname{MAD}$) and
-  the *Shamos estimator* (see [[Shamos1977]](#Shamos1977), p.260) are defined as follows:
+  the {{< link shamos-estimator >}} are defined as follows:
 
 $$
 \operatorname{MAD}_n = C_n \cdot \operatorname{median}(|x - \operatorname{median}(x)|)
@@ -99,19 +100,9 @@ Similar results could be observed for heavy-tailed Frechet and Weibull distribut
 
 Under normality, $\operatorname{Shamos}$ has better statistical efficiency than $\operatorname{MAD}$
   if we consider these estimators as consistent estimators for the standard deviation.
-On other light-tailed distributions, $\operatorname{Shamos}$ also has smaller dispersion than $\operatorname{MAD}$.
+On other light-tailed distributions, $\operatorname{Shamos}$ also has a smaller dispersion than $\operatorname{MAD}$.
 
 However, in the case of heavy-tailed distributions, $\operatorname{MAD}$ is the preferable option
   because it has a higher breakdown point and better resistance to outliers than $\operatorname{Shamos}$.
 Since we typically use robust measures of scales when we expect to have some extreme outliers,
   $\operatorname{MAD}$ looks like a more reasonable measure of dispersion than $\operatorname{Shamos}$.
-
-### References
-
-* <b id="Shamos1977">[Shamos1977]</b>  
-  Shamos, Michael Ian. "Geometry and Statistics: Problems at the Interface." In Algorithms and Complexity. 1977.  
-* <b id="Park2020">[Park2020]</b>  
-  Park, Chanseok, Haewon Kim, and Min Wang.
-  "Investigation of finite-sample properties of robust location and scale estimators."
-  Communications in Statistics-Simulation and Computation (2020): 1-27.  
-  https://doi.org/10.1080/03610918.2019.1699114

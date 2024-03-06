@@ -8,7 +8,7 @@ tags:
 - research
 - Quantile
 - Moving Quantile
-- research-p2qe
+- P2 quantile estimator
 features:
 - math
 ---

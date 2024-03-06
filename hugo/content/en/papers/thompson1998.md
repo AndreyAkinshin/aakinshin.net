@@ -6,6 +6,8 @@ authors:
 tags:
 - Mathematics
 - Statistics
+- Effect Size
+- NHST
 hasNotes: false
 ---
 

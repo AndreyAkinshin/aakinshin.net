@@ -3,11 +3,11 @@ title: How to build a smooth density estimation for a discrete sample using jitt
 description: A simple technique that removes ties from samples without noticeable changes in density
 date: 2021-04-20
 tags:
-- mathematics
-- statistics
-- research
-- Density estimation
-- Discrete distributions
+- Mathematics
+- Statistics
+- Research
+- Density Estimation
+- Discrete Distributions
 - Ties
 - Jittering
 features:
@@ -23,7 +23,7 @@ If you draw a kernel density estimation (KDE) for such a sample,
 KDE requires samples from continuous distributions
   while tied values arise in discrete or mixture distributions.
 Even if the original distribution is continuous,
-  you may observe artificial sample discretization due to a limited resolution of the measuring tool.
+  you may observe artificial sample discretization due to the limited resolution of the measuring tool.
 This effect may lead to distorted density plots like in the above picture.
 
 The problem could be solved using a nice technique called *jittering*.
@@ -66,7 +66,7 @@ If we apply this simple trick to the sample from the first picture,
 {{< imgld comparison >}}
 
 If you are interested in a formal definition of the jittering kernel density estimator or a literature overview,
-  it's recommended to read [[Nagler2018]](#Nagler2018).
+  it's recommended to read {{< link nagler2018 >}}.
 
 ### My noise pattern preferences
 
@@ -137,7 +137,7 @@ $$
 \alpha = \frac{9l+r}{l+r}, \quad \beta = \frac{l+9r}{l+r}.
 $$
 
-This distributions satisfy the following properties:
+This distribution satisfy the following properties:
 
 * $\alpha + \beta = 10$
 * The mode of this distribution is always $l / (l + r)$.
@@ -169,7 +169,7 @@ $$
 where $s$ is the scale constant.
 Based on my local experiments, I assume that $s = 1.5$ is usually enough to get a smooth approximation.
 
-The above equation may look confusing, but they satisfy the requirements from the previous section.
+The above equation may look confusing, but it satisfies the requirements from the previous section.
 Let me show a few examples (for this table, $s = 1.0$):
 
 |  $k$ |  $l$ |  $r$ |                                              $\xi_i$ |
@@ -181,14 +181,13 @@ Let me show a few examples (for this table, $s = 1.0$):
 |  $4$ |  $0$ |  $5$ |             $\{0.000,\; 0.031,\; 0.072,\; 0.139 \} $ |
 
 Thus, the suggested approach
-  preserves the sample range,
-  provides small bias,
+  preserves the sample range, provides a small bias,
   and returns consistent non-randomized values.
 In addition, one of the noise vector components is always zero (which is a lovely property for manual sample exploration).
 The noise range can be controlled via the scale constant $s$.
 
 Let's look at a few examples.
-Here is two kernel density estimations (normal kernel, Sheather & Jones bandwidth selector)
+Here are two kernel density estimations (normal kernel, Sheather & Jones bandwidth selector)
   for a sample of size 1000 from the binomial distribution $\textrm{B}(n = 30, p = 0.2)$
   without and with jittering ($s = 1.5$):
 
@@ -196,7 +195,7 @@ Here is two kernel density estimations (normal kernel, Sheather & Jones bandwidt
 
 As you can see, the jittered version is much smoother.
 The suggested approach works nicely with multimodal distribution as well.
-Here is another two KDEs for a mixture of
+Here are another two KDEs for a mixture of
   a sample of size 1000 from $\textrm{B}(n = 20, p = 0.2)$ and
   a sample of size 1000 from $\textrm{B}(n = 20, p = 0.8)$:
 
@@ -206,12 +205,3 @@ Here is another two KDEs for a mixture of
 
 Jittering is an excellent technique that allows getting smooth density estimations for discrete samples.
 In this post, I described an example of a non-randomized noise pattern with a low risk of noticeable sample corruption.
-
-### References
-
-* <b id=Nagler2018>[Nagler2018]</b>  
-  Nagler, Thomas.
-  "A generic approach to nonparametric function estimation with mixed data."
-  Statistics & Probability Letters 137 (2018): 326-330.  
-  https://doi.org/10.1016/j.spl.2018.02.040  
-  https://arxiv.org/pdf/1704.07457.pdf

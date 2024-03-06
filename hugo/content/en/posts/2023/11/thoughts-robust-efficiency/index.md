@@ -49,7 +49,7 @@ Before we build such a picture, let us recall some of the popular dispersion est
 
 * Standard Deviation (Variance) - non-robust
 * Median Absolute Deviation - not so efficient, assumes symmetry
-* Shamos Estimator: $\operatorname{Median}(|X_i-X_j|_{i < j}) \cdot C_1$ - interesting option
+* {{< link shamos-estimator >}}: $\operatorname{Median}(|X_i-X_j|_{i < j}) \cdot C_1$ - interesting option
 * Rousseeuw–Croux Qn estimator: $\operatorname{Quantile}(|X_i-X_j|_{i < j}, 0.25) \cdot C_2$ - interesting option
 
 Two listed interesting options operate with 25th and 50th quantiles of the $|X_i-X_j|_{i < j}$ distribution.

@@ -1,7 +1,7 @@
 {{ $site := .site }}
 {{ $slug := "" }}
 {{ with .page.File }}
-  {{ if eq .BaseFileName "index" }}
+  {{ if or (eq .BaseFileName "index") (eq .BaseFileName "_index") }}
     {{ $slug = .Dir | path.BaseName }}
   {{ else }}
     {{ $slug = .BaseFileName }}

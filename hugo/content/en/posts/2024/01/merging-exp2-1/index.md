@@ -5,12 +5,12 @@ tags:
 - mathematics
 - statistics
 - research
-- research-p2qe
+- P2 quantile estimator
 features:
 - math
 ---
 
-[P² quantile estimator]({{< ref research-p2qe >}}) is a streaming quantile estimator
+[P² quantile estimator]({{< ref p2-quantile-estimator >}}) is a streaming quantile estimator
   with $\mathcal{O}(1)$ memory footprint and an extremely fast update procedure.
 Several days ago, I learned that it was [adopted](https://twitter.com/rickbrewPDN/status/1740233421673349544) for
   the new Paint.NET GPU-based Median Sketch effect
@@ -374,15 +374,3 @@ Here is my plan for further idea development:
 * Investigate how we should choose the appropriate number of markers based on the expected stream length.
 * Generalize the algorithms and support all the corner cases
   (e.g., streams of unequal lengths, evaluation of arbitrary quantiles, merging multiple estimators, etc.).
-
-### References
-
-* <b id="Jain1985">[Jain1985]</b>  
-  Jain, Raj, and Imrich Chlamtac.
-  "The P² algorithm for dynamic calculation of quantiles and histograms without storing observations."
-  Communications of the ACM 28, no. 10 (1985): 1076-1085.  
-  https://doi.org/10.1145/4372.4378
-* <b id="Raatikainen1987">[Raatikainen1987]</b>  
-  Raatikainen, Kimmo EE. "Simultaneous estimation of several percentiles."
-  Simulation 49, no. 4 (1987): 159-163.  
-  https://doi.org/10.1177/003754978704900405

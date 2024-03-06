@@ -2,5 +2,5 @@
 title: Talks
 icon: talk
 isCraft: true
-order: 6
+order: 7
 ---

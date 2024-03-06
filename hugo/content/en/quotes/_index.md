@@ -1,6 +1,6 @@
 ---
 title: Quotes
 icon: quote
-order: 5
+order: 6
 isLibrary: true
 ---

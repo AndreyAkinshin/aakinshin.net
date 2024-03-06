@@ -2,5 +2,5 @@
 title: Books
 icon: book
 isLibrary: true
-order: 2
+order: 3
 ---

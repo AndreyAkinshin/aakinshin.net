@@ -2,9 +2,10 @@
 title: "Finite-sample Gaussian efficiency: Shamos vs. Rousseeuw-Croux Qn scale estimators"
 date: 2023-12-19
 tags:
-- mathematics
-- statistics
-- research
+- Mathematics
+- Statistics
+- Research
+- Shamos Estimator
 features:
 - math
 ---

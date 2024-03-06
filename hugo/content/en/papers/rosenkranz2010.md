@@ -9,6 +9,7 @@ authors:
 tags:
 - Mathematics
 - Statistics
+- Hodges-Lehmann Estimator
 hasNotes: false
 ---
 
@@ -18,7 +19,7 @@ hasNotes: false
 
 ## Abstract
 
-> Abstract
+> The Hodges-Lehmann estimator was originally developed as a non-parametric estimator of a shift parameter. As it is widely used in statistical applications, the question is investigated what it is estimating if the shift model does not hold. It is shown that for data whose distributions are symmetric about their median the Hodges–Lehmann estimator based on the Wilcoxon Rank Sum test estimates the difference between the medians of the distributions. This result does generally not hold if the symmetry assumption is violated.
 
 ## Bib
 
@@ -29,7 +30,7 @@ hasNotes: false
   issn = {1539-1604, 1539-1612},
   url = {https://onlinelibrary.wiley.com/doi/10.1002/pst.387},
   doi = {10.1002/pst.387},
-  abstract = {Abstract},
+  abstract = {The Hodges-Lehmann estimator was originally developed as a non-parametric estimator of a shift parameter. As it is widely used in statistical applications, the question is investigated what it is estimating if the shift model does not hold. It is shown that for data whose distributions are symmetric about their median the Hodges–Lehmann estimator based on the Wilcoxon Rank Sum test estimates the difference between the medians of the distributions. This result does generally not hold if the symmetry assumption is violated.},
   language = {en},
   number = {2},
   urldate = {2023-12-10},

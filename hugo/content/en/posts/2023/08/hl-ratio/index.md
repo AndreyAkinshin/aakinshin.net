@@ -5,7 +5,7 @@ tags:
 - mathematics
 - statistics
 - research
-- hodges-lehmann
+- Hodges-Lehmann Estimator
 features:
 - math
 ---

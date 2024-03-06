@@ -10,6 +10,11 @@ public class TalkStorage : LightStorage<TalkFile, TalkEntry>
 {
     public TalkStorage() : base(FileSystem.Talks)
     {
+        // Import();
+    }
+
+    private void Import()
+    {
         var yamlStream = new YamlStream();
         yamlStream.Load(new StreamReader(Path.Combine(FileSystem.Raw, "talks.yaml")));
         var yamlRoot = (YamlMappingNode)yamlStream.Documents[0].RootNode;

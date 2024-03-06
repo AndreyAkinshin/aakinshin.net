@@ -1,6 +1,6 @@
 ---
 title: Media
 icon: media
-order: 7
+order: 8
 isCraft: true
 ---

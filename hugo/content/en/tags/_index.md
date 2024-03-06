@@ -1,5 +1,5 @@
 ---
 title: Tags
 icon: tag
-order: 10
+order: 11
 ---

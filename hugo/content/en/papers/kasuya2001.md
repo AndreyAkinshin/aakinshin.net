@@ -9,6 +9,7 @@ authors:
 tags:
 - Mathematics
 - Statistics
+- mann-whitney
 hasNotes: false
 ---
 

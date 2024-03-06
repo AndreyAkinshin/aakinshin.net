@@ -1,11 +1,12 @@
 ---
 title: Joining modes of multimodal distributions
-description: TODO
 date: 2023-06-27
 tags:
-- mathematics
-- statistics
-- research
+- Mathematics
+- Statistics
+- Research
+- Multimodality Detection
+- Multimodality Detection Based on Density
 features:
 - math
 ---

@@ -2,9 +2,11 @@
 title: Multimodal distributions and effect size
 date: 2023-07-18
 tags:
-- mathematics
-- statistics
-- research
+- Mathematics
+- Statistics
+- Research
+- Multimodality Detection
+- Multimodality Detection Based on Density
 features:
 - math
 ---

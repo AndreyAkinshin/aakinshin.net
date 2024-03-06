@@ -1,3 +1,3 @@
 ---
-title: "Research: Gamma Effect Size"
+title: "[Research] Gamma Effect Size"
 ---

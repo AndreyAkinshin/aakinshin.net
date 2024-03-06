@@ -5,7 +5,7 @@ tags:
 - mathematics
 - statistics
 - research
-- research-p2qe
+- P2 quantile estimator
 features:
 - math
 ---
@@ -141,8 +141,8 @@ However, the result table is asymmetric:
 
 ### The solution
 
-The final stage of the P² quantile estimator suggest adjusting
-  non-extreme marker heights ($q_i$) and positions ($n_i$) for $i \in \{ 1, 2, 3\} $
+The final stage of the P² quantile estimator suggests
+  adjusting non-extreme marker heights ($q_i$) and positions ($n_i$) for $i \in \{ 1, 2, 3\} $
   (see the [algorithm description]({{< ref "p2-quantile-estimator#marker-invalidation" >}})
   and the original paper {{< link jain1985 >}} for details):
 
@@ -407,10 +407,3 @@ public class P2QuantileEstimator
 }
 ```
 
-### References
-
-* <b id="Jain1985">[Jain1985]</b>  
-  Jain, Raj, and Imrich Chlamtac.
-  "The P² algorithm for dynamic calculation of quantiles and histograms without storing observations."
-  Communications of the ACM 28, no. 10 (1985): 1076-1085.  
-  https://doi.org/10.1145/4372.4378

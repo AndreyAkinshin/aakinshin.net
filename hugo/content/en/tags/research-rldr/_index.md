@@ -1,3 +1,3 @@
 ---
-title: "Research: Resistance to the low-density regions"
+title: "[Research] Resistance to the low-density regions"
 ---

@@ -2,11 +2,11 @@
 {{ $dateFormat := .Site.Params.dateFormat | default "January 2, 2006" }}
 
 <div class="flex flex-wrap justify-start items-center">
-  <svg class="fai text-accent-l dark:text-front-d"><title>Date</title><use xlink:href="/img/fa/all.svg#calendar-days"></use></svg>
-  <time datetime="{{ $dateTime }}">{{ partial "date-full.html" . }}</time>
-
-  <svg class="fai ml-3 text-accent-l dark:text-front-d"><title>Tags</title><use xlink:href="/img/fa/all.svg#tag"></use></svg>
   <div class="flex flex-wrap gap-y-1">
+    <span class="label">
+      {{ partial "svg.html" "calendar" }}
+      <time datetime="{{ $dateTime }}">{{ partial "date-full.html" . }}</time>
+     </span>
   {{ with (.GetTerms "tags") }}
   {{ range . }}
     <a class="label-link" href="{{ .Permalink }}">

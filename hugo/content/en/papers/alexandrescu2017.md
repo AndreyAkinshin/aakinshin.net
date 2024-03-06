@@ -14,8 +14,10 @@ authors:
 tags:
 - Mathematics
 - Statistics
-hasNotes: false
+hasNotes: true
 ---
+
+Awesomely fast order statistic estimator (guaranteed linear time).
 
 ## Reference
 

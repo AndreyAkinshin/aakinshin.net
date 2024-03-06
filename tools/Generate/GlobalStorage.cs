@@ -15,12 +15,12 @@ public class GlobalStorage : ILightStorage
     public WebStorage WebStorage { get; } = new();
     public PaperStorage PaperStorage { get; } = new();
     public QuoteStorage QuoteStorage { get; } = new();
-    public BooksStorage BooksStorage { get; } = new();
+    public BookStorage BookStorage { get; } = new();
     public TalkStorage TalkStorage { get; } = new();
     public MediaStorage MediaStorage { get; } = new();
 
     public IEnumerable<ILightStorage> Storages =>
-        [WebStorage, PaperStorage, QuoteStorage, BooksStorage, TalkStorage, MediaStorage];
+        [WebStorage, PaperStorage, QuoteStorage, BookStorage, TalkStorage, MediaStorage];
 
     public static void Update() => new GlobalStorage().SaveAll();
 

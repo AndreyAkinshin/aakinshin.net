@@ -2,12 +2,12 @@
 title: "The importance of kernel density estimation bandwidth"
 date: "2020-10-13"
 tags:
-- mathematics
-- statistics
-- research
-- Density plots
-- bandwidth
-- KDE
+- Mathematics
+- Statistics
+- Research
+- Density Estimators
+- Kernel Density Estimation
+- Bandwidth Selectors
 features:
 - math
 ---
@@ -157,8 +157,8 @@ Now it's time to look at different methods in detail.
 
 The first two methods are the most famous and straightforward:
 
-* **Scott's rule of thumb** ([[Scott1992]](#Scott1992)): $h \approx 1.06 \cdot \hat{\sigma} n^{-1/5}$
-* **Silverman's rule of thumb** ([[Silverman1986]](#Silverman1986)): $h = 0.9 \cdot \min ( \hat{\sigma}, IQR/1.35 ) n^{-1/5}$
+* **Scott's rule of thumb** ({{< link scott1992 >}}): $h \approx 1.06 \cdot \hat{\sigma} n^{-1/5}$
+* **Silverman's rule of thumb** ({{< link silverman1986 >}}): $h = 0.9 \cdot \min ( \hat{\sigma}, IQR/1.35 ) n^{-1/5}$
 
 Although they are simple and easy to compute, they have limitations.
 The first one requires the data from the normal distribution.
@@ -173,12 +173,12 @@ However, if you are not sure about the form of your distribution, you may need a
 Here are a few examples of existing selectors:
 
 * **Cross-validation methods**
-  * **Maximum likelihood cross-validation (MLCV)** ([[Habbema1974]](#Habbema1974), [[Duin1976]](#Duin1976))
-  * **Biased cross-validation (BCV)** ([[Scott1987]](#Scott1987))
-  * **Unbiased cross-validation (UCV)** ([[Rudemo1982]](#Rudemo1982), [[Bowman1984]](#Bowman1984))
-  * **Complete cross-validation (CCV)** ([[Jones1991]](#Jones1991))
-  * **Modified cross-validation (MCV)** ([[Stute1992]](#Stute1992))
-  * **Trimmed cross-validation (TCV)** ([[Feluch1992]](#Feluch1992))
+  * **Maximum likelihood cross-validation (MLCV)** {{< link duin1976 >}}
+  * **Biased cross-validation (BCV)** {{< link scott1987 >}}
+  * **Unbiased cross-validation (UCV)** {{< link bowman1984 >}}
+  * **Complete cross-validation (CCV)** {{< link jones1991 >}}
+  * **Modified cross-validation (MCV)** [[Stute1992]](#Stute1992)
+  * **Trimmed cross-validation (TCV)** [[Feluch1992]](#Feluch1992)
   * ...
 * **Plug-in methods**
   * **Park and Marron method** ([[Park1990]](#Park1990))
@@ -197,7 +197,8 @@ In practice, most of them produce much better results on multimodal distribution
 Don't forget that the price for accuracy is performance: they work slower than a simple formula.
 However, in most cases, you shouldn't worry about it: it's hard to notice a difference in performance in a single experiment if your sample contains less than `1_000_000` elements.
 
-If you want know more about non-parametric bandwidth selectors, you can find nice overviews in [[Guidoum2015]](#Guidoum2015)), [[Heidenreich2013]](#Heidenreich2013)), and [[Schindler2012]](#Schindler2012).
+If you want know more about non-parametric bandwidth selectors, you can find nice overviews in
+  {{< link guidoum2015 >}}, {{< link heidenreich2013 >}}, and {{< link schindler2012>}}.
 
 ### Which bandwidth selectors should we use
 
@@ -290,30 +291,6 @@ To avoid problems with data interpretation, I recommend three simple rules:
 
 ### References
 
-* <b id="Scott1992">[Scott1992]</b>  
-  Scott, D. W. (1992) Multivariate Density Estimation: Theory, Practice, and Visualization. New York: Wiley.
-* <b id="Silverman1986">[Silverman1986]</b>  
-  Silverman, B. W. (1986). Density Estimation. London: Chapman and Hall.
-* <b id="Sheather1991">[Sheather1991]</b>  
-  Sheather, S. J. and Jones, M. C. (1991). A reliable data-based bandwidth selection method for kernel density estimation. Journal of the Royal Statistical Society series B, 53, 683–690. http://www.jstor.org/stable/2345597.
-* <b id="Guidoum2015">[Guidoum2015]</b>  
-  Guidoum, Arsalane Chouaib. "Kernel estimator and bandwidth selection for density and its derivatives." The kedd package, version 1 (2015).
-* <b id="Heidenreich2013">[Heidenreich2013]</b>  
-  Heidenreich, Nils-Bastian, Anja Schindler, and Stefan Sperlich. "Bandwidth selection for kernel density estimation: a review of fully automatic selectors." AStA Advances in Statistical Analysis 97, no. 4 (2013): 403-433.
-* <b id="Schindler2012">[Schindler2012]</b>  
-  Schindler, Anja. "Bandwidth selection in nonparametric kernel estimation." (2012).
-* <b id="Habbema1974">[Habbema1974]</b>  
-  Habbema, J. D. F., Hermans, J., and Van den Broek, K. (1974). A stepwise discrimination analysisprogram using density estimation.Compstat 1974: Proceedings in Computational Statistics.Physica Verlag, Vienna.
-* <b id="Duin1976">[Duin1976]</b>  
-  Duin, R. P. W. (1976). On the choice of smoothing parameters of Parzen estimators of probabilitydensity functions.IEEE Transactions on Computers,C-25, 1175–1179.
-* <b id="Scott1987">[Duin1976]</b>  
-  Scott, D.W. and George, R. T. (1987). Biased and unbiased cross-validation in density estimation.Journal of the American Statistical Association,82, 1131–1146.
-* <b id="Rudemo1982">[Rudemo1982]</b>  
-  Rudemo, M. (1982). Empirical choice of histograms and kernel density estimators.ScandinavianJournal of Statistics,9, 65–78.
-* <b id="Bowman1984">[Bowman1984]</b>  
-  Bowman, A. W. (1984). An alternative method of cross-validation for the smoothing of kerneldensity estimates. Biometrika,71, 353–360.
-* <b id="Jones1991">[Jones1991]</b>  
-  Jones, M. C. and Kappenman, R. F. (1991). On a class of kernel density estimate bandwidthselectors. Scandinavian Journal of Statistics,19, 337–349
 * <b id="Stute1992">[Stute1992]</b>  
   Stute, W. (1992). Modified cross validation in density estimation. Journal of Statistical Planningand Inference,30, 293–305.
 * <b id="Feluch1992">[Feluch1992]</b>  

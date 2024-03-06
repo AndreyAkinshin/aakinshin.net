@@ -1,6 +1,10 @@
 ---
 title: Goodhart’s Law
+year: 2018
+authors:
+- James Clear
 source: clear-atomic-habits
+sourceTitle: "Atomic Habits: An Easy & Proven Way to Build Good Habits & Break Bad Ones"
 hasNotes: false
 ---
 

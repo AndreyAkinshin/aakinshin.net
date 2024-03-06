@@ -2,10 +2,11 @@
 title: "Misleading histograms"
 date: "2020-10-20"
 tags:
-- mathematics
-- statistics
-- research
-- Multimodality
+- Mathematics
+- Statistics
+- Research
+- Multimodality Detection
+- Multimodality Detection Based on Density
 - Histograms
 features:
 - math

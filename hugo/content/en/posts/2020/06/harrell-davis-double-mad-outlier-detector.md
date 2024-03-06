@@ -10,6 +10,7 @@ tags:
 - Outliers
 - MAD
 - Harrell-Davis
+- Asymmetry
 features:
 - math
 ---
@@ -24,7 +25,7 @@ In this post, I will show how it works and why it's better than some other appro
 
 <!--more-->
 
-### Adopting to non-parametric distributions with MAD
+### Adjusting to non-parametric distributions using MAD
 
 In the world of normal distributions, the typical approach for outlier detection is based on *the standard deviation*.
 It uses the following thresholds for the outliers:
@@ -38,7 +39,8 @@ $$
 With these thresholds, we mark all the values outside the $ [ \textrm{Lower}; \textrm{Upper} ] $ range as outliers.
 Unfortunately, this approach doesn't work well when the distribution is not normal.
 
-In the world of non-parametric distributions, there is another popular approach called *Tukey's fences* ([[Tukey1997]](#Tukey1997)).
+In the world of non-parametric distributions, there is another popular approach called *Tukey's fences*
+  (see {{< link tukey1977>}}).
 It defines outlier thresholds as follows:
 
 $$
@@ -48,10 +50,10 @@ k_{\textrm{default}} = 1.5,
 $$
 
 where $ \textrm{IQR} = Q_3 - Q_1 $ is the interquartile range.
-It works well, but it's not robust enough because it's defined only be quartile values $ Q_1 $ and $ Q_3 $.
+It works well, but it's not robust enough because it's defined only by quartile values $ Q_1 $ and $ Q_3 $.
 These quartile values are calculated based on a few sample values and ignore the rest of the sample.
 
-To resolve this problem, we can use a more robust measure of statistical dispersion called *the median absolute deviation (MAD)* ([[Leys2013]](#Leys2013)).
+To resolve this problem, we can use a more robust measure of statistical dispersion called *the median absolute deviation (MAD)* (see {{< link leys2013 >}}).
 For the sample $ X = \{ X_1, X_2, \ldots, X_n \} $, it can be defined as follows:
 
 $$
@@ -77,9 +79,9 @@ In the case of the normal distribution, it works the same way as the standard de
 Meanwhile, it detects outliers in non-parametric distributions much better.
 Also, it's more robust than Tukey's fences because it respects all values from the given sample.
 
-According to [[Yang2019]](#Yang2019), MAD is not inferior in popularity to the Tukey's fences in recent scientific publications.
+According to {{< link yang2019 >}}, MAD is not inferior in popularity to Tukey's fences in recent scientific publications.
 
-### Adopting to nonsymmetric distributions with Double MAD
+### Adjusting to nonsymmetric distributions with Double MAD
 
 The classic MAD approach defines a symmetric interval around the median.
 This does not work great for the left-skewed, right-skewed, and other kinds of nonsymmetric distributions.
@@ -93,7 +95,7 @@ $$
 
 Thus, 220 and 240 will be marked as outliers because they exceed the upper threshold.
 
-This problem can be resolved with the help of the Double MAD approach ([[Rosenmai2013]](#Rosenmai2013)).
+This problem can be resolved with the help of the Double MAD approach (see {{< link c4eeacfda62a1fb3a9a7a1aca097cd27 >}}).
 The idea is simple: for the obtained median value, we should calculate two median absolution deviations.
 One deviation should be calculated for the numbers below the median and one for the numbers above the median:
 
@@ -127,11 +129,11 @@ $$
 Now we mark all values that exceed $ \textrm{Upper} $ as outliers.
 In our cases, the outlier set is (2000, 2001, 2002).
 
-### Adopting to bimodal distributions with the Harrell-Davis quantile estimator
+### Adjusting to bimodal distributions with the Harrell-Davis quantile estimator
 
 The MAD formula involves the median estimation.
-Unfortunately, the most common ["straightforward"](https://en.wikipedia.org/wiki/Median#Finite_data_set_of_numbers) approach
-  to calculate the median value is not always robust enough.
+Unfortunately, the most common ["straightforward"](https://en.wikipedia.org/wiki/Median#Finite_data_set_of_numbers)
+  approach to calculating the median value is not always robust enough.
 Consider the following sample: (4, 10, 15, 18, 19, 20, 501, 502, 503, 504, 3000).
 The straightforward sample median value is 20.
 
@@ -210,7 +212,7 @@ Hooray, we finally got the correct set of outliers!
 
 Let's consider another example that compares different combinations of the discussed approaches.
 We take `BaseSample` from the beta-distribution $ \textrm{Beta}(1, 10) $ multilied by 10000.
-Next, we add different combinations of lower or upper outliers and check how the following outlier detector work:
+Next, we add different combinations of lower or upper outliers and check how the following outlier detector works:
 
 * `TukeySimple`: Tukey's fences with the straightforward quantile estimation
 * `TukeyHd`: Tukey's fences with the Harrell-Davis quantile estimation
@@ -316,28 +318,3 @@ If it's not OK for your case, the outlier sensitivity can be tuned by the scale 
 However, in my experiments, $ k = 3 $ works fine for most cases.
 
 I hope that the Harrell-Davis-powered Double MAD approach may help you as well in your next outlier hunting journey.
-
-### References
-
-* <b id="Tukey1997">[Tukey1997]</b>  
-  Tukey, John W. Exploratory data analysis. Vol. 2. 1977.
-* <b id="Leys2013">[Leys2013]</b>  
-  Leys, Christophe, Christophe Ley, Olivier Klein, Philippe Bernard, and Laurent Licata.
-  "Detecting outliers: Do not use standard deviation around the mean, use absolute deviation around the median."
-  *Journal of Experimental Social Psychology* 49, no. 4 (2013): 764-766.
-* <b id="Yang2019">[Yang2019]</b>  
-  Yang, Jiawei, Susanto Rahardja, and Pasi Fränti.
-  "Outlier detection: how to threshold outlier scores?."
-  *In Proceedings of the International Conference on Artificial Intelligence, Information Processing and Cloud Computing*, pp. 1-6. 2019.  
-  https://www.researchgate.net/publication/337883760_Outlier_detection_how_to_threshold_outlier_scores
-* <b id="Rosenmai2013">[Rosenmai2013]</b>  
-  Rosenmai, Peter.
-  "Using the Median Absolute Deviation to Find Outliers."
-  *Eureka Statistics.*
-  November 25, 2013.
-  Accessed June 22, 2020.  
-  https://eurekastatistics.com/using-the-median-absolute-deviation-to-find-outliers/
-* <b id="Harrell1982">[Harrell1982]</b>  
-  Harrell, F.E. and Davis, C.E., 1982. A new distribution-free quantile estimator.
-  *Biometrika*, 69(3), pp.635-640.  
-  https://pdfs.semanticscholar.org/1a48/9bb74293753023c5bb6bff8e41e8fe68060f.pdf

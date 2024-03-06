@@ -5,13 +5,13 @@ tags:
 - mathematics
 - statistics
 - research
-- research-p2qe
+- P2 quantile estimator
 features:
 - math
 ---
 
 I already covered *the P² quantile estimator* and its possible implementation improvements
-  in [several blog posts]({{< ref research-p2qe >}}).
+  in [several blog posts]({{< ref p2-quantile-estimator >}}).
 This sequential estimator uses $O(1)$ memory and allows estimating a single predefined quantile.
 Now it's time to discuss *the extended P² quantile estimator* that allows estimating multiple predefined quantiles.
 This extended version was suggested in the paper
@@ -255,15 +255,3 @@ public class ExtendedP2QuantileEstimator
     }
 }
 ```
-
-### References
-
-* <b id="Jain1985">[Jain1985]</b>  
-  Jain, Raj, and Imrich Chlamtac.
-  "The P² algorithm for dynamic calculation of quantiles and histograms without storing observations."
-  Communications of the ACM 28, no. 10 (1985): 1076-1085.  
-  https://doi.org/10.1145/4372.4378
-* <b id="Raatikainen1987">[Raatikainen1987]</b>  
-  Raatikainen, Kimmo EE. "Simultaneous estimation of several percentiles."
-  Simulation 49, no. 4 (1987): 159-163.  
-  https://doi.org/10.1177/003754978704900405

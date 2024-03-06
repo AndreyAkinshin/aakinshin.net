@@ -9,6 +9,11 @@ public class MediaStorage : LightStorage<MediaFile, LightEntry>
 {
     public MediaStorage() : base(FileSystem.Media)
     {
+        // Import();
+    }
+
+    private void Import()
+    {
         var yamlStream = new YamlStream();
         yamlStream.Load(new StreamReader(Path.Combine(FileSystem.Raw, "media.yaml")));
         var yamlRoot = (YamlMappingNode)yamlStream.Documents[0].RootNode;

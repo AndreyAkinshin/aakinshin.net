@@ -3,10 +3,11 @@ title: "Lowland multimodality detection"
 description: "I came up with a new algorithm for multimodality detection. On my data sets, it works much better than all the other approaches I tried."
 date: "2020-11-03"
 tags:
-- mathematics
-- statistics
-- research
-- Multimodality
+- Mathematics
+- Statistics
+- Research
+- Multimodality Detection
+- Multimodality Detection Based on Density
 - QRDE
 - Harrell-Davis quantile estimator
 features:
@@ -22,7 +23,7 @@ Unfortunately, this problem is much harder than it looks like.
 I tried many different approaches for multimodality detection, but none of them was good enough.
 During the past several years, my approach of choice was the [mvalue-based modal test](http://www.brendangregg.com/FrequencyTrails/modes.html) by Brendan Gregg.
 It works nicely in simple cases, but I was constantly stumbling over noisy samples where this algorithm doesn't produce reliable results.
-Also, it has some limitations that make it unapplicable to some corner cases.
+Also, it has some limitations that make it inapplicable to some corner cases.
 
 So, I needed a better approach.
 Here are my main requirements:
@@ -35,7 +36,9 @@ I failed to find such an algorithm anywhere, so I came up with my own!
 The current working title is "the lowland multimodality detector."
 It takes an estimation of the probability density function (PDF) and tries to find "lowlands" (areas that are much lower than neighboring peaks).
 Next, it splits the plot by these lowlands and detects modes between them.
-For the PDF estimation, it uses the [quantile-respectful density estimation based on the Harrell-Davis quantile estimator]({{< ref qrde-hd>}}) (QRDE-HD).
+For the PDF estimation, it uses the
+  [quantile-respectful density estimation based on the Harrell-Davis quantile estimator]({{< ref qrde-hd>}}) (QRDE-HD)
+  (see also {{< link harrell1982 >}})
 Let me explain how it works in detail.
 
 <!--more-->
@@ -66,7 +69,7 @@ Typically, the true density of real-life distributions is very noisy and wobbly.
 However, we are not interested in most of "close to each other noisy modes" in practice.
 When we work with such distributions, we tend to make the density smoother.
 We tend to reduce the impact of noise patterns, even if such patterns are integral parts of the original distribution.
-We tend to group each bunch of nearby local maxima to a single mode.
+We tend to group each bunch of nearby local maxima into a single mode.
 
 During basic distribution exploration,
   we are interested only in "major" modes that make sense to us from the practical point of view.
@@ -81,7 +84,7 @@ In this post, we focus on such "practically significant" modes which often look 
 ### The mvalue approach
 
 To get a better understanding of the problem, we start with the analysis of the mvalue approach.
-It's described by Brendan Gregg in [[Gregg2015]](#Gregg2015).
+It's described by Brendan Gregg in {{< link cb5645f7ac4f6f375a7a2cd38b58c4e1 >}}.
 It worth reading the original post, but I briefly describe the main idea.
 Basically, the mvalue is the [total variation](https://en.wikipedia.org/wiki/Total_variation) of a histogram or a density plot normalized by the plot height.
 The modal test compares the mvalue with a predefined threshold and makes a decision about multimodality.
@@ -138,11 +141,11 @@ It equals 6:
 
 This distribution is most probably unimodal.
 But because of the noise, the mvalue-based modal test thinks that it's a trimodal distribution.
-Although mvalues allows detecting multimodal distributions in simple cases,
+Although mvalues allow detecting multimodal distributions in simple cases,
   they have some serious disadvantages:
 
 * **High false-positive rate**  
-  Many noisy distributions may be considered as multimodal.
+  Many noisy distributions may be considered multimodal.
 * **No clear mode separation**  
   We get only a single number that expresses the measure of multimodality.
   But we don't have the exact number of modes and their locations and ranges.
@@ -161,7 +164,7 @@ Although mvalues allows detecting multimodal distributions in simple cases,
 
 Despite all these problems, this approach works and can be used in practice.
 I have been using it in [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet) for the past two years (it's available since v0.10.14), but there are still cases when it doesn't help to automatically make a reliable conclusion about multimodality.
-So, I decided to find another approach that will work better.
+So, I decided to find another approach that would work better.
 
 ### Introducing lowlands
 
@@ -173,7 +176,7 @@ Now imagine that this function describes a mountain relief (side view):
 
 Next, it's starting to rain[^1].
 The rain fills the mountain hollows with water and forms a bunch of ponds.
-The area of the mountain strictly below the ponds saturated with water.
+The area of the mountain is strictly below the ponds saturated with water.
 Now let's introduce the following definitions:
 
 * **Groundwater**: the area below a pond saturated with water
@@ -210,7 +213,7 @@ To find the number of modes and their locations for the given samples, we should
 4. For each segment, we try to fill it with "water."
    The water level is determined by the lowest peak.
    If the water area is larger than the area under the water, we mark it as "lowland."
-   Once we found a lowland, we don't touch it anymore: it can't be flooded by a larger pond.
+   Once we find a lowland, we don't touch it anymore: it can't be flooded by a larger pond.
    If the water area is smaller than the area under the water, this pond can be merged with other ponds.
 5. Once we found all the lowland areas, we split the whole plot by them to not-lowland areas.
 6. In each not-lowland area, we choose the highest peek and mark them as a mode.
@@ -280,19 +283,19 @@ However, there are a few points of customization that you can use to adopt this 
 * **Precision**  
   It's typically enough to calculate 101 quantile values (99 percentiles + minimum + maximum) to build the QRDE-HD as a step function.
   However, if you expect an extremely large number of modes
-    (e.g., 200 modes and extremely large data sets that clearly highlights all of these modes),
+    (e.g., 200 modes and extremely large data sets that clearly highlight all of these modes),
     you can increase the number of evaluated quantiles.
-  Note that it may significantly reduce the algorithm performance.
+  Note that it may significantly reduce the algorithm's performance.
 * **PDF**  
   I suggest using the QRDE-HD to estimate the PDF.
   However, other kinds of estimations may be considered.
   I do not recommend using classic histograms and kernel density estimations because of the smoothness problems.
-  However, it may make sense to experiment with other kinds of the PDF estimators (e.g., QRDE based on other smooth quantile estimators).
+  However, it may make sense to experiment with other kinds of PDF estimators (e.g., QRDE based on other smooth quantile estimators).
   In general, the algorithm supports any kind of density plots or histograms.
 
 ### Conclusion
 
-The suggested algorithm allows detecting multimodality phenomena based on the given sample.
+The suggested algorithm allows detection of multimodality phenomena based on the given sample.
 You can try to use it via [perfolizer](https://github.com/AndreyAkinshin/perfolizer) or implement it yourself.
 Here are some of the main advantages of this approach:
 
@@ -305,20 +308,9 @@ Here are some of the main advantages of this approach:
 * **Robustness and reliability**  
   It's pretty robust, and it works reliably even on noisy samples (at least, on my data sets ☺)
 * **Natural results**  
-  The set of detected modes matches thoughts of real people when they manually explore distribution plots
+  The set of detected modes matches the thoughts of real people when they manually explore distribution plots
 
 If you decide to try this algorithm on your data sets, I will be happy to get your feedback!
-
-### References
-
-* <b id="Gregg2015">[Gregg2015]</b>  
-  B. Gregg, 2015.
-  Frequency Trails: Modes and Modality.  
-  http://www.brendangregg.com/FrequencyTrails/modes.html
-* <b id="Harrell1982">[Harrell1982]</b>  
-  Harrell, F.E. and Davis, C.E., 1982. A new distribution-free quantile estimator.
-  *Biometrika*, 69(3), pp.635-640.  
-  https://pdfs.semanticscholar.org/1a48/9bb74293753023c5bb6bff8e41e8fe68060f.pdf
 
 [^1]: Inspired by the problem "Rain" from XIV All-Russian Olympiad for schoolchildren in computer science a.k.a. ROI-2002 (Day 1, Problem 2).
 The problem description can be found [here](https://neerc.ifmo.ru/school/archive/2001-2002.html) (In Russian). The problem solution can be found [here](http://svgimnazia1.grodno.by/sinica/Book_ABC/Book_ABC_pascal/olimp_resh/olimp_resh55.htm) (In Russian).

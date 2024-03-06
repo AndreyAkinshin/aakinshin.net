@@ -6,7 +6,9 @@
 </h1>
 <div class="main-content">
 {{ .Content }}
+<hr />
 {{ partial "page-list.html" (dict "site" $.Site "pages" .Pages) }}
+{{ partial "relations.html" (dict "site" $.Site "page" . ) }}
 </div>
 
 {{ end }}

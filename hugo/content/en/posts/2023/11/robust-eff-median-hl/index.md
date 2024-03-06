@@ -6,13 +6,14 @@ tags:
 - mathematics
 - statistics
 - research
+- Hodges-Lehmann Estimator
 features:
 - math
 ---
 
 In the [previous post]({{< ref thoughts-robust-efficiency >}}),
   I shared some thoughts on how to evaluate the statistical efficiency of estimators under heavy-tailed distributions.
-In this post, I apply described ideas to actually compare efficiency values of
+In this post, I apply the described ideas to actually compare efficiency values of
   the Mean, the Sample Median, and the Hodges-Lehmann location estimator
   under various distributions.
 
@@ -41,7 +42,7 @@ $$
 The problem with the above definition is that it includes the variance $\mathbb{V}$ which is not robust.
 There are two popular efficient robust alternatives to the variance:
 
-* Shamos Estimator: $\operatorname{Quantile}(|x_i-x_j|_{i < j}, 0.5) \cdot C_1$
+* {{< link shamos-estimator >}}: $\operatorname{Quantile}(|x_i-x_j|_{i < j}, 0.5) \cdot C_1$
 * Rousseeuw–Croux $Q_n$ estimator: $\operatorname{Quantile}(|x_i-x_j|_{i < j}, 0.25) \cdot C_2$
 
 These values are $50^\textrm{th}$ and $25^\textrm{th}$ percentiles of the $|x_i-x_j|_{i < j}$ distribution.

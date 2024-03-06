@@ -9,6 +9,7 @@ tags:
 - Mathematics
 - Statistics
 - Science Audit
+- Effect Size
 hasNotes: false
 ---
 

@@ -131,7 +131,7 @@ There are several things that we could customize in the above equations.
   Initially, I thought that $\operatorname{QAD}$ should be useful for describing quantile-specific effect size.
   I performed several experiments on applying this metric to $\gamma_p$,
     but I failed to get practically beneficial ways to do that (for now).  
-  Another robust way to estimate the dispersion is to use the Shamos estimator:
+  Another robust way to estimate the dispersion is to use the {{< link shamos-estimator >}}:
     $$
     \operatorname{Shamos} = C_n \cdot \operatorname{median}_{i < j} (|x_i - x_j|); \quad C_{\infty} \approx 1.0484
     $$

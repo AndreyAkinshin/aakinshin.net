@@ -5,7 +5,7 @@ tags:
 - mathematics
 - statistics
 - research
-- research-p2qe
+- P2 quantile estimator
 features:
 - math
 ---
@@ -13,7 +13,7 @@ features:
 In the previous posts, I discussed
   [the P² quantile estimator]({{< ref p2-quantile-estimator >}})
   (a sequential estimator which takes $O(1)$ memory and estimates a single predefined quantile),
-  [the moving P² quantile estimator]({{< ref mp2-quantile-estimator>}})
+  [the moving P² quantile estimator]({{< ref mp2-quantile-estimator >}})
   (a moving modification of P² which estimates quantiles within the moving window),
   and [the extended P² quantile estimator]({{< ref ex-p2-quantile-estimator >}})
   (a sequential estimator which takes $O(m)$ memory and estimates $m$ predefined quantiles).

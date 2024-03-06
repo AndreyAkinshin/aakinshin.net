@@ -5,7 +5,7 @@ tags:
 - mathematics
 - statistics
 - research
-- hodges-lehmann
+- Hodges-Lehmann Estimator
 features:
 - math
 ---
@@ -268,19 +268,3 @@ Frechet(shape=3)              :  99.36%
 ```
 
 It seems that the approach is accurate enough, the coverage percentage is quite close to the requested confidence level.
-
-### References
-
-* <b id=Hodges1963>[Hodges1963]</b>  
-   Hodges, J. L., and E. L. Lehmann.
-   “Estimates of Location Based on Rank Tests.” The Annals of Mathematical Statistics 34, no. 2 (June 1963): 598–611.  
-   https://doi.org/10.1214/aoms/1177704172.
-* <b id=Sen1963>[Sen1963]</b>  
-  Sen, Pranab Kumar.
-  “On the Estimation of Relative Potency in Dilution (-Direct) Assays by Distribution-Free Methods.”
-  Biometrics 19, no. 4 (December 1963): 532.  
-  https://doi.org/10.2307/2527532.
-* <b id=Deshpande2018>[Deshpande2018]</b>  
-  Deshpande, J. V., Uttara Naik-Nimbalkar, and Isha Dewan.
-  Nonparametric Statistics: Theory and Methods.
-  New Jersey: World Scientific, 2018.

@@ -7,6 +7,7 @@ authors:
 - Ichiro Kishimi
 tags:
 - Philosophy
+- Psychology
 rating: 5
 hasNotes: false
 ---

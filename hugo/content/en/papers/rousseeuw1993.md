@@ -10,6 +10,7 @@ authors:
 tags:
 - Mathematics
 - Statistics
+- Shamos Estimator
 hasNotes: false
 ---
 

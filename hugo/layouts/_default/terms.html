@@ -2,30 +2,25 @@
 
 <h1>{{ .Title | strings.Title }}</h1>
 
-<ul>
+<div class="flex flex-wrap gap-y-1 mb-5">
 
 {{ range .Data.Terms.ByCount }}
   {{- if .Page.Params.Icon -}}
-  <li>
-    <a href="{{ .Page.RelPermalink }}">
+    <a class="label-link" href="{{ .Page.RelPermalink }}">
       {{- partial "svg-text.html" .Page.Params.Icon -}}
-      {{- .Page.Title -}}
+      {{- .Page.Title }} ({{ .Count }})
     </a>
-    ({{ .Count }})
-  </li>
   {{- end -}}
 {{ end }}
 
 {{ range .Data.Terms.ByCount }}
   {{- if not .Page.Params.Icon -}}
-  <li>
-    <a href="{{ .Page.RelPermalink }}">
-      {{- .Page.Title -}}
+    <a class="label-link" href="{{ .Page.RelPermalink }}">
+      {{ .Page.Title }} ({{ .Count }})
     </a>
-    ({{ .Count }})
-  </li>
   {{- end -}}
 {{ end }}
-</ul>
+
+</div>
 
 {{ end }}

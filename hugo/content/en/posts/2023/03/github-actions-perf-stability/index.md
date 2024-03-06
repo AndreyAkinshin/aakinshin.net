@@ -4,8 +4,11 @@ description: Investigating the stability of performance measurements on GitHub A
 thumbnail: macos_disk-light
 date: 2023-03-21
 tags:
-- statistics
-- perf-analysis
+- Mathematics
+- Statistics
+- Research
+- Performance Analysis
+- Statistical Analysis
 features:
 - math
 ---

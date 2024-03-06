@@ -8,6 +8,7 @@ authors:
 tags:
 - Mathematics
 - Statistics
+- Effect Size
 hasNotes: false
 ---
 
