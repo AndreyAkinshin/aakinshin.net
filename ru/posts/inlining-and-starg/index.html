@@ -48,7 +48,7 @@
 </span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=nl>CEE_LDARGA_S</span><span class=p>:</span>
 </span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=nl>CEE_LDLOCA</span><span class=p>:</span>
 </span></span><span class=line><span class=cl>    <span class=k>case</span> <span class=nl>CEE_LDLOCA_S</span><span class=p>:</span>    <span class=k>goto</span> <span class=n>ADDR_TAKEN</span><span class=p>;</span>
-</span></span></code></pre></div><p>Случай с командой <code>starg</code> попроще, взглянем на него более внимательно:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=nl>ARG_WRITE</span><span class=p>:</span>
+</span></span></code></pre></div><p>Случай с командой <code>starg</code> попроще, взглянем на него более внимательно:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>ARG_WRITE</span><span class=o>:</span>
 </span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>compIsForInlining</span><span class=p>())</span>
 </span></span><span class=line><span class=cl>            <span class=p>{</span>
 </span></span><span class=line><span class=cl>
