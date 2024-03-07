@@ -5,7 +5,7 @@ Mathematics
 </a><a class=label-link href=https://aakinshin.net/tags/statistics/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#statistics"/></svg>
 Statistics
 </a><a class=label-link href=https://aakinshin.net/tags/research/>Research
-</a><a class=label-link href=https://aakinshin.net/tags/research-p2qe/>Research: P² quantile estimator</a></div></div><br><p>I have already written a few blog posts about the P² quantile estimator
+</a><a class=label-link href=https://aakinshin.net/tags/research-p2qe/>[Research] P² quantile estimator</a></div></div><br><p>I have already written a few blog posts about the P² quantile estimator
 (which is a sequential estimator that uses $O(1)$ memory):</p><ul><li><a href=https://aakinshin.net/posts/p2-quantile-estimator/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>P² quantile estimator</a></li><li><a href=https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>P² quantile estimator rounding issue</a></li><li><a href=https://aakinshin.net/posts/p2-quantile-estimator-initialization/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>P² quantile estimator initialization strategy</a></li></ul><p>In this post, we continue improving the P² implementation
 so that it gives better estimations for streams with a small number of elements.</p><a href=/posts/p2-quantile-estimator-adjusting-order/>Read more</a><br><br><hr></div><div><h2><a href=/posts/p2-quantile-estimator-initialization/>P² quantile estimator initialization strategy</a></h2><div class="flex flex-wrap justify-start items-center"><svg class="fai text-accent-l dark:text-front-d"><title>Date</title><use xlink:href="/img/fa/all.svg#calendar-days"/></svg>
 <time datetime=2022-01-04>January 4, 2022</time><svg class="fai ml-3 text-accent-l dark:text-front-d"><title>Tags</title><use xlink:href="/img/fa/all.svg#tag"/></svg><div class="flex flex-wrap gap-y-1"><a class=label-link href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#math"/></svg>
@@ -13,7 +13,7 @@ Mathematics
 </a><a class=label-link href=https://aakinshin.net/tags/statistics/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#statistics"/></svg>
 Statistics
 </a><a class=label-link href=https://aakinshin.net/tags/research/>Research
-</a><a class=label-link href=https://aakinshin.net/tags/research-p2qe/>Research: P² quantile estimator</a></div></div><br><p><strong>Update: the estimator accuracy could be improved using a bunch of <a href=https://aakinshin.net/tags/research-p2qe/>patches</a>.</strong></p><p>The P² quantile estimator is a sequential estimator that uses $O(1)$ memory.
+</a><a class=label-link href=https://aakinshin.net/tags/research-p2qe/>[Research] P² quantile estimator</a></div></div><br><p><strong>Update: the estimator accuracy could be improved using a bunch of <a href=https://aakinshin.net/tags/research-p2qe/>patches</a>.</strong></p><p>The P² quantile estimator is a sequential estimator that uses $O(1)$ memory.
 Thus, for the given sequence of numbers, it allows estimating quantiles without storing values.
 I have already written a few blog posts about it:</p><ul><li><a href=https://aakinshin.net/posts/p2-quantile-estimator/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>P² quantile estimator</a></li><li><a href=https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>P² quantile estimator rounding issue</a></li></ul><p>I tried this estimator in various contexts, and it shows pretty decent results.
 However, recently I stumbled on a corner case:
@@ -109,7 +109,7 @@ Mathematics
 </a><a class=label-link href=https://aakinshin.net/tags/statistics/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#statistics"/></svg>
 Statistics
 </a><a class=label-link href=https://aakinshin.net/tags/paper-announcement/>Paper announcement
-</a><a class=label-link href=https://aakinshin.net/tags/research-thdqe/>Research: Building trimmed Harrell-Davis quantile estimator</a></div></div><br><p><strong>Update: the <a href=https://aakinshin.net/posts/pub-thdqe/>final paper</a> was published in <em>Communications in Statistics - Simulation and Computation</em> (DOI: <a href=https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396>10.1080/03610918.2022.2050396</a>).</strong></p><p>Since the beginning of this year, I have been working on building a quantile estimator
+</a><a class=label-link href=https://aakinshin.net/tags/research-thdqe/>[Research] Building trimmed Harrell-Davis quantile estimator</a></div></div><br><p><strong>Update: the <a href=https://aakinshin.net/posts/pub-thdqe/>final paper</a> was published in <em>Communications in Statistics - Simulation and Computation</em> (DOI: <a href=https://www.tandfonline.com/doi/abs/10.1080/03610918.2022.2050396>10.1080/03610918.2022.2050396</a>).</strong></p><p>Since the beginning of this year, I have been working on building a quantile estimator
 that provides an optimal trade-off between statistical efficiency and robustness.
 Finally, I have built such an estimator.
 A paper preprint is available on arXiv:
