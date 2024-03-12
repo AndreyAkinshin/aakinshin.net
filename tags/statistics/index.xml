@@ -252,7 +252,7 @@ $\operatorname{wmedian}$ is the &lt;a href="https://aakinshin.net/posts/preprint
 For simplicity, in the scope of the current post,
 Hyndman-Fan Type 7 quantile estimator is used as the base for the weighted median.&lt;/p>
 &lt;p>In this post, we consider a numerical simulation in which we compare sampling distribution of
-$\operatorname{HL}$ and $\operatorname{WHL}$ in a case of mixture distribution.&lt;/p></description></item><item><title>Carling’s Modification of the Tukey's fences</title><link>https://aakinshin.net/posts/carling-outlier-detector/</link><pubDate>Tue, 26 Sep 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/carling-outlier-detector/</guid><description>&lt;p>Let us consider the classic problem of outlier detection in one-dimensional sample.
+$\operatorname{HL}$ and $\operatorname{WHL}$ in a case of mixture distribution.&lt;/p></description></item><item><title>How NASA didn’t Discover the Hole in the Ozone Layer</title><link>https://aakinshin.net/library/web/d2eeebee49d37a7de48ded659f29fb37/</link><pubDate>Fri, 29 Sep 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/library/web/d2eeebee49d37a7de48ded659f29fb37/</guid><description/></item><item><title>Carling’s Modification of the Tukey's fences</title><link>https://aakinshin.net/posts/carling-outlier-detector/</link><pubDate>Tue, 26 Sep 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/carling-outlier-detector/</guid><description>&lt;p>Let us consider the classic problem of outlier detection in one-dimensional sample.
 One of the most popular approaches is Tukey&amp;rsquo;s fences, that defines the following range:&lt;/p>
 $$
 [Q_1 - k(Q_3 - Q_1);\; Q_3 + k(Q_3 - Q_1)],
