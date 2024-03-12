@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Central Limit Theorem on Andrey Akinshin</title><link>https://aakinshin.net/tags/central-limit-theorem/</link><description>Recent content in Central Limit Theorem on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 09 Oct 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/central-limit-theorem/index.xml" rel="self" type="application/rss+xml"/><item><title>Normality is a myth</title><link>https://aakinshin.net/posts/normality/</link><pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/normality/</guid><description>&lt;p>In many statistical papers, you can find the following phrase: &amp;ldquo;assuming that we have a normal distribution.&amp;rdquo;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Central Limit Theorem on Andrey Akinshin</title><link>https://aakinshin.net/tags/central-limit-theorem/</link><description>Recent content in Central Limit Theorem on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Wed, 09 Oct 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/central-limit-theorem/index.xml" rel="self" type="application/rss+xml"/><item><title>Normality is a myth</title><link>https://aakinshin.net/posts/normality-is-a-myth/</link><pubDate>Wed, 09 Oct 2019 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/normality-is-a-myth/</guid><description>&lt;p>In many statistical papers, you can find the following phrase: &amp;ldquo;assuming that we have a normal distribution.&amp;rdquo;
 Probably, you saw plots of the normal distribution density function in some statistics textbooks,
 it looks like this:&lt;/p>
 
@@ -10,15 +10,15 @@ it looks like this:&lt;/p>
 
 
 &lt;div class="flex my-7 justify-center">
- &lt;a class="img-light hidden" href="https://aakinshin.net/posts/normality/img/normal-light.png" target="_blank" alt="normal">
+ &lt;a class="img-light hidden" href="https://aakinshin.net/posts/normality-is-a-myth/img/normal-light.png" target="_blank" alt="normal">
  &lt;img
- src="https://aakinshin.net/posts/normality/img/normal-light.png" 
+ src="https://aakinshin.net/posts/normality-is-a-myth/img/normal-light.png" 
  width='800'
  />
  &lt;/a>
- &lt;a class="img-dark hidden" href="https://aakinshin.net/posts/normality/img/normal-dark.png" target="_blank" alt="normal">
+ &lt;a class="img-dark hidden" href="https://aakinshin.net/posts/normality-is-a-myth/img/normal-dark.png" target="_blank" alt="normal">
  &lt;img
- src="https://aakinshin.net/posts/normality/img/normal-dark.png" 
+ src="https://aakinshin.net/posts/normality-is-a-myth/img/normal-dark.png" 
  width='800'
  />
  &lt;/a>
@@ -48,15 +48,15 @@ when we open the &lt;a href="https://github.com/OrchardCMS/Orchard">Orchard&lt;/
 
 
 &lt;div class="flex my-7 justify-center">
- &lt;a class="img-light hidden" href="https://aakinshin.net/posts/normality/img/performance-light.png" target="_blank" alt="performance">
+ &lt;a class="img-light hidden" href="https://aakinshin.net/posts/normality-is-a-myth/img/performance-light.png" target="_blank" alt="performance">
  &lt;img
- src="https://aakinshin.net/posts/normality/img/performance-light.png" 
+ src="https://aakinshin.net/posts/normality-is-a-myth/img/performance-light.png" 
  width='800'
  />
  &lt;/a>
- &lt;a class="img-dark hidden" href="https://aakinshin.net/posts/normality/img/performance-dark.png" target="_blank" alt="performance">
+ &lt;a class="img-dark hidden" href="https://aakinshin.net/posts/normality-is-a-myth/img/performance-dark.png" target="_blank" alt="performance">
  &lt;img
- src="https://aakinshin.net/posts/normality/img/performance-dark.png" 
+ src="https://aakinshin.net/posts/normality-is-a-myth/img/performance-dark.png" 
  width='800'
  />
  &lt;/a>
