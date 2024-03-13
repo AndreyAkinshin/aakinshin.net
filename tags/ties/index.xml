@@ -54,7 +54,7 @@ you may get a serrated pattern like this:&lt;/p>
 &lt;p>KDE requires samples from continuous distributions
 while tied values arise in discrete or mixture distributions.
 Even if the original distribution is continuous,
-you may observe artificial sample discretization due to a limited resolution of the measuring tool.
+you may observe artificial sample discretization due to the limited resolution of the measuring tool.
 This effect may lead to distorted density plots like in the above picture.&lt;/p>
 &lt;p>The problem could be solved using a nice technique called &lt;em>jittering&lt;/em>.
 In the simplest case, jittering just adds random noise to each measurement.
