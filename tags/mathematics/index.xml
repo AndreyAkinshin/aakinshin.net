@@ -2136,11 +2136,11 @@ It&amp;rsquo;s possible because the quantiles also can be estimated for weighted
 In one of my previous posts, I &lt;a href="https://aakinshin.net/posts/weighted-quantiles/">showed&lt;/a> how to adapt
 the Hyndman-Fan Type 7 and Harrell-Davis quantile estimators to the weighted samples.
 In this post, I&amp;rsquo;m going to show how we can use this technique to estimate
-the weighted moving quantiles using exponentially decreasing weights.&lt;/p></description></item><item><title>Improving quantile-respectful density estimation for discrete distributions using jittering</title><link>https://aakinshin.net/posts/qrde-discrete/</link><pubDate>Tue, 27 Apr 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qrde-discrete/</guid><description>&lt;p>In my previous posts, I already discussed the &lt;a href="https://aakinshin.net/posts/kde-discrete/">problem&lt;/a> that arise
-when we try to build the kernel density estimation (KDE) for samples with ties.
+the weighted moving quantiles using exponentially decreasing weights.&lt;/p></description></item><item><title>Improving quantile-respectful density estimation for discrete distributions using jittering</title><link>https://aakinshin.net/posts/qrde-discrete/</link><pubDate>Tue, 27 Apr 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qrde-discrete/</guid><description>&lt;p>In my previous posts, I already discussed the &lt;a href="https://aakinshin.net/posts/kde-discrete/">problem&lt;/a> that arises
+when we try to build kernel density estimation (KDE) for samples with ties.
 We may get such samples in real life from discrete or mixed discrete/continuous distributions.
 Even if the original distribution is continuous,
-we may observe artificial sample discretization due to a limited resolution of the measuring tool.
+we may observe artificial sample discretization due to the limited resolution of the measuring tool.
 Such discretization may lead to inaccurate density plots due to undersmoothing.
 The problem can be resolved using a nice technique called &lt;em>jittering&lt;/em>.
 I also discussed &lt;a href="https://aakinshin.net/posts/discrete-sample-jittering/">how to apply&lt;/a> jittering to get a smoother version of KDE.&lt;/p>

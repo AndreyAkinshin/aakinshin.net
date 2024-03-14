@@ -147,33 +147,7 @@ It&amp;rsquo;s possible because the quantiles also can be estimated for weighted
 In one of my previous posts, I &lt;a href="https://aakinshin.net/posts/weighted-quantiles/">showed&lt;/a> how to adapt
 the Hyndman-Fan Type 7 and Harrell-Davis quantile estimators to the weighted samples.
 In this post, I&amp;rsquo;m going to show how we can use this technique to estimate
-the weighted moving quantiles using exponentially decreasing weights.&lt;/p></description></item><item><title>Improving quantile-respectful density estimation for discrete distributions using jittering</title><link>https://aakinshin.net/posts/qrde-discrete/</link><pubDate>Tue, 27 Apr 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qrde-discrete/</guid><description>&lt;p>In my previous posts, I already discussed the &lt;a href="https://aakinshin.net/posts/kde-discrete/">problem&lt;/a> that arise
-when we try to build the kernel density estimation (KDE) for samples with ties.
-We may get such samples in real life from discrete or mixed discrete/continuous distributions.
-Even if the original distribution is continuous,
-we may observe artificial sample discretization due to a limited resolution of the measuring tool.
-Such discretization may lead to inaccurate density plots due to undersmoothing.
-The problem can be resolved using a nice technique called &lt;em>jittering&lt;/em>.
-I also discussed &lt;a href="https://aakinshin.net/posts/discrete-sample-jittering/">how to apply&lt;/a> jittering to get a smoother version of KDE.&lt;/p>
-&lt;p>However, I&amp;rsquo;m not a huge fan of KDE because of two reasons.
-The first one is the &lt;a href="https://aakinshin.net/posts/kde-bw/">problem of choosing a proper bandwidth value&lt;/a>.
-With poorly chosen bandwidth, we can easily get oversmoothing or undersmoothing even without the discretization problem.
-The second one is an inconsistency between the KDE-based probability density function and evaluated sample quantiles.
-It could lead to inconsistent visualizations (e.g., KDE-based violin plots with non-KDE-based quantile values)
-or it could introduce problems for algorithms that require density function and quantile values at the same time.
-The inconsistency could be resolved using &lt;a href="https://aakinshin.net/posts/qrde-hd/">quantile-respectful density estimation&lt;/a> (QRDE).
-This kind of estimation builds the density function which matches the evaluated sample quantiles.
-To get a smooth QRDE, we also need a smooth quantile estimator like the Harrell-Davis quantile estimator.
-The robustness and componential efficiency of this approach can be improved using
-the &lt;a href="https://aakinshin.net/posts/winsorized-hdqe/">winsorized&lt;/a> and &lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">trimmed&lt;/a>
-modifications of the Harrell-Davis quantile estimator
-(which also have a &lt;a href="https://aakinshin.net/posts/wthdqe-efficiency/">decent statistical efficiency level&lt;/a>).&lt;/p>
-&lt;p>Unfortunately, the straightforward QRDE calculation is not always applicable for samples with ties
-because it&amp;rsquo;s impossible to build an &amp;ldquo;honest&amp;rdquo; density function for discrete distributions
-without using the Dirac delta function.
-This is a severe problem for QRDE-based algorithms like the
-&lt;a href="https://aakinshin.net/posts/lowland-multimodality-detection/">lowland multimodality detection algorithm&lt;/a>.
-In this post, I will show how jittering could help to solve this problem and get a smooth QRDE on samples with ties.&lt;/p></description></item><item><title>Efficiency of the winsorized and trimmed Harrell-Davis quantile estimators</title><link>https://aakinshin.net/posts/wthdqe-efficiency/</link><pubDate>Tue, 06 Apr 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/wthdqe-efficiency/</guid><description>&lt;p>In previous posts, I suggested two modifications of the Harrell-Davis quantile estimator:
+the weighted moving quantiles using exponentially decreasing weights.&lt;/p></description></item><item><title>Efficiency of the winsorized and trimmed Harrell-Davis quantile estimators</title><link>https://aakinshin.net/posts/wthdqe-efficiency/</link><pubDate>Tue, 06 Apr 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/wthdqe-efficiency/</guid><description>&lt;p>In previous posts, I suggested two modifications of the Harrell-Davis quantile estimator:
 &lt;a href="https://aakinshin.net/posts/winsorized-hdqe/">winsorized&lt;/a> and &lt;a href="https://aakinshin.net/posts/trimmed-hdqe/">trimmed&lt;/a>.
 Both modifications have a higher level of robustness in comparison to the original estimator.
 Also, I &lt;a href="https://aakinshin.net/posts/hdqe-efficiency/">discussed&lt;/a> the &lt;a href="https://en.wikipedia.org/wiki/Efficiency_(statistics)">efficiency&lt;/a>
