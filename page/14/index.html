@@ -5,7 +5,8 @@
 Mathematics
 </a><a class=label-link href=https://aakinshin.net/tags/statistics/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#statistics"/></svg>
 Statistics
-</a><a class=label-link href=https://aakinshin.net/tags/research/>Research
+</a><a class=label-link href=https://aakinshin.net/tags/research/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#research"/></svg>
+Research
 </a><a class=label-link href=https://aakinshin.net/tags/research-p2qe/>[Research] P² quantile estimator</a></div></div><br><p>I already covered <em>the P² quantile estimator</em> and its possible implementation improvements
 in <a href=https://aakinshin.net/tags/research-p2qe/>several blog posts</a>.
 This sequential estimator uses $O(1)$ memory and allows estimating a single predefined quantile.
@@ -18,7 +19,8 @@ In this post, we briefly discuss the approach from this paper and how we can imp
 Mathematics
 </a><a class=label-link href=https://aakinshin.net/tags/statistics/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#statistics"/></svg>
 Statistics
-</a><a class=label-link href=https://aakinshin.net/tags/research/>Research
+</a><a class=label-link href=https://aakinshin.net/tags/research/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#research"/></svg>
+Research
 </a><a class=label-link href=https://aakinshin.net/tags/research-p2qe/>[Research] P² quantile estimator</a></div></div><br><p>I have already written a few blog posts about the P² quantile estimator
 (which is a sequential estimator that uses $O(1)$ memory):</p><ul><li><a href=https://aakinshin.net/posts/p2-quantile-estimator/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>P² quantile estimator</a></li><li><a href=https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>P² quantile estimator rounding issue</a></li><li><a href=https://aakinshin.net/posts/p2-quantile-estimator-initialization/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>P² quantile estimator initialization strategy</a></li></ul><p>In this post, we continue improving the P² implementation
 so that it gives better estimations for streams with a small number of elements.</p><a href=/posts/p2-quantile-estimator-adjusting-order/>Read more</a><br><br><hr></div><div><h2><a href=/posts/p2-quantile-estimator-initialization/>P² quantile estimator initialization strategy</a></h2><div class="flex flex-wrap justify-start items-center"><div class="flex flex-wrap gap-y-1"><span class=label><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#calendar"/></svg>
@@ -27,7 +29,8 @@ so that it gives better estimations for streams with a small number of elements.
 Mathematics
 </a><a class=label-link href=https://aakinshin.net/tags/statistics/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#statistics"/></svg>
 Statistics
-</a><a class=label-link href=https://aakinshin.net/tags/research/>Research
+</a><a class=label-link href=https://aakinshin.net/tags/research/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#research"/></svg>
+Research
 </a><a class=label-link href=https://aakinshin.net/tags/research-p2qe/>[Research] P² quantile estimator</a></div></div><br><p><strong>Update: the estimator accuracy could be improved using a bunch of <a href=https://aakinshin.net/tags/research-p2qe/>patches</a>.</strong></p><p>The P² quantile estimator is a sequential estimator that uses $O(1)$ memory.
 Thus, for the given sequence of numbers, it allows estimating quantiles without storing values.
 I have already written a few blog posts about it:</p><ul><li><a href=https://aakinshin.net/posts/p2-quantile-estimator/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>P² quantile estimator</a></li><li><a href=https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>P² quantile estimator rounding issue</a></li></ul><p>I tried this estimator in various contexts, and it shows pretty decent results.
@@ -97,7 +100,8 @@ In this post, I want to suggest a nice way to do this using the binomial coeffic
 Mathematics
 </a><a class=label-link href=https://aakinshin.net/tags/statistics/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#statistics"/></svg>
 Statistics
-</a><a class=label-link href=https://aakinshin.net/tags/research/>Research</a></div></div><br><p>Let&rsquo;s say we have two distributions $X$ and $Y$.
+</a><a class=label-link href=https://aakinshin.net/tags/research/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#research"/></svg>
+Research</a></div></div><br><p>Let&rsquo;s say we have two distributions $X$ and $Y$.
 In the <a href=https://aakinshin.net/posts/shift-function-vs-distribution/>previous post</a>,
 we discussed how to express the &ldquo;absolute difference&rdquo; between them
 using the shift function and the shift distribution.
@@ -114,7 +118,8 @@ In this post, we briefly consider examples of both approaches.</p><a href=/posts
 Mathematics
 </a><a class=label-link href=https://aakinshin.net/tags/statistics/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#statistics"/></svg>
 Statistics
-</a><a class=label-link href=https://aakinshin.net/tags/research/>Research</a></div></div><br><p>Let&rsquo;s say we have two distributions $X$ and $Y$,
+</a><a class=label-link href=https://aakinshin.net/tags/research/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#research"/></svg>
+Research</a></div></div><br><p>Let&rsquo;s say we have two distributions $X$ and $Y$,
 and we want to express the &ldquo;absolute difference&rdquo; between them.
 This abstract term could be expressed in various ways.
 My favorite approach is to build the <a href=https://aakinshin.net/posts/shift-and-ratio-functions/>Doksum&rsquo;s shift function</a>.
