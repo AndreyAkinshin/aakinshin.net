@@ -2804,7 +2804,7 @@ Unfortunately, this problem is much harder than it looks like.&lt;/p>
 &lt;p>I tried many different approaches for multimodality detection, but none of them was good enough.
 During the past several years, my approach of choice was the &lt;a href="http://www.brendangregg.com/FrequencyTrails/modes.html">mvalue-based modal test&lt;/a> by Brendan Gregg.
 It works nicely in simple cases, but I was constantly stumbling over noisy samples where this algorithm doesn&amp;rsquo;t produce reliable results.
-Also, it has some limitations that make it unapplicable to some corner cases.&lt;/p>
+Also, it has some limitations that make it inapplicable to some corner cases.&lt;/p>
 &lt;p>So, I needed a better approach.
 Here are my main requirements:&lt;/p>
 &lt;ul>
@@ -2817,7 +2817,9 @@ Here are my main requirements:&lt;/p>
 The current working title is &amp;ldquo;the lowland multimodality detector.&amp;rdquo;
 It takes an estimation of the probability density function (PDF) and tries to find &amp;ldquo;lowlands&amp;rdquo; (areas that are much lower than neighboring peaks).
 Next, it splits the plot by these lowlands and detects modes between them.
-For the PDF estimation, it uses the &lt;a href="https://aakinshin.net/posts/qrde-hd/">quantile-respectful density estimation based on the Harrell-Davis quantile estimator&lt;/a> (QRDE-HD).
+For the PDF estimation, it uses the
+&lt;a href="https://aakinshin.net/posts/qrde-hd/">quantile-respectful density estimation based on the Harrell-Davis quantile estimator&lt;/a> (QRDE-HD)
+(see also &lt;a href="https://aakinshin.net/library/papers/harrell1982/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#paper">&lt;/use>&lt;/svg>harrell1982&lt;/a>)
 Let me explain how it works in detail.&lt;/p></description></item><item><title>Quantile-respectful density estimation based on the Harrell-Davis quantile estimator</title><link>https://aakinshin.net/posts/qrde-hd/</link><pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/qrde-hd/</guid><description>&lt;p>The idea of this post was born when I was working on a presentation for my recent &lt;a href="https://dotnext.ru/en/">DotNext&lt;/a> &lt;a href="https://www.youtube.com/watch?v=gc3yVybPuaY&amp;list=PL21xssNXOJNGUROqzSTOC8uZL4W2QZpvK&amp;index=1">talk&lt;/a>.
 It had a &lt;a href="https://slides.aakinshin.net/dotnext-piter2020/#193">slide&lt;/a> with a density plot like this:&lt;/p>
 

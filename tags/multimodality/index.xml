@@ -1,4 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Multimodality on Andrey Akinshin</title><link>https://aakinshin.net/tags/multimodality/</link><description>Recent content in Multimodality on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 27 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/multimodality/index.xml" rel="self" type="application/rss+xml"/><item><title>Joining modes of multimodal distributions</title><link>https://aakinshin.net/posts/joining-modes/</link><pubDate>Tue, 27 Jun 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/joining-modes/</guid><description>&lt;p>Multimodality of distributions is a severe issue in statistical analysis.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Multimodality on Andrey Akinshin</title><link>https://aakinshin.net/tags/multimodality/</link><description>Recent content in Multimodality on Andrey Akinshin</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Tue, 18 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://aakinshin.net/tags/multimodality/index.xml" rel="self" type="application/rss+xml"/><item><title>Multimodal distributions and effect size</title><link>https://aakinshin.net/posts/multimodal-es/</link><pubDate>Tue, 18 Jul 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/multimodal-es/</guid><description>&lt;p>When we want to express the difference between two samples or distributions,
+a popular measure family is the effect sizes based on differences between means (difference family).
+When the normality assumption is satisfied, this approach works well thanks to classic measures of effect size
+like Cohen&amp;rsquo;s d, Glass&amp;rsquo; Δ, or Hedges&amp;rsquo; g.
+With slight deviations from normality, &lt;a href="https://aakinshin.net/posts/nonparametric-effect-size2/">robust alternatives&lt;/a> may be considered.
+To build such a measure, it&amp;rsquo;s enough to upgrade classic measures by
+replacing the sample mean with a robust measure of central tendency and
+replacing the standard deviation with a robust measure of dispersion.
+However, it might not be enough in the case of large deviations from normality.
+In this post, I briefly discuss the problem of effect size evaluation in the context of multimodal distributions.&lt;/p></description></item><item><title>Joining modes of multimodal distributions</title><link>https://aakinshin.net/posts/joining-modes/</link><pubDate>Tue, 27 Jun 2023 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/joining-modes/</guid><description>&lt;p>Multimodality of distributions is a severe issue in statistical analysis.
 Comparing two multimodal distributions is a tricky challenge.
 The degree of this challenge depends on the number of existing modes.
 Switching from unimodal models to multimodal ones
@@ -118,7 +127,7 @@ Unfortunately, this problem is much harder than it looks like.&lt;/p>
 &lt;p>I tried many different approaches for multimodality detection, but none of them was good enough.
 During the past several years, my approach of choice was the &lt;a href="http://www.brendangregg.com/FrequencyTrails/modes.html">mvalue-based modal test&lt;/a> by Brendan Gregg.
 It works nicely in simple cases, but I was constantly stumbling over noisy samples where this algorithm doesn&amp;rsquo;t produce reliable results.
-Also, it has some limitations that make it unapplicable to some corner cases.&lt;/p>
+Also, it has some limitations that make it inapplicable to some corner cases.&lt;/p>
 &lt;p>So, I needed a better approach.
 Here are my main requirements:&lt;/p>
 &lt;ul>
@@ -131,7 +140,9 @@ Here are my main requirements:&lt;/p>
 The current working title is &amp;ldquo;the lowland multimodality detector.&amp;rdquo;
 It takes an estimation of the probability density function (PDF) and tries to find &amp;ldquo;lowlands&amp;rdquo; (areas that are much lower than neighboring peaks).
 Next, it splits the plot by these lowlands and detects modes between them.
-For the PDF estimation, it uses the &lt;a href="https://aakinshin.net/posts/qrde-hd/">quantile-respectful density estimation based on the Harrell-Davis quantile estimator&lt;/a> (QRDE-HD).
+For the PDF estimation, it uses the
+&lt;a href="https://aakinshin.net/posts/qrde-hd/">quantile-respectful density estimation based on the Harrell-Davis quantile estimator&lt;/a> (QRDE-HD)
+(see also &lt;a href="https://aakinshin.net/library/papers/harrell1982/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#paper">&lt;/use>&lt;/svg>harrell1982&lt;/a>)
 Let me explain how it works in detail.&lt;/p></description></item><item><title>Misleading histograms</title><link>https://aakinshin.net/posts/misleading-histograms/</link><pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/misleading-histograms/</guid><description>&lt;p>Below you see two histograms.
 What could you say about them?&lt;/p>
 
@@ -170,4 +181,4 @@ both histograms are based on the same sample:&lt;/p>
 &lt;p>Visualization is a simple way to understand the shape of your data.
 Unfortunately, this way may easily become a slippery slope.
 In the &lt;a href="https://aakinshin.net/posts/kde-bw/">previous post&lt;/a>, I have shown how density plots may deceive you when the bandwidth is poorly chosen.
-Today, we talk about histograms and why you can&amp;rsquo;t trust them in the general case.&lt;/p></description></item></channel></rss>
+Today, we talk about histograms and why you can&amp;rsquo;t trust them in the general case.&lt;/p></description></item><item><title>Frequency Trails: Modes and Modality</title><link>https://aakinshin.net/library/web/cb5645f7ac4f6f375a7a2cd38b58c4e1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://aakinshin.net/library/web/cb5645f7ac4f6f375a7a2cd38b58c4e1/</guid><description/></item></channel></rss>
