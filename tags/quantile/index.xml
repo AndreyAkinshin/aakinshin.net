@@ -308,7 +308,7 @@ For example, if we want to estimate the median for $x = \{4, 5, 6, 7\}$,
 some estimators return $5.5$ (which is the arithmetical mean of $5$ and $6$)
 instead of $5$ or $6$ (which are order statistics).&lt;/p>
 &lt;p>Let&amp;rsquo;s learn how to implement a moving version of such estimators using
-the partitioning heaps from the Hardle-Steiger method.&lt;/p></description></item><item><title>MP² quantile estimator: estimating the moving median without storing values</title><link>https://aakinshin.net/posts/mp2-quantile-estimator/</link><pubDate>Tue, 12 Jan 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mp2-quantile-estimator/</guid><description>&lt;p>In one of the previous posts, I &lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">described&lt;/a> the P² quantile estimator.
+the partitioning heaps from the Hardle-Steiger method.&lt;/p></description></item><item><title>MP² quantile estimator: estimating the moving median without storing values</title><link>https://aakinshin.net/posts/mp2-quantile-estimator/</link><pubDate>Tue, 12 Jan 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mp2-quantile-estimator/</guid><description>&lt;p>In one of the previous posts, I &lt;a href="https://aakinshin.net/tags/p2-quantile-estimator/">described&lt;/a> the P² quantile estimator.
 It allows estimating quantiles on a stream of numbers without storing them.
 Such sequential (streaming/online) quantile estimators are useful in software telemetry because
 they help to evaluate the median and other distribution quantiles without a noticeable memory footprint.&lt;/p>

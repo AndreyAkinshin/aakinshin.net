@@ -134,7 +134,7 @@ These shifts, or &amp;ldquo;change points,&amp;rdquo; can signal critical transi
 While most CPD algorithms are adept at discovering historical change points,
 their sensitivity in detecting recent changes can be limited,
 often due to a key parameter: the minimum distance between sequential change points.
-In this post, I share some speculations on how we can improve cpd analysis by combining two change point detectors.&lt;/p></description></item><item><title>Merging extended P² quantile estimators, Part 1</title><link>https://aakinshin.net/posts/merging-exp2-1/</link><pubDate>Tue, 02 Jan 2024 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/merging-exp2-1/</guid><description>&lt;p>&lt;a href="https://aakinshin.net/tags/research-p2qe/">P² quantile estimator&lt;/a> is a streaming quantile estimator
+In this post, I share some speculations on how we can improve cpd analysis by combining two change point detectors.&lt;/p></description></item><item><title>Merging extended P² quantile estimators, Part 1</title><link>https://aakinshin.net/posts/merging-exp2-1/</link><pubDate>Tue, 02 Jan 2024 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/merging-exp2-1/</guid><description>&lt;p>&lt;a href="https://aakinshin.net/tags/p2-quantile-estimator/">P² quantile estimator&lt;/a> is a streaming quantile estimator
 with $\mathcal{O}(1)$ memory footprint and an extremely fast update procedure.
 Several days ago, I learned that it was &lt;a href="https://twitter.com/rickbrewPDN/status/1740233421673349544">adopted&lt;/a> for
 the new Paint.NET GPU-based Median Sketch effect
@@ -1457,7 +1457,7 @@ a single outlier could heavily corrupt the results.
 Fortunately, we have robust measures of dispersions like the &lt;em>median absolute deviation&lt;/em> and the &lt;em>Shamos estimator&lt;/em>.
 In this post, we perform numerical simulations and
 compare these two estimators on different distributions and sample sizes.&lt;/p></description></item><item><title>Moving extended P² quantile estimator</title><link>https://aakinshin.net/posts/moving-ex-p2-quantile-estimator/</link><pubDate>Tue, 25 Jan 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/moving-ex-p2-quantile-estimator/</guid><description>&lt;p>In the previous posts, I discussed
-&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">the P² quantile estimator&lt;/a>
+&lt;a href="https://aakinshin.net/tags/p2-quantile-estimator/">the P² quantile estimator&lt;/a>
 (a sequential estimator which takes $O(1)$ memory and estimates a single predefined quantile),
 &lt;a href="https://aakinshin.net/posts/mp2-quantile-estimator/">the moving P² quantile estimator&lt;/a>
 (a moving modification of P² which estimates quantiles within the moving window),
@@ -1465,7 +1465,7 @@ and &lt;a href="https://aakinshin.net/posts/ex-p2-quantile-estimator/">the exten
 (a sequential estimator which takes $O(m)$ memory and estimates $m$ predefined quantiles).&lt;/p>
 &lt;p>Now it&amp;rsquo;s time to build &lt;em>the moving modification of the extended P² quantile estimator&lt;/em>
 which estimates $m$ predefined quantiles using $O(m)$ memory within the moving window.&lt;/p></description></item><item><title>Extended P² quantile estimator</title><link>https://aakinshin.net/posts/ex-p2-quantile-estimator/</link><pubDate>Tue, 18 Jan 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/ex-p2-quantile-estimator/</guid><description>&lt;p>I already covered &lt;em>the P² quantile estimator&lt;/em> and its possible implementation improvements
-in &lt;a href="https://aakinshin.net/tags/research-p2qe/">several blog posts&lt;/a>.
+in &lt;a href="https://aakinshin.net/tags/p2-quantile-estimator/">several blog posts&lt;/a>.
 This sequential estimator uses $O(1)$ memory and allows estimating a single predefined quantile.
 Now it&amp;rsquo;s time to discuss &lt;em>the extended P² quantile estimator&lt;/em> that allows estimating multiple predefined quantiles.
 This extended version was suggested in the paper
@@ -1473,17 +1473,17 @@ This extended version was suggested in the paper
 In this post, we briefly discuss the approach from this paper and how we can improve its implementation.&lt;/p></description></item><item><title>P² quantile estimator marker adjusting order</title><link>https://aakinshin.net/posts/p2-quantile-estimator-adjusting-order/</link><pubDate>Tue, 11 Jan 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-adjusting-order/</guid><description>&lt;p>I have already written a few blog posts about the P² quantile estimator
 (which is a sequential estimator that uses $O(1)$ memory):&lt;/p>
 &lt;ul>
-&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>P² quantile estimator&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/tags/p2-quantile-estimator/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#tag">&lt;/use>&lt;/svg>P² Quantile Estimator&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>P² quantile estimator rounding issue&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-initialization/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>P² quantile estimator initialization strategy&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;p>In this post, we continue improving the P² implementation
-so that it gives better estimations for streams with a small number of elements.&lt;/p></description></item><item><title>P² quantile estimator initialization strategy</title><link>https://aakinshin.net/posts/p2-quantile-estimator-initialization/</link><pubDate>Tue, 04 Jan 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-initialization/</guid><description>&lt;p>&lt;strong>Update: the estimator accuracy could be improved using a bunch of &lt;a href="https://aakinshin.net/tags/research-p2qe/">patches&lt;/a>.&lt;/strong>&lt;/p>
+so that it gives better estimations for streams with a small number of elements.&lt;/p></description></item><item><title>P² quantile estimator initialization strategy</title><link>https://aakinshin.net/posts/p2-quantile-estimator-initialization/</link><pubDate>Tue, 04 Jan 2022 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-initialization/</guid><description>&lt;p>&lt;strong>Update: the estimator accuracy could be improved using a bunch of &lt;a href="https://aakinshin.net/tags/p2-quantile-estimator/">patches&lt;/a>.&lt;/strong>&lt;/p>
 &lt;p>The P² quantile estimator is a sequential estimator that uses $O(1)$ memory.
 Thus, for the given sequence of numbers, it allows estimating quantiles without storing values.
 I have already written a few blog posts about it:&lt;/p>
 &lt;ul>
-&lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>P² quantile estimator&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://aakinshin.net/tags/p2-quantile-estimator/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#tag">&lt;/use>&lt;/svg>P² Quantile Estimator&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/">&lt;svg class="rating-icon">&lt;use xlink:href="https://aakinshin.net/img/fa/all.svg#note">&lt;/use>&lt;/svg>P² quantile estimator rounding issue&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;p>I tried this estimator in various contexts, and it shows pretty decent results.
@@ -1684,10 +1684,10 @@ I briefly explain the basic idea of the underlying data structure,
 and share a copy-pastable C# implementation.
 At the end of the post, I discuss some important implementation decisions
 that are unclear from the original paper,
-but heavily affect the estimator accuracy.&lt;/p></description></item><item><title>P² quantile estimator rounding issue</title><link>https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/</link><pubDate>Tue, 26 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/</guid><description>&lt;p>&lt;strong>Update: the estimator accuracy could be improved using a bunch of &lt;a href="https://aakinshin.net/tags/research-p2qe/">patches&lt;/a>.&lt;/strong>&lt;/p>
+but heavily affect the estimator accuracy.&lt;/p></description></item><item><title>P² quantile estimator rounding issue</title><link>https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/</link><pubDate>Tue, 26 Oct 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-rounding-issue/</guid><description>&lt;p>&lt;strong>Update: the estimator accuracy could be improved using a bunch of &lt;a href="https://aakinshin.net/tags/p2-quantile-estimator/">patches&lt;/a>.&lt;/strong>&lt;/p>
 &lt;p>The P² quantile estimator is a sequential estimator that uses $O(1)$ memory.
 Thus, for the given sequence of numbers, it allows estimating quantiles without storing values.
-I already wrote &lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">a blog post&lt;/a> about this approach and
+I already wrote &lt;a href="https://aakinshin.net/tags/p2-quantile-estimator/">a blog post&lt;/a> about this approach and
 &lt;a href="https://github.com/AndreyAkinshin/perfolizer/commit/9e9ff80a4d097fe4c0814ca51c7fbe942763e308">added&lt;/a>
 its implementation in &lt;a href="https://github.com/AndreyAkinshin/perfolizer">perfolizer&lt;/a>.
 Recently, I got a &lt;a href="https://github.com/AndreyAkinshin/perfolizer/issues/8">bug report&lt;/a>
@@ -2454,7 +2454,7 @@ For example, if we want to estimate the median for $x = \{4, 5, 6, 7\}$,
 some estimators return $5.5$ (which is the arithmetical mean of $5$ and $6$)
 instead of $5$ or $6$ (which are order statistics).&lt;/p>
 &lt;p>Let&amp;rsquo;s learn how to implement a moving version of such estimators using
-the partitioning heaps from the Hardle-Steiger method.&lt;/p></description></item><item><title>MP² quantile estimator: estimating the moving median without storing values</title><link>https://aakinshin.net/posts/mp2-quantile-estimator/</link><pubDate>Tue, 12 Jan 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mp2-quantile-estimator/</guid><description>&lt;p>In one of the previous posts, I &lt;a href="https://aakinshin.net/posts/p2-quantile-estimator/">described&lt;/a> the P² quantile estimator.
+the partitioning heaps from the Hardle-Steiger method.&lt;/p></description></item><item><title>MP² quantile estimator: estimating the moving median without storing values</title><link>https://aakinshin.net/posts/mp2-quantile-estimator/</link><pubDate>Tue, 12 Jan 2021 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/mp2-quantile-estimator/</guid><description>&lt;p>In one of the previous posts, I &lt;a href="https://aakinshin.net/tags/p2-quantile-estimator/">described&lt;/a> the P² quantile estimator.
 It allows estimating quantiles on a stream of numbers without storing them.
 Such sequential (streaming/online) quantile estimators are useful in software telemetry because
 they help to evaluate the median and other distribution quantiles without a noticeable memory footprint.&lt;/p>
@@ -2679,7 +2679,7 @@ from images like this one:&lt;/p>
  width='800'
  />
  &lt;/a>
-&lt;/div></description></item><item><title>P² quantile estimator: estimating the median without storing values</title><link>https://aakinshin.net/posts/p2-quantile-estimator/</link><pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator/</guid><description>&lt;p>&lt;strong>Update: the estimator accuracy could be improved using a bunch of &lt;a href="https://aakinshin.net/tags/research-p2qe/">patches&lt;/a>.&lt;/strong>&lt;/p>
+&lt;/div></description></item><item><title>P² quantile estimator: estimating the median without storing values</title><link>https://aakinshin.net/posts/p2-quantile-estimator-intro/</link><pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-intro/</guid><description>&lt;p>&lt;strong>Update: the estimator accuracy could be improved using a bunch of &lt;a href="https://aakinshin.net/tags/p2-quantile-estimator/">patches&lt;/a>.&lt;/strong>&lt;/p>
 &lt;p>Imagine that you are implementing performance telemetry in your application.
 There is an operation that is executed millions of times, and you want to get its &amp;ldquo;average&amp;rdquo; duration.
 It&amp;rsquo;s not a good idea to use the arithmetic mean because the obtained value can be easily spoiled by outliers.

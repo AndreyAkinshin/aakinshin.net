@@ -53,7 +53,7 @@ from images like this one:&lt;/p>
  width='800'
  />
  &lt;/a>
-&lt;/div></description></item><item><title>P² quantile estimator: estimating the median without storing values</title><link>https://aakinshin.net/posts/p2-quantile-estimator/</link><pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator/</guid><description>&lt;p>&lt;strong>Update: the estimator accuracy could be improved using a bunch of &lt;a href="https://aakinshin.net/tags/research-p2qe/">patches&lt;/a>.&lt;/strong>&lt;/p>
+&lt;/div></description></item><item><title>P² quantile estimator: estimating the median without storing values</title><link>https://aakinshin.net/posts/p2-quantile-estimator-intro/</link><pubDate>Tue, 24 Nov 2020 00:00:00 +0000</pubDate><guid>https://aakinshin.net/posts/p2-quantile-estimator-intro/</guid><description>&lt;p>&lt;strong>Update: the estimator accuracy could be improved using a bunch of &lt;a href="https://aakinshin.net/tags/p2-quantile-estimator/">patches&lt;/a>.&lt;/strong>&lt;/p>
 &lt;p>Imagine that you are implementing performance telemetry in your application.
 There is an operation that is executed millions of times, and you want to get its &amp;ldquo;average&amp;rdquo; duration.
 It&amp;rsquo;s not a good idea to use the arithmetic mean because the obtained value can be easily spoiled by outliers.
