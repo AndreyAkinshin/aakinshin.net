@@ -7,4 +7,7 @@ Materials Today Proceedings (2023) DOI: 10.1016/j.matpr.2023.05.007 ISSN: 2214-7
 Twitter discussion Awesome AI-generated mouse (Retracted)
 &amp;ldquo;Cellular functions of spermatogonial stem cells in relation to JAK/STAT signaling pathway&amp;rdquo;
 Front. Cell Dev. Biol (2024) DOI: 10.3389/fcell.2023.1339390
-Screenshot</description></item></channel></rss>
+Screenshot</description></item><item><title>Reinstalling TinyTeX</title><link>https://aakinshin.net/notes/tinytex-reinstall/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://aakinshin.net/notes/tinytex-reinstall/</guid><description>If something goes wrong with TinyTeX, the following debugging guide is recommended: https://yihui.org/tinytex/r/#debugging Essentially, it recommends the following:
+update.packages(ask = FALSE, checkBuilt = TRUE) tinytex::tlmgr_update() tinytex::reinstall_tinytex() Sometimes it works, but the real pain emerges when it comes to missing packages. As an ultimate solution to this problem, one may consider installing the full TeX bundle. The actual list of bundles is available here: https://github.com/rstudio/tinytex-releases#releases
+The TinyTeX-2 is the biggest one, it contains the scheme-full scheme of TeX Live. Therefore, the command
+tinytex::install_tinytex(bundle = &amp;#34;TinyTeX-2&amp;#34;) installs 1.4..1.8GB of packages and solves most of the problems.</description></item></channel></rss>
