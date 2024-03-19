@@ -14,6 +14,8 @@ features:
 - math
 ---
 
+**Update (2024-03-19): A better approach is presented in {{< link discrete-sample-jittering2 >}}**
+
 Let's say you have a sample with tied values.
 If you draw a kernel density estimation (KDE) for such a sample,
   you may get a serrated pattern like this:
