@@ -1,0 +1,230 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=generator content="Hugo 0.123.8"><meta name=author content='Andrey Akinshin'><link href=/img/favicon.ico rel=icon type=image/x-icon><meta name=keywords content='Mathematics,Statistics,Research,Density Estimation,Jittering'><title>A better jittering approach for discretization acknowledgment in density estimation | Andrey Akinshin</title>
+<meta name=description content="In How to build a smooth density estimation for a discrete sample using jittering, I proposed a jittering approach. It turned out that it does not always work well. It is not always capable of preserving the original distribution shape and avoiding gaps. In..."><meta name=twitter:site content="@andrey_akinshin"><meta name=twitter:creator content="@andrey_akinshin"><meta name=og:image content="https://aakinshin.net/posts/discrete-sample-jittering2/img/jittering-dark.png"><script>localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")</script><link href=https://aakinshin.net/css/main.min.867ec06f826167a162aebd1233fd1f8bd62a1ad51f8768abaf9f1ae1d746b5cc.css rel=stylesheet type=text/css media=all><link rel=alternate type=application/rss+xml href=https://aakinshin.net/posts/index.xml title="RSS Feed"></head><body class="flex flex-col min-h-screen"><nav><div class="container flex flex-wrap items-center justify-between mx-auto max-w-6xl h-12 px-2 xs:px-6"><div class="flex items-center justify-start justify-self-start"><div class="flex nav-item h-12 w-12 items-center justify-center"><a class=text-white href=https://aakinshin.net/><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#house-chimney"/></svg></a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/feed/>Feed</a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/library/>Library</a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/research-projects/>Research</a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/about/>About</a></div><div class="flex nav-item h-12 items-center"><a class=text-white href=https://aakinshin.net/search/><svg class="fai w-5 h-5 pr-0 mb-0.5"><use xlink:href="/img/fa/all.svg#magnifying-glass"/></svg></a></div></div><button id=theme-toggle type=button title="Alt+Click to match OS color theme" class="nav-item p-3 content-center justify-self-end"><svg id="theme-toggle-dark-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001.0 1010.586 10.586z"/></svg><svg id="theme-toggle-light-icon" class="hidden w-6 h-6" fill="currentcolor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1A1 1 0 119 4V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707A1 1 0 1113.536 5.05l.707-.707a1 1 0 011.414.0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707A1 1 0 004.343 5.757l.707.707zm1.414 8.486-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"/></svg></button></div></nav><div class="main container mx-auto max-w-6xl px-6 flex-grow"><div class=main-post><h1 class=blog-post-title id=post-title>A better jittering approach for discretization acknowledgment in density estimation</h1><div class="flex flex-wrap justify-start items-center"><div class="flex flex-wrap gap-y-1"><span class=label><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#calendar"/></svg>
+<time datetime=2024-03-19>March 19, 2024</time>
+</span><a class=label-link href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#math"/></svg>
+Mathematics
+</a><a class=label-link href=https://aakinshin.net/tags/statistics/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#statistics"/></svg>
+Statistics
+</a><a class=label-link href=https://aakinshin.net/tags/research/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#research"/></svg>
+Research
+</a><a class=label-link href=https://aakinshin.net/tags/density-estimation/>Density Estimation
+</a><a class=label-link href=https://aakinshin.net/tags/jittering/>Jittering</a></div></div><br><div class=main-content><p>In <a href=https://aakinshin.net/posts/discrete-sample-jittering/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>How to build a smooth density estimation for a discrete sample using jittering</a>, I proposed a jittering approach.
+It turned out that it does not always work well.
+It is not always capable of preserving the original distribution shape and avoiding gaps.
+In this post, I would like to propose a better strategy.</p><p>Density estimation is designed to describe continuous distributions.
+With such a mathematical model, we have an implicit assumption that the probability of observing tied values is zero.
+Meanwhile, the resolution of the measurement tools is always limited by a finite value,
+which means that the actually collected observations are essentially discrete.
+However, when the resolution is much smaller than typical gaps between observations,
+treating all the distributions as discrete is impractical.
+The use of continuous models usually provides a decent approximation and more powerful analysis approaches.</p><p>When we start reducing the resolution, the discretization effect may appear in the form of occasional tied values.
+In many real-life applications, this effect is not strong enough to switch to a discrete model,
+but it prevents us from relying on the &ldquo;no tied values possible&rdquo; assumption.
+Therefore, if we want to build a practically reliable density estimation,
+we have to handle the tied values properly.
+Let us review the below examples to better understand the problem.</p><div class=block-example><b><span class=block-example-title></span></b><br><p>Let us consider the following sample:</p>$$
+\mathbf{x} = (1,\, 1.9,\, 2,\, 2.1,\, 3).
+$$<p>If we estimate the traditional quartiles using $\hat{Q}_{\operatorname{HF7}}$
+(Hyndman-Fan Type 7 estimator, see <a href=https://aakinshin.net/library/papers/hyndman1996/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#paper"/></svg>hyndman1996</a>), we will get a convenient result:</p>$$
+\hat{Q}_{\operatorname{HF7}}(\mathbf{x}, 0) = 1,\quad
+\hat{Q}_{\operatorname{HF7}}(\mathbf{x}, 0.25) = 1.9,\quad
+\hat{Q}_{\operatorname{HF7}}(\mathbf{x}, 0.5) = 2,\quad
+\hat{Q}_{\operatorname{HF7}}(\mathbf{x}, 0.75) = 2.1,\quad
+\hat{Q}_{\operatorname{HF7}}(\mathbf{x}, 1) = 3.
+$$<p>We consider a density estimation using the suggested pseudo-histogram approximation approach with $k=4$ ($\mathbf{x}i=0.25$).
+Instead of building the whole histogram, we focus on the second bin.
+Its height can be easily calculated:</p>$$
+h_2 =
+\frac{\mathbf{x}i}{\hat{Q}_{\operatorname{HF7}}(\mathbf{x}, 2\mathbf{x}i)-\hat{Q}_{\operatorname{HF7}}(\mathbf{x}, 1\mathbf{x}i)} =
+\frac{0.25}{\hat{Q}_{\operatorname{HF7}}(\mathbf{x}, 0.5)-\hat{Q}_{\operatorname{HF7}}(\mathbf{x}, 0.25)} =
+\frac{0.25}{2-1.9} = 2.5.
+$$<p>Now, let us introduce a rounded version of $\mathbf{x}$:</p>$$
+\mathbf{x}^{\circ} = \operatorname{Round}(\mathbf{x}) = (1,\, 2,\, 2,\, 2,\, 3).
+$$<p>The quantile values will be correspondingly rounded:</p>$$
+\hat{Q}_{\operatorname{HF7}}(\mathbf{x}^{\circ}, 0) = 1,\quad
+\hat{Q}_{\operatorname{HF7}}(\mathbf{x}^{\circ}, 0.25) = 2,\quad
+\hat{Q}_{\operatorname{HF7}}(\mathbf{x}^{\circ}, 0.5) = 2,\quad
+\hat{Q}_{\operatorname{HF7}}(\mathbf{x}^{\circ}, 0.75) = 2,\quad
+\hat{Q}_{\operatorname{HF7}}(\mathbf{x}^{\circ}, 1) = 3.
+$$<p>Unfortunately, when we start building the pseudo-histogram, we will get a problem:</p>$$
+h^{\circ}_2 =
+\frac{\mathbf{x}i}{\hat{Q}_{\operatorname{HF7}}(\mathbf{x}^{\circ}, 2\mathbf{x}i)-\hat{Q}_{\operatorname{HF7}}(\mathbf{x}^{\circ}, 1\mathbf{x}i)} =
+\frac{0.25}{\hat{Q}_{\operatorname{HF7}}(\mathbf{x}^{\circ}, 0.5)-\hat{Q}_{\operatorname{HF7}}(\mathbf{x}^{\circ}, 0.25)} =
+\frac{0.25}{0}.
+$$<p>In the continuous world, we cannot define the distribution density at the point where two different quantiles are equal.
+Switching from $\hat{Q}_{\operatorname{HF7}}$ to $\hat{Q}_{\operatorname{HD}}$ improves the situation
+since all the $\hat{Q}_{\operatorname{HD}}$ estimations are different, and we avoid division by zero.
+However, if we have multiple tied values, $\hat{Q}_{\operatorname{HD}}$ estimations may become too close to each other,
+which will also lead to unreasonably large spikes in the density estimation.</p></div><div class=block-example><b><span class=block-example-title></span></b><br><p>Let us consider a sample of size $2000$ from the standard normal distribution.
+We round all the measurements to the first decimal digit
+and build KDE (see <a href=https://aakinshin.net/posts/kde-bw/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>The importance of kernel density estimation bandwidth</a>)
+and QRDE-HD (see <a href=https://aakinshin.net/posts/qrde-hd/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>Quantile-respectful density estimation based on the Harrell-Davis quantile estimator</a>) which are presented in the below figure (a).
+While KDE provides a smooth estimation of the normal distribution,
+QRDE-HD produces spikes at the tied values.
+The correctness of such a representation is a philosophical question.
+Indeed, when should we stop considering data as a smooth continuous model
+and start treating it as a mixture of multiple Dirac delta functions?
+There is no universal answer: everything depends on the problem and the business needs.</p><p>Meanwhile, the discretization effect is relevant not only to QRDE-HD but also to other density estimators.
+In the below figure (b),
+we divide the original sample by $5$, round it to the first decimal digit, and build a KDE.
+As we can see, with a higher number of tied values, KDE also experiences the same phenomenon.
+The only difference between QRDE-HD and KDE is the tipping point at which the discretization effect becomes noticeable.
+QRDE-HD has higher sensitivity to ties, which is beneficial for multimodality detection
+but can be considered a disadvantage in the case of discretization.</p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/discrete-sample-jittering2/img/discretization-light.png target=_blank alt=discretization><img src=/posts/discrete-sample-jittering2/img/discretization-light.png width=800>
+</a><a class="img-dark hidden" href=/posts/discrete-sample-jittering2/img/discretization-dark.png target=_blank alt=discretization><img src=/posts/discrete-sample-jittering2/img/discretization-dark.png width=800></a></div></div><hr><p>While the above examples
+illustrate an essential limitation of the density estimation approach,
+they also highlight an important disadvantage of the straightforward QRDE-HD approach.
+Imagine that we have a sample without tied values and the corresponding QRDE-HD.
+Next, we decide that the precision of obtained measurements is too high: the last digits of each value are just noise.
+Therefore, we round the measurements, which leads to tied values.
+If we are correct and the dropped digits are non-meaningful noise,
+the rounding procedure does not lead to information loss.
+Essentially, we still have the same sample.
+However, the emergence of tied values may prevent us from building reasonably-looking QRDE-HD.
+That reduces the practical applicability of the suggested approach.</p><p>In order to make the density estimation resilient to tied values,
+we suggest adding noise to the data points in order to spread identical measurements apart.
+This technique (which is known as jittering, see <a href=https://aakinshin.net/library/papers/nagler2018/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#paper"/></svg>nagler2018</a>) may feel controversial.
+While statisticians spend a lot of effort trying to eliminate the noise,
+jittering suggests distorting the data on purpose.
+One may have concerns related to the possible efficiency loss or bias introduction.
+In <a href=https://aakinshin.net/library/papers/nagler2018a/><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#paper"/></svg>nagler2018a</a>), a proper justification is provided:
+it is claimed that jittering does not have a negative impact on the estimation accuracy.
+According to this work, jittered estimators are not expected to have practically significant deviations
+from their non-jittered prototypes.
+While this statement tends to be true in practice, it is worth discussing the details.
+There are multiple ways to implement jittering.
+The proper research focus should be on the specific jittering algorithm,
+not on the concept of jittering in general.
+In order to choose one, we should define the desired properties first.
+We suggest the following list of requirements:</p><ul><li><strong>Do not extend the sample range</strong><br>The assumption of zero density outside the sample range may be required for further statistical procedure.
+In order to make jittering applicable for a wider range of use cases,
+it would be beneficial if we preserve the sample range.
+For example, if the actual data elements are non-negative by nature and there are tied zero values,
+a random noise will introduce negative elements,
+which may be out of the support area for some equations
+(imagine that a lower percentile value is used inside a square root).
+Why would we introduce negative elements in such cases
+if we have an option to change the noise shape and preserve the sample range?</li><li><strong>Use deterministic jittering</strong><br>Deterministic behavior is also preferable over non-deterministic if all the other conditions are the same.
+Any kind of randomization may become a source of flakiness and reduce the reproducibility of analysis.
+Unlike other statistical methods like bootstrap or Monte-Carlo
+that intentionally exploit the properties of random distributions,
+we do not have such a need.
+The only goal here is to get rid of the tied values.
+Since the noise is supposed to be negligible, we are free to choose any kind of noise shape.
+The exact noise pattern can be designed in advance to ensure
+identical QRDE-HD charts in case of multiple usages of the same data.</li><li><strong>Apply jittering only to the tied values</strong><br>Jittering, in general, does not mean that we should add noise to <em>all</em> sample elements.
+It is reasonable to limit the scope of jittering only to the tied values
+and avoid unnecessary distortion of unique sample elements.</li><li><strong>The actual resolution from the domain area should be acknowledged</strong><br>In order to implement jittering, we should pick up the noise magnitude.
+We recommend using half of the measure resolution as the maximum deviation from the original value.
+An approach of estimating the distortion range adaptively based on the observed data is not always applicable.
+Let us consider a sample of four elements: $\mathbf{x} = (1, 1, 2, 2)$.
+How should we present it?
+If we are talking about millimeters and $\mathbf{x}$ was obtained using a ruler with a resolution of 1mm,
+the noise magnitude of 0.5mm tends to lead to a uniform density or even to a slightly bell-shaped density,
+which better describes our probable expectations of a high density of around 1.5mm.
+If we are talking about kilometers and $\mathbf{x}$ contains physical distances
+measured with a max error of 20 meters,
+the noise magnitude of 10 meters will lead to a bimodal density with modes at 1km and 2km.
+Deriving the noise range from the domain area rather than from the sample
+(e.g., a minimum non-zero distance between sample elements)
+helps to avoid confusion in corner cases like the one mentioned above.</li></ul><p>Such scrutiny may be perceived as unnecessarily elevating minor concerns.
+However, we believe that it is important to pay due attention to detail.
+If we can satisfy these requirements for free without any drawbacks and make the implementation applicable
+to a wider range of corner cases that have a chance to appear in real data sets,
+we do not observe reasons to avoid this opportunity.
+We also provide a simple ready-to-use implementation in the end of the post,
+so that the reader can run it on their data and check if it performs well.</p><p>Let us propose a possible noise pattern that satisfies the above requirements.
+Since we want to prevent noticeable gaps between jittered measurements, it feels reasonable to try the uniform noise.
+Let $\mathbf{x}_{(i:j)}$ be a range of tied order statistics of width $k=j-i+1$.
+We want to define a noise vector $\mathbf{x}i_{i:j}$ to obtain the jittered sample $\acute{\mathbf{x}}$ which is defined by</p>$$
+\acute{x}_{(i:j)} = \mathbf{x}_{(i:j)} + \mathbf{x}i_{i:j}.
+$$<p>Let $u$ be a vector of indexes $(1,2,\ldots,n)$ linearly mapped to the range $[0;1]$:</p>$$
+u_i = (i - 1) / (k - 1),\quad \textrm{for}\quad i = 1, 2, \ldots, k.
+$$<p>We suggest spreading the $\mathbf{x}_{(i:j)}$ values apart using the following rules:</p><ul><li>If ($i > 1$ and $j < n$), we use $\mathbf{x}i_{i:j} = s \cdot (u_{i:j} - 0.5)$.<br>In order to support the zero dispersion case, we also use this rule if ($i = 1$ and $j = n$).</li><li>If ($i = 1$ and $j < n$), we use $\mathbf{x}i_{i:j} = s \cdot (u_{i:j} / 2)$.<br>Therefore, at the tied values at the minimum value, we extend the range to the right.</li><li>If ($i > 1$ and $j = n$), we use $\mathbf{x}i_{i:j} = s \cdot (u_{i:j} - 1) / 2$.<br>Therefore, at the tied values at the maximum value, we extend the range to the left.</li></ul><p>The suggested approach preserves the sample range, provides a small bias, and returns consistent non-randomized values.
+The only case of range extension is a sample of zero-width range,
+which does not allow for the building of a reasonable density plot preserving equal minimum and maximum values.
+The knowledge of the resolution value $s$ helps to guarantee the absence of reordering.</p><p>The uniform approach works quite well and allows pseudo-restoring of the original noise
+which is required to protect QRDE-HD from the discretization effect.</p><div class=block-example><b><span class=block-example-title></span></b><br><p>Let us consider one more example to show how jittering can restore original density estimation
+after rounding the sample values.</p><div class="flex my-7 justify-center"><a class="img-light hidden" href=/posts/discrete-sample-jittering2/img/jittering-light.png target=_blank alt=jittering><img src=/posts/discrete-sample-jittering2/img/jittering-light.png width=800>
+</a><a class="img-dark hidden" href=/posts/discrete-sample-jittering2/img/jittering-dark.png target=_blank alt=jittering><img src=/posts/discrete-sample-jittering2/img/jittering-dark.png width=800></a></div><ul><li>(a): we can see a QRDE-HD for a sample of 2000 elements from the standard normal distribution.</li><li>(b): we can see a QRDE-HD for a rounded version of the same sample up to the first decimal digit.</li><li>(c): we can see a QRDE-HD for a jittered version of the rounded sample.</li><li>(d): we can see a comparison of the QRDE-HD for the original and jittered sample.</li></ul></div><p>It is easy to see that jittering restored the initial density with minor deviations
+and helped us overcome the problem of the tied values.</p><hr><p>Reference implementation:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-r data-lang=r><span class=line><span class=cl><span class=c1>#&#39; @param x sample</span>
+</span></span><span class=line><span class=cl><span class=c1>#&#39; @param s resolution of the measurements</span>
+</span></span><span class=line><span class=cl><span class=n>jitter</span> <span class=o>&lt;-</span> <span class=kr>function</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=n>s</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=n>x</span> <span class=o>&lt;-</span> <span class=nf>sort</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=n>n</span> <span class=o>&lt;-</span> <span class=nf>length</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>  <span class=c1># Searching for intervals [i;j] of tied values</span>
+</span></span><span class=line><span class=cl>  <span class=n>i</span> <span class=o>&lt;-</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl>  <span class=kr>while</span> <span class=p>(</span><span class=n>i</span> <span class=o>&lt;=</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>j</span> <span class=o>&lt;-</span> <span class=n>i</span>
+</span></span><span class=line><span class=cl>    <span class=kr>while</span> <span class=p>(</span><span class=n>j</span> <span class=o>&lt;</span> <span class=n>n</span> <span class=o>&amp;&amp;</span> <span class=n>x[j</span> <span class=o>+</span> <span class=m>1</span><span class=n>]</span> <span class=o>-</span> <span class=n>x[i]</span> <span class=o>&lt;</span> <span class=n>s</span> <span class=o>/</span> <span class=m>2</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=n>j</span> <span class=o>&lt;-</span> <span class=n>j</span> <span class=o>+</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=kr>if</span> <span class=p>(</span><span class=n>i</span> <span class=o>&lt;</span> <span class=n>j</span> <span class=o>&amp;&amp;</span> <span class=n>j</span> <span class=o>-</span> <span class=n>i</span> <span class=o>+</span> <span class=m>1</span> <span class=o>&lt;</span> <span class=n>n</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=n>k</span> <span class=o>&lt;-</span> <span class=n>j</span> <span class=o>-</span> <span class=n>i</span> <span class=o>+</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl>      <span class=n>u</span> <span class=o>&lt;-</span> <span class=m>0</span><span class=o>:</span><span class=p>(</span><span class=n>k</span> <span class=o>-</span> <span class=m>1</span><span class=p>)</span> <span class=o>/</span> <span class=p>(</span><span class=n>k</span> <span class=o>-</span> <span class=m>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>      <span class=n>xi</span> <span class=o>&lt;-</span> <span class=n>u</span> <span class=o>-</span> <span class=m>0.5</span>
+</span></span><span class=line><span class=cl>      <span class=kr>if</span> <span class=p>(</span><span class=n>i</span> <span class=o>==</span> <span class=m>1</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>xi</span> <span class=o>&lt;-</span> <span class=n>u</span> <span class=o>/</span> <span class=m>2</span>
+</span></span><span class=line><span class=cl>      <span class=kr>if</span> <span class=p>(</span><span class=n>j</span> <span class=o>==</span> <span class=n>n</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>xi</span> <span class=o>&lt;-</span> <span class=p>(</span><span class=n>u</span> <span class=o>-</span> <span class=m>1</span><span class=p>)</span> <span class=o>/</span> <span class=m>2</span>
+</span></span><span class=line><span class=cl>      <span class=kr>if</span> <span class=p>(</span><span class=n>i</span> <span class=o>==</span> <span class=m>1</span> <span class=o>&amp;&amp;</span> <span class=n>j</span> <span class=o>==</span> <span class=n>n</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>xi</span> <span class=o>&lt;-</span> <span class=n>u</span> <span class=o>-</span> <span class=m>0.5</span>
+</span></span><span class=line><span class=cl>      <span class=n>x[i</span><span class=o>:</span><span class=n>j]</span> <span class=o>&lt;-</span> <span class=n>x[i</span><span class=o>:</span><span class=n>j]</span> <span class=o>+</span> <span class=n>xi</span> <span class=o>*</span> <span class=n>s</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>i</span> <span class=o>&lt;-</span> <span class=n>j</span> <span class=o>+</span> <span class=m>1</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=kr>return</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div></div><hr><h3 id=references>References (6)</h3><ol><li><a href=https://aakinshin.net/posts/ title="Library / posts"><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>
+</a><a href=https://aakinshin.net/posts/discrete-sample-jittering/>How to build a smooth density estimation for a discrete sample using jittering
+</a>(2021-04-20)
+<span class=label title=References:4><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#reference"/></svg>4</span>
+<span class=label title=Backlinks:2><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#backlink"/></svg>2</span>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/statistics/><svg class="rating-icon"><title>Statistics</title><use xlink:href="/img/fa/all.svg#statistics"/></svg>
+</a><a href=https://aakinshin.net/tags/research/><svg class="rating-icon"><title>Research</title><use xlink:href="/img/fa/all.svg#research"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/ title="Library / papers"><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#paper"/></svg>
+</a><a href=https://aakinshin.net/library/papers/hyndman1996/>Sample Quantiles in Statistical Packages
+</a>(1996)
+by
+<a href=https://aakinshin.net/library/authors/rob-j-hyndman/>Rob J Hyndman</a>
+et al.
+<span class=label title=Backlinks:13><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#backlink"/></svg>13</span>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/statistics/><svg class="rating-icon"><title>Statistics</title><use xlink:href="/img/fa/all.svg#statistics"/></svg></a></li><li><a href=https://aakinshin.net/posts/ title="Library / posts"><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>
+</a><a href=https://aakinshin.net/posts/kde-bw/>The importance of kernel density estimation bandwidth
+</a>(2020-10-13)
+<span class=label title=References:9><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#reference"/></svg>9</span>
+<span class=label title=Backlinks:8><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#backlink"/></svg>8</span>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/statistics/><svg class="rating-icon"><title>Statistics</title><use xlink:href="/img/fa/all.svg#statistics"/></svg>
+</a><a href=https://aakinshin.net/tags/research/><svg class="rating-icon"><title>Research</title><use xlink:href="/img/fa/all.svg#research"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/ title="Library / papers"><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#paper"/></svg>
+</a><a href=https://aakinshin.net/library/papers/nagler2018/>A Generic Approach to Nonparametric Function Estimation with Mixed Data
+</a>(2018)
+by
+<a href=https://aakinshin.net/library/authors/thomas-nagler/>Thomas Nagler</a>
+<svg class="rating-icon"><title>Has notes</title><use xlink:href="/img/fa/all.svg#note"/></svg>
+<span class=label title=Backlinks:2><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#backlink"/></svg>2</span>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/statistics/><svg class="rating-icon"><title>Statistics</title><use xlink:href="/img/fa/all.svg#statistics"/></svg></a></li><li><a href=https://aakinshin.net/library/papers/ title="Library / papers"><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#paper"/></svg>
+</a><a href=https://aakinshin.net/library/papers/nagler2018a/>Asymptotic Analysis of the Jittering Kernel Density Estimator
+</a>(2018)
+by
+<a href=https://aakinshin.net/library/authors/thomas-nagler/>Thomas Nagler</a>
+<span class=label title=Backlinks:1><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#backlink"/></svg>1</span>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/statistics/><svg class="rating-icon"><title>Statistics</title><use xlink:href="/img/fa/all.svg#statistics"/></svg></a></li><li><a href=https://aakinshin.net/posts/ title="Library / posts"><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>
+</a><a href=https://aakinshin.net/posts/qrde-hd/>Quantile-respectful density estimation based on the Harrell-Davis quantile estimator
+</a>(2020-10-27)
+<span class=label title=References:4><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#reference"/></svg>4</span>
+<span class=label title=Backlinks:9><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#backlink"/></svg>9</span>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/statistics/><svg class="rating-icon"><title>Statistics</title><use xlink:href="/img/fa/all.svg#statistics"/></svg>
+</a><a href=https://aakinshin.net/tags/research/><svg class="rating-icon"><title>Research</title><use xlink:href="/img/fa/all.svg#research"/></svg></a></li></ol><h3 id=backlinks>Backlinks (1)</h3><ol><li><a href=https://aakinshin.net/posts/ title="Library / posts"><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#note"/></svg>
+</a><a href=https://aakinshin.net/posts/discrete-sample-jittering/>How to build a smooth density estimation for a discrete sample using jittering
+</a>(2021-04-20)
+<span class=label title=References:4><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#reference"/></svg>4</span>
+<span class=label title=Backlinks:2><svg class="rating-icon"><use xlink:href="/img/fa/all.svg#backlink"/></svg>2</span>
+<a href=https://aakinshin.net/tags/mathematics/><svg class="rating-icon"><title>Mathematics</title><use xlink:href="/img/fa/all.svg#math"/></svg>
+</a><a href=https://aakinshin.net/tags/statistics/><svg class="rating-icon"><title>Statistics</title><use xlink:href="/img/fa/all.svg#statistics"/></svg>
+</a><a href=https://aakinshin.net/tags/research/><svg class="rating-icon"><title>Research</title><use xlink:href="/img/fa/all.svg#research"/></svg></a></li></ol></div></div><script>var themeToggleDarkIcon=document.getElementById("theme-toggle-dark-icon"),themeToggleBtn,themeToggleLightIcon=document.getElementById("theme-toggle-light-icon");const imagesDark=document.querySelectorAll(".img-dark"),imagesLight=document.querySelectorAll(".img-light");localStorage.getItem("color-theme")==="dark"||!("color-theme"in localStorage)&&window.matchMedia("(prefers-color-scheme: dark)").matches?(themeToggleLightIcon.classList.remove("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")})):(themeToggleDarkIcon.classList.remove("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")}));function toggleTheme(e){e?(document.documentElement.classList.add("dark"),themeToggleLightIcon.classList.remove("hidden"),themeToggleDarkIcon.classList.add("hidden"),imagesDark.forEach(e=>{e.classList.remove("hidden")}),imagesLight.forEach(e=>{e.classList.add("hidden")})):(document.documentElement.classList.remove("dark"),themeToggleDarkIcon.classList.remove("hidden"),themeToggleLightIcon.classList.add("hidden"),imagesLight.forEach(e=>{e.classList.remove("hidden")}),imagesDark.forEach(e=>{e.classList.add("hidden")}))}themeToggleBtn=document.getElementById("theme-toggle"),themeToggleBtn.addEventListener("click",function(){themeToggleDarkIcon.classList.toggle("hidden"),themeToggleLightIcon.classList.toggle("hidden"),imagesLight.forEach(e=>{e.classList.toggle("hidden")}),imagesDark.forEach(e=>{e.classList.toggle("hidden")}),event.altKey?(localStorage.removeItem("color-theme"),toggleTheme(window.matchMedia("(prefers-color-scheme: dark)").matches)):localStorage.getItem("color-theme")?localStorage.getItem("color-theme")==="light"?(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark")):(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):document.documentElement.classList.contains("dark")?(document.documentElement.classList.remove("dark"),localStorage.setItem("color-theme","light")):(document.documentElement.classList.add("dark"),localStorage.setItem("color-theme","dark"))}),window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",e=>{if(localStorage.getItem("color-theme")===null){const t=e.matches?"dark":"light";toggleTheme(t==="dark")}})</script><footer class="z-20 p-4 md:p-6 mt-3 w-full border-t border-gray-200 shadow flex items-center justify-center dark:border-gray-600 bg-white dark:bg-zinc-800"><span class="dark:text-gray-400 text-center">© 2013—2024 <span class=whitespace-nowrap>Andrey Akinshin</span></span><ul class="flex flex-wrap items-center px-4 mb-1"><li><a href=https://github.com/AndreyAkinshin><svg class="fai fai-link w-5 h-5"><title>GitHub</title><use xlink:href="/img/fa/all.svg#github"/></svg></a></li><li><a href=https://twitter.com/andrey_akinshin><svg class="fai fai-link w-5 h-5"><title>Twitter</title><use xlink:href="/img/fa/all.svg#twitter"/></svg></a></li><li><a href=https://aakinshin.net/posts/index.xml><svg class="fai fai-link w-5 h-5"><title>RSS</title><use xlink:href="/img/fa/all.svg#rss"/></svg></a></li></ul><div class=main-content><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/>CC BY-NC-SA 4.0</a></div></footer><script>window.MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]],displayMath:[["$$","$$"],["\\[","\\]"]],processEscapes:!0,processEnvironments:!0},options:{skipHtmlTags:["script","noscript","style","textarea","pre"],ignoreHtmlClass:"tex2jax_ignore",processHtmlClass:"tex2jax_process"}},window.addEventListener("load",e=>{document.querySelectorAll("mjx-container").forEach(function(e){e.parentElement.classList+=" has-jax"})})</script><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js></script></body></html>
